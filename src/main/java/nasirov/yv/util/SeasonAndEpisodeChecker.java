@@ -1,5 +1,6 @@
 package nasirov.yv.util;
 
+import lombok.extern.slf4j.Slf4j;
 import nasirov.yv.http.HttpCaller;
 import nasirov.yv.parameter.RequestParametersBuilder;
 import nasirov.yv.parser.AnimediaHTMLParser;
@@ -27,6 +28,7 @@ import static nasirov.yv.enums.Constants.ONLINE_ANIMEDIA_TV;
  * Created by Хикка on 23.12.2018.
  */
 @Component
+@Slf4j
 public class SeasonAndEpisodeChecker {
 	@Value("${cache.userMatchedAnime.name}")
 	private String userMatchedAnimeCacheName;
@@ -65,7 +67,7 @@ public class SeasonAndEpisodeChecker {
 	 */
 	public Set<AnimediaMALTitleReferences> getMatchedAnime(Set<UserMALTitleInfo> watchingTitles, Set<AnimediaMALTitleReferences> references, Set<AnimediaTitleSearchInfo> animediaSearchList, String username) {
 		Map<String, Map<String, String>> animediaRequestParameters = requestParametersBuilder.build();
-		System.out.println("MATCHED DATA:");
+		log.info("MATCHED DATA:");
 		Set<AnimediaMALTitleReferences> finalMatchedAnime = new LinkedHashSet<>();
 		for (UserMALTitleInfo userMALTitleInfo : watchingTitles) {
 			Set<AnimediaMALTitleReferences> matchedMultiSeasonsReferences = references.stream().filter(set -> set.getTitleOnMAL().equals(userMALTitleInfo.getTitle())).collect(Collectors.toSet());
@@ -203,7 +205,7 @@ public class SeasonAndEpisodeChecker {
 	 * @param userMALTitleInfo user title info
 	 */
 	private void handleZeroMatchedResultInAnimediaSearchList(UserMALTitleInfo userMALTitleInfo) {
-		System.out.println("Аниме " + userMALTitleInfo.getTitle() + " пока нет на анимедии");
+		log.info("Аниме {} пока нет на анимедии", userMALTitleInfo.getTitle());
 		if (!notFoundAnimeOnAnimediaRepositoryRepository.exitsByTitle(userMALTitleInfo.getTitle())) {
 			notFoundAnimeOnAnimediaRepositoryRepository.saveAndFlush(userMALTitleInfo);
 		}
@@ -218,7 +220,7 @@ public class SeasonAndEpisodeChecker {
 	private void handleMoreThanOneMatchedResultInAnimediaSearchList(Set<AnimediaTitleSearchInfo> animediaSearchList,
 																	UserMALTitleInfo userMALTitleInfo) {
 		Set<AnimediaTitleSearchInfo> matchedResult = animediaSearchList.stream().filter(list -> list.getKeywords().contains(userMALTitleInfo.getTitle())).collect(Collectors.toSet());
-		System.out.println("Найдено несколько совпадений для " + userMALTitleInfo.getTitle() + "\nСовпадения:\n" + matchedResult);
+		log.info("Найдено несколько совпадений для {}\nСовпадения:\n{}", userMALTitleInfo.getTitle(), matchedResult);
 	}
 	
 	/**
@@ -229,9 +231,9 @@ public class SeasonAndEpisodeChecker {
 	 * @param matchedAnimeFromCache matched user anime from cache
 	 */
 	public void updateMatchedReferences(Set<UserMALTitleInfo> watchingTitles, AnimediaMALTitleReferences references, Set<AnimediaMALTitleReferences> matchedAnimeFromCache) {
-		System.out.println("MATCHED DATA:");
-		System.out.println("updateMatchedReferences:");
+		log.info("Updating matched references");
 		for (UserMALTitleInfo userMALTitleInfo : watchingTitles) {
+			//Increment to next episode for watch
 			Integer numWatchedEpisodesOnMAL = userMALTitleInfo.getNumWatchedEpisodes() + 1;
 			Integer episodeNumberForWatch;
 			Map<String, String> nextEpisodeForWatchFinalUrl;
@@ -241,7 +243,6 @@ public class SeasonAndEpisodeChecker {
 						.filter(set -> set.getTitleOnMAL().equals(references.getTitleOnMAL()) && set.getDataList().equals(references.getDataList())).findFirst()
 						.orElse(null);
 			}
-			//инкремент на номер следующей непросмотренной серии
 			if (matchedReferences != null) {
 				episodeNumberForWatch = Integer.parseInt(matchedReferences.getFirstEpisode()) + userMALTitleInfo.getNumWatchedEpisodes();
 				nextEpisodeForWatchFinalUrl = printResult(numWatchedEpisodesOnMAL, matchedReferences, episodeNumberForWatch);
@@ -256,19 +257,13 @@ public class SeasonAndEpisodeChecker {
 	private Map<String, String> printResult(Integer numWatchedEpisodesOnMAL, AnimediaMALTitleReferences animediaMALTitleReferences, Integer episodeNumberForWatch) {
 		String finalUrl;
 		Map<String, String> nextEpisodeForWatchFinalUrl = new HashMap<>();
-		// TODO: 28.01.2019 dfd
-		if (
-//				(numWatchedEpisodesOnMAL <= Integer.parseInt(animediaMALTitleReferences.getCurrentMax())
-//				&& numWatchedEpisodesOnMAL >= Integer.parseInt(animediaMALTitleReferences.getFirstEpisode()))
-//				||
-				episodeNumberForWatch <= Integer.parseInt(animediaMALTitleReferences.getCurrentMax())
-				) {
+		if (episodeNumberForWatch <= Integer.parseInt(animediaMALTitleReferences.getCurrentMax())) {
 			finalUrl = ONLINE_ANIMEDIA_TV.getDescription() + animediaMALTitleReferences.getUrl() + "/" + animediaMALTitleReferences.getDataList() + "/" + episodeNumberForWatch;
-			System.out.println("Найдены новые серии для мультисезонного аниме " + finalUrl);
+			log.info("Найдены новые серии для мультисезонного аниме {}", finalUrl);
 			nextEpisodeForWatchFinalUrl.put(episodeNumberForWatch.toString(), finalUrl);
 		} else {
 			finalUrl = ONLINE_ANIMEDIA_TV.getDescription() + animediaMALTitleReferences.getUrl() + "/" + animediaMALTitleReferences.getDataList();
-			System.out.println("Нет новых серий для мультисезонного аниме " + finalUrl);
+			log.info("Нет новых серий для мультисезонного аниме {}", finalUrl);
 			nextEpisodeForWatchFinalUrl.put("", "");
 		}
 		return nextEpisodeForWatchFinalUrl;
@@ -280,11 +275,11 @@ public class SeasonAndEpisodeChecker {
 		if (numWatchedEpisodesOnMAL <= Integer.parseInt(episodesRangeFromMinToMax.get(episodesRangeFromMinToMax.size() - 1))) {
 			Integer episodeNumberForWatch = Integer.parseInt(episodesRangeFromMinToMax.get(userMALTitleInfo.getNumWatchedEpisodes()));
 			finalUrl = ONLINE_ANIMEDIA_TV.getDescription() + url + "/" + dataList + "/" + episodeNumberForWatch;
-			System.out.println("Найдены новые серии для односезонного аниме " + finalUrl);
+			log.info("Найдены новые серии для односезонного аниме {}", finalUrl);
 			nextEpisodeForWatchFinalUrl.put(episodeNumberForWatch.toString(), finalUrl);
 		} else {
 			finalUrl = ONLINE_ANIMEDIA_TV.getDescription() + url + "/" + dataList;
-			System.out.println("Нет новых серий для односезонного аниме " + finalUrl);
+			log.info("Нет новых серий для односезонного аниме {}", finalUrl);
 			nextEpisodeForWatchFinalUrl.put("", "");
 		}
 		return nextEpisodeForWatchFinalUrl;
@@ -299,9 +294,9 @@ public class SeasonAndEpisodeChecker {
 			long matchedTitleAndDatalist = matchedAnime.stream().filter(set -> set.getTitleOnMAL().equals(watchedTitlesInfo.getTitleOnMAL())
 					&& set.getDataList().equals(watchedTitlesInfo.getDataList())).count();
 			if (matchedTitleAndDatalist == 0 && separatedSeason == 0) {
-				System.out.println("В matchedAnime нет " + watchedTitlesInfo.toString());
+				log.info("В matchedAnime нет {}", watchedTitlesInfo.toString());
 			} else if (matchedTitleAndDatalist > 1) {
-				System.out.println("В matchedAnime " + matchedTitleAndDatalist + " совпадений " + watchedTitlesInfo.toString());
+				log.info("В matchedAnime {} совпадений {}", matchedTitleAndDatalist, watchedTitlesInfo.toString());
 			}
 		}
 	}
