@@ -29,5 +29,4 @@ public class Anime {
 	 * anime/realnaya-devushka
 	 */
 	private String rootUrl;
-	
 }

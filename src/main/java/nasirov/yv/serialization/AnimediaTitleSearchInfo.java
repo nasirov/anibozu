@@ -1,6 +1,8 @@
 package nasirov.yv.serialization;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 import org.codehaus.jackson.annotate.JsonProperty;
 
@@ -9,38 +11,31 @@ import org.codehaus.jackson.annotate.JsonProperty;
  * Created by Хикка on 17.12.2018.
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
-@EqualsAndHashCode
-@ToString
 public class AnimediaTitleSearchInfo {
 	/**
 	 * Anime title
 	 */
-	@Getter
 	private String title;
 	
 	/**
 	 * Keywords for search
 	 */
-	@Getter
 	private String keywords;
 	
 	/**
 	 * Anime URL
 	 */
-	@Getter
-	@Setter
 	private String url;
 	
 	/**
 	 * Poster URL
 	 */
 	@JsonProperty(value = "poster")
-	@Getter
-	@Setter
 	private String posterUrl;
-
+	
 	public void setTitle(String title) {
 		this.title = title.toLowerCase();
 	}
@@ -48,5 +43,4 @@ public class AnimediaTitleSearchInfo {
 	public void setKeywords(String keywords) {
 		this.keywords = keywords.toLowerCase();
 	}
-
 }
