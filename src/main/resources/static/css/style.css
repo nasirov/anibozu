@@ -1,0 +1,24 @@
+.grow:hover {
+    -webkit-transform: scale(1.2);
+    -ms-transform: scale(5.2);
+    transform: scale(1.2);
+}
+
+.fade {
+    opacity: 1;
+}
+
+.fade:hover {
+    opacity: 0.6;
+}
+
+h1 {
+    font-family: "bebasNeue";
+}
+
+@font-face {
+    font-family: "bebasNeue";
+    src: url("../fonts/BebasNeue Regular.otf") format("truetype");
+    font-style: normal;
+    font-weight: normal;
+}

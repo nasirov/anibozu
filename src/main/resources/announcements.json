@@ -1,0 +1,22 @@
+[
+  {
+    "id": "1",
+    "fullUrl": "http://online.animedia.tv/anime/ingress",
+    "rootUrl": "anime/ingress"
+  },
+  {
+    "id": "2",
+    "fullUrl": "http://online.animedia.tv/anime/dvojnoj-udar-dag-i-kirill",
+    "rootUrl": "anime/dvojnoj-udar-dag-i-kirill"
+  },
+  {
+    "id": "3",
+    "fullUrl": "http://online.animedia.tv/anime/bakutsuri-bar-hunter",
+    "rootUrl": "anime/bakutsuri-bar-hunter"
+  },
+  {
+    "id": "4",
+    "fullUrl": "http://online.animedia.tv/anime/ya-snimu-cukumogami",
+    "rootUrl": "anime/ya-snimu-cukumogami"
+  }
+]

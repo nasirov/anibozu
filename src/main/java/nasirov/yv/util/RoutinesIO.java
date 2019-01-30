@@ -1,0 +1,188 @@
+package nasirov.yv.util;
+
+import nasirov.yv.parser.WrappedObjectMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.Resource;
+import org.springframework.stereotype.Component;
+import org.springframework.util.ResourceUtils;
+
+import java.io.*;
+import java.util.Collection;
+
+/**
+ * IO operations
+ * Created by Хикка on 01.01.2019.
+ */
+@Component
+public class RoutinesIO {
+	private WrappedObjectMapper wrappedObjectMapper;
+	
+	@Autowired
+	public RoutinesIO(WrappedObjectMapper wrappedObjectMapper) {
+		this.wrappedObjectMapper = wrappedObjectMapper;
+	}
+	
+	private static final Logger logger = LoggerFactory.getLogger(RoutinesIO.class);
+	
+	public void marshalToFile(String pathToFile, Object value) {
+		wrappedObjectMapper.marshal(new File(pathToFile), value);
+	}
+	
+	public void marshalToResources(String pathToFile, Object value) {
+		try {
+			File file = ResourceUtils.getFile(pathToFile);
+			wrappedObjectMapper.marshal(file, value);
+		} catch (IOException e) {
+			logger.error("Error while marshalling to file " + pathToFile, e);
+		}
+	}
+	
+	public void marshalToResources(Resource resource, Object value) {
+		if (resource == null) {
+			throw new RuntimeException("Resource is null!");
+		} else if (!resource.exists()) {
+			throw new RuntimeException("Resource doesn't exists!");
+		}
+	}
+	
+	public <T, C extends Collection> C unmarshalFromFile(String pathToFile, Class<T> targetClass, Class<C> collection) {
+		String content = readFromFile(pathToFile);
+		return wrappedObjectMapper.unmarshal(content, targetClass, collection);
+	}
+	
+	public <T, C extends Collection> C unmarshalFromResource(String resourceName, Class<T> targetClass, Class<C> collection) {
+		String content = readFromResource(resourceName);
+		return wrappedObjectMapper.unmarshal(content, targetClass, collection);
+	}
+	
+	public <T, C extends Collection> C unmarshalFromResource(Resource resource, Class<T> targetClass, Class<C> collection) {
+		String content = readFromResource(resource);
+		return wrappedObjectMapper.unmarshal(content, targetClass, collection);
+	}
+	
+	public <T> T unmarshalFromFile(String pathToFile, Class<T> targetClass) {
+		String content = readFromFile(pathToFile);
+		return wrappedObjectMapper.unmarshal(content, targetClass);
+	}
+	
+	public <T> T unmarshalFromResource(String resourceName, Class<T> targetClass) {
+		String content = readFromResource(resourceName);
+		return wrappedObjectMapper.unmarshal(content, targetClass);
+	}
+	
+	public <T extends CharSequence> void writeToFile(String pathToFile, T value, boolean append) {
+		try (BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(new File(pathToFile), append))) {
+			bufferedWriter.append(value);
+			bufferedWriter.flush();
+		} catch (IOException e) {
+			logger.error("Error while writing to file " + pathToFile, e);
+		}
+	}
+	
+	public <T extends CharSequence> void writeToFile(File file, T value, boolean append) {
+		try (BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(file, append))) {
+			bufferedWriter.append(value);
+			bufferedWriter.flush();
+		} catch (IOException e) {
+			logger.error("Error while writing to file " + file, e);
+		}
+	}
+	
+	public String readFromFile(String pathToFile) {
+		StringBuilder stringBuilder = new StringBuilder();
+		try (BufferedReader bufferedReader = new BufferedReader(new FileReader(new File(pathToFile)))) {
+			String s;
+			while ((s = bufferedReader.readLine()) != null) {
+				stringBuilder.append(s).append("\n");
+			}
+			return stringBuilder.toString();
+		} catch (Exception e) {
+			logger.error("Error while reading from file " + pathToFile, e);
+		}
+		return stringBuilder.toString();
+	}
+	
+	public String readFromFile(File file) {
+		StringBuilder stringBuilder = new StringBuilder();
+		try (BufferedReader bufferedReader = new BufferedReader(new FileReader(file))) {
+			String s;
+			while ((s = bufferedReader.readLine()) != null) {
+				stringBuilder.append(s).append("\n");
+			}
+			return stringBuilder.toString();
+		} catch (Exception e) {
+			logger.error("Error while reading from file " + file, e);
+		}
+		return stringBuilder.toString();
+	}
+	
+	public String readFromResource(String name) {
+		InputStream systemResourceAsStream = ClassLoader.getSystemResourceAsStream(name);
+		if (systemResourceAsStream == null) {
+			throw new RuntimeException("Resource " + name + " not found!");
+		}
+		String fromFile = null;
+		try (BufferedInputStream byteArrayInputStream = new BufferedInputStream(systemResourceAsStream);
+			 ByteArrayOutputStream bufferedOutputStream = new ByteArrayOutputStream()) {
+			int nRead;
+			byte[] data = new byte[1024];
+			while ((nRead = byteArrayInputStream.read(data, 0, data.length)) != -1) {
+				bufferedOutputStream.write(data, 0, nRead);
+				bufferedOutputStream.flush();
+			}
+			fromFile = new String(bufferedOutputStream.toByteArray(), "UTF-8");
+		} catch (IOException e) {
+			logger.error("Error while reading from resource " + name, e);
+		}
+		return fromFile;
+	}
+	
+	public String readFromResource(Resource resource) {
+		if (resource == null) {
+			throw new RuntimeException("Resource is null!");
+		} else if (!resource.exists()) {
+			throw new RuntimeException("Resource doesn't exists!");
+		}
+		String fromFile = null;
+		try (BufferedInputStream byteArrayInputStream = new BufferedInputStream(resource.getInputStream());
+			 ByteArrayOutputStream bufferedOutputStream = new ByteArrayOutputStream()) {
+			int readByte;
+			byte[] data = new byte[1024];
+			while ((readByte = byteArrayInputStream.read(data, 0, data.length)) != -1) {
+				bufferedOutputStream.write(data, 0, readByte);
+				bufferedOutputStream.flush();
+			}
+			fromFile = new String(bufferedOutputStream.toByteArray(), "UTF-8");
+		} catch (IOException e) {
+			logger.error("Exception while reading from resource " + resource, e);
+		}
+		return fromFile;
+	}
+//    public String readFromResource(String name) {
+//        String s = null;
+//        try {
+//            File file = ResourceUtils.getFile(name);
+//            s = readFromFile(file);
+//        } catch (FileNotFoundException e) {
+//            e.printStackTrace();
+//        }
+//        return s;
+//    }
+	
+	public boolean isResourceExist(String resourceName) {
+		return ClassLoader.getSystemResourceAsStream(resourceName) != null;
+	}
+	
+	public <T extends CharSequence> void writeToResources(String resourceName, T value, boolean append) {
+		if (isResourceExist(resourceName)) {
+			try {
+				File file = ResourceUtils.getFile(resourceName);
+				writeToFile(file, value, append);
+			} catch (FileNotFoundException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+}
