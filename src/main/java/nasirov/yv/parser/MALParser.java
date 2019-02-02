@@ -1,12 +1,11 @@
 package nasirov.yv.parser;
 
+import lombok.extern.slf4j.Slf4j;
 import nasirov.yv.exception.JSONNotFoundException;
 import nasirov.yv.exception.MALUserAccountNotFoundException;
 import nasirov.yv.exception.MALUserAnimeListAccessException;
 import nasirov.yv.response.HttpResponse;
 import nasirov.yv.serialization.UserMALTitleInfo;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
@@ -20,9 +19,8 @@ import java.util.regex.Pattern;
  * Created by Хикка on 20.12.2018.
  */
 @Component
+@Slf4j
 public class MALParser {
-	private static final Logger logger = LoggerFactory.getLogger(MALParser.class);
-	
 	private static final String JSON_ANIME_LIST = "<table class=\"list-table\" data-items=\"(?<jsonAnimeList>.*)\">";
 	
 	private static final String USER_ANIME_LIST_PRIVATE_ACCESS = "Access to this list has been restricted by the owner";
@@ -48,13 +46,9 @@ public class MALParser {
 	 */
 	public <T extends Collection> T getUserTitlesInfo(HttpResponse response, Class<T> collection) throws MALUserAnimeListAccessException, JSONNotFoundException {
 		if (response == null) {
-			logger.error("MALResponse must be not null!");
-			throw new RuntimeException("ClientResponse must be not null!");
+			throw new RuntimeException("HttpResponse is null!");
 		}
-		logger.debug("Start Parsing");
-		T malTitlesInfo = wrappedObjectMapper.unmarshal(getJsonAnimeListFromHtml(response.getContent()), UserMALTitleInfo.class, collection);
-		logger.debug("End Parsing");
-		return malTitlesInfo;
+		return wrappedObjectMapper.unmarshal(getJsonAnimeListFromHtml(response.getContent()), UserMALTitleInfo.class, collection);
 	}
 	
 	/**
@@ -66,8 +60,7 @@ public class MALParser {
 	 */
 	public String getNumWatchingTitles(HttpResponse response) throws MALUserAccountNotFoundException {
 		if (response == null) {
-			logger.error("MALResponse must be not null!");
-			throw new RuntimeException("ClientResponse must be not null!");
+			throw new NullPointerException("HttpResponse is null!");
 		}
 		if (!isAccountExist(response)) {
 			throw new MALUserAccountNotFoundException("MAL User Account Not Found!");
@@ -99,20 +92,16 @@ public class MALParser {
 	 * @throws MALUserAnimeListAccessException if user anime list has private access
 	 */
 	private String getJsonAnimeListFromHtml(String content) throws JSONNotFoundException, MALUserAnimeListAccessException {
-		logger.debug("Start Searching JSON in html");
 		String jsonAnimeList;
 		Pattern pattern = Pattern.compile(JSON_ANIME_LIST);
 		Matcher matcher = pattern.matcher(content);
 		if (matcher.find()) {
 			jsonAnimeList = matcher.group("jsonAnimeList").replaceAll("&quot;", "\"").replaceAll("&#039;", "'");
 		} else if (content.contains(USER_ANIME_LIST_PRIVATE_ACCESS)) {
-			logger.error(USER_ANIME_LIST_PRIVATE_ACCESS);
 			throw new MALUserAnimeListAccessException(USER_ANIME_LIST_PRIVATE_ACCESS);
 		} else {
-			logger.error("JSON not found");
-			throw new JSONNotFoundException(content);
+			throw new JSONNotFoundException("JSON not found");
 		}
-		logger.debug("End Searching JSON in html");
 		return jsonAnimeList;
 	}
 }

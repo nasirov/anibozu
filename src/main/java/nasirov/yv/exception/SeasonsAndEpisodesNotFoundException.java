@@ -7,4 +7,7 @@ public class SeasonsAndEpisodesNotFoundException extends Exception {
 	public SeasonsAndEpisodesNotFoundException(String msg) {
 		super(msg);
 	}
+	
+	public SeasonsAndEpisodesNotFoundException() {
+	}
 }

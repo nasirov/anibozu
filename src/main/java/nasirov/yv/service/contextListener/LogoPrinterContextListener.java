@@ -1,8 +1,7 @@
 package nasirov.yv.service.contextListener;
 
+import lombok.extern.slf4j.Slf4j;
 import nasirov.yv.service.annotation.PrintApplicationLogo;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
@@ -17,9 +16,8 @@ import java.lang.reflect.Method;
  * Created by Хикка on 25.01.2019.
  */
 @Component
+@Slf4j
 public class LogoPrinterContextListener implements ApplicationListener<ContextRefreshedEvent> {
-	private static final Logger logger = LoggerFactory.getLogger(LogoPrinterContextListener.class);
-	
 	private ConfigurableListableBeanFactory factory;
 	
 	@Autowired
@@ -48,7 +46,7 @@ public class LogoPrinterContextListener implements ApplicationListener<ContextRe
 						}
 					}
 				} catch (Exception e) {
-					logger.error("Exception while printing application logo", e);
+					log.error("Exception while printing application logo", e);
 				}
 			}
 		}

@@ -1,9 +1,8 @@
 package nasirov.yv.service;
 
+import lombok.extern.slf4j.Slf4j;
 import nasirov.yv.service.annotation.LoadResources;
 import nasirov.yv.util.ReferencesManager;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,9 +11,8 @@ import org.springframework.stereotype.Service;
  */
 @Service
 @LoadResources
+@Slf4j
 public class ResourcesLoader {
-	private static final Logger logger = LoggerFactory.getLogger(ResourcesLoader.class);
-	
 	private ReferencesManager referencesManager;
 	
 	private AnimediaService animediaService;

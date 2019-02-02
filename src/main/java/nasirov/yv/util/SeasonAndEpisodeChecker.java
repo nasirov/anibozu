@@ -21,8 +21,6 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static com.sun.research.ws.wadl.HTTPMethods.GET;
-import static nasirov.yv.enums.Constants.ANIMEDIA_ANIME_EPISODES_LIST;
-import static nasirov.yv.enums.Constants.ONLINE_ANIMEDIA_TV;
 
 /**
  * Created by Хикка on 23.12.2018.
@@ -32,6 +30,12 @@ import static nasirov.yv.enums.Constants.ONLINE_ANIMEDIA_TV;
 public class SeasonAndEpisodeChecker {
 	@Value("${cache.userMatchedAnime.name}")
 	private String userMatchedAnimeCacheName;
+	
+	@Value("${urls.online.animedia.tv}")
+	private String animediaOnlineTv;
+	
+	@Value("${urls.online.animedia.anime.episodes.list}")
+	private String animediaEpisodesList;
 	
 	private HttpCaller httpCaller;
 	
@@ -171,12 +175,12 @@ public class SeasonAndEpisodeChecker {
 		AnimediaTitleSearchInfo matchedOfSingleSeasonAnime = first.orElse(null);
 		if (matchedOfSingleSeasonAnime != null) {
 			String url = matchedOfSingleSeasonAnime.getUrl();
-			HttpResponse response = httpCaller.call(ONLINE_ANIMEDIA_TV.getDescription() + url, GET, animediaRequestParameters);
+			HttpResponse response = httpCaller.call(animediaOnlineTv + url, GET, animediaRequestParameters);
 			Map<String, Map<String, String>> animeIdSeasonsAndEpisodesMap = animediaHTMLParser.getAnimeIdSeasonsAndEpisodesMap(response);
 			for (Map.Entry<String, Map<String, String>> animeIdDataListsAndEpisodes : animeIdSeasonsAndEpisodesMap.entrySet()) {
 				for (Map.Entry<String, String> dataListsAndEpisodes : animeIdDataListsAndEpisodes.getValue().entrySet()) {
 					String dataList = dataListsAndEpisodes.getKey();
-					HttpResponse resp = httpCaller.call(ANIMEDIA_ANIME_EPISODES_LIST.getDescription() + animeIdDataListsAndEpisodes.getKey() + "/" + dataList, GET, animediaRequestParameters);
+					HttpResponse resp = httpCaller.call(animediaEpisodesList + animeIdDataListsAndEpisodes.getKey() + "/" + dataList, GET, animediaRequestParameters);
 					Map<String, List<String>> maxEpisodesAndEpisodesRange = animediaHTMLParser.getEpisodesRange(resp);
 					for (Map.Entry<String, List<String>> maxEpisodesAndEpisodesRangeEntry : maxEpisodesAndEpisodesRange.entrySet()) {
 						List<String> episodesRangeFromMinToMax = maxEpisodesAndEpisodesRangeEntry.getValue();
@@ -258,11 +262,11 @@ public class SeasonAndEpisodeChecker {
 		String finalUrl;
 		Map<String, String> nextEpisodeForWatchFinalUrl = new HashMap<>();
 		if (episodeNumberForWatch <= Integer.parseInt(animediaMALTitleReferences.getCurrentMax())) {
-			finalUrl = ONLINE_ANIMEDIA_TV.getDescription() + animediaMALTitleReferences.getUrl() + "/" + animediaMALTitleReferences.getDataList() + "/" + episodeNumberForWatch;
+			finalUrl = animediaOnlineTv + animediaMALTitleReferences.getUrl() + "/" + animediaMALTitleReferences.getDataList() + "/" + episodeNumberForWatch;
 			log.info("Найдены новые серии для мультисезонного аниме {}", finalUrl);
 			nextEpisodeForWatchFinalUrl.put(episodeNumberForWatch.toString(), finalUrl);
 		} else {
-			finalUrl = ONLINE_ANIMEDIA_TV.getDescription() + animediaMALTitleReferences.getUrl() + "/" + animediaMALTitleReferences.getDataList();
+			finalUrl = animediaOnlineTv + animediaMALTitleReferences.getUrl() + "/" + animediaMALTitleReferences.getDataList();
 			log.info("Нет новых серий для мультисезонного аниме {}", finalUrl);
 			nextEpisodeForWatchFinalUrl.put("", "");
 		}
@@ -274,11 +278,11 @@ public class SeasonAndEpisodeChecker {
 		Map<String, String> nextEpisodeForWatchFinalUrl = new HashMap<>();
 		if (numWatchedEpisodesOnMAL <= Integer.parseInt(episodesRangeFromMinToMax.get(episodesRangeFromMinToMax.size() - 1))) {
 			Integer episodeNumberForWatch = Integer.parseInt(episodesRangeFromMinToMax.get(userMALTitleInfo.getNumWatchedEpisodes()));
-			finalUrl = ONLINE_ANIMEDIA_TV.getDescription() + url + "/" + dataList + "/" + episodeNumberForWatch;
+			finalUrl = animediaOnlineTv + url + "/" + dataList + "/" + episodeNumberForWatch;
 			log.info("Найдены новые серии для односезонного аниме {}", finalUrl);
 			nextEpisodeForWatchFinalUrl.put(episodeNumberForWatch.toString(), finalUrl);
 		} else {
-			finalUrl = ONLINE_ANIMEDIA_TV.getDescription() + url + "/" + dataList;
+			finalUrl = animediaOnlineTv + url + "/" + dataList;
 			log.info("Нет новых серий для односезонного аниме {}", finalUrl);
 			nextEpisodeForWatchFinalUrl.put("", "");
 		}

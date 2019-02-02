@@ -5,9 +5,8 @@ import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.WebResource;
 import com.sun.jersey.api.client.filter.GZIPContentEncodingFilter;
 import com.sun.research.ws.wadl.HTTPMethods;
+import lombok.extern.slf4j.Slf4j;
 import nasirov.yv.response.HttpResponse;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 
@@ -23,12 +22,11 @@ import static nasirov.yv.enums.RequestParameters.*;
  * Created by Хикка on 21.01.2019.
  */
 @Component
+@Slf4j
 public class HttpCallerImpl implements HttpCaller {
-	private static final Logger logger = LoggerFactory.getLogger(HttpCaller.class);
-	
 	@Override
 	public HttpResponse call(@NotNull String url, @NotNull HTTPMethods method, @NotNull Map<String, Map<String, String>> parameters) {
-		logger.debug("Start Calling {}", url);
+		log.debug("Start Calling {}", url);
 		Client client = new Client();
 		client.addFilter(new GZIPContentEncodingFilter(true));
 		client.setConnectTimeout(60000);
@@ -45,7 +43,7 @@ public class HttpCallerImpl implements HttpCaller {
 				} catch (InterruptedException e) {
 					e.printStackTrace();
 				}
-				logger.error("{}\nRepeat request", response.toString());
+				log.error("{}\nRepeat request", response.toString());
 				response = sendRequest(enrichRequest(webResource, parameters), method);
 				if (response.getStatus() == HttpStatus.OK.value()) {
 					break;
@@ -53,7 +51,7 @@ public class HttpCallerImpl implements HttpCaller {
 			}
 		}
 		String entity = response.getEntity(String.class);
-		logger.debug("End Calling {}", url);
+		log.debug("End Calling {}", url);
 		return new HttpResponse(entity, status);
 	}
 	
@@ -64,7 +62,7 @@ public class HttpCallerImpl implements HttpCaller {
 	 * @param parameters
 	 */
 	private WebResource.Builder enrichRequest(WebResource webResource, Map<String, Map<String, String>> parameters) {
-		logger.debug("Start Enrich request to {}", webResource.getURI());
+		log.debug("Start Enrich request to {}", webResource.getURI());
 		WebResource.Builder requestBuilder = webResource.getRequestBuilder();
 		Stream.of(parameters).filter(map -> map.containsKey(HEADER.getDescription()))
 				.flatMap(map -> map.get(HEADER.getDescription()).entrySet().stream())
@@ -75,7 +73,7 @@ public class HttpCallerImpl implements HttpCaller {
 		Stream.of(parameters).filter(map -> map.containsKey(ACCEPT.getDescription()))
 				.flatMap(map -> map.get(ACCEPT.getDescription()).entrySet().stream())
 				.forEach(map -> requestBuilder.accept(map.getValue()));
-		logger.debug("End Enrich request to {}", webResource.getURI());
+		log.debug("End Enrich request to {}", webResource.getURI());
 		return requestBuilder;
 	}
 	
@@ -87,7 +85,7 @@ public class HttpCallerImpl implements HttpCaller {
 	 * @return ответ от сайта
 	 */
 	private ClientResponse sendRequest(WebResource.Builder requestBuilder, HTTPMethods method) {
-		logger.debug("Start Sending request");
+		log.debug("Start Sending request");
 		ClientResponse response;
 		switch (method) {
 			case GET:
@@ -99,7 +97,7 @@ public class HttpCallerImpl implements HttpCaller {
 			default:
 				throw new UnsupportedOperationException("Method " + method + " is not supported");
 		}
-		logger.debug("End Sending request");
+		log.debug("End Sending request");
 		return response;
 	}
 }

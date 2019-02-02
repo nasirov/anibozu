@@ -21,8 +21,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import static com.sun.research.ws.wadl.HTTPMethods.GET;
-import static nasirov.yv.enums.Constants.ANIMEDIA_ANIME_EPISODES_LIST;
-import static nasirov.yv.enums.Constants.ONLINE_ANIMEDIA_TV;
 
 /**
  * Created by Хикка on 03.01.2019.
@@ -34,6 +32,12 @@ public class ReferencesManager {
 	private static final String CONCERTIZE_EPISODE = ".+[\\s\\t]+((?<min>\\d{1,3})-(?<max>\\d{1,3}|[x]{3}))+";
 	
 	private static final String COUNT_AND_URL = "(?<count>(\\d{1,3}\\.)?\\d{1,3}\\.\\d{1,2}\\s)(?<url>http://online\\.animedia\\.tv/anime/.+/\\d{1,3}/\\d{1,3})";
+	
+	@Value("${urls.online.animedia.tv}")
+	private String animediaOnlineTv;
+	
+	@Value("${urls.online.animedia.anime.episodes.list}")
+	private String animediaEpisodesList;
 	
 	@Value("classpath:${resources.rawReference.name}")
 	private Resource rawReferencesResource;
@@ -142,7 +146,7 @@ public class ReferencesManager {
 			if (ref.getTitleOnMAL().equalsIgnoreCase("none")) {
 				continue;
 			}
-			String url = ONLINE_ANIMEDIA_TV.getDescription() + ref.getUrl();
+			String url = animediaOnlineTv + ref.getUrl();
 			Map<String, Map<String, String>> seasonsAndEpisodes;
 			if (seasonsAndEpisodesCache.containsKey(url)) {
 				seasonsAndEpisodes = seasonsAndEpisodesCache.get(url);
@@ -155,7 +159,7 @@ public class ReferencesManager {
 				for (Map.Entry<String, Map<String, String>> entry : seasonsAndEpisodes.entrySet()) {
 					for (Map.Entry<String, String> seasons : entry.getValue().entrySet()) {
 						if (ref.getDataList().equals(seasons.getKey())) {
-							HttpResponse resp = httpCaller.call(ANIMEDIA_ANIME_EPISODES_LIST.getDescription() + entry.getKey() + "/" + seasons.getKey(), GET, animediaRequestParameters);
+							HttpResponse resp = httpCaller.call(animediaEpisodesList + entry.getKey() + "/" + seasons.getKey(), GET, animediaRequestParameters);
 							Map<String, List<String>> episodesRange = animediaHTMLParser.getEpisodesRange(resp);
 							for (Map.Entry<String, List<String>> range : episodesRange.entrySet()) {
 								List<String> value = range.getValue();
@@ -227,7 +231,7 @@ public class ReferencesManager {
 	
 	private Map<String, String> readFromRaw(Set<AnimediaMALTitleReferences> allReferences) {
 		Map<String, String> urlTitle = new HashMap<>();
-		allReferences.forEach(set -> urlTitle.put(ONLINE_ANIMEDIA_TV.getDescription() + set.getUrl() + "/" + set.getDataList() + "/" + set.getFirstEpisode(), set.getTitleOnMAL()));
+		allReferences.forEach(set -> urlTitle.put(animediaOnlineTv + set.getUrl() + "/" + set.getDataList() + "/" + set.getFirstEpisode(), set.getTitleOnMAL()));
 		return urlTitle;
 	}
 	

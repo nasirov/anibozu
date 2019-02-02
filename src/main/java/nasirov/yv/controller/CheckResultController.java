@@ -1,5 +1,6 @@
 package nasirov.yv.controller;
 
+import lombok.extern.slf4j.Slf4j;
 import nasirov.yv.exception.JSONNotFoundException;
 import nasirov.yv.exception.MALUserAccountNotFoundException;
 import nasirov.yv.exception.MALUserAnimeListAccessException;
@@ -12,8 +13,6 @@ import nasirov.yv.service.AnimediaService;
 import nasirov.yv.service.MALService;
 import nasirov.yv.util.ReferencesManager;
 import nasirov.yv.util.SeasonAndEpisodeChecker;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.Cache;
@@ -32,6 +31,7 @@ import java.util.stream.Collectors;
  */
 @Controller
 @RequestMapping("/checkResult")
+@Slf4j
 public class CheckResultController {
 	@Value("${cache.userMAL.name}")
 	private String userMALCacheName;
@@ -44,8 +44,6 @@ public class CheckResultController {
 	
 	@Value("${cache.currentlyUpdatedTitles.name}")
 	private String currentlyUpdatedTitlesCacheName;
-	
-	private static final Logger logger = LoggerFactory.getLogger(CheckResultController.class);
 	
 	private MALService malService;
 	
@@ -75,31 +73,29 @@ public class CheckResultController {
 	}
 	
 	@PostMapping
-	public String startPost(@RequestParam(value = "username") String username, Model model) {
-		//model.addAttribute("title", "Anime Checker");
+	public String checkResult(@RequestParam(value = "username") String username, Model model) {
 		Set<UserMALTitleInfo> watchingTitles;
 		String errorMsg;
 		try {
-			// watchingTitles = watchingTitlesFromCache != null ? watchingTitlesFromCache : malService.getWatchingTitles(username);
 			watchingTitles = malService.getWatchingTitles(username);
 		} catch (MALUserAccountNotFoundException e) {
 			errorMsg = "MAL account " + username + " not found";
-			logger.error(errorMsg);
+			log.error(errorMsg);
 			model.addAttribute("errorMsg", errorMsg);
 			return "checkResult";
 		} catch (WatchingTitlesNotFoundException e) {
 			errorMsg = e.getMessage();
-			logger.error(errorMsg);
+			log.error(errorMsg);
 			model.addAttribute("errorMsg", errorMsg);
 			return "checkResult";
 		} catch (MALUserAnimeListAccessException e) {
 			errorMsg = "Anime list " + username + " has private access!";
-			logger.error(errorMsg);
+			log.error(errorMsg);
 			model.addAttribute("errorMsg", errorMsg);
 			return "checkResult";
 		} catch (JSONNotFoundException e) {
 			errorMsg = "This application supports only default anime list view with wrapped json data! Json anime list not found for " + username;
-			logger.error(errorMsg);
+			log.error(errorMsg);
 			model.addAttribute("errorMsg", errorMsg);
 			return "checkResult";
 		}
@@ -112,22 +108,37 @@ public class CheckResultController {
 		List<AnimediaMALTitleReferences> currentlyUpdatedTitlesFromCache = currentlyUpdatedTitlesCache.get(currentlyUpdatedTitlesCacheName, ArrayList.class);
 		List<AnimediaMALTitleReferences> currentlyUpdatedTitles = animediaService.getCurrentlyUpdatedTitles();
 		if (watchingTitlesFromCache != null && matchedAnimeFromCache != null && currentlyUpdatedTitlesFromCache != null) {
-			List<AnimediaMALTitleReferences> differences = animediaService.checkCurrentlyUpdatedTitles(currentlyUpdatedTitles, currentlyUpdatedTitlesFromCache);
-			if (!differences.isEmpty()) {
-				for (AnimediaMALTitleReferences refs : differences) {
-					long count = matchedAnimeFromCache.stream().filter(set -> set.getUrl().equals(refs.getUrl()) && set.getDataList().equals(refs.getDataList())).count();
-					if (count != 0) {
-						referencesManager.updateReferences(matchedAnimeFromCache, refs);
-						seasonAndEpisodeChecker.updateMatchedReferences(watchingTitlesFromCache, refs, matchedAnimeFromCache);
-					}
+			return handleCachedUser(currentlyUpdatedTitles, currentlyUpdatedTitlesFromCache, matchedAnimeFromCache, watchingTitlesFromCache, watchingTitles, model);
+		}
+		return handleNewUser(matchedReferencesCache, username, watchingTitles, matchedAnimeFromCache, model);
+	}
+	
+	private String handleCachedUser(List<AnimediaMALTitleReferences> currentlyUpdatedTitles,
+									List<AnimediaMALTitleReferences> currentlyUpdatedTitlesFromCache,
+									Set<AnimediaMALTitleReferences> matchedAnimeFromCache,
+									Set<UserMALTitleInfo> watchingTitlesFromCache,
+									Set<UserMALTitleInfo> watchingTitles,
+									Model model) {
+		List<AnimediaMALTitleReferences> differences = animediaService.checkCurrentlyUpdatedTitles(currentlyUpdatedTitles, currentlyUpdatedTitlesFromCache);
+		if (!differences.isEmpty()) {
+			for (AnimediaMALTitleReferences refs : differences) {
+				long count = matchedAnimeFromCache.stream().filter(set -> set.getUrl().equals(refs.getUrl()) && set.getDataList().equals(refs.getDataList())).count();
+				if (count != 0) {
+					referencesManager.updateReferences(matchedAnimeFromCache, refs);
+					seasonAndEpisodeChecker.updateMatchedReferences(watchingTitlesFromCache, refs, matchedAnimeFromCache);
 				}
 			}
-			boolean isWatchingTitlesUpdated = malService.isWatchingTitlesUpdated(watchingTitles, watchingTitlesFromCache);
-			return enrichModel(matchedAnimeFromCache, watchingTitlesFromCache, model, isWatchingTitlesUpdated);
 		}
-		// Set<AnimediaTitleSearchInfo> animediaSearchList = new LinkedHashSet<>(animediaTitleSearchInfoRepository.findAll());
+		boolean isWatchingTitlesUpdated = malService.isWatchingTitlesUpdated(watchingTitles, watchingTitlesFromCache);
+		return enrichModel(matchedAnimeFromCache, watchingTitlesFromCache, model, isWatchingTitlesUpdated);
+	}
+	
+	private String handleNewUser(Cache matchedReferencesCache,
+								 String username,
+								 Set<UserMALTitleInfo> watchingTitles,
+								 Set<AnimediaMALTitleReferences> matchedAnimeFromCache,
+								 Model model) {
 		Set<AnimediaTitleSearchInfo> animediaSearchList = animediaService.getAnimediaSearchList();
-		//Set<AnimediaMALTitleReferences> allReferences = new LinkedHashSet<>(referencesRepository.findAll());
 		Set<AnimediaMALTitleReferences> allReferences = referencesManager.getMultiSeasonsReferences();
 		Set<AnimediaMALTitleReferences> matchedReferencesFromCache = matchedReferencesCache.get(username, LinkedHashSet.class);
 		Set<AnimediaMALTitleReferences> matchedReferences;
@@ -136,7 +147,7 @@ public class CheckResultController {
 			long start = System.nanoTime();
 			referencesManager.updateReferences(matchedReferences);
 			long end = System.nanoTime();
-			System.out.println(end - start);
+			log.info("Elapsed time for update references {}", end - start);
 			matchedReferencesCache.put(username, matchedReferences);
 		} else {
 			matchedReferences = matchedReferencesFromCache;

@@ -1,8 +1,7 @@
 package nasirov.yv.util;
 
+import lombok.extern.slf4j.Slf4j;
 import nasirov.yv.parser.WrappedObjectMapper;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Component;
@@ -16,6 +15,7 @@ import java.util.Collection;
  * Created by Хикка on 01.01.2019.
  */
 @Component
+@Slf4j
 public class RoutinesIO {
 	private WrappedObjectMapper wrappedObjectMapper;
 	
@@ -23,8 +23,6 @@ public class RoutinesIO {
 	public RoutinesIO(WrappedObjectMapper wrappedObjectMapper) {
 		this.wrappedObjectMapper = wrappedObjectMapper;
 	}
-	
-	private static final Logger logger = LoggerFactory.getLogger(RoutinesIO.class);
 	
 	public void marshalToFile(String pathToFile, Object value) {
 		wrappedObjectMapper.marshal(new File(pathToFile), value);
@@ -35,15 +33,15 @@ public class RoutinesIO {
 			File file = ResourceUtils.getFile(pathToFile);
 			wrappedObjectMapper.marshal(file, value);
 		} catch (IOException e) {
-			logger.error("Error while marshalling to file " + pathToFile, e);
+			log.error("Error while marshalling to file " + pathToFile, e);
 		}
 	}
 	
 	public void marshalToResources(Resource resource, Object value) {
 		if (resource == null) {
-			throw new RuntimeException("Resource is null!");
+			throw new NullPointerException("Resource is null!");
 		} else if (!resource.exists()) {
-			throw new RuntimeException("Resource doesn't exists!");
+			throw new NullPointerException("Resource doesn't exists!");
 		}
 	}
 	
@@ -77,7 +75,7 @@ public class RoutinesIO {
 			bufferedWriter.append(value);
 			bufferedWriter.flush();
 		} catch (IOException e) {
-			logger.error("Error while writing to file " + pathToFile, e);
+			log.error("Error while writing to file " + pathToFile, e);
 		}
 	}
 	
@@ -86,7 +84,7 @@ public class RoutinesIO {
 			bufferedWriter.append(value);
 			bufferedWriter.flush();
 		} catch (IOException e) {
-			logger.error("Error while writing to file " + file, e);
+			log.error("Error while writing to file " + file, e);
 		}
 	}
 	
@@ -99,7 +97,7 @@ public class RoutinesIO {
 			}
 			return stringBuilder.toString();
 		} catch (Exception e) {
-			logger.error("Error while reading from file " + pathToFile, e);
+			log.error("Error while reading from file " + pathToFile, e);
 		}
 		return stringBuilder.toString();
 	}
@@ -109,11 +107,11 @@ public class RoutinesIO {
 		try (BufferedReader bufferedReader = new BufferedReader(new FileReader(file))) {
 			String s;
 			while ((s = bufferedReader.readLine()) != null) {
-				stringBuilder.append(s).append("\n");
+				stringBuilder.append(s).append("\r\n");
 			}
 			return stringBuilder.toString();
 		} catch (Exception e) {
-			logger.error("Error while reading from file " + file, e);
+			log.error("Error while reading from file " + file, e);
 		}
 		return stringBuilder.toString();
 	}
@@ -121,7 +119,7 @@ public class RoutinesIO {
 	public String readFromResource(String name) {
 		InputStream systemResourceAsStream = ClassLoader.getSystemResourceAsStream(name);
 		if (systemResourceAsStream == null) {
-			throw new RuntimeException("Resource " + name + " not found!");
+			throw new NullPointerException("Resource " + name + " not found!");
 		}
 		String fromFile = null;
 		try (BufferedInputStream byteArrayInputStream = new BufferedInputStream(systemResourceAsStream);
@@ -134,16 +132,16 @@ public class RoutinesIO {
 			}
 			fromFile = new String(bufferedOutputStream.toByteArray(), "UTF-8");
 		} catch (IOException e) {
-			logger.error("Error while reading from resource " + name, e);
+			log.error("Error while reading from resource " + name, e);
 		}
 		return fromFile;
 	}
 	
 	public String readFromResource(Resource resource) {
 		if (resource == null) {
-			throw new RuntimeException("Resource is null!");
+			throw new NullPointerException("Resource is null!");
 		} else if (!resource.exists()) {
-			throw new RuntimeException("Resource doesn't exists!");
+			throw new NullPointerException("Resource doesn't exists!");
 		}
 		String fromFile = null;
 		try (BufferedInputStream byteArrayInputStream = new BufferedInputStream(resource.getInputStream());
@@ -156,20 +154,10 @@ public class RoutinesIO {
 			}
 			fromFile = new String(bufferedOutputStream.toByteArray(), "UTF-8");
 		} catch (IOException e) {
-			logger.error("Exception while reading from resource " + resource, e);
+			log.error("Exception while reading from resource " + resource, e);
 		}
 		return fromFile;
 	}
-//    public String readFromResource(String name) {
-//        String s = null;
-//        try {
-//            File file = ResourceUtils.getFile(name);
-//            s = readFromFile(file);
-//        } catch (FileNotFoundException e) {
-//            e.printStackTrace();
-//        }
-//        return s;
-//    }
 	
 	public boolean isResourceExist(String resourceName) {
 		return ClassLoader.getSystemResourceAsStream(resourceName) != null;

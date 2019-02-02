@@ -1,12 +1,10 @@
 package nasirov.yv.parser;
 
-import nasirov.yv.exception.FirstEpisodeInSeasonNotFoundException;
-import nasirov.yv.exception.OriginalTitleNotFoundException;
-import nasirov.yv.exception.SeasonsAndEpisodesNotFoundException;
+import com.sun.istack.NotNull;
+import lombok.extern.slf4j.Slf4j;
+import nasirov.yv.exception.*;
 import nasirov.yv.response.HttpResponse;
 import nasirov.yv.serialization.AnimediaMALTitleReferences;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import java.util.*;
@@ -20,18 +18,17 @@ import static nasirov.yv.enums.Constants.FIRST_EPISODE;
  * Created by Хикка on 23.12.2018.
  */
 @Component
+@Slf4j
 public class AnimediaHTMLParser {
-	private static final Logger logger = LoggerFactory.getLogger(AnimediaHTMLParser.class);
-	
 	/**
 	 * Регулярное выражения для поиска номера вкладки на странице и соответствующего ей количества серий
 	 */
-	private static final String TAB_AND_EPISODES = "\\s*<div id=\"tab(?<numberOfTab>\\d{1,3})\" role=\"tabpanel\" class=\"media__tabs__panel tab-pane\\s?(active)?\">\n" +
-			"\\s*<div id=\"carousel\\d{1,3}\" data-interval=\"false\" data-wrap=\"false\" class=\"media__tabs__series carousel slide\">\n" +
-			"\\s*<div class=\"media__tabs__series__list carousel-inner\" data-list_id=\"(?<dataList>\\d{1,3})\"></div>\n" +
-			"\\s*<div class=\"clearfix\"></div>\n" +
-			"\\s*<div class=\"media__tabs__series__footer\">\n" +
-			"\\s*<div class=\"media__tabs__series__footer__item\"><a href=\"#carousel\\d{1,3}\" data-slide=\"prev\" class=\"media__tabs__series__control carousel-control prev\"><i class=\"ai ai-prev\"></i></a></div>\n" +
+	private static final String TAB_AND_EPISODES = "\\s*<div id=\"tab(?<numberOfTab>\\d{1,3})\" role=\"tabpanel\" class=\"media__tabs__panel tab-pane\\s?(active)?\">\\R" +
+			"\\s*<div id=\"carousel\\d{1,3}\" data-interval=\"false\" data-wrap=\"false\" class=\"media__tabs__series carousel slide\">\\R" +
+			"\\s*<div class=\"media__tabs__series__list carousel-inner\" data-list_id=\"(?<dataList>\\d{1,3})\"></div>\\R" +
+			"\\s*<div class=\"clearfix\"></div>\\R" +
+			"\\s*<div class=\"media__tabs__series__footer\">\\R" +
+			"\\s*<div class=\"media__tabs__series__footer__item\"><a href=\"#carousel\\d{1,3}\" data-slide=\"prev\" class=\"media__tabs__series__control carousel-control prev\"><i class=\"ai ai-prev\"></i></a></div>\\R" +
 			"\\s*<div class=\"media__tabs__series__footer__item media__tabs__series__footer__item__center\">Серии <span class=\"start-series\"></span>-<span class=\"end-series\"></span> из (?<numberOfEpisodes>(\\d{1,4}|[xX]{1,3}))(.+)?</div>";
 	
 	/**
@@ -49,133 +46,118 @@ public class AnimediaHTMLParser {
 	 */
 	private static final String FIRST_EPISODE_IN_SEASON = "<span>(?<description>Серия\\.|Cерия|Серия|Серии|серия|серии|ОВА|OVA|ONA|ODA|ФИЛЬМ|Фильмы|Сп[е|э]шл|СПЕШЛ|Фильм)?\\s?(?<firstEpisodeInSeason>\\d{1,3})?(-\\d{1,3})?(\\s\\(\\d{1,3}\\))? из (?<maxEpisodes>.{1,3})</span>";
 	
+	/**
+	 * Регулярное выражения для поиска названия аниме
+	 */
 	private static final String ORIGINAL_TITLE = "<div class=\"media__post__original-title\">(?<originalTitle>[^а-яА-Я\\n]*).+?</div>";
-//    private static final String NEW_SERIES_INFO = "<div class=\"widget__new-series__item widget__item\">\n" +
-//            "<a href=\"(?<fullUrl>(?<root>/anime/.+)/(?<dataList>\\d{1,3})/(?<currentMax>\\d{1,3}))\" title=\"Cмотреть онлайн аниме (.+) Серия \\d{1,3}\" class=\"widget__new-series__item__thumb\"><img src=\"//static\\.animedia\\.tv/screens/.+\\.jpg.+\" alt=\"Cмотреть онлайн аниме .+ Серия \\d{1,3}\" title=\"Серия \\d{1,3} аниме .* онлайн\"></a>\n" +
-//            "<div class=\"widget__new-series__item__info\">\n" +
-//            "<a href=\"/anime/.+/\\d{1,3}/\\d{1,3}\" title=\"Cмотреть онлайн аниме .* Серия \\d{1,3}\" class=\"h4 widget__new-series__item__title\">(.+)</a>\n" +
-//            "<div class=\"widget__new-series__item__status\">\n" +
-//            ".+\\n.+\n" +
-//            "</div>\n" +
-//            "<div class=\"date_newseries\">.+</div>\n" +
-//            "</div>\n" +
-//            "</div>";
 	
-	private static final String NEW_SERIES_INFO = "<div class=\"widget__new-series__item widget__item\">\n" +
-			"<a href=\\\"(?<fullUrl>(?<root>\\/anime\\/.+)\\/(?<dataList>\\d{1,3})\\/(?<currentMax>\\d{1,3}))\" title=\".+\" class=\"widget__new-series__item__thumb\"><img src=\".+\" alt=\".+\" title=\".+\"><\\/a>\n" +
-			"<div class=\"widget__new-series__item__info\">\n" +
-			"<a href=\".+\" title=\".+\" class=\"h4 widget__new-series__item__title\">.+<\\/a>";
+	/**
+	 * Регулярное выражения для поиска недавно добавленных серий
+	 */
+	private static final String NEW_SERIES_INFO = "<div class=\"widget__new-series__item widget__item\">\\R" +
+			"<a href=\"(?<fullUrl>(?<root>/anime/.+)/(?<dataList>\\d{1,3})/(?<currentMax>\\d{1,3}))\" title=\".+\" class=\"widget__new-series__item__thumb\"><img src=\".+\" alt=\".+\" title=\".+\"></a>\\R" +
+			"<div class=\"widget__new-series__item__info\">\\R" +
+			"<a href=\".+\" title=\".+\" class=\"h4 widget__new-series__item__title\">.+</a>";
 	
 	/**
 	 * Ищет соответствия data list и серий
 	 *
-	 * @param response ответ от сайта
+	 * @param response animedia response
 	 * @return map <anime id,map<data list, number of episodes>
 	 */
-	public Map<String, Map<String, String>> getAnimeIdSeasonsAndEpisodesMap(HttpResponse response) {
+	public Map<String, Map<String, String>> getAnimeIdSeasonsAndEpisodesMap(@NotNull HttpResponse response) {
 		if (response == null) {
-			logger.error("AnimediaResponse must be not null!");
-			throw new RuntimeException("AnimediaResponse must be not null!");
+			throw new NullPointerException("HttpResponse is null!");
 		}
-		logger.debug("Start Parsing");
 		Map<String, Map<String, String>> animeIdSeasonsAndEpisodes = new HashMap<>();
 		try {
 			animeIdSeasonsAndEpisodes = searchForSeasonsAndEpisodes(response.getContent());
 		} catch (SeasonsAndEpisodesNotFoundException | OriginalTitleNotFoundException e) {
-			System.out.println(e.getMessage());
-			logger.warn(e.getMessage());
+			log.warn(e.getMessage(), e);
 		}
-		logger.debug("End Parsing");
 		return animeIdSeasonsAndEpisodes;
 	}
 	
 	/**
 	 * Ишет первый эпизод в сезоне
 	 *
-	 * @param response html
+	 * @param response animedia response
 	 * @return первый эпизод
 	 */
-	public String getFirstEpisodeInSeason(HttpResponse response) {
+	public String getFirstEpisodeInSeason(@NotNull HttpResponse response) {
 		if (response == null) {
-			logger.error("AnimediaResponse must be not null!");
-			throw new RuntimeException("AnimediaResponse must be not null!");
+			throw new NullPointerException("HttpResponse is null!");
 		}
-		logger.debug("Start Parsing");
 		String firstEpisodeNumber = null;
 		try {
 			firstEpisodeNumber = searchForFirstEpisodeInSeason(response.getContent());
 		} catch (FirstEpisodeInSeasonNotFoundException e) {
-			System.out.println("First episode in season not found!");
-			logger.error("First episode in season not found!");
+			log.error(e.getMessage(), e);
 		}
-		logger.debug("End Parsing");
 		return firstEpisodeNumber;
 	}
 	
 	/**
-	 * Ишет первый эпизод в data list
+	 * Ишет диапозон серий для дата листа
 	 *
-	 * @param response html
-	 * @return первый эпизод
+	 * @param response animedia response
+	 * @return data list - episodes range
 	 */
-	public Map<String, List<String>> getEpisodesRange(HttpResponse response) {
+	public Map<String, List<String>> getEpisodesRange(@NotNull HttpResponse response) {
 		if (response == null) {
-			logger.error("AnimediaResponse must be not null!");
-			throw new RuntimeException("AnimediaResponse must be not null!");
+			throw new NullPointerException("AnimediaResponse must be not null!");
 		}
-		logger.debug("Start Parsing");
-		Map<String, List<String>> firstEpisodeNumber = null;
+		Map<String, List<String>> firstEpisodeNumber = new HashMap<>();
 		try {
 			firstEpisodeNumber = searchForEpisodesRange(response.getContent());
-		} catch (FirstEpisodeInSeasonNotFoundException e) {
-			System.out.println("First episode in season not found!");
-			logger.error("First episode in season not found!");
+		} catch (EpisodesRangeNotFoundException e) {
+			log.error(e.getMessage(), e);
 		}
-		logger.debug("End Parsing");
 		return firstEpisodeNumber;
 	}
 	
 	/**
 	 * Ищет оригинальное название
 	 *
-	 * @param response html
+	 * @param response animedia response
 	 * @return оригинальное название
 	 */
-	public String getOriginalTitle(HttpResponse response) {
+	public String getOriginalTitle(@NotNull HttpResponse response) {
 		if (response == null) {
-			logger.error("AnimediaResponse must be not null!");
-			throw new RuntimeException("AnimediaResponse must be not null!");
+			throw new NullPointerException("HttpResponse is null!");
 		}
-		logger.debug("Start Parsing");
 		String originalTitle = null;
 		try {
 			originalTitle = searchForOriginalTitle(response.getContent());
 		} catch (OriginalTitleNotFoundException e) {
-			System.out.println("Original title not found!");
-			logger.error("Original title not found!");
+			log.error(e.getMessage(), e);
 		}
-		logger.debug("End Parsing");
 		return originalTitle;
 	}
 	
+	/**
+	 * Ищет недавно добавленние серии на сайте
+	 *
+	 * @param response animedia response
+	 * @return список недавно обновленныч аниме
+	 */
 	public List<AnimediaMALTitleReferences> getCurrentlyUpdatedTitlesList(HttpResponse response) {
 		if (response == null) {
-			logger.error("AnimediaResponse must be not null!");
-			throw new RuntimeException("AnimediaResponse must be not null!");
+			throw new NullPointerException("HttpResponse is null!");
 		}
-		logger.debug("Start Parsing");
-		List<AnimediaMALTitleReferences> newSeriesList = null;
+		List<AnimediaMALTitleReferences> newSeriesList = new ArrayList<>();
 		try {
 			newSeriesList = searchForCurrentlyUpdatedTitles(response.getContent());
-		} catch (Exception e) {
-			System.out.println("New Series list not found!");
-			logger.error("New Series list not found!");
+		} catch (NewEpisodesListNotFoundException e) {
+			log.error(e.getMessage(), e);
 		}
-		logger.debug("End Parsing");
 		return newSeriesList;
 	}
 	
-	private List<AnimediaMALTitleReferences> searchForCurrentlyUpdatedTitles(String content) {
+	private List<AnimediaMALTitleReferences> searchForCurrentlyUpdatedTitles(String content) throws NewEpisodesListNotFoundException {
+		if (content == null) {
+			throw new NullPointerException("Content is null!");
+		}
 		Pattern pattern = Pattern.compile(NEW_SERIES_INFO);
 		Matcher matcher = pattern.matcher(content);
 		List<AnimediaMALTitleReferences> newSeriesList = new ArrayList<>();
@@ -187,12 +169,15 @@ public class AnimediaHTMLParser {
 					currentMax != null ? currentMax : "", "", "", ""));
 		}
 		if (newSeriesList.size() == 0) {
-			throw new RuntimeException("New Series List is empty");
+			throw new NewEpisodesListNotFoundException("New episodes not found!");
 		}
 		return newSeriesList;
 	}
 	
 	private String searchForOriginalTitle(String content) throws OriginalTitleNotFoundException {
+		if (content == null) {
+			throw new NullPointerException("Content is null!");
+		}
 		Pattern pattern = Pattern.compile(ORIGINAL_TITLE);
 		Matcher matcher = pattern.matcher(content);
 		if (matcher.find()) {
@@ -202,6 +187,9 @@ public class AnimediaHTMLParser {
 	}
 	
 	private String searchForFirstEpisodeInSeason(String content) throws FirstEpisodeInSeasonNotFoundException {
+		if (content == null) {
+			throw new NullPointerException("Content is null!");
+		}
 		Pattern pattern = Pattern.compile(FIRST_EPISODE_IN_SEASON);
 		Matcher matcher = pattern.matcher(content);
 		if (matcher.find()) {
@@ -212,10 +200,13 @@ public class AnimediaHTMLParser {
 			}
 			return firstEpisodeInSeason;
 		}
-		throw new FirstEpisodeInSeasonNotFoundException("First episode in season not found!");
+		throw new FirstEpisodeInSeasonNotFoundException("First episode not found!");
 	}
 	
-	private Map<String, List<String>> searchForEpisodesRange(String content) throws FirstEpisodeInSeasonNotFoundException {
+	private Map<String, List<String>> searchForEpisodesRange(String content) throws EpisodesRangeNotFoundException {
+		if (content == null) {
+			throw new NullPointerException("Content is null!");
+		}
 		Pattern pattern = Pattern.compile(FIRST_EPISODE_IN_SEASON);
 		Matcher matcher = pattern.matcher(content);
 		List<String> episodes = new LinkedList<>();
@@ -240,7 +231,7 @@ public class AnimediaHTMLParser {
 			}
 		}
 		if (episodes.isEmpty() || maxEpisodes == null) {
-			throw new FirstEpisodeInSeasonNotFoundException("First episode in season not found!");
+			throw new EpisodesRangeNotFoundException("Episodes range not found!");
 		}
 		episodesRange.put(maxEpisodes, episodes);
 		return episodesRange;
@@ -260,6 +251,9 @@ public class AnimediaHTMLParser {
 	 * @throws SeasonsAndEpisodesNotFoundException, если не найдено соответсвий сезонов и серий
 	 */
 	private Map<String, Map<String, String>> searchForSeasonsAndEpisodes(String content) throws SeasonsAndEpisodesNotFoundException, OriginalTitleNotFoundException {
+		if (content == null) {
+			throw new NullPointerException("Content is null!");
+		}
 		Map<String, String> tabsAndSeasons = new HashMap<>();
 		Map<String, String> tabsAndEpisodes = new HashMap<>();
 		Map<String, String> tabsAndDataList = new HashMap<>();
@@ -287,7 +281,7 @@ public class AnimediaHTMLParser {
 			}
 		}
 		if (seasonsAndEpisodes.isEmpty()) {
-			throw new SeasonsAndEpisodesNotFoundException("Seasons And Episodes not found!" + searchForOriginalTitle(content));
+			throw new SeasonsAndEpisodesNotFoundException("Seasons And Episodes not found for " + searchForOriginalTitle(content));
 		}
 		pattern = Pattern.compile(DATA_ENTRY_ID);
 		matcher = pattern.matcher(content);

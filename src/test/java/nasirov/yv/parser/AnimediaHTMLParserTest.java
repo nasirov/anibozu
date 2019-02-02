@@ -1,0 +1,160 @@
+package nasirov.yv.parser;
+
+import nasirov.yv.configuration.AppConfiguration;
+import nasirov.yv.response.HttpResponse;
+import nasirov.yv.serialization.AnimediaMALTitleReferences;
+import nasirov.yv.util.RoutinesIO;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.cache.CacheManager;
+import org.springframework.core.io.Resource;
+import org.springframework.http.HttpStatus;
+import org.springframework.test.annotation.DirtiesContext;
+import org.springframework.test.context.TestPropertySource;
+import org.springframework.test.context.junit4.SpringRunner;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+
+/**
+ * Created by Хикка on 01.02.2019.
+ */
+@RunWith(SpringRunner.class)
+@TestPropertySource(locations = "classpath:system.properties")
+@SpringBootTest(classes = {AppConfiguration.class})
+@DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_CLASS)
+public class AnimediaHTMLParserTest {
+	@Value("classpath:animediaSearchListFull.json")
+	private Resource animediaSearchListFull;
+	
+	@Value("classpath:saoHtml.txt")
+	private Resource multiSeasonsHtml;
+	
+	@Value("classpath:blackCloverHtml.txt")
+	private Resource singleSeasonHtml;
+	
+	@Value("classpath:ingressHtml.txt")
+	private Resource announcementHtml;
+	
+	@Value("classpath:sao1.txt")
+	private Resource firstDataListHtml;
+	
+	@Value("classpath:sao7.txt")
+	private Resource seventhDataListHtml;
+	
+	@Value("classpath:pageWithCurrentlyAddedEpisodes.txt")
+	private Resource pageWithCurrentlyAddedEpisodes;
+	
+	@Autowired
+	private CacheManager cacheManager;
+	
+	private AnimediaHTMLParser animediaHTMLParser;
+	
+	private RoutinesIO routinesIO;
+	
+	@Before
+	public void setUp() {
+		animediaHTMLParser = new AnimediaHTMLParser();
+		routinesIO = new RoutinesIO(new WrappedObjectMapper());
+	}
+	
+	@Test
+	public void testGetAnimeIdSeasonsAndEpisodesMap() throws Exception {
+		HttpResponse multiSeasonsHtmlResponse = new HttpResponse(routinesIO.readFromResource(multiSeasonsHtml), HttpStatus.OK.value());
+		Map<String, Map<String, String>> animeIdSeasonsAndEpisodesMap = animediaHTMLParser.getAnimeIdSeasonsAndEpisodesMap(multiSeasonsHtmlResponse);
+		assertNotNull(animeIdSeasonsAndEpisodesMap);
+		String saoId = "9432";
+		List<String> dataLists = new ArrayList<>();
+		List<String> maxEpisode = new ArrayList<>();
+		for (Map.Entry<String, Map<String, String>> entry : animeIdSeasonsAndEpisodesMap.entrySet()) {
+			assertEquals(entry.getKey(), saoId);
+			for (Map.Entry<String, String> dataListEpisode : entry.getValue().entrySet()) {
+				maxEpisode.add(dataListEpisode.getValue());
+				dataLists.add(dataListEpisode.getKey());
+			}
+		}
+		assertEquals(dataLists.size(), 4);
+		assertEquals(dataLists.get(0), "1");
+		assertEquals(dataLists.get(1), "2");
+		assertEquals(dataLists.get(2), "3");
+		assertEquals(dataLists.get(3), "7");
+		assertEquals(maxEpisode.size(), 4);
+		assertEquals(maxEpisode.get(0), "25");
+		assertEquals(maxEpisode.get(1), "24");
+		assertEquals(maxEpisode.get(2), "24");
+		assertEquals(maxEpisode.get(3), "1");
+	}
+	
+	@Test
+	public void testGetFirstEpisodeInSeason() throws Exception {
+		HttpResponse firstDataListHtmlResponse = new HttpResponse(routinesIO.readFromResource(firstDataListHtml), HttpStatus.OK.value());
+		String firstEpisodeInSeason = animediaHTMLParser.getFirstEpisodeInSeason(firstDataListHtmlResponse);
+		assertEquals(firstEpisodeInSeason, "1");
+		HttpResponse responseWithOVA = new HttpResponse(routinesIO.readFromResource(seventhDataListHtml), HttpStatus.OK.value());
+		String firstEpisodeInSeasonOva = animediaHTMLParser.getFirstEpisodeInSeason(responseWithOVA);
+		assertEquals(firstEpisodeInSeasonOva, "1");
+	}
+	
+	@Test
+	public void testGetEpisodesRange() throws Exception {
+		HttpResponse firstDataListHtmlResponse = new HttpResponse(routinesIO.readFromResource(firstDataListHtml), HttpStatus.OK.value());
+		Map<String, List<String>> episodesRangeForFirstDataList = animediaHTMLParser.getEpisodesRange(firstDataListHtmlResponse);
+		checkEpisodesRange(episodesRangeForFirstDataList, "25", "1", 25);
+		HttpResponse responseWithOVA = new HttpResponse(routinesIO.readFromResource(seventhDataListHtml), HttpStatus.OK.value());
+		Map<String, List<String>> ovaRange = animediaHTMLParser.getEpisodesRange(responseWithOVA);
+		checkEpisodesRange(ovaRange, "1", "1", 1);
+	}
+	
+	@Test
+	public void testGetOriginalTitle() throws Exception {
+		HttpResponse html = new HttpResponse(routinesIO.readFromResource(multiSeasonsHtml), HttpStatus.OK.value());
+		String originalTitle = animediaHTMLParser.getOriginalTitle(html);
+		assertEquals(originalTitle, "Sword Art Online");
+	}
+	
+	@Test
+	public void testGetCurrentlyUpdatedTitlesList() throws Exception {
+		HttpResponse html = new HttpResponse(routinesIO.readFromResource(pageWithCurrentlyAddedEpisodes), HttpStatus.OK.value());
+		List<AnimediaMALTitleReferences> currentlyUpdatedTitlesList = animediaHTMLParser.getCurrentlyUpdatedTitlesList(html);
+		assertNotNull(currentlyUpdatedTitlesList);
+		assertEquals(currentlyUpdatedTitlesList.size(), 10);
+		List<AnimediaMALTitleReferences> currentlyAddedEpisodesListForCheck = getCurrentlyAddedEpisodesListForCheck();
+		for (int i = 0; i < currentlyAddedEpisodesListForCheck.size(); i++) {
+			assertEquals(currentlyUpdatedTitlesList.get(i).getUrl(), currentlyAddedEpisodesListForCheck.get(i).getUrl());
+			assertEquals(currentlyUpdatedTitlesList.get(i).getDataList(), currentlyAddedEpisodesListForCheck.get(i).getDataList());
+			assertEquals(currentlyUpdatedTitlesList.get(i).getCurrentMax(), currentlyAddedEpisodesListForCheck.get(i).getCurrentMax());
+		}
+	}
+	
+	private void checkEpisodesRange(Map<String, List<String>> range, String maxEpisode, String firstEpisode, int rangeSize) {
+		for (Map.Entry<String, List<String>> listEntry : range.entrySet()) {
+			assertEquals(listEntry.getKey(), maxEpisode);
+			assertEquals(listEntry.getValue().size(), rangeSize);
+			assertEquals(listEntry.getValue().get(0), firstEpisode);
+			assertEquals(listEntry.getValue().get(rangeSize - 1), maxEpisode);
+		}
+	}
+	
+	private List<AnimediaMALTitleReferences> getCurrentlyAddedEpisodesListForCheck() {
+		List<AnimediaMALTitleReferences> currentlyUpdatedTitlesList = new ArrayList<>();
+		currentlyUpdatedTitlesList.add(new AnimediaMALTitleReferences("/anime/pyat-nevest", "1", "", "", "", "", "3", "", "", ""));
+		currentlyUpdatedTitlesList.add(new AnimediaMALTitleReferences("/anime/domashnij-pitomec-inogda-sidyaschij-na-moej-golove", "1", "", "", "", "", "3", "", "", ""));
+		currentlyUpdatedTitlesList.add(new AnimediaMALTitleReferences("/anime/yarost-bahamuta-druzya-iz-manarii", "1", "", "", "", "", "2", "", "", ""));
+		currentlyUpdatedTitlesList.add(new AnimediaMALTitleReferences("/anime/chyornyj-klever", "1", "", "", "", "", "68", "", "", ""));
+		currentlyUpdatedTitlesList.add(new AnimediaMALTitleReferences("/anime/mastera-mecha-onlayn", "3", "", "", "", "", "16", "", "", ""));
+		currentlyUpdatedTitlesList.add(new AnimediaMALTitleReferences("/anime/domekano", "1", "", "", "", "", "3", "", "", ""));
+		currentlyUpdatedTitlesList.add(new AnimediaMALTitleReferences("/anime/o-moyom-pererozhdenii-v-sliz", "1", "", "", "", "", "17", "", "", ""));
+		currentlyUpdatedTitlesList.add(new AnimediaMALTitleReferences("/anime/boruto-novoe-pokolenie-naruto", "1", "", "", "", "", "91", "", "", ""));
+		currentlyUpdatedTitlesList.add(new AnimediaMALTitleReferences("/anime/mob-psiho-100-mob-psycho-100", "2", "", "", "", "", "4", "", "", ""));
+		currentlyUpdatedTitlesList.add(new AnimediaMALTitleReferences("/anime/one-piece-van-pis-tv", "5", "", "", "", "", "870", "", "", ""));
+		return currentlyUpdatedTitlesList;
+	}
+}

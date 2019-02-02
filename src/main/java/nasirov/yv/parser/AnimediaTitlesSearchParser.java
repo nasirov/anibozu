@@ -1,9 +1,8 @@
 package nasirov.yv.parser;
 
+import lombok.extern.slf4j.Slf4j;
 import nasirov.yv.response.HttpResponse;
 import nasirov.yv.serialization.AnimediaTitleSearchInfo;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -15,6 +14,7 @@ import java.util.Collection;
  * Created by Хикка on 20.12.2018.
  */
 @Component
+@Slf4j
 public class AnimediaTitlesSearchParser {
 	private final WrappedObjectMapper wrappedObjectMapper;
 	
@@ -22,8 +22,6 @@ public class AnimediaTitlesSearchParser {
 	public AnimediaTitlesSearchParser(WrappedObjectMapper wrappedObjectMapper) {
 		this.wrappedObjectMapper = wrappedObjectMapper;
 	}
-	
-	private static final Logger logger = LoggerFactory.getLogger(AnimediaTitlesSearchParser.class);
 	
 	/**
 	 * Десериализирует JSON ответ от сайта
@@ -34,12 +32,8 @@ public class AnimediaTitlesSearchParser {
 	@SuppressWarnings("unchecked")
 	public <T extends Collection> T parse(HttpResponse response, Class<T> collection) {
 		if (response == null) {
-			logger.error("AnimediaResponse must be not null!");
-			throw new RuntimeException("AnimediaResponse must be not null!");
+			throw new NullPointerException("HttpResponse is null!");
 		}
-		logger.debug("Start Parsing");
-		T titlesInfoForAnimediaSearch = wrappedObjectMapper.unmarshal(response.getContent(), AnimediaTitleSearchInfo.class, collection);
-		logger.debug("End Parsing");
-		return titlesInfoForAnimediaSearch;
+		return wrappedObjectMapper.unmarshal(response.getContent(), AnimediaTitleSearchInfo.class, collection);
 	}
 }

@@ -1,5 +1,6 @@
 package nasirov.yv.service;
 
+import lombok.extern.slf4j.Slf4j;
 import nasirov.yv.exception.JSONNotFoundException;
 import nasirov.yv.exception.MALUserAccountNotFoundException;
 import nasirov.yv.exception.MALUserAnimeListAccessException;
@@ -11,8 +12,6 @@ import nasirov.yv.parser.WrappedObjectMapper;
 import nasirov.yv.response.HttpResponse;
 import nasirov.yv.serialization.UserMALTitleInfo;
 import nasirov.yv.util.URLBuilder;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
@@ -25,18 +24,19 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import static com.sun.research.ws.wadl.HTTPMethods.GET;
-import static nasirov.yv.enums.Constants.MAL_R00T_PATH;
 import static nasirov.yv.enums.MALAnimeStatus.WATCHING;
 
 /**
  * Created by Хикка on 01.01.2019.
  */
 @Service
+@Slf4j
 public class MALService {
-	private static final Logger logger = LoggerFactory.getLogger(MALService.class);
-	
 	@Value("${cache.userMAL.name}")
 	private String userMALCacheName;
+	
+	@Value("${urls.myAnimeList.net}")
+	private String myAnimeListNet;
 	
 	private static final String LOAD_JSON = "load.json";
 	
@@ -93,7 +93,7 @@ public class MALService {
 		//делается первый стандартный запрос  на максимальное количество, т.е. 300
 		//стандартный запрос animelist/testAccForDev
 		Set<Set<UserMALTitleInfo>> titleJson = new LinkedHashSet<>();
-		titleJson.add(malParser.getUserTitlesInfo(httpCaller.call(urlBuilder.build(MAL_R00T_PATH.getDescription() + ANIME_LIST + username, new HashMap<String, String>() {{
+		titleJson.add(malParser.getUserTitlesInfo(httpCaller.call(urlBuilder.build(myAnimeListNet + ANIME_LIST + username, new HashMap<String, String>() {{
 					put(STATUS, WATCHING.getCode().toString());
 				}})
 				, GET, malRequestParameters), LinkedHashSet.class));
@@ -180,7 +180,7 @@ public class MALService {
 	 * @param watchingTitles user mal anime list
 	 */
 	private void changeAnimeUrl(Set<UserMALTitleInfo> watchingTitles) {
-		watchingTitles.forEach(set -> set.setAnimeUrl(MAL_R00T_PATH.getDescription() + set.getAnimeUrl()));
+		watchingTitles.forEach(set -> set.setAnimeUrl(myAnimeListNet + set.getAnimeUrl()));
 	}
 	
 	/**
@@ -193,7 +193,7 @@ public class MALService {
 	 * @throws WatchingTitlesNotFoundException if number of watching titles not found or == 0
 	 */
 	private Integer getNumberOfWatchingTitles(String username, Map<String, Map<String, String>> malRequestParameters) throws MALUserAccountNotFoundException, WatchingTitlesNotFoundException {
-		String numWatchingTitles = malParser.getNumWatchingTitles(httpCaller.call(MAL_R00T_PATH.getDescription() + PROFILE + username, GET, malRequestParameters));
+		String numWatchingTitles = malParser.getNumWatchingTitles(httpCaller.call(myAnimeListNet + PROFILE + username, GET, malRequestParameters));
 		Integer numWatchingTitlesInteger;
 		if (numWatchingTitles != null) {
 			numWatchingTitlesInteger = Integer.parseInt(numWatchingTitles);
@@ -219,7 +219,7 @@ public class MALService {
 		Map<String, String> queryParameters = new LinkedHashMap<>();
 		queryParameters.put("offset", numWatchingTitlesInteger.toString());
 		queryParameters.put(STATUS, WATCHING.getCode().toString());
-		HttpResponse response = httpCaller.call(urlBuilder.build(MAL_R00T_PATH.getDescription() + ANIME_LIST + username + "/" + LOAD_JSON, queryParameters), GET, malRequestParameters);
+		HttpResponse response = httpCaller.call(urlBuilder.build(myAnimeListNet + ANIME_LIST + username + "/" + LOAD_JSON, queryParameters), GET, malRequestParameters);
 		return wrappedObjectMapper.unmarshal(response.getContent(), UserMALTitleInfo.class, LinkedHashSet.class);
 	}
 }

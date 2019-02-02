@@ -1,7 +1,6 @@
 package nasirov.yv.cache;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.CacheManager;
@@ -11,9 +10,8 @@ import org.springframework.stereotype.Component;
  * Created by Хикка on 27.01.2019.
  */
 @Component
+@Slf4j
 public class CacheHelper {
-	private static final Logger logger = LoggerFactory.getLogger(CacheHelper.class);
-	
 	@Value("${cache.userMAL.name}")
 	private String userMALCacheName;
 	
@@ -43,9 +41,9 @@ public class CacheHelper {
 		cacheManager.getCache(userMALCacheName).clear();
 		cacheManager.getCache(userMatchedAnimeCacheName).clear();
 		cacheManager.getCache(matchedReferencesCacheName).clear();
-		System.out.println("Clear " + userMALCacheName);
-		System.out.println("Clear " + userMatchedAnimeCacheName);
-		System.out.println("Clear " + matchedReferencesCacheName);
+		log.info("Clear " + userMALCacheName);
+		log.info("Clear " + userMatchedAnimeCacheName);
+		log.info("Clear " + matchedReferencesCacheName);
 		//logger.info("Clear {}", userMatchedAnimeCacheName);
 	}
 }

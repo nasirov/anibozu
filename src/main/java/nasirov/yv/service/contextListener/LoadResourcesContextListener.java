@@ -1,8 +1,7 @@
 package nasirov.yv.service.contextListener;
 
+import lombok.extern.slf4j.Slf4j;
 import nasirov.yv.service.annotation.LoadResources;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
@@ -17,9 +16,8 @@ import java.lang.reflect.Method;
  * Created by Хикка on 23.01.2019.
  */
 @Component
+@Slf4j
 public class LoadResourcesContextListener implements ApplicationListener<ContextRefreshedEvent> {
-	private static final Logger logger = LoggerFactory.getLogger(LoadResourcesContextListener.class);
-	
 	private ConfigurableListableBeanFactory beanFactory;
 	
 	@Autowired
@@ -48,7 +46,7 @@ public class LoadResourcesContextListener implements ApplicationListener<Context
 						}
 					}
 				} catch (Exception e) {
-					logger.error("Exception while handle LoadResources annotation bean ", e);
+					log.error("Exception while handle LoadResources annotation bean ", e);
 				}
 			}
 		}

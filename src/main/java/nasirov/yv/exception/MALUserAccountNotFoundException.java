@@ -7,4 +7,7 @@ public class MALUserAccountNotFoundException extends Exception {
 	public MALUserAccountNotFoundException(String msg) {
 		super(msg);
 	}
+	
+	public MALUserAccountNotFoundException() {
+	}
 }

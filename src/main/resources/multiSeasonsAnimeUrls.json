@@ -1,383 +1,388 @@
 [
   {
     "id": "1.1",
-    "fullUrl": "http://online.animedia.tv/anime/JoJo/1/1",
-    "rootUrl": "anime/JoJo"
-  },
-  {
-    "id": "1.2",
-    "fullUrl": "http://online.animedia.tv/anime/JoJo/5/1",
-    "rootUrl": "anime/JoJo"
-  },
-  {
-    "id": "2.1",
     "fullUrl": "http://online.animedia.tv/anime/mastera-mecha-onlayn/1/1",
     "rootUrl": "anime/mastera-mecha-onlayn"
   },
   {
-    "id": "2.2",
+    "id": "1.2",
     "fullUrl": "http://online.animedia.tv/anime/mastera-mecha-onlayn/2/1",
     "rootUrl": "anime/mastera-mecha-onlayn"
   },
   {
-    "id": "2.3",
+    "id": "1.3",
     "fullUrl": "http://online.animedia.tv/anime/mastera-mecha-onlayn/3/1",
     "rootUrl": "anime/mastera-mecha-onlayn"
   },
   {
-    "id": "2.4",
+    "id": "1.4",
     "fullUrl": "http://online.animedia.tv/anime/mastera-mecha-onlayn/7/1",
     "rootUrl": "anime/mastera-mecha-onlayn"
   },
   {
-    "id": "3.1",
-    "fullUrl": "http://online.animedia.tv/anime/skazka-o-hvoste-fei-TV1/1/1",
-    "rootUrl": "anime/skazka-o-hvoste-fei-TV1"
-  },
-  {
-    "id": "3.2",
-    "fullUrl": "http://online.animedia.tv/anime/skazka-o-hvoste-fei-TV1/2/176",
-    "rootUrl": "anime/skazka-o-hvoste-fei-TV1"
-  },
-  {
-    "id": "3.3",
-    "fullUrl": "http://online.animedia.tv/anime/skazka-o-hvoste-fei-TV1/3/278",
-    "rootUrl": "anime/skazka-o-hvoste-fei-TV1"
-  },
-  {
-    "id": "3.4",
-    "fullUrl": "http://online.animedia.tv/anime/skazka-o-hvoste-fei-TV1/7/1",
-    "rootUrl": "anime/skazka-o-hvoste-fei-TV1"
-  },
-  {
-    "id": "4.1",
-    "fullUrl": "http://online.animedia.tv/anime/one-piece-van-pis-tv/1/1",
-    "rootUrl": "anime/one-piece-van-pis-tv"
-  },
-  {
-    "id": "4.2",
-    "fullUrl": "http://online.animedia.tv/anime/one-piece-van-pis-tv/2/176",
-    "rootUrl": "anime/one-piece-van-pis-tv"
-  },
-  {
-    "id": "4.3",
-    "fullUrl": "http://online.animedia.tv/anime/one-piece-van-pis-tv/3/352",
-    "rootUrl": "anime/one-piece-van-pis-tv"
-  },
-  {
-    "id": "4.4",
-    "fullUrl": "http://online.animedia.tv/anime/one-piece-van-pis-tv/4/528",
-    "rootUrl": "anime/one-piece-van-pis-tv"
-  },
-  {
-    "id": "4.5",
-    "fullUrl": "http://online.animedia.tv/anime/one-piece-van-pis-tv/5/701",
-    "rootUrl": "anime/one-piece-van-pis-tv"
-  },
-  {
-    "id": "5.1",
-    "fullUrl": "http://online.animedia.tv/anime/indeks-volshebstvaA-Certain-Magical-Index/1/1",
-    "rootUrl": "anime/indeks-volshebstvaA-Certain-Magical-Index"
-  },
-  {
-    "id": "5.2",
-    "fullUrl": "http://online.animedia.tv/anime/indeks-volshebstvaA-Certain-Magical-Index/2/1",
-    "rootUrl": "anime/indeks-volshebstvaA-Certain-Magical-Index"
-  },
-  {
-    "id": "5.3",
-    "fullUrl": "http://online.animedia.tv/anime/indeks-volshebstvaA-Certain-Magical-Index/3/1",
-    "rootUrl": "anime/indeks-volshebstvaA-Certain-Magical-Index"
-  },
-  {
-    "id": "6.1",
-    "fullUrl": "http://online.animedia.tv/anime/bezumnyj-azart/1/1",
-    "rootUrl": "anime/bezumnyj-azart"
-  },
-  {
-    "id": "6.2",
-    "fullUrl": "http://online.animedia.tv/anime/bezumnyj-azart/2/1",
-    "rootUrl": "anime/bezumnyj-azart"
-  },
-  {
-    "id": "7.1",
-    "fullUrl": "http://online.animedia.tv/anime/realnaya-devushka/1/1",
-    "rootUrl": "anime/realnaya-devushka"
-  },
-  {
-    "id": "7.2",
-    "fullUrl": "http://online.animedia.tv/anime/realnaya-devushka/2/1",
-    "rootUrl": "anime/realnaya-devushka"
-  },
-  {
-    "id": "8.1",
+    "id": "2.1",
     "fullUrl": "http://online.animedia.tv/anime/mob-psiho-100-mob-psycho-100/1/1",
     "rootUrl": "anime/mob-psiho-100-mob-psycho-100"
   },
   {
-    "id": "8.2",
+    "id": "2.2",
     "fullUrl": "http://online.animedia.tv/anime/mob-psiho-100-mob-psycho-100/2/1",
     "rootUrl": "anime/mob-psiho-100-mob-psycho-100"
   },
   {
-    "id": "9.1",
-    "fullUrl": "http://online.animedia.tv/anime/kletki-za-rabotoj/1/1",
-    "rootUrl": "anime/kletki-za-rabotoj"
+    "id": "3.1",
+    "fullUrl": "http://online.animedia.tv/anime/one-piece-van-pis-tv/1/1",
+    "rootUrl": "anime/one-piece-van-pis-tv"
   },
   {
-    "id": "9.2",
-    "fullUrl": "http://online.animedia.tv/anime/kletki-za-rabotoj/2/1",
-    "rootUrl": "anime/kletki-za-rabotoj"
+    "id": "3.2",
+    "fullUrl": "http://online.animedia.tv/anime/one-piece-van-pis-tv/2/176",
+    "rootUrl": "anime/one-piece-van-pis-tv"
   },
   {
-    "id": "10.1",
-    "fullUrl": "http://online.animedia.tv/anime/etot-zamechatelnyj-mir/1/1",
-    "rootUrl": "anime/etot-zamechatelnyj-mir"
+    "id": "3.3",
+    "fullUrl": "http://online.animedia.tv/anime/one-piece-van-pis-tv/3/352",
+    "rootUrl": "anime/one-piece-van-pis-tv"
   },
   {
-    "id": "10.2",
-    "fullUrl": "http://online.animedia.tv/anime/etot-zamechatelnyj-mir/2/1",
-    "rootUrl": "anime/etot-zamechatelnyj-mir"
+    "id": "3.4",
+    "fullUrl": "http://online.animedia.tv/anime/one-piece-van-pis-tv/4/528",
+    "rootUrl": "anime/one-piece-van-pis-tv"
   },
   {
-    "id": "10.3",
-    "fullUrl": "http://online.animedia.tv/anime/etot-zamechatelnyj-mir/6/1",
-    "rootUrl": "anime/etot-zamechatelnyj-mir"
+    "id": "3.5",
+    "fullUrl": "http://online.animedia.tv/anime/one-piece-van-pis-tv/5/701",
+    "rootUrl": "anime/one-piece-van-pis-tv"
   },
   {
-    "id": "11.1",
-    "fullUrl": "http://online.animedia.tv/anime/tokiyskiy-gul/1/1",
-    "rootUrl": "anime/tokiyskiy-gul"
+    "id": "4.1",
+    "fullUrl": "http://online.animedia.tv/anime/skazka-o-hvoste-fei-TV1/1/1",
+    "rootUrl": "anime/skazka-o-hvoste-fei-TV1"
   },
   {
-    "id": "11.2",
-    "fullUrl": "http://online.animedia.tv/anime/tokiyskiy-gul/2/1",
-    "rootUrl": "anime/tokiyskiy-gul"
+    "id": "4.2",
+    "fullUrl": "http://online.animedia.tv/anime/skazka-o-hvoste-fei-TV1/2/176",
+    "rootUrl": "anime/skazka-o-hvoste-fei-TV1"
   },
   {
-    "id": "11.3",
-    "fullUrl": "http://online.animedia.tv/anime/tokiyskiy-gul/3/1",
-    "rootUrl": "anime/tokiyskiy-gul"
+    "id": "4.3",
+    "fullUrl": "http://online.animedia.tv/anime/skazka-o-hvoste-fei-TV1/3/278",
+    "rootUrl": "anime/skazka-o-hvoste-fei-TV1"
   },
   {
-    "id": "11.4",
-    "fullUrl": "http://online.animedia.tv/anime/tokiyskiy-gul/4/1",
-    "rootUrl": "anime/tokiyskiy-gul"
+    "id": "4.4",
+    "fullUrl": "http://online.animedia.tv/anime/skazka-o-hvoste-fei-TV1/7/1",
+    "rootUrl": "anime/skazka-o-hvoste-fei-TV1"
   },
   {
-    "id": "11.5",
-    "fullUrl": "http://online.animedia.tv/anime/tokiyskiy-gul/7/1",
-    "rootUrl": "anime/tokiyskiy-gul"
-  },
-  {
-    "id": "12.1",
-    "fullUrl": "http://online.animedia.tv/anime/poluchelovek/1/1",
-    "rootUrl": "anime/poluchelovek"
-  },
-  {
-    "id": "12.2",
-    "fullUrl": "http://online.animedia.tv/anime/poluchelovek/2/1",
-    "rootUrl": "anime/poluchelovek"
-  },
-  {
-    "id": "12.3",
-    "fullUrl": "http://online.animedia.tv/anime/poluchelovek/6/1",
-    "rootUrl": "anime/poluchelovek"
-  },
-  {
-    "id": "13.1",
-    "fullUrl": "http://online.animedia.tv/anime/vtorjenie-gigantov/1/1",
-    "rootUrl": "anime/vtorjenie-gigantov"
-  },
-  {
-    "id": "13.2",
-    "fullUrl": "http://online.animedia.tv/anime/vtorjenie-gigantov/2/1",
-    "rootUrl": "anime/vtorjenie-gigantov"
-  },
-  {
-    "id": "13.3",
-    "fullUrl": "http://online.animedia.tv/anime/vtorjenie-gigantov/3/1",
-    "rootUrl": "anime/vtorjenie-gigantov"
-  },
-  {
-    "id": "14.1",
-    "fullUrl": "http://online.animedia.tv/anime/truslivyj-velosipedist-novoe-pokolenie/1/1",
-    "rootUrl": "anime/truslivyj-velosipedist-novoe-pokolenie"
-  },
-  {
-    "id": "14.2",
-    "fullUrl": "http://online.animedia.tv/anime/truslivyj-velosipedist-novoe-pokolenie/2/1",
-    "rootUrl": "anime/truslivyj-velosipedist-novoe-pokolenie"
-  },
-  {
-    "id": "15.1",
-    "fullUrl": "http://online.animedia.tv/anime/povelitel/1/1",
-    "rootUrl": "anime/povelitel"
-  },
-  {
-    "id": "15.2",
-    "fullUrl": "http://online.animedia.tv/anime/povelitel/2/1",
-    "rootUrl": "anime/povelitel"
-  },
-  {
-    "id": "15.3",
-    "fullUrl": "http://online.animedia.tv/anime/povelitel/3/1",
-    "rootUrl": "anime/povelitel"
-  },
-  {
-    "id": "16.1",
-    "fullUrl": "http://online.animedia.tv/anime/yuna-iz-gostinicy-yuragi/1/1",
-    "rootUrl": "anime/yuna-iz-gostinicy-yuragi"
-  },
-  {
-    "id": "16.2",
-    "fullUrl": "http://online.animedia.tv/anime/yuna-iz-gostinicy-yuragi/7/1",
-    "rootUrl": "anime/yuna-iz-gostinicy-yuragi"
-  },
-  {
-    "id": "17.1",
-    "fullUrl": "http://online.animedia.tv/anime/moya-gerojskaya-akademiya/1/1",
-    "rootUrl": "anime/moya-gerojskaya-akademiya"
-  },
-  {
-    "id": "17.2",
-    "fullUrl": "http://online.animedia.tv/anime/moya-gerojskaya-akademiya/2/1",
-    "rootUrl": "anime/moya-gerojskaya-akademiya"
-  },
-  {
-    "id": "17.3",
-    "fullUrl": "http://online.animedia.tv/anime/moya-gerojskaya-akademiya/3/1",
-    "rootUrl": "anime/moya-gerojskaya-akademiya"
-  },
-  {
-    "id": "18.1",
-    "fullUrl": "http://online.animedia.tv/anime/svoboda/1/1",
-    "rootUrl": "anime/svoboda"
-  },
-  {
-    "id": "18.2",
-    "fullUrl": "http://online.animedia.tv/anime/svoboda/3/1",
-    "rootUrl": "anime/svoboda"
-  },
-  {
-    "id": "19.1",
-    "fullUrl": "http://online.animedia.tv/anime/vrata-shtaynera/1/1",
-    "rootUrl": "anime/vrata-shtaynera"
-  },
-  {
-    "id": "19.2",
-    "fullUrl": "http://online.animedia.tv/anime/vrata-shtaynera/2/1",
-    "rootUrl": "anime/vrata-shtaynera"
-  },
-  {
-    "id": "19.3",
-    "fullUrl": "http://online.animedia.tv/anime/vrata-shtaynera/7/1",
-    "rootUrl": "anime/vrata-shtaynera"
-  },
-  {
-    "id": "20.1",
-    "fullUrl": "http://online.animedia.tv/anime/stalnaya-trevoga/1/1",
-    "rootUrl": "anime/stalnaya-trevoga"
-  },
-  {
-    "id": "20.2",
-    "fullUrl": "http://online.animedia.tv/anime/stalnaya-trevoga/2/1",
-    "rootUrl": "anime/stalnaya-trevoga"
-  },
-  {
-    "id": "20.3",
-    "fullUrl": "http://online.animedia.tv/anime/stalnaya-trevoga/3/1",
-    "rootUrl": "anime/stalnaya-trevoga"
-  },
-  {
-    "id": "20.4",
-    "fullUrl": "http://online.animedia.tv/anime/stalnaya-trevoga/4/1",
-    "rootUrl": "anime/stalnaya-trevoga"
-  },
-  {
-    "id": "21.1",
-    "fullUrl": "http://online.animedia.tv/anime/iz-odnoj-komnaty/1/1",
-    "rootUrl": "anime/iz-odnoj-komnaty"
-  },
-  {
-    "id": "21.2",
-    "fullUrl": "http://online.animedia.tv/anime/iz-odnoj-komnaty/2/1",
-    "rootUrl": "anime/iz-odnoj-komnaty"
-  },
-  {
-    "id": "21.3",
-    "fullUrl": "http://online.animedia.tv/anime/iz-odnoj-komnaty/7/1",
-    "rootUrl": "anime/iz-odnoj-komnaty"
-  },
-  {
-    "id": "22.1",
-    "fullUrl": "http://online.animedia.tv/anime/persona-5/1/1",
-    "rootUrl": "anime/persona-5"
-  },
-  {
-    "id": "22.2",
-    "fullUrl": "http://online.animedia.tv/anime/persona-5/7/1",
-    "rootUrl": "anime/persona-5"
-  },
-  {
-    "id": "23.1",
-    "fullUrl": "http://online.animedia.tv/anime/amanchu/1/1",
-    "rootUrl": "anime/amanchu"
-  },
-  {
-    "id": "23.2",
-    "fullUrl": "http://online.animedia.tv/anime/amanchu/2/1",
-    "rootUrl": "anime/amanchu"
-  },
-  {
-    "id": "24.1",
-    "fullUrl": "http://online.animedia.tv/anime/avatar-korolya/1/1",
-    "rootUrl": "anime/avatar-korolya"
-  },
-  {
-    "id": "24.2",
-    "fullUrl": "http://online.animedia.tv/anime/avatar-korolya/2/1",
-    "rootUrl": "anime/avatar-korolya"
-  },
-  {
-    "id": "25.1",
+    "id": "5.1",
     "fullUrl": "http://online.animedia.tv/anime/sem-smertnyih-grehov/1/1",
     "rootUrl": "anime/sem-smertnyih-grehov"
   },
   {
-    "id": "25.2",
+    "id": "5.2",
     "fullUrl": "http://online.animedia.tv/anime/sem-smertnyih-grehov/2/1",
     "rootUrl": "anime/sem-smertnyih-grehov"
   },
   {
-    "id": "26.1",
-    "fullUrl": "http://online.animedia.tv/anime/kulinarnaya-bitva-somyi/1/1",
-    "rootUrl": "anime/kulinarnaya-bitva-somyi"
+    "id": "5.3",
+    "fullUrl": "http://online.animedia.tv/anime/sem-smertnyih-grehov/3/1",
+    "rootUrl": "anime/sem-smertnyih-grehov"
   },
   {
-    "id": "26.2",
-    "fullUrl": "http://online.animedia.tv/anime/kulinarnaya-bitva-somyi/2/1",
-    "rootUrl": "anime/kulinarnaya-bitva-somyi"
+    "id": "6.1",
+    "fullUrl": "http://online.animedia.tv/anime/indeks-volshebstvaA-Certain-Magical-Index/1/1",
+    "rootUrl": "anime/indeks-volshebstvaA-Certain-Magical-Index"
   },
   {
-    "id": "26.3",
-    "fullUrl": "http://online.animedia.tv/anime/kulinarnaya-bitva-somyi/3/1",
-    "rootUrl": "anime/kulinarnaya-bitva-somyi"
+    "id": "6.2",
+    "fullUrl": "http://online.animedia.tv/anime/indeks-volshebstvaA-Certain-Magical-Index/2/1",
+    "rootUrl": "anime/indeks-volshebstvaA-Certain-Magical-Index"
   },
   {
-    "id": "26.4",
-    "fullUrl": "http://online.animedia.tv/anime/kulinarnaya-bitva-somyi/4/1",
-    "rootUrl": "anime/kulinarnaya-bitva-somyi"
+    "id": "6.3",
+    "fullUrl": "http://online.animedia.tv/anime/indeks-volshebstvaA-Certain-Magical-Index/3/1",
+    "rootUrl": "anime/indeks-volshebstvaA-Certain-Magical-Index"
   },
   {
-    "id": "27.1",
+    "id": "7.1",
+    "fullUrl": "http://online.animedia.tv/anime/JoJo/1/1",
+    "rootUrl": "anime/JoJo"
+  },
+  {
+    "id": "7.2",
+    "fullUrl": "http://online.animedia.tv/anime/JoJo/5/1",
+    "rootUrl": "anime/JoJo"
+  },
+  {
+    "id": "8.1",
+    "fullUrl": "http://online.animedia.tv/anime/realnaya-devushka/1/1",
+    "rootUrl": "anime/realnaya-devushka"
+  },
+  {
+    "id": "8.2",
+    "fullUrl": "http://online.animedia.tv/anime/realnaya-devushka/2/1",
+    "rootUrl": "anime/realnaya-devushka"
+  },
+  {
+    "id": "9.1",
+    "fullUrl": "http://online.animedia.tv/anime/bezumnyj-azart/1/1",
+    "rootUrl": "anime/bezumnyj-azart"
+  },
+  {
+    "id": "9.2",
+    "fullUrl": "http://online.animedia.tv/anime/bezumnyj-azart/2/1",
+    "rootUrl": "anime/bezumnyj-azart"
+  },
+  {
+    "id": "10.1",
+    "fullUrl": "http://online.animedia.tv/anime/vtorjenie-gigantov/1/1",
+    "rootUrl": "anime/vtorjenie-gigantov"
+  },
+  {
+    "id": "10.2",
+    "fullUrl": "http://online.animedia.tv/anime/vtorjenie-gigantov/2/1",
+    "rootUrl": "anime/vtorjenie-gigantov"
+  },
+  {
+    "id": "10.3",
+    "fullUrl": "http://online.animedia.tv/anime/vtorjenie-gigantov/3/1",
+    "rootUrl": "anime/vtorjenie-gigantov"
+  },
+  {
+    "id": "11.1",
     "fullUrl": "http://online.animedia.tv/anime/akademiya-vedmochek/1/1",
     "rootUrl": "anime/akademiya-vedmochek"
   },
   {
-    "id": "27.2",
+    "id": "11.2",
     "fullUrl": "http://online.animedia.tv/anime/akademiya-vedmochek/6/1",
     "rootUrl": "anime/akademiya-vedmochek"
+  },
+  {
+    "id": "12.1",
+    "fullUrl": "http://online.animedia.tv/anime/moya-gerojskaya-akademiya/1/1",
+    "rootUrl": "anime/moya-gerojskaya-akademiya"
+  },
+  {
+    "id": "12.2",
+    "fullUrl": "http://online.animedia.tv/anime/moya-gerojskaya-akademiya/2/1",
+    "rootUrl": "anime/moya-gerojskaya-akademiya"
+  },
+  {
+    "id": "12.3",
+    "fullUrl": "http://online.animedia.tv/anime/moya-gerojskaya-akademiya/3/1",
+    "rootUrl": "anime/moya-gerojskaya-akademiya"
+  },
+  {
+    "id": "13.1",
+    "fullUrl": "http://online.animedia.tv/anime/kletki-za-rabotoj/1/1",
+    "rootUrl": "anime/kletki-za-rabotoj"
+  },
+  {
+    "id": "13.2",
+    "fullUrl": "http://online.animedia.tv/anime/kletki-za-rabotoj/2/1",
+    "rootUrl": "anime/kletki-za-rabotoj"
+  },
+  {
+    "id": "14.1",
+    "fullUrl": "http://online.animedia.tv/anime/etot-zamechatelnyj-mir/1/1",
+    "rootUrl": "anime/etot-zamechatelnyj-mir"
+  },
+  {
+    "id": "14.2",
+    "fullUrl": "http://online.animedia.tv/anime/etot-zamechatelnyj-mir/2/1",
+    "rootUrl": "anime/etot-zamechatelnyj-mir"
+  },
+  {
+    "id": "14.3",
+    "fullUrl": "http://online.animedia.tv/anime/etot-zamechatelnyj-mir/6/1",
+    "rootUrl": "anime/etot-zamechatelnyj-mir"
+  },
+  {
+    "id": "15.1",
+    "fullUrl": "http://online.animedia.tv/anime/tokiyskiy-gul/1/1",
+    "rootUrl": "anime/tokiyskiy-gul"
+  },
+  {
+    "id": "15.2",
+    "fullUrl": "http://online.animedia.tv/anime/tokiyskiy-gul/2/1",
+    "rootUrl": "anime/tokiyskiy-gul"
+  },
+  {
+    "id": "15.3",
+    "fullUrl": "http://online.animedia.tv/anime/tokiyskiy-gul/3/1",
+    "rootUrl": "anime/tokiyskiy-gul"
+  },
+  {
+    "id": "15.4",
+    "fullUrl": "http://online.animedia.tv/anime/tokiyskiy-gul/4/1",
+    "rootUrl": "anime/tokiyskiy-gul"
+  },
+  {
+    "id": "15.5",
+    "fullUrl": "http://online.animedia.tv/anime/tokiyskiy-gul/7/1",
+    "rootUrl": "anime/tokiyskiy-gul"
+  },
+  {
+    "id": "16.1",
+    "fullUrl": "http://online.animedia.tv/anime/poluchelovek/1/1",
+    "rootUrl": "anime/poluchelovek"
+  },
+  {
+    "id": "16.2",
+    "fullUrl": "http://online.animedia.tv/anime/poluchelovek/2/1",
+    "rootUrl": "anime/poluchelovek"
+  },
+  {
+    "id": "16.3",
+    "fullUrl": "http://online.animedia.tv/anime/poluchelovek/6/1",
+    "rootUrl": "anime/poluchelovek"
+  },
+  {
+    "id": "17.1",
+    "fullUrl": "http://online.animedia.tv/anime/truslivyj-velosipedist-novoe-pokolenie/1/1",
+    "rootUrl": "anime/truslivyj-velosipedist-novoe-pokolenie"
+  },
+  {
+    "id": "17.2",
+    "fullUrl": "http://online.animedia.tv/anime/truslivyj-velosipedist-novoe-pokolenie/2/1",
+    "rootUrl": "anime/truslivyj-velosipedist-novoe-pokolenie"
+  },
+  {
+    "id": "18.1",
+    "fullUrl": "http://online.animedia.tv/anime/povelitel/1/1",
+    "rootUrl": "anime/povelitel"
+  },
+  {
+    "id": "18.2",
+    "fullUrl": "http://online.animedia.tv/anime/povelitel/2/1",
+    "rootUrl": "anime/povelitel"
+  },
+  {
+    "id": "18.3",
+    "fullUrl": "http://online.animedia.tv/anime/povelitel/3/1",
+    "rootUrl": "anime/povelitel"
+  },
+  {
+    "id": "19.1",
+    "fullUrl": "http://online.animedia.tv/anime/yuna-iz-gostinicy-yuragi/1/1",
+    "rootUrl": "anime/yuna-iz-gostinicy-yuragi"
+  },
+  {
+    "id": "19.2",
+    "fullUrl": "http://online.animedia.tv/anime/yuna-iz-gostinicy-yuragi/7/1",
+    "rootUrl": "anime/yuna-iz-gostinicy-yuragi"
+  },
+  {
+    "id": "20.1",
+    "fullUrl": "http://online.animedia.tv/anime/svoboda/1/1",
+    "rootUrl": "anime/svoboda"
+  },
+  {
+    "id": "20.2",
+    "fullUrl": "http://online.animedia.tv/anime/svoboda/3/1",
+    "rootUrl": "anime/svoboda"
+  },
+  {
+    "id": "21.1",
+    "fullUrl": "http://online.animedia.tv/anime/vrata-shtaynera/1/1",
+    "rootUrl": "anime/vrata-shtaynera"
+  },
+  {
+    "id": "21.2",
+    "fullUrl": "http://online.animedia.tv/anime/vrata-shtaynera/2/1",
+    "rootUrl": "anime/vrata-shtaynera"
+  },
+  {
+    "id": "21.3",
+    "fullUrl": "http://online.animedia.tv/anime/vrata-shtaynera/7/1",
+    "rootUrl": "anime/vrata-shtaynera"
+  },
+  {
+    "id": "22.1",
+    "fullUrl": "http://online.animedia.tv/anime/stalnaya-trevoga/1/1",
+    "rootUrl": "anime/stalnaya-trevoga"
+  },
+  {
+    "id": "22.2",
+    "fullUrl": "http://online.animedia.tv/anime/stalnaya-trevoga/2/1",
+    "rootUrl": "anime/stalnaya-trevoga"
+  },
+  {
+    "id": "22.3",
+    "fullUrl": "http://online.animedia.tv/anime/stalnaya-trevoga/3/1",
+    "rootUrl": "anime/stalnaya-trevoga"
+  },
+  {
+    "id": "22.4",
+    "fullUrl": "http://online.animedia.tv/anime/stalnaya-trevoga/4/1",
+    "rootUrl": "anime/stalnaya-trevoga"
+  },
+  {
+    "id": "23.1",
+    "fullUrl": "http://online.animedia.tv/anime/iz-odnoj-komnaty/1/1",
+    "rootUrl": "anime/iz-odnoj-komnaty"
+  },
+  {
+    "id": "23.2",
+    "fullUrl": "http://online.animedia.tv/anime/iz-odnoj-komnaty/2/1",
+    "rootUrl": "anime/iz-odnoj-komnaty"
+  },
+  {
+    "id": "23.3",
+    "fullUrl": "http://online.animedia.tv/anime/iz-odnoj-komnaty/7/1",
+    "rootUrl": "anime/iz-odnoj-komnaty"
+  },
+  {
+    "id": "24.1",
+    "fullUrl": "http://online.animedia.tv/anime/persona-5/1/1",
+    "rootUrl": "anime/persona-5"
+  },
+  {
+    "id": "24.2",
+    "fullUrl": "http://online.animedia.tv/anime/persona-5/7/1",
+    "rootUrl": "anime/persona-5"
+  },
+  {
+    "id": "25.1",
+    "fullUrl": "http://online.animedia.tv/anime/amanchu/1/1",
+    "rootUrl": "anime/amanchu"
+  },
+  {
+    "id": "25.2",
+    "fullUrl": "http://online.animedia.tv/anime/amanchu/2/1",
+    "rootUrl": "anime/amanchu"
+  },
+  {
+    "id": "26.1",
+    "fullUrl": "http://online.animedia.tv/anime/avatar-korolya/1/1",
+    "rootUrl": "anime/avatar-korolya"
+  },
+  {
+    "id": "26.2",
+    "fullUrl": "http://online.animedia.tv/anime/avatar-korolya/2/1",
+    "rootUrl": "anime/avatar-korolya"
+  },
+  {
+    "id": "27.1",
+    "fullUrl": "http://online.animedia.tv/anime/kulinarnaya-bitva-somyi/1/1",
+    "rootUrl": "anime/kulinarnaya-bitva-somyi"
+  },
+  {
+    "id": "27.2",
+    "fullUrl": "http://online.animedia.tv/anime/kulinarnaya-bitva-somyi/2/1",
+    "rootUrl": "anime/kulinarnaya-bitva-somyi"
+  },
+  {
+    "id": "27.3",
+    "fullUrl": "http://online.animedia.tv/anime/kulinarnaya-bitva-somyi/3/1",
+    "rootUrl": "anime/kulinarnaya-bitva-somyi"
+  },
+  {
+    "id": "27.4",
+    "fullUrl": "http://online.animedia.tv/anime/kulinarnaya-bitva-somyi/4/1",
+    "rootUrl": "anime/kulinarnaya-bitva-somyi"
   },
   {
     "id": "28.1",

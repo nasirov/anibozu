@@ -1,7 +1,6 @@
 <#import "/spring.ftl" as spring/>
 
 <head>
-<#--<title>${title}</title>-->
     <title>Anime Checker</title>
     <link rel="stylesheet" type="text/css" href="<@spring.url '/css/style.css'/>"/>
     <link rel="shortcut icon" href="<@spring.url '/img/favicon.ico'/>" type="image/x-icon">
@@ -12,10 +11,10 @@
 <h1>New Episode Available:</h1>
 <ul>
     <#list newEpisodeAvailable as available>
-        <a href="${available.finalUrl}"><img src="${available.posterUrl}" height="318" width="225"
-                                             alt="${available.titleOnMAL}"
-                                             title="${available.titleOnMAL} episode ${available.numberOfEpisodeForWatch}"
-                                             class="fade"/></a>
+        <a href="${available.finalUrl}" target="_blank"><img src="${available.posterUrl}" height="318" width="225"
+                                                             alt="${available.titleOnMAL}"
+                                                             title="${available.titleOnMAL} episode ${available.numberOfEpisodeForWatch}"
+                                                             class="fade"/></a>
     </#list>
 </ul>
 </#if>
@@ -34,8 +33,9 @@
 <h1>Not Found on Animedia:</h1>
 <ul>
     <#list matchedNotFoundAnimeOnAnimedia as notFound>
-        <a href="${notFound.animeUrl}"><img src="${notFound.posterUrl}" height="318" width="225" alt="${notFound.title}"
-                                            title="${notFound.title}" class="fade"/></a>
+        <a href="${notFound.animeUrl}" target="_blank"><img src="${notFound.posterUrl}" height="318" width="225"
+                                                            alt="${notFound.title}"
+                                                            title="${notFound.title}" class="fade"/></a>
     </#list>
 </ul>
 </#if>

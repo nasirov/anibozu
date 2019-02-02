@@ -1,6 +1,7 @@
 package nasirov.yv.service;
 
 import com.sun.istack.NotNull;
+import lombok.extern.slf4j.Slf4j;
 import nasirov.yv.enums.AnimeTypeOnAnimedia;
 import nasirov.yv.http.HttpCaller;
 import nasirov.yv.parameter.RequestParametersBuilder;
@@ -24,15 +25,32 @@ import org.springframework.stereotype.Service;
 import java.util.*;
 
 import static com.sun.research.ws.wadl.HTTPMethods.GET;
-import static nasirov.yv.enums.Constants.*;
 
 /**
  * Created by Хикка on 21.01.2019.
  */
 @Service
+@Slf4j
 public class AnimediaService {
+	private static final String ANNOUNCEMENT = "<a href=\"/announcements\" title=\"Аниме онлайн смотреть\">Анонсы</a>";
+	
 	@Value("${cache.animediaSearchList.name}")
 	private String animediaSearchListCacheName;
+	
+	@Value("${cache.currentlyUpdatedTitles.name}")
+	private String currentlyUpdatedTitlesCacheName;
+	
+	@Value("${cache.sortedAnimediaSearchList.name}")
+	private String sortedAnimediaSearchListCacheName;
+	
+	@Value("${urls.online.animedia.tv}")
+	private String animediaOnlineTv;
+	
+	@Value("${urls.online.animedia.anime.list}")
+	private String animediaAnimeList;
+	
+	@Value("${urls.online.animedia.anime.episodes.list}")
+	private String animediaEpisodesList;
 	
 	@Value("classpath:${resources.multiSeasonsAnimeUrls.name}")
 	private Resource resourceMultiSeasonsAnimeUrls;
@@ -42,9 +60,6 @@ public class AnimediaService {
 	
 	@Value("classpath:${resources.announcements.name}")
 	private Resource resourceAnnouncementsUrls;
-	
-	@Value("${cache.currentlyUpdatedTitles.name}")
-	private String currentlyUpdatedTitlesCacheName;
 	
 	private HttpCaller httpCaller;
 	
@@ -77,9 +92,14 @@ public class AnimediaService {
 		this.cacheManager = cacheManager;
 	}
 	
+	/**
+	 * Search for animedia search list
+	 *
+	 * @return list of title search info on animedia
+	 */
 	@Cacheable(value = "animediaSearchListCache")
 	public Set<AnimediaTitleSearchInfo> getAnimediaSearchList() {
-		HttpResponse animediaResponse = httpCaller.call(ANIMEDIA_ANIME_LIST.getDescription(), GET, requestParametersBuilder.build());
+		HttpResponse animediaResponse = httpCaller.call(animediaAnimeList, GET, requestParametersBuilder.build());
 		//инфа для поиска на animedia
 		Set<AnimediaTitleSearchInfo> animediaSearchList = animediaTitlesSearchParser.parse(animediaResponse, LinkedHashSet.class);
 		animediaSearchList.forEach(set -> {
@@ -90,9 +110,14 @@ public class AnimediaService {
 		return animediaSearchList;
 	}
 	
+	/**
+	 * Search for currently updated titles on animedia
+	 *
+	 * @return list of currently updated titles
+	 */
 	public List<AnimediaMALTitleReferences> getCurrentlyUpdatedTitles() {
 		Cache currentlyUpdatedTitlesCache = cacheManager.getCache(currentlyUpdatedTitlesCacheName);
-		HttpResponse animediaResponse = httpCaller.call(ONLINE_ANIMEDIA_TV.getDescription(), GET, requestParametersBuilder.build());
+		HttpResponse animediaResponse = httpCaller.call(animediaOnlineTv, GET, requestParametersBuilder.build());
 		List<AnimediaMALTitleReferences> currentlyUpdatedTitles = animediaHTMLParser.getCurrentlyUpdatedTitlesList(animediaResponse);
 		currentlyUpdatedTitlesCache.putIfAbsent(currentlyUpdatedTitlesCacheName, currentlyUpdatedTitles);
 		return currentlyUpdatedTitles;
@@ -104,7 +129,7 @@ public class AnimediaService {
 	 * @param animediaSearchListInput anime info for search on animedia
 	 * @return list[0] - singleSeason anime, list[1] - multiSeason anime,list[2] - announcements
 	 */
-	public List<Set<Anime>> getSortedForSeasonAnime(Set<AnimediaTitleSearchInfo> animediaSearchListInput) {
+	public List<Set<Anime>> getSortedForSeasonAnime(@NotNull Set<AnimediaTitleSearchInfo> animediaSearchListInput) {
 		Map<String, Map<String, String>> animediaRequestParameters = requestParametersBuilder.build();
 		//печатаем все урлы анимедии с 1 серией для каждого дата листа
 		int multiSeasonCount = 1;
@@ -116,13 +141,13 @@ public class AnimediaService {
 		List<Set<Anime>> allSeasons = new ArrayList<>();
 		for (AnimediaTitleSearchInfo animediaSearchList : animediaSearchListInput) {
 			String rootUrl = animediaSearchList.getUrl();
-			String url = ONLINE_ANIMEDIA_TV.getDescription() + rootUrl;
+			String url = animediaOnlineTv + rootUrl;
 			//получаем html с аниме
 			HttpResponse response = httpCaller.call(url
 					, GET, animediaRequestParameters);
 			String content = response.getContent();
 			//анонс просто дабавляем в сет
-			if (!content.contains(ANNOUNCEMENT.getDescription())) {
+			if (!content.contains(ANNOUNCEMENT)) {
 				//парсим html и получаем аниме id, дата сеты и эпизоды на них
 				Map<String, Map<String, String>> seasonsAndEpisodes = animediaHTMLParser.getAnimeIdSeasonsAndEpisodesMap(response);
 				if (seasonsAndEpisodes != null) {
@@ -134,7 +159,7 @@ public class AnimediaService {
 							//дата сет - вкладка не обязательно отдельный сезон
 							//иногда один сезон размазывают по нескольким дата сетам - вкладкам
 							if (entry.getValue().size() > 1) {
-								HttpResponse resp = httpCaller.call(ANIMEDIA_ANIME_EPISODES_LIST.getDescription() + entry.getKey() + "/" + seasons.getKey(), GET, animediaRequestParameters);
+								HttpResponse resp = httpCaller.call(animediaEpisodesList + entry.getKey() + "/" + seasons.getKey(), GET, animediaRequestParameters);
 								String count = String.valueOf(multiSeasonCount) + "." + dataListCount;
 								targetUrl = urlBuilder.build(url, seasons.getKey(), animediaHTMLParser.getFirstEpisodeInSeason(resp), null);
 								multi.add(new Anime(count, targetUrl, rootUrl));
@@ -159,13 +184,13 @@ public class AnimediaService {
 		allSeasons.add(single);
 		allSeasons.add(multi);
 		allSeasons.add(announcement);
-//        routinesIO.marshalToResources(resourceSingleSeasonsAnimeUrls, single);
-//        routinesIO.marshalToResources(resourceMultiSeasonsAnimeUrls, multi);
-//        routinesIO.marshalToResources(resourceAnnouncementsUrls, announcement);
-		Cache animediaSearchListCache = cacheManager.getCache(animediaSearchListCacheName);
-		animediaSearchListCache.put(AnimeTypeOnAnimedia.SINGLESEASON.getDescription(), single);
-		animediaSearchListCache.put(AnimeTypeOnAnimedia.MULTISEASON.getDescription(), multi);
-		animediaSearchListCache.put(AnimeTypeOnAnimedia.ANOUNCEMET.getDescription(), announcement);
+		// routinesIO.marshalToResources(resourceSingleSeasonsAnimeUrls, single);
+		//  routinesIO.marshalToResources(resourceMultiSeasonsAnimeUrls, multi);
+		//  routinesIO.marshalToResources(resourceAnnouncementsUrls, announcement);
+		Cache sortedAnimediaSearchListCache = cacheManager.getCache(sortedAnimediaSearchListCacheName);
+		sortedAnimediaSearchListCache.put(AnimeTypeOnAnimedia.SINGLESEASON.getDescription(), single);
+		sortedAnimediaSearchListCache.put(AnimeTypeOnAnimedia.MULTISEASONS.getDescription(), multi);
+		sortedAnimediaSearchListCache.put(AnimeTypeOnAnimedia.ANNOUNCEMENT.getDescription(), announcement);
 		return allSeasons;
 	}
 	
@@ -174,57 +199,74 @@ public class AnimediaService {
 		Set<Anime> multiSeasonsAnime;
 		Set<Anime> announcements;
 		List<Set<Anime>> allSeasons = new ArrayList<>();
-//        if (routinesIO.isResourceExist(resourceMultiSeasonsAnimeUrlsName)
-//                && routinesIO.isResourceExist(resourceSingleSeasonsAnimeUrlsName)
-//                && routinesIO.isResourceExist(resourceAnnouncementsUrlsName)) {
 		if (resourceAnnouncementsUrls.exists() && resourceMultiSeasonsAnimeUrls.exists() && resourceSingleSeasonsAnimeUrls.exists()) {
-			System.out.println("Беру инфу из ресурсов");
+			log.debug("Loading sorted anime from resources...");
 			singleSeasonAnime = routinesIO.unmarshalFromResource(resourceSingleSeasonsAnimeUrls, Anime.class, LinkedHashSet.class);
 			multiSeasonsAnime = routinesIO.unmarshalFromResource(resourceMultiSeasonsAnimeUrls, Anime.class, LinkedHashSet.class);
 			announcements = routinesIO.unmarshalFromResource(resourceAnnouncementsUrls, Anime.class, LinkedHashSet.class);
 			allSeasons.add(singleSeasonAnime);
 			allSeasons.add(multiSeasonsAnime);
 			allSeasons.add(announcements);
-			Cache animediaSearchListCache = cacheManager.getCache(animediaSearchListCacheName);
-			animediaSearchListCache.put(AnimeTypeOnAnimedia.SINGLESEASON.getDescription(), singleSeasonAnime);
-			animediaSearchListCache.put(AnimeTypeOnAnimedia.MULTISEASON.getDescription(), multiSeasonsAnime);
-			animediaSearchListCache.put(AnimeTypeOnAnimedia.ANOUNCEMET.getDescription(), announcements);
+			Cache sortedAnimediaSearchListCache = cacheManager.getCache(sortedAnimediaSearchListCacheName);
+			sortedAnimediaSearchListCache.put(AnimeTypeOnAnimedia.SINGLESEASON.getDescription(), singleSeasonAnime);
+			sortedAnimediaSearchListCache.put(AnimeTypeOnAnimedia.MULTISEASONS.getDescription(), multiSeasonsAnime);
+			sortedAnimediaSearchListCache.put(AnimeTypeOnAnimedia.ANNOUNCEMENT.getDescription(), announcements);
 		} else {
-			System.out.println("Ресурсов нет, формирую...");
+			log.debug("Sorted anime not found in resources. Creating...");
 			allSeasons = getSortedForSeasonAnime(animediaSearchList);
 		}
 		return allSeasons;
 	}
 	
-	public Set<AnimediaTitleSearchInfo> checkAnime(Set<Anime> singleSeasonAnime, Set<Anime> multiSeasonsAnime, Set<Anime> announcements, Set<AnimediaTitleSearchInfo> animediaSearchList) {
+	/**
+	 * Search for new titles from animedia search list in containers from resources
+	 *
+	 * @param singleSeasonAnime  single season anime from resources
+	 * @param multiSeasonsAnime  multi seasons anime from resources
+	 * @param announcements      announcements anime from resources
+	 * @param animediaSearchList animedia search list
+	 * @return set of not found titles from animedia search list
+	 */
+	public Set<AnimediaTitleSearchInfo> checkAnime(@NotNull Set<Anime> singleSeasonAnime,
+												   @NotNull Set<Anime> multiSeasonsAnime,
+												   @NotNull Set<Anime> announcements,
+												   @NotNull Set<AnimediaTitleSearchInfo> animediaSearchList) {
 		Set<AnimediaTitleSearchInfo> notFound = new LinkedHashSet<>();
 		for (AnimediaTitleSearchInfo animediaTitleSearchInfo : animediaSearchList) {
 			long singleCount = singleSeasonAnime.stream().filter(set -> set.getRootUrl().equals(animediaTitleSearchInfo.getUrl())).count();
 			long multiCount = multiSeasonsAnime.stream().filter(set -> set.getRootUrl().equals(animediaTitleSearchInfo.getUrl())).count();
 			long announcementCount = announcements.stream().filter(set -> set.getRootUrl().equals(animediaTitleSearchInfo.getUrl())).count();
-			if (singleCount > 0 || multiCount > 0 || announcementCount > 0) {
-				//System.out.println("OK");
-			} else {
-				System.out.println("Ни в одном из списков нет " + animediaTitleSearchInfo);
+			if (singleCount == 0 && multiCount == 0 && announcementCount == 0) {
+				log.error("Not found in any sorted anime lists\n{}", animediaTitleSearchInfo);
 				notFound.add(animediaTitleSearchInfo);
 			}
 		}
 		return notFound;
 	}
 	
-	public List<AnimediaMALTitleReferences> checkCurrentlyUpdatedTitles(List<AnimediaMALTitleReferences> fresh, List<AnimediaMALTitleReferences> fromCache) {
-		AnimediaMALTitleReferences animediaMALTitleReferencesFromCache = fromCache.get(0);
+	/**
+	 * Compare cached currently updated titles and fresh
+	 * refresh cache with difference
+	 *
+	 * @param fresh     fresh updated titles
+	 * @param fromCache updated titles from cache
+	 * @return list of differences between fresh and cached
+	 */
+	public List<AnimediaMALTitleReferences> checkCurrentlyUpdatedTitles(@NotNull List<AnimediaMALTitleReferences> fresh, @NotNull List<AnimediaMALTitleReferences> fromCache) {
 		List<AnimediaMALTitleReferences> list = new ArrayList<>();
-		if (fresh.size() != fromCache.size()
-				&& !fresh.get(0).equals(animediaMALTitleReferencesFromCache)) {
-			for (int i = 0; i < fresh.size(); i++) {
-				AnimediaMALTitleReferences temp = fresh.get(i);
-				if (temp.equals(animediaMALTitleReferencesFromCache)) {
-					break;
+		if (fresh != null && fromCache != null) {
+			AnimediaMALTitleReferences animediaMALTitleReferencesFromCache = fromCache.get(0);
+			if (fresh.size() != fromCache.size()
+					|| !fresh.get(0).equals(animediaMALTitleReferencesFromCache)) {
+				for (int i = 0; i < fresh.size(); i++) {
+					AnimediaMALTitleReferences temp = fresh.get(i);
+					if (temp.equals(animediaMALTitleReferencesFromCache)) {
+						break;
+					}
+					list.add(temp);
 				}
-				list.add(temp);
+				cacheManager.getCache(currentlyUpdatedTitlesCacheName).put(currentlyUpdatedTitlesCacheName, list);
 			}
-			cacheManager.getCache(currentlyUpdatedTitlesCacheName).put(currentlyUpdatedTitlesCacheName, list);
 		}
 		return list;
 	}
