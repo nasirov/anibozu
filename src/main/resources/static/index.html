@@ -3,34 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <title>Anime Checker</title>
-    <style>
-        .parent {
-            width: 100%;
-            height: 100%;
-            position: absolute;
-            top: 0;
-            left: 0;
-            overflow: auto;
-        }
-
-        .block {
-            width: 380px;
-            height: 50px;
-            position: absolute;
-            top: 0;
-            right: 0;
-            bottom: 0;
-            left: 0;
-            margin: auto;
-        }
-    </style>
+    <link rel="stylesheet" type="text/css" href="css/style.css"/>
     <link rel="shortcut icon" href="img/favicon.ico" type="image/x-icon">
 </head>
 <body>
 <div class="parent">
     <div class="block">
         <form action="/checkResult/" method="post">
-            <input name="username" type="text" size="40" required placeholder="Enter your MAL username...">
+            <input name="username" type="text" size="40" minlength="2" maxlength="16" required placeholder="Enter your MAL username...">
             <input type="submit" value="Submit">
         </form>
     </div>

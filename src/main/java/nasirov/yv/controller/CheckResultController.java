@@ -19,10 +19,12 @@ import org.springframework.cache.Cache;
 import org.springframework.cache.CacheManager;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import javax.validation.constraints.Size;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -31,6 +33,7 @@ import java.util.stream.Collectors;
  */
 @Controller
 @RequestMapping("/checkResult")
+@Validated
 @Slf4j
 public class CheckResultController {
 	@Value("${cache.userMAL.name}")
@@ -73,13 +76,14 @@ public class CheckResultController {
 	}
 	
 	@PostMapping
-	public String checkResult(@RequestParam(value = "username") String username, Model model) {
+	public String checkResult(@Size(min = 2, max = 16, message = "MAL username must be between 2 and 16 characters")
+								  @RequestParam(value = "username") String username, Model model) {
 		Set<UserMALTitleInfo> watchingTitles;
 		String errorMsg;
 		try {
 			watchingTitles = malService.getWatchingTitles(username);
 		} catch (MALUserAccountNotFoundException e) {
-			errorMsg = "MAL account " + username + " not found";
+			errorMsg = "MAL account " + username + " is not found";
 			log.error(errorMsg);
 			model.addAttribute("errorMsg", errorMsg);
 			return "checkResult";
@@ -94,7 +98,7 @@ public class CheckResultController {
 			model.addAttribute("errorMsg", errorMsg);
 			return "checkResult";
 		} catch (JSONNotFoundException e) {
-			errorMsg = "This application supports only default anime list view with wrapped json data! Json anime list not found for " + username;
+			errorMsg = "The application supports only default mal anime list view with wrapped json data! Json anime list is not found for " + username;
 			log.error(errorMsg);
 			model.addAttribute("errorMsg", errorMsg);
 			return "checkResult";
