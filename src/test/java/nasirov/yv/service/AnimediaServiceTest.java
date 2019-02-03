@@ -13,7 +13,6 @@ import nasirov.yv.serialization.AnimediaMALTitleReferences;
 import nasirov.yv.serialization.AnimediaTitleSearchInfo;
 import nasirov.yv.util.RoutinesIO;
 import nasirov.yv.util.URLBuilder;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -118,15 +117,13 @@ public class AnimediaServiceTest {
 	@Autowired
 	private WrappedObjectMapper wrappedObjectMapper;
 	
+	@Autowired
 	private RoutinesIO routinesIO;
 	
 	@Autowired
 	private AnimediaService animediaService;
 	
-	@Before
-	public void setUp() {
-		routinesIO = new RoutinesIO(new WrappedObjectMapper());
-	}
+	
 	
 	@Test
 	public void testGetAnimediaSearchList() throws Exception {

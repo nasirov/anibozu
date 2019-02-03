@@ -46,7 +46,7 @@ public class MALParser {
 	 */
 	public <T extends Collection> T getUserTitlesInfo(HttpResponse response, Class<T> collection) throws MALUserAnimeListAccessException, JSONNotFoundException {
 		if (response == null) {
-			throw new RuntimeException("HttpResponse is null!");
+			throw new NullPointerException("HttpResponse is null!");
 		}
 		return wrappedObjectMapper.unmarshal(getJsonAnimeListFromHtml(response.getContent()), UserMALTitleInfo.class, collection);
 	}

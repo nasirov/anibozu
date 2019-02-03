@@ -96,8 +96,7 @@ public class MALService {
 		String targetUrl = urlBuilder.build(myAnimeListNet + ANIME_LIST + username, new HashMap<String, String>() {{
 			put(STATUS, WATCHING.getCode().toString());
 		}});
-		HttpResponse response = httpCaller.call(targetUrl, GET, malRequestParameters);
-		titleJson.add(malParser.getUserTitlesInfo(response, LinkedHashSet.class));
+		titleJson.add(malParser.getUserTitlesInfo(httpCaller.call(targetUrl, GET, malRequestParameters), LinkedHashSet.class));
 		Integer diff;
 		//потом проверяем по количеству текущих аниме количество недогруженных аниме
 		if (numWatchingTitlesInteger > MAX_NUMBER_OF_TITLE_IN_HTML) {
@@ -139,6 +138,7 @@ public class MALService {
 				isWatchingTitlesUpdated = true;
 				watchingTitlesFromCache.add(userMALTitleInfoNew);
 			} else if (!userMALTitleInfoFromCache.getNumWatchedEpisodes().equals(numWatchedEpisodesNew)) {
+				isWatchingTitlesUpdated = true;
 				userMALTitleInfoFromCache.setNumWatchedEpisodes(numWatchedEpisodesNew);
 			}
 		}
