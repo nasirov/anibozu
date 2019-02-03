@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.LinkedHashSet;
 
 /**
- * Created by Хикка on 31.01.2019.
+ * Created by nasirov.yv
  */
 @RestController
 @RequestMapping("/anime")

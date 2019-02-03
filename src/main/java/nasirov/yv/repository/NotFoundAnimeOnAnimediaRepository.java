@@ -6,7 +6,8 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 /**
- * Created by Хикка on 25.01.2019.
+ * Repository for not found anime titles on animedia
+ * Created by nasirov.yv
  */
 @Repository
 public interface NotFoundAnimeOnAnimediaRepository extends JpaRepository<UserMALTitleInfo, Integer> {

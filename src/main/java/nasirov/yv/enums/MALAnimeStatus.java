@@ -1,8 +1,8 @@
 package nasirov.yv.enums;
 
 /**
- * Статусы аниме в профиле пользователя на MAL
- * Created by Хикка on 19.12.2018.
+ * Title status in a user anime list on MAL
+ * Created by nasirov.yv
  */
 public enum MALAnimeStatus {
 	/**

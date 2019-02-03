@@ -25,7 +25,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
 /**
- * Created by Хикка on 01.02.2019.
+ * Created by nasirov.yv
  */
 @RunWith(SpringRunner.class)
 @TestPropertySource(locations = "classpath:system.properties")

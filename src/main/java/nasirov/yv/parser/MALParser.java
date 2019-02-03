@@ -16,7 +16,7 @@ import java.util.regex.Pattern;
 
 /**
  * Parser MAL html
- * Created by Хикка on 20.12.2018.
+ * Created by nasirov.yv
  */
 @Component
 @Slf4j

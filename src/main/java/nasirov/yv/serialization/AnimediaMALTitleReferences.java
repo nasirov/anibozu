@@ -6,8 +6,8 @@ import lombok.NoArgsConstructor;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
 /**
- * Class for anime references
- * Created by Хикка on 29.12.2018.
+ * Anime references
+ * Created by nasirov.yv
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
 @Data

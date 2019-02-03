@@ -6,7 +6,7 @@ import lombok.NoArgsConstructor;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
 /**
- * Created by Хикка on 19.01.2019.
+ * Created by nasirov.yv
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
 @Data
@@ -14,7 +14,7 @@ import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 @AllArgsConstructor
 public class Anime {
 	/**
-	 * Anime id in local list
+	 * Anime id in the local list
 	 */
 	private String id;
 	

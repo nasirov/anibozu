@@ -7,8 +7,8 @@ import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 import org.codehaus.jackson.annotate.JsonProperty;
 
 /**
- * Класс с аниме информацией для поиска на animedia
- * Created by Хикка on 17.12.2018.
+ * Anime information for search on animedia
+ * Created by nasirov.yv
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
 @Data

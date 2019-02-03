@@ -19,14 +19,21 @@ import java.util.stream.Stream;
 import static nasirov.yv.enums.RequestParameters.*;
 
 /**
- * Created by Хикка on 21.01.2019.
+ * Created by nasirov.yv
  */
 @Component
 @Slf4j
 public class HttpCallerImpl implements HttpCaller {
+	/**
+	 * Sends http request
+	 *
+	 * @param url        the url for request
+	 * @param method     the request method
+	 * @param parameters the request parameters
+	 * @return the http response with content and status
+	 */
 	@Override
 	public HttpResponse call(@NotNull String url, @NotNull HTTPMethods method, @NotNull Map<String, Map<String, String>> parameters) {
-		log.debug("Start Calling {}", url);
 		Client client = new Client();
 		client.addFilter(new GZIPContentEncodingFilter(true));
 		client.setConnectTimeout(60000);
@@ -51,18 +58,16 @@ public class HttpCallerImpl implements HttpCaller {
 			}
 		}
 		String entity = response.getEntity(String.class);
-		log.debug("End Calling {}", url);
 		return new HttpResponse(entity, status);
 	}
 	
 	/**
-	 * Обогащает запрос параметрами
+	 * Enrich the request with the parameters
 	 *
-	 * @param webResource
-	 * @param parameters
+	 * @param webResource the web resource with url
+	 * @param parameters  the request parameters
 	 */
 	private WebResource.Builder enrichRequest(WebResource webResource, Map<String, Map<String, String>> parameters) {
-		log.debug("Start Enrich request to {}", webResource.getURI());
 		WebResource.Builder requestBuilder = webResource.getRequestBuilder();
 		Stream.of(parameters).filter(map -> map.containsKey(HEADER.getDescription()))
 				.flatMap(map -> map.get(HEADER.getDescription()).entrySet().stream())
@@ -73,19 +78,17 @@ public class HttpCallerImpl implements HttpCaller {
 		Stream.of(parameters).filter(map -> map.containsKey(ACCEPT.getDescription()))
 				.flatMap(map -> map.get(ACCEPT.getDescription()).entrySet().stream())
 				.forEach(map -> requestBuilder.accept(map.getValue()));
-		log.debug("End Enrich request to {}", webResource.getURI());
 		return requestBuilder;
 	}
 	
 	/**
-	 * Отправляет запрос в зависимости от метода
+	 * Sends http request depends on http method
 	 *
-	 * @param requestBuilder билдер запроса
-	 * @param method         http метод
-	 * @return ответ от сайта
+	 * @param requestBuilder the request builder
+	 * @param method         the http request method
+	 * @return the http response
 	 */
 	private ClientResponse sendRequest(WebResource.Builder requestBuilder, HTTPMethods method) {
-		log.debug("Start Sending request");
 		ClientResponse response;
 		switch (method) {
 			case GET:
@@ -97,7 +100,6 @@ public class HttpCallerImpl implements HttpCaller {
 			default:
 				throw new UnsupportedOperationException("Method " + method + " is not supported");
 		}
-		log.debug("End Sending request");
 		return response;
 	}
 }

@@ -13,7 +13,7 @@ import javax.persistence.Id;
 /**
  * MAL User Anime List Info
  * animelist/USERNAME
- * Created by Хикка on 19.12.2018.
+ * Created by nasirov.yv
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
 @Entity

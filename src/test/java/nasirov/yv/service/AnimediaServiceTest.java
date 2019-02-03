@@ -6,7 +6,6 @@ import nasirov.yv.enums.AnimeTypeOnAnimedia;
 import nasirov.yv.http.HttpCaller;
 import nasirov.yv.parameter.AnimediaRequestParametersBuilder;
 import nasirov.yv.parser.AnimediaHTMLParser;
-import nasirov.yv.parser.AnimediaTitlesSearchParser;
 import nasirov.yv.parser.WrappedObjectMapper;
 import nasirov.yv.response.HttpResponse;
 import nasirov.yv.serialization.Anime;
@@ -39,11 +38,10 @@ import static org.mockito.Mockito.doReturn;
 
 
 /**
- * Created by Хикка on 29.01.2019.
+ * Created by nasirov.yv
  */
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = {AnimediaService.class,
-		AnimediaTitlesSearchParser.class,
 		AnimediaHTMLParser.class,
 		WrappedObjectMapper.class,
 		CacheManager.class,

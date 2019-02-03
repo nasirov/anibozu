@@ -27,7 +27,7 @@ import static com.sun.research.ws.wadl.HTTPMethods.GET;
 import static nasirov.yv.enums.MALAnimeStatus.WATCHING;
 
 /**
- * Created by Хикка on 01.01.2019.
+ * Created by nasirov.yv
  */
 @Service
 @Slf4j
@@ -79,32 +79,35 @@ public class MALService {
 	}
 	
 	/**
-	 * Search for user watching titles
+	 * Searches for user watching titles
 	 *
-	 * @param username MAL username
-	 * @return watching titles
+	 * @param username the MAL username
+	 * @return the watching titles
 	 */
 	public Set<UserMALTitleInfo> getWatchingTitles(String username) throws MALUserAccountNotFoundException, WatchingTitlesNotFoundException, MALUserAnimeListAccessException, JSONNotFoundException {
 		Map<String, Map<String, String>> malRequestParameters = requestParametersBuilder.build();
-		//идем в профиль юзера и ищем количество текущих аниме
+		//get a number of user watching titles
 		Integer numWatchingTitlesInteger = getNumberOfWatchingTitles(username, malRequestParameters);
 		//запрос на страницу с текущими аниме
 		//суть в том, что в один json с аниме инфой MAL добавляет только 300 аниме, а остальные нужно подгружать дополнительными запросами
 		//делается первый стандартный запрос  на максимальное количество, т.е. 300
 		//стандартный запрос animelist/testAccForDev
 		Set<Set<UserMALTitleInfo>> titleJson = new LinkedHashSet<>();
-		titleJson.add(malParser.getUserTitlesInfo(httpCaller.call(urlBuilder.build(myAnimeListNet + ANIME_LIST + username, new HashMap<String, String>() {{
-					put(STATUS, WATCHING.getCode().toString());
-				}})
-				, GET, malRequestParameters), LinkedHashSet.class));
+		String targetUrl = urlBuilder.build(myAnimeListNet + ANIME_LIST + username, new HashMap<String, String>() {{
+			put(STATUS, WATCHING.getCode().toString());
+		}});
+		HttpResponse response = httpCaller.call(targetUrl, GET, malRequestParameters);
+		titleJson.add(malParser.getUserTitlesInfo(response, LinkedHashSet.class));
 		Integer diff;
 		//потом проверяем по количеству текущих аниме количество недогруженных аниме
 		if (numWatchingTitlesInteger > MAX_NUMBER_OF_TITLE_IN_HTML) {
-			titleJson.add(getAllWatchingTitles(MAX_NUMBER_OF_TITLE_IN_HTML, malRequestParameters, username));
+			Set<UserMALTitleInfo> firstJson = getAllWatchingTitles(MAX_NUMBER_OF_TITLE_IN_HTML, malRequestParameters, username);
+			titleJson.add(firstJson);
 			diff = numWatchingTitlesInteger - MAX_NUMBER_OF_TITLE_IN_HTML;
 			int nextRequestCount = 2;
 			while (diff > MAX_NUMBER_OF_TITLE_IN_HTML) {
-				titleJson.add(getAllWatchingTitles((numWatchingTitlesInteger * nextRequestCount), malRequestParameters, username));
+				Set<UserMALTitleInfo> additionalJson = getAllWatchingTitles((numWatchingTitlesInteger * nextRequestCount), malRequestParameters, username);
+				titleJson.add(additionalJson);
 				nextRequestCount++;
 				diff -= MAX_NUMBER_OF_TITLE_IN_HTML;
 			}
@@ -120,6 +123,12 @@ public class MALService {
 		return watchingTitles;
 	}
 	
+	/**
+	 * Compare cached and fresh user watching titles
+	 * @param watchingTitlesNew fresh watching titles
+	 * @param watchingTitlesFromCache cached watching titles
+	 * @return true if user anime list updated
+	 */
 	public boolean isWatchingTitlesUpdated(Set<UserMALTitleInfo> watchingTitlesNew, Set<UserMALTitleInfo> watchingTitlesFromCache) {
 		boolean isWatchingTitlesUpdated = false;
 		for (UserMALTitleInfo userMALTitleInfoNew : watchingTitlesNew) {
@@ -146,14 +155,14 @@ public class MALService {
 	}
 	
 	/**
-	 * Convert and set poster URL from
+	 * Converts and sets poster URL from
 	 * https://cdn.myanimelist.net/r/96x136/images/anime/7/86743.jpg?s=50f775b44d0a2317e9337a4eaaac6100
 	 * to
 	 * https://cdn.myanimelist.net/images/anime/7/86743.jpg
 	 * <p>
 	 * because last url provided better quality image
 	 *
-	 * @param watchingTitles user mal anime list
+	 * @param watchingTitles the user mal anime list
 	 */
 	private void changePosterUrl(Set<UserMALTitleInfo> watchingTitles) {
 		String changedPosterUrl = "";
@@ -175,22 +184,22 @@ public class MALService {
 	}
 	
 	/**
-	 * Set full anime url
+	 * Sets full anime url
 	 *
-	 * @param watchingTitles user mal anime list
+	 * @param watchingTitles the user mal anime list
 	 */
 	private void changeAnimeUrl(Set<UserMALTitleInfo> watchingTitles) {
 		watchingTitles.forEach(set -> set.setAnimeUrl(myAnimeListNet + set.getAnimeUrl()));
 	}
 	
 	/**
-	 * Search for number of watching titles
+	 * Searches for number of watching titles
 	 *
-	 * @param username             mal username
-	 * @param malRequestParameters http parameters
-	 * @return number of watching titles
-	 * @throws MALUserAccountNotFoundException if user not found
-	 * @throws WatchingTitlesNotFoundException if number of watching titles not found or == 0
+	 * @param username             the  mal username
+	 * @param malRequestParameters the http parameters
+	 * @return the number of watching titles
+	 * @throws MALUserAccountNotFoundException if user is not found
+	 * @throws WatchingTitlesNotFoundException if number of watching titles is not found or == 0
 	 */
 	private Integer getNumberOfWatchingTitles(String username, Map<String, Map<String, String>> malRequestParameters) throws MALUserAccountNotFoundException, WatchingTitlesNotFoundException {
 		String numWatchingTitles = malParser.getNumWatchingTitles(httpCaller.call(myAnimeListNet + PROFILE + username, GET, malRequestParameters));
@@ -198,22 +207,22 @@ public class MALService {
 		if (numWatchingTitles != null) {
 			numWatchingTitlesInteger = Integer.parseInt(numWatchingTitles);
 			if (numWatchingTitlesInteger.equals(0)) {
-				throw new WatchingTitlesNotFoundException("Zero Watching titles for " + username + " !");
+				throw new WatchingTitlesNotFoundException("Not found watching titles for " + username + " !");
 			}
 		} else {
-			throw new WatchingTitlesNotFoundException("Watching titles number not found for " + username + " !");
+			throw new WatchingTitlesNotFoundException("Watching titles number is not found for " + username + " !");
 		}
 		return numWatchingTitlesInteger;
 	}
 	
 	/**
-	 * Search for additional json anime list and unmarshal
+	 * Searches for additional json anime list and unmarshal
 	 * https://myanimelist.net/animelist/username/load.json?offset=numWatchingTitlesInteger&status=1
 	 *
-	 * @param numWatchingTitlesInteger number of watching titles
-	 * @param malRequestParameters     http params
-	 * @param username                 mal username
-	 * @return set with user anime titles
+	 * @param numWatchingTitlesInteger the number of watching titles
+	 * @param malRequestParameters     the http params
+	 * @param username                 the mal username
+	 * @return the set with the user anime titles
 	 */
 	private Set<UserMALTitleInfo> getAllWatchingTitles(Integer numWatchingTitlesInteger, Map<String, Map<String, String>> malRequestParameters, String username) {
 		Map<String, String> queryParameters = new LinkedHashMap<>();

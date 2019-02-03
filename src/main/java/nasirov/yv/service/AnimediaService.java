@@ -6,7 +6,7 @@ import nasirov.yv.enums.AnimeTypeOnAnimedia;
 import nasirov.yv.http.HttpCaller;
 import nasirov.yv.parameter.RequestParametersBuilder;
 import nasirov.yv.parser.AnimediaHTMLParser;
-import nasirov.yv.parser.AnimediaTitlesSearchParser;
+import nasirov.yv.parser.WrappedObjectMapper;
 import nasirov.yv.response.HttpResponse;
 import nasirov.yv.serialization.Anime;
 import nasirov.yv.serialization.AnimediaMALTitleReferences;
@@ -27,7 +27,7 @@ import java.util.*;
 import static com.sun.research.ws.wadl.HTTPMethods.GET;
 
 /**
- * Created by Хикка on 21.01.2019.
+ * Created by nasirov.yv
  */
 @Service
 @Slf4j
@@ -65,8 +65,6 @@ public class AnimediaService {
 	
 	private RequestParametersBuilder requestParametersBuilder;
 	
-	private AnimediaTitlesSearchParser animediaTitlesSearchParser;
-	
 	private AnimediaHTMLParser animediaHTMLParser;
 	
 	private URLBuilder urlBuilder;
@@ -75,33 +73,34 @@ public class AnimediaService {
 	
 	private CacheManager cacheManager;
 	
+	private WrappedObjectMapper wrappedObjectMapper;
+	
 	@Autowired
 	public AnimediaService(HttpCaller httpCaller,
 						   @Qualifier(value = "animediaRequestParametersBuilder") RequestParametersBuilder requestParametersBuilder,
-						   AnimediaTitlesSearchParser animediaTitlesSearchParser,
 						   AnimediaHTMLParser animediaHTMLParser,
 						   URLBuilder urlBuilder,
 						   RoutinesIO routinesIO,
-						   CacheManager cacheManager) {
+						   CacheManager cacheManager,
+						   WrappedObjectMapper wrappedObjectMapper) {
 		this.httpCaller = httpCaller;
 		this.requestParametersBuilder = requestParametersBuilder;
-		this.animediaTitlesSearchParser = animediaTitlesSearchParser;
 		this.animediaHTMLParser = animediaHTMLParser;
 		this.urlBuilder = urlBuilder;
 		this.routinesIO = routinesIO;
 		this.cacheManager = cacheManager;
+		this.wrappedObjectMapper = wrappedObjectMapper;
 	}
 	
 	/**
-	 * Search for animedia search list
+	 * Searches for the animedia search list
 	 *
-	 * @return list of title search info on animedia
+	 * @return the list of title search info on animedia
 	 */
 	@Cacheable(value = "animediaSearchListCache")
 	public Set<AnimediaTitleSearchInfo> getAnimediaSearchList() {
 		HttpResponse animediaResponse = httpCaller.call(animediaAnimeList, GET, requestParametersBuilder.build());
-		//инфа для поиска на animedia
-		Set<AnimediaTitleSearchInfo> animediaSearchList = animediaTitlesSearchParser.parse(animediaResponse, LinkedHashSet.class);
+		Set<AnimediaTitleSearchInfo> animediaSearchList = wrappedObjectMapper.unmarshal(animediaResponse.getContent(), AnimediaTitleSearchInfo.class, LinkedHashSet.class);
 		animediaSearchList.forEach(set -> {
 			set.setUrl(set.getUrl().replaceAll("http://online\\.animedia\\.tv/", "")
 					.replace("[", "%5B").replace("]", "%5D"));
@@ -111,7 +110,7 @@ public class AnimediaService {
 	}
 	
 	/**
-	 * Search for currently updated titles on animedia
+	 * Searches for currently updated titles on animedia
 	 *
 	 * @return list of currently updated titles
 	 */
@@ -124,14 +123,13 @@ public class AnimediaService {
 	}
 	
 	/**
-	 * Sort anime search info ofr single season,multi season, announcements
+	 * Sort the anime search info for single season,multi seasons, announcements
 	 *
-	 * @param animediaSearchListInput anime info for search on animedia
+	 * @param animediaSearchListInput the anime info for search on animedia
 	 * @return list[0] - singleSeason anime, list[1] - multiSeason anime,list[2] - announcements
 	 */
 	public List<Set<Anime>> getSortedForSeasonAnime(@NotNull Set<AnimediaTitleSearchInfo> animediaSearchListInput) {
 		Map<String, Map<String, String>> animediaRequestParameters = requestParametersBuilder.build();
-		//печатаем все урлы анимедии с 1 серией для каждого дата листа
 		int multiSeasonCount = 1;
 		int singleSeasonCount = 1;
 		int announcementCount = 1;
@@ -142,22 +140,20 @@ public class AnimediaService {
 		for (AnimediaTitleSearchInfo animediaSearchList : animediaSearchListInput) {
 			String rootUrl = animediaSearchList.getUrl();
 			String url = animediaOnlineTv + rootUrl;
-			//получаем html с аниме
+			//get a html page with an anime
 			HttpResponse response = httpCaller.call(url
 					, GET, animediaRequestParameters);
 			String content = response.getContent();
-			//анонс просто дабавляем в сет
+			//not announcements
 			if (!content.contains(ANNOUNCEMENT)) {
-				//парсим html и получаем аниме id, дата сеты и эпизоды на них
+				//get the anime id, data sets and episodes
 				Map<String, Map<String, String>> seasonsAndEpisodes = animediaHTMLParser.getAnimeIdSeasonsAndEpisodesMap(response);
 				if (seasonsAndEpisodes != null) {
 					for (Map.Entry<String, Map<String, String>> entry : seasonsAndEpisodes.entrySet()) {
 						int dataListCount = 1;
 						for (Map.Entry<String, String> seasons : entry.getValue().entrySet()) {
 							String targetUrl;
-							//если несколько дата сетов, то это многосезонное аниме и по каждому дата сету - вкладке нужно сделать дополнительный запрос
-							//дата сет - вкладка не обязательно отдельный сезон
-							//иногда один сезон размазывают по нескольким дата сетам - вкладкам
+							//if data set count > 1 then it multi seasons anime and we should send additional request for each data list
 							if (entry.getValue().size() > 1) {
 								HttpResponse resp = httpCaller.call(animediaEpisodesList + entry.getKey() + "/" + seasons.getKey(), GET, animediaRequestParameters);
 								String count = String.valueOf(multiSeasonCount) + "." + dataListCount;
@@ -165,7 +161,7 @@ public class AnimediaService {
 								multi.add(new Anime(count, targetUrl, rootUrl));
 								dataListCount++;
 							} else {
-								//если дата сет один-это односезонное аниме
+								//if data set count == 1 then it single season anime
 								targetUrl = urlBuilder.build(url, seasons.getKey(), null, seasons.getValue());
 								single.add(new Anime(String.valueOf(singleSeasonCount), targetUrl, rootUrl));
 								singleSeasonCount++;
@@ -200,7 +196,7 @@ public class AnimediaService {
 		Set<Anime> announcements;
 		List<Set<Anime>> allSeasons = new ArrayList<>();
 		if (resourceAnnouncementsUrls.exists() && resourceMultiSeasonsAnimeUrls.exists() && resourceSingleSeasonsAnimeUrls.exists()) {
-			log.debug("Loading sorted anime from resources...");
+			log.debug("Loading sorted anime from the resources ...");
 			singleSeasonAnime = routinesIO.unmarshalFromResource(resourceSingleSeasonsAnimeUrls, Anime.class, LinkedHashSet.class);
 			multiSeasonsAnime = routinesIO.unmarshalFromResource(resourceMultiSeasonsAnimeUrls, Anime.class, LinkedHashSet.class);
 			announcements = routinesIO.unmarshalFromResource(resourceAnnouncementsUrls, Anime.class, LinkedHashSet.class);
@@ -211,15 +207,17 @@ public class AnimediaService {
 			sortedAnimediaSearchListCache.put(AnimeTypeOnAnimedia.SINGLESEASON.getDescription(), singleSeasonAnime);
 			sortedAnimediaSearchListCache.put(AnimeTypeOnAnimedia.MULTISEASONS.getDescription(), multiSeasonsAnime);
 			sortedAnimediaSearchListCache.put(AnimeTypeOnAnimedia.ANNOUNCEMENT.getDescription(), announcements);
+			log.debug("Sorted anime are successfully loaded from the resources.");
 		} else {
-			log.debug("Sorted anime not found in resources. Creating...");
+			log.debug("Sorted anime not found in the resources. Start creating ...");
 			allSeasons = getSortedForSeasonAnime(animediaSearchList);
+			log.debug("Sorted anime are successfully created.");
 		}
 		return allSeasons;
 	}
 	
 	/**
-	 * Search for new titles from animedia search list in containers from resources
+	 * Searches for new titles from animedia search list in containers from resources
 	 *
 	 * @param singleSeasonAnime  single season anime from resources
 	 * @param multiSeasonsAnime  multi seasons anime from resources

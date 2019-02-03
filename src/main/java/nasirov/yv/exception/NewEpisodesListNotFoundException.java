@@ -1,7 +1,7 @@
 package nasirov.yv.exception;
 
 /**
- * Created by Хикка on 02.02.2019.
+ * Created by nasirov.yv
  */
 public class NewEpisodesListNotFoundException extends Exception {
 	public NewEpisodesListNotFoundException() {

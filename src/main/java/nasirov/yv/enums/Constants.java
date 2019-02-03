@@ -1,8 +1,7 @@
 package nasirov.yv.enums;
 
 /**
- * Общие константы
- * Created by Хикка on 23.12.2018.
+ * Created by nasirov.yv
  */
 public enum Constants {
 	FIRST_EPISODE("1");

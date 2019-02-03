@@ -8,7 +8,7 @@ import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
 
 /**
- * Created by Хикка on 25.01.2019.
+ * Created by nasirov.yv
  */
 @Service
 @PrintApplicationLogo

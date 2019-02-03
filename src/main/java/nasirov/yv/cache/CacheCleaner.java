@@ -1,17 +1,19 @@
 package nasirov.yv.cache;
 
+import com.sun.istack.NotNull;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cache.Cache;
 import org.springframework.cache.CacheManager;
 import org.springframework.stereotype.Component;
 
 /**
- * Created by Хикка on 27.01.2019.
+ * Created by nasirov.yv
  */
 @Component
 @Slf4j
-public class CacheHelper {
+public class CacheCleaner {
 	@Value("${cache.userMAL.name}")
 	private String userMALCacheName;
 	
@@ -30,20 +32,23 @@ public class CacheHelper {
 	private CacheManager cacheManager;
 	
 	@Autowired
-	public CacheHelper(CacheManager cacheManager) {
+	public CacheCleaner(CacheManager cacheManager) {
 		this.cacheManager = cacheManager;
 	}
 	
-	//@Scheduled(fixedDelayString = "${cache.fixedDelay.in.milliseconds}")
 	//@Scheduled(cron = "${cache.cron.expression}")
 	public void clearCache() {
-		// cacheManager.getCache(animediaSearchListCacheName).clear();
-		cacheManager.getCache(userMALCacheName).clear();
-		cacheManager.getCache(userMatchedAnimeCacheName).clear();
-		cacheManager.getCache(matchedReferencesCacheName).clear();
-		log.info("Clear " + userMALCacheName);
-		log.info("Clear " + userMatchedAnimeCacheName);
-		log.info("Clear " + matchedReferencesCacheName);
-		//logger.info("Clear {}", userMatchedAnimeCacheName);
+		clearAndLog(cacheManager, animediaSearchListCacheName);
+		clearAndLog(cacheManager, userMALCacheName);
+		clearAndLog(cacheManager, userMatchedAnimeCacheName);
+		clearAndLog(cacheManager, matchedReferencesCacheName);
+	}
+	
+	private void clearAndLog(@NotNull CacheManager cacheManager, @NotNull String cacheName) {
+		Cache cache = cacheManager.getCache(cacheName);
+		if (cache != null) {
+			cache.clear();
+			log.info("Clear " + cacheName);
+		}
 	}
 }

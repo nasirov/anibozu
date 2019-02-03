@@ -9,7 +9,8 @@ import java.util.Map;
 import static javax.ws.rs.core.MediaType.*;
 
 /**
- * Created by Хикка on 21.01.2019.
+ * Build mal http request parameters
+ * Created by nasirov.yv
  */
 @Component("malRequestParametersBuilder")
 public class MALRequestParametersBuilder implements RequestParametersBuilder {

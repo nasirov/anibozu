@@ -1,7 +1,7 @@
 package nasirov.yv.exception;
 
 /**
- * Created by Хикка on 26.12.2018.
+ * Created by nasirov.yv
  */
 public class FirstEpisodeInSeasonNotFoundException extends Exception {
 	public FirstEpisodeInSeasonNotFoundException(String msg) {

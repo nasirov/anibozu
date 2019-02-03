@@ -23,15 +23,16 @@ import java.util.regex.Pattern;
 import static com.sun.research.ws.wadl.HTTPMethods.GET;
 
 /**
- * Created by Хикка on 03.01.2019.
+ * Created by nasirov.yv
  */
 @Service
 public class ReferencesManager {
+	/**
+	 * For a title url on animedia and a title on mal
+	 */
 	private static final String REFERENCE_MAL_TITLE_TO_ANIMEDIA_TITLE = "(?<fullUrl>http://online\\.animedia\\.tv/(?<url>anime/.+)/(?<dataList>\\d{1,3})/(?<firstEpisode>\\d{1,3}))[\\s\\t]+(?<titleOnMAL>.+)";
 	
 	private static final String CONCERTIZE_EPISODE = ".+[\\s\\t]+((?<min>\\d{1,3})-(?<max>\\d{1,3}|[x]{3}))+";
-	
-	private static final String COUNT_AND_URL = "(?<count>(\\d{1,3}\\.)?\\d{1,3}\\.\\d{1,2}\\s)(?<url>http://online\\.animedia\\.tv/anime/.+/\\d{1,3}/\\d{1,3})";
 	
 	@Value("${urls.online.animedia.tv}")
 	private String animediaOnlineTv;
@@ -65,7 +66,12 @@ public class ReferencesManager {
 		this.routinesIO = routinesIO;
 	}
 	
-	@Cacheable(value = "multiSeasonsReferences")
+	/**
+	 * Creates container with the anime references
+	 *
+	 * @return the references
+	 */
+	@Cacheable(value = "multiSeasonsReferencesCache")
 	public Set<AnimediaMALTitleReferences> getMultiSeasonsReferences() {
 		//десериализируем маппинг мультисезонного аниме
 		return wrappedObjectMapper.unmarshal(rawToPretty(rawReferencesResource), AnimediaMALTitleReferences.class, LinkedHashSet.class);
@@ -76,10 +82,10 @@ public class ReferencesManager {
 	}
 	
 	/**
-	 * Create json from raw references
+	 * Creates json from raw references
 	 *
-	 * @param content string with all raw references
-	 * @return json references
+	 * @param content the string with all raw references
+	 * @return the json references
 	 */
 	private String createJsonReferences(String content) {
 		Pattern pattern = Pattern.compile(REFERENCE_MAL_TITLE_TO_ANIMEDIA_TITLE);
@@ -134,9 +140,9 @@ public class ReferencesManager {
 	}
 	
 	/**
-	 * Update multiseasons anime references
+	 * Updates multiseasons anime references
 	 *
-	 * @param references references animedia url - mal title
+	 * @param references the references
 	 */
 	public void updateReferences(@NotNull Set<AnimediaMALTitleReferences> references) {
 		Map<String, Map<String, String>> animediaRequestParameters = requestParametersBuilder.build();
@@ -189,9 +195,9 @@ public class ReferencesManager {
 	/**
 	 * Compare multiseasons references and user watching titles
 	 *
-	 * @param references     multiseasons references
-	 * @param watchingTitles user watching titles
-	 * @return matched user references
+	 * @param references     the  multiseasons references
+	 * @param watchingTitles the user watching titles
+	 * @return the matched user references
 	 */
 	public Set<AnimediaMALTitleReferences> getMatchedReferences(@NotNull Set<AnimediaMALTitleReferences> references, @NotNull Set<UserMALTitleInfo> watchingTitles) {
 		Set<AnimediaMALTitleReferences> tempReferences = new LinkedHashSet<>();
@@ -214,10 +220,10 @@ public class ReferencesManager {
 	}
 	
 	/**
-	 * Update currentMax matched reference and set titleOnMal for currentlyUpdatedTitle
+	 * Updates currentMax matched reference and set titleOnMal for currentlyUpdatedTitle
 	 *
-	 * @param matchedAnimeFromCache matched user anime from cache
-	 * @param currentlyUpdatedTitle currently updated title on animedia
+	 * @param matchedAnimeFromCache the matched user anime from cache
+	 * @param currentlyUpdatedTitle the currently updated title on animedia
 	 */
 	public void updateReferences(Set<AnimediaMALTitleReferences> matchedAnimeFromCache, AnimediaMALTitleReferences currentlyUpdatedTitle) {
 		matchedAnimeFromCache.stream()

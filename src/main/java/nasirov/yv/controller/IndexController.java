@@ -5,10 +5,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 /**
- * Created by Хикка on 21.01.2019.
+ * Created by nasirov.yv
  */
 @Controller
-@RequestMapping(value = {"/index", "/"})
+@RequestMapping(value = {"/", "index.html", "index.htm", "/index"})
 public class IndexController {
 	@GetMapping
 	public String index() {

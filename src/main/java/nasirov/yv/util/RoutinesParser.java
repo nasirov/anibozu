@@ -8,7 +8,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * Created by Хикка on 27.12.2018.
+ * Created by nasirov.yv
  */
 public class RoutinesParser {
 	private static final String PARSE_URL = "http://online\\.animedia\\.tv/(?<path>(?<root>anime/.+?)/\\d{1,3}/\\d{1,3})";

@@ -27,7 +27,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 /**
- * Created by Хикка on 21.01.2019.
+ * Created by nasirov.yv
  */
 @Controller
 @RequestMapping("/checkResult")

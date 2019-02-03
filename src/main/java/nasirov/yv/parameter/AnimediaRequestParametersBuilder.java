@@ -9,8 +9,8 @@ import java.util.Map;
 import static javax.ws.rs.core.MediaType.*;
 
 /**
- * Формирует набор параметров для запроса
- * Created by Хикка on 20.12.2018.
+ * Build animedia http request parameters
+ * Created by nasirov.yv
  */
 @Component("animediaRequestParametersBuilder")
 public class AnimediaRequestParametersBuilder implements RequestParametersBuilder {

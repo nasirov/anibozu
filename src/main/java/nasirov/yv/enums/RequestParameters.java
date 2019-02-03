@@ -1,8 +1,7 @@
 package nasirov.yv.enums;
 
 /**
- * Параметры запроса
- * Created by Хикка on 20.12.2018.
+ * Created by nasirov.yv
  */
 public enum RequestParameters {
 	HEADER("header"),

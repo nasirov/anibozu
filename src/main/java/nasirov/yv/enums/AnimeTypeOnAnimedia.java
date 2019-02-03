@@ -1,7 +1,7 @@
 package nasirov.yv.enums;
 
 /**
- * Created by Хикка on 23.01.2019.
+ * Created by nasirov.yv
  */
 public enum AnimeTypeOnAnimedia {
 	MULTISEASONS("multi"),

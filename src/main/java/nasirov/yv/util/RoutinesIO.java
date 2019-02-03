@@ -12,7 +12,7 @@ import java.util.Collection;
 
 /**
  * IO operations
- * Created by Хикка on 01.01.2019.
+ * Created by nasirov.yv
  */
 @Component
 @Slf4j
@@ -34,14 +34,6 @@ public class RoutinesIO {
 			wrappedObjectMapper.marshal(file, value);
 		} catch (IOException e) {
 			log.error("Error while marshalling to file " + pathToFile, e);
-		}
-	}
-	
-	public void marshalToResources(Resource resource, Object value) {
-		if (resource == null) {
-			throw new NullPointerException("Resource is null!");
-		} else if (!resource.exists()) {
-			throw new NullPointerException("Resource doesn't exists!");
 		}
 	}
 	

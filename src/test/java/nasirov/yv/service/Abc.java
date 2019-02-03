@@ -38,7 +38,7 @@
 //import static org.testng.Assert.assertNotNull;
 //
 ///**
-// * Created by Хикка on 31.01.2019.
+// * Created by nasirov.yv
 // */
 //@SpringBootTest(classes = {AnimediaService.class, AnimediaTitlesSearchParser.class, AnimediaHTMLParser.class, WrappedObjectMapper.class, CacheManager.class, AppConfiguration.class})
 //@TestExecutionListeners(MockitoTestExecutionListener.class)

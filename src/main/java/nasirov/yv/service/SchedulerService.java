@@ -6,10 +6,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 /**
- * Created by Хикка on 27.01.2019.
+ * Created by nasirov.yv
  */
 @Service
-public class ScheduledService {
+public class SchedulerService {
 	private ReferencesManager referencesManager;
 	
 	private SeasonAndEpisodeChecker seasonAndEpisodeChecker;
@@ -17,7 +17,7 @@ public class ScheduledService {
 	private AnimediaService animediaService;
 	
 	@Autowired
-	public ScheduledService(ReferencesManager referencesManager,
+	public SchedulerService(ReferencesManager referencesManager,
 							SeasonAndEpisodeChecker seasonAndEpisodeChecker,
 							AnimediaService animediaService) {
 		this.referencesManager = referencesManager;
