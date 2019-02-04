@@ -19,6 +19,8 @@ import org.springframework.cache.Cache;
 import org.springframework.cache.CacheManager;
 import org.springframework.stereotype.Service;
 
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -84,7 +86,7 @@ public class MALService {
 	 * @param username the MAL username
 	 * @return the watching titles
 	 */
-	public Set<UserMALTitleInfo> getWatchingTitles(String username) throws MALUserAccountNotFoundException, WatchingTitlesNotFoundException, MALUserAnimeListAccessException, JSONNotFoundException {
+	public Set<UserMALTitleInfo> getWatchingTitles(@NotEmpty String username) throws MALUserAccountNotFoundException, WatchingTitlesNotFoundException, MALUserAnimeListAccessException, JSONNotFoundException {
 		Map<String, Map<String, String>> malRequestParameters = requestParametersBuilder.build();
 		//get a number of user watching titles
 		Integer numWatchingTitlesInteger = getNumberOfWatchingTitles(username, malRequestParameters);
@@ -128,7 +130,7 @@ public class MALService {
 	 * @param watchingTitlesFromCache cached watching titles
 	 * @return true if user anime list updated
 	 */
-	public boolean isWatchingTitlesUpdated(Set<UserMALTitleInfo> watchingTitlesNew, Set<UserMALTitleInfo> watchingTitlesFromCache) {
+	public boolean isWatchingTitlesUpdated(@NotNull Set<UserMALTitleInfo> watchingTitlesNew, @NotNull Set<UserMALTitleInfo> watchingTitlesFromCache) {
 		boolean isWatchingTitlesUpdated = false;
 		for (UserMALTitleInfo userMALTitleInfoNew : watchingTitlesNew) {
 			Integer numWatchedEpisodesNew = userMALTitleInfoNew.getNumWatchedEpisodes();
@@ -164,7 +166,7 @@ public class MALService {
 	 *
 	 * @param watchingTitles the user mal anime list
 	 */
-	private void changePosterUrl(Set<UserMALTitleInfo> watchingTitles) {
+	private void changePosterUrl(@NotEmpty Set<UserMALTitleInfo> watchingTitles) {
 		String changedPosterUrl = "";
 		Pattern pattern;
 		Matcher matcher;
@@ -188,7 +190,7 @@ public class MALService {
 	 *
 	 * @param watchingTitles the user mal anime list
 	 */
-	private void changeAnimeUrl(Set<UserMALTitleInfo> watchingTitles) {
+	private void changeAnimeUrl(@NotEmpty Set<UserMALTitleInfo> watchingTitles) {
 		watchingTitles.forEach(set -> set.setAnimeUrl(myAnimeListNet + set.getAnimeUrl()));
 	}
 	
@@ -201,7 +203,7 @@ public class MALService {
 	 * @throws MALUserAccountNotFoundException if user is not found
 	 * @throws WatchingTitlesNotFoundException if number of watching titles is not found or == 0
 	 */
-	private Integer getNumberOfWatchingTitles(String username, Map<String, Map<String, String>> malRequestParameters) throws MALUserAccountNotFoundException, WatchingTitlesNotFoundException {
+	private Integer getNumberOfWatchingTitles(@NotEmpty String username, @NotNull  Map<String, Map<String, String>> malRequestParameters) throws MALUserAccountNotFoundException, WatchingTitlesNotFoundException {
 		String numWatchingTitles = malParser.getNumWatchingTitles(httpCaller.call(myAnimeListNet + PROFILE + username, GET, malRequestParameters));
 		Integer numWatchingTitlesInteger;
 		if (numWatchingTitles != null) {
@@ -224,7 +226,7 @@ public class MALService {
 	 * @param username                 the mal username
 	 * @return the set with the user anime titles
 	 */
-	private Set<UserMALTitleInfo> getAllWatchingTitles(Integer numWatchingTitlesInteger, Map<String, Map<String, String>> malRequestParameters, String username) {
+	private Set<UserMALTitleInfo> getAllWatchingTitles(@NotEmpty Integer numWatchingTitlesInteger, @NotNull  Map<String, Map<String, String>> malRequestParameters, @NotEmpty String username) {
 		Map<String, String> queryParameters = new LinkedHashMap<>();
 		queryParameters.put("offset", numWatchingTitlesInteger.toString());
 		queryParameters.put(STATUS, WATCHING.getCode().toString());

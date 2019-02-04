@@ -17,6 +17,7 @@ import org.springframework.cache.CacheManager;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
+import javax.validation.constraints.NotEmpty;
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -70,7 +71,10 @@ public class SeasonAndEpisodeChecker {
 	 * @param username           mal username
 	 * @return matched user titles(multi seasons and single season)
 	 */
-	public Set<AnimediaMALTitleReferences> getMatchedAnime(Set<UserMALTitleInfo> watchingTitles, Set<AnimediaMALTitleReferences> references, Set<AnimediaTitleSearchInfo> animediaSearchList, String username) {
+	public Set<AnimediaMALTitleReferences> getMatchedAnime(@NotEmpty Set<UserMALTitleInfo> watchingTitles,
+														   @NotEmpty Set<AnimediaMALTitleReferences> references,
+														   @NotEmpty Set<AnimediaTitleSearchInfo> animediaSearchList,
+														   @NotEmpty String username) {
 		Map<String, Map<String, String>> animediaRequestParameters = requestParametersBuilder.build();
 		log.info("CHECK RESULT FOR {}:", username);
 		Set<AnimediaMALTitleReferences> finalMatchedAnime = new LinkedHashSet<>();
@@ -232,7 +236,9 @@ public class SeasonAndEpisodeChecker {
 	 * @param references            the currently updated title on animedia
 	 * @param matchedAnimeFromCache the matched user anime from cache
 	 */
-	public void updateMatchedReferences(Set<UserMALTitleInfo> watchingTitles, AnimediaMALTitleReferences references, Set<AnimediaMALTitleReferences> matchedAnimeFromCache) {
+	public void updateMatchedReferences(@NotEmpty Set<UserMALTitleInfo> watchingTitles,
+										@NotEmpty AnimediaMALTitleReferences references,
+										@NotEmpty Set<AnimediaMALTitleReferences> matchedAnimeFromCache) {
 		log.info("Updating matched references...");
 		for (UserMALTitleInfo userMALTitleInfo : watchingTitles) {
 			//Increment to next episode for watch

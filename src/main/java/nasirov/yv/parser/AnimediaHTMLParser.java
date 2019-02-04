@@ -2,11 +2,14 @@ package nasirov.yv.parser;
 
 import com.sun.istack.NotNull;
 import lombok.extern.slf4j.Slf4j;
+import nasirov.yv.aop.CheckHttpResponse;
 import nasirov.yv.exception.*;
 import nasirov.yv.response.HttpResponse;
 import nasirov.yv.serialization.AnimediaMALTitleReferences;
 import org.springframework.stereotype.Component;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -44,7 +47,7 @@ public class AnimediaHTMLParser {
 	/**
 	 * For episodes in data list
 	 */
-	private static final String EPISODE_IN_DATA_LIST = "<span>(?<description>Серия\\.|Cерия|Серия|Серии|серия|серии|ОВА|OVA|ONA|ODA|ФИЛЬМ|Фильмы|Сп[е|э]шл|СПЕШЛ|Фильм)?\\s?(?<firstEpisodeInSeason>\\d{1,3})?(-\\d{1,3})?(\\s\\(\\d{1,3}\\))? из (?<maxEpisodes>.{1,3})</span>";
+	private static final String EPISODE_IN_DATA_LIST = "<span>(?<description>Серия\\.|Cерия|Серия|Серии|серия|серии|ОВА|OVA|ONA|ODA|ФИЛЬМ|Фильмы|Сп[е|э]шл|СПЕШЛ|Фильм)?\\s?(?<firstEpisodeInSeason>\\d{1,3})?(-\\d{1,3})?(\\s\\(\\d{1,3}\\))?\\s+из\\s+(?<maxEpisodes>.{1,3})</span>";
 	
 	/**
 	 * For original title
@@ -60,6 +63,11 @@ public class AnimediaHTMLParser {
 			"\\s*<a href=\".+\" title=\".+\" class=\"h4 widget__new-series__item__title\">.+</a>";
 	
 	/**
+	 * For url
+	 */
+	private static final String GET_URL = "href=\"(?<url>/anime/.*?/\\d{1,3}/\\d{1,3})\"";
+	
+	/**
 	 * Searches for the title info
 	 * anime id - an entry id in the animedia database
 	 * data list - sub entry with anime episodes(it may be full season,part of season,ova,etc.)
@@ -69,15 +77,13 @@ public class AnimediaHTMLParser {
 	 * @param response the animedia response
 	 * @return the map <anime id,map<data list, number of episodes>
 	 */
+	@CheckHttpResponse
 	public Map<String, Map<String, String>> getAnimeIdSeasonsAndEpisodesMap(@NotNull HttpResponse response) {
-		if (response == null) {
-			throw new NullPointerException("HttpResponse is null!");
-		}
 		Map<String, Map<String, String>> animeIdSeasonsAndEpisodes = new HashMap<>();
 		try {
 			animeIdSeasonsAndEpisodes = searchForSeasonsAndEpisodes(response.getContent());
 		} catch (SeasonsAndEpisodesNotFoundException | OriginalTitleNotFoundException e) {
-			log.warn(e.getMessage(), e);
+			log.error(e.getMessage(), e);
 		}
 		return animeIdSeasonsAndEpisodes;
 	}
@@ -91,10 +97,8 @@ public class AnimediaHTMLParser {
 	 * @param response the animedia response
 	 * @return the first episode
 	 */
+	@CheckHttpResponse
 	public String getFirstEpisodeInSeason(@NotNull HttpResponse response) {
-		if (response == null) {
-			throw new NullPointerException("HttpResponse is null!");
-		}
 		String firstEpisodeNumber = null;
 		try {
 			firstEpisodeNumber = searchForFirstEpisodeInSeason(response.getContent());
@@ -113,10 +117,8 @@ public class AnimediaHTMLParser {
 	 * @param response the animedia response
 	 * @return the map<data list, list<episodes range>>
 	 */
+	@CheckHttpResponse
 	public Map<String, List<String>> getEpisodesRange(@NotNull HttpResponse response) {
-		if (response == null) {
-			throw new NullPointerException("HttpResponse is null!");
-		}
 		Map<String, List<String>> firstEpisodeNumber = new HashMap<>();
 		try {
 			firstEpisodeNumber = searchForEpisodesRange(response.getContent());
@@ -132,10 +134,8 @@ public class AnimediaHTMLParser {
 	 * @param response the animedia response
 	 * @return the title name
 	 */
+	@CheckHttpResponse
 	public String getOriginalTitle(@NotNull HttpResponse response) {
-		if (response == null) {
-			throw new NullPointerException("HttpResponse is null!");
-		}
 		String originalTitle = null;
 		try {
 			originalTitle = searchForOriginalTitle(response.getContent());
@@ -151,10 +151,8 @@ public class AnimediaHTMLParser {
 	 * @param response the animedia response
 	 * @return list of the currently updated titles
 	 */
-	public List<AnimediaMALTitleReferences> getCurrentlyUpdatedTitlesList(HttpResponse response) {
-		if (response == null) {
-			throw new NullPointerException("HttpResponse is null!");
-		}
+	@CheckHttpResponse
+	public List<AnimediaMALTitleReferences> getCurrentlyUpdatedTitlesList(@NotNull HttpResponse response) {
 		List<AnimediaMALTitleReferences> newSeriesList = new ArrayList<>();
 		try {
 			newSeriesList = searchForCurrentlyUpdatedTitles(response.getContent());
@@ -164,10 +162,7 @@ public class AnimediaHTMLParser {
 		return newSeriesList;
 	}
 	
-	private List<AnimediaMALTitleReferences> searchForCurrentlyUpdatedTitles(String content) throws NewEpisodesListNotFoundException {
-		if (content == null) {
-			throw new NullPointerException("Content is null!");
-		}
+	private List<AnimediaMALTitleReferences> searchForCurrentlyUpdatedTitles(@NotEmpty String content) throws NewEpisodesListNotFoundException {
 		Pattern pattern = Pattern.compile(NEW_SERIES_INFO);
 		Matcher matcher = pattern.matcher(content);
 		List<AnimediaMALTitleReferences> newSeriesList = new ArrayList<>();
@@ -184,10 +179,7 @@ public class AnimediaHTMLParser {
 		return newSeriesList;
 	}
 	
-	private String searchForOriginalTitle(String content) throws OriginalTitleNotFoundException {
-		if (content == null) {
-			throw new NullPointerException("Content is null!");
-		}
+	private String searchForOriginalTitle(@NotEmpty String content) throws OriginalTitleNotFoundException {
 		Pattern pattern = Pattern.compile(ORIGINAL_TITLE);
 		Matcher matcher = pattern.matcher(content);
 		if (matcher.find()) {
@@ -196,10 +188,7 @@ public class AnimediaHTMLParser {
 		throw new OriginalTitleNotFoundException("Original title not found!");
 	}
 	
-	private String searchForFirstEpisodeInSeason(String content) throws FirstEpisodeInSeasonNotFoundException {
-		if (content == null) {
-			throw new NullPointerException("Content is null!");
-		}
+	private String searchForFirstEpisodeInSeason(@NotEmpty String content) throws FirstEpisodeInSeasonNotFoundException {
 		Pattern pattern = Pattern.compile(EPISODE_IN_DATA_LIST);
 		Matcher matcher = pattern.matcher(content);
 		if (matcher.find()) {
@@ -213,10 +202,7 @@ public class AnimediaHTMLParser {
 		throw new FirstEpisodeInSeasonNotFoundException("First episode not found!");
 	}
 	
-	private Map<String, List<String>> searchForEpisodesRange(String content) throws EpisodesRangeNotFoundException {
-		if (content == null) {
-			throw new NullPointerException("Content is null!");
-		}
+	private Map<String, List<String>> searchForEpisodesRange(@NotEmpty String content) throws EpisodesRangeNotFoundException {
 		Pattern pattern = Pattern.compile(EPISODE_IN_DATA_LIST);
 		Matcher matcher = pattern.matcher(content);
 		List<String> episodes = new LinkedList<>();
@@ -241,13 +227,22 @@ public class AnimediaHTMLParser {
 			}
 		}
 		if (episodes.isEmpty() || maxEpisodes == null) {
-			throw new EpisodesRangeNotFoundException("Episodes range not found!");
+			throw new EpisodesRangeNotFoundException("Episodes range is not found for " + getUrl(content));
 		}
 		episodesRange.put(maxEpisodes, episodes);
 		return episodesRange;
 	}
 	
-	private boolean checkDescription(String description) {
+	private String getUrl(@NotEmpty String content) {
+		Pattern pattern = Pattern.compile(GET_URL);
+		Matcher matcher = pattern.matcher(content);
+		if (matcher.find()) {
+			return matcher.group("url");
+		}
+		return "url not found";
+	}
+	
+	private boolean checkDescription(@NotEmpty String description) {
 		Pattern pattern = Pattern.compile("\\D+");
 		Matcher matcher = pattern.matcher(description);
 		return matcher.find();
@@ -261,10 +256,7 @@ public class AnimediaHTMLParser {
 	 * @return the map <anime id <data list, episodes>>
 	 * @throws SeasonsAndEpisodesNotFoundException, if the mappings are not matched
 	 */
-	private Map<String, Map<String, String>> searchForSeasonsAndEpisodes(String content) throws SeasonsAndEpisodesNotFoundException, OriginalTitleNotFoundException {
-		if (content == null) {
-			throw new NullPointerException("Content is null!");
-		}
+	private Map<String, Map<String, String>> searchForSeasonsAndEpisodes(@NotEmpty String content) throws SeasonsAndEpisodesNotFoundException, OriginalTitleNotFoundException {
 		Map<String, String> tabsAndSeasons = new HashMap<>();
 		Map<String, String> tabsAndEpisodes = new HashMap<>();
 		Map<String, String> tabsAndDataList = new HashMap<>();
@@ -309,7 +301,7 @@ public class AnimediaHTMLParser {
 	 * @param season the season description
 	 * @return true if the description contain the range
 	 */
-	private boolean checkSeason(String season) {
+	private boolean checkSeason(@NotEmpty String season) {
 		Pattern pattern = Pattern.compile("(\\d{1,3}-(\\d{1,3}|[xX]{1,3}))");
 		Matcher matcher = pattern.matcher(season);
 		return matcher.find();

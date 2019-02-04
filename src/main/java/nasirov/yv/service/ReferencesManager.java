@@ -1,6 +1,6 @@
 package nasirov.yv.service;
 
-import com.sun.istack.NotNull;
+
 import nasirov.yv.http.HttpCaller;
 import nasirov.yv.parameter.RequestParametersBuilder;
 import nasirov.yv.parser.AnimediaHTMLParser;
@@ -17,6 +17,8 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
 
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -88,7 +90,7 @@ public class ReferencesManager {
 	 * @param content the string with all raw references
 	 * @return the json references
 	 */
-	private String createJsonReferences(String content) {
+	private String createJsonReferences(@NotEmpty String content) {
 		Pattern pattern = Pattern.compile(REFERENCE_MAL_TITLE_TO_ANIMEDIA_TITLE);
 		Matcher matcher = pattern.matcher(content);
 		StringBuilder stringBuilder = new StringBuilder();
@@ -145,7 +147,7 @@ public class ReferencesManager {
 	 *
 	 * @param references the references
 	 */
-	public void updateReferences(@NotNull Set<AnimediaMALTitleReferences> references) {
+	public void updateReferences(@NotEmpty Set<AnimediaMALTitleReferences> references) {
 		Map<String, Map<String, String>> animediaRequestParameters = requestParametersBuilder.build();
 		//обновляем информацию по сериям min,max,currentMax,firstEpisode
 		Map<String, Map<String, Map<String, String>>> seasonsAndEpisodesCache = new HashMap<>();
@@ -168,24 +170,26 @@ public class ReferencesManager {
 						if (ref.getDataList().equals(seasons.getKey())) {
 							HttpResponse resp = httpCaller.call(animediaEpisodesList + entry.getKey() + "/" + seasons.getKey(), GET, animediaRequestParameters);
 							Map<String, List<String>> episodesRange = animediaHTMLParser.getEpisodesRange(resp);
-							for (Map.Entry<String, List<String>> range : episodesRange.entrySet()) {
-								List<String> value = range.getValue();
-								String key = range.getKey();
-								String firstElement = value.get(0);
-								Integer intKey = null;
-								Integer intFirstElement = null;
-								//если в дата листах суммируют первую серию и последнюю с предыдущего дата листа, то нужна проверка для правильного максимума
-								//например, всего серий ххх, 1 даталист: серии 1 из 100; 2 дата лист: серии 101 из 100
-								if (!key.equalsIgnoreCase("xxx") && !key.equalsIgnoreCase("xx")) {
-									intKey = Integer.parseInt(key);
-									intFirstElement = Integer.parseInt(firstElement);
+							if (episodesRange.size() != 0) {
+								for (Map.Entry<String, List<String>> range : episodesRange.entrySet()) {
+									List<String> value = range.getValue();
+									String key = range.getKey();
+									String firstElement = value.get(0);
+									Integer intKey = null;
+									Integer intFirstElement = null;
+									//если в дата листах суммируют первую серию и последнюю с предыдущего дата листа, то нужна проверка для правильного максимума
+									//например, всего серий ххх, 1 даталист: серии 1 из 100; 2 дата лист: серии 101 из 100
+									if (!key.equalsIgnoreCase("xxx") && !key.equalsIgnoreCase("xx")) {
+										intKey = Integer.parseInt(key);
+										intFirstElement = Integer.parseInt(firstElement);
+									}
+									ref.setCurrentMax(value.get(value.size() - 1));
+									ref.setFirstEpisode(firstElement);
+									ref.setMin(firstElement);
+									ref.setMax(intKey != null && intKey < intFirstElement ? Integer.toString(intFirstElement + intKey) : key);
 								}
-								ref.setCurrentMax(value.get(value.size() - 1));
-								ref.setFirstEpisode(firstElement);
-								ref.setMin(firstElement);
-								ref.setMax(intKey != null && intKey < intFirstElement ? Integer.toString(intFirstElement + intKey) : key);
+								break;
 							}
-							break;
 						}
 					}
 				}
@@ -200,7 +204,7 @@ public class ReferencesManager {
 	 * @param watchingTitles the user watching titles
 	 * @return the matched user references
 	 */
-	public Set<AnimediaMALTitleReferences> getMatchedReferences(@NotNull Set<AnimediaMALTitleReferences> references, @NotNull Set<UserMALTitleInfo> watchingTitles) {
+	public Set<AnimediaMALTitleReferences> getMatchedReferences(@NotEmpty Set<AnimediaMALTitleReferences> references, @NotEmpty Set<UserMALTitleInfo> watchingTitles) {
 		Set<AnimediaMALTitleReferences> tempReferences = new LinkedHashSet<>();
 		if (references != null && watchingTitles != null) {
 			for (UserMALTitleInfo userMALTitleInfo : watchingTitles) {
@@ -215,7 +219,7 @@ public class ReferencesManager {
 		return tempReferences;
 	}
 	
-	public void checkReferences(Set<Anime> multiSeasonsAnime, Set<AnimediaMALTitleReferences> allReferences) {
+	public void checkReferences(@NotEmpty Set<Anime> multiSeasonsAnime, @NotEmpty Set<AnimediaMALTitleReferences> allReferences) {
 		Map<String, String> readFromRaw = readFromRaw(allReferences);
 		compareMaps(multiSeasonsAnime, readFromRaw);
 	}
@@ -226,7 +230,7 @@ public class ReferencesManager {
 	 * @param matchedAnimeFromCache the matched user anime from cache
 	 * @param currentlyUpdatedTitle the currently updated title on animedia
 	 */
-	public void updateReferences(Set<AnimediaMALTitleReferences> matchedAnimeFromCache, AnimediaMALTitleReferences currentlyUpdatedTitle) {
+	public void updateReferences(@NotEmpty Set<AnimediaMALTitleReferences> matchedAnimeFromCache, @NotNull AnimediaMALTitleReferences currentlyUpdatedTitle) {
 		matchedAnimeFromCache.stream()
 				.filter(set -> set.getUrl().equals(currentlyUpdatedTitle.getUrl())
 						&& set.getDataList().equals(currentlyUpdatedTitle.getDataList()))
@@ -236,13 +240,13 @@ public class ReferencesManager {
 				});
 	}
 	
-	private Map<String, String> readFromRaw(Set<AnimediaMALTitleReferences> allReferences) {
+	private Map<String, String> readFromRaw(@NotEmpty Set<AnimediaMALTitleReferences> allReferences) {
 		Map<String, String> urlTitle = new HashMap<>();
 		allReferences.forEach(set -> urlTitle.put(animediaOnlineTv + set.getUrl() + "/" + set.getDataList() + "/" + set.getFirstEpisode(), set.getTitleOnMAL()));
 		return urlTitle;
 	}
 	
-	private boolean compareMaps(Set<Anime> multi, Map<String, String> raw) {
+	private boolean compareMaps(@NotEmpty Set<Anime> multi, @NotEmpty Map<String, String> raw) {
 		boolean fullMatch = true;
 		for (Anime anime : multi) {
 			if (!raw.containsKey(anime.getFullUrl())) {

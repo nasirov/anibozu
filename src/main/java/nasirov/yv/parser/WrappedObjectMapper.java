@@ -20,7 +20,6 @@ public class WrappedObjectMapper {
 	
 	public <T, C extends Collection> C unmarshal(@NotNull String content, @NotNull Class<T> targetClass, @NotNull Class<C> collection) {
 		if (content == null || targetClass == null || collection == null) {
-			log.error("Content, target class, collection class cannot be null!");
 			throw new NullPointerException("Content, target class or collection class is null!");
 		}
 		CollectionType collectionType = objectMapper.getTypeFactory().constructCollectionType(collection, targetClass);

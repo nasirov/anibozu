@@ -1,6 +1,8 @@
 package nasirov.yv.parser;
 
+import com.sun.istack.NotNull;
 import lombok.extern.slf4j.Slf4j;
+import nasirov.yv.aop.CheckHttpResponse;
 import nasirov.yv.exception.JSONNotFoundException;
 import nasirov.yv.exception.MALUserAccountNotFoundException;
 import nasirov.yv.exception.MALUserAnimeListAccessException;
@@ -10,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 
+import javax.validation.constraints.NotEmpty;
 import java.util.Collection;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -44,10 +47,8 @@ public class MALParser {
 	 * @throws MALUserAnimeListAccessException if the user anime list has private access
 	 * @throws JSONNotFoundException           if the json anime list is not found
 	 */
-	public <T extends Collection> T getUserTitlesInfo(HttpResponse response, Class<T> collection) throws MALUserAnimeListAccessException, JSONNotFoundException {
-		if (response == null) {
-			throw new NullPointerException("HttpResponse is null!");
-		}
+	@CheckHttpResponse
+	public <T extends Collection> T getUserTitlesInfo(@NotNull HttpResponse response, @NotNull Class<T> collection) throws MALUserAnimeListAccessException, JSONNotFoundException {
 		return wrappedObjectMapper.unmarshal(getJsonAnimeListFromHtml(response.getContent()), UserMALTitleInfo.class, collection);
 	}
 	
@@ -58,10 +59,8 @@ public class MALParser {
 	 * @return the number of watching titles
 	 * @throws MALUserAccountNotFoundException if user is not found
 	 */
-	public String getNumWatchingTitles(HttpResponse response) throws MALUserAccountNotFoundException {
-		if (response == null) {
-			throw new NullPointerException("HttpResponse is null!");
-		}
+	@CheckHttpResponse
+	public String getNumWatchingTitles(@NotNull HttpResponse response) throws MALUserAccountNotFoundException {
 		if (!isAccountExist(response)) {
 			throw new MALUserAccountNotFoundException("MAL User Account is Not Found!");
 		}
@@ -79,7 +78,7 @@ public class MALParser {
 	 * @param response mal response
 	 * @return true if user exists
 	 */
-	private boolean isAccountExist(HttpResponse response) {
+	private boolean isAccountExist(@NotNull HttpResponse response) {
 		return !response.getStatus().equals(HttpStatus.NOT_FOUND.value());
 	}
 	
@@ -91,7 +90,7 @@ public class MALParser {
 	 * @throws JSONNotFoundException           if json not found
 	 * @throws MALUserAnimeListAccessException if user anime list has private access
 	 */
-	private String getJsonAnimeListFromHtml(String content) throws JSONNotFoundException, MALUserAnimeListAccessException {
+	private String getJsonAnimeListFromHtml(@NotEmpty String content) throws JSONNotFoundException, MALUserAnimeListAccessException {
 		String jsonAnimeList;
 		Pattern pattern = Pattern.compile(JSON_ANIME_LIST);
 		Matcher matcher = pattern.matcher(content);

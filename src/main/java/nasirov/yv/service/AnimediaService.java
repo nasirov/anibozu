@@ -22,6 +22,7 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
 
+import javax.validation.constraints.NotEmpty;
 import java.util.*;
 
 import static com.sun.research.ws.wadl.HTTPMethods.GET;
@@ -128,7 +129,7 @@ public class AnimediaService {
 	 * @param animediaSearchListInput the anime info for search on animedia
 	 * @return list[0] - singleSeason anime, list[1] - multiSeason anime,list[2] - announcements
 	 */
-	public List<Set<Anime>> getSortedForSeasonAnime(@NotNull Set<AnimediaTitleSearchInfo> animediaSearchListInput) {
+	public List<Set<Anime>> getSortedForSeasonAnime(@NotEmpty Set<AnimediaTitleSearchInfo> animediaSearchListInput) {
 		Map<String, Map<String, String>> animediaRequestParameters = requestParametersBuilder.build();
 		int multiSeasonCount = 1;
 		int singleSeasonCount = 1;
@@ -190,7 +191,7 @@ public class AnimediaService {
 		return allSeasons;
 	}
 	
-	public List<Set<Anime>> getAnime(@NotNull Set<AnimediaTitleSearchInfo> animediaSearchList) {
+	public List<Set<Anime>> getAnime(@NotEmpty Set<AnimediaTitleSearchInfo> animediaSearchList) {
 		Set<Anime> singleSeasonAnime;
 		Set<Anime> multiSeasonsAnime;
 		Set<Anime> announcements;
