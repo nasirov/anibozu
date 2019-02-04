@@ -2,7 +2,6 @@ package nasirov.yv.service;
 
 import lombok.extern.slf4j.Slf4j;
 import nasirov.yv.service.annotation.LoadResources;
-import nasirov.yv.util.ReferencesManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

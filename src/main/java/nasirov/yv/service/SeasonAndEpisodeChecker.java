@@ -1,4 +1,4 @@
-package nasirov.yv.util;
+package nasirov.yv.service;
 
 import lombok.extern.slf4j.Slf4j;
 import nasirov.yv.http.HttpCaller;
@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.Cache;
 import org.springframework.cache.CacheManager;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -25,7 +26,7 @@ import static com.sun.research.ws.wadl.HTTPMethods.GET;
 /**
  * Created by nasirov.yv
  */
-@Component
+@Service
 @Slf4j
 public class SeasonAndEpisodeChecker {
 	@Value("${cache.userMatchedAnime.name}")

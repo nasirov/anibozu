@@ -1,5 +1,7 @@
 package nasirov.yv.configuration;
 
+import nasirov.yv.service.ReferencesManager;
+import nasirov.yv.service.SeasonAndEpisodeChecker;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.EnableCaching;
@@ -43,7 +45,7 @@ public class AppConfiguration {
 	
 	/**
 	 * multiSeasonsReferencesCache-cache for multi seasons references from resources
-	 * {@link nasirov.yv.util.ReferencesManager#getMultiSeasonsReferences}
+	 * {@link ReferencesManager#getMultiSeasonsReferences}
 	 * <p>
 	 * sortedAnimediaSearchListCache-for sorted animedia titles(multi,single,announcements)
 	 * {@link nasirov.yv.service.AnimediaService#getSortedForSeasonAnime,nasirov.yv.service.AnimediaService#getAnime}
@@ -52,7 +54,7 @@ public class AppConfiguration {
 	 * {@link nasirov.yv.service.MALService#getWatchingTitles}
 	 * <p>
 	 * userMatchedAnimeCache-for user matched anime (single,multi) (after matchedReferencesCacheName)
-	 * {@link nasirov.yv.util.SeasonAndEpisodeChecker#getMatchedAnime}
+	 * {@link SeasonAndEpisodeChecker#getMatchedAnime}
 	 * <p>
 	 * matchedReferencesCache-for updated user matched references(only multi) (before userMatchedAnimeCacheName)
 	 * {@link nasirov.yv.controller.CheckResultController#handleNewUser}

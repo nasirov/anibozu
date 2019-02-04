@@ -1,4 +1,4 @@
-package nasirov.yv.util;
+package nasirov.yv.service;
 
 import com.sun.istack.NotNull;
 import nasirov.yv.http.HttpCaller;
@@ -9,6 +9,7 @@ import nasirov.yv.response.HttpResponse;
 import nasirov.yv.serialization.Anime;
 import nasirov.yv.serialization.AnimediaMALTitleReferences;
 import nasirov.yv.serialization.UserMALTitleInfo;
+import nasirov.yv.util.RoutinesIO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
