@@ -35,14 +35,14 @@ public class MALParser {
 	}
 	
 	/**
-	 * Search for user anime list
+	 * Searches for the user anime list
 	 *
-	 * @param response   mal response
+	 * @param response   the mal response
 	 * @param collection any collection
-	 * @param <T>        class extends collection
+	 * @param <T>        a class extends collection
 	 * @return collection with user anime titles
-	 * @throws MALUserAnimeListAccessException if user anime list has private access
-	 * @throws JSONNotFoundException           if json anime list not found
+	 * @throws MALUserAnimeListAccessException if the user anime list has private access
+	 * @throws JSONNotFoundException           if the json anime list is not found
 	 */
 	public <T extends Collection> T getUserTitlesInfo(HttpResponse response, Class<T> collection) throws MALUserAnimeListAccessException, JSONNotFoundException {
 		if (response == null) {
@@ -52,18 +52,18 @@ public class MALParser {
 	}
 	
 	/**
-	 * Search "Currently Watching" titles in user profile html
+	 * Searches "Currently Watching" titles in the user profile html
 	 *
-	 * @param response mal response
-	 * @return number of watching titles
-	 * @throws MALUserAccountNotFoundException if user not found
+	 * @param response the mal response
+	 * @return the number of watching titles
+	 * @throws MALUserAccountNotFoundException if user is not found
 	 */
 	public String getNumWatchingTitles(HttpResponse response) throws MALUserAccountNotFoundException {
 		if (response == null) {
 			throw new NullPointerException("HttpResponse is null!");
 		}
 		if (!isAccountExist(response)) {
-			throw new MALUserAccountNotFoundException("MAL User Account Not Found!");
+			throw new MALUserAccountNotFoundException("MAL User Account is Not Found!");
 		}
 		Pattern pattern = Pattern.compile(NUMBER_OF_WATCHING_TITLES);
 		Matcher matcher = pattern.matcher(response.getContent());
