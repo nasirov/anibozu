@@ -58,7 +58,7 @@ public class MALParserTest {
 	}
 	
 	@Test(expected = NullPointerException.class)
-	public void getUserTitlesInfoHttpResponseNull() throws Exception {
+	public void getUserTitlesInfoHttpResponseIsNull() throws Exception {
 		malParser.getUserTitlesInfo(null, LinkedHashSet.class);
 	}
 	
@@ -82,7 +82,7 @@ public class MALParserTest {
 	}
 	
 	@Test(expected = NullPointerException.class)
-	public void getNumWatchingTitlesHttpResponseNull() throws Exception {
+	public void getNumWatchingTitlesHttpResponseIsNull() throws Exception {
 		malParser.getNumWatchingTitles(null);
 	}
 	

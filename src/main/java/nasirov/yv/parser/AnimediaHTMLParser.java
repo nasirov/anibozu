@@ -115,7 +115,7 @@ public class AnimediaHTMLParser {
 	 */
 	public Map<String, List<String>> getEpisodesRange(@NotNull HttpResponse response) {
 		if (response == null) {
-			throw new NullPointerException("AnimediaResponse must be not null!");
+			throw new NullPointerException("HttpResponse is null!");
 		}
 		Map<String, List<String>> firstEpisodeNumber = new HashMap<>();
 		try {

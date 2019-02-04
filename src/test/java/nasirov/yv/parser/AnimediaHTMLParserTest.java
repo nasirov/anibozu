@@ -1,6 +1,7 @@
 package nasirov.yv.parser;
 
 import nasirov.yv.configuration.AppConfiguration;
+import nasirov.yv.exception.SeasonsAndEpisodesNotFoundException;
 import nasirov.yv.response.HttpResponse;
 import nasirov.yv.serialization.AnimediaMALTitleReferences;
 import nasirov.yv.util.RoutinesIO;
@@ -23,6 +24,7 @@ import java.util.Map;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 
 /**
  * Created by nasirov.yv
@@ -93,6 +95,18 @@ public class AnimediaHTMLParserTest {
 		assertEquals(maxEpisode.get(3), "1");
 	}
 	
+	@Test(expected = NullPointerException.class)
+	public void testGetAnimeIdSeasonsAndEpisodesMapHttpResponseIsNull() throws Exception {
+		assertNotNull(animediaHTMLParser.getAnimeIdSeasonsAndEpisodesMap(null));
+	}
+	
+	@Test
+	public void testGetAnimeIdSeasonsAndEpisodesMapSeasonsAndEpisodesNotFound() throws Exception {
+		Map<String, Map<String, String>> animeIdSeasonsAndEpisodesMap = animediaHTMLParser.getAnimeIdSeasonsAndEpisodesMap(new HttpResponse("<div class=\"media__post__original-title\"> test title </div>", HttpStatus.OK.value()));
+		assertNotNull(animeIdSeasonsAndEpisodesMap);
+		assertEquals(0,animeIdSeasonsAndEpisodesMap.size());
+	}
+	
 	@Test
 	public void testGetFirstEpisodeInSeason() throws Exception {
 		HttpResponse firstDataListHtmlResponse = new HttpResponse(routinesIO.readFromResource(firstDataListHtml), HttpStatus.OK.value());
@@ -101,6 +115,16 @@ public class AnimediaHTMLParserTest {
 		HttpResponse responseWithOVA = new HttpResponse(routinesIO.readFromResource(seventhDataListHtml), HttpStatus.OK.value());
 		String firstEpisodeInSeasonOva = animediaHTMLParser.getFirstEpisodeInSeason(responseWithOVA);
 		assertEquals(firstEpisodeInSeasonOva, "1");
+	}
+	
+	@Test(expected = NullPointerException.class)
+	public void testGetFirstEpisodeInSeasonHttpResponseIsNull() throws Exception {
+		assertNull(animediaHTMLParser.getFirstEpisodeInSeason(null));
+	}
+	
+	@Test
+	public void testGetFirstEpisodeInSeasonFirstEpisodeNotFound() throws Exception {
+		assertNull(animediaHTMLParser.getFirstEpisodeInSeason(new HttpResponse("",HttpStatus.OK.value())));
 	}
 	
 	@Test
@@ -113,11 +137,33 @@ public class AnimediaHTMLParserTest {
 		checkEpisodesRange(ovaRange, "1", "1", 1);
 	}
 	
+	@Test(expected = NullPointerException.class)
+	public void testGetEpisodesRangeHttpResponseIsNull() throws Exception {
+		assertNull(animediaHTMLParser.getEpisodesRange(null));
+	}
+	
+	@Test
+	public void testGetEpisodesRangeRangeIsNotFound() throws Exception {
+		Map<String, List<String>> episodesRange = animediaHTMLParser.getEpisodesRange(new HttpResponse("", HttpStatus.OK.value()));
+		assertNotNull(episodesRange);
+		assertEquals(0,episodesRange.size());
+	}
+	
 	@Test
 	public void testGetOriginalTitle() throws Exception {
 		HttpResponse html = new HttpResponse(routinesIO.readFromResource(multiSeasonsHtml), HttpStatus.OK.value());
 		String originalTitle = animediaHTMLParser.getOriginalTitle(html);
 		assertEquals(originalTitle, "Sword Art Online");
+	}
+	
+	@Test(expected = NullPointerException.class)
+	public void testGetOriginalTitleHttpResponseIsNull() throws Exception {
+		assertNull(animediaHTMLParser.getOriginalTitle(null));
+	}
+	
+	@Test
+	public void testGetOriginalTitleOriginalTitleIsNotFound() throws Exception {
+		assertNull(animediaHTMLParser.getOriginalTitle(new HttpResponse("",HttpStatus.OK.value())));
 	}
 	
 	@Test
@@ -132,6 +178,18 @@ public class AnimediaHTMLParserTest {
 			assertEquals(currentlyUpdatedTitlesList.get(i).getDataList(), currentlyAddedEpisodesListForCheck.get(i).getDataList());
 			assertEquals(currentlyUpdatedTitlesList.get(i).getCurrentMax(), currentlyAddedEpisodesListForCheck.get(i).getCurrentMax());
 		}
+	}
+	
+	@Test(expected = NullPointerException.class)
+	public void testGetCurrentlyUpdatedTitlesListHttpResponseIsNull() throws Exception {
+		assertNull(animediaHTMLParser.getCurrentlyUpdatedTitlesList(null));
+	}
+	
+	@Test
+	public void testGetCurrentlyUpdatedTitlesListIsNotFound() throws Exception {
+		List<AnimediaMALTitleReferences> currentlyUpdatedTitlesList = animediaHTMLParser.getCurrentlyUpdatedTitlesList(new HttpResponse("", HttpStatus.OK.value()));
+		assertNotNull(currentlyUpdatedTitlesList);
+		assertEquals(0,currentlyUpdatedTitlesList.size());
 	}
 	
 	private void checkEpisodesRange(Map<String, List<String>> range, String maxEpisode, String firstEpisode, int rangeSize) {
