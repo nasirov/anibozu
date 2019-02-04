@@ -183,16 +183,4 @@ public class CheckResultController {
 		model.addAttribute("matchedNotFoundAnimeOnAnimedia", matchedNotFoundAnimeOnAnimedia);
 		return "checkResult";
 	}
-	
-	private void z() {
-		// TODO: 25.01.2019 в шедуллер
-//            List<Set<Anime>> allSeasons = animediaService.getAnime(animediaSearchList);
-//            Set<Anime> singleSeasonAnime = allSeasons.get(0);
-//            Set<Anime> multiSeasonsAnime = allSeasons.get(1);
-//            Set<Anime> announcements = allSeasons.get(2);
-		// Set<AnimediaTitleSearchInfo> notFound = animediaService.checkAnime(singleSeasonAnime, multiSeasonsAnime, announcements, animediaSearchList);
-		// TODO: 25.01.2019 в шедуллер
-		// referencesManager.checkReferences(multiSeasonsAnime, allReferences);
-		// seasonAndEpisodeChecker.differences(allReferences, matchedAnime);
-	}
 }

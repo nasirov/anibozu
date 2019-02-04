@@ -54,10 +54,10 @@ public class AnimediaHTMLParser {
 	/**
 	 * For currently updated titles
 	 */
-	private static final String NEW_SERIES_INFO = "<div class=\"widget__new-series__item widget__item\">\\R" +
-			"<a href=\"(?<fullUrl>(?<root>/anime/.+)/(?<dataList>\\d{1,3})/(?<currentMax>\\d{1,3}))\" title=\".+\" class=\"widget__new-series__item__thumb\"><img src=\".+\" alt=\".+\" title=\".+\"></a>\\R" +
-			"<div class=\"widget__new-series__item__info\">\\R" +
-			"<a href=\".+\" title=\".+\" class=\"h4 widget__new-series__item__title\">.+</a>";
+	private static final String NEW_SERIES_INFO = "\\s*<div class=\"widget__new-series__item widget__item\">\\R*" +
+			"\\s*<a href=\"(?<fullUrl>(?<root>/anime/.+)/(?<dataList>\\d{1,3})/(?<currentMax>\\d{1,3}))\" title=\".+\" class=\"widget__new-series__item__thumb\"><img src=\".+\" alt=\".+\" title=\".+\"></a>\\R*" +
+			"\\s*<div class=\"widget__new-series__item__info\">\\R*" +
+			"\\s*<a href=\".+\" title=\".+\" class=\"h4 widget__new-series__item__title\">.+</a>";
 	
 	/**
 	 * Searches for the title info

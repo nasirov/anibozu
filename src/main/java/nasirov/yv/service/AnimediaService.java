@@ -252,19 +252,26 @@ public class AnimediaService {
 	 */
 	public List<AnimediaMALTitleReferences> checkCurrentlyUpdatedTitles(@NotNull List<AnimediaMALTitleReferences> fresh, @NotNull List<AnimediaMALTitleReferences> fromCache) {
 		List<AnimediaMALTitleReferences> list = new ArrayList<>();
+		// TODO: 04.02.2019 кейс с разными размерами
 		if (fresh != null && fromCache != null) {
-			AnimediaMALTitleReferences animediaMALTitleReferencesFromCache = fromCache.get(0);
-			if (fresh.size() != fromCache.size()
-					|| !fresh.get(0).equals(animediaMALTitleReferencesFromCache)) {
-				for (int i = 0; i < fresh.size(); i++) {
-					AnimediaMALTitleReferences temp = fresh.get(i);
-					if (temp.equals(animediaMALTitleReferencesFromCache)) {
-						break;
+			if (fromCache.size() != 0 && fresh.size() != 0) {
+				AnimediaMALTitleReferences animediaMALTitleReferencesFromCache = fromCache.get(0);
+				if (fresh.size() != fromCache.size()
+						|| !fresh.get(0).equals(animediaMALTitleReferencesFromCache)) {
+					for (int i = 0; i < fresh.size(); i++) {
+						AnimediaMALTitleReferences temp = fresh.get(i);
+						if (temp.equals(animediaMALTitleReferencesFromCache)) {
+							break;
+						}
+						list.add(temp);
 					}
-					list.add(temp);
 				}
-				cacheManager.getCache(currentlyUpdatedTitlesCacheName).put(currentlyUpdatedTitlesCacheName, list);
+			} else if (fromCache.size() == 0 && fresh.size() != 0) {
+				list.addAll(fresh);
+			} else if (fromCache.size() != 0 && fresh.size() == 0) {
+				return list;
 			}
+			cacheManager.getCache(currentlyUpdatedTitlesCacheName).put(currentlyUpdatedTitlesCacheName, list);
 		}
 		return list;
 	}

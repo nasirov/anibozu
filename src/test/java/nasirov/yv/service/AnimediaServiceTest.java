@@ -141,6 +141,12 @@ public class AnimediaServiceTest {
 		List<AnimediaMALTitleReferences> currentlyUpdatedTitles = animediaService.getCurrentlyUpdatedTitles();
 		assertNotNull(currentlyUpdatedTitles);
 		assertEquals(currentlyUpdatedTitles.size(), 10);
+		Cache cache = cacheManager.getCache(currentlyUpdatedTitlesCacheName);
+		assertNotNull(cache);
+		List<AnimediaMALTitleReferences> animediaMALTitleReferencesFromCache = cache.get(currentlyUpdatedTitlesCacheName, ArrayList.class);
+		assertNotNull(animediaMALTitleReferencesFromCache);
+		assertEquals(animediaMALTitleReferencesFromCache.size(), 10);
+		cache.clear();
 	}
 	
 	@Test
@@ -182,25 +188,66 @@ public class AnimediaServiceTest {
 	}
 	
 	@Test
-	public void testCheckCurrentlyUpdatedTitles() throws Exception {
-		Cache cache = cacheManager.getCache(currentlyUpdatedTitlesCacheName);
-		assertNotNull(cache);
-		List<AnimediaMALTitleReferences> animediaMALTitleReferencesFromCache = cache.get(currentlyUpdatedTitlesCacheName, ArrayList.class);
-		assertNotNull(animediaMALTitleReferencesFromCache);
-		assertEquals(animediaMALTitleReferencesFromCache.size(), 10);
-		List<AnimediaMALTitleReferences> result;
-		result = animediaService.checkCurrentlyUpdatedTitles(null, null);
-		assertEquals(result.size(), 0);
+	public void testCheckCurrentlyUpdatedTitlesDifferentValues() throws Exception {
+		doReturn(new HttpResponse(routinesIO.readFromResource(pageWithCurrentlyAddedEpisodes), HttpStatus.OK.value())).when(httpCaller).call(eq(animediaOnlineTv), eq(HTTPMethods.GET), any(Map.class));
+		List<AnimediaMALTitleReferences> currentlyUpdatedTitles = animediaService.getCurrentlyUpdatedTitles();
 		List<AnimediaMALTitleReferences> animediaMALTitleReferencesFresh = new ArrayList<>();
-		animediaMALTitleReferencesFromCache.forEach(list -> animediaMALTitleReferencesFresh.add(new AnimediaMALTitleReferences(list)));
+		currentlyUpdatedTitles.forEach(list -> animediaMALTitleReferencesFresh.add(new AnimediaMALTitleReferences(list)));
 		animediaMALTitleReferencesFresh.add(0, animediaMALTitleReferencesFresh.get(9));
 		animediaMALTitleReferencesFresh.remove(9);
-		result = animediaService.checkCurrentlyUpdatedTitles(animediaMALTitleReferencesFresh, animediaMALTitleReferencesFromCache);
+		List<AnimediaMALTitleReferences> result;
+		result = animediaService.checkCurrentlyUpdatedTitles(animediaMALTitleReferencesFresh, currentlyUpdatedTitles);
 		assertNotNull(result);
 		assertEquals(result.size(), 1);
-		animediaMALTitleReferencesFromCache = cache.get(currentlyUpdatedTitlesCacheName, ArrayList.class);
-		assertEquals(animediaMALTitleReferencesFromCache.size(), 1);
-		assertEquals(animediaMALTitleReferencesFresh.get(0), animediaMALTitleReferencesFromCache.get(0));
+		Cache cache = cacheManager.getCache(currentlyUpdatedTitlesCacheName);
+		assertNotNull(cache);
+		currentlyUpdatedTitles = cache.get(currentlyUpdatedTitlesCacheName, ArrayList.class);
+		assertEquals(currentlyUpdatedTitles.size(), 1);
+		assertEquals(animediaMALTitleReferencesFresh.get(0), currentlyUpdatedTitles.get(0));
+		cache.clear();
+	}
+	
+	@Test
+	public void testCheckCurrentlyUpdatedTitlesNullValues() {
+		List<AnimediaMALTitleReferences> result = animediaService.checkCurrentlyUpdatedTitles(null, null);
+		assertNotNull(result);
+		assertEquals(result.size(), 0);
+	}
+	
+	@Test
+	public void testCheckCurrentlyUpdatedTitlesCacheEmpty() {
+		doReturn(new HttpResponse(routinesIO.readFromResource(pageWithCurrentlyAddedEpisodes), HttpStatus.OK.value())).when(httpCaller).call(eq(animediaOnlineTv), eq(HTTPMethods.GET), any(Map.class));
+		List<AnimediaMALTitleReferences> currentlyUpdatedTitles = animediaService.getCurrentlyUpdatedTitles();
+		List<AnimediaMALTitleReferences> result;
+		result = animediaService.checkCurrentlyUpdatedTitles(currentlyUpdatedTitles,new ArrayList<>());
+		assertNotNull(result);
+		assertEquals(10, result.size());
+		Cache cache = cacheManager.getCache(currentlyUpdatedTitlesCacheName);
+		assertNotNull(cache);
+		List<AnimediaMALTitleReferences> resultFromCache = cache.get(currentlyUpdatedTitlesCacheName, ArrayList.class);
+		assertNotNull(resultFromCache);
+		assertEquals(10, resultFromCache.size());
+		assertEquals(result.get(0), currentlyUpdatedTitles.get(0));
+		assertEquals(result.get(0), resultFromCache.get(0));
+		assertEquals(resultFromCache.get(0), currentlyUpdatedTitles.get(0));
+		cache.clear();
+	}
+	
+	@Test
+	public void testCheckCurrentlyUpdatedTitlesFreshEmpty() {
+		doReturn(new HttpResponse(routinesIO.readFromResource(pageWithCurrentlyAddedEpisodes), HttpStatus.OK.value())).when(httpCaller).call(eq(animediaOnlineTv), eq(HTTPMethods.GET), any(Map.class));
+		List<AnimediaMALTitleReferences> currentlyUpdatedTitles = animediaService.getCurrentlyUpdatedTitles();
+		List<AnimediaMALTitleReferences> result;
+		result = animediaService.checkCurrentlyUpdatedTitles(new ArrayList<>(),currentlyUpdatedTitles);
+		assertNotNull(result);
+		assertEquals(0, result.size());
+		Cache cache = cacheManager.getCache(currentlyUpdatedTitlesCacheName);
+		assertNotNull(cache);
+		List<AnimediaMALTitleReferences> resultFromCache = cache.get(currentlyUpdatedTitlesCacheName, ArrayList.class);
+		assertNotNull(resultFromCache);
+		assertEquals(10, resultFromCache.size());
+		assertEquals(resultFromCache.get(0), currentlyUpdatedTitles.get(0));
+		cache.clear();
 	}
 	
 	@Test

@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.Cache;
 import org.springframework.cache.CacheManager;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 /**
@@ -36,7 +37,7 @@ public class CacheCleaner {
 		this.cacheManager = cacheManager;
 	}
 	
-	//@Scheduled(cron = "${cache.cron.expression}")
+	@Scheduled(cron = "${cache.cron.expression}")
 	public void clearCache() {
 		clearAndLog(cacheManager, animediaSearchListCacheName);
 		clearAndLog(cacheManager, userMALCacheName);
