@@ -54,13 +54,13 @@ public class MALServiceTest {
 	@Value("${urls.myAnimeList.net}")
 	private String myAnimeListNet;
 	
-	@Value("classpath:testAccForDevProfile.txt")
+	@Value("classpath:mal/testAccForDevProfile.txt")
 	private Resource testAccForDevProfile;
 	
-	@Value("classpath:testAccForDevWatchingTitles.txt")
+	@Value("classpath:mal/testAccForDevWatchingTitles.txt")
 	private Resource testAccForDevWatchingTitles;
 	
-	@Value("classpath:testAccForDevAdditionalJson.json")
+	@Value("classpath:mal/testAccForDevAdditionalJson.json")
 	private Resource testAccForDevAdditionalJson;
 	
 	private static final String LOAD_JSON = "load.json";

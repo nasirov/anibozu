@@ -1,7 +1,6 @@
 package nasirov.yv.parser;
 
 import nasirov.yv.configuration.AppConfiguration;
-import nasirov.yv.exception.SeasonsAndEpisodesNotFoundException;
 import nasirov.yv.response.HttpResponse;
 import nasirov.yv.serialization.AnimediaMALTitleReferences;
 import nasirov.yv.util.RoutinesIO;
@@ -34,25 +33,25 @@ import static org.junit.Assert.assertNull;
 @SpringBootTest(classes = {AppConfiguration.class})
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_CLASS)
 public class AnimediaHTMLParserTest {
-	@Value("classpath:animediaSearchListFull.json")
+	@Value("classpath:animedia/search/animediaSearchListFull.json")
 	private Resource animediaSearchListFull;
 	
-	@Value("classpath:saoHtml.txt")
+	@Value("classpath:animedia/sao/saoHtml.txt")
 	private Resource multiSeasonsHtml;
 	
-	@Value("classpath:blackCloverHtml.txt")
+	@Value("classpath:animedia/blackCloverHtml.txt")
 	private Resource singleSeasonHtml;
 	
-	@Value("classpath:ingressHtml.txt")
+	@Value("classpath:animedia/ingressHtml.txt")
 	private Resource announcementHtml;
 	
-	@Value("classpath:sao1.txt")
-	private Resource firstDataListHtml;
+	@Value("classpath:animedia/sao/sao1.txt")
+	private Resource sao1;
 	
-	@Value("classpath:sao7.txt")
-	private Resource seventhDataListHtml;
+	@Value("classpath:animedia/sao/sao7.txt")
+	private Resource sao7;
 	
-	@Value("classpath:pageWithCurrentlyAddedEpisodes.txt")
+	@Value("classpath:animedia/search/pageWithCurrentlyAddedEpisodes.txt")
 	private Resource pageWithCurrentlyAddedEpisodes;
 	
 	@Autowired
@@ -109,10 +108,10 @@ public class AnimediaHTMLParserTest {
 	
 	@Test
 	public void testGetFirstEpisodeInSeason() throws Exception {
-		HttpResponse firstDataListHtmlResponse = new HttpResponse(routinesIO.readFromResource(firstDataListHtml), HttpStatus.OK.value());
+		HttpResponse firstDataListHtmlResponse = new HttpResponse(routinesIO.readFromResource(sao1), HttpStatus.OK.value());
 		String firstEpisodeInSeason = animediaHTMLParser.getFirstEpisodeInSeason(firstDataListHtmlResponse);
 		assertEquals(firstEpisodeInSeason, "1");
-		HttpResponse responseWithOVA = new HttpResponse(routinesIO.readFromResource(seventhDataListHtml), HttpStatus.OK.value());
+		HttpResponse responseWithOVA = new HttpResponse(routinesIO.readFromResource(sao7), HttpStatus.OK.value());
 		String firstEpisodeInSeasonOva = animediaHTMLParser.getFirstEpisodeInSeason(responseWithOVA);
 		assertEquals(firstEpisodeInSeasonOva, "1");
 	}
@@ -129,10 +128,10 @@ public class AnimediaHTMLParserTest {
 	
 	@Test
 	public void testGetEpisodesRange() throws Exception {
-		HttpResponse firstDataListHtmlResponse = new HttpResponse(routinesIO.readFromResource(firstDataListHtml), HttpStatus.OK.value());
+		HttpResponse firstDataListHtmlResponse = new HttpResponse(routinesIO.readFromResource(sao1), HttpStatus.OK.value());
 		Map<String, List<String>> episodesRangeForFirstDataList = animediaHTMLParser.getEpisodesRange(firstDataListHtmlResponse);
 		checkEpisodesRange(episodesRangeForFirstDataList, "25", "1", 25);
-		HttpResponse responseWithOVA = new HttpResponse(routinesIO.readFromResource(seventhDataListHtml), HttpStatus.OK.value());
+		HttpResponse responseWithOVA = new HttpResponse(routinesIO.readFromResource(sao7), HttpStatus.OK.value());
 		Map<String, List<String>> ovaRange = animediaHTMLParser.getEpisodesRange(responseWithOVA);
 		checkEpisodesRange(ovaRange, "1", "1", 1);
 	}

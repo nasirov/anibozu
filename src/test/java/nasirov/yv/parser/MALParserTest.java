@@ -33,13 +33,13 @@ import static org.junit.Assert.*;
 		RoutinesIO.class})
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_CLASS)
 public class MALParserTest {
-	@Value("classpath:testAccForDevProfile.txt")
+	@Value("classpath:mal/testAccForDevProfile.txt")
 	private Resource testAccForDevProfile;
 	
-	@Value("classpath:testAccForDevWatchingTitles.txt")
+	@Value("classpath:mal/testAccForDevWatchingTitles.txt")
 	private Resource testAccForDevWatchingTitles;
 	
-	@Value("classpath:testAccForDevAdditionalJson.json")
+	@Value("classpath:mal/testAccForDevAdditionalJson.json")
 	private Resource testAccForDevAdditionalJson;
 	
 	private static final String USER_ANIME_LIST_PRIVATE_ACCESS = "Access to this list has been restricted by the owner";

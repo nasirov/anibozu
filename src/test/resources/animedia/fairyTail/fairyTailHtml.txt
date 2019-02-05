@@ -1,0 +1,3171 @@
+HTTP/1.1 200 OK
+Date: Tue, 05 Feb 2019 08:21:11 GMT
+Content-Type: text/html; charset=UTF-8
+Connection: keep-alive
+Set-Cookie: __cfduid=d070c33564edc7f0f6014053dd394ee881549354870; expires=Wed, 05-Feb-20 08:21:10 GMT; path=/; domain=.animedia.tv; HttpOnly
+Vary: Accept-Encoding
+Set-Cookie: anim_last_visit=1233994870; expires=Wed, 05-Feb-2020 08:21:10 GMT; Max-Age=31536000; path=/; httponly
+Set-Cookie: anim_last_activity=1549354870; expires=Wed, 05-Feb-2020 08:21:10 GMT; Max-Age=31536000; path=/; httponly
+Set-Cookie: anim_tracker=%7B%220%22%3A%22anime%2Fskazka-o-hvoste-fei-TV1%22%2C%22token%22%3A%2203eedc96d52859a141d488ba3f102b5d%22%7D; path=/; httponly
+Set-Cookie: anim_csrf_token=deleted; expires=Thu, 01-Jan-1970 00:00:01 GMT; Max-Age=0; path=/; httponly
+Set-Cookie: anim_csrf_token=b7ead095ab3d7cc4d61a2a437adab504834798ae; expires=Tue, 05-Feb-2019 10:21:10 GMT; Max-Age=7200; path=/; httponly
+Alt-Svc: h2=":443"; ma=60
+Server: cloudflare
+CF-RAY: 4a43f644358dc2fb-FRA
+Content-Length: 248925
+
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Смотреть аниме мультсериал Сказка о Хвосте Феи / Fairy Tail онлайн бесплатно</title>
+<meta name="title" content="Смотреть аниме мультсериал Сказка о Хвосте Феи / Fairy Tail онлайн бесплатно" />
+<meta name="description" content="Смотреть аниме онлайн Сказка о Хвосте Феи Fairy Tail  Это история о девочке-подростке по имени Люси Хартфила, которая полна решимости присоединиться к пресловутой волшебной гильдии Fairy Tale. Во время дерзкой операции по спасению она встречает Натсу, который является частью этой Гильдии и, в конце концов, предлагает ей присоединиться к&#8230;" />
+<meta name="keywords" content="Смотреть, Сказка о Хвосте Феи, Fairy Tail, Приключения, Сёнэн, Фэнтези, аниме онлайн, смотреть онлайн Сказка о Хвосте Феи, аниме Fairy Tail, анимедия тв, онлайн анимедия, animedia, anime online, HD, Россия" />
+<meta name="verification" content="2d8d54382bf5e339a1cadd83faff28" />
+<meta property="og:title" content="Смотреть аниме мультсериал Сказка о Хвосте Феи / Fairy Tail онлайн бесплатно" />
+<meta property="og:description" content="Смотреть аниме онлайн Сказка о Хвосте Феи Fairy Tail  Это история о девочке-подростке по имени Люси Хартфила, которая полна решимости присоединиться к пресловутой волшебной гильдии Fairy Tale. Во время дерзкой операции по спасению она встречает Натсу, который является частью этой Гильдии и, в конце концов, предлагает ей присоединиться к&#8230;" />
+<meta property="og:image" content="//static.animedia.tv/uploads/image.jpg" />
+<meta property="og:url" content="http://online.animedia.tv/anime/skazka-o-hvoste-fei-TV1" />
+<meta property="og:type" content="" />
+<meta property="og:video" href="" />
+<meta property="ya:ovs:allow_embed" content="true" />
+<link rel="image_src" href="//static.animedia.tv/uploads/image.jpg">
+<link rel="icon" type="image/x-icon" href="/favicon.ico">
+<link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
+<link rel="canonical" href="http://online.animedia.tv/anime/skazka-o-hvoste-fei-TV1">
+<link rel="alternate" hreflang="ru-RU" href="http://online.animedia.tv/anime/skazka-o-hvoste-fei-TV1" />
+<link rel="alternate" hreflang="ru-UA" href="http://online.animedia.tv/anime/skazka-o-hvoste-fei-TV1" />
+<link rel="alternate" hreflang="ru-KZ" href="http://online.animedia.tv/anime/skazka-o-hvoste-fei-TV1" />
+<link rel="alternate" hreflang="ru-BY" href="http://online.animedia.tv/anime/skazka-o-hvoste-fei-TV1" />
+<link rel="alternate" hreflang="ru-MD" href="http://online.animedia.tv/anime/skazka-o-hvoste-fei-TV1" />
+<link rel="alternate" hreflang="ru-GE" href="http://online.animedia.tv/anime/skazka-o-hvoste-fei-TV1" />
+<link rel="alternate" hreflang="ru-KG" href="http://online.animedia.tv/anime/skazka-o-hvoste-fei-TV1" />
+<link rel="alternate" hreflang="ru-AM" href="http://online.animedia.tv/anime/skazka-o-hvoste-fei-TV1" />
+<link rel="alternate" hreflang="ru-UZ" href="http://online.animedia.tv/anime/skazka-o-hvoste-fei-TV1" />
+<link rel="alternate" hreflang="ru-TJ" href="http://online.animedia.tv/anime/skazka-o-hvoste-fei-TV1" />
+<link rel="alternate" hreflang="ru-TM" href="http://online.animedia.tv/anime/skazka-o-hvoste-fei-TV1" />
+<link rel="alternate" hreflang="ru-AZ" href="http://online.animedia.tv/anime/skazka-o-hvoste-fei-TV1" />
+<link rel="alternate" hreflang="ru" href="http://online.animedia.tv/anime/skazka-o-hvoste-fei-TV1" />
+<meta property="og:image:type" content="image/jpeg">
+<meta name='wmail-verification' content='9973195d2a60ab01642e295b201562a0' />
+<meta name="google-site-verification" content="RiXZxPB73fSIS4th4eaXmeM4ou1QaeOpVZDbCUpBJ5I" />
+
+
+<link href="/css/style.css" rel="stylesheet">
+<link href="/css/mystyle.css" rel="stylesheet">
+<link rel="stylesheet" href="/js/plugins/wysibb/theme/default/wbbtheme.css" />
+
+<linK href="https://fonts.googleapis.com/css?family=Open+Sans:400italic,600italic,700italic,400,600,700&amp;subset=latin,cyrillic" rel="stylesheet" type="text/css"></linK>
+
+<linK href="https://fonts.googleapis.com/css?family=Oswald:400,700" rel="stylesheet" type="text/css"></linK>
+
+<!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+<input id="log_in" type="hidden" max="0" />
+
+<script type="text/javascript">
+	var _avp = _avp || [];
+	(function() {
+	  var s = document.createElement('script');
+	  s.type = 'text/javascript'; s.async = true; s.src = window.location.protocol + '//adbetnet.advertserve.com/js/libcode3.js';
+	  var x = document.getElementsByTagName('script')[0];
+	  x.parentNode.insertBefore(s, x);
+	})();
+	</script>
+
+<script type="text/javascript" src="https://chudo-udos.ru/?type=js&key=2828dfc07b6ede5"></script>
+</head>
+<script src="/js/scroll/jquery-1.9.1.min.js"></script>
+<div id="top"><img src="/img/sctop.png" alt="Наверх!"></div>
+<body class="post-page" onload="init();" style="margin:0px;">
+
+<header class="fixed-header">
+<div class="container">
+<div class="fixed-header__logo fixed-header__dropdown"><a href="/" title="AnimediaTV Online" class="logo"></a></div>
+<div class="fixed-header__burger fixed-header__dropdown"><a href="#" data-target="burger" class="icon-link icon-link__burger icon-dropdown">
+<div class="header-icon"></div></a>
+<div id="burger" class="dropdown">
+<ul class="dropdown__sub-menu">
+<li class="dropdown__sub-menu__item"><a href="http://animedia.tv/pages/about" title="О проекте">О проекте</a></li>
+<li class="dropdown__sub-menu__item"><a href="http://animedia.tv/pages/advertisers" title="Рекламодателям">Рекламодателям</a></li>
+<li class="dropdown__sub-menu__item"><a href="http://animedia.tv/pages/pravoobladatelyam" title="Правообладателям">Правообладателям</a></li>
+<li class="dropdown__sub-menu__item"><a href="http://online.animedia.tv/teamwork" title="Вакансии">Вакансии</a></li>
+</ul>
+</div>
+</div>
+<div class="fixed-header__navigation">
+<nav class="header-menu"><a href="/" title="Главная" class="header-menu__item">Главная</a><a href="http://animedia.tv/news" title="Новости" class="header-menu__item">Новости</a><a href="http://animedia.tv/blogs" title="Блоги" class="header-menu__item">Блоги</a><a href="http://tt.animedia.tv/" title="Трекер" class="header-menu__item">Трекер</a><a href="//animedia.tv/project-team" title="Команда проекта" class="header-menu__item">Команда</a>
+</nav>
+</div>
+<div class="fixed-header__right-icon fixed-header__dropdown"><a href="#" data-target="share" class="icon-link icon-link__share icon-dropdown">
+<div class="header-icon"></div></a>
+<div id="share" class="dropdown">
+<ul class="dropdown__sub-menu">
+<li class="dropdown__sub-menu__item"><a href="https://vk.com/animedia_tv" title="Мы Вконтакте">Мы Вконтакте</a></li>
+<li class="dropdown__sub-menu__item"><a href="https://www.facebook.com/profile.php?id=100011328373546" title="Мы на Facebook">Мы на Facebook</a></li>
+<li class="dropdown__sub-menu__item"><a href="https://twitter.com/AniMediaInfo" title="Мы в Twitter">Мы в Twitter</a></li>
+<li class="dropdown__sub-menu__item"><a href="https://plus.google.com/u/0/115080990408398860663" title="Мы в Google+">Мы в Google+</a></li>
+ <li class="dropdown__sub-menu__item"><a href="http://animediainfo.livejournal.com/" title="Мы в LiveJournal">Мы в LiveJournal</a></li>
+</ul>
+</div>
+</div>
+<div class="fixed-header__right-icon fixed-header__dropdown"><a href="#" data-target="search" class="icon-link icon-link__search icon-dropdown">
+<div class="header-icon"></div></a>
+<div id="search" class="dropdown">
+<div class="dropdown__block">
+<div class="dropdown__block__search">
+<form role="search" id="search" method="GET" action="/search">
+<a class="title_search_all" href="/search">Расширенный поиск</a>
+<div class="form-group">
+<div class="col-l dropdown__block__search__label">
+<label for="headerSearch" class="h1">Поиск</label>
+</div>
+<div class="col-l dropdown__block__search__input">
+<input type="text" name="q" type="search" required class="form-control">
+<div class="help-block"></div>
+</div>
+
+</div>
+</form>
+</div>
+</div>
+</div>
+</div>
+<div class="fixed-header__right-icon fixed-header__dropdown">
+<a href="#" data-target="profile" class="icon-link icon-link__profile icon-dropdown">
+<div class="header-icon"></div>
+</a>
+<div id="profile" class="dropdown">
+<div class="dropdown__block">
+<div class="dropdown__block__login">
+<div class="h1">Вход</div>
+<p>Если вы у нас впервые - зарегистрируйтесь. Это не займет много времени, но даст вам дополнительные возможности.</p>
+<form method="post" action="http://online.animedia.tv/">
+<div class='hiddenFields'>
+<input type="hidden" name="ACT" value="14" />
+<input type="hidden" name="RET" value="anime/skazka-o-hvoste-fei-TV1" />
+<input type="hidden" name="site_id" value="1" />
+<input type="hidden" name="csrf_token" value="b7ead095ab3d7cc4d61a2a437adab504834798ae" />
+</div>
+<form id="loginForm" action="#">
+<div class="form-group">
+<label for="login">Логин</label>
+<input id="username" name="username" type="text" required class="form-control form-control__small">
+<div class="help-block"></div>
+</div>
+<div class="form-group">
+<label for="password">Пароль</label>
+<input id="password" name="password" type="password" required class="form-control form-control__small">
+<div class="help-block"></div>
+</div>
+<div class="form-group">
+<button type="submit" class="btn btn__red btn__middle btn__login"><i class="ai ai-next"></i> Войти</button>
+<button type="button" class="btn btn__red btn__middle btn__reg-display"><i class="ai ai-next"></i> Регистрация</button>
+</div>
+</form>
+<p></br><img src="/img/or_auth.png"></p>
+<div class="form-group">
+<script type="text/javascript" charset="utf-8" src="http://online.animedia.tv/?ACT=jquery"></script>
+<script type="text/javascript">
+					$(document).ready(function(){
+					$('.extlogin').click(function(){
+					$('#social_login_form input[name=provider]').val($(this).attr('rel'));
+					$('#social_login_form').submit();
+					});
+					});
+					</script>
+<form id="social_login_form" class="social_login_form" name="social_login_form" method="post" action="http://online.animedia.tv/">
+<div class='hiddenFields'>
+<input type="hidden" name="ACT" value="104" />
+<input type="hidden" name="RET" value="http://online.animedia.tv/anime/skazka-o-hvoste-fei-TV1" />
+<input type="hidden" name="no_email_return" value="http://online.animedia.tv/anime/skazka-o-hvoste-fei-TV1" />
+<input type="hidden" name="site_id" value="1" />
+<input type="hidden" name="csrf_token" value="b7ead095ab3d7cc4d61a2a437adab504834798ae" />
+</div>
+<input type="hidden" name="provider" value="" />
+
+<button href="#" rel="vkontakte" class="extlogin btn_vk btn__vk btn__middle btn__vk"> Войти через Вконтакте</button>
+</form>
+<center></br><a href="#forgot_pass" class="forgot">Забыл пароль?</a></center>
+<fieldset style="border:0;" id="forgot_pass" class="white-popup-block mfp-hide">
+<form id="forgot_password_form" method="post" action="http://online.animedia.tv/">
+<div class='hiddenFields'>
+<input type="hidden" name="ACT" value="50" />
+<input type="hidden" name="RET" value="" />
+<input type="hidden" name="params_id" value="PUZJZqsadMTUGRJPjwmGhTmoq" />
+<input type="hidden" name="site_id" value="1" />
+<input type="hidden" name="csrf_token" value="b7ead095ab3d7cc4d61a2a437adab504834798ae" />
+</div>
+<div class="h1">Восстановление пароля</div>
+<p><textarea class="form-control" rows="1" type="text" name="email" id="email" placeholder="Введите свой E-mail адрес"></textarea></p>
+<button type="submit" name="submit" class="btn btn-primary">Отправить</button>
+</form>
+</fieldset>
+</div>
+</form>
+</div>
+<div class="dropdown__block__registration">
+<div class="h1">Регистрация</div>
+<form id="member_form" method="post" action="http://online.animedia.tv/">
+<div class='hiddenFields'>
+<input type="hidden" name="ACT" value="48" />
+<input type="hidden" name="RET" value="http://online.animedia.tv/anime/skazka-o-hvoste-fei-TV1" />
+<input type="hidden" name="params_id" value="thylKUhOWTfZFSsdzGsBKehtf" />
+<input type="hidden" name="site_id" value="1" />
+<input type="hidden" name="csrf_token" value="b7ead095ab3d7cc4d61a2a437adab504834798ae" />
+</div>
+<form id="regForm" action="#">
+<div class="form-group">
+<label for="regLogin">Логин</label>
+<input id="username" name="username" type="text" required class="form-control form-control__small">
+<div class="help-block"></div>
+</div>
+<div class="form-group">
+<label for="regMail">Email</label>
+<input name="email" id="email" type="email" required class="form-control form-control__small">
+<div class="help-block"></div>
+</div>
+<div class="form-group">
+<label for="regPassword">Пароль</label>
+<input id="password" name="password" type="password" required class="form-control form-control__small">
+<div class="help-block"></div>
+</div>
+<div class="form-group">
+<label for="regPasswordRepeat">Повторите пароль</label>
+<input type="password" id="password_confirm" name="password_confirm" required class="form-control form-control__small">
+<div class="help-block"></div>
+</div>
+<div class="form-group form-group__birthday">
+<label for="regBirthdayDay">Дата рождения</label>
+<div class="col-l col-l__day">
+<select id="bday_d" name="bday_d" type="bday_d" class="form-control form-control__small">
+<option value="1">1</option>
+<option value="2">2</option>
+<option value="3">3</option>
+<option value="4">4</option>
+<option value="5">5</option>
+<option value="6">6</option>
+<option value="7">7</option>
+<option value="8">8</option>
+<option value="9">9</option>
+<option value="10">10</option>
+<option value="11">11</option>
+<option value="12">12</option>
+<option value="13">13</option>
+<option value="14">14</option>
+<option value="15">15</option>
+<option value="16">16</option>
+<option value="17">17</option>
+<option value="18">18</option>
+<option value="19">19</option>
+<option value="20">20</option>
+<option value="21">21</option>
+<option value="22">22</option>
+<option value="23">23</option>
+<option value="24">24</option>
+<option value="25">25</option>
+<option value="26">26</option>
+<option value="27">27</option>
+<option value="28">28</option>
+<option value="29">29</option>
+<option value="30">30</option>
+<option value="31">31</option>
+</select>
+<div class="help-block"></div>
+</div>
+<div class="col-l col-l__month">
+<select id="bday_m" name="bday_m" type="bday_m" class="form-control form-control__small">
+<option value="1">Январь</option>
+<option value="2">Февраль</option>
+<option value="3">Март</option>
+<option value="4">Апрель</option>
+<option value="5">Май</option>
+<option value="6">Июнь</option>
+<option value="7">Июль</option>
+<option value="8">Август</option>
+<option value="9">Сентябрь</option>
+<option value="10">Октябрь</option>
+<option value="11">Ноябрь</option>
+<option value="12">Декабрь</option>
+</select>
+<div class="help-block"></div>
+</div>
+<div class="col-l col-l__year">
+<select id="bday_y" name="bday_y" type="bday_y" class="form-control form-control__small">
+<option value="1950">1950</option>
+<option value="1951">1951</option>
+<option value="1952">1952</option>
+<option value="1953">1953</option>
+<option value="1954">1954</option>
+<option value="1955">1955</option>
+<option value="1956">1956</option>
+<option value="1957">1957</option>
+<option value="1958">1958</option>
+<option value="1959">1959</option>
+<option value="1960">1960</option>
+<option value="1961">1961</option>
+<option value="1962">1962</option>
+<option value="1963">1963</option>
+<option value="1964">1964</option>
+<option value="1965">1965</option>
+<option value="1966">1966</option>
+<option value="1967">1967</option>
+<option value="1968">1968</option>
+<option value="1969">1969</option>
+<option value="1970">1970</option>
+<option value="1971">1971</option>
+<option value="1972">1972</option>
+<option value="1973">1973</option>
+<option value="1974">1974</option>
+<option value="1975">1975</option>
+<option value="1976">1976</option>
+<option value="1977">1977</option>
+<option value="1978">1978</option>
+<option value="1979">1979</option>
+<option value="1980">1980</option>
+<option value="1981">1981</option>
+<option value="1982">1982</option>
+<option value="1983">1983</option>
+<option value="1984">1984</option>
+<option value="1985">1985</option>
+<option value="1986">1986</option>
+<option value="1987">1987</option>
+<option value="1988">1988</option>
+<option value="1989">1989</option>
+<option value="1990">1990</option>
+<option value="1991">1991</option>
+<option value="1992">1992</option>
+<option value="1993">1993</option>
+<option value="1994">1994</option>
+<option value="1995">1995</option>
+<option value="1996">1996</option>
+<option value="1997">1997</option>
+<option value="1998">1998</option>
+<option value="1999">1999</option>
+<option value="2000">2000</option>
+<option value="2001">2001</option>
+<option value="2002">2002</option>
+<option value="2003">2003</option>
+<option value="2004">2004</option>
+<option value="2005">2005</option>
+<option value="2006">2006</option>
+<option value="2007">2007</option>
+<option value="2008">2008</option>
+<option value="2009">2009</option>
+<option value="2010">2010</option>
+<option value="2011">2011</option>
+<option value="2012">2012</option>
+<option value="2013">2013</option>
+<option value="2014">2014</option>
+<option value="2015">2015</option>
+<option value="2016">2016</option>
+<option value="2017">2017</option>
+</select>
+<div class="help-block"></div>
+</div>
+</div>
+<div class="form-group">
+<input type="hidden" name="accept_terms" value="y" />
+<button type="submit" class="btn btn__red btn__middle btn__reg"><i class="ai ai-next"></i> Зарегистрироваться!</button>
+</div>
+</form>
+</form>
+<p>Если у вас есть аккаунт, вы можете <a href="#" class="btn__login-display">войти</a>.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</header>
+
+
+
+<div id="BpFDBDah"></div>
+<script>(function(w,d,o,g,r,a,m){w[r]=w[r]||function(){(w[r+'l']=w[r+'l']||[]).push(arguments)};if(!w.ABN){a=d.createElement(o),m=d.getElementsByTagName(o)[0];
+a.async=1;a.src=g;m.parentNode.insertBefore(a,m)}})(window,document,'script','https://xml.adbetnet.com/libs/b.js','ABNS');
+ABNS('BpFDBDah', {id:2140143783});
+</script>
+
+<div class="promo2">
+<div class="container">
+<div class="promo__wrapper">
+<div class="wwzwpromo__visible-section">
+<div class="c002"></div>
+<div class="c016"></div>
+<div class="ramka"></div>
+<a id="first" class="pos-link" href="/anime/milyj-vo-frankce"></a>
+<a id="second" class="pos"></a>
+<div class="promo__parallax__layer2 layer-52"></div>
+</div>
+</div>
+</div>
+</div>
+<script>
+$("#first").mouseover(function(){
+    $("#second").css("background-image", "url(/img/2/promo4/franxx.gif)");
+});
+
+$("#first").mouseout(function(){
+    $("#second").css("background-image", "url(/img/2/promo4/giff.png)");
+});
+
+</script>
+
+<div id="is_not_logged" style="display: none;"></div>
+
+<div class="container">
+<div class="main-container">
+
+<nav class="main-navigation"><a href="/" title="Новинки" class="main-navigation__item">Новинки</a><a href="/list" title="Аниме" class="main-navigation__item active">Аниме</a><a href="/movie" title="Фильмы" class="main-navigation__item">Фильмы</a><a href="/dorams" title="Дорамы" class="main-navigation__item">Дорамы</a><a href="/announcements" title="Анонсы" class="main-navigation__item">Анонсы</a><a href="/search" class="main-navigation__item search-link">Расширенный поиск</a>
+</nav>
+
+
+<div class="content-container">
+
+<div class="content">
+
+<div class="breadcrumbs">
+<ul class="breadcrumbs__list">
+<li class="breadcrumbs__list__item"><a href="/" title="Главная Аниме онлайн">Главная</a></li>
+<li class="breadcrumbs__list__item"><a href="/list" title="Аниме онлайн смотреть">Аниме</a></li>
+<li class="breadcrumbs__list__item"><span>Сказка о Хвосте Феи</span></li>
+</ul>
+</div>
+
+
+<div class="media">
+
+<article class="media__post">
+<div class="media__post__header">
+<h1 class="media__post__title">Сказка о Хвосте Феи смотреть онлайн</h1>
+<div class="media__post__original-title">Fairy Tail </div>
+<div class="media__post__pegi pegi">8</div>
+</div>
+<div class="media__panel media__panel__gray">
+<div class="media__post__body">
+<p>Это история о девочке-подростке по имени Люси Хартфила, которая полна решимости присоединиться к пресловутой волшебной гильдии Fairy Tale. Во время дерзкой операции по спасению она встречает Натсу, который является частью этой Гильдии и, в конце концов, предлагает ей присоединиться к ним. Они становятся товарищами по команде, выполняя разные миссии для гильдии Fairy Tale. Будьте готовыми к приключениям, насыщенным событиями!</p>
+</div>
+<div class="media__post__info">
+<div class="col-l">
+<div class="releases-date">Дата выпуска: <span>с <a href="/search?q=2009" title="Аниме онлайн 2009 года">2009</a> года</span></div>
+<div class="director">Статус: <span>В работе</span></div>
+</div>
+<div class="col-l">
+
+<div class="genre-tags">Жанр: <a href="http://online.animedia.tv/category/advanture" title="Жанр аниме онлайн Приключения">Приключения</a><a href="http://online.animedia.tv/category/shounen" title="Жанр аниме онлайн Сёнэн">Сёнэн</a><a href="http://online.animedia.tv/category/fantasy" title="Жанр аниме онлайн Фэнтези">Фэнтези</a></div>
+<div class="studio">Студия: <a href="/search?q=Satelight" title="Студия аниме Satelight">Satelight</a></div>
+</div>
+</div>
+</div>
+</article>
+
+
+<div class="media__sshots">
+<h3 class="media__sshots__title">Скриншоты</h3>
+<ul class="media__sshots__list">
+<li class="media__sshots__list__item"><a href="//static.animedia.tv/uploads/9480/00000009.jpg" title="Увеличить" class="zoomLink"><img src="//static.animedia.tv/uploads/9480/00000009.jpg?w=175" alt="Скриншот аниме Сказка о Хвосте Феи" title="Скриншот из аниме онлайн Сказка о Хвосте Феи"></a></li>
+<li class="media__sshots__list__item"><a href="//static.animedia.tv/uploads/9480/1464544386bda34d7c6c5c76f8e14896fdee97fed5dc00b544.jpg" title="Увеличить" class="zoomLink"><img src="//static.animedia.tv/uploads/9480/1464544386bda34d7c6c5c76f8e14896fdee97fed5dc00b544.jpg?w=175" alt="Скриншот аниме Сказка о Хвосте Феи" title="Скриншот из аниме онлайн Сказка о Хвосте Феи"></a></li>
+<li class="media__sshots__list__item"><a href="//static.animedia.tv/uploads/9480/1464544435b968f276adc68017db7707e2e9a5515ed442e815.jpg" title="Увеличить" class="zoomLink"><img src="//static.animedia.tv/uploads/9480/1464544435b968f276adc68017db7707e2e9a5515ed442e815.jpg?w=175" alt="Скриншот аниме Сказка о Хвосте Феи" title="Скриншот из аниме онлайн Сказка о Хвосте Феи"></a></li>
+<li class="media__sshots__list__item"><a href="//static.animedia.tv/uploads/9480/14560010325aeaa43e7e63cb125fd64c265acd1665064e1656.jpg" title="Увеличить" class="zoomLink"><img src="//static.animedia.tv/uploads/9480/14560010325aeaa43e7e63cb125fd64c265acd1665064e1656.jpg?w=175" alt="Скриншот аниме Сказка о Хвосте Феи" title="Скриншот из аниме онлайн Сказка о Хвосте Феи"></a></li>
+<li class="media__sshots__list__item"><a href="//static.animedia.tv/uploads/9480/14645445780959e727839dff513bbb20905c793e6d80fbfa04.jpg" title="Увеличить" class="zoomLink"><img src="//static.animedia.tv/uploads/9480/14645445780959e727839dff513bbb20905c793e6d80fbfa04.jpg?w=175" alt="Скриншот аниме Сказка о Хвосте Феи" title="Скриншот из аниме онлайн Сказка о Хвосте Феи"></a></li>
+</ul>
+</div>
+
+
+<center>
+<div id='e3de435b70'></div>
+<script type='text/javascript' data-cfasync='false'>
+ (function(){
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.charset = 'utf-8';
+  script.async = 'true';
+  script.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//et-cod.com/bens/vinos.js?13282a' + Math.random();
+  document.body.appendChild(script);
+ })();
+</script>
+
+</center>
+<div class="media__sub__info">
+<div class="media__panel media__panel__gray">
+<div class="media__bnts">
+<a href="/anime/skazka-o-hvoste-fei-TV1/1/1" class="btn btn__big btn__red btn__play-first"><i class="ai ai-next"></i> Смотреть онлайн</a>
+<a href="javascript:open_auth();" id="save_fav" data-id='9480' class="add btn btn__d-gray btn__big btn__bookmark"><i class="ai ai-bookmark"></i> В закладки</a>
+<a href="javascript:open_auth();" data-id='9480' class="add btn btn__d-gray btn__big btn__like"><i class="ai ai-like__empty"></i> Мне нравится!</a>
+<a href="/error-on-site" target="_blank" class="btn btn__d-gray btn__big btn__error"><i class="ai ai-alert"></i> Нашел ошибку?</a>
+</div>
+<div class="media__sub__info__text">Все релизы на сайте могут содержать эротические сцены, ненормативную лексику и сцены насилия. По-умолчанию ограничение по возрасту 16+.<br>Пользователи младше указанной возрастной категории могут просматривать релизы на свой страх и риск, либо под присмотром родителей.</div>
+</div>
+</div>
+
+
+
+<div class="media__tabs">
+
+<ul role="tablist" class="media__tabs__nav nav-tabs" data-entry_id="9480">
+<li class="media__tabs__nav__item active"><a href="#tab0" role="tab" data-toggle="tab">1 Сезон</a></li>
+<li class="media__tabs__nav__item"><a href="#tab1" role="tab" data-toggle="tab">2 Сезон</a></li>
+<li class="media__tabs__nav__item"><a href="#tab2" role="tab" data-toggle="tab">3 Сезон</a></li>
+<li class="media__tabs__nav__item"><a href="#tab6" role="tab" data-toggle="tab">ОВА & ODA</a></li>
+</ul>
+
+
+
+
+<div class="media__tabs__content tab-content">
+<div id="tab0" role="tabpanel" class="media__tabs__panel tab-pane active">
+<div id="carousel0" data-interval="false" data-wrap="false" class="media__tabs__series carousel slide">
+<div class="media__tabs__series__list carousel-inner" data-list_id="1"></div>
+<div class="clearfix"></div>
+<div class="media__tabs__series__footer">
+<div class="media__tabs__series__footer__item"><a href="#carousel0" data-slide="prev" class="media__tabs__series__control carousel-control prev"><i class="ai ai-prev"></i></a></div>
+<div class="media__tabs__series__footer__item media__tabs__series__footer__item__center">Серии <span class="start-series"></span>-<span class="end-series"></span> из 175</div>
+<div class="media__tabs__series__footer__item"><a href="#carousel0" data-slide="next" class="media__tabs__series__control carousel-control next"><i class="ai ai-next"></i></a></div>
+</div>
+</div>
+</div>
+<div id="tab1" role="tabpanel" class="media__tabs__panel tab-pane">
+<div id="carousel1" data-interval="false" data-wrap="false" class="media__tabs__series carousel slide">
+<div class="media__tabs__series__list carousel-inner" data-list_id="2"></div>
+<div class="clearfix"></div>
+<div class="media__tabs__series__footer">
+<div class="media__tabs__series__footer__item"><a href="#carousel1" data-slide="prev" class="media__tabs__series__control carousel-control prev"><i class="ai ai-prev"></i></a></div>
+<div class="media__tabs__series__footer__item media__tabs__series__footer__item__center">Серии <span class="start-series"></span>-<span class="end-series"></span> из 277</div>
+<div class="media__tabs__series__footer__item"><a href="#carousel1" data-slide="next" class="media__tabs__series__control carousel-control next"><i class="ai ai-next"></i></a></div>
+</div>
+</div>
+</div>
+<div id="tab2" role="tabpanel" class="media__tabs__panel tab-pane">
+<div id="carousel2" data-interval="false" data-wrap="false" class="media__tabs__series carousel slide">
+<div class="media__tabs__series__list carousel-inner" data-list_id="3"></div>
+<div class="clearfix"></div>
+<div class="media__tabs__series__footer">
+<div class="media__tabs__series__footer__item"><a href="#carousel2" data-slide="prev" class="media__tabs__series__control carousel-control prev"><i class="ai ai-prev"></i></a></div>
+<div class="media__tabs__series__footer__item media__tabs__series__footer__item__center">Серии <span class="start-series"></span>-<span class="end-series"></span> из xxx</div>
+<div class="media__tabs__series__footer__item"><a href="#carousel2" data-slide="next" class="media__tabs__series__control carousel-control next"><i class="ai ai-next"></i></a></div>
+</div>
+ </div>
+</div>
+<div id="tab3" role="tabpanel" class="media__tabs__panel tab-pane">
+<div id="carousel3" data-interval="false" data-wrap="false" class="media__tabs__series carousel slide">
+<div class="media__tabs__series__list carousel-inner" data-list_id="4"></div>
+<div class="clearfix"></div>
+<div class="media__tabs__series__footer">
+<div class="media__tabs__series__footer__item"><a href="#carousel3" data-slide="prev" class="media__tabs__series__control carousel-control prev"><i class="ai ai-prev"></i></a></div>
+<div class="media__tabs__series__footer__item media__tabs__series__footer__item__center">Серии <span class="start-series"></span>-<span class="end-series"></span> из </div>
+<div class="media__tabs__series__footer__item"><a href="#carousel3" data-slide="next" class="media__tabs__series__control carousel-control next"><i class="ai ai-next"></i></a></div>
+</div>
+</div>
+</div>
+<div id="tab4" role="tabpanel" class="media__tabs__panel tab-pane">
+<div id="carousel4" data-interval="false" data-wrap="false" class="media__tabs__series carousel slide">
+<div class="media__tabs__series__list carousel-inner" data-list_id="5"></div>
+<div class="clearfix"></div>
+<div class="media__tabs__series__footer">
+<div class="media__tabs__series__footer__item"><a href="#carousel4" data-slide="prev" class="media__tabs__series__control carousel-control prev"><i class="ai ai-prev"></i></a></div>
+<div class="media__tabs__series__footer__item media__tabs__series__footer__item__center">Серии <span class="start-series"></span>-<span class="end-series"></span> из </div>
+<div class="media__tabs__series__footer__item"><a href="#carousel4" data-slide="next" class="media__tabs__series__control carousel-control next"><i class="ai ai-next"></i></a></div>
+</div>
+</div>
+</div>
+<div id="tab5" role="tabpanel" class="media__tabs__panel tab-pane">
+<div id="carousel5" data-interval="false" data-wrap="false" class="media__tabs__series carousel slide">
+<div class="media__tabs__series__list carousel-inner" data-list_id="6"></div>
+<div class="clearfix"></div>
+<div class="media__tabs__series__footer">
+<div class="media__tabs__series__footer__item"><a href="#carousel5" data-slide="prev" class="media__tabs__series__control carousel-control prev"><i class="ai ai-prev"></i></a></div>
+<div class="media__tabs__series__footer__item media__tabs__series__footer__item__center">Серии <span class="start-series"></span>-<span class="end-series"></span> из </div>
+<div class="media__tabs__series__footer__item"><a href="#carousel5" data-slide="next" class="media__tabs__series__control carousel-control next"><i class="ai ai-next"></i></a></div>
+</div>
+</div>
+</div>
+<div id="tab6" role="tabpanel" class="media__tabs__panel tab-pane">
+<div id="carousel6" data-interval="false" data-wrap="false" class="media__tabs__series carousel slide">
+<div class="media__tabs__series__list carousel-inner" data-list_id="7"></div>
+<div class="clearfix"></div>
+<div class="media__tabs__series__footer">
+<div class="media__tabs__series__footer__item"><a href="#carousel6" data-slide="prev" class="media__tabs__series__control carousel-control prev"><i class="ai ai-prev"></i></a></div>
+<div class="media__tabs__series__footer__item media__tabs__series__footer__item__center">Серии <span class="start-series"></span>-<span class="end-series"></span> из 4</div>
+<div class="media__tabs__series__footer__item"><a href="#carousel6" data-slide="next" class="media__tabs__series__control carousel-control next"><i class="ai ai-next"></i></a></div>
+</div>
+</div>
+</div>
+</div>
+
+</div>
+
+<div class="media__related">
+<div class="media__panel media__panel__gray">
+<h3 class="media__related__title">С этим релизом смотрят:</h3>
+<div class="media__related__list">
+<div class="media__related__list__item"><a href="http://online.animedia.tv/anime/hroniki-nepobezhdennogo-bahamuta" title="Смотреть онлайн Хроники непобежденного Бахамута" class="zoomLink"><img src="//static.animedia.tv/uploads/1357.jpg?w=133&h=183" alt="Смотреть онлайн Хроники непобежденного Бахамута" width="133" height="183"></a></div>
+<div class="media__related__list__item"><a href="http://online.animedia.tv/anime/tragicheskoe-ubiystvo" title="Смотреть онлайн Трагическое Убийство" class="zoomLink"><img src="//static.animedia.tv/uploads/1190.jpg?w=133&h=183" alt="Смотреть онлайн Трагическое Убийство" width="133" height="183"></a></div>
+<div class="media__related__list__item"><a href="http://online.animedia.tv/anime/fantasticheskaya-zvezda-onlajn-2" title="Смотреть онлайн Фантастическая звезда онлайн 2" class="zoomLink"><img src="//static.animedia.tv/uploads/phs.jpg?w=133&h=183" alt="Смотреть онлайн Фантастическая звезда онлайн 2" width="133" height="183"></a></div>
+<div class="media__related__list__item"><a href="http://online.animedia.tv/anime/haktrilogiyahackGU-TrilogyMovie" title="Смотреть онлайн .хак//Трилогия" class="zoomLink"><img src="//static.animedia.tv/uploads/hackgu.jpg?w=133&h=183" alt="Смотреть онлайн .хак//Трилогия" width="133" height="183"></a></div>
+<div class="media__related__list__item"><a href="http://online.animedia.tv/anime/magi-v-zakone" title="Смотреть онлайн Маги в законе" class="zoomLink"><img src="//static.animedia.tv/uploads/1085.jpg?w=133&h=183" alt="Смотреть онлайн Маги в законе" width="133" height="183"></a></div>
+<div class="media__related__list__item"><a href="http://online.animedia.tv/anime/adept-svyatogo-znaka" title="Смотреть онлайн Адепт Святого знака" class="zoomLink"><img src="//static.animedia.tv/uploads/Seikon_no_Qwaser.jpg?w=133&h=183" alt="Смотреть онлайн Адепт Святого знака" width="133" height="183"></a></div>
+</div><a href="/list" class="btn btn__gray btn__more"><i class="ai ai-next"></i> Все релизы</a>
+<div class="clearfix"></div>
+</div>
+</div>
+
+<div class="content-comments" id="comments-widget">
+<div class="content-comments-title">Комментарии
+<div class="content-comments-count">512</div>
+</div>
+
+<link rel="stylesheet" type="text/css" href="/css/jquery-comments.css">
+<link rel="stylesheet" type="text/css" href="/js/plugins/wysiwyg/wysiwyg-editor.min.css">
+
+<link href="/css/fonts/font-awesome.min.css" type="text/css" rel="stylesheet">
+
+
+<script type="text/javascript">
+			var current_member_id = "0";
+			//var current_roleText = "";
+			//var current_roleText = "";
+			var current_avatar =  '';
+			var entry_id = 9480;
+			var comments_form_url = '/ajax/comments_form/9480';
+			var next = '';
+			var prev = '';
+			var limit = 10;
+
+		</script>
+<script>next="http://online.animedia.tv/ajax/comments/9480/P10";</script>
+<div id="comments_form"></div>
+<div id="comments-container" style="max-width: 860px;"></div>
+<div class="paggintane_comment">
+<a href="javascript:;" id="new_comments" class="next_comment">Вперед</a>
+<a href="javascript:;" id="old_comments" class="prev_comment">Назад</a>
+</div>
+</div>
+<div id="44040" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#44040" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от Элина Цой">Элина Цой</a>
+<p>Ну правда виснет и смотреть почти нереально. На одну серию минут по 40 уходит. И дело не в технике или интернете. На других ресурсах все работает прекрасно, но от чего-то не здесь.. </p>
+</div>
+<div id="43912" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#43912" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от MrStrongCookies">MrStrongCookies</a>
+<p>Плюс минус по моим мыслям пол года </p>
+</div>
+<div id="43911" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#43911" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от Павел Дубик">Павел Дубик</a>
+<p>а через сколько примерно выйдут все серии 3 сезона?</p>
+</div>
+<div id="43896" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#43896" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от Никита Тисленко">Никита Тисленко</a>
+<p>А что с переводом в 293 серии, мужские персонажи озвучены как 7летние дети</p>
+</div>
+<div id="43861" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#43861" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от Мария Умярова">Мария Умярова</a>
+<p>вот только это не помогает и всё всё ещё виснет. Смотреть действительно невозможно. Очень люблю этот сайт, по этому, пожалуйста, хватит валить вину на пользователей, убегая от проблем, и беритесь их исправлять. Заранее спасибо</p>
+</div>
+<div id="43836" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#43836" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от MrStrongCookies">MrStrongCookies</a>
+<p>Вчера были некоторые проблемы у нас, но к ночи они уже были решены! В ближайшее время эти проблемы должны исчезнуть, мы и так стараемся все оперативно решать и исправлять.<br />
+Если бы проблема была действительно массовой я думаю было бы завален весь сайт, но это не так, в большинстве проблемы действительно на стороне пользователя.<br />
+НО так или иначе мы работаем над повышением качества онлайн просмотра</p>
+</div>
+<div id="43833" class="scominv">
+ <a href="/anime/skazka-o-hvoste-fei-TV1#43833" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от Юрий Чернов">Юрий Чернов</a>
+<p>Вы пишете остальным, что все работает смотрите у себя. Но ведь действительно не работает.<br />
+Уже несколько дней смотрю у Вас разные аниме и на разных аниме, на разных сериях, то начинает тормозить, то виснет,очень долго думает и выдает ошибку 232600. По 5-6 раз приходится обновлять. Причем реклама &#8220;заводится&#8221; на лету. А после нее начинаются тормоза. При этом на других сайтах, например в том же контакте видео просто летает. <br />
+Всякие обновления кеша и чистки не помогают. Такая проблема проявляется на разных браузерах. Такое чувство, что начинают лагать серваки. Раньше такое было очень редко, но последние два-три дня постоянно.<br />
+И это вряд ли у десяти человек, как Вы пишете. Я долго не писал, поскольку проблемы были раньше. Лень было регистрироваться. Но действительно эти лаги начинают доставать.<br />
+Просто многие не пишут и идут смотреть на другие ресурсы. Вчера я досматривал аниме Вконтакте. Потому-что у вас оно все время после рекламы висло. А если и запускалось, то через пару минут опять висло.</p>
+</div>
+<div id="43822" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#43822" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от MrStrongCookies">MrStrongCookies</a>
+<p>Если лично у Вас что то не работает. ищите проблемы на Вашей стороне! ВОт как раз у большинства пользователей все нормально. </p>
+</div>
+<div id="43818" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#43818" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от qrf4valek">qrf4valek</a>
+<p>если десять человек говорят, что на их компах не работает, системщикам надо работать, а не говорить, что у них всё работает. У меня большенство серий через одно место работают Opera куки отрублены , блокировка рекламы. В место того чтобы просматривать у вас я перешёл в яндекс и смотрел без тормозов там а вы и дальше можете ситеть и протирать одно место так ведь удобно.</p>
+</div>
+<div id="43810" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#43810" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от Олег Дегтярев">Олег Дегтярев</a>
+<p>я просто это сказал , не какая не катастрофа , большинство вообще не досмотрит до того момента</p>
+</div>
+<div id="43801" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#43801" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от Григорий Пахнин">Григорий Пахнин</a>
+<p>ну уж Нацу против Зерефа не распознать - так вообще<br />
+косяк в букву, это ж надо так<br />
+вселенская катастрофа</p>
+</div>
+<div id="43793" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#43793" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от Олег Дегтярев">Олег Дегтярев</a>
+<p>Короче можно бросать хвост феи , пока серий 100 не выйдет . У вас косяк с озвучкой в самом конце , где следующую серию объявляют . </p>
+</div>
+<div id="43630" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#43630" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от Артём Бирюков">Артём Бирюков</a>
+<p>МАнга уже давно закончилась!</p>
+</div>
+<div id="43595" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#43595" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от MrStrongCookies">MrStrongCookies</a>
+<p>Какая серия?</p>
+</div>
+<div id="43584" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#43584" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от Иван Охлопков">Иван Охлопков</a>
+<p>Выдает ошибку 232600,  почему?</p>
+</div>
+<div id="43526" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#43526" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от BloodFish">BloodFish</a>
+<p>Сколько еще примерно серий будет?Я  прост незнаю кончилась манга или нет.</p>
+</div>
+<div id="43505" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#43505" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от MrStrongCookies">MrStrongCookies</a>
+<p>Да была там такая проблема, увы уже не поправим(<br />
+Но Вы там сильно ничего не потеряете </p>
+</div>
+<div id="43504" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#43504" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от MrStrongCookies">MrStrongCookies</a>
+<p>Все работает нормально<br />
+Но Вы можете попробовать следующие: <br />
+ctrl+f5 <br />
+shift+f5 <br />
+Если не спасет, смотрите на другом браузере </p>
+</div>
+<div id="43495" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#43495" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от Віктор Шкльода">Віктор Шкльода</a>
+<p>смешно. но нивкаком другом аниме так не прогружает, как тут. В ван писе норм наруто тоже. А тут настолько тормозит. Что аж бесит.</p>
+</div>
+<div id="43492" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#43492" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от Артем Аникин">Артем Аникин</a>
+<p>а что у вас с 204 серией? она не до конца... </p>
+</div>
+<div id="43467" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#43467" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от Лиза Скачкова">Лиза Скачкова</a>
+<p>по манге его, вроде бы, в другой мир или место переместят. А так он живой будет</p>
+</div>
+<div id="43453" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#43453" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от Stark">Stark</a>
+<p>Что то случится с гажилом ? в опенинге как то странно всё это смотрелось....</p>
+</div>
+<div id="43450" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#43450" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от dovakin1411">dovakin1411</a>
+<p>для тех кто путается в озвучке в 292 серии там наряд звёздного духа: овен</p>
+</div>
+<div id="43221" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#43221" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от Дмитрий Нечаев">Дмитрий Нечаев</a>
+<p>Спецом собаки поставили 4 серию чтобы на рекламе капусту рубить. В торрентах нет ее...</p>
+</div>
+<div id="43110" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#43110" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от MrStrongCookies">MrStrongCookies</a>
+<p>Об этом уже писали, читайте комментарии! </p>
+</div>
+<div id="43099" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#43099" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от Дмитрий Нечаев">Дмитрий Нечаев</a>
+<p>Нет просмотра... Видео #4 недоступно. Ошибка 232404</p>
+</div>
+<div id="43078" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#43078" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от MrStrongCookies">MrStrongCookies</a>
+<p>У нас все отлично работает!<br />
+Попробуйте следующие: ctrl+f5 <br />
+shift+f5 <br />
+Если не поможет используйте другой браузер!&#8221; </p>
+</div>
+<div id="43077" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#43077" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от yarixyt">yarixyt</a>
+<p>посмотрел все идеально работает <br />
+Чекни инет  свой, а потом вали на сайт</p>
+</div>
+<div id="43072" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#43072" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от Дмитрий Дудка">Дмитрий Дудка</a>
+<p>у вас че сервера в слоумо режиме, ничерта не грузит даже в 480p, на любом другом в 720 летает</p>
+</div>
+<div id="43053" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#43053" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от MrStrongCookies">MrStrongCookies</a>
+<p>Раз в неделю, стабильно </p>
+</div>
+<div id="43052" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#43052" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от MrStrongCookies">MrStrongCookies</a>
+<p>А что Вы еще хотели услышать?<br />
+Есть вкладка 1 сезон, нажимаете на нее, выбираете серию, смотрите, все </p>
+</div>
+<div id="43051" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#43051" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от Touya_Mochizuki">Touya_Mochizuki</a>
+<p>Жаль что серии выходят так редко...</p>
+</div>
+<div id="43050" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#43050" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от Touya_Mochizuki">Touya_Mochizuki</a>
+<p>Это рофл?</p>
+</div>
+<div id="43049" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#43049" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от Touya_Mochizuki">Touya_Mochizuki</a>
+<p>На сколько я знаю выйдет она 20 января</p>
+</div>
+<div id="43029" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#43029" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от MrStrongCookies">MrStrongCookies</a>
+<p>Хотя все работает отлично! </p>
+</div>
+<div id="43027" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#43027" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от MrStrongCookies">MrStrongCookies</a>
+<p>Вы можете попробовать следующие: <br />
+ctrl+f5 <br />
+shift+f5 <br />
+Если не спасет, смотрите на другом браузере </p>
+</div>
+<div id="43010" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#43010" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от Нариман Аблязизов">Нариман Аблязизов</a>
+<p>плеер ужасно лагает</p>
+</div>
+<div id="42983" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#42983" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от Тагир Шарафутдинов">Тагир Шарафутдинов</a>
+<p>Создатель настолько сильно всё испаганил в этой Арке просто без комментариев</p>
+</div>
+<div id="42982" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#42982" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от Тагир Шарафутдинов">Тагир Шарафутдинов</a>
+<p>Это не последний сезон а может быть и последним </p>
+</div>
+<div id="42965" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#42965" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от MrStrongCookies">MrStrongCookies</a>
+<p>Я сообщу о проблеме, ждите фикса</p>
+</div>
+<div id="42957" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#42957" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от Павел Дубик">Павел Дубик</a>
+<p>а почему 4 ова не проигрывается?((((</p>
+</div>
+<div id="42929" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#42929" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от MrStrongCookies">MrStrongCookies</a>
+<p>Пока в планах не было</p>
+</div>
+<div id="42914" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#42914" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от Павел Дубик">Павел Дубик</a>
+<p>а будет?</p>
+</div>
+<div id="42910" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#42910" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от MrStrongCookies">MrStrongCookies</a>
+<p>Как видите, нету(</p>
+</div>
+<div id="42902" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#42902" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от Павел Дубик">Павел Дубик</a>
+<p>а новогодняя ова есть?</p>
+</div>
+<div id="42884" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#42884" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от MrStrongCookies">MrStrongCookies</a>
+<p>Дня через 3 серия </p>
+</div>
+<div id="42876" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#42876" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от Александр Титов 1">Александр Титов 1</a>
+<p>и когда ждать продолжение?</p>
+</div>
+<div id="42804" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#42804" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от Heroborec">Heroborec</a>
+<p>Натсу дракона свого нашел иль нет еще? чет подзабил на сериал но встечу их увидеть охот</p>
+</div>
+<div id="42718" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#42718" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от 4a4i">4a4i</a>
+<p>Выбираете первый сезон и смотрите) </p>
+</div>
+<div id="42699" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#42699" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от Учитель Коро">Учитель Коро</a>
+<p>Хвост феи в вашей озвучке супер спасибо вам за ваш труд!!!</p>
+</div>
+<div id="42684" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#42684" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от Иван Охлопков">Иван Охлопков</a>
+<p>Как посмотреть первый сезон?</p>
+</div>
+<div id="42302" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#42302" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от MrStrongCookies">MrStrongCookies</a>
+<p>Как я и писал под другими аниме, ничего обещать о скором выходе серии мы не будем, ибо новогодние праздники на всех распространяются </p>
+</div>
+<div id="42289" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#42289" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от Вася Кудряшов">Вася Кудряшов</a>
+<p>когда выйдет следующая серия ?</p>
+</div>
+<div id="42242" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#42242" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от Вова Тюпин">Вова Тюпин</a>
+<p>Здравствуйте . Можно спросить ? Будут ли сегодня серии Фейри тейл и САО</p>
+</div>
+<div id="42160" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#42160" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от Павел Дубик">Павел Дубик</a>
+<p>ну лад, я уже посмотрел правд не в такой офигительной озвучке</p>
+</div>
+<div id="42154" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#42154" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от MrStrongCookies">MrStrongCookies</a>
+<p>Тогда приносим извинения( Но увы фикса уже не будет(</p>
+</div>
+<div id="42149" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#42149" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от Павел Дубик">Павел Дубик</a>
+<p>там тож, тупо 19:57 и резко 24:50</p>
+</div>
+<div id="42122" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#42122" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от MrStrongCookies">MrStrongCookies</a>
+<p>Та там ничего важного уже нет, на торренте если желаете полная версия залита</p>
+</div>
+<div id="42097" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#42097" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от Павел Дубик">Павел Дубик</a>
+<p>а почему 204 серия не полная?</p>
+</div>
+<div id="42058" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#42058" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от Скорпион Огненый">Скорпион Огненый</a>
+<p>нет. Вал 1) нацу - младший брат Зерефа. Во 2) он демон энд. В ) если внимательно ознакомиться с 289 серией, то можно понять что Зерф создал(переродил) нацу до того как поцеловал Основательнтицу</p>
+</div>
+<div id="42056" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#42056" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от Абдурахман Ибрагимов">Абдурахман Ибрагимов</a>
+<p>Была бессмертна, но проклятие убило? Но магия вроде осталась... Мммм сложна</p>
+</div>
+<div id="42037" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#42037" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от Михаил Корниенков">Михаил Корниенков</a>
+<p>Затянули на ,300+ серий...</p>
+</div>
+<div id="42036" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#42036" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от Михаил Корниенков">Михаил Корниенков</a>
+<p>Так это типо нацу...</p>
+</div>
+<div id="42030" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#42030" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от kontuzilo">kontuzilo</a>
+<p>Помогите найти песню Миры в Оригинале из 1 сезон 41 серия 16 минута ) За ранее спасибо )</p>
+</div>
+<div id="41999" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#41999" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от Руслан Левитан">Руслан Левитан</a>
+<p>И родился Август</p>
+</div>
+<div id="41865" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#41865" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от Mozart">Mozart</a>
+<p>Хм... Чего такой ажиотаж? Некоторые намёки на это уже давно были, я ток ждал когда про них прямо скажут :D</p>
+</div>
+<div id="41840" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#41840" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от Влад Левченко">Влад Левченко</a>
+<p>а если у зерефа с первой есть ребёнок... было бы круто</p>
+</div>
+<div id="41787" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#41787" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от Руслан Пономарёв">Руслан Пономарёв</a>
+<p>я так понял в 289 будут улики на то, что зерефа надо посадить на 8 лет)</p>
+</div>
+<div id="41754" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#41754" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от KILLER_PC">KILLER_PC</a>
+<p>ЧЕГОООООООООООООООООООООООООООООООООООООООООООООООООООООООООООООО</p>
+</div>
+<div id="41747" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#41747" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от Алексей Козлов 2">Алексей Козлов 2</a>
+<p>Будет жалко когда фэири таил закончится</p>
+</div>
+<div id="41588" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#41588" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от Trafalgar Law">Trafalgar Law</a>
+<p>Вот это повороты с самого начала, ух... Голова закружилась</p>
+</div>
+<div id="41543" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#41543" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от Александр Долженко">Александр Долженко</a>
+<p>Спасибо большое  за Вашу отличную озвучку,  хорошая работа! Надеюсь на Вас и в дальнейшем! :)</p>
+</div>
+<div id="41535" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#41535" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от MrStrongCookies">MrStrongCookies</a>
+<p>Как только озвучим, некоторые задержки имеются( <br />
+Ожидайте</p>
+</div>
+<div id="41531" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#41531" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от Илья Камаев">Илья Камаев</a>
+<p>где 287?</p>
+</div>
+<div id="41523" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#41523" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от Скорпион Огненый">Скорпион Огненый</a>
+<p>Когда зальете 287 серию? Заранее спасибо</p>
+</div>
+<div id="41465" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#41465" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от Наран Дарваев">Наран Дарваев</a>
+<p>спасибо вам за крутой перевод. Очень жду продолжения</p>
+</div>
+<div id="41418" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#41418" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от funnymaniac">funnymaniac</a>
+<p>я про оригинал, а не про аниме.</p>
+</div>
+<div id="41411" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#41411" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от Михаил Корниенков">Михаил Корниенков</a>
+<p>Тупизм в апогее..Не хватает идей экранизируйте книги . НЕХЕР тянуть!!!</p>
+</div>
+<div id="41358" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#41358" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от KrysAnimy">KrysAnimy</a>
+<p>Где оно закончилось?<br />
+Какие филлеры?<br />
+КТО ТЕБЕ СКАЗАЛ ТАКУЮ ГЛУПОСТЬ!?<br />
+Фейри тейл еще вышел только наполовину а кампания которая рисовала аниме, сделала годовой перерыв по неизвестным причинам, возможно хотели чтобы этот год который гильдия была распущена зрители ощутили на себе.</p>
+</div>
+<div id="41348" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#41348" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от shusan">shusan</a>
+<p>думаю это что-то около 200-210 серии.</p>
+</div>
+<div id="41318" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#41318" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от Freya">Freya</a>
+<p>у какого дабера? </p>
+</div>
+<div id="41317" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#41317" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от Freya">Freya</a>
+<p>На 285 серии, в связи с тем что Фрея (я) была в отъезде, меня заменила напарница на женских персонажах</p>
+</div>
+<div id="41316" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#41316" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от Freya">Freya</a>
+<p>На 285 серии, в связи с тем что Фрея (я) была в отъезде, меня заменила напарница на женских персонажах </p>
+</div>
+<div id="41248" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#41248" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от sergei377@mail.ru">sergei377@mail.ru</a>
+<p>прежняя озвучка (женская) была намного лучше((</p>
+</div>
+<div id="41166" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#41166" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от Сомхсей">Сомхсей</a>
+<p>Доброго времени суток,хотел бы спросить,кажется последняя серия которую я видел было как их группа домой возвращалась после битвы с драконами которых призвали через врата,с какой серии мне начать смотреть ??</p>
+</div>
+<div id="41152" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#41152" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от boxon8">boxon8</a>
+<p>Кампаааай)))</p>
+</div>
+<div id="41146" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#41146" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от Mozart">Mozart</a>
+<p>Кампай! ))</p>
+</div>
+<div id="41136" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#41136" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от Айкуи Еремян">Айкуи Еремян</a>
+<p>Дабер сменился что ли на женской озвучке?</p>
+</div>
+<div id="41125" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#41125" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от Тагир Шарафутдинов">Тагир Шарафутдинов</a>
+<p>Наконец хотя бы Нацу засмушался перед голой Люси а то раньше не смущался за это выпьем </p>
+</div>
+<div id="41095" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#41095" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от funnymaniac">funnymaniac</a>
+<p>Уже полтора года как произведение закончилось, а тут только последняя арка начинается. Тянут как могут, 80% филлеров ...</p>
+</div>
+<div id="41064" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#41064" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от MrStrongCookies">MrStrongCookies</a>
+<p>Все поправили, приятного просмотра! </p>
+</div>
+<div id="41061" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#41061" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от MrStrongCookies">MrStrongCookies</a>
+<p>Да есть проблема, пофиксим! </p>
+</div>
+<div id="41053" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#41053" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от Рената Ямалтдинова">Рената Ямалтдинова</a>
+<p>у дабера проблемы с ударением</p>
+</div>
+<div id="41050" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#41050" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от tr1gan">tr1gan</a>
+<p>236 эпизод сломан или даже отсутствует, почините пожалуйста. Заранее спасибо</p>
+</div>
+<div id="40910" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#40910" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от Trafalgar Law">Trafalgar Law</a>
+<p>Оп, вот это и правда поворот!</p>
+</div>
+<div id="40899" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#40899" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от Олег Дегтярев">Олег Дегтярев</a>
+<p>Надо подождать пока серий 70 не выйдет , а потом смотреть !</p>
+</div>
+<div id="40887" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#40887" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от Даниил Булдаков">Даниил Булдаков</a>
+<p>вот это поворот</p>
+</div>
+<div id="40784" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#40784" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от Арина Волкова 1">Арина Волкова 1</a>
+<p>ура скоро про зерафа расскажут :3</p>
+</div>
+<div id="40748" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#40748" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от MrStrongCookies">MrStrongCookies</a>
+<p>Такое может быть только на телефонах и планшетах... Рекомендую использовать браузер Хром </p>
+</div>
+<div id="40743" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#40743" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от 7Prorok71@mail.ru">7Prorok71@mail.ru</a>
+<p>ууууух с 260 наконец то старая озвучка думал надежда потеряна, но теперь АЖ ВОСПЫЛАЛ!</p>
+</div>
+<div id="40739" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#40739" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от Айкуи Еремян">Айкуи Еремян</a>
+<p>опять чёрный экран...</p>
+</div>
+<div id="40735" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#40735" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от Дмитрий Дудка">Дмитрий Дудка</a>
+<p>в убийство бога войны одним ударом могли бы хоть немного эпичности врисовать, полное разочарование</p>
+</div>
+<div id="40730" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#40730" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от MrStrongCookies">MrStrongCookies</a>
+<p>Не озвучивали, вот и нет его </p>
+</div>
+<div id="40716" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#40716" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от Animechuk_N1">Animechuk_N1</a>
+<p>Розработчики чому не заливаэте Аниме Baki? Аниме то годне много екшону герой цикавий.</p>
+</div>
+<div id="40689" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#40689" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от Кирилл Королев">Кирилл Королев</a>
+<p>ЗДЭС!</p>
+</div>
+<div id="40687" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#40687" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от Григорий Пахнин">Григорий Пахнин</a>
+<p>эу, хдэ<br />
+ХДЭ</p>
+</div>
+<div id="40650" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#40650" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от MrStrongCookies">MrStrongCookies</a>
+<p>Как озвучат так и выйдет) </p>
+</div>
+<div id="40648" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#40648" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от Андрей Мельников">Андрей Мельников</a>
+<p>так я не понял а где 6 серия 3 сезон ?</p>
+</div>
+<div id="40484" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#40484" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от Евгений Свиридов">Евгений Свиридов</a>
+<p>22:01 будь здорова</p>
+</div>
+<div id="40467" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#40467" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от Trafalgar Law">Trafalgar Law</a>
+<p>Рисовка, как рисовка. Главное, что история продолжается! ;)</p>
+</div>
+<div id="40453" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#40453" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от Happysprout">Happysprout</a>
+<p>Рисовка.... что же с тобой стало... хнык-хнык(((((</p>
+</div>
+<div id="40442" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#40442" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от raycell">raycell</a>
+<p>Озвучка слишком громкая, музыка слишком тихая. Прошу, попытайтесь уравновесить это.</p>
+</div>
+<div id="40213" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#40213" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от MrStrongCookies">MrStrongCookies</a>
+<p>БУдет) Точнее уже на месте </p>
+</div>
+<div id="40210" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#40210" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от Григорий Пахнин">Григорий Пахнин</a>
+<p>Ну хоть в 10 то будет?</p>
+</div>
+<div id="40202" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#40202" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от MrStrongCookies">MrStrongCookies</a>
+<p>немного опаздываем (</p>
+</div>
+<div id="40200" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#40200" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от Vomigor">Vomigor</a>
+<p>А где серия? Вроде они по воскресениям выходить должны а уже понедельник :3</p>
+</div>
+<div id="40180" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#40180" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от Григорий Пахнин">Григорий Пахнин</a>
+<p>ХМ..<br />
+Лан, надеюсь в 6 утра будет</p>
+</div>
+<div id="40152" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#40152" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от Антон Дзюба">Антон Дзюба</a>
+<p>Дождия &lt;3</p>
+</div>
+<div id="40051" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#40051" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от MrStrongCookies">MrStrongCookies</a>
+<p>Были некоторые проблемы, но на данный момент уже не наблюдаются</p>
+</div>
+<div id="40050" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#40050" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от MrStrongCookies">MrStrongCookies</a>
+<p>каждое воскресенье по одной серии выходит</p>
+</div>
+<div id="40037" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#40037" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от ganster1323">ganster1323</a>
+<p>А чё когда 4 серия выйдет?</p>
+</div>
+<div id="40034" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#40034" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от Антон Габриш">Антон Габриш</a>
+<p>20 секунд прогрузки ради 10 секунд просмотра, вы Гхмм, издеваетесь?</p>
+</div>
+<div id="40025" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#40025" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от Omen1b">Omen1b</a>
+<p>Битрейт на 480 уменьшил</p>
+</div>
+
+<div id="40024" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#40024" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от Omen1b">Omen1b</a>
+<p>сейчас на Хроме лучше стало. Третья серия иногда притормаживает, первая часто, но не так как час назад. Не могу сказать, с чем это связано..</p>
+</div>
+<div id="40022" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#40022" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от Trafalgar Law">Trafalgar Law</a>
+<p>Ну не знаю... Вот у меня например за долгое время пребывания на Анимедии проблем практически не возникало (с учетом пары отдельных случаев и то, давно они были).</p>
+</div>
+<div id="40021" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#40021" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от Omen1b">Omen1b</a>
+<p>Вы молодцы. Но почему у вас постоянно что-то не так? ТОлько на вашем сайте притормаживает воспроизведение, очень медленно подкачивает: 10 сек видео, 15 сек жду пока подрузится, и так постоянно. В чём проблема? Ни на одном другом онлайнике таких проблем нет. Пробовал в Яндексе и Хроме, один фиг.</p>
+</div>
+<div id="40001" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#40001" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от DOLLIuPAK">DOLLIuPAK</a>
+<p>Ооо, лесбиянки))</p>
+</div>
+<div id="39988" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#39988" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от Trafalgar Law">Trafalgar Law</a>
+<p>И еще одно долгожданное продолжение!!!</p>
+</div>
+<div id="39972" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#39972" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от Григорий Пахнин">Григорий Пахнин</a>
+<p>ГРЕЙ, ВЕРНИСЬ В КОНОХУ!!!1!</p>
+</div>
+<div id="39967" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#39967" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от Наран Дарваев">Наран Дарваев</a>
+<p>спасибо вам за ваши старания =)</p>
+</div>
+<div id="39965" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#39965" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от Risha Cat">Risha Cat</a>
+<p>В плеере есть глазик. Нажми на него для добавления в просмотренные.</p>
+</div>
+<div id="39803" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#39803" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от ahvanasiy">ahvanasiy</a>
+<p>НАКОНЕЦТО!!!!!!!!! НЕ ПРОШЛО И ТРИ ГОДА!!!!!!!!<br />
+как выходят серии?</p>
+</div>
+<div id="39696" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#39696" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от aris_7">aris_7</a>
+<p>Почему 217 серия полностью повторяет 214?<br />
+И в 215 сильно сдвинута озвучка ( секунд на 8-10 спешит )</p>
+</div>
+<div id="39632" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#39632" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от ZazKiLL">ZazKiLL</a>
+<p>Как добавлять в просмотренные??? Помогите плеееез&lt;3</p>
+</div>
+<div id="39576" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#39576" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от KILLER_PC">KILLER_PC</a>
+<p>Это же охриненно!</p>
+</div>
+<div id="39560" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#39560" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от Арина Волкова 1">Арина Волкова 1</a>
+<p>офигенно именно этого я ждала :</p>
+</div>
+<div id="39545" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#39545" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от Станислав Латыш">Станислав Латыш</a>
+<p>Слишком мало мощи натсу показали, ну ды лана, ждемс</p>
+</div>
+<div id="39504" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#39504" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от Ерлан Есбулатов">Ерлан Есбулатов</a>
+<p>Офигеть Неужели! Дождались =)) А я думал что уже не увижу новый сезон!=))</p>
+</div>
+<div id="39499" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#39499" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от Иван Тимофеев">Иван Тимофеев</a>
+<p>Шейла и Венди лезби лол</p>
+</div>
+<div id="39484" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#39484" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от Артём Ваулин">Артём Ваулин</a>
+<p>ееее бооооой новая серия</p>
+</div>
+<div id="39480" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#39480" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от 4a4i">4a4i</a>
+<p>каждое воскресенье по одной серии</p>
+</div>
+<div id="39477" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#39477" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от tyupinvladimirr">tyupinvladimirr</a>
+<p>Какой график залива серий? Скажите пожалуйста, буду благодарен.</p>
+</div>
+<div id="39476" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#39476" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от Сергей Семёнов 2">Сергей Семёнов 2</a>
+<p>Урааа вышлаааа</p>
+</div>
+<div id="39468" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#39468" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от Макс Котенко">Макс Котенко</a>
+<p>меня аж вывернуло когда я услышал ЛАКСУС боже услышь мои молитвы и пусть он снова станет Лексусом</p>
+</div>
+<div id="39466" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#39466" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от Макс Котенко">Макс Котенко</a>
+<p>кто озвучкой занимается? пусть говорят Лексус а не ЛАКСУС ПОЖАЛУЙСТА!!!</p>
+</div>
+<div id="39464" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#39464" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от 4a4i">4a4i</a>
+<p>Все недостающие серии дозалиты, приятного просмотра!</p>
+</div>
+<div id="39445" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#39445" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от erhzan.97">erhzan.97</a>
+<p>ааа каееефффф </p>
+</div>
+<div id="39441" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#39441" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от Богдан Ладыгин">Богдан Ладыгин</a>
+<p>8+ с каждим годом всё лучше и лучше </p>
+</div>
+<div id="39436" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#39436" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от MrStrongCookies">MrStrongCookies</a>
+<p>Ну всмысле?) все по мере поступления) </p>
+</div>
+<div id="39431" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#39431" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от Олег Дегтярев">Олег Дегтярев</a>
+<p>Больше серий , больше !</p>
+</div>
+<div id="39417" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#39417" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от Perush97">Perush97</a>
+<p>Лаксус кровь из ушей!!! а остальное каеф</p>
+</div>
+<div id="39415" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#39415" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от Женя Максимов">Женя Максимов</a>
+<p>Какой Лаксуссс?? Это же Лексус!!!!!!</p>
+</div>
+<div id="39414" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#39414" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от Макс Котенко">Макс Котенко</a>
+<p>эээээээээээ  ЛАКСУС??????????</p>
+</div>
+<div id="39409" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#39409" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от 4a4i">4a4i</a>
+<p>скоро дозальем недостающие серии</p>
+</div>
+<div id="39162" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#39162" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от MrStrongCookies">MrStrongCookies</a>
+<p>Потому что не озвучили </p>
+</div>
+<div id="39120" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#39120" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от Александр Милованов">Александр Милованов</a>
+<p>пояему нет на сайте этих серий</p>
+</div>
+<div id="39119" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#39119" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от Александр Милованов">Александр Милованов</a>
+<p>почему после 222 идёт 259</p>
+</div>
+<div id="38892" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#38892" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от пац">пац</a>
+<p>Я сделал что вы сказали поменял браузер очистил кэш в другом браузуре но ничего не работает а в яндексе вопче да же не хочет картинку выдовать.что делать, подскожите плиз,буду блогадарен!</p>
+</div>
+<div id="38566" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#38566" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от Даниил Васюкович">Даниил Васюкович</a>
+<p>А хотя нет, торопится </p>
+</div>
+<div id="38565" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#38565" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от Даниил Васюкович">Даниил Васюкович</a>
+<p>Сори, это у меня было </p>
+</div>
+<div id="38564" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#38564" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от Даниил Васюкович">Даниил Васюкович</a>
+<p>ребят в 215 серии перевод торопится ил картинка тормозит </p>
+</div>
+<div id="38552" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#38552" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от MrStrongCookies">MrStrongCookies</a>
+<p>Все работает, почистите КЭШ  или смените браузер </p>
+</div>
+<div id="38551" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#38551" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от MrStrongCookies">MrStrongCookies</a>
+<p>да хоть 10 ) этих серий нету на сайте :)</p>
+</div>
+<div id="38537" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#38537" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от Гумер Идрисов">Гумер Идрисов</a>
+<p>При попытке посмотреть первые серии выдает ошибку error code 230000</p>
+</div>
+<div id="38525" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#38525" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от Даниил Васюкович">Даниил Васюкович</a>
+<p>вам срин скинуть? </p>
+</div>
+<div id="38521" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#38521" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от MrStrongCookies">MrStrongCookies</a>
+<p>Проблемка в том что ошибки быть не может в принципе ВООБЩЕ :) Потому что данных серий даже нет на сайте :) </p>
+</div>
+<div id="38510" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#38510" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от Алексей Прохоров 1">Алексей Прохоров 1</a>
+<p>с 223 по 256 ошибки выдает</p>
+</div>
+<div id="38490" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#38490" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от MrStrongCookies">MrStrongCookies</a>
+<p>Вы хоть напишите в какой серии? </p>
+</div>
+<div id="38466" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#38466" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от Рафиз Рагимов">Рафиз Рагимов</a>
+<p>почему выдает ошибку?</p>
+</div>
+<div id="38078" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#38078" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от Coma">Coma</a>
+<p>продолженіє скоро</p>
+</div>
+<div id="37547" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#37547" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от Fanat Zoro">Fanat Zoro</a>
+<p>С первой серии влюбился в это аниме!</p>
+</div>
+<div id="37148" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#37148" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от Foxi535">Foxi535</a>
+<p>Шачибури как отдельный вид исскучтва :3<br />
+(Но вообще все войсеры хороши, но, как по мне, шачи и Назель самые лучшие с:)</p>
+</div>
+<div id="36780" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#36780" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от Egojii">Egojii</a>
+<p>ебануться,хоть авторы и избежали сцен с кровью Анима все равно остается четкой.ПО СРАВНЕНИЮ С НАРУТО В БОЕВЫХ СЦЕНАХ ПИЗДЕЖА ПОЧТИ НЕТ.Анима не совсем для детей т.к. есть ссерии с намеками для людей постарше!</p>
+</div>
+<div id="36778" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#36778" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от Egojii">Egojii</a>
+<p>че за херня,разъясните мне почему во 2 сезоне fairy tail нет дохерищи ссерий? я догнать не могу,сначала 23 ссерия и потом резко перекидывает на 59 а других нет что за?</p>
+</div>
+<div id="36763" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#36763" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от Роман Колупаев">Роман Колупаев</a>
+<p>Ух ух,у шачибури топ озвучка:3</p>
+</div>
+<div id="36074" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#36074" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от MrStrongCookies">MrStrongCookies</a>
+<p>ТАк или иначе такого не бывает просто) Я сам вечерами смотрю с Айпада, и такого не когда нее было.</p>
+</div>
+<div id="36071" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#36071" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от Madiyar Moldiyarov">Madiyar Moldiyarov</a>
+<p>Незнаю когда это надпись выходила то с сайта всегда вылетала </p>
+</div>
+<div id="36054" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#36054" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от MrStrongCookies">MrStrongCookies</a>
+<p>эм, на айфоне нет антивирусника и системы выявления  вирусов, так что это уже невозможно, скорее всего реклама </p>
+</div>
+<div id="36053" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#36053" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от Madiyar Moldiyarov">Madiyar Moldiyarov</a>
+<p>Но потом через день норм стало</p>
+</div>
+<div id="36052" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#36052" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от Madiyar Moldiyarov">Madiyar Moldiyarov</a>
+<p>Ну когда через айпад зашёл на экран вышло типо н обнаружено 13 вирусов </p>
+</div>
+<div id="36009" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#36009" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от MrStrongCookies">MrStrongCookies</a>
+<p>Очень хотелось бы узнать как же вы их обнаружили то?) <br />
+P.S. не каких вирусов на сайте нет </p>
+</div>
+<div id="36006" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#36006" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от Madiyar Moldiyarov">Madiyar Moldiyarov</a>
+<p>У вас на сайте обнаружено 13 вирусов можете это исправить</p>
+</div>
+<div id="35875" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#35875" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от MrStrongCookies">MrStrongCookies</a>
+<p>их озвучивают в свободное от работы время, а щас его увы не так много как хотелось бы(</p>
+</div>
+<div id="35870" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#35870" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от sergei377@mail.ru">sergei377@mail.ru</a>
+<p>а когда, вы, их озвучите?</p>
+</div>
+<div id="35618" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#35618" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от Зорро">Зорро</a>
+<p>вроде в октябре </p>
+</div>
+<div id="35181" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#35181" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от erhzan.97">erhzan.97</a>
+<p>когда выйдет 3 сезон</p>
+</div>
+<div id="34804" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#34804" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от MrStrongCookies">MrStrongCookies</a>
+<p>Увы не озвученные( </p>
+</div>
+<div id="34801" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#34801" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от Андрей Рычков">Андрей Рычков</a>
+<p>Где серии с 223 по 258</p>
+</div>
+<div id="34599" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#34599" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от Свет Звезды">Свет Звезды</a>
+<p>На 108 серии  терпение лопнуло</p>
+</div>
+<div id="34598" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#34598" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от Свет Звезды">Свет Звезды</a>
+<p>Начаная с 105 серии 1 сезона впроцессе просмотра вылетает видос и привет (сижу пс 4 про)</p>
+</div>
+<div id="33922" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#33922" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от erhzan.97">erhzan.97</a>
+<p>когда будет 3 сезон</p>
+</div>
+<div id="33744" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#33744" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от Даниил Васюкович">Даниил Васюкович</a>
+<p>нечего ты не знаешь </p>
+</div>
+<div id="32873" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#32873" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от Sir Nikolas">Sir Nikolas</a>
+<p>Отличное, лёгкое, интересное аниме с фигуристыми девчёнками. Затягивает не хуже сериалов. Ждем продолжения, если будет. <br />
+Спасибо за работу и душевную озвучку :)</p>
+</div>
+<div id="31787" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#31787" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от Слава Наумов">Слава Наумов</a>
+<p>Раньше было лучше<br />
+(в плане голосов озвучки)</p>
+</div>
+<div id="31335" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#31335" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от NamedMan">NamedMan</a>
+<p>Совершенное отсутствие крови, аниме для детей не старше 10-ти. Бескровный маразм доходит до такой степени, что во время ударов холодным оружием враг просто падает... И всё.  Во время боев п*здежа  больше, чем в Бличе, серьезно, они там п*здят без умолку постоянно, раздражает уже на первых сериях. Рисовкой тоже не тащит, ожидания не оправдывает, удары главного героя Нацу однообразные, сам он ниочём, остальные тоже. Если вы посмотрели Наруто, Блич, Тетрадь смерти и пр. попсу, то этого смотреть не стоит - разочарует. Да оно чем-то цепляет, но за счёт этих и других недостатков лично мне очень быстро надоело. </p>
+</div>
+<div id="31127" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#31127" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от LaBaruTiN">LaBaruTiN</a>
+<p>Вкусняшка(аниме) не загружается(9(</p>
+</div>
+<div id="31043" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#31043" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от Ержан Максутов">Ержан Максутов</a>
+<p>В 215 СЕРИИ ЗВУК ОЧЕНЬ СИЛЬНО ОТСТАЕТ ОТ ВИДЕО <br />
+МОЖЕТЕ ИСПРАВИТЬ </p>
+</div>
+<div id="30810" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#30810" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от MrStrongCookies">MrStrongCookies</a>
+<p>Ну по идее должны, но даже примерных сроков не скажу </p>
+</div>
+<div id="30800" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#30800" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от sergei377@mail.ru">sergei377@mail.ru</a>
+<p>а Вы их озвучите?)</p>
+</div>
+<div id="30385" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#30385" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от Heroborec">Heroborec</a>
+<p>Когда то смотрел и остановился,  а сейчас времени нет, натсу дракона своего встретил? в какой сериии если да. Сп</p>
+</div>
+<div id="30144" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#30144" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от MrStrongCookies">MrStrongCookies</a>
+<p>Не все озвучили </p>
+</div>
+<div id="30143" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#30143" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от bunnyx">bunnyx</a>
+<p>а где серии с 223-258?</p>
+</div>
+<div id="30040" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#30040" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от MrStrongCookies">MrStrongCookies</a>
+<p>Неа) не можем) </p>
+</div>
+<div id="29990" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#29990" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от Александр Миклушонок">Александр Миклушонок</a>
+<p>Можете пожалуйста удалить это аниме. У меня друг 5 раз пересмотрел все обнимет от начала до конца. Он уже 3 недели из дома не выходил.</p>
+</div>
+<div id="29502" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#29502" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от MrStrongCookies">MrStrongCookies</a>
+<p>Возможно на других треккерах, не могу посоветовать, не искал(</p>
+</div>
+<div id="29489" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#29489" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от Novemiud">Novemiud</a>
+<p>это печально т.к. вы единственная во всем интернете озвучка двухголосая для хвоста феи ( не люблю одноголую анкорда) и мне бы хотелось скачать нет никакого источника??</p>
+</div>
+<div id="29487" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#29487" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от MrStrongCookies">MrStrongCookies</a>
+<p>Ну мы не рассчитывали что кто то будет качать с мобильного, по этому даже не могу ответить. Я даже не пользуюсь Андроидом что бы как то помочь </p>
+</div>
+<div id="29485" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#29485" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от Novemiud">Novemiud</a>
+<p>Ответьте пожалуйсто почему с мобильного торента пишет что невозможно открыть файл при скачиваниии торрент файла а при попытке использовать магнет просто бесконечно собирается информация о торрент файле??? </p>
+</div>
+<div id="29433" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#29433" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от MrStrongCookies">MrStrongCookies</a>
+<p>далеко не факт, официальной информации о закрытии проекта нет! <br />
+И как бы Плач дракона вышел хд) </p>
+</div>
+<div id="29411" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#29411" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от Вера Милаславская">Вера Милаславская</a>
+<p>Уже никогда. Вроде бы режиссёр попал в больницу и компания обанкротилась. Даже плач дракона выпускать не будут...</p>
+</div>
+<div id="29167" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#29167" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от MrStrongCookies">MrStrongCookies</a>
+<p>Данные серии озвучиваются в свободное от работы время, а так как времени нет что бы озвучить основные серии....</p>
+</div>
+<div id="29149" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#29149" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от LAKER123321">LAKER123321</a>
+<p>Будет ли продолжение</p>
+</div>
+<div id="28980" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#28980" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от Вадим Габбасов">Вадим Габбасов</a>
+<p>что в нём не так?</p>
+</div>
+<div id="28412" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#28412" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от bilal.bartiev">bilal.bartiev</a>
+<p>Анимушка так себе, даже не среднячок</p>
+</div>
+<div id="28408" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#28408" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от Иван Старцев 1">Иван Старцев 1</a>
+<p>когда 3 сезон ?</p>
+</div>
+<div id="28381" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#28381" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от MrStrongCookies">MrStrongCookies</a>
+<p>Увы да со старыми сериалами есть такая проблема, кроме как скачать с торрента ничего не могу посоветовать </p>
+</div>
+<div id="28373" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#28373" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от Riard Kanoe">Riard Kanoe</a>
+<p>Здравствуйте, у меня проблема с загрузкой, долго грузит, а инет быстрый и сериалы тоже быстро загружает</p>
+</div>
+<div id="27668" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#27668" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от MrStrongCookies">MrStrongCookies</a>
+<p>Данные серии озвучиваются в свободное от работы время, а так как времени нет что бы озвучить основные серии.... </p>
+</div>
+<div id="27657" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#27657" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от Neon Knight">Neon Knight</a>
+<p>Когда озвучат 222-259??</p>
+</div>
+<div id="27363" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#27363" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от KILLER_PC">KILLER_PC</a>
+<p>Да проблема прошла Спасибо!!!</p>
+</div>
+<div id="27348" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#27348" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от Женя Летунов">Женя Летунов</a>
+<p>Спасибо, вроде работает:)</p>
+</div>
+<div id="27282" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#27282" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от MrStrongCookies">MrStrongCookies</a>
+<p>у нас некоторые технические неисправности, мы работаем над проблемой </p>
+</div>
+<div id="27274" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#27274" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от Женя Летунов">Женя Летунов</a>
+<p>Почему на данном сайте загрузка видео или не идёт, или занимает очень долгое время, что не возможно смотреть.</p>
+</div>
+<div id="27190" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#27190" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от DamnCute">DamnCute</a>
+<p>Аниме 8+. 3 серия 1 сезон 16:16: &#8220;О, я нашёл порнуху&#8221; LUL</p>
+</div>
+<div id="26852" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#26852" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от MrStrongCookies">MrStrongCookies</a>
+<p>Читайте комментарии <br />
+дело в том что другие серии в этом промежутке не озвученны </p>
+</div>
+<div id="26847" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#26847" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от SirD_PG">SirD_PG</a>
+<p>У меня после 222 сразу 259серия</p>
+</div>
+<div id="26784" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#26784" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от 4a4i">4a4i</a>
+<p>вам ответили)</p>
+</div>
+<div id="26780" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#26780" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от Necris45">Necris45</a>
+<p>Народ. Я починил 215 серию. Получилось топорно немного, но для сделанного наспех сойдет. Из минусов: обратно в mkv фигово запихивается (видео идет немного рывками), но возможно просто софт *овно и не справился. Жду ответа в вк от команды Анимедии, чтобы скинуть им файл. Написал в сообщения сообщества.</p>
+</div>
+<div id="26779" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#26779" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от MrStrongCookies">MrStrongCookies</a>
+<p>Свяжитесь с этим человеком <br />
+<a href="https://vk.com/pm4a4i">https://vk.com/pm4a4i</a></p>
+</div>
+<div id="26776" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#26776" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от Necris45">Necris45</a>
+<p>Сейчас дошли руки посмотреть и в теории могу поправитьрассинхрон на сколько это возможно. Куда потом скинуть если выгорит задумка?</p>
+</div>
+<div id="26771" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#26771" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от MrStrongCookies">MrStrongCookies</a>
+<p>дело в том что другие серии в этом промежутке не озвученны </p>
+</div>
+<div id="26762" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#26762" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от Даня Яндыбаев">Даня Яндыбаев</a>
+<p>Когда уже поправите что после 222, сразу 259?</p>
+</div>
+<div id="26518" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#26518" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от MrStrongCookies">MrStrongCookies</a>
+<p>Мы знаем, поправим </p>
+</div>
+<div id="26515" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#26515" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от vir">vir</a>
+<p>и после 222 сразу 259</p>
+</div>
+<div id="26512" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#26512" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от vir">vir</a>
+<p>у меня вместо 217 дублируется 214 серия (((((</p>
+</div>
+<div id="26497" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#26497" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от MrStrongCookies">MrStrongCookies</a>
+<p>Может быть </p>
+</div>
+<div id="26494" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#26494" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от Vomigor">Vomigor</a>
+<p>а вы будете озвучивать Fairy Tail Dragon Cry ?</p>
+</div>
+<div id="26288" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#26288" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от artyr1234512">artyr1234512</a>
+<p>222*</p>
+</div>
+<div id="26285" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#26285" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от artyr1234512">artyr1234512</a>
+<p>Почему после 22 серии идет сразу 259?</p>
+</div>
+<div id="26230" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#26230" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от MrStrongCookies">MrStrongCookies</a>
+<p>Все отлично работает, почистите КЭШ</p>
+</div>
+<div id="26229" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#26229" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от Viktor Meshnyakov">Viktor Meshnyakov</a>
+<p>39 серия у меня лично не робит</p>
+</div>
+<div id="25480" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#25480" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от Даниил Булдаков">Даниил Булдаков</a>
+<p>Мда, водяная тюрьма  - это из наруто в эпизоде когда они дрались с Дзабудзой. У чувака из хвоста  феи прича такая же как в бличе не помню уже как его зовут . У дедка руки тянутся как у Луфи , что то еще заметил , но уже не помню)</p>
+</div>
+<div id="25445" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#25445" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от Alex_Anim.">Alex_Anim.</a>
+<p>По-моему гг на 90% похож на Луффи из Ван-писа.</p>
+</div>
+<div id="25121" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#25121" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от Евгений Сундуков">Евгений Сундуков</a>
+<p>в конце октября 2017 года начнется 3 сезон, инфе уже месяца 3 и дата выхода не менялась</p>
+</div>
+<div id="24462" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#24462" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от Григорий Грех">Григорий Грех</a>
+<p>215 серия. У меня лично рассинхрон озвучки и видео.</p>
+</div>
+<div id="24344" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#24344" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от Григорий Грех">Григорий Грех</a>
+<p>Там тип кто больше балов наберёт, тот занимает первое место, т.е. достаточно было убить 51 монстра.</p>
+</div>
+<div id="24074" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#24074" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от Герман Рахимжанов">Герман Рахимжанов</a>
+<p>плоха(((</p>
+</div>
+<div id="24064" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#24064" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от 4a4i">4a4i</a>
+<p>пока что информации нет</p>
+</div>
+<div id="24045" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#24045" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от Герман Рахимжанов">Герман Рахимжанов</a>
+<p>а дальше есть серии 277 а? или феи как и блич отплесали ?</p>
+</div>
+<div id="24002" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#24002" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от flyingsteps">flyingsteps</a>
+<p>а где 217 (42) серия 2го сезона? в место нее обратно повторяется 214 (39) серия </p>
+</div>
+<div id="23818" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#23818" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от lll_big_man_lll">lll_big_man_lll</a>
+<p>xd</p>
+</div>
+<div id="23420" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#23420" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от MrStrongCookies">MrStrongCookies</a>
+<p>эти серии озвучиваются в свободное от работы время. Так что ответить когда? Нет возможности </p>
+</div>
+<div id="23417" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#23417" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от tr1gan">tr1gan</a>
+<p>Скажите как долго придется ждать недостающие серии от 222. Заранее спасибо</p>
+</div>
+<div id="23384" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#23384" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от Никита Соловьев 2">Никита Соловьев 2</a>
+<p>Видимо, 10 баллом макс оценка... </p>
+</div>
+<div id="23383" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#23383" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от Никита Соловьев 2">Никита Соловьев 2</a>
+<p>166 серии, говорится же... убив 1 противника-получаете 1 балл... 167 серии, Эльза убивает 100 противников... Почему, ей засчитано 10 баллов?:) </p>
+</div>
+<div id="23216" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#23216" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от roma_romario">roma_romario</a>
+<p>ребят а когда продолжение</p>
+</div>
+<div id="22886" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#22886" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от Александр Захарин">Александр Захарин</a>
+<p>Почему после 222 серии идёт 259 серия?</p>
+</div>
+<div id="22861" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#22861" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от MrStrongCookies">MrStrongCookies</a>
+<p>очень старая серия( Уже не исправить)</p>
+</div>
+<div id="22857" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#22857" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от Александр Захарин">Александр Захарин</a>
+<p>почему нет синхронизации звука и картинки в 215 серии???</p>
+</div>
+<div id="22805" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#22805" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от MrStrongCookies">MrStrongCookies</a>
+<p>Хм, у меня все отлично работает.<br />
+Почистите КЭШ, обновите flash player, или используйте другой браузер должно помочь </p>
+</div>
+<div id="22798" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#22798" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от Stas Stas">Stas Stas</a>
+<p>Только тут .И все серии<br />
+но скорость 2 мб/сек</p>
+</div>
+<div id="22785" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#22785" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от MrStrongCookies">MrStrongCookies</a>
+<p>Какой номер серии? </p>
+</div>
+<div id="22780" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#22780" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от Stas Stas">Stas Stas</a>
+<p>У меня плохо грузит но скорость норм что делать</p>
+</div>
+<div id="22772" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#22772" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от MrStrongCookies">MrStrongCookies</a>
+<p>Бро, у меня есть и iOS и android, проверил щас все лично, отлично грузить хоть с 4G хоть с wifi</p>
+</div>
+<div id="22768" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#22768" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от Василий Филимонов">Василий Филимонов</a>
+<p>*анимешка </p>
+</div>
+<div id="22767" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#22767" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от Василий Филимонов">Василий Филимонов</a>
+<p>И все таки странный у вас плеер,я с IOS 10 минут запускаю серию,с Android антмешка висит (недоконца прогружает приходится ждать)(хотя инет норм).</p>
+</div>
+<div id="22688" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#22688" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от Димон Швалёв">Димон Швалёв</a>
+<p>эй а что за мужик сказал в 1 сезоне 119 серии на минутах 19:31-32 он сказал ну и кто появетца это тот чел который озвучывал? </p>
+</div>
+<div id="22375" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#22375" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от MrStrongCookies">MrStrongCookies</a>
+<p>очень старые ошибки,  сообщу</p>
+</div>
+<div id="22371" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#22371" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от tivrkoker">tivrkoker</a>
+<p>один бедлам начиная с 215 серии(звук не синхронизирован) 217 - это 214 и т. д. ну админы репутацию теряете!!!</p>
+</div>
+<div id="22353" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#22353" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от demanik">demanik</a>
+<p>214 и 217 одинаковые</p>
+</div>
+<div id="22071" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#22071" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от Retro_Paladin">Retro_Paladin</a>
+<p>ясно, я понял что нет этих серий</p>
+</div>
+<div id="22070" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#22070" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от Retro_Paladin">Retro_Paladin</a>
+<p>Пофиксите, после 222 серии идёт 259, я имею ввиду при нажатии клавиши следующая серия перекидывает сказу на 259, ну думаю я достаточно пояснил :З</p>
+</div>
+<div id="21535" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#21535" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от N1ksAn">N1ksAn</a>
+<p>Грей</p>
+</div>
+<div id="21503" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#21503" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от Коля Кириленко">Коля Кириленко</a>
+<p>кто убил лягуха в будущем?</p>
+</div>
+<div id="21259" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#21259" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от Зорро">Зорро</a>
+<p>продолжение нарисовано, а новые серии выйдут в апреле 2017.</p>
+</div>
+<div id="21232" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#21232" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от MrStrongCookies">MrStrongCookies</a>
+<p>Как бы разговор идет о ОВАХ они в этом аниме не несут не какой сюжетной информации, их можно смотреть в любом порядке и в любое время </p>
+</div>
+<div id="21211" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#21211" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от D@MKR@T">D@MKR@T</a>
+<p>Когда к стати продолжение рисовать начнут?</p>
+</div>
+<div id="21210" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#21210" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от D@MKR@T">D@MKR@T</a>
+<p>эт ты полный бред несешь, Лучше смотреть с начала<br />
+Серию за серией, но эт если времени валом(Дох*я)</p>
+</div>
+<div id="21030" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#21030" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от 4a4i">4a4i</a>
+<p>нет разницы, они не как не связаны с сюжетом. там происходит полный бред.</p>
+</div>
+<div id="21023" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#21023" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от Kimas">Kimas</a>
+<p>В каком порядке лучше смотреть ова и ода? После какого сезона?</p>
+</div>
+<div id="20518" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#20518" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от Wirussmit123">Wirussmit123</a>
+<p>мне показалось или 204 серия не полная</p>
+</div>
+<div id="20404" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#20404" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от GeneralOtaku">GeneralOtaku</a>
+<p>217 серия это 214 а настоящей 217 нету</p>
+</div>
+<div id="20242" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#20242" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от Vomigor">Vomigor</a>
+<p>А когда 3 сезон?</p>
+</div>
+<div id="20024" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#20024" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от Заур Странный">Заур Странный</a>
+<p>215 серия, проблема с озвучкой.</p>
+</div>
+<div id="19740" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#19740" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от Wirussmit123">Wirussmit123</a>
+<p>почему этот чёрный кот высших дёргает лапой кто знает ? ) раздражает уже ))</p>
+</div>
+<div id="19542" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#19542" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от ParniSHka">ParniSHka</a>
+<p>спасибо:)</p>
+</div>
+<div id="19525" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#19525" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от MrStrongCookies">MrStrongCookies</a>
+<p>будет, но даты когда не известно </p>
+</div>
+<div id="19516" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#19516" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от ParniSHka">ParniSHka</a>
+<p>Да и такой вопрос 3 сезоон будет?</p>
+</div>
+<div id="19512" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#19512" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от ParniSHka">ParniSHka</a>
+<p>,странно это</p>
+</div>
+<div id="19473" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#19473" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от MrStrongCookies">MrStrongCookies</a>
+<p>Ну вот атк вот) не озвучили еще </p>
+</div>
+<div id="19456" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#19456" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от ParniSHka">ParniSHka</a>
+<p>А почему так сделано после 222 серии сразу идет 259 ? Как там озвучивали серии пропустили ладно бы 2-3 а тут сразу 37 серий без озвучки да и вообще нет на сайте</p>
+</div>
+<div id="19272" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#19272" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от MrStrongCookies">MrStrongCookies</a>
+<p>Все это правиться со временем) </p>
+</div>
+<div id="19270" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#19270" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от HellishWanderer">HellishWanderer</a>
+<p>Fatal Error: No matching hash algorithm. Сами поэкспериментируйте с логином. Когда пытаешься восстановить пароль, письмо приходит в спам. Само письмо на английском(для меня не проблема, но для некоторых может). Оповещений о ответе в комментариях нету, так что никто не узнает если вы ответили на его коммент.</p>
+</div>
+<div id="19243" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#19243" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от MrStrongCookies">MrStrongCookies</a>
+<p>Пока что не могу ответить</p>
+</div>
+<div id="19228" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#19228" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от tr1gan">tr1gan</a>
+<p>Скажите лучше пожалуйста выйдут ли недостающие эпизоды с 223 по 258 включительно. Заранее спасибо</p>
+</div>
+<div id="19215" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#19215" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от MrStrongCookies">MrStrongCookies</a>
+<p>нету информации </p>
+</div>
+<div id="19214" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#19214" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от MrStrongCookies">MrStrongCookies</a>
+<p>будут позже </p>
+</div>
+<div id="19202" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#19202" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от nekit">nekit</a>
+<p>когда продолжение выйдет, скажите пжлуйста</p>
+</div>
+<div id="19201" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#19201" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от Владимир Смирнов 1">Владимир Смирнов 1</a>
+<p>Да и OBA тожа(</p>
+</div>
+<div id="19200" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#19200" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от Владимир Смирнов 1">Владимир Смирнов 1</a>
+<p>ODA не работает(</p>
+</div>
+<div id="19185" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#19185" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от 4a4i">4a4i</a>
+<p>фикс</p>
+</div>
+<div id="19184" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#19184" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от 4a4i">4a4i</a>
+<p>фикс</p>
+</div>
+<div id="19183" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#19183" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от 4a4i">4a4i</a>
+<p>серии пофишены</p>
+</div>
+<div id="19176" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#19176" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от MrStrongCookies">MrStrongCookies</a>
+<p>Мы знаем что некоторые серии не работают, мы работаем для устранения неисправностей! А что именно происходит после логона? </p>
+</div>
+<div id="19163" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#19163" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от HellishWanderer">HellishWanderer</a>
+<p>Ошибка.. Сделайте свой сайт работающим. У вас и когда залогиниваешься не понятно что происходит.</p>
+</div>
+<div id="19109" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#19109" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от Hibari">Hibari</a>
+<p>так с 213 серии и т.д. не чего не сделали(((</p>
+</div>
+<div id="18722" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#18722" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от nekit">nekit</a>
+<p>2 сезон гг,новая озвучка тихая, хотя может привыкнуть нужно. Начало вообще затянули, по пещерам 2 серии бегают, с пративником 2 серии дерутся. в первом сезоне всё гораздо быстрее было, и позвольте заметить смешнее. Начало косить под ван пис, как представлю что серий 50 будет одна рутина плохо становится</p>
+</div>
+<div id="18704" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#18704" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от Сергей Грибачёв">Сергей Грибачёв</a>
+<p>с 213 серии ошибка(</p>
+</div>
+<div id="18497" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#18497" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от MrStrongCookies">MrStrongCookies</a>
+<p>Если не забуду, постараюсь )</p>
+</div>
+<div id="18459" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#18459" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от Иван Корякин 1">Иван Корякин 1</a>
+<p>можно попросить, отписаться здесь как закончится профилактика?пожалуйста))</p>
+</div>
+<div id="18456" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#18456" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от MrStrongCookies">MrStrongCookies</a>
+<p>более менее </p>
+</div>
+<div id="18454" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#18454" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от Иван Корякин 1">Иван Корякин 1</a>
+<p>Как работы продвигаются?</p>
+</div>
+<div id="18362" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#18362" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от MrStrongCookies">MrStrongCookies</a>
+<p>Примерно к концу недели </p>
+</div>
+<div id="18349" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#18349" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от Иван Корякин 1">Иван Корякин 1</a>
+<p>и когда примерно закончатся проф. работы?</p>
+</div>
+<div id="18348" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#18348" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от AlexHustler">AlexHustler</a>
+<p>Хорошее комедийное аниме. Сюжет на 4 с минусом, много персонажей со своими историями и особенностями.  Стоит просмотра !</p>
+</div>
+<div id="18336" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#18336" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от MrStrongCookies">MrStrongCookies</a>
+<p>МЫ еще работаем над устранением всех неполадок </p>
+</div>
+<div id="18328" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#18328" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от Иван Корякин 1">Иван Корякин 1</a>
+<p>Всё равно ошибка.</p>
+</div>
+<div id="18295" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#18295" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от Иван Корякин 1">Иван Корякин 1</a>
+<p>Спасибо за информацию:)</p>
+</div>
+<div id="18292" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#18292" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от MrStrongCookies">MrStrongCookies</a>
+<p>Ничего, у наст тех работы на сервере :) Скоро все поправим :)</p>
+</div>
+<div id="18289" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#18289" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от Иван Корякин 1">Иван Корякин 1</a>
+<p>почему на половине 213 серии вылезает ошибка? что делать подскажите пожалуйста.</p>
+</div>
+<div id="18168" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#18168" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от Матвей Ерещенко">Матвей Ерещенко</a>
+<p>Почему у меня выскакивает ошибка при просмотре серий начиная с 213?</p>
+</div>
+<div id="18070" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#18070" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от Заур Странный">Заур Странный</a>
+<p>84 серия до слез:)) </p>
+</div>
+<div id="17408" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#17408" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от MrStrongCookies">MrStrongCookies</a>
+<p>читать комментарии нынче не в моде? Не озвучили мы их...</p>
+</div>
+<div id="17404" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#17404" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от Adam Dragons">Adam Dragons</a>
+<p>а где серии с 222 по 259?</p>
+</div>
+<div id="16946" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#16946" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от Зорро">Зорро</a>
+<p>С каких пор ты стал прыгать по аниме.</p>
+</div>
+<div id="16939" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#16939" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от bigcat36">bigcat36</a>
+<p>Не переводил, а озвучивал. Текст пишут другие люди.</p>
+</div>
+<div id="16831" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#16831" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от Зорро">Зорро</a>
+<p>Эти 2 аниме переводил один человек (дядька шачи)</p>
+</div>
+<div id="16819" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#16819" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от Toshira">Toshira</a>
+<p>мне одному кажетса что человек который озвучивал Хепи озвучивал и Кагуру из Гинтамы?</p>
+</div>
+<div id="16785" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#16785" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от Юрий Телегин">Юрий Телегин</a>
+<p>Еще бы имена как в манге были бы и было бы весилей )) Мебиус )) это уж точно не Мебиус )) </p>
+</div>
+<div id="16784" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#16784" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от Юрий Телегин">Юрий Телегин</a>
+<p>Аниме приостановили до весны 2017, вроде опять ориентировочно на март-апрель )) так что ждемс )) </p>
+</div>
+<div id="16662" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#16662" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от 4a4i">4a4i</a>
+<p>да скоро будут</p>
+</div>
+<div id="16655" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#16655" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от DimkaLab">DimkaLab</a>
+<p>А скоро будут еще серии, а то вышло 277 и все.<br />
+Или это 2 сезон закончился?</p>
+</div>
+<div id="16593" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#16593" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от MrStrongCookies">MrStrongCookies</a>
+<p>пока что временно </p>
+</div>
+<div id="16590" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#16590" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от Зорро">Зорро</a>
+<p>Временно значит.</p>
+</div>
+<div id="16577" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#16577" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от MrStrongCookies">MrStrongCookies</a>
+<p>увы ее нет временно на трекере </p>
+</div>
+<div id="16572" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#16572" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от Зорро">Зорро</a>
+<p>Почему нельзя скачать сказку о хвосте феи.</p>
+</div>
+<div id="16345" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#16345" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от MrStrongCookies">MrStrongCookies</a>
+<p>ну по идее выйдет 3 ссезон, но когда пока не ясно </p>
+</div>
+<div id="16336" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#16336" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от Валера Пасечник">Валера Пасечник</a>
+<p>а будут еще продолжение</p>
+</div>
+<div id="16187" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#16187" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от Зорро">Зорро</a>
+<p>Хорошо! Рассчитываю на вас.</p>
+</div>
+<div id="16185" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#16185" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от MrStrongCookies">MrStrongCookies</a>
+<p>как только будет возможность и время озвучим....</p>
+</div>
+<div id="16182" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#16182" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от Зорро">Зорро</a>
+<p>Озвучте.</p>
+</div>
+<div id="15434" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#15434" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от MrStrongCookies">MrStrongCookies</a>
+<p>не озвучили еще </p>
+</div>
+<div id="15407" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#15407" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от Джамик Хидиров">Джамик Хидиров</a>
+<p>где серии с 223 - 258?</p>
+</div>
+<div id="15382" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#15382" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от MrStrongCookies">MrStrongCookies</a>
+<p>как только так сразу)</p>
+</div>
+<div id="15381" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#15381" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от MrStrongCookies">MrStrongCookies</a>
+<p>иногда бывает(</p>
+</div>
+<div id="15380" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#15380" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от MrStrongCookies">MrStrongCookies</a>
+<p>да</p>
+</div>
+<div id="15372" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#15372" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от sinereg">sinereg</a>
+<p>Извиняюсь за фейл с Zero он оказывается с 266 серии.</p>
+</div>
+<div id="15369" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#15369" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от Зорро">Зорро</a>
+<p>А че старый закончен.</p>
+</div>
+<div id="15364" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#15364" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от Валера Цидик">Валера Цидик</a>
+<p>хочу новый сезон</p>
+</div>
+<div id="15359" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#15359" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от MakedonZ">MakedonZ</a>
+<p>204 серия обрезана, последних минут нет</p>
+</div>
+<div id="15358" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#15358" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от MakedonZ">MakedonZ</a>
+<p>Когда будет перевод серий второго сезона??</p>
+</div>
+<div id="15249" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#15249" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от MrStrongCookies">MrStrongCookies</a>
+<p>хороший вопрос) увы не знаем) наверное)</p>
+</div>
+<div id="15215" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#15215" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от [?]">[?]</a>
+<p>Интересно до конца 17-го обрыв озвучат?</p>
+</div>
+<div id="15148" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#15148" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от Женя Цидик">Женя Цидик</a>
+<p>поскорей бы новый сезон</p>
+</div>
+<div id="15144" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#15144" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от MrStrongCookies">MrStrongCookies</a>
+<p>ну вроде как так так серии и задуманы, мы не меняем нчиего </p>
+</div>
+<div id="15132" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#15132" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от ShakneR">ShakneR</a>
+<p>Тут в сражениях слишком много пафоса, прям почти все диалоги в боях строятся на нём. Это выглядит очень тупо. Также сама боевая система тут не очень. Меня просто раздражает когда чем-то острым бьют по открытым местам и удары проходят как от тупого предмета(например лёд Грэя на локтях)+бывает халтурят тем, что от какой-либо серьёзной атаки, противник просто отлетает в сторону. Из всех самых известных сёненов, такие проблемы я встретил только в ХВ. </p>
+</div>
+<div id="15131" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#15131" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от ShakneR">ShakneR</a>
+<p>В начале опенинги и арки не совпадают по тематике. Опенинги новой арки начинаются в кульминации текущей арки. </p>
+</div>
+<div id="15048" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#15048" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от MrStrongCookies">MrStrongCookies</a>
+<p>всмысле?</p>
+</div>
+<div id="15047" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#15047" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от MrStrongCookies">MrStrongCookies</a>
+<p>ничего, просто что в новой последовательности 176 серия это типо первая серия 2 сезона</p>
+</div>
+<div id="15032" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#15032" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от ShakneR">ShakneR</a>
+<p>Что с опенингами в начале? Они идут не синхронно с арками. Опенинг следующей арки в середине текущей, это совсем не айс!</p>
+</div>
+<div id="15017" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#15017" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от васьген">васьген</a>
+<p>а что значат скобки во втором сезоне ?</p>
+</div>
+<div id="14939" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#14939" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от MrStrongCookies">MrStrongCookies</a>
+<p>потому что у нас на сайте только те аниме, которые озвучили мы!)</p>
+</div>
+<div id="14837" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#14837" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от MrStrongCookies">MrStrongCookies</a>
+<p>может и будет, но пока вроде как в планах не было </p>
+</div>
+<div id="14818" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#14818" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от sinereg">sinereg</a>
+<p>А Fairy Tail Zero будет или на торентах с субтитрами искать?</p>
+</div>
+<div id="14432" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#14432" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от MAGE">MAGE</a>
+<p>poxojee na etu :)</p>
+</div>
+<div id="14431" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#14431" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от MAGE">MAGE</a>
+<p>я уже нe могy!!!!!!!!!!! <br />
+можeт Скажите  пожалуйста anime poxokee na etu?</p>
+</div>
+<div id="14395" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#14395" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от MrStrongCookies">MrStrongCookies</a>
+<p>Пока нет инфы когда продолжат </p>
+</div>
+<div id="14164" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#14164" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от MrStrongCookies">MrStrongCookies</a>
+<p>это обрыв, тех серий которых не хватает , их не озвучили </p>
+</div>
+<div id="14158" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#14158" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от Гриха Чабаненко">Гриха Чабаненко</a>
+<p>Скажите ка пожалуйста, а что за разбой между сериями: идут 222 серия, а после сразу 259, это просто опечатка? или на торренте обрыв искать?</p>
+</div>
+<div id="13501" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#13501" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от MrStrongCookies">MrStrongCookies</a>
+<p>увы пока нет точной информации </p>
+</div>
+<div id="13499" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#13499" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от tr1gan">tr1gan</a>
+<p>Здравствуйте, можно узнать когда выйдут недостающие серии 223-258?</p>
+</div>
+<div id="13077" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#13077" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от MrStrongCookies">MrStrongCookies</a>
+<p><b>Mikhail Petrov</b>, альтернативный хостинг это дорогое и пока что не окупаемое удовольствие( </p>
+ </div>
+<div id="13062" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#13062" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от 4a4i">4a4i</a>
+<p><b>Mikhail Petrov</b>, сейчас должно быть лучше. На &#8220;рутуб&#8221; мы не уйдем, так как там удаляют видео, как и на других видеохостингах. Мы используем свои силы и возможности.</p>
+</div>
+<div id="13061" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#13061" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от Mikhail Petrov">Mikhail Petrov</a>
+<p>Спасибо за работу и оперативность, желаю процветания сервису. <br />
+Но реально, пожалуйста, поработайте над оптимизацией, есть где то утечки не вижу кода не могу сказать где но.. Заметные посадки особенно после просмотра нескольких серий подряд, перелистыванием &#8220;следующая серия&#8221; мб хвосты не подчищаются или еще что, не работал напрямую с потоковым видео сказать не могу, но если сравнивать с конкурентными ресурсами, то ощутимо заметно.<br />
+Как вариант подумайте пожалуйста над возможностью реализации альтернативного видео хостинга на для видео базе rutube, да реклама, да напрягает пользователей, за не тормозит.<br />
+Но зато манетизация это увеличит ваш бюджет на железо что в возможно как то поможет с железом и нехваткой трафика. Плюс пользователи не будут уходить с ресурса в поисках чего то лучшего.<br />
+С наилучшими пожеланиями,</p>
+</div>
+<div id="13049" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#13049" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от 4a4i">4a4i</a>
+<p><b>Mikhail Petrov</b>, какие именно серии у вас тормозят? Если бы вы смотрели напрямую не из &#8220;кэша&#8221;, то у всех бы не работало. Нагрузка слишком большая. Скорее всего вы смотрите видео с самого нагруженного сервера, сейчас (вот прямо сейчас) работаю над улучшением его производительности. Те видео которые вы смотрите из &#8220;кэша&#8221; лагать не будут, но те которые идут скажем так... напрямую - они будут лагать. Когда вы говорите сменить плеер, то поймите самое главное, что плеер это только внешние оформление, оболочка не более. Все упирается в наши сервера, которые сейчас пропускают через себя 300Тб+ в месяц. Плеер грузит 2 минуты динамически, увеличить не получится, это сделано для экономии трафика. </p>
+<p>Мы работаем для вас. </p>
+</div>
+<div id="13048" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#13048" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от MrStrongCookies">MrStrongCookies</a>
+<p><b>Mikhail Petrov</b>, ну смотрите у меня скорость 1 мб с) Вообще ужас) Я смотрю отлично и без торможений, У остальной администрации тоже проблем нет((( Но я конечно Сообщу об этом</p>
+</div>
+<div id="13043" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#13043" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от Mikhail Petrov">Mikhail Petrov</a>
+<p>Не в обиду но мой калькулятор, будет шустрее вашего сервера.. я понимаю оптимизация все дела но настройте нормально плеер, либо замените его на менее красивый но более шустрый, даже бесплатных решений в сети сотни, чтобы кешировал не 10-20 секунд видео а хотя бы до 3 минут либо вобще убрать эту всем ненавистную функцию. В пики активности вы не справляетесь с нагрузкой и канал захлебывается. Зачем отмазываться и перекладывать ответственность на плечи пользователей видно ведь, в каждой теме под видео вам пишут об одном и том же, пора бы прислушаться.<br />
+Я например днем сижу смотрю нормально а как наступает вечер то все приходится искать видео на других сайтах либо в соц сетях, канал отличный 150 мб в пиковое время держится пинг не превышает 20 до мск, ну до франции выше 40-45 но это не много и без потерь, нагрузка цп не привышает 5-10% в активных 10 окнах хрома.. Хотя бы в пиковые часы отключайте кеширование видео фрагментами, чтобы видео можно было поставить на паузу чтобы оно скачалось полностью и посмотреть нормально.<br />
+ну надеюсь я достучался хоть капельку до администрации, спасибо. можно не публиковать, хотя нет для публикации:</p>
+<p>Отлично то отлично но моя нокиа 3310 подтормаживает..</p>
+</div>
+<div id="13029" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#13029" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от MrStrongCookies">MrStrongCookies</a>
+<p><b>Mikhail Petrov</b>, плеер отлично работает без каких либо проблем. ЧИстите ваш ПК, ноут, телефон, калькулятор от мусора</p>
+</div>
+<div id="13025" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#13025" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от Mikhail Petrov">Mikhail Petrov</a>
+<p>
+А так в целов все норм, за исключением выше сказанного, что является пожалуй главным для онлайн кинотеатра..</p>
+</div>
+<div id="12971" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#12971" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от MrStrongCookies">MrStrongCookies</a>
+<p><b>MAGE</b>, как только его продолжат </p>
+</div>
+<div id="12963" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#12963" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от MAGE">MAGE</a>
+<p>kagda saabshite nam cho serial prodoljaetsa?</p>
+</div>
+<div id="12913" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#12913" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от Аскер Непсо">Аскер Непсо</a>
+<p>ова супер я ржал))</p>
+</div>
+<div id="12912" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#12912" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от 4a4i">4a4i</a>
+<p>217 серия исправлена</p>
+</div>
+<div id="12873" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#12873" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от MrStrongCookies">MrStrongCookies</a>
+<p><b>Fetish</b>, будет) другой вопрос когда :)</p>
+</div>
+<div id="12870" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#12870" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от Fetish">Fetish</a>
+<p>и че? продолжения не будет что-ли?) столько времени прошло с 277 серии...</p>
+</div>
+<div id="12841" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#12841" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от MrStrongCookies">MrStrongCookies</a>
+<p><b>Дмитрий Шатов</b>, нам известно. Они пустой промежуток заполнят как только озвучат) </p>
+</div>
+<div id="12837" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#12837" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от Дмитрий Шатов">Дмитрий Шатов</a>
+<p>С сериями все плохо, после 222 идет 259 , а между ними пусто...</p>
+</div>
+<div id="12732" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#12732" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от MrStrongCookies">MrStrongCookies</a>
+<p><b>king_iskander</b>, будет фикс) рано или поздно) </p>
+</div>
+<div id="12717" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#12717" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от king_iskander">king_iskander</a>
+<p>Плеер почему то начал тормозить.на других сайтах все норм,так что это не с браузером проблемы.</p>
+</div>
+<div id="12660" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#12660" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от MrStrongCookies">MrStrongCookies</a>
+<p><b>king_iskander</b>, имеется в виду что озвучка смешанная) Озвучивают разные люди разные серии) </p>
+</div>
+<div id="12657" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#12657" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от king_iskander">king_iskander</a>
+<p>А с какой серии начинается озвучка <br />
+FREYA &amp; NAZEL &SHACHIBURI;? А то пока одноголосная (</p>
+</div>
+<div id="12609" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#12609" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от MrStrongCookies">MrStrongCookies</a>
+<p><b>comar791</b>, ждите фикс</p>
+</div>
+<div id="12604" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#12604" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от comar791">comar791</a>
+<p>217 серии нет</p>
+</div>
+<div id="12572" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#12572" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от MrStrongCookies">MrStrongCookies</a>
+<p><b>Fetish</b>, один из показателей) </p>
+</div>
+<div id="12571" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#12571" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от Fetish">Fetish</a>
+<p>8+ ? так вот почему не в одной серии нет крови)</p>
+</div>
+<div id="12565" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#12565" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от 4a4i">4a4i</a>
+<p>OVA+ODA перезалиты</p>
+</div>
+<div id="12559" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#12559" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от 4a4i">4a4i</a>
+<p><b>Виктор Комаров</b>, 215 поправили</p>
+</div>
+<div id="12558" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#12558" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от MrStrongCookies">MrStrongCookies</a>
+<p><b>plague</b>, новый сезон не скоро! </p>
+</div>
+<div id="12556" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#12556" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от plague">plague</a>
+<p>Когда новый сезон кто знает????</p>
+</div>
+<div id="12548" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#12548" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от tr1gan">tr1gan</a>
+<p>в место 217 эпизода 214 нацу против льва, хотя должен быть звездный зверь<br />
+посмотрите пожалуста, может я в чем то ошибся, заранее спасибо</p>
+</div>
+<div id="12543" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#12543" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от Виктор Комаров">Виктор Комаров</a>
+<p>в 215 серии рассинхрон картинки со звуком</p>
+</div>
+<div id="12542" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#12542" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от 4a4i">4a4i</a>
+<p><b>Дмитрий Шатов</b>, если у вас &#8220;туго&#8221; грузит - сразу пишите в &#8220;нашел ошибку&#8221;</p>
+</div>
+<div id="12541" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#12541" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от 4a4i">4a4i</a>
+<p>Добавлены серии 213-222</p>
+</div>
+<div id="12522" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#12522" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от Дмитрий Шатов">Дмитрий Шатов</a>
+<p>На той неделе действительно подгружалось долго видео, смотреть не возможно было...Сейчас все хорошо.</p>
+</div>
+<div id="12500" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#12500" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от Kent">Kent</a>
+<p>Не знаю, у меня все отлично пашет</p>
+</div>
+<div id="12492" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#12492" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от Алексей Леваньков">Алексей Леваньков</a>
+<p>вроде интересное аниме но наверно я его никогда недосмотрю, подгрузки напрочь отнимают охоту смотреть(</p>
+</div>
+<div id="12309" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#12309" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от Марта">Марта</a>
+<p>Видео лагает а так норм.</p>
+<p>&nbsp;</p>
+</div>
+<div id="11935" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#11935" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от Shinigami13">Shinigami13</a>
+<p><b>4a4i</b>, Спасибо)</p>
+</div>
+<div id="11934" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#11934" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от 4a4i">4a4i</a>
+<p><b>Shinigami13</b>, исправили</p>
+</div>
+<div id="11933" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#11933" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от Shinigami13">Shinigami13</a>
+<p>Во втором сезоне по началу серии, кажись, перепутаны...</p>
+</div>
+<div id="11324" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#11324" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от 4a4i">4a4i</a>
+<p><b>Никита Шмигельский</b>, аниме в Японии не выходит, пауза. Когда будет продолжение не известно.</p>
+</div>
+<div id="11299" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#11299" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от Никита Шмигельский">Никита Шмигельский</a>
+<p>почитал коментарии но так и не понял почему не выходят серии?)</p>
+</div>
+<div id="11284" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#11284" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от Kent">Kent</a>
+<p>Веселенько)</p>
+</div>
+<div id="11097" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#11097" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от MrStrongCookies">MrStrongCookies</a>
+<p><b>Александер Валеев</b>, потому что еще не озвучили увы(</p>
+</div>
+<div id="11087" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#11087" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от Александер Валеев">Александер Валеев</a>
+<p>почему на 213 серии обрывается порядок?</p>
+</div>
+<div id="10850" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#10850" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от MrStrongCookies">MrStrongCookies</a>
+<p><b>saulq</b>, ну аниме то как бы кончилось, а неозвученные серии выйдут как только их озвучат!</p>
+</div>
+<div id="10827" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#10827" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от saulq">saulq</a>
+<p>Вторую неделю не выходит че такое?</p>
+</div>
+<div id="10609" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#10609" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от Shadow">Shadow</a>
+<p>Буду ждать с нетерпением )</p>
+</div>
+<div id="10596" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#10596" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от MrStrongCookies">MrStrongCookies</a>
+<p><b>Shadow</b>, он еще не озвучен, как только так сразу(</p>
+</div>
+<div id="10575" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#10575" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от Shadow">Shadow</a>
+<p>Простите . но когда будет заполнен пробел с 212 серии ?</p>
+</div>
+<div id="10412" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#10412" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от Олег Ячин">Олег Ячин</a>
+<p><b>Igor Vrachev</b>,bleach </p>
+</div>
+<div id="10135" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#10135" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от Василий Никополиди">Василий Никополиди</a>
+<p><b>Вячеслав Помещенко 2</b>,  И ты такой через неделю: ВАН-ПИС ********, КАКОГО ******* РЕЛИЗ ОСТАНОВЛЕН?!</p>
+</div>
+<div id="10115" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#10115" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от Кирилл Литвинов">Кирилл Литвинов</a>
+<p><b>Igor Vrachev</b>,Гинтама</p>
+</div>
+<div id="10101" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#10101" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от Вячеслав Помещенко 2">Вячеслав Помещенко 2</a>
+<p>мир так жесток<br />
+волейбол релиз завершен<br />
+врата там бьются наши войны релиз завершен<br />
+хвост феи экранизация остановлена<br />
+ну хоть ван пис не подведи</p>
+</div>
+<div id="10090" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#10090" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от 4a4i">4a4i</a>
+<p><b>Igor Vrachev</b>, реборн</p>
+</div>
+<div id="10086" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#10086" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от Igor Vrachev">Igor Vrachev</a>
+<p>Блин конечно очень жалко каждую неделю смотрел Хвост феи и Ван пис.Не могли бы вы посоветовать аниме многосерийное похожежее на ван пис, хвост феи и наруто)) Если кто напишет буду благодарен </p>
+</div>
+<div id="10075" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#10075" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от Сергей Шунтов 1">Сергей Шунтов 1</a>
+<p>Неееееееет только не Хвост Феи. Это было одно из аниме которого я ждал каждую неделю и ради которой я спешил скорее закончить рабочую неделю и вернуться домой для этого ( ну и One Piece). Ну почему плохие вещи произходят с хорошими аниме. Ну почему мир так жесток???</p>
+</div>
+<div id="10072" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#10072" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от Тамерлан Салажиев">Тамерлан Салажиев</a>
+<p>Я только посмотрел первую серию и такая новость что аниме останавливается,а мне так аниме понравилось :(</p>
+</div>
+<div id="10056" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#10056" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от MrStrongCookies">MrStrongCookies</a>
+<p><b>джейк</b>, ответ ниже!</p>
+</div>
+<div id="10054" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#10054" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от джейк">джейк</a>
+<p>ЧТО? В КаКоМ СмЫсЛе РеЛиЗ ЗаВеРшОн????</p>
+</div>
+<div id="10052" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#10052" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от Gauss">Gauss</a>
+<p>Приветики всем! Подскажите после какой серии лучше всего смотреть фильм?</p>
+</div>
+<div id="10049" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#10049" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от MrStrongCookies">MrStrongCookies</a>
+<p><b>Юля Арефьева</b>, это все что мне известно! <br />
+&#8220;<b>*2 сезон окончен. Экранизация по манге Fairy Tail приостановлена с 27 марта 2016 года. Дата возобновления временно неизвестна...</b>&#8221;</p>
+</div>
+<div id="10045" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#10045" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от Юля Арефьева">Юля Арефьева</a>
+<p>Слышала, что 277 серия последняя и аниме уходит на перерыв. Это правда? Если так не располагаете ли вы информации о примерном выходе новых серий, будут ли  они в обще в этом году?</p>
+</div>
+<div id="9985" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#9985" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от MrStrongCookies">MrStrongCookies</a>
+<p><b>Дмитрий Андреев</b>, хм... все отлично работает! Попробуйте сменить браузер, или почистить КЭШ и вообще компьютер программой CCleaner </p>
+</div>
+<div id="9984" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#9984" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от Дмитрий Андреев">Дмитрий Андреев</a>
+<p>При загрузке выдает ошибку Cannot load M3U8 crossdomain access denien <br />
+Ни какие перезагрузки не помогают, а раньше все нормально было(((</p>
+</div>
+<div id="9982" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#9982" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от Никита Полозов">Никита Полозов</a>
+<p><b>MrStrongCookies</b>,Спасибо</p>
+</div>
+<div id="9979" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#9979" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от MrStrongCookies">MrStrongCookies</a>
+<p><b>Никита Полозов</b>, перезагрузите ваш ПК и роутер и все будет отлично :)</p>
+</div>
+<div id="9974" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#9974" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от Никита Полозов">Никита Полозов</a>
+<p><b>MrStrongCookies</b>,При прогрузке выдает ошибку Cannot load M3U8 crossdomain access denien</p>
+</div>
+<div id="9971" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#9971" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от Кирилл Обломов">Кирилл Обломов</a>
+<p>рисовка стремной стала(((</p>
+</div>
+<div id="9926" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#9926" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от Zondr">Zondr</a>
+<p>Нацу имба</p>
+</div>
+<div id="9757" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#9757" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от MrStrongCookies">MrStrongCookies</a>
+<p><b>armado30</b>, ожидайте ) мб зальют) </p>
+</div>
+<div id="9755" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#9755" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от armado30">armado30</a>
+<p>а почему не могу найти серии с 213 по 258?их в списке просто не существует.</p>
+</div>
+<div id="9699" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#9699" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от Ayz7">Ayz7</a>
+<p>ооо , вышлаа !! Перед этим я успел посмотреть в одноголоске и с сабами , но я обязан посмотреть вашу озвучку!!)))</p>
+</div>
+<div id="9531" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#9531" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от Heromen">Heromen</a>
+<p> а что случилось с геландией хвост феи ????????????????????????</p>
+</div>
+<div id="9526" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#9526" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от MrStrongCookies">MrStrongCookies</a>
+<p><b>Nazel</b>, ну а вдруг я даже первую серию не смотрел?) </p>
+</div>
+<div id="9525" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#9525" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от Nazel">Nazel</a>
+<p><b>MrStrongCookies</b>, да эт не спойлер О_О В самой первой серии это показали </p>
+</div>
+<div id="9508" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#9508" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от MrStrongCookies">MrStrongCookies</a>
+<p><b>Nazel</b>, НЕЕЕЕЕЕЕЕТ !!!!! ЗА ЧТО!!!!!! НУ ЗА ЧЕММММ!((( СПОЙЛЕРЫ(</p>
+</div>
+<div id="9506" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#9506" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от Nazel">Nazel</a>
+<p><b>saulq</b>,с момента её смерти</p>
+</div>
+<div id="9441" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#9441" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от saulq">saulq</a>
+<p>Я чет  не понял. Она создала ее с самого начала или как?</p>
+</div>
+<div id="9431" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#9431" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от MrStrongCookies">MrStrongCookies</a>
+<p><b>Heromen</b>, ожидайте в неделю по 1 серии! (по выходным)</p>
+</div>
+<div id="9422" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#9422" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от Heromen">Heromen</a>
+<p><b>когда новые серии ?????????????????</p>
+<p></b></p>
+</div>
+<div id="9224" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#9224" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от MrStrongCookies">MrStrongCookies</a>
+<p><b>BETEPAH</b>, ожидайте)</p>
+</div>
+<div id="9217" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#9217" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от BETEPAH">BETEPAH</a>
+<p>С 212 по 259 серии озвучьте пожалуйста!=)</p>
+</div>
+<div id="4753" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#4753" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от MrStrongCookies">MrStrongCookies</a>
+<p><b>Шамиль Джабраилов</b>, по идее где то в середине следующей недели!) </p>
+</div>
+<div id="4751" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#4751" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от Шамиль Джабраилов">Шамиль Джабраилов</a>
+<p><b>MrStrongCookies</b>, а когда 272 выйдет ?)</p>
+</div>
+<div id="4701" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#4701" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от MrStrongCookies">MrStrongCookies</a>
+<p><b>Anton Kidoff</b>, хм shazarm не находит!)</p>
+</div>
+<div id="4688" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#4688" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от Anton Kidoff">Anton Kidoff</a>
+<p>ребят а кто знает песню в опенинге арки зеро???уж больно понравилась песня)</p>
+</div>
+<div id="4553" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#4553" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от Abigaill">Abigaill</a>
+<p>Ура новая серия</p>
+</div>
+<div id="4263" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#4263" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от Anton Kidoff">Anton Kidoff</a>
+<p>ням ням, новая серия и любимая озвучка)) Nazel и Фреечка я вас обожаю просто ))) мистер железные кокошки смотрю тоже без дела не сидит,бдит так сказать))</p>
+</div>
+<div id="4034" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#4034" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от MrStrongCookies">MrStrongCookies</a>
+<p>сам жду)</p>
+</div>
+<div id="4022" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#4022" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от Тарас Когутанич">Тарас Когутанич</a>
+<p><b>MrStrongCookies</b>, Жаль конечно, но што поделаеш прийдется мне ждать, как Хатико(</p>
+</div>
+<div id="4010" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#4010" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от MrStrongCookies">MrStrongCookies</a>
+<p><b>Тарас Когутанич</b>, серии будут! Но увы пока что нет возможности указать конкретные даты! </p>
+</div>
+<div id="3992" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#3992" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от Тарас Когутанич">Тарас Когутанич</a>
+<p>Будут ли серии с 212 по 259? И есл будут, то когда примерно?</p>
+</div>
+<div id="3949" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#3949" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от 4a4i">4a4i</a>
+<p><b>Тарас Когутанич</b>, поправили, приятного просмотра!</p>
+</div>
+<div id="3893" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#3893" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от MrStrongCookies">MrStrongCookies</a>
+<p><b>Тарас Когутанич</b>, будет поправлено) </p>
+</div>
+<div id="3885" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#3885" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от Тарас Когутанич">Тарас Когутанич</a>
+<p>У вас 183(8) серия 2 сезона без рус. озвучки, по возможности исправте пожалуйста. Зарание благодарен)</p>
+</div>
+<div id="3850" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#3850" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от Тарас Когутанич">Тарас Когутанич</a>
+<p>Ого! У вас теперь плеер полностю прогружается. За ето огромное спасибо, лудшый подарок для людей с медленным интернетом как я. Спасибо!!!!!!!!!</p>
+</div>
+<div id="3843" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#3843" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от Shadow">Shadow</a>
+<p> с 100 </p>
+</div>
+<div id="3811" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#3811" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от MrStrongCookies">MrStrongCookies</a>
+<p><b>Shadow</b>, я же не ванга, номер серии скажите)</p>
+</div>
+<div id="3807" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#3807" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от Shadow">Shadow</a>
+<p>почему у меня не грузится серии</p>
+</div>
+<div id="3750" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#3750" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от MrStrongCookies">MrStrongCookies</a>
+<p><b>Ираклий Хелая</b>, почистите КЭш и куки, или попробуйте другой браузер) Я лично проверил все, и на разных устройствах и браузерах.... Не вижу проблему...</p>
+</div>
+<div id="3749" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#3749" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от Ираклий Хелая">Ираклий Хелая</a>
+<p>Теперь вощпе не грузит :(</p>
+</div>
+<div id="3748" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#3748" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от 4a4i">4a4i</a>
+<p><b>Ираклий Хелая</b>, поправили</p>
+</div>
+<div id="3747" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#3747" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от Ираклий Хелая">Ираклий Хелая</a>
+<p>Здравствуйте! У меня проблема я посмотрел до 60 все было норм не зависало только появился новый плеер на 61 серии и я нимогу ничего сделать в начале видео он сам перелистывает в конец видео а потом когда я начинаю смотреть то картинка не грузиться</p>
+</div>
+<div id="3540" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#3540" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от 4a4i">4a4i</a>
+<p>Порядок серий поправлен, приятного просмотра!</p>
+</div>
+<div id="3521" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#3521" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от MrStrongCookies">MrStrongCookies</a>
+<p><b>Денис Лукенюк</b>, спасибо что сообщили. Будем решать...</p>
+</div>
+<div id="3516" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#3516" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от Денис Лукенюк">Денис Лукенюк</a>
+<p>Переход по сериям не работает. печаль. пойду пока вк смотреть. Дорабатывайте побыстрее чтобы я мог быстрее вернуться! :)</p>
+</div>
+<div id="3477" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#3477" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от MrStrongCookies">MrStrongCookies</a>
+<p><b>Денис Лукенюк</b>, порядок серий и правда разбросанный. Подправим)</p>
+</div>
+<div id="3476" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#3476" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от CMOKEP04">CMOKEP04</a>
+<p>Такой вопросик: только у меня серии в обратном порядке, т.е. 175 серия это 1, ну а 10 (та на которой остановился, сейчас под номером 111? </p>
+</div>
+<div id="3434" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#3434" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от Денис Лукенюк">Денис Лукенюк</a>
+<p>126 также, надо два раза перезагрузить. ох уж этот вк)</p>
+</div>
+<div id="3425" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#3425" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от ArtSun">ArtSun</a>
+<p>Денис Лукенюк, обнови страницу. У меня тоже не прогрузилось сначала, но после обновления страницы всё нормально. Видимо ВК плеер шалит.</p>
+</div>
+<div id="3417" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#3417" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от Денис Лукенюк">Денис Лукенюк</a>
+<p>118 не загружается,&nbsp; на 00.00 стоит</p>
+</div>
+<div id="3262" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#3262" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от MrStrongCookies">MrStrongCookies</a>
+<p>Я всю серию не смотрел, но открылась нормально, со звуком вроде все ок. В чем проблема?</p>
+</div>
+<div id="3261" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#3261" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от ArtSun">ArtSun</a>
+<p>Денис Лукенюк, в смысле поломанная?</p>
+</div>
+<div id="3259" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#3259" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от Денис Лукенюк">Денис Лукенюк</a>
+<p>85 поломаная</p>
+</div>
+<div id="3258" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#3258" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от Денис Лукенюк">Денис Лукенюк</a>
+<p>тоесть 86 =)\</p>
+</div>
+<div id="3257" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#3257" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от Денис Лукенюк">Денис Лукенюк</a>
+<p>Кто мне вернёт водный баланс после 96 серии? Я над хатико меньше плакал</p>
+</div>
+<div id="2900" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#2900" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от MrStrongCookies">MrStrongCookies</a>
+<p>Спасибо, сообщу.</p>
+<p>А ВООБЩЕ НАРОД, ЕСЛИ НЕ РАБОТАЕТ СЕРИЯ, НАЖМИТЕ КНОПКУ СООБЩИТЬ ОБ ОШИБКЕ!</p>
+</div>
+<div id="2886" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#2886" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от Максим Шаталин">Максим Шаталин</a>
+<p>164 и 165 тоже</p>
+</div>
+<div id="2885" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#2885" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от Максим Шаталин">Максим Шаталин</a>
+<p>163 Серия отсутствует! :-(</p>
+</div>
+<div id="2556" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#2556" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от Fantasma95">Fantasma95</a>
+<p>ничего страшного&nbsp; )))</p>
+</div>
+<div id="2553" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#2553" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от MrStrongCookies">MrStrongCookies</a>
+<p>Простите, это исправим позднее :(</p>
+</div>
+<div id="2552" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#2552" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от Fantasma95">Fantasma95</a>
+<p>оооппссс нашёл , она была после 35 ))</p>
+</div>
+<div id="2551" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#2551" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от Fantasma95">Fantasma95</a>
+<p>где 34 серия ?</p>
+</div>
+<div id="2458" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#2458" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от MrStrongCookies">MrStrongCookies</a>
+<p>ilyasky позже будет перезаливка</p>
+</div>
+<div id="2443" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#2443" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от ilyasky">ilyasky</a>
+<p>а почему 44 серия заблочена?</p>
+</div>
+<div id="2390" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#2390" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от MrStrongCookies">MrStrongCookies</a>
+<p>Спасибо что сообщили, разберемся</p>
+</div>
+<div id="2387" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#2387" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от Dmitriy91">Dmitriy91</a>
+<p>Здравствуйте, а с 163-165 ссылки битые... Там до них еще были, но я сейчас не вспомню</p>
+</div>
+<div id="2230" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#2230" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от MrStrongCookies">MrStrongCookies</a>
+<p>Хм, либо добавили серию уже) либо она изначально в списке есть, я лично ее вижу)</p>
+</div>
+<div id="2224" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#2224" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от kilvaruzh">kilvaruzh</a>
+<p>72 серии нет, добавьте пожалуйста, умоляю(((((</p>
+</div>
+<div id="2031" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#2031" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от Alex8077">Alex8077</a>
+<p>34 и 35 в списке не правильно там с начало идёт 35 потом 34</p>
+</div>
+<div id="1982" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#1982" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от 4a4i">4a4i</a>
+<p>Все серии будут перезалиты.</p>
+</div>
+<div id="1981" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#1981" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от Xenon">Xenon</a>
+<p>и 164 и 165 . жаль...</p>
+</div>
+<div id="1980" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#1980" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от Xenon">Xenon</a>
+<p>163 серии нету</p>
+</div>
+<div id="1652" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#1652" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от Ельза Скарлетт">Ельза Скарлетт</a>
+<p>Озвучка не оч.,а так всё отлично</p>
+</div>
+<div id="1145" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#1145" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от kasablank">kasablank</a>
+<p>почему везде герои настолько тупы?? за все серии показано максимум 5 не тупых героев.... как же меня это бесит</p>
+</div>
+<div id="814" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#814" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от svechnick">svechnick</a>
+<p>Лучшее аниме, мне получше наруто нравится)</p>
+</div>
+<div id="735" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#735" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от Xanxus Varia">Xanxus Varia</a>
+<p>))</p>
+</div>
+<div id="661" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#661" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от newvan">newvan</a>
+<p>аниме офигенное советую посмотреть всем </p>
+</div>
+<div id="535" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#535" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от Пелагея Хохлова">Пелагея Хохлова</a>
+<p>Ничуть не жалею, что решила посмотреть Фейри Тейл. Увлекательно. Держит в напряжении. Каждая серия заканчивается интрижкой. Юмор присутствует, драма – тоже. Браво. Истинный эталон аниме!</p>
+</div>
+<div id="219" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#219" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от kiki">kiki</a>
+<p>ура</p>
+</div>
+<div id="216" class="scominv">
+<a href="/anime/skazka-o-hvoste-fei-TV1#216" title="Комментарий к аниме онлайн Сказка о Хвосте Феи от vlad1995">vlad1995</a>
+<p>Ура новая серия вышла)</p>
+</div>
+</div>
+
+</div>
+
+
+<aside class="right-sidebar">
+
+<div class="widget">
+<div class="widget__post-info">
+<div class="widget__post-info__poster"><a href="//static.animedia.tv/uploads/image.jpg" class="zoomLink"><img src="//static.animedia.tv/uploads/image.jpg?w=280&h=385" alt="Онлайн аниме Сказка о Хвосте Феи" width="280" height="385"></a></div>
+<div class="widget__post-info__rating">
+<div id="rating-form" style="display: none;">
+<form id="rating_form9480" name="Anime Reviews" method="post" action="http://online.animedia.tv/anime/skazka-o-hvoste-fei-TV1">
+<div class='hiddenFields'>
+<input type="hidden" name="ACT" value="81" />
+<input type="hidden" name="RET" value="http://online.animedia.tv/anime/skazka-o-hvoste-fei-TV1" />
+<input type="hidden" name="URI" value="anime/skazka-o-hvoste-fei-TV1" />
+<input type="hidden" name="PRV" value="" />
+<input type="hidden" name="entry_id" value="9480" />
+<input type="hidden" name="params_id" value="U45DSKwicVqADZuEXMz0qUjSc" />
+<input type="hidden" name="ajax_request" value="y" />
+<input type="hidden" name="site_id" value="1" />
+<input type="hidden" name="csrf_token" value="b7ead095ab3d7cc4d61a2a437adab504834798ae" />
+</div>
+</form>
+</div>
+<div class="post-rating">
+<input type="hidden" data-filled="ai ai-star__full" data-empty="ai ai-star__stroke" data-fractions="2" value='4.5' class="rating">
+</div>
+</div>
+<div class="widget__post-info__btns">
+<a href="/anime/skazka-o-hvoste-fei-TV1/1/1" class="btn btn__big btn__red btn__play-first"><i class="ai ai-next"></i> Смотреть онлайн</a>
+<a href="http://tt.animedia.tv/anime/skazka-o-hvoste-fei" class="btn btn__big btn__green btn__dowload-torrent"><i class="ai ai-download"></i> Скачать торрент</a>
+<a href="/assistance-to-the-project" class="btn btn__big btn__soft-black"><i class="ai ai-next"></i> Помочь проекту</a>
+</div>
+<center> <div id='e50c3e9040'></div>
+<script type='text/javascript' data-cfasync='false'>
+ (function(){
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.charset = 'utf-8';
+  script.async = 'true';
+  script.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//et-cod.com/bens/vinos.js?13281a' + Math.random();
+  document.body.appendChild(script);
+ })();
+</script>
+
+</center></br>
+<div class="widget__post-info__voicers">
+<div class="h3 widget__post-info__voicers__title">Релиз озвучивали:</div>
+<ul class="widget__post-info__voicers__links">
+<li class="widget__post-info__voicers__links__item"><a href="/search?qv=FREYA">FREYA</a> & <a href="/search?qv=NAZEL">NAZEL</a> & <a href="/search?qv=SHACHIBURI">SHACHIBURI</a> </li>
+</ul>
+</div>
+</div>
+</div>
+
+
+
+<div class="widget">
+<div class="h3 widget__title">Новые серии </div>
+<div class="widget__new-series">
+
+<div class="widget__new-series__item widget__item">
+<a href="/anime/yarost-bahamuta-druzya-iz-manarii/1/3" title="Cмотреть онлайн аниме Ярость Бахамута: Друзья из Манарии Серия 3" class="widget__new-series__item__thumb"><img src="//static.animedia.tv/screens/1549343574350128da008b5cd220d30e92342d4df260c819f9_min.jpg?w=104&q=50" alt="Cмотреть онлайн аниме Ярость Бахамута: Друзья из Манарии Серия 3" title="Серия 3 аниме Ярость Бахамута: Друзья из Манарии онлайн"></a>
+<div class="widget__new-series__item__info">
+<a href="/anime/yarost-bahamuta-druzya-iz-manarii/1/3" title="Cмотреть онлайн аниме Ярость Бахамута: Друзья из Манарии Серия 3" class="h4 widget__new-series__item__title">Ярость Бахамута: Друзья из Манарии</a>
+<div class="widget__new-series__item__status">
+Серия 3 из
+10
+</div>
+<div class="date_newseries">Добавлено 2 час. назад</div>
+</div>
+</div>
+<div class="widget__new-series__item widget__item">
+<a href="/anime/boruto-novoe-pokolenie-naruto/1/92" title="Cмотреть онлайн аниме Боруто: Новое поколение Наруто Серия 92" class="widget__new-series__item__thumb"><img src="//static.animedia.tv/screens/15493077777eedaba1fd6b91f2d30bba1d19328e63cb374ea5_min.jpg?w=104&q=50" alt="Cмотреть онлайн аниме Боруто: Новое поколение Наруто Серия 92" title="Серия 92 аниме Боруто: Новое поколение Наруто онлайн"></a>
+<div class="widget__new-series__item__info">
+<a href="/anime/boruto-novoe-pokolenie-naruto/1/92" title="Cмотреть онлайн аниме Боруто: Новое поколение Наруто Серия 92" class="h4 widget__new-series__item__title">Боруто: Новое поколение Наруто</a>
+<div class="widget__new-series__item__status">
+Серия 92 из
+XXX
+</div>
+<div class="date_newseries">Добавлено 10 час. назад</div>
+</div>
+</div>
+<div class="widget__new-series__item widget__item">
+<a href="/anime/pyat-nevest/1/4" title="Cмотреть онлайн аниме Пять невест Серия 4" class="widget__new-series__item__thumb"><img src="//static.animedia.tv/screens/15493083093cac224beaeee47be74d4ca909f9aad4bfa90f5e_min.jpg?w=104&q=50" alt="Cмотреть онлайн аниме Пять невест Серия 4" title="Серия 4 аниме Пять невест онлайн"></a>
+<div class="widget__new-series__item__info">
+<a href="/anime/pyat-nevest/1/4" title="Cмотреть онлайн аниме Пять невест Серия 4" class="h4 widget__new-series__item__title">Пять невест</a>
+<div class="widget__new-series__item__status">
+Серия 4 из
+12
+</div>
+<div class="date_newseries">Добавлено 13 час. назад</div>
+</div>
+</div>
+<div class="widget__new-series__item widget__item">
+<a href="/anime/mob-psiho-100-mob-psycho-100/2/5" title="Cмотреть онлайн аниме Моб Психо 100 Серия 5" class="widget__new-series__item__thumb"><img src="//static.animedia.tv/screens/1549306347337ba9ba1325d6df409f046d3f49acaed82d4fbc_min.jpg?w=104&q=50" alt="Cмотреть онлайн аниме Моб Психо 100 Серия 5" title="Серия 5 аниме Моб Психо 100 онлайн"></a>
+<div class="widget__new-series__item__info">
+<a href="/anime/mob-psiho-100-mob-psycho-100/2/5" title="Cмотреть онлайн аниме Моб Психо 100 Серия 5" class="h4 widget__new-series__item__title">Моб Психо 100 ТВ2</a>
+<div class="widget__new-series__item__status">
+Серия 5 из
+12
+</div>
+<div class="date_newseries">Добавлено 13 час. назад</div>
+</div>
+</div>
+<div class="widget__new-series__item widget__item">
+<a href="/anime/indeks-volshebstvaA-Certain-Magical-Index/3/17" title="Cмотреть онлайн аниме Индекс Волшебства Серия 17" class="widget__new-series__item__thumb"><img src="//static.animedia.tv/screens/154930391688aec641f0d39838376d6fae6c2e32c268dd7731_min.jpg?w=104&q=50" alt="Cмотреть онлайн аниме Индекс Волшебства Серия 17" title="Серия 17 аниме Индекс Волшебства онлайн"></a>
+<div class="widget__new-series__item__info">
+<a href="/anime/indeks-volshebstvaA-Certain-Magical-Index/3/17" title="Cмотреть онлайн аниме Индекс Волшебства Серия 17" class="h4 widget__new-series__item__title">Индекс Волшебства ТВ3</a>
+<div class="widget__new-series__item__status">
+Серия 17 из
+26
+</div>
+<div class="date_newseries">Добавлено 14 час. назад</div>
+</div>
+</div>
+<div class="widget__new-series__item widget__item">
+<a href="/anime/JoJo/5/17" title="Cмотреть онлайн аниме Невероятное приключение ДжоДжо Серия 17" class="widget__new-series__item__thumb"><img src="//static.animedia.tv/screens/1549300964a3eeaf95d0a15bde52fdcf202d55f356db4acbfa_min.jpg?w=104&q=50" alt="Cмотреть онлайн аниме Невероятное приключение ДжоДжо Серия 17" title="Серия 17 аниме Невероятное приключение ДжоДжо онлайн"></a>
+<div class="widget__new-series__item__info">
+<a href="/anime/JoJo/5/17" title="Cмотреть онлайн аниме Невероятное приключение ДжоДжо Серия 17" class="h4 widget__new-series__item__title">Невероятное приключение ДжоДжо ТВ5</a>
+<div class="widget__new-series__item__status">
+Серия 17 из
+39
+</div>
+<div class="date_newseries">Добавлено 14 час. назад</div>
+</div>
+</div>
+<div class="widget__new-series__item widget__item">
+<a href="/anime/domekano/1/4" title="Cмотреть онлайн аниме Домекано Серия 4" class="widget__new-series__item__thumb"><img src="//static.animedia.tv/screens/154928323949a4025def082d05ca149237a2c6848960f93567_min.jpg?w=104&q=50" alt="Cмотреть онлайн аниме Домекано Серия 4" title="Серия 4 аниме Домекано онлайн"></a>
+<div class="widget__new-series__item__info">
+<a href="/anime/domekano/1/4" title="Cмотреть онлайн аниме Домекано Серия 4" class="h4 widget__new-series__item__title">Домекано</a>
+<div class="widget__new-series__item__status">
+Серия 4 из
+12
+</div>
+<div class="date_newseries">Добавлено 21 час. назад</div>
+</div>
+</div>
+<div class="widget__new-series__item widget__item">
+<a href="/anime/radiant/1/18" title="Cмотреть онлайн аниме Радиант Серия 18" class="widget__new-series__item__thumb"><img src="//static.animedia.tv/screens/15492258268e084cfb5ae6c914cc3fd317c3c8162e801be089_min.jpg?w=104&q=50" alt="Cмотреть онлайн аниме Радиант Серия 18" title="Серия 18 аниме Радиант онлайн"></a>
+<div class="widget__new-series__item__info">
+<a href="/anime/radiant/1/18" title="Cмотреть онлайн аниме Радиант Серия 18" class="h4 widget__new-series__item__title">Радиант</a>
+<div class="widget__new-series__item__status">
+Серия 18 из
+24
+</div>
+<div class="date_newseries">Добавлено 1 день назад</div>
+</div>
+</div>
+<div class="widget__new-series__item widget__item">
+<a href="/anime/skazka-o-hvoste-fei-TV1/3/294" title="Cмотреть онлайн аниме Сказка о Хвосте Феи Серия 294" class="widget__new-series__item__thumb"><img src="//static.animedia.tv/screens/154921393633a5b1f8bce45af0bce8b966026acc0ea5e6776b_min.jpg?w=104&q=50" alt="Cмотреть онлайн аниме Сказка о Хвосте Феи Серия 294" title="Серия 294 аниме Сказка о Хвосте Феи онлайн"></a>
+<div class="widget__new-series__item__info">
+<a href="/anime/skazka-o-hvoste-fei-TV1/3/294" title="Cмотреть онлайн аниме Сказка о Хвосте Феи Серия 294" class="h4 widget__new-series__item__title">Сказка о Хвосте Феи ТВ3</a>
+<div class="widget__new-series__item__status">
+Серия 294 из
+xxx
+</div>
+<div class="date_newseries">Добавлено 1 день назад</div>
+</div>
+</div>
+<div class="widget__new-series__item widget__item">
+<a href="/anime/mastera-mecha-onlayn/3/17" title="Cмотреть онлайн аниме Мастера меча онлайн Серия 17" class="widget__new-series__item__thumb"><img src="//static.animedia.tv/screens/1549213690e3d2f2f75f7fde86ce37f4962c440b002ef63cd2_min.jpg?w=104&q=50" alt="Cмотреть онлайн аниме Мастера меча онлайн Серия 17" title="Серия 17 аниме Мастера меча онлайн онлайн"></a>
+<div class="widget__new-series__item__info">
+<a href="/anime/mastera-mecha-onlayn/3/17" title="Cмотреть онлайн аниме Мастера меча онлайн Серия 17" class="h4 widget__new-series__item__title">Мастера меча онлайн ТВ3</a>
+<div class="widget__new-series__item__status">
+Серия 17 из
+24
+</div>
+<div class="date_newseries">Добавлено 1 день назад</div>
+</div>
+</div>
+<a href="/new" class="btn btn__gray btn__more"><i class="ai ai-next"></i> Больше серий</a>
+</div>
+</div>
+
+
+
+<script type="text/javascript" src="//vk.com/js/api/openapi.js?150"></script>
+
+<div id="vk_groups"></div>
+<script type="text/javascript">
+VK.Widgets.Group("vk_groups", {mode: 3, width: "310", color3: 'E70D2F'}, 13912875);
+</script></br>
+
+</aside>
+
+
+</div>
+</div>
+</div>
+
+
+<div class="finished-releases">
+<div class="container">
+<div class="finished-releases__wrapper">
+
+<div class="finished-releases__header">
+<div class="h1 finished-releases__header__title">Завершённые релизы</div><a href="/completed" class="btn btn__gray btn__more"><i class="ai ai-next"></i> Все релизы</a>
+</div>
+
+
+<div class="finished-releases__list xads-list">
+
+<div class="ads-list__item">
+<div class="ads-list__item__thumb"><a href="http://online.animedia.tv/anime/sem-smertnyih-grehov"><img src="//static.animedia.tv/uploads/1202111.jpg?w=280&h=385" alt="Постер аниме Nanatsu no Taizai" width="280" height="385" title="Аниме онлайн Семь смертных грехов"></a>
+<div class="ads-list__item__overlay overlay">
+</br><h2 style="color: #fff">9.2/10</h2>
+<div class="overlay__counters">
+<div class="overlay__counters__primary"><a href="http://online.animedia.tv/anime/sem-smertnyih-grehov" title="Смотреть онлайн Семь смертных грехов" class="overlay__counters__primary__wrap"><span>1081177</span> просмотров</a></div>
+<div class="overlay__counters__secondary"><span class="overlay__counters__secondary__comments"><i class="ai ai-comment"></i>286</span><span class="overlay__counters__secondary__likes"><i class="ai ai-like__full"></i> 782</span></div>
+</div>
+<div class="overlay__footer">
+<div class="col-l"><a href="//tt.animedia.tv/anime/sem-smertnyh-grehov" title="Скачать Семь смертных грехов" class="btn btn__green btn__sm"><i class="ai ai-download"></i> Скачать</a></div>
+<div class="col-l"><a href="http://online.animedia.tv/anime/sem-smertnyih-grehov" title="Подробнее" class="btn btn__black btn__sm"><i class="ai ai-next"></i> Подробно</a></div>
+</div>
+</div>
+</div>
+<div class="original-title">Nanatsu no Taizai</div><a href="http://online.animedia.tv/anime/sem-smertnyih-grehov" title="Семь смертных грехов" class="h3 ads-list__item__title">Семь смертных грехов</a>
+<div class="genre-tags">Жанр: <a href="http://online.animedia.tv/category/advanture" title="Приключения">Приключения</a><a href="http://online.animedia.tv/category/fantasy" title="Фэнтези">Фэнтези</a></div>
+</div>
+
+<div class="ads-list__item">
+<div class="ads-list__item__thumb"><a href="http://online.animedia.tv/anime/hodyachij-zamok"><img src="//static.animedia.tv/uploads/castel.jpg?w=280&h=385" alt="Постер аниме Howl's Moving Castle" width="280" height="385" title="Аниме онлайн Ходячий замок"></a>
+<div class="ads-list__item__overlay overlay">
+</br><h2 style="color: #fff">9.8/10</h2>
+<div class="overlay__counters">
+<div class="overlay__counters__primary"><a href="http://online.animedia.tv/anime/hodyachij-zamok" title="Смотреть онлайн Ходячий замок" class="overlay__counters__primary__wrap"><span>17712</span> просмотров</a></div>
+<div class="overlay__counters__secondary"><span class="overlay__counters__secondary__comments"><i class="ai ai-comment"></i>9</span><span class="overlay__counters__secondary__likes"><i class="ai ai-like__full"></i> 274</span></div>
+</div>
+<div class="overlay__footer">
+<div class="col-l"><a href="" title="Скачать Ходячий замок" class="btn btn__green btn__sm"><i class="ai ai-download"></i> Скачать</a></div>
+<div class="col-l"><a href="http://online.animedia.tv/anime/hodyachij-zamok" title="Подробнее" class="btn btn__black btn__sm"><i class="ai ai-next"></i> Подробно</a></div>
+</div>
+</div>
+</div>
+<div class="original-title">Howl's Moving Castle</div><a href="http://online.animedia.tv/anime/hodyachij-zamok" title="Ходячий замок" class="h3 ads-list__item__title">Ходячий замок</a>
+<div class="genre-tags">Жанр: <a href="http://online.animedia.tv/category/drama" title="Драма">Драма</a><a href="http://online.animedia.tv/category/advanture" title="Приключения">Приключения</a><a href="http://online.animedia.tv/category/romance" title="Романтика">Романтика</a></div>
+</div>
+
+<div class="ads-list__item">
+ <div class="ads-list__item__thumb"><a href="http://online.animedia.tv/anime/princessa-mononoke"><img src="//static.animedia.tv/uploads/princ.jpg?w=280&h=385" alt="Постер аниме Mononoke-hime" width="280" height="385" title="Аниме онлайн Принцесса Мононоке"></a>
+<div class="ads-list__item__overlay overlay">
+</br><h2 style="color: #fff">9.9/10</h2>
+<div class="overlay__counters">
+<div class="overlay__counters__primary"><a href="http://online.animedia.tv/anime/princessa-mononoke" title="Смотреть онлайн Принцесса Мононоке" class="overlay__counters__primary__wrap"><span>18199</span> просмотров</a></div>
+<div class="overlay__counters__secondary"><span class="overlay__counters__secondary__comments"><i class="ai ai-comment"></i>9</span><span class="overlay__counters__secondary__likes"><i class="ai ai-like__full"></i> 148</span></div>
+</div>
+<div class="overlay__footer">
+<div class="col-l"><a href="" title="Скачать Принцесса Мононоке" class="btn btn__green btn__sm"><i class="ai ai-download"></i> Скачать</a></div>
+<div class="col-l"><a href="http://online.animedia.tv/anime/princessa-mononoke" title="Подробнее" class="btn btn__black btn__sm"><i class="ai ai-next"></i> Подробно</a></div>
+</div>
+</div>
+</div>
+<div class="original-title">Mononoke-hime</div><a href="http://online.animedia.tv/anime/princessa-mononoke" title="Принцесса Мононоке" class="h3 ads-list__item__title">Принцесса Мононоке</a>
+<div class="genre-tags">Жанр: <a href="http://online.animedia.tv/category/drama" title="Драма">Драма</a><a href="http://online.animedia.tv/category/advanture" title="Приключения">Приключения</a><a href="http://online.animedia.tv/category/fantasy" title="Фэнтези">Фэнтези</a></div>
+</div>
+
+<div class="ads-list__item">
+<div class="ads-list__item__thumb"><a href="http://online.animedia.tv/anime/akademiya-vedmochek"><img src="//static.animedia.tv/uploads/1448.jpg?w=280&h=385" alt="Постер аниме Little Witch Academia" width="280" height="385" title="Аниме онлайн Академия ведьмочек"></a>
+<div class="ads-list__item__overlay overlay">
+</br><h2 style="color: #fff">9.0/10</h2>
+<div class="overlay__counters">
+<div class="overlay__counters__primary"><a href="http://online.animedia.tv/anime/akademiya-vedmochek" title="Смотреть онлайн Академия ведьмочек" class="overlay__counters__primary__wrap"><span>118903</span> просмотров</a></div>
+<div class="overlay__counters__secondary"><span class="overlay__counters__secondary__comments"><i class="ai ai-comment"></i>57</span><span class="overlay__counters__secondary__likes"><i class="ai ai-like__full"></i> 99</span></div>
+</div>
+<div class="overlay__footer">
+<div class="col-l"><a href="//tt.animedia.tv/anime/akademiya-vedmochek" title="Скачать Академия ведьмочек" class="btn btn__green btn__sm"><i class="ai ai-download"></i> Скачать</a></div>
+<div class="col-l"><a href="http://online.animedia.tv/anime/akademiya-vedmochek" title="Подробнее" class="btn btn__black btn__sm"><i class="ai ai-next"></i> Подробно</a></div>
+</div>
+</div>
+</div>
+<div class="original-title">Little Witch Academia</div><a href="http://online.animedia.tv/anime/akademiya-vedmochek" title="Академия ведьмочек" class="h3 ads-list__item__title">Академия ведьмочек</a>
+<div class="genre-tags">Жанр: <a href="http://online.animedia.tv/category/advanture" title="Приключения">Приключения</a><a href="http://online.animedia.tv/category/fantasy" title="Фэнтези">Фэнтези</a><a href="http://online.animedia.tv/category/school" title="Школа">Школа</a></div>
+</div>
+</div>
+
+</div>
+</div>
+</div>
+
+
+<footer class="main-footer">
+<div class="container">
+<div class="main-footer__wrapper">
+<div class="main-footer__sub-menu-wrapper">
+
+<div class="main-footer__sub-menu main-footer__item">
+<div class="h4 main-footer__item__title">О проекте</div>
+<ul class="main-footer__sub-menu__list">
+<li class="main-footer__sub-menu__list__item"><a href="//animedia.tv/pages/about" title="О проекте">О проекте</a></li>
+<li class="main-footer__sub-menu__list__item"><a href="//animedia.tv/pages/advertisers" title="Рекламодателям">Рекламодателям</a></li>
+<li class="main-footer__sub-menu__list__item"><a href="//animedia.tv/project-team" title="Наша команда">Наша команда</a></li>
+<li class="main-footer__sub-menu__list__item"><a href="//online.animedia.tv/teamwork" title="Вакансии">Вакансии</a></li>
+<li class="main-footer__sub-menu__list__item"><a href="//animedia.tv/pages/pravoobladatelyam" title="Правообладателям">Правообладателям</a></li>
+</ul>
+</div>
+
+
+<div class="main-footer__sub-menu main-footer__item">
+<div class="h4 main-footer__item__title">Новости</div>
+<ul class="main-footer__sub-menu__list">
+<li class="main-footer__sub-menu__list__item"><a href="//animedia.tv/news/anime" title="Аниме-новости">Аниме-новости</a></li>
+<li class="main-footer__sub-menu__list__item"><a href="//animedia.tv/news/games" title="Игровые новости">Игровые новости</a></li>
+<li class="main-footer__sub-menu__list__item"><a href="//animedia.tv/news/music" title="Музыкальные новости">Музыкальные новости</a></li>
+<li class="main-footer__sub-menu__list__item"><a href="//animedia.tv/news/novosti-aziatskogo-kino" title="Новости кино Азии">Новости кино Азии</a></li>
+<li class="main-footer__sub-menu__list__item"><a href="//animedia.tv/news/novosti-proekta" title="Новости проекта">Новости проекта</a></li>
+</ul>
+</div>
+
+
+<div class="main-footer__sub-menu main-footer__item">
+<div class="h4 main-footer__item__title">Блоги</div>
+<ul class="main-footer__sub-menu__list">
+<li class="main-footer__sub-menu__list__item"><a href="//animedia.tv/blogs/voicers" title="Блоги войсеров">Блоги войсеров</a></li>
+<li class="main-footer__sub-menu__list__item"><a href="//animedia.tv/blogs/threads" title="Тематические блоги">Тематические блоги</a></li>
+<li class="main-footer__sub-menu__list__item"><a href="//animedia.tv/blogs/video" title="Видеоблоги">Видеоблоги</a></li>
+<li class="main-footer__sub-menu__list__item"><a href="#" title="Рецензии">Рецензии</a></li>
+<li class="main-footer__sub-menu__list__item"><a href="//animedia.tv/blogs/project" title="Блог проекта">Блог проекта</a></li>
+ </ul>
+</div>
+
+
+<div class="main-footer__sub-menu main-footer__item">
+<div class="h4 main-footer__item__title">Торрент-трекер</div>
+<ul class="main-footer__sub-menu__list">
+<li class="main-footer__sub-menu__list__item"><a href="//tt.animedia.tv/" title="Аниме и дорамы">Аниме и дорамы</a></li>
+<li class="main-footer__sub-menu__list__item"><a href="//tt.animedia.tv/" title="jMusic и OST">jMusic и OST</a></li>
+<li class="main-footer__sub-menu__list__item"><a href="//tt.animedia.tv/" title="Манга">Манга</a></li>
+<li class="main-footer__sub-menu__list__item"><a href="//tt.animedia.tv/" title="Игры">Игры</a></li>
+<li class="main-footer__sub-menu__list__item"><a href="//tt.animedia.tv/" title="Прочее">Прочее</a></li>
+</ul>
+</div>
+
+</div>
+
+<div class="main-footer__news-subscribe main-footer__item">
+<div class="h4 main-footer__item__title">Аниме</div>
+<p>Хочешь быть всегда в теме происходящего аниме мира? Хочешь знать о выходе новых аниме? Тогда заходи на наш аниме сайт почаще! У нас всё самое новое из мира аниме!</p>
+</div>
+
+</div>
+</div>
+</footer>
+
+
+<div class="copyright">
+<div class="container">
+<div class="copyright__wrapper">
+<p class="copyright__left-col">(C) Copyright "Animedia.TV" 2009-2019</p>
+<p class="copyright__right-col"><a title="Design by Tsumi" class="tsumi-link"></a></p>
+<p class="copyright__center-col"><script type="text/javascript"><!--
+document.write("<a href='http://www.liveinternet.ru/click' "+
+"target=_blank><img src='//counter.yadro.ru/hit?t44.6;r"+
+escape(document.referrer)+((typeof(screen)=="undefined")?"":
+";s"+screen.width+"*"+screen.height+"*"+(screen.colorDepth?
+screen.colorDepth:screen.pixelDepth))+";u"+escape(document.URL)+
+";"+Math.random()+
+"' alt='' title='LiveInternet' "+
+"border='0' width='31' height='31'><\/a>")
+//--></script>
+
+<script type="text/javascript">
+    (function (d, w, c) {
+        (w[c] = w[c] || []).push(function() {
+            try {
+                w.yaCounter35079065 = new Ya.Metrika({
+                    id:35079065,
+                    clickmap:true,
+                    trackLinks:true,
+                    accurateTrackBounce:true
+                });
+            } catch(e) {}});
+
+        var n = d.getElementsByTagName("script")[0],
+            s = d.createElement("script"),
+            f = function () { n.parentNode.insertBefore(s, n); };
+        s.type = "text/javascript";
+        s.async = true;
+        s.src = "https://mc.yandex.ru/metrika/watch.js";
+
+        if (w.opera == "[object Opera]") {
+            d.addEventListener("DOMContentLoaded", f, false);
+        } else {f();}
+    })(document, window, "yandex_metrika_callbacks");
+</script>
+<noscript><div><img src="https://mc.yandex.ru/watch/35079065" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+
+</p>
+</div>
+</div>
+</div>
+
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+
+<script src="/js/plugins.min.js"></script>
+<link rel="stylesheet" href="/js/plugins/selectize/css/selectize.bootstrap3.css" />
+<script src="/js/plugins/selectize/js/selectize.min.js"></script>
+<script src="/js/layzr.min.js" type="text/javascript"></script>
+<script type="text/javascript" src="/js/plugins/noty/packaged/jquery.noty.packaged.js"></script>
+
+<script src="/js/apps.js"></script>
+<script src="/js/r.js"></script>
+<script type="text/javascript" src="/js/fdcore.script.js"></script>
+<script type="text/javascript" src="/js/jquery-comments.js"></script>
+<script type="text/javascript" src="/js/animedia-comments.js"></script>
+<script type="text/javascript" src="/js/moment.js"></script>
+<script type="text/javascript" src="/js/moment-loc.js"></script>
+<script>(function(w,d){var __zscript = d.createElement('script');__zscript.src = "https://zbiz-scr.com/code/ffd7e10374.js?referer=" + encodeURIComponent(document.referer); __zscript.async=true; d.body.appendChild(__zscript);})(window, document);</script>
+</body>
+</html>

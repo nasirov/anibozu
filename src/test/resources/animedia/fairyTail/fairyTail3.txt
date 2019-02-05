@@ -1,0 +1,104 @@
+HTTP/1.1 200 OK
+Date: Tue, 05 Feb 2019 09:09:09 GMT
+Content-Type: text/html; charset=UTF-8
+Connection: keep-alive
+Set-Cookie: __cfduid=dab704b5f2e624f5a7d74ace5a93817551549357749; expires=Wed, 05-Feb-20 09:09:09 GMT; path=/; domain=.animedia.tv; HttpOnly
+Vary: Accept-Encoding
+Set-Cookie: anim_last_visit=1233997749; expires=Wed, 05-Feb-2020 09:09:09 GMT; Max-Age=31536000; path=/; httponly
+Set-Cookie: anim_last_activity=1549357749; expires=Wed, 05-Feb-2020 09:09:09 GMT; Max-Age=31536000; path=/; httponly
+Set-Cookie: anim_tracker=%7B%220%22%3A%22ajax%2Fepisodes%2F9480%2F3%22%2C%22token%22%3A%22b18406716d607c7059b3e47fdf18497a%22%7D; path=/; httponly
+Set-Cookie: anim_csrf_token=deleted; expires=Thu, 01-Jan-1970 00:00:01 GMT; Max-Age=0; path=/; httponly
+Set-Cookie: anim_csrf_token=79cebcc39292b4e144bb8a1fff8464929219d19b; expires=Tue, 05-Feb-2019 11:09:09 GMT; Max-Age=7200; path=/; httponly
+Alt-Svc: h2=":443"; ma=60
+Server: cloudflare
+CF-RAY: 4a443c8c3370c2a6-FRA
+Content-Length: 9712
+
+<div class="media__tabs__series__list carousel-inner" data-list_id="3">
+<div class="media__tabs__series__list__item"><a href="/anime/skazka-o-hvoste-fei-TV1/3/278" title="Серия 278"><img src="//static.animedia.tv/screens/153891588405b9218f5f94d06f1974957f56e50f3d4d4071cf_min.jpg?w=153&h=86&fit=crop&q=45" alt="Серия 278"></a><span>Серия 278 из xxx</span></div><div class="media__tabs__series__list__item"><a href="/anime/skazka-o-hvoste-fei-TV1/3/279" title="Серия 279"><img src="//static.animedia.tv/screens/1539539732ebbedad3e497300d925c33c662837b9806a4a7c8_min.jpg?w=153&h=86&fit=crop&q=45" alt="Серия 279"></a><span>Серия 279 из xxx</span></div><div class="media__tabs__series__list__item"><a href="/anime/skazka-o-hvoste-fei-TV1/3/280" title="Серия 280"><img src="//static.animedia.tv/screens/1540138535f57a9ed5fc4d14f70f1b64b20658ba54c3af46c2_min.jpg?w=153&h=86&fit=crop&q=45" alt="Серия 280"></a><span>Серия 280 из xxx</span></div><div class="media__tabs__series__list__item"><a href="/anime/skazka-o-hvoste-fei-TV1/3/281" title="Серия 281"><img src="//static.animedia.tv/screens/15408373196d79baad7b3a35f97adbe7626b7eb50eaab856d0_min.jpg?w=153&h=86&fit=crop&q=45" alt="Серия 281"></a><span>Серия 281 из xxx</span></div><div class="media__tabs__series__list__item"><a href="/anime/skazka-o-hvoste-fei-TV1/3/282" title="Серия 282"><img src="//static.animedia.tv/screens/154135464733d7ed2997eee3e34e363a40e0f83ce0976096f4_min.jpg?w=153&h=86&fit=crop&q=45" alt="Серия 282"></a><span>Серия 282 из xxx</span></div><div class="media__tabs__series__list__item"><a href="/anime/skazka-o-hvoste-fei-TV1/3/283" title="Серия 283"><img src="//static.animedia.tv/screens/1542042962079ee03e0da05b237df6b88f90b8bfa90671f2d0_min.jpg?w=153&h=86&fit=crop&q=45" alt="Серия 283"></a><span>Серия 283 из xxx</span></div><div class="media__tabs__series__list__item"><a href="/anime/skazka-o-hvoste-fei-TV1/3/284" title="Серия 284"><img src="//static.animedia.tv/screens/1542568824a062806184e381125e5e857c52d5af66509963fb_min.jpg?w=153&h=86&fit=crop&q=45" alt="Серия 284"></a><span>Серия 284 из xxx</span></div><div class="media__tabs__series__list__item"><a href="/anime/skazka-o-hvoste-fei-TV1/3/285" title="Серия 285"><img src="//static.animedia.tv/screens/1543151693514907d2e3ed7ed403ea67f7cf1daf993ed366e8_min.jpg?w=153&h=86&fit=crop&q=45" alt="Серия 285"></a><span>Серия 285 из xxx</span></div><div class="media__tabs__series__list__item"><a href="/anime/skazka-o-hvoste-fei-TV1/3/286" title="Серия 286"><img src="//static.animedia.tv/screens/15437871423137dde02c97cfbf328bf834d8672465ec48d99c_min.jpg?w=153&h=86&fit=crop&q=45" alt="Серия 286"></a><span>Серия 286 из xxx</span></div><div class="media__tabs__series__list__item"><a href="/anime/skazka-o-hvoste-fei-TV1/3/287" title="Серия 287"><img src="//static.animedia.tv/screens/1544468590075b12f1364b7a7031715e8dd7a6512e2816581b_min.jpg?w=153&h=86&fit=crop&q=45" alt="Серия 287"></a><span>Серия 287 из xxx</span></div><div class="media__tabs__series__list__item"><a href="/anime/skazka-o-hvoste-fei-TV1/3/288" title="Серия 288"><img src="//static.animedia.tv/screens/154502403897e542b455167d672ca17a13ef39120295ba04dc_min.jpg?w=153&h=86&fit=crop&q=45" alt="Серия 288"></a><span>Серия 288 из xxx</span></div><div class="media__tabs__series__list__item"><a href="/anime/skazka-o-hvoste-fei-TV1/3/289" title="Серия 289"><img src="//static.animedia.tv/screens/1545589165fd70bf92438218964951f2d426bf3746be955c54_min.jpg?w=153&h=86&fit=crop&q=45" alt="Серия 289"></a><span>Серия 289 из xxx</span></div><div class="media__tabs__series__list__item"><a href="/anime/skazka-o-hvoste-fei-TV1/3/290" title="Серия 290"><img src="//static.animedia.tv/screens/15467906825b7d78e82f57e513822c4c9312003d92eb1d76f5_min.jpg?w=153&h=86&fit=crop&q=45" alt="Серия 290"></a><span>Серия 290 из xxx</span></div><div class="media__tabs__series__list__item"><a href="/anime/skazka-o-hvoste-fei-TV1/3/291" title="Серия 291"><img src="//static.animedia.tv/screens/1547378322a6940e6848fe541ac72f94dd244401e5946d7453_min.jpg?w=153&h=86&fit=crop&q=45" alt="Серия 291"></a><span>Серия 291 из xxx</span></div><div class="media__tabs__series__list__item"><a href="/anime/skazka-o-hvoste-fei-TV1/3/292" title="Серия 292"><img src="//static.animedia.tv/screens/15479978982659c735ef1ae3189e60f87c81fca41cba36d409_min.jpg?w=153&h=86&fit=crop&q=45" alt="Серия 292"></a><span>Серия 292 из xxx</span></div><div class="media__tabs__series__list__item"><a href="/anime/skazka-o-hvoste-fei-TV1/3/293" title="Серия 293"><img src="//static.animedia.tv/screens/1548614566edd73bfd6720b25bd64c6f11831eefad969aa76b_min.jpg?w=153&h=86&fit=crop&q=45" alt="Серия 293"></a><span>Серия 293 из xxx</span></div><div class="media__tabs__series__list__item"><a href="/anime/skazka-o-hvoste-fei-TV1/3/294" title="Серия 294"><img src="//static.animedia.tv/screens/154921393633a5b1f8bce45af0bce8b966026acc0ea5e6776b_min.jpg?w=153&h=86&fit=crop&q=45" alt="Серия 294"></a><span>Серия 294 из xxx</span></div>
+</div>
+<div class="clearfix"></div>
+<div class="media__tabs__series__footer">
+<div class="media__tabs__series__footer__item"><a href="#carousel2" data-slide="prev" class="media__tabs__series__control carousel-control prev"><i class="ai ai-prev"></i></a></div>
+<div class="media__tabs__series__footer__item media__tabs__series__footer__item__center">Серии <span class="start-series"></span>-<span class="end-series"></span> из xxx</div>
+<div class="media__tabs__series__footer__item"><a href="#carousel2" data-slide="next" class="media__tabs__series__control carousel-control next"><i class="ai ai-next"></i></a></div>
+</div>
+<script>
+    $(document).ready(function () {
+
+        /**
+         * Слайдер серий в табах
+         */
+        var seriesCount = 15,
+                $seriesCarousel = $('.media__tabs__series');
+
+        $seriesCarousel.each(function () {
+            var $carousel = $(this),
+                    $list = $carousel.find('.media__tabs__series__list'),
+                    $active = '';
+
+            while($list.children('div:not(.series-list__wrap)').length) {
+                $list.children('div:not(.series-list__wrap):lt('+seriesCount+')').wrapAll('<div class="series-list__wrap row item">');
+            }
+
+            var $item = $list.find('.series-list__wrap'),
+                    $firstItem = $list.find('.series-list__wrap:first-child'),
+                    $lastItem = $list.find('.series-list__wrap:last-child'),
+                    $control = $carousel.find('.media__tabs__series__control'),
+                    $controlPrev = $carousel.find('.media__tabs__series__control.prev'),
+                    $controlNext = $carousel.find('.media__tabs__series__control.next'),
+                    $startSeries = $carousel.find('.start-series'),
+                    $endSeries = $carousel.find('.end-series'),
+                    firstMax = $firstItem.find('.media__tabs__series__list__item').length;
+
+            $firstItem.addClass('active');
+            $controlPrev.addClass('disabled');
+            $startSeries.html('1');
+            $endSeries.html(firstMax);
+
+            if ($list.find('.media__tabs__series__list__item').length <= 15 ) {$control.hide();}
+
+            var i = 1;
+            var j = 1;
+
+            $control.click(function (e) {
+                var	$active = $list.find('.active'),
+                        firstActive = getItemIndex($active),
+                        lastActive = $item.length;
+
+                $control.removeClass('disabled');
+
+                if ( $(this).hasClass('prev') && firstActive === 1 ) {$controlPrev.addClass('disabled');} else {$controlPrev.removeClass('disabled');}
+                if ( $(this).hasClass('next') && firstActive+2 === lastActive ) {$controlNext.addClass('disabled');} else {$controlNext.removeClass('disabled');}
+
+
+                if ( $(this).hasClass('next') ) {
+                    var firstMin = $list.find('.series-list__wrap:nth-child('+ (i++) +') .media__tabs__series__list__item').length,
+                            lastMin = $list.find('.series-list__wrap:nth-child('+ ((j++)+1) +') .media__tabs__series__list__item').length,
+                            startText = $startSeries.text(),
+                            startText = Number(startText) + firstMin,
+                            endText = $endSeries.text(),
+                            endText =  Number(endText) + lastMin;
+                    $startSeries.html(startText);
+                    $endSeries.html(endText);
+                }
+                if ( $(this).hasClass('prev') ) {
+                    var firstMin = $list.find('.series-list__wrap:nth-child('+ ((i--)-1) +') .media__tabs__series__list__item').length,
+                            lastMin = $list.find('.series-list__wrap:nth-child('+ (j--) +') .media__tabs__series__list__item').length,
+                            startText = $startSeries.text(),
+                            startText = Number(startText) - firstMin,
+                            endText = $endSeries.text(),
+                            endText =  Number(endText) - lastMin;
+                    $startSeries.html(startText);
+                    $endSeries.html(endText);
+                }
+            });
+            getItemIndex = function (item) {
+                var $items = item.parent().children('.item')
+                return $items.index(item || $active)
+            }
+        });
+
+
+    });
+</script>
