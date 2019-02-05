@@ -1,6 +1,7 @@
 package nasirov.yv.service;
 
 import com.sun.research.ws.wadl.HTTPMethods;
+import nasirov.yv.AbstractTest;
 import nasirov.yv.configuration.AppConfiguration;
 import nasirov.yv.http.HttpCaller;
 import nasirov.yv.parameter.MALRequestParametersBuilder;
@@ -11,7 +12,6 @@ import nasirov.yv.serialization.UserMALTitleInfo;
 import nasirov.yv.util.RoutinesIO;
 import nasirov.yv.util.URLBuilder;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -21,8 +21,6 @@ import org.springframework.cache.CacheManager;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpStatus;
 import org.springframework.test.annotation.DirtiesContext;
-import org.springframework.test.context.TestPropertySource;
-import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.*;
 
@@ -35,7 +33,6 @@ import static org.mockito.Mockito.*;
 /**
  * Created by nasirov.yv
  */
-@RunWith(SpringRunner.class)
 @SpringBootTest(classes = {
 		MALService.class,
 		MALParser.class,
@@ -45,23 +42,8 @@ import static org.mockito.Mockito.*;
 		URLBuilder.class,
 		MALRequestParametersBuilder.class,
 		RoutinesIO.class})
-@TestPropertySource(locations = "classpath:system.properties")
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_CLASS)
-public class MALServiceTest {
-	@Value("${cache.userMAL.name}")
-	private String userMALCacheName;
-	
-	@Value("${urls.myAnimeList.net}")
-	private String myAnimeListNet;
-	
-	@Value("classpath:mal/testAccForDevProfile.txt")
-	private Resource testAccForDevProfile;
-	
-	@Value("classpath:mal/testAccForDevWatchingTitles.txt")
-	private Resource testAccForDevWatchingTitles;
-	
-	@Value("classpath:mal/testAccForDevAdditionalJson.json")
-	private Resource testAccForDevAdditionalJson;
+public class MALServiceTest extends AbstractTest {
 	
 	private static final String LOAD_JSON = "load.json";
 	

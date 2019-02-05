@@ -1,34 +1,31 @@
 package nasirov.yv.service;
 
 import com.sun.research.ws.wadl.HTTPMethods;
+import nasirov.yv.AbstractTest;
 import nasirov.yv.configuration.AppConfiguration;
 import nasirov.yv.http.HttpCaller;
 import nasirov.yv.parameter.AnimediaRequestParametersBuilder;
 import nasirov.yv.parser.AnimediaHTMLParser;
 import nasirov.yv.parser.WrappedObjectMapper;
 import nasirov.yv.response.HttpResponse;
+import nasirov.yv.serialization.Anime;
 import nasirov.yv.serialization.AnimediaMALTitleReferences;
+import nasirov.yv.serialization.UserMALTitleInfo;
 import nasirov.yv.util.RoutinesIO;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.cache.Cache;
 import org.springframework.cache.CacheManager;
-import org.springframework.core.io.Resource;
 import org.springframework.http.HttpStatus;
 import org.springframework.test.annotation.DirtiesContext;
-import org.springframework.test.context.TestPropertySource;
-import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.util.ReflectionTestUtils;
 
 import java.util.*;
-import java.util.concurrent.ConcurrentMap;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+import static nasirov.yv.enums.MALAnimeStatus.WATCHING;
+import static org.junit.Assert.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.doReturn;
@@ -36,54 +33,14 @@ import static org.mockito.Mockito.doReturn;
 /**
  * Created by nasirov.yv
  */
-@RunWith(SpringRunner.class)
 @SpringBootTest(classes = {ReferencesManager.class,
 		WrappedObjectMapper.class,
 		RoutinesIO.class,
 		AnimediaRequestParametersBuilder.class,
 		AnimediaHTMLParser.class,
 		AppConfiguration.class})
-@TestPropertySource(locations = "classpath:system.properties")
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_CLASS)
-public class ReferencesManagerTest {
-	@Value("${urls.online.animedia.tv}")
-	private String animediaOnlineTv;
-	
-	@Value("${urls.online.animedia.anime.episodes.list}")
-	private String animediaEpisodesList;
-	
-	@Value("classpath:rawReferencesForTest.txt")
-	private Resource rawReferencesForTestResource;
-	
-	@Value("classpath:animedia/sao/saoHtml.txt")
-	private Resource saoHtml;
-	
-	@Value("classpath:animedia/fairyTail/fairyTailHtml.txt")
-	private Resource fairyTailHtml;
-	
-	@Value("classpath:animedia/fairyTail/fairyTail1.txt")
-	private Resource fairyTail1;
-	
-	@Value("classpath:animedia/fairyTail/fairyTail2.txt")
-	private Resource fairyTail2;
-	
-	@Value("classpath:animedia/fairyTail/fairyTail3.txt")
-	private Resource fairyTail3;
-	
-	@Value("classpath:animedia/fairyTail/fairyTail7.txt")
-	private Resource fairyTail7;
-	
-	@Value("classpath:animedia/sao/sao1.txt")
-	private Resource sao1;
-	
-	@Value("classpath:animedia/sao/sao2.txt")
-	private Resource sao2;
-	
-	@Value("classpath:animedia/sao/sao3.txt")
-	private Resource sao3;
-	
-	@Value("classpath:animedia/sao/sao7.txt")
-	private Resource sao7;
+public class ReferencesManagerTest extends AbstractTest{
 	
 	@MockBean
 	private HttpCaller httpCaller;
@@ -142,14 +99,61 @@ public class ReferencesManagerTest {
 	
 	@Test
 	public void getMatchedReferences() throws Exception {
+		Set<AnimediaMALTitleReferences> multiSeasonsReferencesList = getMultiSeasonsReferencesList(LinkedHashSet.class, true);
+		multiSeasonsReferencesList.forEach(set -> assertNull(set.getPosterUrl()));
+		Set<UserMALTitleInfo> watchingTitles = getWatchingTitles();
+		Set<AnimediaMALTitleReferences> matchedReferences = referencesManager.getMatchedReferences(multiSeasonsReferencesList, watchingTitles);
+		assertNotNull(matchedReferences);
+		assertEquals(2, matchedReferences.size());
+		matchedReferences.forEach(list -> assertEquals("testPoster",list.getPosterUrl()));
+		assertEquals(1,matchedReferences.stream().filter(set -> set.getTitleOnMAL().equals("fairy tail: final series")).count());
+		assertEquals(1,matchedReferences.stream().filter(set -> set.getTitleOnMAL().equals("sword art online: alicization")).count());
 	}
 	
 	@Test
 	public void checkReferences() throws Exception {
+		Set<AnimediaMALTitleReferences> multiSeasonsReferencesList = getMultiSeasonsReferencesList(LinkedHashSet.class, true);
+		Set<Anime> multiSeasonsFromSearch = new LinkedHashSet<>();
+		String fairyUrl = animediaOnlineTv + "anime/skazka-o-hvoste-fei-TV1/";
+		String saoUrl = animediaOnlineTv + "anime/mastera-mecha-onlayn/";
+		multiSeasonsFromSearch.add(new Anime("",fairyUrl + "1/1",""));
+		multiSeasonsFromSearch.add(new Anime("",fairyUrl + "2/176",""));
+		multiSeasonsFromSearch.add(new Anime("",fairyUrl + "3/278",""));
+		multiSeasonsFromSearch.add(new Anime("",fairyUrl + "7/1",""));
+		multiSeasonsFromSearch.add(new Anime("",saoUrl + "1/1",""));
+		multiSeasonsFromSearch.add(new Anime("",saoUrl + "2/1",""));
+		multiSeasonsFromSearch.add(new Anime("",saoUrl + "3/1",""));
+		multiSeasonsFromSearch.add(new Anime("",saoUrl + "7/1",""));
+		boolean compareResult = referencesManager.isReferencesAreFull(multiSeasonsFromSearch, multiSeasonsReferencesList);
+		assertTrue(compareResult);
+		multiSeasonsFromSearch.add(new Anime("",saoUrl + "8/1",""));
+		compareResult = referencesManager.isReferencesAreFull(multiSeasonsFromSearch, multiSeasonsReferencesList);
+		assertFalse(compareResult);
 	}
 	
 	@Test
 	public void updateReferences1() throws Exception {
+		String fairyUrl = "anime/skazka-o-hvoste-fei-TV1";
+		String fairyDataList = "3";
+		String currentMax = "300";
+		AnimediaMALTitleReferences animediaMALTitleReferences = new AnimediaMALTitleReferences(fairyUrl, fairyDataList,"",
+				"","","", currentMax,"","","");
+		Set<AnimediaMALTitleReferences> multiSeasonsReferencesList = getMultiSeasonsReferencesList(LinkedHashSet.class, true);
+		assertEquals(1, multiSeasonsReferencesList.stream().filter(set -> set.getUrl().equals(fairyUrl) && set.getDataList().equals(fairyDataList)).count());
+		assertEquals(0, multiSeasonsReferencesList.stream().filter(set -> set.getUrl().equals(fairyUrl) && set.getDataList().equals(fairyDataList) && set.getCurrentMax().equals(currentMax)).count());
+		referencesManager.updateReferences(multiSeasonsReferencesList, animediaMALTitleReferences);
+		assertEquals(1, multiSeasonsReferencesList.stream().filter(set -> set.getUrl().equals(fairyUrl) && set.getDataList().equals(fairyDataList)).count());
+		assertEquals(1, multiSeasonsReferencesList.stream().filter(set -> set.getUrl().equals(fairyUrl) && set.getDataList().equals(fairyDataList) && set.getCurrentMax().equals(currentMax)).count());
+		
+	}
+	
+	private Set<UserMALTitleInfo> getWatchingTitles() {
+		Set<UserMALTitleInfo> userMALTitleInfo = new LinkedHashSet<>();
+		userMALTitleInfo.add(new UserMALTitleInfo(0, WATCHING.getCode(), 0, "fairy tail: final series",
+				0, "testPoster", "testUrl"));
+		userMALTitleInfo.add(new UserMALTitleInfo(0, WATCHING.getCode(), 0, "sword art online: alicization",
+				0, "testPoster", "testUrl"));
+		return userMALTitleInfo;
 	}
 	
 	private<T extends Collection> T getMultiSeasonsReferencesList(Class<T> collection, boolean updated) throws IllegalAccessException, InstantiationException {

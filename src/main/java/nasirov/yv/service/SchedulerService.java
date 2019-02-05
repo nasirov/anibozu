@@ -31,7 +31,7 @@ public class SchedulerService {
 //            Set<Anime> announcements = allSeasons.get(2);
 		// Set<AnimediaTitleSearchInfo> notFound = animediaService.checkAnime(singleSeasonAnime, multiSeasonsAnime, announcements, animediaSearchList);
 		// TODO: 25.01.2019 в шедуллер
-		// referencesManager.checkReferences(multiSeasonsAnime, allReferences);
+		// referencesManager.isReferencesAreFull(multiSeasonsAnime, allReferences);
 		// seasonAndEpisodeChecker.differences(allReferences, matchedAnime);
 	}
 }

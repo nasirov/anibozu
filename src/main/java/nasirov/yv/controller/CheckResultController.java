@@ -77,7 +77,7 @@ public class CheckResultController {
 	
 	@PostMapping
 	public String checkResult(@Size(min = 2, max = 16, message = "MAL username must be between 2 and 16 characters")
-								  @RequestParam(value = "username") String username, Model model) {
+							  @RequestParam(value = "username") String username, Model model) {
 		Set<UserMALTitleInfo> watchingTitles;
 		String errorMsg;
 		try {

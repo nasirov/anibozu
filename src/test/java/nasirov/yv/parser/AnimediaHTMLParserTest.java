@@ -1,5 +1,6 @@
 package nasirov.yv.parser;
 
+import nasirov.yv.AbstractTest;
 import nasirov.yv.configuration.AppConfiguration;
 import nasirov.yv.response.HttpResponse;
 import nasirov.yv.serialization.AnimediaMALTitleReferences;
@@ -28,28 +29,9 @@ import static org.junit.Assert.assertNull;
 /**
  * Created by nasirov.yv
  */
-@RunWith(SpringRunner.class)
-@TestPropertySource(locations = "classpath:system.properties")
 @SpringBootTest(classes = {AppConfiguration.class})
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_CLASS)
-public class AnimediaHTMLParserTest {
-	@Value("classpath:animedia/search/animediaSearchListFull.json")
-	private Resource animediaSearchListFull;
-	
-	@Value("classpath:animedia/sao/saoHtml.txt")
-	private Resource multiSeasonsHtml;
-	
-	@Value("classpath:animedia/blackCloverHtml.txt")
-	private Resource singleSeasonHtml;
-	
-	@Value("classpath:animedia/ingressHtml.txt")
-	private Resource announcementHtml;
-	
-	@Value("classpath:animedia/sao/sao1.txt")
-	private Resource sao1;
-	
-	@Value("classpath:animedia/sao/sao7.txt")
-	private Resource sao7;
+public class AnimediaHTMLParserTest extends AbstractTest{
 	
 	@Value("classpath:animedia/search/pageWithCurrentlyAddedEpisodes.txt")
 	private Resource pageWithCurrentlyAddedEpisodes;
@@ -69,7 +51,7 @@ public class AnimediaHTMLParserTest {
 	
 	@Test
 	public void testGetAnimeIdSeasonsAndEpisodesMap() throws Exception {
-		HttpResponse multiSeasonsHtmlResponse = new HttpResponse(routinesIO.readFromResource(multiSeasonsHtml), HttpStatus.OK.value());
+		HttpResponse multiSeasonsHtmlResponse = new HttpResponse(routinesIO.readFromResource(saoHtml), HttpStatus.OK.value());
 		Map<String, Map<String, String>> animeIdSeasonsAndEpisodesMap = animediaHTMLParser.getAnimeIdSeasonsAndEpisodesMap(multiSeasonsHtmlResponse);
 		assertNotNull(animeIdSeasonsAndEpisodesMap);
 		String saoId = "9432";
@@ -150,7 +132,7 @@ public class AnimediaHTMLParserTest {
 	
 	@Test
 	public void testGetOriginalTitle() throws Exception {
-		HttpResponse html = new HttpResponse(routinesIO.readFromResource(multiSeasonsHtml), HttpStatus.OK.value());
+		HttpResponse html = new HttpResponse(routinesIO.readFromResource(saoHtml), HttpStatus.OK.value());
 		String originalTitle = animediaHTMLParser.getOriginalTitle(html);
 		assertEquals(originalTitle, "Sword Art Online");
 	}

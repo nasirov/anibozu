@@ -126,7 +126,8 @@ public class MALService {
 	
 	/**
 	 * Compare cached and fresh user watching titles
-	 * @param watchingTitlesNew fresh watching titles
+	 *
+	 * @param watchingTitlesNew       fresh watching titles
 	 * @param watchingTitlesFromCache cached watching titles
 	 * @return true if user anime list updated
 	 */
@@ -203,7 +204,7 @@ public class MALService {
 	 * @throws MALUserAccountNotFoundException if user is not found
 	 * @throws WatchingTitlesNotFoundException if number of watching titles is not found or == 0
 	 */
-	private Integer getNumberOfWatchingTitles(@NotEmpty String username, @NotNull  Map<String, Map<String, String>> malRequestParameters) throws MALUserAccountNotFoundException, WatchingTitlesNotFoundException {
+	private Integer getNumberOfWatchingTitles(@NotEmpty String username, @NotNull Map<String, Map<String, String>> malRequestParameters) throws MALUserAccountNotFoundException, WatchingTitlesNotFoundException {
 		String numWatchingTitles = malParser.getNumWatchingTitles(httpCaller.call(myAnimeListNet + PROFILE + username, GET, malRequestParameters));
 		Integer numWatchingTitlesInteger;
 		if (numWatchingTitles != null) {
@@ -226,7 +227,7 @@ public class MALService {
 	 * @param username                 the mal username
 	 * @return the set with the user anime titles
 	 */
-	private Set<UserMALTitleInfo> getAllWatchingTitles(@NotEmpty Integer numWatchingTitlesInteger, @NotNull  Map<String, Map<String, String>> malRequestParameters, @NotEmpty String username) {
+	private Set<UserMALTitleInfo> getAllWatchingTitles(@NotEmpty Integer numWatchingTitlesInteger, @NotNull Map<String, Map<String, String>> malRequestParameters, @NotEmpty String username) {
 		Map<String, String> queryParameters = new LinkedHashMap<>();
 		queryParameters.put("offset", numWatchingTitlesInteger.toString());
 		queryParameters.put(STATUS, WATCHING.getCode().toString());

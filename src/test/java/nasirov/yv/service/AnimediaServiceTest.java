@@ -1,6 +1,7 @@
 package nasirov.yv.service;
 
 import com.sun.research.ws.wadl.HTTPMethods;
+import nasirov.yv.AbstractTest;
 import nasirov.yv.configuration.AppConfiguration;
 import nasirov.yv.enums.AnimeTypeOnAnimedia;
 import nasirov.yv.http.HttpCaller;
@@ -42,7 +43,6 @@ import static org.mockito.Mockito.doReturn;
 /**
  * Created by nasirov.yv
  */
-@RunWith(SpringRunner.class)
 @SpringBootTest(classes = {AnimediaService.class,
 		AnimediaHTMLParser.class,
 		WrappedObjectMapper.class,
@@ -51,65 +51,8 @@ import static org.mockito.Mockito.doReturn;
 		URLBuilder.class,
 		RoutinesIO.class,
 		AnimediaRequestParametersBuilder.class})
-@TestPropertySource(locations = "classpath:system.properties")
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
-public class AnimediaServiceTest {
-	@Value("${cache.animediaSearchList.name}")
-	private String animediaSearchListCacheName;
-	
-	@Value("${cache.currentlyUpdatedTitles.name}")
-	private String currentlyUpdatedTitlesCacheName;
-	
-	@Value("${urls.online.animedia.tv}")
-	private String animediaOnlineTv;
-	
-	@Value("${cache.sortedAnimediaSearchList.name}")
-	private String sortedAnimediaSearchListCacheName;
-	
-	@Value("${urls.online.animedia.anime.list}")
-	private String animediaAnimeList;
-	
-	@Value("${urls.online.animedia.anime.episodes.list}")
-	private String animediaEpisodesList;
-	
-	@Value("classpath:animedia/search/pageWithCurrentlyAddedEpisodes.txt")
-	private Resource pageWithCurrentlyAddedEpisodes;
-	
-	@Value("classpath:animedia/search/animediaSearchListForCheck.json")
-	private Resource animediaSearchListForCheck;
-	
-	@Value("classpath:animedia/search/animediaSearchListFull.json")
-	private Resource animediaSearchListFull;
-	
-	@Value("classpath:animedia/sao/saoHtml.txt")
-	private Resource multiSeasonsHtml;
-	
-	@Value("classpath:animedia/blackCloverHtml.txt")
-	private Resource singleSeasonHtml;
-	
-	@Value("classpath:animedia/ingressHtml.txt")
-	private Resource announcementHtml;
-	
-	@Value("classpath:animedia/sao/sao1.txt")
-	private Resource sao1;
-	
-	@Value("classpath:animedia/sao/sao2.txt")
-	private Resource sao2;
-	
-	@Value("classpath:animedia/sao/sao3.txt")
-	private Resource sao3;
-	
-	@Value("classpath:animedia/sao/sao7.txt")
-	private Resource sao7;
-	
-	@Value("classpath:animedia/search/singleSeasonsAnimeUrls.json")
-	private Resource singleSeasonsAnimeUrls;
-	
-	@Value("classpath:animedia/search/multiSeasonsAnimeUrls.json")
-	private Resource multiSeasonsAnimeUrls;
-	
-	@Value("classpath:animedia/search/announcements.json")
-	private Resource announcementsJson;
+public class AnimediaServiceTest extends AbstractTest{
 	
 	@MockBean
 	private HttpCaller httpCaller;
@@ -162,7 +105,7 @@ public class AnimediaServiceTest {
 		String saoId = "9432";
 		doReturn(new HttpResponse(routinesIO.readFromResource(singleSeasonHtml), HttpStatus.OK.value()))
 				.when(httpCaller).call(eq(animediaOnlineTv + singleSeasonAnime.getUrl()), eq(HTTPMethods.GET), any(Map.class));
-		doReturn(new HttpResponse(routinesIO.readFromResource(multiSeasonsHtml), HttpStatus.OK.value()))
+		doReturn(new HttpResponse(routinesIO.readFromResource(saoHtml), HttpStatus.OK.value()))
 				.when(httpCaller).call(eq(animediaOnlineTv + multiSeasonsAnime.getUrl()), eq(HTTPMethods.GET), any(Map.class));
 		doReturn(new HttpResponse(routinesIO.readFromResource(announcementHtml), HttpStatus.OK.value()))
 				.when(httpCaller).call(eq(animediaOnlineTv + announcement.getUrl()), eq(HTTPMethods.GET), any(Map.class));

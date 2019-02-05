@@ -1,6 +1,6 @@
 package nasirov.yv.service;
 
-
+import lombok.extern.slf4j.Slf4j;
 import nasirov.yv.http.HttpCaller;
 import nasirov.yv.parameter.RequestParametersBuilder;
 import nasirov.yv.parser.AnimediaHTMLParser;
@@ -29,6 +29,7 @@ import static com.sun.research.ws.wadl.HTTPMethods.GET;
  * Created by nasirov.yv
  */
 @Service
+@Slf4j
 public class ReferencesManager {
 	/**
 	 * For a title url on animedia and a title on mal
@@ -219,9 +220,16 @@ public class ReferencesManager {
 		return tempReferences;
 	}
 	
-	public void checkReferences(@NotEmpty Set<Anime> multiSeasonsAnime, @NotEmpty Set<AnimediaMALTitleReferences> allReferences) {
-		Map<String, String> readFromRaw = readFromRaw(allReferences);
-		compareMaps(multiSeasonsAnime, readFromRaw);
+	/**
+	 * Compare multi seasons titles from animedia search list with multi seasons references from resources
+	 *
+	 * @param multiSeasonsAnime multi seasons titles from animedia
+	 * @param allReferences     all multi seasons references from resources
+	 * @return true if multi seasons references from resources are full, if false then we must add the new reference to the raw mapping
+	 */
+	public boolean isReferencesAreFull(@NotEmpty Set<Anime> multiSeasonsAnime, @NotEmpty Set<AnimediaMALTitleReferences> allReferences) {
+		Map<String, String> readFromRaw = convertReferencesSetToMap(allReferences);
+		return compareMaps(multiSeasonsAnime, readFromRaw);
 	}
 	
 	/**
@@ -240,7 +248,7 @@ public class ReferencesManager {
 				});
 	}
 	
-	private Map<String, String> readFromRaw(@NotEmpty Set<AnimediaMALTitleReferences> allReferences) {
+	private Map<String, String> convertReferencesSetToMap(@NotEmpty Set<AnimediaMALTitleReferences> allReferences) {
 		Map<String, String> urlTitle = new HashMap<>();
 		allReferences.forEach(set -> urlTitle.put(animediaOnlineTv + set.getUrl() + "/" + set.getDataList() + "/" + set.getFirstEpisode(), set.getTitleOnMAL()));
 		return urlTitle;
@@ -251,7 +259,7 @@ public class ReferencesManager {
 		for (Anime anime : multi) {
 			if (!raw.containsKey(anime.getFullUrl())) {
 				fullMatch = false;
-				System.out.println("В raw нет " + anime.getFullUrl());
+				log.warn("Not found in the raw references {} Please, add missing reference to the resources!", anime.getFullUrl());
 			}
 		}
 		return fullMatch && multi.size() == raw.size();

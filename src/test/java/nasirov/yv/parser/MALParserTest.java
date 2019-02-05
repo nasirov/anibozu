@@ -1,5 +1,6 @@
 package nasirov.yv.parser;
 
+import nasirov.yv.AbstractTest;
 import nasirov.yv.exception.JSONNotFoundException;
 import nasirov.yv.exception.MALUserAccountNotFoundException;
 import nasirov.yv.exception.MALUserAnimeListAccessException;
@@ -25,22 +26,12 @@ import static org.junit.Assert.*;
 /**
  * Created by nasirov.yv
  */
-@RunWith(SpringRunner.class)
-@TestPropertySource(locations = "classpath:system.properties")
 @SpringBootTest(classes = {
 		WrappedObjectMapper.class,
 		MALParser.class,
 		RoutinesIO.class})
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_CLASS)
-public class MALParserTest {
-	@Value("classpath:mal/testAccForDevProfile.txt")
-	private Resource testAccForDevProfile;
-	
-	@Value("classpath:mal/testAccForDevWatchingTitles.txt")
-	private Resource testAccForDevWatchingTitles;
-	
-	@Value("classpath:mal/testAccForDevAdditionalJson.json")
-	private Resource testAccForDevAdditionalJson;
+public class MALParserTest extends AbstractTest{
 	
 	private static final String USER_ANIME_LIST_PRIVATE_ACCESS = "Access to this list has been restricted by the owner";
 	
