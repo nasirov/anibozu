@@ -36,6 +36,7 @@ import java.util.*;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyMap;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.doReturn;
 
@@ -71,7 +72,7 @@ public class AnimediaServiceTest extends AbstractTest{
 	
 	@Test
 	public void testGetAnimediaSearchList() throws Exception {
-		doReturn(new HttpResponse(routinesIO.readFromResource(animediaSearchListFull), HttpStatus.OK.value())).when(httpCaller).call(eq(animediaAnimeList), eq(HTTPMethods.GET), any(Map.class));
+		doReturn(new HttpResponse(routinesIO.readFromResource(animediaSearchListFull), HttpStatus.OK.value())).when(httpCaller).call(eq(animediaAnimeList), eq(HTTPMethods.GET), anyMap());
 		Set<AnimediaTitleSearchInfo> animediaSearchList = animediaService.getAnimediaSearchList();
 		assertNotNull(animediaSearchList);
 		assertEquals(780,animediaSearchList.size());
@@ -81,7 +82,7 @@ public class AnimediaServiceTest extends AbstractTest{
 	
 	@Test
 	public void testGetCurrentlyUpdatedTitles() throws Exception {
-		doReturn(new HttpResponse(routinesIO.readFromResource(pageWithCurrentlyAddedEpisodes), HttpStatus.OK.value())).when(httpCaller).call(eq(animediaOnlineTv), eq(HTTPMethods.GET), any(Map.class));
+		doReturn(new HttpResponse(routinesIO.readFromResource(pageWithCurrentlyAddedEpisodes), HttpStatus.OK.value())).when(httpCaller).call(eq(animediaOnlineTv), eq(HTTPMethods.GET), anyMap());
 		List<AnimediaMALTitleReferences> currentlyUpdatedTitles = animediaService.getCurrentlyUpdatedTitles();
 		assertNotNull(currentlyUpdatedTitles);
 		assertEquals(currentlyUpdatedTitles.size(), 10);
@@ -104,19 +105,19 @@ public class AnimediaServiceTest extends AbstractTest{
 		animediaTitleSearchInfo.add(announcement);
 		String saoId = "9432";
 		doReturn(new HttpResponse(routinesIO.readFromResource(singleSeasonHtml), HttpStatus.OK.value()))
-				.when(httpCaller).call(eq(animediaOnlineTv + singleSeasonAnime.getUrl()), eq(HTTPMethods.GET), any(Map.class));
+				.when(httpCaller).call(eq(animediaOnlineTv + singleSeasonAnime.getUrl()), eq(HTTPMethods.GET), anyMap());
 		doReturn(new HttpResponse(routinesIO.readFromResource(saoHtml), HttpStatus.OK.value()))
-				.when(httpCaller).call(eq(animediaOnlineTv + multiSeasonsAnime.getUrl()), eq(HTTPMethods.GET), any(Map.class));
+				.when(httpCaller).call(eq(animediaOnlineTv + multiSeasonsAnime.getUrl()), eq(HTTPMethods.GET), anyMap());
 		doReturn(new HttpResponse(routinesIO.readFromResource(announcementHtml), HttpStatus.OK.value()))
-				.when(httpCaller).call(eq(animediaOnlineTv + announcement.getUrl()), eq(HTTPMethods.GET), any(Map.class));
+				.when(httpCaller).call(eq(animediaOnlineTv + announcement.getUrl()), eq(HTTPMethods.GET), anyMap());
 		doReturn(new HttpResponse(routinesIO.readFromResource(sao1), HttpStatus.OK.value()))
-				.when(httpCaller).call(eq(animediaEpisodesList + saoId + "/1"), eq(HTTPMethods.GET), any(Map.class));
+				.when(httpCaller).call(eq(animediaEpisodesList + saoId + "/1"), eq(HTTPMethods.GET), anyMap());
 		doReturn(new HttpResponse(routinesIO.readFromResource(sao2), HttpStatus.OK.value()))
-				.when(httpCaller).call(eq(animediaEpisodesList + saoId + "/2"), eq(HTTPMethods.GET), any(Map.class));
+				.when(httpCaller).call(eq(animediaEpisodesList + saoId + "/2"), eq(HTTPMethods.GET), anyMap());
 		doReturn(new HttpResponse(routinesIO.readFromResource(sao3), HttpStatus.OK.value()))
-				.when(httpCaller).call(eq(animediaEpisodesList + saoId + "/3"), eq(HTTPMethods.GET), any(Map.class));
+				.when(httpCaller).call(eq(animediaEpisodesList + saoId + "/3"), eq(HTTPMethods.GET), anyMap());
 		doReturn(new HttpResponse(routinesIO.readFromResource(sao7), HttpStatus.OK.value()))
-				.when(httpCaller).call(eq(animediaEpisodesList + saoId + "/7"), eq(HTTPMethods.GET), any(Map.class));
+				.when(httpCaller).call(eq(animediaEpisodesList + saoId + "/7"), eq(HTTPMethods.GET), anyMap());
 		List<Set<Anime>> sortedForSeasonAnime = animediaService.getSortedForSeasonAnime(animediaTitleSearchInfo);
 		assertNotNull(sortedForSeasonAnime);
 		assertEquals(sortedForSeasonAnime.size(), 3);
@@ -133,7 +134,7 @@ public class AnimediaServiceTest extends AbstractTest{
 	
 	@Test
 	public void testCheckCurrentlyUpdatedTitlesDifferentValues() throws Exception {
-		doReturn(new HttpResponse(routinesIO.readFromResource(pageWithCurrentlyAddedEpisodes), HttpStatus.OK.value())).when(httpCaller).call(eq(animediaOnlineTv), eq(HTTPMethods.GET), any(Map.class));
+		doReturn(new HttpResponse(routinesIO.readFromResource(pageWithCurrentlyAddedEpisodes), HttpStatus.OK.value())).when(httpCaller).call(eq(animediaOnlineTv), eq(HTTPMethods.GET), anyMap());
 		List<AnimediaMALTitleReferences> currentlyUpdatedTitles = animediaService.getCurrentlyUpdatedTitles();
 		List<AnimediaMALTitleReferences> animediaMALTitleReferencesFresh = new ArrayList<>();
 		currentlyUpdatedTitles.forEach(list -> animediaMALTitleReferencesFresh.add(new AnimediaMALTitleReferences(list)));
@@ -160,7 +161,7 @@ public class AnimediaServiceTest extends AbstractTest{
 	
 	@Test
 	public void testCheckCurrentlyUpdatedTitlesCacheEmpty() {
-		doReturn(new HttpResponse(routinesIO.readFromResource(pageWithCurrentlyAddedEpisodes), HttpStatus.OK.value())).when(httpCaller).call(eq(animediaOnlineTv), eq(HTTPMethods.GET), any(Map.class));
+		doReturn(new HttpResponse(routinesIO.readFromResource(pageWithCurrentlyAddedEpisodes), HttpStatus.OK.value())).when(httpCaller).call(eq(animediaOnlineTv), eq(HTTPMethods.GET), anyMap());
 		List<AnimediaMALTitleReferences> currentlyUpdatedTitles = animediaService.getCurrentlyUpdatedTitles();
 		List<AnimediaMALTitleReferences> result;
 		result = animediaService.checkCurrentlyUpdatedTitles(currentlyUpdatedTitles,new ArrayList<>());
@@ -179,7 +180,7 @@ public class AnimediaServiceTest extends AbstractTest{
 	
 	@Test
 	public void testCheckCurrentlyUpdatedTitlesFreshEmpty() {
-		doReturn(new HttpResponse(routinesIO.readFromResource(pageWithCurrentlyAddedEpisodes), HttpStatus.OK.value())).when(httpCaller).call(eq(animediaOnlineTv), eq(HTTPMethods.GET), any(Map.class));
+		doReturn(new HttpResponse(routinesIO.readFromResource(pageWithCurrentlyAddedEpisodes), HttpStatus.OK.value())).when(httpCaller).call(eq(animediaOnlineTv), eq(HTTPMethods.GET), anyMap());
 		List<AnimediaMALTitleReferences> currentlyUpdatedTitles = animediaService.getCurrentlyUpdatedTitles();
 		List<AnimediaMALTitleReferences> result;
 		result = animediaService.checkCurrentlyUpdatedTitles(new ArrayList<>(),currentlyUpdatedTitles);
@@ -198,7 +199,7 @@ public class AnimediaServiceTest extends AbstractTest{
 	public void testGetAnime() throws Exception {
 		Cache sortedAnimediaSearchListCache = cacheManager.getCache(sortedAnimediaSearchListCacheName);
 		sortedAnimediaSearchListCache.clear();
-		doReturn(new HttpResponse(routinesIO.readFromResource(animediaSearchListForCheck), HttpStatus.OK.value())).when(httpCaller).call(eq(animediaAnimeList), eq(HTTPMethods.GET), any(Map.class));
+		doReturn(new HttpResponse(routinesIO.readFromResource(animediaSearchListForCheck), HttpStatus.OK.value())).when(httpCaller).call(eq(animediaAnimeList), eq(HTTPMethods.GET), anyMap());
 		Set<AnimediaTitleSearchInfo> animediaSearchList = animediaService.getAnimediaSearchList();
 		assertNotNull(animediaSearchList);
 		assertEquals(7, animediaSearchList.size());

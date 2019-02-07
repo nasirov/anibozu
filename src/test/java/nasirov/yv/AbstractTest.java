@@ -1,6 +1,5 @@
 package nasirov.yv;
 
-import org.junit.Ignore;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
@@ -22,6 +21,9 @@ public abstract class AbstractTest {
 	
 	@Value("${cache.sortedAnimediaSearchList.name}")
 	protected String sortedAnimediaSearchListCacheName;
+	
+	@Value("${cache.userMatchedAnime.name}")
+	private String userMatchedAnimeCacheName;
 	
 	@Value("${urls.online.animedia.anime.list}")
 	protected String animediaAnimeList;
@@ -107,6 +109,9 @@ public abstract class AbstractTest {
 	
 	@Value("classpath:animedia/blackCloverHtml.txt")
 	protected Resource singleSeasonHtml;
+	
+	@Value("classpath:animedia/blackClover1.txt")
+	protected Resource blackClover1;
 	
 	@Value("classpath:animedia/ingressHtml.txt")
 	protected Resource announcementHtml;

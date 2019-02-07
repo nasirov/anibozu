@@ -197,7 +197,8 @@ public class SeasonAndEpisodeChecker {
 										maxEpisodesAndEpisodesRangeEntry.getKey(),
 										episodesRangeFromMinToMax.get(episodesRangeFromMinToMax.size() - 1),
 										matchedOfSingleSeasonAnime.getPosterUrl(),
-										entry.getValue(), entry.getKey())));
+										entry.getValue(),
+										entry.getKey())));
 					}
 				}
 			}
@@ -241,7 +242,6 @@ public class SeasonAndEpisodeChecker {
 		log.info("Updating matched references...");
 		for (UserMALTitleInfo userMALTitleInfo : watchingTitles) {
 			//Increment to next episode for watch
-			Integer numWatchedEpisodesOnMAL = userMALTitleInfo.getNumWatchedEpisodes() + 1;
 			Integer episodeNumberForWatch;
 			Map<String, String> nextEpisodeForWatchFinalUrl;
 			AnimediaMALTitleReferences matchedReferences = null;
@@ -251,7 +251,12 @@ public class SeasonAndEpisodeChecker {
 						.orElse(null);
 			}
 			if (matchedReferences != null) {
-				episodeNumberForWatch = Integer.parseInt(matchedReferences.getFirstEpisode()) + userMALTitleInfo.getNumWatchedEpisodes();
+				int firstEpisode = Integer.parseInt(matchedReferences.getFirstEpisode());
+				if (firstEpisode == 0 || firstEpisode == 1) {
+					episodeNumberForWatch = firstEpisode + userMALTitleInfo.getNumWatchedEpisodes();
+				} else {
+					episodeNumberForWatch = userMALTitleInfo.getNumWatchedEpisodes() + 1;
+				}
 				nextEpisodeForWatchFinalUrl = printResult(matchedReferences, episodeNumberForWatch);
 				for (Map.Entry<String, String> currentEpisodeFinalUrl : nextEpisodeForWatchFinalUrl.entrySet()) {
 					matchedReferences.setNumberOfEpisodeForWatch(currentEpisodeFinalUrl.getKey());
@@ -291,20 +296,19 @@ public class SeasonAndEpisodeChecker {
 		}
 		return nextEpisodeForWatchFinalUrl;
 	}
-	
-	public void differences(Set<AnimediaMALTitleReferences> references, Set<AnimediaMALTitleReferences> matchedAnime) {
-		for (AnimediaMALTitleReferences watchedTitlesInfo : references) {
-			if (watchedTitlesInfo.getTitleOnMAL().equalsIgnoreCase("none")) {
-				continue;
-			}
-			long separatedSeason = matchedAnime.stream().filter(set -> set.getTitleOnMAL().equals(watchedTitlesInfo.getTitleOnMAL())).count();
-			long matchedTitleAndDatalist = matchedAnime.stream().filter(set -> set.getTitleOnMAL().equals(watchedTitlesInfo.getTitleOnMAL())
-					&& set.getDataList().equals(watchedTitlesInfo.getDataList())).count();
-			if (matchedTitleAndDatalist == 0 && separatedSeason == 0) {
-				log.info("В matchedAnime нет {}", watchedTitlesInfo.toString());
-			} else if (matchedTitleAndDatalist > 1) {
-				log.info("В matchedAnime {} совпадений {}", matchedTitleAndDatalist, watchedTitlesInfo.toString());
-			}
-		}
-	}
+//	public void differences(Set<AnimediaMALTitleReferences> references, Set<AnimediaMALTitleReferences> matchedAnime) {
+//		for (AnimediaMALTitleReferences watchedTitlesInfo : references) {
+//			if (watchedTitlesInfo.getTitleOnMAL().equalsIgnoreCase("none")) {
+//				continue;
+//			}
+//			long separatedSeason = matchedAnime.stream().filter(set -> set.getTitleOnMAL().equals(watchedTitlesInfo.getTitleOnMAL())).count();
+//			long matchedTitleAndDataList = matchedAnime.stream().filter(set -> set.getTitleOnMAL().equals(watchedTitlesInfo.getTitleOnMAL())
+//					&& set.getDataList().equals(watchedTitlesInfo.getDataList())).count();
+//			if (matchedTitleAndDataList == 0 && separatedSeason == 0) {
+//				log.info("В matchedAnime нет {}", watchedTitlesInfo.toString());
+//			} else if (matchedTitleAndDataList > 1) {
+//				log.info("В matchedAnime {} совпадений {}", matchedTitleAndDataList, watchedTitlesInfo.toString());
+//			}
+//		}
+//	}
 }

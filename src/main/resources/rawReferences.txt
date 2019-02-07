@@ -12,8 +12,8 @@
 4.4 http://online.animedia.tv/anime/tokiyskiy-gul/4/1 tokyo ghoul:re 2nd season
 4.5 http://online.animedia.tv/anime/tokiyskiy-gul/7/1 tokyo ghoul: \"jack\"
 4.6 http://online.animedia.tv/anime/tokiyskiy-gul/7/2 tokyo ghoul: \"pinto\"
-7.1 http://online.animedia.tv/anime/one-piece-van-pis-tv/1/1 one piece  1-175
-7.2 http://online.animedia.tv/anime/one-piece-van-pis-tv/2/176 one piece  176-351
+7.1 http://online.animedia.tv/anime/one-piece-van-pis-tv/1/1 one piece 1-175
+7.2 http://online.animedia.tv/anime/one-piece-van-pis-tv/2/176 one piece 176-351
 7.3 http://online.animedia.tv/anime/one-piece-van-pis-tv/3/352 one piece 352-527
 7.4 http://online.animedia.tv/anime/one-piece-van-pis-tv/4/528 one piece 528-700
 7.5 http://online.animedia.tv/anime/one-piece-van-pis-tv/5/701 one piece 701-xxx
