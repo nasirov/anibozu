@@ -7,7 +7,6 @@ import nasirov.yv.serialization.AnimediaMALTitleReferences;
 import nasirov.yv.util.RoutinesIO;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -15,8 +14,6 @@ import org.springframework.cache.CacheManager;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpStatus;
 import org.springframework.test.annotation.DirtiesContext;
-import org.springframework.test.context.TestPropertySource;
-import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -54,11 +51,10 @@ public class AnimediaHTMLParserTest extends AbstractTest{
 		HttpResponse multiSeasonsHtmlResponse = new HttpResponse(routinesIO.readFromResource(saoHtml), HttpStatus.OK.value());
 		Map<String, Map<String, String>> animeIdSeasonsAndEpisodesMap = animediaHTMLParser.getAnimeIdSeasonsAndEpisodesMap(multiSeasonsHtmlResponse);
 		assertNotNull(animeIdSeasonsAndEpisodesMap);
-		String saoId = "9432";
 		List<String> dataLists = new ArrayList<>();
 		List<String> maxEpisode = new ArrayList<>();
 		for (Map.Entry<String, Map<String, String>> entry : animeIdSeasonsAndEpisodesMap.entrySet()) {
-			assertEquals(entry.getKey(), saoId);
+			assertEquals(entry.getKey(), SAO_ID);
 			for (Map.Entry<String, String> dataListEpisode : entry.getValue().entrySet()) {
 				maxEpisode.add(dataListEpisode.getValue());
 				dataLists.add(dataListEpisode.getKey());

@@ -13,7 +13,7 @@
     <#list newEpisodeAvailable as available>
         <a href="${available.finalUrl}" target="_blank"><img src="${available.posterUrl}" height="318" width="225"
                                                              alt="${available.titleOnMAL}"
-                                                             title="${available.titleOnMAL} episode ${available.numberOfEpisodeForWatch}"
+                                                             title="${available.titleOnMAL} episode ${available.episodeNumberForWatch}"
                                                              class="fade"/></a>
     </#list>
 </ul>

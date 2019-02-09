@@ -125,11 +125,14 @@ public class CheckResultController {
 									Model model) {
 		List<AnimediaMALTitleReferences> differences = animediaService.checkCurrentlyUpdatedTitles(currentlyUpdatedTitles, currentlyUpdatedTitlesFromCache);
 		if (!differences.isEmpty()) {
-			for (AnimediaMALTitleReferences refs : differences) {
-				long count = matchedAnimeFromCache.stream().filter(set -> set.getUrl().equals(refs.getUrl()) && set.getDataList().equals(refs.getDataList())).count();
+			for (AnimediaMALTitleReferences currentlyUpdatedTitle : differences) {
+				long count = matchedAnimeFromCache.stream()
+						.filter(set -> set.getUrl().equals(currentlyUpdatedTitle.getUrl())
+								&& set.getDataList().equals(currentlyUpdatedTitle.getDataList()))
+						.count();
 				if (count != 0) {
-					referencesManager.updateReferences(matchedAnimeFromCache, refs);
-					seasonAndEpisodeChecker.updateMatchedReferences(watchingTitlesFromCache, refs, matchedAnimeFromCache);
+					referencesManager.updateCurrentMax(matchedAnimeFromCache, currentlyUpdatedTitle);
+					seasonAndEpisodeChecker.updateEpisodeNumberForWatchAndFinalUrl(watchingTitlesFromCache, currentlyUpdatedTitle, matchedAnimeFromCache);
 				}
 			}
 		}

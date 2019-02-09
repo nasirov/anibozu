@@ -98,7 +98,7 @@ public class AnimediaService {
 	 *
 	 * @return the list of title search info on animedia
 	 */
-	@Cacheable(value = "animediaSearchListCache")
+	@Cacheable(value = "animediaSearchListCache", key = "'animediaSearchListCache'")
 	public Set<AnimediaTitleSearchInfo> getAnimediaSearchList() {
 		HttpResponse animediaResponse = httpCaller.call(animediaAnimeList, GET, requestParametersBuilder.build());
 		Set<AnimediaTitleSearchInfo> animediaSearchList = wrappedObjectMapper.unmarshal(animediaResponse.getContent(), AnimediaTitleSearchInfo.class, LinkedHashSet.class);
@@ -253,7 +253,6 @@ public class AnimediaService {
 	 */
 	public List<AnimediaMALTitleReferences> checkCurrentlyUpdatedTitles(@NotNull List<AnimediaMALTitleReferences> fresh, @NotNull List<AnimediaMALTitleReferences> fromCache) {
 		List<AnimediaMALTitleReferences> list = new ArrayList<>();
-		// TODO: 04.02.2019 кейс с разными размерами
 		if (fresh != null && fromCache != null) {
 			if (fromCache.size() != 0 && fresh.size() != 0) {
 				AnimediaMALTitleReferences animediaMALTitleReferencesFromCache = fromCache.get(0);

@@ -44,7 +44,6 @@ import static org.mockito.Mockito.*;
 		RoutinesIO.class})
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_CLASS)
 public class MALServiceTest extends AbstractTest {
-	
 	private static final String LOAD_JSON = "load.json";
 	
 	private static final String PROFILE = "profile/";
@@ -137,8 +136,6 @@ public class MALServiceTest extends AbstractTest {
 				watchingTitles.add(angelBeats);
 				break;
 			case FRESH:
-//				realGirl = new UserMALTitleInfo(0, WATCHING.getCode(), 10, "3d kanojo: real girl", 12,
-//						"https://myanimelist.cdn-dena.com/images/anime/1327/93616.webp", "https://myanimelist.net//anime/36793/3D_Kanojo__Real_Girl");
 				realGirl.setNumWatchedEpisodes(10);
 				watchingTitles.add(realGirl);
 				watchingTitles.add(accelWorld);

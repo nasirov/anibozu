@@ -192,7 +192,7 @@ public class MALService {
 	 * @param watchingTitles the user mal anime list
 	 */
 	private void changeAnimeUrl(@NotEmpty Set<UserMALTitleInfo> watchingTitles) {
-		watchingTitles.forEach(set -> set.setAnimeUrl(myAnimeListNet + set.getAnimeUrl()));
+		watchingTitles.forEach(set -> set.setAnimeUrl(myAnimeListNet + set.getAnimeUrl().substring(1)));
 	}
 	
 	/**

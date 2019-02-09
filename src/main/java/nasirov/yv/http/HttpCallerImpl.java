@@ -12,6 +12,7 @@ import org.springframework.stereotype.Component;
 
 import javax.validation.constraints.NotNull;
 import javax.ws.rs.core.Cookie;
+import java.net.SocketTimeoutException;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Stream;
@@ -36,8 +37,8 @@ public class HttpCallerImpl implements HttpCaller {
 	public HttpResponse call(@NotNull String url, @NotNull HTTPMethods method, @NotNull Map<String, Map<String, String>> parameters) {
 		Client client = new Client();
 		client.addFilter(new GZIPContentEncodingFilter(true));
-		client.setConnectTimeout(60000);
-		client.setReadTimeout(60000);
+		client.setConnectTimeout((int) TimeUnit.MINUTES.toMillis(5));
+		client.setReadTimeout((int) TimeUnit.MINUTES.toMillis(5));
 		WebResource webResource = client.resource(url);
 		ClientResponse response = sendRequest(enrichRequest(webResource, parameters), method);
 		int status = response.getStatus();
@@ -90,16 +91,16 @@ public class HttpCallerImpl implements HttpCaller {
 	 */
 	private ClientResponse sendRequest(WebResource.Builder requestBuilder, HTTPMethods method) {
 		ClientResponse response;
-		switch (method) {
-			case GET:
-				response = requestBuilder.get(ClientResponse.class);
-				break;
-			case POST:
-				response = requestBuilder.post(ClientResponse.class);
-				break;
-			default:
-				throw new UnsupportedOperationException("Method " + method + " is not supported");
-		}
+			switch (method) {
+				case GET:
+					response = requestBuilder.get(ClientResponse.class);
+					break;
+				case POST:
+					response = requestBuilder.post(ClientResponse.class);
+					break;
+				default:
+					throw new UnsupportedOperationException("Method " + method + " is not supported");
+			}
 		return response;
 	}
 }

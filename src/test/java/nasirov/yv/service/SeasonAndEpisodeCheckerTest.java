@@ -70,7 +70,7 @@ public class SeasonAndEpisodeCheckerTest extends AbstractTest {
 			repoMock.add(answer.getArgument(0));
 			return (answer.getArgument(0));
 		}).when(notFoundAnimeOnAnimediaRepository).saveAndFlush(any(UserMALTitleInfo.class));
-		doAnswer(answer -> repoMock.stream().filter(list -> String.valueOf(list.getId()).equals(answer.getArgument(0))).count() > 0).when(notFoundAnimeOnAnimediaRepository).exitsByTitle(anyString());
+		doAnswer(answer -> repoMock.stream().filter(list -> String.valueOf(list.getTitle()).equals(answer.getArgument(0))).count() > 0).when(notFoundAnimeOnAnimediaRepository).exitsByTitle(anyString());
 	}
 	
 	@Test
@@ -94,7 +94,7 @@ public class SeasonAndEpisodeCheckerTest extends AbstractTest {
 						&& set.getMin().equals("1")
 						&& set.getMax().equals("xxx")
 						&& set.getCurrentMax().equals("69")
-						&& set.getNumberOfEpisodeForWatch().equals("1")
+						&& set.getEpisodeNumberForWatch().equals("1")
 						&& set.getFinalUrl().equals(animediaOnlineTv + singleUrl + "/1/1")
 				).count());
 		assertEquals(1, matchedAnime.stream()
@@ -104,7 +104,7 @@ public class SeasonAndEpisodeCheckerTest extends AbstractTest {
 						&& set.getMin().equals("1")
 						&& set.getMax().equals("175")
 						&& set.getCurrentMax().equals("175")
-						&& set.getNumberOfEpisodeForWatch().equals("1")
+						&& set.getEpisodeNumberForWatch().equals("1")
 						&& set.getFinalUrl().equals(animediaOnlineTv + ONE_PIECE_URL + "/1/1")
 				).count());
 		assertEquals(1, repoMock.size());
@@ -120,9 +120,11 @@ public class SeasonAndEpisodeCheckerTest extends AbstractTest {
 						&& set.getMin().equals("701")
 						&& set.getMax().equals("xxx")
 						&& set.getCurrentMax().equals("870")
-						&& set.getNumberOfEpisodeForWatch().equals("801")
+						&& set.getEpisodeNumberForWatch().equals("801")
 						&& set.getFinalUrl().equals(animediaOnlineTv + ONE_PIECE_URL + "/5/801")
 				).count());
+		assertEquals(1, repoMock.size());
+		assertEquals("notFoundOnAnimedia", repoMock.get(0).getTitle());
 	}
 	
 	@Test
@@ -137,7 +139,7 @@ public class SeasonAndEpisodeCheckerTest extends AbstractTest {
 			String nextEpisodeForWatch = String.valueOf(numWatchedEpisodes + 1);
 			Set<UserMALTitleInfo> watchingTitlesFresh = getWatchingTitles(5, numWatchedEpisodes);
 			AnimediaMALTitleReferences onePiece3 = new AnimediaMALTitleReferences(ONE_PIECE_URL, dataList, firstEpisodeAndMin, ONE_PIECE_NAME, firstEpisodeAndMin, max, currentMax, "onePiecePosterUrl", null, null);
-			seasonAndEpisodeChecker.updateMatchedReferences(watchingTitlesFresh, onePiece3, matchedReferences);
+			seasonAndEpisodeChecker.updateEpisodeNumberForWatchAndFinalUrl(watchingTitlesFresh, onePiece3, matchedReferences);
 			assertEquals(1, matchedReferences.stream()
 					.filter(set -> set.getTitleOnMAL().equals(ONE_PIECE_NAME)
 							&& set.getUrl().equals(ONE_PIECE_URL)
@@ -145,7 +147,7 @@ public class SeasonAndEpisodeCheckerTest extends AbstractTest {
 							&& set.getMin().equals(firstEpisodeAndMin)
 							&& set.getMax().equals(max)
 							&& set.getCurrentMax().equals(currentMax)
-							&& set.getNumberOfEpisodeForWatch().equals(nextEpisodeForWatch)
+							&& set.getEpisodeNumberForWatch().equals(nextEpisodeForWatch)
 							&& set.getFinalUrl().equals(animediaOnlineTv + ONE_PIECE_URL + "/" + dataList + "/" + nextEpisodeForWatch)
 					).count());
 		}

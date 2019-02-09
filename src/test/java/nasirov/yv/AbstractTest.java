@@ -12,7 +12,8 @@ import org.springframework.test.context.junit4.SpringRunner;
 @RunWith(SpringRunner.class)
 @TestPropertySource(locations = "classpath:system.properties")
 public abstract class AbstractTest {
-	//Constants
+	protected static final String SAO_ID = "9432";
+	
 	@Value("${cache.animediaSearchList.name}")
 	protected String animediaSearchListCacheName;
 	
@@ -23,7 +24,7 @@ public abstract class AbstractTest {
 	protected String sortedAnimediaSearchListCacheName;
 	
 	@Value("${cache.userMatchedAnime.name}")
-	private String userMatchedAnimeCacheName;
+	protected String userMatchedAnimeCacheName;
 	
 	@Value("${urls.online.animedia.anime.list}")
 	protected String animediaAnimeList;
@@ -39,7 +40,9 @@ public abstract class AbstractTest {
 	
 	@Value("${urls.online.animedia.anime.episodes.list}")
 	protected String animediaEpisodesList;
-	//Test resources
+	
+	@Value("${cache.matchedReferences.name}")
+	protected String matchedReferencesCacheName;
 	
 	@Value("classpath:animedia/fairyTail/fairyTailHtml.txt")
 	protected Resource fairyTailHtml;

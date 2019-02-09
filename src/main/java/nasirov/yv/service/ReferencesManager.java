@@ -145,6 +145,7 @@ public class ReferencesManager {
 	
 	/**
 	 * Updates multiseasons anime references
+	 * min,max,first episode,current max
 	 *
 	 * @param references the references
 	 */
@@ -199,7 +200,8 @@ public class ReferencesManager {
 	}
 	
 	/**
-	 * Compare multiseasons references and user watching titles
+	 * Compare multiseasons references and user watching titles and
+	 * Creates container with matched anime
 	 *
 	 * @param references     the  multiseasons references
 	 * @param watchingTitles the user watching titles
@@ -238,7 +240,7 @@ public class ReferencesManager {
 	 * @param matchedAnimeFromCache the matched user anime from cache
 	 * @param currentlyUpdatedTitle the currently updated title on animedia
 	 */
-	public void updateReferences(@NotEmpty Set<AnimediaMALTitleReferences> matchedAnimeFromCache, @NotNull AnimediaMALTitleReferences currentlyUpdatedTitle) {
+	public void updateCurrentMax(@NotEmpty Set<AnimediaMALTitleReferences> matchedAnimeFromCache, @NotNull AnimediaMALTitleReferences currentlyUpdatedTitle) {
 		matchedAnimeFromCache.stream()
 				.filter(set -> set.getUrl().equals(currentlyUpdatedTitle.getUrl())
 						&& set.getDataList().equals(currentlyUpdatedTitle.getDataList()))

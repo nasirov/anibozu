@@ -119,7 +119,7 @@ public class SeasonAndEpisodeChecker {
 			Stream.of(nextEpisodeForWatchFinalUrl)
 					.flatMap(map -> map.entrySet().stream())
 					.forEach(entry -> {
-						animediaMALTitleReferences.setNumberOfEpisodeForWatch(entry.getKey());
+						animediaMALTitleReferences.setEpisodeNumberForWatch(entry.getKey());
 						animediaMALTitleReferences.setFinalUrl(entry.getValue());
 					});
 			finalMatchedAnime.add(new AnimediaMALTitleReferences(animediaMALTitleReferences));
@@ -150,7 +150,7 @@ public class SeasonAndEpisodeChecker {
 				Stream.of(nextEpisodeForWatchFinalUrl)
 						.flatMap(map -> map.entrySet().stream())
 						.forEach(entry -> {
-							animediaMALTitleReferences.setNumberOfEpisodeForWatch(entry.getKey());
+							animediaMALTitleReferences.setEpisodeNumberForWatch(entry.getKey());
 							animediaMALTitleReferences.setFinalUrl(entry.getValue());
 						});
 				finalMatchedAnime.add(new AnimediaMALTitleReferences(animediaMALTitleReferences));
@@ -230,37 +230,37 @@ public class SeasonAndEpisodeChecker {
 	}
 	
 	/**
-	 * Updates the matched references (NumberOfEpisodeForWatch, FinalUrl)
+	 * Updates the matched references (episode number for watch, final url for front)
 	 *
 	 * @param watchingTitles        the user watching titles
 	 * @param references            the currently updated title on animedia
 	 * @param matchedAnimeFromCache the matched user anime from cache
 	 */
-	public void updateMatchedReferences(@NotEmpty Set<UserMALTitleInfo> watchingTitles,
-										@NotEmpty AnimediaMALTitleReferences references,
-										@NotEmpty Set<AnimediaMALTitleReferences> matchedAnimeFromCache) {
+	public void updateEpisodeNumberForWatchAndFinalUrl(@NotEmpty Set<UserMALTitleInfo> watchingTitles,
+													   @NotEmpty AnimediaMALTitleReferences references,
+													   @NotEmpty Set<AnimediaMALTitleReferences> matchedAnimeFromCache) {
 		log.info("Updating matched references...");
 		for (UserMALTitleInfo userMALTitleInfo : watchingTitles) {
 			//Increment to next episode for watch
 			Integer episodeNumberForWatch;
-			Map<String, String> nextEpisodeForWatchFinalUrl;
-			AnimediaMALTitleReferences matchedReferences = null;
+			Map<String, String> nextEpisodeForWatchAndFinalUrl;
+			AnimediaMALTitleReferences referenceForUpdate = null;
 			if (references.getTitleOnMAL().equals(userMALTitleInfo.getTitle())) {
-				matchedReferences = matchedAnimeFromCache.stream()
+				referenceForUpdate = matchedAnimeFromCache.stream()
 						.filter(set -> set.getTitleOnMAL().equals(references.getTitleOnMAL()) && set.getDataList().equals(references.getDataList())).findFirst()
 						.orElse(null);
 			}
-			if (matchedReferences != null) {
-				int firstEpisode = Integer.parseInt(matchedReferences.getFirstEpisode());
+			if (referenceForUpdate != null) {
+				int firstEpisode = Integer.parseInt(referenceForUpdate.getFirstEpisode());
 				if (firstEpisode == 0 || firstEpisode == 1) {
 					episodeNumberForWatch = firstEpisode + userMALTitleInfo.getNumWatchedEpisodes();
 				} else {
 					episodeNumberForWatch = userMALTitleInfo.getNumWatchedEpisodes() + 1;
 				}
-				nextEpisodeForWatchFinalUrl = printResult(matchedReferences, episodeNumberForWatch);
-				for (Map.Entry<String, String> currentEpisodeFinalUrl : nextEpisodeForWatchFinalUrl.entrySet()) {
-					matchedReferences.setNumberOfEpisodeForWatch(currentEpisodeFinalUrl.getKey());
-					matchedReferences.setFinalUrl(currentEpisodeFinalUrl.getValue());
+				nextEpisodeForWatchAndFinalUrl = printResult(referenceForUpdate, episodeNumberForWatch);
+				for (Map.Entry<String, String> nextEpisodeForWatchFinalUrl : nextEpisodeForWatchAndFinalUrl.entrySet()) {
+					referenceForUpdate.setEpisodeNumberForWatch(nextEpisodeForWatchFinalUrl.getKey());
+					referenceForUpdate.setFinalUrl(nextEpisodeForWatchFinalUrl.getValue());
 				}
 			}
 		}

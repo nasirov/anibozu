@@ -62,7 +62,7 @@ public class AnimediaMALTitleReferences {
 	/**
 	 * Next episode for watch
 	 */
-	private String numberOfEpisodeForWatch;
+	private String episodeNumberForWatch;
 	
 	public AnimediaMALTitleReferences(AnimediaMALTitleReferences animediaMALTitleReference) {
 		this.url = animediaMALTitleReference.getUrl();
@@ -74,6 +74,6 @@ public class AnimediaMALTitleReferences {
 		this.currentMax = animediaMALTitleReference.getCurrentMax();
 		this.posterUrl = animediaMALTitleReference.getPosterUrl();
 		this.finalUrl = animediaMALTitleReference.getFinalUrl();
-		this.numberOfEpisodeForWatch = animediaMALTitleReference.getNumberOfEpisodeForWatch();
+		this.episodeNumberForWatch = animediaMALTitleReference.getEpisodeNumberForWatch();
 	}
 }

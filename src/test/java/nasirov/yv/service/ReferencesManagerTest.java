@@ -74,7 +74,6 @@ public class ReferencesManagerTest extends AbstractTest{
 	@Test
 	public void updateReferences() throws Exception {
 		String fairyTailId = "9480";
-		String saoId = "9432";
 		String fairyTailUrl = "anime/skazka-o-hvoste-fei-TV1";
 		String saoUrl = "anime/mastera-mecha-onlayn";
 		doReturn(new HttpResponse(routinesIO.readFromResource(fairyTailHtml), HttpStatus.OK.value())).when(httpCaller).call(eq(animediaOnlineTv + fairyTailUrl), eq(HTTPMethods.GET), anyMap());
@@ -83,10 +82,10 @@ public class ReferencesManagerTest extends AbstractTest{
 		doReturn(new HttpResponse(routinesIO.readFromResource(fairyTail2), HttpStatus.OK.value())).when(httpCaller).call(eq(animediaEpisodesList + fairyTailId + "/" + "2"), eq(HTTPMethods.GET), anyMap());
 		doReturn(new HttpResponse(routinesIO.readFromResource(fairyTail3), HttpStatus.OK.value())).when(httpCaller).call(eq(animediaEpisodesList + fairyTailId + "/" + "3"), eq(HTTPMethods.GET), anyMap());
 		doReturn(new HttpResponse(routinesIO.readFromResource(fairyTail7), HttpStatus.OK.value())).when(httpCaller).call(eq(animediaEpisodesList + fairyTailId + "/" + "7"), eq(HTTPMethods.GET), anyMap());
-		doReturn(new HttpResponse(routinesIO.readFromResource(sao1), HttpStatus.OK.value())).when(httpCaller).call(eq(animediaEpisodesList + saoId + "/" + "1"), eq(HTTPMethods.GET), anyMap());
-		doReturn(new HttpResponse(routinesIO.readFromResource(sao2), HttpStatus.OK.value())).when(httpCaller).call(eq(animediaEpisodesList + saoId + "/" + "2"), eq(HTTPMethods.GET), anyMap());
-		doReturn(new HttpResponse(routinesIO.readFromResource(sao3), HttpStatus.OK.value())).when(httpCaller).call(eq(animediaEpisodesList + saoId + "/" + "3"), eq(HTTPMethods.GET), anyMap());
-		doReturn(new HttpResponse(routinesIO.readFromResource(sao7), HttpStatus.OK.value())).when(httpCaller).call(eq(animediaEpisodesList + saoId + "/" + "7"), eq(HTTPMethods.GET), anyMap());
+		doReturn(new HttpResponse(routinesIO.readFromResource(sao1), HttpStatus.OK.value())).when(httpCaller).call(eq(animediaEpisodesList + SAO_ID + "/" + "1"), eq(HTTPMethods.GET), anyMap());
+		doReturn(new HttpResponse(routinesIO.readFromResource(sao2), HttpStatus.OK.value())).when(httpCaller).call(eq(animediaEpisodesList + SAO_ID + "/" + "2"), eq(HTTPMethods.GET), anyMap());
+		doReturn(new HttpResponse(routinesIO.readFromResource(sao3), HttpStatus.OK.value())).when(httpCaller).call(eq(animediaEpisodesList + SAO_ID + "/" + "3"), eq(HTTPMethods.GET), anyMap());
+		doReturn(new HttpResponse(routinesIO.readFromResource(sao7), HttpStatus.OK.value())).when(httpCaller).call(eq(animediaEpisodesList + SAO_ID + "/" + "7"), eq(HTTPMethods.GET), anyMap());
 		Set<AnimediaMALTitleReferences> multiSeasonsReferencesList = getMultiSeasonsReferencesList(LinkedHashSet.class,false);
 		referencesManager.updateReferences(multiSeasonsReferencesList);
 		List<AnimediaMALTitleReferences> updatedMultiSeasonsReferencesList = new ArrayList<>(multiSeasonsReferencesList);
@@ -142,7 +141,7 @@ public class ReferencesManagerTest extends AbstractTest{
 		Set<AnimediaMALTitleReferences> multiSeasonsReferencesList = getMultiSeasonsReferencesList(LinkedHashSet.class, true);
 		assertEquals(1, multiSeasonsReferencesList.stream().filter(set -> set.getUrl().equals(fairyUrl) && set.getDataList().equals(fairyDataList)).count());
 		assertEquals(0, multiSeasonsReferencesList.stream().filter(set -> set.getUrl().equals(fairyUrl) && set.getDataList().equals(fairyDataList) && set.getCurrentMax().equals(currentMax)).count());
-		referencesManager.updateReferences(multiSeasonsReferencesList, animediaMALTitleReferences);
+		referencesManager.updateCurrentMax(multiSeasonsReferencesList, animediaMALTitleReferences);
 		assertEquals(1, multiSeasonsReferencesList.stream().filter(set -> set.getUrl().equals(fairyUrl) && set.getDataList().equals(fairyDataList)).count());
 		assertEquals(1, multiSeasonsReferencesList.stream().filter(set -> set.getUrl().equals(fairyUrl) && set.getDataList().equals(fairyDataList) && set.getCurrentMax().equals(currentMax)).count());
 		
