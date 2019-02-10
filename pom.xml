@@ -20,6 +20,7 @@
         <jersey-bundle>1.19.4</jersey-bundle>
         <jersey-json>1.19.4</jersey-json>
         <testng>6.14.3</testng>
+        <dec>0.1.2</dec>
     </properties>
 
     <dependencies>
@@ -79,6 +80,14 @@
             <artifactId>jersey-json</artifactId>
             <version>${jersey-json}</version>
         </dependency>
+
+        <!-- https://mvnrepository.com/artifact/org.brotli/dec -->
+        <dependency>
+            <groupId>org.brotli</groupId>
+            <artifactId>dec</artifactId>
+            <version>${dec}</version>
+        </dependency>
+
     </dependencies>
 
     <build>

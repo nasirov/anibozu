@@ -34,7 +34,7 @@ public class ReferencesManager {
 	/**
 	 * For a title url on animedia and a title on mal
 	 */
-	private static final String REFERENCE_MAL_TITLE_TO_ANIMEDIA_TITLE = "(?<fullUrl>http://online\\.animedia\\.tv/(?<url>anime/.+)/(?<dataList>\\d{1,3})/(?<firstEpisode>\\d{1,3}))[\\s\\t]+(?<titleOnMAL>.+)";
+	private static final String REFERENCE_MAL_TITLE_TO_ANIMEDIA_TITLE = "(?<fullUrl>https://online\\.animedia\\.tv/(?<url>anime/.+)/(?<dataList>\\d{1,3})/(?<firstEpisode>\\d{1,3}))[\\s\\t]+(?<titleOnMAL>.+)";
 	
 	private static final String CONCERTIZE_EPISODE = ".+[\\s\\t]+((?<min>\\d{1,3})-(?<max>\\d{1,3}|[x]{3}))+";
 	

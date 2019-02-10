@@ -105,7 +105,7 @@ public class AnimediaService {
 		animediaSearchList.forEach(set -> {
 			set.setUrl(set.getUrl().replaceAll("http://online\\.animedia\\.tv/", "")
 					.replace("[", "%5B").replace("]", "%5D"));
-			set.setPosterUrl("http:" + set.getPosterUrl().replace("h=70&q=50", "h=350&q=100"));
+			set.setPosterUrl("https:" + set.getPosterUrl().replace("h=70&q=50", "h=350&q=100"));
 		});
 		return animediaSearchList;
 	}

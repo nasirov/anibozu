@@ -110,8 +110,8 @@ public class CheckResultController {
 		Set<UserMALTitleInfo> watchingTitlesFromCache = userMALCache.get(username, LinkedHashSet.class);
 		Set<AnimediaMALTitleReferences> matchedAnimeFromCache = userMatchedAnimeCache.get(username, LinkedHashSet.class);
 		List<AnimediaMALTitleReferences> currentlyUpdatedTitlesFromCache = currentlyUpdatedTitlesCache.get(currentlyUpdatedTitlesCacheName, ArrayList.class);
-		List<AnimediaMALTitleReferences> currentlyUpdatedTitles = animediaService.getCurrentlyUpdatedTitles();
 		if (watchingTitlesFromCache != null && matchedAnimeFromCache != null && currentlyUpdatedTitlesFromCache != null) {
+			List<AnimediaMALTitleReferences> currentlyUpdatedTitles = animediaService.getCurrentlyUpdatedTitles();
 			return handleCachedUser(currentlyUpdatedTitles, currentlyUpdatedTitlesFromCache, matchedAnimeFromCache, watchingTitlesFromCache, watchingTitles, model);
 		}
 		return handleNewUser(matchedReferencesCache, username, watchingTitles, matchedAnimeFromCache, model);
@@ -145,6 +145,7 @@ public class CheckResultController {
 								 Set<UserMALTitleInfo> watchingTitles,
 								 Set<AnimediaMALTitleReferences> matchedAnimeFromCache,
 								 Model model) {
+		animediaService.getCurrentlyUpdatedTitles();
 		Set<AnimediaTitleSearchInfo> animediaSearchList = animediaService.getAnimediaSearchList();
 		Set<AnimediaMALTitleReferences> allReferences = referencesManager.getMultiSeasonsReferences();
 		Set<AnimediaMALTitleReferences> matchedReferencesFromCache = matchedReferencesCache.get(username, LinkedHashSet.class);
