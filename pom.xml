@@ -10,7 +10,7 @@
     </parent>
     <groupId>nasirov.yv</groupId>
     <artifactId>anime-checker</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>1.0</version>
     <name>anime-checker</name>
     <description>Analyzes user anime list from myanimelist.net and searches for new episodes on animedia.tv</description>
     <packaging>jar</packaging>
@@ -19,7 +19,6 @@
         <java.version>1.8</java.version>
         <jersey-bundle>1.19.4</jersey-bundle>
         <jersey-json>1.19.4</jersey-json>
-        <testng>6.14.3</testng>
         <dec>0.1.2</dec>
     </properties>
 
@@ -66,13 +65,6 @@
             <artifactId>jersey-bundle</artifactId>
             <version>${jersey-bundle}</version>
         </dependency>
-        <!-- https://mvnrepository.com/artifact/org.testng/testng -->
-        <!--<dependency>-->
-            <!--<groupId>org.testng</groupId>-->
-            <!--<artifactId>testng</artifactId>-->
-            <!--<version>${testng}</version>-->
-            <!--<scope>test</scope>-->
-        <!--</dependency>-->
 
         <!-- https://mvnrepository.com/artifact/com.sun.jersey/jersey-json -->
         <dependency>

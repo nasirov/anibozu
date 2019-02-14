@@ -19,6 +19,7 @@ import org.springframework.stereotype.Service;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import java.io.File;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -43,6 +44,12 @@ public class ReferencesManager {
 	
 	@Value("${urls.online.animedia.anime.episodes.list}")
 	private String animediaEpisodesList;
+	
+	@Value("${resources.tempFolder.name}")
+	private String tempFolderName;
+	
+	@Value("${resources.tempRawReferences.name}")
+	private String tempRawReferencesName;
 	
 	@Value("classpath:${resources.rawReference.name}")
 	private Resource rawReferencesResource;
@@ -77,7 +84,6 @@ public class ReferencesManager {
 	 */
 	@Cacheable(value = "multiSeasonsReferencesCache")
 	public Set<AnimediaMALTitleReferences> getMultiSeasonsReferences() {
-		//десериализируем маппинг мультисезонного аниме
 		return wrappedObjectMapper.unmarshal(rawToPretty(rawReferencesResource), AnimediaMALTitleReferences.class, LinkedHashSet.class);
 	}
 	
@@ -151,7 +157,6 @@ public class ReferencesManager {
 	 */
 	public void updateReferences(@NotEmpty Set<AnimediaMALTitleReferences> references) {
 		Map<String, Map<String, String>> animediaRequestParameters = requestParametersBuilder.build();
-		//обновляем информацию по сериям min,max,currentMax,firstEpisode
 		Map<String, Map<String, Map<String, String>>> seasonsAndEpisodesCache = new HashMap<>();
 		for (AnimediaMALTitleReferences ref : references) {
 			if (ref.getTitleOnMAL().equalsIgnoreCase("none")) {
@@ -259,11 +264,17 @@ public class ReferencesManager {
 	private boolean compareMaps(@NotEmpty Set<Anime> multi, @NotEmpty Map<String, String> raw) {
 		boolean fullMatch = true;
 		for (Anime anime : multi) {
-			if (!raw.containsKey(anime.getFullUrl())) {
+			String fullUrl = anime.getFullUrl();
+			if (!raw.containsKey(fullUrl)) {
 				fullMatch = false;
-				log.warn("Not found in the raw references {} Please, add missing reference to the resources!", anime.getFullUrl());
+				if (!routinesIO.isDirectoryExists(tempFolderName)) {
+					routinesIO.mkDir(tempFolderName);
+				}
+				String prefix = tempFolderName + File.separator;
+				routinesIO.writeToFile(prefix + tempRawReferencesName, fullUrl, true);
+				log.warn("Not found in the raw references {} Please, add missing reference to the resources!", fullUrl);
 			}
 		}
-		return fullMatch && multi.size() == raw.size();
+		return fullMatch;
 	}
 }

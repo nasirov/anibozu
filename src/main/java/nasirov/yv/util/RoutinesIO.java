@@ -2,9 +2,11 @@ package nasirov.yv.util;
 
 import lombok.extern.slf4j.Slf4j;
 import nasirov.yv.parser.WrappedObjectMapper;
+import org.apache.tomcat.util.http.fileupload.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Component;
+import org.springframework.util.FileSystemUtils;
 import org.springframework.util.ResourceUtils;
 
 import java.io.*;
@@ -85,7 +87,7 @@ public class RoutinesIO {
 		try (BufferedReader bufferedReader = new BufferedReader(new FileReader(new File(pathToFile)))) {
 			String s;
 			while ((s = bufferedReader.readLine()) != null) {
-				stringBuilder.append(s).append("\n");
+				stringBuilder.append(s).append(System.lineSeparator());
 			}
 			return stringBuilder.toString();
 		} catch (Exception e) {
@@ -99,7 +101,7 @@ public class RoutinesIO {
 		try (BufferedReader bufferedReader = new BufferedReader(new FileReader(file))) {
 			String s;
 			while ((s = bufferedReader.readLine()) != null) {
-				stringBuilder.append(s).append("\r\n");
+				stringBuilder.append(s).append(System.lineSeparator());
 			}
 			return stringBuilder.toString();
 		} catch (Exception e) {
@@ -164,5 +166,26 @@ public class RoutinesIO {
 				e.printStackTrace();
 			}
 		}
+	}
+	
+	public void mkDir(String dirPath) {
+		try {
+			FileUtils.forceMkdir(new File(dirPath));
+		} catch (IOException e) {
+			log.error("Exception while creating directory", e);
+		}
+	}
+	
+	public boolean isDirectoryExists(String dirPath) {
+		File dir = new File(dirPath);
+		boolean isExists = dir.exists();
+		if (isExists && !dir.isDirectory()) {
+			throw new RuntimeException(dirPath + " is not a directory!");
+		}
+		return isExists;
+	}
+	
+	public boolean removeDir(String dirPath) {
+		return FileSystemUtils.deleteRecursively(new File(dirPath));
 	}
 }

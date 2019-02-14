@@ -15,8 +15,8 @@ import nasirov.yv.util.URLBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.cache.Cache;
 import org.springframework.cache.CacheManager;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import javax.validation.constraints.NotEmpty;
@@ -86,6 +86,7 @@ public class MALService {
 	 * @param username the MAL username
 	 * @return the watching titles
 	 */
+	@Cacheable(value = "userMALCache", key = "#username")
 	public Set<UserMALTitleInfo> getWatchingTitles(@NotEmpty String username) throws MALUserAccountNotFoundException, WatchingTitlesNotFoundException, MALUserAnimeListAccessException, JSONNotFoundException {
 		Map<String, Map<String, String>> malRequestParameters = requestParametersBuilder.build();
 		//get a number of user watching titles
@@ -119,8 +120,8 @@ public class MALService {
 		}
 		changePosterUrl(watchingTitles);
 		changeAnimeUrl(watchingTitles);
-		Cache userMALCache = cacheManager.getCache(userMALCacheName);
-		userMALCache.putIfAbsent(username, watchingTitles);
+		//Cache userMALCache = cacheManager.getCache(userMALCacheName);
+		//userMALCache.putIfAbsent(username, watchingTitles);
 		return watchingTitles;
 	}
 	

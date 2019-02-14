@@ -14,27 +14,27 @@ import nasirov.yv.serialization.AnimediaMALTitleReferences;
 import nasirov.yv.serialization.AnimediaTitleSearchInfo;
 import nasirov.yv.util.RoutinesIO;
 import nasirov.yv.util.URLBuilder;
-import org.junit.FixMethodOrder;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.MethodSorters;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.cache.Cache;
 import org.springframework.cache.CacheManager;
-import org.springframework.core.io.Resource;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.http.HttpStatus;
 import org.springframework.test.annotation.DirtiesContext;
-import org.springframework.test.context.TestPropertySource;
-import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.util.ReflectionTestUtils;
+import org.springframework.util.FileSystemUtils;
 
+import java.io.File;
 import java.util.*;
 
+import static nasirov.yv.enums.AnimeTypeOnAnimedia.ANNOUNCEMENT;
+import static nasirov.yv.enums.AnimeTypeOnAnimedia.MULTISEASONS;
+import static nasirov.yv.enums.AnimeTypeOnAnimedia.SINGLESEASON;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyMap;
 import static org.mockito.ArgumentMatchers.eq;
@@ -125,18 +125,24 @@ public class AnimediaServiceTest extends AbstractTest{
 				.when(httpCaller).call(eq(animediaEpisodesList + SAO_ID + "/3"), eq(HTTPMethods.GET), anyMap());
 		doReturn(new HttpResponse(routinesIO.readFromResource(sao7), HttpStatus.OK.value()))
 				.when(httpCaller).call(eq(animediaEpisodesList + SAO_ID + "/7"), eq(HTTPMethods.GET), anyMap());
-		List<Set<Anime>> sortedForSeasonAnime = animediaService.getSortedForSeasonAnime(animediaTitleSearchInfo);
-		assertNotNull(sortedForSeasonAnime);
-		assertEquals(sortedForSeasonAnime.size(), 3);
-		List<Anime> single = new ArrayList<>(sortedForSeasonAnime.get(0));
-		List<Anime> multi = new ArrayList<>(sortedForSeasonAnime.get(1));
-		List<Anime> announcements = new ArrayList<>(sortedForSeasonAnime.get(2));
+		Map<AnimeTypeOnAnimedia, Set<Anime>> sortedAnime = animediaService.getAnimeSortedForType(animediaTitleSearchInfo);
+		assertNotNull(sortedAnime);
+		assertEquals(3, sortedAnime.size());
+		List<Anime> single = new ArrayList<>(sortedAnime.get(SINGLESEASON));
+		List<Anime> multi = new ArrayList<>(sortedAnime.get(MULTISEASONS));
+		List<Anime> announcements = new ArrayList<>(sortedAnime.get(ANNOUNCEMENT));
 		compareResults(single, multi, announcements, singleSeasonAnime, multiSeasonsAnime, announcement);
 		Cache sortedAnimediaSearchListCache = cacheManager.getCache(sortedAnimediaSearchListCacheName);
 		List<Anime> singleFromCache = new ArrayList<>(sortedAnimediaSearchListCache.get(AnimeTypeOnAnimedia.SINGLESEASON.getDescription(), LinkedHashSet.class));
-		List<Anime> multiFromCache = new ArrayList<>(sortedAnimediaSearchListCache.get(AnimeTypeOnAnimedia.MULTISEASONS.getDescription(), LinkedHashSet.class));
+		List<Anime> multiFromCache = new ArrayList<>(sortedAnimediaSearchListCache.get(MULTISEASONS.getDescription(), LinkedHashSet.class));
 		List<Anime> announcementsFromCache = new ArrayList<>(sortedAnimediaSearchListCache.get(AnimeTypeOnAnimedia.ANNOUNCEMENT.getDescription(), LinkedHashSet.class));
 		compareResults(singleFromCache, multiFromCache, announcementsFromCache, singleSeasonAnime, multiSeasonsAnime, announcement);
+		String prefix = tempFolderName + File.separator;
+		assertTrue(routinesIO.isDirectoryExists(tempFolderName));
+		assertTrue(new File(prefix + singleSeasonsAnimeUrls.getFilename()).exists());
+		assertTrue(new File(prefix + multiSeasonsAnimeUrls.getFilename()).exists());
+		assertTrue(new File(prefix + announcementsJson.getFilename()).exists());
+		routinesIO.removeDir(tempFolderName);
 	}
 	
 	@Test
@@ -203,28 +209,58 @@ public class AnimediaServiceTest extends AbstractTest{
 	}
 	
 	@Test
-	public void testGetAnime() throws Exception {
-		Cache sortedAnimediaSearchListCache = cacheManager.getCache(sortedAnimediaSearchListCacheName);
-		sortedAnimediaSearchListCache.clear();
-		doReturn(new HttpResponse(routinesIO.readFromResource(animediaSearchListForCheck), HttpStatus.OK.value())).when(httpCaller).call(eq(animediaAnimeList), eq(HTTPMethods.GET), anyMap());
-		Set<AnimediaTitleSearchInfo> animediaSearchList = animediaService.getAnimediaSearchList();
-		assertNotNull(animediaSearchList);
-		assertEquals(7, animediaSearchList.size());
+	public void testGetAnimeFromClasspath() throws Exception {
 		ReflectionTestUtils.setField(animediaService,"resourceAnnouncementsUrls",announcementsJson);
 		ReflectionTestUtils.setField(animediaService,"resourceMultiSeasonsAnimeUrls",multiSeasonsAnimeUrls);
 		ReflectionTestUtils.setField(animediaService,"resourceSingleSeasonsAnimeUrls",singleSeasonsAnimeUrls);
-		List<Set<Anime>> sortedAnime = animediaService.getAnime(animediaSearchList);
+		Map<AnimeTypeOnAnimedia, Set<Anime>> sortedAnime = animediaService.getAnimeSortedForTypeFromResources();
 		assertNotNull(sortedAnime);
-		assertEquals(sortedAnime.size(), 3);
-		List<Anime> single = new ArrayList<>(sortedAnime.get(0));
-		List<Anime> multi = new ArrayList<>(sortedAnime.get(1));
-		List<Anime> announcements = new ArrayList<>(sortedAnime.get(2));
+		assertEquals(3, sortedAnime.size());
+		List<Anime> single = new ArrayList<>(sortedAnime.get(SINGLESEASON));
+		List<Anime> multi = new ArrayList<>(sortedAnime.get(MULTISEASONS));
+		List<Anime> announcements = new ArrayList<>(sortedAnime.get(ANNOUNCEMENT));
 		assertEquals(2,single.size());
 		assertEquals(6,multi.size());
 		assertEquals(2, announcements.size());
 		Cache cache = cacheManager.getCache(animediaSearchListCacheName);
 		assertNotNull(cache);
 		cache.clear();
+	}
+	
+	@Test
+	public void testGetAnimeFromTempFolder() throws Exception {
+		ReflectionTestUtils.setField(animediaService,"resourceAnnouncementsUrls",announcementsJson);
+		ReflectionTestUtils.setField(animediaService,"resourceMultiSeasonsAnimeUrls",multiSeasonsAnimeUrls);
+		ReflectionTestUtils.setField(animediaService,"resourceSingleSeasonsAnimeUrls",singleSeasonsAnimeUrls);
+		routinesIO.mkDir(tempFolderName);
+		String prefix = tempFolderName + File.separator;
+		routinesIO.writeToFile(prefix + announcementsJson.getFilename(),routinesIO.readFromResource(announcementsJson),false);
+		routinesIO.writeToFile(prefix + multiSeasonsAnimeUrls.getFilename(),routinesIO.readFromResource(multiSeasonsAnimeUrls),false);
+		routinesIO.writeToFile(prefix + singleSeasonsAnimeUrls.getFilename(),routinesIO.readFromResource(singleSeasonsAnimeUrls),false);
+		Map<AnimeTypeOnAnimedia, Set<Anime>> sortedAnime = animediaService.getAnimeSortedForTypeFromResources();
+		assertNotNull(sortedAnime);
+		assertEquals(3, sortedAnime.size());
+		List<Anime> single = new ArrayList<>(sortedAnime.get(SINGLESEASON));
+		List<Anime> multi = new ArrayList<>(sortedAnime.get(MULTISEASONS));
+		List<Anime> announcements = new ArrayList<>(sortedAnime.get(ANNOUNCEMENT));
+		assertEquals(2,single.size());
+		assertEquals(6,multi.size());
+		assertEquals(2, announcements.size());
+		Cache cache = cacheManager.getCache(animediaSearchListCacheName);
+		assertNotNull(cache);
+		cache.clear();
+		routinesIO.removeDir(tempFolderName);
+	}
+	
+	@Test
+	public void testGetAnimeResourcesAreNull() throws Exception {
+		ClassPathResource classPathResource = new ClassPathResource("resourcesNotFound");
+		ReflectionTestUtils.setField(animediaService,"resourceAnnouncementsUrls",classPathResource);
+		ReflectionTestUtils.setField(animediaService,"resourceMultiSeasonsAnimeUrls",classPathResource);
+		ReflectionTestUtils.setField(animediaService,"resourceSingleSeasonsAnimeUrls",classPathResource);
+		Map<AnimeTypeOnAnimedia, Set<Anime>> sortedAnime = animediaService.getAnimeSortedForTypeFromResources();
+		assertNotNull(sortedAnime);
+		assertTrue(sortedAnime.isEmpty());
 	}
 	
 	@Test

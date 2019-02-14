@@ -61,6 +61,7 @@
 20.2 https://online.animedia.tv/anime/avatar-korolya/2/1 Quanzhi Gaoshou Specials
 21.1 https://online.animedia.tv/anime/sem-smertnyih-grehov/1/1 Nanatsu no Taizai
 21.2 https://online.animedia.tv/anime/sem-smertnyih-grehov/2/1 Nanatsu no Taizai: Imashime no Fukkatsu
+21.3 https://online.animedia.tv/anime/sem-smertnyih-grehov/3/1 Nanatsu no Taizai Movie: Tenkuu no Torawarebito
 22.1 https://online.animedia.tv/anime/kulinarnaya-bitva-somyi/1/1 Shokugeki no Souma
 22.2 https://online.animedia.tv/anime/kulinarnaya-bitva-somyi/2/1 Shokugeki no Souma: Ni no Sara
 22.3 https://online.animedia.tv/anime/kulinarnaya-bitva-somyi/3/1 Shokugeki no Souma: San no Sara

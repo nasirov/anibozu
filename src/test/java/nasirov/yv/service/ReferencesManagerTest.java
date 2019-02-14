@@ -22,6 +22,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.util.ReflectionTestUtils;
 
+import java.io.File;
 import java.util.*;
 
 import static nasirov.yv.enums.MALAnimeStatus.WATCHING;
@@ -112,6 +113,7 @@ public class ReferencesManagerTest extends AbstractTest{
 	
 	@Test
 	public void checkReferences() throws Exception {
+		routinesIO.removeDir(tempFolderName);
 		Set<AnimediaMALTitleReferences> multiSeasonsReferencesList = getMultiSeasonsReferencesList(LinkedHashSet.class, true);
 		Set<Anime> multiSeasonsFromSearch = new LinkedHashSet<>();
 		String fairyUrl = animediaOnlineTv + "anime/skazka-o-hvoste-fei-TV1/";
@@ -126,9 +128,15 @@ public class ReferencesManagerTest extends AbstractTest{
 		multiSeasonsFromSearch.add(new Anime("",saoUrl + "7/1",""));
 		boolean compareResult = referencesManager.isReferencesAreFull(multiSeasonsFromSearch, multiSeasonsReferencesList);
 		assertTrue(compareResult);
-		multiSeasonsFromSearch.add(new Anime("",saoUrl + "8/1",""));
+		String fullUrl = saoUrl + "8/1";
+		multiSeasonsFromSearch.add(new Anime("", fullUrl,""));
+		assertFalse(routinesIO.isDirectoryExists(tempFolderName));
 		compareResult = referencesManager.isReferencesAreFull(multiSeasonsFromSearch, multiSeasonsReferencesList);
 		assertFalse(compareResult);
+		assertTrue(routinesIO.isDirectoryExists(tempFolderName));
+		String prefix = tempFolderName + File.separator;
+		assertTrue(routinesIO.readFromFile(prefix + tempRawReferencesName).equals(fullUrl + System.lineSeparator()));
+		routinesIO.removeDir(tempFolderName);
 	}
 	
 	@Test

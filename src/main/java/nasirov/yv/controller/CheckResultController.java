@@ -21,7 +21,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.validation.constraints.Size;
@@ -32,7 +31,7 @@ import java.util.stream.Collectors;
  * Created by nasirov.yv
  */
 @Controller
-@RequestMapping("/checkResult")
+//@RequestMapping("/checkResult")
 @Validated
 @Slf4j
 public class CheckResultController {
@@ -75,7 +74,7 @@ public class CheckResultController {
 		this.notFoundAnimeOnAnimediaRepository = notFoundAnimeOnAnimediaRepository;
 	}
 	
-	@PostMapping
+	@PostMapping("/checkResult")
 	public String checkResult(@Size(min = 2, max = 16, message = "MAL username must be between 2 and 16 characters")
 							  @RequestParam(value = "username") String username, Model model) {
 		Set<UserMALTitleInfo> watchingTitles;

@@ -29,3 +29,4 @@
 logs/
 *.json
 *.bat
+temp/

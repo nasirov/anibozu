@@ -14,6 +14,12 @@ import org.springframework.test.context.junit4.SpringRunner;
 public abstract class AbstractTest {
 	protected static final String SAO_ID = "9432";
 	
+	@Value("${resources.tempFolder.name}")
+	protected String tempFolderName;
+	
+	@Value("${resources.tempRawReferences.name}")
+	protected String tempRawReferencesName;
+	
 	@Value("${cache.animediaSearchList.name}")
 	protected String animediaSearchListCacheName;
 	
@@ -118,6 +124,9 @@ public abstract class AbstractTest {
 	
 	@Value("classpath:animedia/ingressHtml.txt")
 	protected Resource announcementHtml;
+	
+	@Value("classpath:animedia/test.txt")
+	protected Resource test;
 	
 	@Value("classpath:mal/testAccForDevAdditionalJson.json")
 	protected Resource testAccForDevAdditionalJson;

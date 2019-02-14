@@ -31,6 +31,7 @@ import static nasirov.yv.enums.RequestParameters.*;
 @Slf4j
 public class HttpCallerImpl implements HttpCaller {
 	private static final String BROTLI_HEADER = "br";
+	
 	private static final String CONTENT_ENCODING = "Content-Encoding";
 	
 	/**
