@@ -452,7 +452,7 @@ $("#first").mouseout(function(){
 <div class="widget__new-series">
 
 <div class="widget__new-series__item widget__item">
-<a href="/anime/pyat-nevest/1/3" title="Cмотреть онлайн аниме Пять невест Серия 3" class="widget__new-series__item__thumb"><img src="//static.animedia.tv/screens/154875823351a6958d7884d23d2337069f118b44a1e799bd30_min.jpg?w=104&q=50" alt="Cмотреть онлайн аниме Пять невест Серия 3" title="Серия 3 аниме Пять невест онлайн"></a>
+<a href="/anime/pyat-nevest/1/3" title="Cмотреть онлайн аниме Пять невест Серия 3" class="widget__new-series__item__thumb"><img data-src="//static.animedia.tv/screens/154875823351a6958d7884d23d2337069f118b44a1e799bd30_min.jpg?w=104&q=50" alt="Cмотреть онлайн аниме Пять невест Серия 3" title="Серия 3 аниме Пять невест онлайн"></a>
 <div class="widget__new-series__item__info">
 <a href="/anime/pyat-nevest/1/3" title="Cмотреть онлайн аниме Пять невест Серия 3" class="h4 widget__new-series__item__title">Пять невест</a>
 <div class="widget__new-series__item__status">
@@ -463,7 +463,7 @@ $("#first").mouseout(function(){
 </div>
 </div>
 <div class="widget__new-series__item widget__item">
-<a href="/anime/domashnij-pitomec-inogda-sidyaschij-na-moej-golove/1/3" title="Cмотреть онлайн аниме Домашний питомец, иногда сидящий на моей голове Серия 3" class="widget__new-series__item__thumb"><img src="//static.animedia.tv/screens/1548796071318f3c86faa5993c00acada61f326af4c1c956c2_min.jpg?w=104&q=50" alt="Cмотреть онлайн аниме Домашний питомец, иногда сидящий на моей голове Серия 3" title="Серия 3 аниме Домашний питомец, иногда сидящий на моей голове онлайн"></a>
+<a href="/anime/domashnij-pitomec-inogda-sidyaschij-na-moej-golove/1/3" title="Cмотреть онлайн аниме Домашний питомец, иногда сидящий на моей голове Серия 3" class="widget__new-series__item__thumb"><img data-src="//static.animedia.tv/screens/1548796071318f3c86faa5993c00acada61f326af4c1c956c2_min.jpg?w=104&q=50" alt="Cмотреть онлайн аниме Домашний питомец, иногда сидящий на моей голове Серия 3" title="Серия 3 аниме Домашний питомец, иногда сидящий на моей голове онлайн"></a>
 <div class="widget__new-series__item__info">
 <a href="/anime/domashnij-pitomec-inogda-sidyaschij-na-moej-golove/1/3" title="Cмотреть онлайн аниме Домашний питомец, иногда сидящий на моей голове Серия 3" class="h4 widget__new-series__item__title">Домашний питомец, иногда сидящий на моей голове</a>
 <div class="widget__new-series__item__status">
@@ -474,7 +474,7 @@ $("#first").mouseout(function(){
 </div>
 </div>
 <div class="widget__new-series__item widget__item">
-<a href="/anime/yarost-bahamuta-druzya-iz-manarii/1/2" title="Cмотреть онлайн аниме Ярость Бахамута: Друзья из Манарии Серия 2" class="widget__new-series__item__thumb"><img src="//static.animedia.tv/screens/1548793849ff95fb2ad69904117cde5ee3661531796dfd30de_min.jpg?w=104&q=50" alt="Cмотреть онлайн аниме Ярость Бахамута: Друзья из Манарии Серия 2" title="Серия 2 аниме Ярость Бахамута: Друзья из Манарии онлайн"></a>
+<a href="/anime/yarost-bahamuta-druzya-iz-manarii/1/2" title="Cмотреть онлайн аниме Ярость Бахамута: Друзья из Манарии Серия 2" class="widget__new-series__item__thumb"><img data-src="//static.animedia.tv/screens/1548793849ff95fb2ad69904117cde5ee3661531796dfd30de_min.jpg?w=104&q=50" alt="Cмотреть онлайн аниме Ярость Бахамута: Друзья из Манарии Серия 2" title="Серия 2 аниме Ярость Бахамута: Друзья из Манарии онлайн"></a>
 <div class="widget__new-series__item__info">
 <a href="/anime/yarost-bahamuta-druzya-iz-manarii/1/2" title="Cмотреть онлайн аниме Ярость Бахамута: Друзья из Манарии Серия 2" class="h4 widget__new-series__item__title">Ярость Бахамута: Друзья из Манарии</a>
 <div class="widget__new-series__item__status">
@@ -485,7 +485,7 @@ $("#first").mouseout(function(){
 </div>
 </div>
 <div class="widget__new-series__item widget__item">
-<a href="/anime/chyornyj-klever/1/68" title="Cмотреть онлайн аниме Чёрный клевер Серия 68" class="widget__new-series__item__thumb"><img src="//static.animedia.tv/screens/15487912499aab97a5eb8b7526e04ca65f40026a2bcdb9968c_min.jpg?w=104&q=50" alt="Cмотреть онлайн аниме Чёрный клевер Серия 68" title="Серия 68 аниме Чёрный клевер онлайн"></a>
+<a href="/anime/chyornyj-klever/1/68" title="Cмотреть онлайн аниме Чёрный клевер Серия 68" class="widget__new-series__item__thumb"><img data-src="//static.animedia.tv/screens/15487912499aab97a5eb8b7526e04ca65f40026a2bcdb9968c_min.jpg?w=104&q=50" alt="Cмотреть онлайн аниме Чёрный клевер Серия 68" title="Серия 68 аниме Чёрный клевер онлайн"></a>
 <div class="widget__new-series__item__info">
 <a href="/anime/chyornyj-klever/1/68" title="Cмотреть онлайн аниме Чёрный клевер Серия 68" class="h4 widget__new-series__item__title">Чёрный клевер</a>
 <div class="widget__new-series__item__status">
@@ -496,7 +496,7 @@ xxx
 </div>
 </div>
 <div class="widget__new-series__item widget__item">
-<a href="/anime/mastera-mecha-onlayn/3/16" title="Cмотреть онлайн аниме Мастера меча онлайн Серия 16" class="widget__new-series__item__thumb"><img src="//static.animedia.tv/screens/1548790797131d171748dafb9bb214748469433896f5a60e25_min.jpg?w=104&q=50" alt="Cмотреть онлайн аниме Мастера меча онлайн Серия 16" title="Серия 16 аниме Мастера меча онлайн онлайн"></a>
+<a href="/anime/mastera-mecha-onlayn/3/16" title="Cмотреть онлайн аниме Мастера меча онлайн Серия 16" class="widget__new-series__item__thumb"><img data-src="//static.animedia.tv/screens/1548790797131d171748dafb9bb214748469433896f5a60e25_min.jpg?w=104&q=50" alt="Cмотреть онлайн аниме Мастера меча онлайн Серия 16" title="Серия 16 аниме Мастера меча онлайн онлайн"></a>
 <div class="widget__new-series__item__info">
 <a href="/anime/mastera-mecha-onlayn/3/16" title="Cмотреть онлайн аниме Мастера меча онлайн Серия 16" class="h4 widget__new-series__item__title">Мастера меча онлайн ТВ3</a>
 <div class="widget__new-series__item__status">
@@ -507,7 +507,7 @@ xxx
 </div>
 </div>
 <div class="widget__new-series__item widget__item">
-<a href="/anime/domekano/1/3" title="Cмотреть онлайн аниме Домекано Серия 3" class="widget__new-series__item__thumb"><img src="//static.animedia.tv/screens/1548750016174aa241c44f46dd0283a06f7a90ce978233dcf7_min.jpg?w=104&q=50" alt="Cмотреть онлайн аниме Домекано Серия 3" title="Серия 3 аниме Домекано онлайн"></a>
+<a href="/anime/domekano/1/3" title="Cмотреть онлайн аниме Домекано Серия 3" class="widget__new-series__item__thumb"><img data-src="//static.animedia.tv/screens/1548750016174aa241c44f46dd0283a06f7a90ce978233dcf7_min.jpg?w=104&q=50" alt="Cмотреть онлайн аниме Домекано Серия 3" title="Серия 3 аниме Домекано онлайн"></a>
 <div class="widget__new-series__item__info">
 <a href="/anime/domekano/1/3" title="Cмотреть онлайн аниме Домекано Серия 3" class="h4 widget__new-series__item__title">Домекано</a>
 <div class="widget__new-series__item__status">
@@ -518,7 +518,7 @@ xxx
 </div>
 </div>
 <div class="widget__new-series__item widget__item">
-<a href="/anime/o-moyom-pererozhdenii-v-sliz/1/17" title="Cмотреть онлайн аниме О моём перерождении в слизь Серия 17" class="widget__new-series__item__thumb"><img src="//static.animedia.tv/screens/15487445599bc7c7231c9225301e09b049f26a88398704f173_min.jpg?w=104&q=50" alt="Cмотреть онлайн аниме О моём перерождении в слизь Серия 17" title="Серия 17 аниме О моём перерождении в слизь онлайн"></a>
+<a href="/anime/o-moyom-pererozhdenii-v-sliz/1/17" title="Cмотреть онлайн аниме О моём перерождении в слизь Серия 17" class="widget__new-series__item__thumb"><img data-src="//static.animedia.tv/screens/15487445599bc7c7231c9225301e09b049f26a88398704f173_min.jpg?w=104&q=50" alt="Cмотреть онлайн аниме О моём перерождении в слизь Серия 17" title="Серия 17 аниме О моём перерождении в слизь онлайн"></a>
 <div class="widget__new-series__item__info">
 <a href="/anime/o-moyom-pererozhdenii-v-sliz/1/17" title="Cмотреть онлайн аниме О моём перерождении в слизь Серия 17" class="h4 widget__new-series__item__title">О моём перерождении в слизь</a>
 <div class="widget__new-series__item__status">
@@ -529,7 +529,7 @@ xxx
 </div>
 </div>
 <div class="widget__new-series__item widget__item">
-<a href="/anime/boruto-novoe-pokolenie-naruto/1/91" title="Cмотреть онлайн аниме Боруто: Новое поколение Наруто Серия 91" class="widget__new-series__item__thumb"><img src="//static.animedia.tv/screens/15487055852f52fb5034486be3ce3389d64d448fb640ad9f18_min.jpg?w=104&q=50" alt="Cмотреть онлайн аниме Боруто: Новое поколение Наруто Серия 91" title="Серия 91 аниме Боруто: Новое поколение Наруто онлайн"></a>
+<a href="/anime/boruto-novoe-pokolenie-naruto/1/91" title="Cмотреть онлайн аниме Боруто: Новое поколение Наруто Серия 91" class="widget__new-series__item__thumb"><img data-src="//static.animedia.tv/screens/15487055852f52fb5034486be3ce3389d64d448fb640ad9f18_min.jpg?w=104&q=50" alt="Cмотреть онлайн аниме Боруто: Новое поколение Наруто Серия 91" title="Серия 91 аниме Боруто: Новое поколение Наруто онлайн"></a>
 <div class="widget__new-series__item__info">
 <a href="/anime/boruto-novoe-pokolenie-naruto/1/91" title="Cмотреть онлайн аниме Боруто: Новое поколение Наруто Серия 91" class="h4 widget__new-series__item__title">Боруто: Новое поколение Наруто</a>
 <div class="widget__new-series__item__status">
@@ -540,7 +540,7 @@ XXX
 </div>
 </div>
 <div class="widget__new-series__item widget__item">
-<a href="/anime/mob-psiho-100-mob-psycho-100/2/4" title="Cмотреть онлайн аниме Моб Психо 100 Серия 4" class="widget__new-series__item__thumb"><img src="//static.animedia.tv/screens/154870357280d0a58761d1763720dbef42bfb5ae36c45a9ef7_min.jpg?w=104&q=50" alt="Cмотреть онлайн аниме Моб Психо 100 Серия 4" title="Серия 4 аниме Моб Психо 100 онлайн"></a>
+<a href="/anime/mob-psiho-100-mob-psycho-100/2/4" title="Cмотреть онлайн аниме Моб Психо 100 Серия 4" class="widget__new-series__item__thumb"><img data-src="//static.animedia.tv/screens/154870357280d0a58761d1763720dbef42bfb5ae36c45a9ef7_min.jpg?w=104&q=50" alt="Cмотреть онлайн аниме Моб Психо 100 Серия 4" title="Серия 4 аниме Моб Психо 100 онлайн"></a>
 <div class="widget__new-series__item__info">
 <a href="/anime/mob-psiho-100-mob-psycho-100/2/4" title="Cмотреть онлайн аниме Моб Психо 100 Серия 4" class="h4 widget__new-series__item__title">Моб Психо 100 ТВ2</a>
 <div class="widget__new-series__item__status">
@@ -551,7 +551,7 @@ XXX
 </div>
 </div>
 <div class="widget__new-series__item widget__item">
-<a href="/anime/one-piece-van-pis-tv/5/870" title="Cмотреть онлайн аниме Ван Пис Серия 870" class="widget__new-series__item__thumb"><img src="//static.animedia.tv/screens/1548696925b477ac8087b42aa3e3d6b0beabb3d6290cb96bc3_min.jpg?w=104&q=50" alt="Cмотреть онлайн аниме Ван Пис Серия 870" title="Серия 870 аниме Ван Пис онлайн"></a>
+<a href="/anime/one-piece-van-pis-tv/5/870" title="Cмотреть онлайн аниме Ван Пис Серия 870" class="widget__new-series__item__thumb"><img data-src="//static.animedia.tv/screens/1548696925b477ac8087b42aa3e3d6b0beabb3d6290cb96bc3_min.jpg?w=104&q=50" alt="Cмотреть онлайн аниме Ван Пис Серия 870" title="Серия 870 аниме Ван Пис онлайн"></a>
 <div class="widget__new-series__item__info">
 <a href="/anime/one-piece-van-pis-tv/5/870" title="Cмотреть онлайн аниме Ван Пис Серия 870" class="h4 widget__new-series__item__title">Ван Пис </a>
 <div class="widget__new-series__item__status">

@@ -20,6 +20,7 @@
         <jersey-bundle>1.19.4</jersey-bundle>
         <jersey-json>1.19.4</jersey-json>
         <dec>0.1.2</dec>
+        <dockerfile-maven-version>1.4.10</dockerfile-maven-version>
     </properties>
 
     <dependencies>
@@ -97,7 +98,28 @@
                     <target>1.8</target>
                 </configuration>
             </plugin>
-
+            <plugin>
+                <groupId>com.spotify</groupId>
+                <artifactId>dockerfile-maven-plugin</artifactId>
+                <version>${dockerfile-maven-version}</version>
+                <executions>
+                    <execution>
+                        <id>default</id>
+                        <goals>
+                            <goal>build</goal>
+                            <goal>push</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <repository>nasirov/anime-checker</repository>
+                    <tag>latest</tag>
+                    <useMavenSettingsForAuth>true</useMavenSettingsForAuth>
+                    <buildArgs>
+                        <JAR_FILE>target/${project.build.finalName}.jar</JAR_FILE>
+                    </buildArgs>
+                </configuration>
+            </plugin>
         </plugins>
     </build>
 

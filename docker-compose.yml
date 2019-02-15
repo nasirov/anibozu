@@ -1,0 +1,15 @@
+version: '3.7'
+
+services:
+
+  app:
+    image: nasirov/anime-checker
+    restart: always
+    ports:
+      - 8080:8080
+    environment:
+       - "JAVA_TOOL_OPTIONS=-XX:+UseG1GC \
+          -Xms1g \
+          -Xmx1g \
+          -Dfile.encoding=UTF-8 \
+          -Djava.security.egd=file:/dev/./urandom"
