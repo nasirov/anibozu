@@ -1,0 +1,25 @@
+sudo: required
+
+services:
+  - docker
+
+language: java
+jdk: oraclejdk8
+
+script: mvn clean install
+
+cache:
+  directories:
+  - $HOME/.m2
+
+after_success:
+- docker login -u $DOCKER_USER -p $DOCKER_PASS
+- mvn dockerfile:build
+- mvn dockerfile:push
+
+notifications:
+  email:
+    recipients:
+      - yurqaa@mail.ru
+    on_success: always
+    on_failure: always
