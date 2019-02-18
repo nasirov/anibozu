@@ -19,22 +19,18 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
+import static org.junit.Assert.*;
 
 /**
  * Created by nasirov.yv
  */
 @SpringBootTest(classes = {AppConfiguration.class})
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_CLASS)
-public class AnimediaHTMLParserTest extends AbstractTest{
-	
+public class AnimediaHTMLParserTest extends AbstractTest {
 	@Value("classpath:animedia/search/pageWithCurrentlyAddedEpisodes.txt")
 	private Resource pageWithCurrentlyAddedEpisodes;
 	
-	@Autowired
-	private CacheManager cacheManager;
+
 	
 	private AnimediaHTMLParser animediaHTMLParser;
 	
@@ -54,22 +50,22 @@ public class AnimediaHTMLParserTest extends AbstractTest{
 		List<String> dataLists = new ArrayList<>();
 		List<String> maxEpisode = new ArrayList<>();
 		for (Map.Entry<String, Map<String, String>> entry : animeIdSeasonsAndEpisodesMap.entrySet()) {
-			assertEquals(entry.getKey(), SAO_ID);
+			assertEquals(SAO_ID, entry.getKey());
 			for (Map.Entry<String, String> dataListEpisode : entry.getValue().entrySet()) {
 				maxEpisode.add(dataListEpisode.getValue());
 				dataLists.add(dataListEpisode.getKey());
 			}
 		}
-		assertEquals(dataLists.size(), 4);
-		assertEquals(dataLists.get(0), "1");
-		assertEquals(dataLists.get(1), "2");
-		assertEquals(dataLists.get(2), "3");
-		assertEquals(dataLists.get(3), "7");
-		assertEquals(maxEpisode.size(), 4);
-		assertEquals(maxEpisode.get(0), "25");
-		assertEquals(maxEpisode.get(1), "24");
-		assertEquals(maxEpisode.get(2), "24");
-		assertEquals(maxEpisode.get(3), "1");
+		assertEquals(4, dataLists.size());
+		assertEquals("1", dataLists.get(0));
+		assertEquals("2", dataLists.get(1));
+		assertEquals("3", dataLists.get(2));
+		assertEquals("7", dataLists.get(3));
+		assertEquals(4, maxEpisode.size());
+		assertEquals("25", maxEpisode.get(0));
+		assertEquals("24", maxEpisode.get(1));
+		assertEquals("24", maxEpisode.get(2));
+		assertEquals("1", maxEpisode.get(3));
 	}
 	
 	@Test(expected = NullPointerException.class)
@@ -81,17 +77,17 @@ public class AnimediaHTMLParserTest extends AbstractTest{
 	public void testGetAnimeIdSeasonsAndEpisodesMapSeasonsAndEpisodesNotFound() throws Exception {
 		Map<String, Map<String, String>> animeIdSeasonsAndEpisodesMap = animediaHTMLParser.getAnimeIdSeasonsAndEpisodesMap(new HttpResponse("<div class=\"media__post__original-title\"> test title </div>", HttpStatus.OK.value()));
 		assertNotNull(animeIdSeasonsAndEpisodesMap);
-		assertEquals(0,animeIdSeasonsAndEpisodesMap.size());
+		assertEquals(0, animeIdSeasonsAndEpisodesMap.size());
 	}
 	
 	@Test
 	public void testGetFirstEpisodeInSeason() throws Exception {
 		HttpResponse firstDataListHtmlResponse = new HttpResponse(routinesIO.readFromResource(sao1), HttpStatus.OK.value());
 		String firstEpisodeInSeason = animediaHTMLParser.getFirstEpisodeInSeason(firstDataListHtmlResponse);
-		assertEquals(firstEpisodeInSeason, "1");
+		assertEquals("1", firstEpisodeInSeason);
 		HttpResponse responseWithOVA = new HttpResponse(routinesIO.readFromResource(sao7), HttpStatus.OK.value());
 		String firstEpisodeInSeasonOva = animediaHTMLParser.getFirstEpisodeInSeason(responseWithOVA);
-		assertEquals(firstEpisodeInSeasonOva, "1");
+		assertEquals("1", firstEpisodeInSeasonOva);
 	}
 	
 	@Test(expected = NullPointerException.class)
@@ -101,7 +97,7 @@ public class AnimediaHTMLParserTest extends AbstractTest{
 	
 	@Test
 	public void testGetFirstEpisodeInSeasonFirstEpisodeNotFound() throws Exception {
-		assertNull(animediaHTMLParser.getFirstEpisodeInSeason(new HttpResponse("",HttpStatus.OK.value())));
+		assertNull(animediaHTMLParser.getFirstEpisodeInSeason(new HttpResponse("", HttpStatus.OK.value())));
 	}
 	
 	@Test
@@ -123,14 +119,14 @@ public class AnimediaHTMLParserTest extends AbstractTest{
 	public void testGetEpisodesRangeRangeIsNotFound() throws Exception {
 		Map<String, List<String>> episodesRange = animediaHTMLParser.getEpisodesRange(new HttpResponse("", HttpStatus.OK.value()));
 		assertNotNull(episodesRange);
-		assertEquals(0,episodesRange.size());
+		assertEquals(0, episodesRange.size());
 	}
 	
 	@Test
 	public void testGetOriginalTitle() throws Exception {
 		HttpResponse html = new HttpResponse(routinesIO.readFromResource(saoHtml), HttpStatus.OK.value());
 		String originalTitle = animediaHTMLParser.getOriginalTitle(html);
-		assertEquals(originalTitle, "Sword Art Online");
+		assertEquals("Sword Art Online", originalTitle);
 	}
 	
 	@Test(expected = NullPointerException.class)
@@ -140,7 +136,7 @@ public class AnimediaHTMLParserTest extends AbstractTest{
 	
 	@Test
 	public void testGetOriginalTitleOriginalTitleIsNotFound() throws Exception {
-		assertNull(animediaHTMLParser.getOriginalTitle(new HttpResponse("",HttpStatus.OK.value())));
+		assertNull(animediaHTMLParser.getOriginalTitle(new HttpResponse("", HttpStatus.OK.value())));
 	}
 	
 	@Test
@@ -148,7 +144,7 @@ public class AnimediaHTMLParserTest extends AbstractTest{
 		HttpResponse html = new HttpResponse(routinesIO.readFromResource(pageWithCurrentlyAddedEpisodes), HttpStatus.OK.value());
 		List<AnimediaMALTitleReferences> currentlyUpdatedTitlesList = animediaHTMLParser.getCurrentlyUpdatedTitlesList(html);
 		assertNotNull(currentlyUpdatedTitlesList);
-		assertEquals(currentlyUpdatedTitlesList.size(), 10);
+		assertEquals(10, currentlyUpdatedTitlesList.size());
 		List<AnimediaMALTitleReferences> currentlyAddedEpisodesListForCheck = getCurrentlyAddedEpisodesListForCheck();
 		for (int i = 0; i < currentlyAddedEpisodesListForCheck.size(); i++) {
 			assertEquals(currentlyUpdatedTitlesList.get(i).getUrl(), currentlyAddedEpisodesListForCheck.get(i).getUrl());
@@ -166,15 +162,14 @@ public class AnimediaHTMLParserTest extends AbstractTest{
 	public void testGetCurrentlyUpdatedTitlesListIsNotFound() throws Exception {
 		List<AnimediaMALTitleReferences> currentlyUpdatedTitlesList = animediaHTMLParser.getCurrentlyUpdatedTitlesList(new HttpResponse("", HttpStatus.OK.value()));
 		assertNotNull(currentlyUpdatedTitlesList);
-		assertEquals(0,currentlyUpdatedTitlesList.size());
+		assertEquals(0, currentlyUpdatedTitlesList.size());
 	}
 	
 	private void checkEpisodesRange(Map<String, List<String>> range, String maxEpisode, String firstEpisode, int rangeSize) {
 		for (Map.Entry<String, List<String>> listEntry : range.entrySet()) {
-			assertEquals(listEntry.getKey(), maxEpisode);
-			assertEquals(listEntry.getValue().size(), rangeSize);
-			assertEquals(listEntry.getValue().get(0), firstEpisode);
-			assertEquals(listEntry.getValue().get(rangeSize - 1), maxEpisode);
+			assertEquals(rangeSize, listEntry.getValue().size());
+			assertEquals(firstEpisode, listEntry.getValue().get(0));
+			assertEquals(maxEpisode, listEntry.getValue().get(rangeSize - 1));
 		}
 	}
 	

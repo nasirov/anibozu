@@ -1,8 +1,6 @@
 package nasirov.yv.parser;
 
-import com.sun.istack.NotNull;
 import lombok.extern.slf4j.Slf4j;
-import nasirov.yv.aop.CheckHttpResponse;
 import nasirov.yv.exception.JSONNotFoundException;
 import nasirov.yv.exception.MALUserAccountNotFoundException;
 import nasirov.yv.exception.MALUserAnimeListAccessException;
@@ -13,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.util.Collection;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -47,7 +46,6 @@ public class MALParser {
 	 * @throws MALUserAnimeListAccessException if the user anime list has private access
 	 * @throws JSONNotFoundException           if the json anime list is not found
 	 */
-	@CheckHttpResponse
 	public <T extends Collection> T getUserTitlesInfo(@NotNull HttpResponse response, @NotNull Class<T> collection) throws MALUserAnimeListAccessException, JSONNotFoundException {
 		return wrappedObjectMapper.unmarshal(getJsonAnimeListFromHtml(response.getContent()), UserMALTitleInfo.class, collection);
 	}
@@ -59,7 +57,6 @@ public class MALParser {
 	 * @return the number of watching titles
 	 * @throws MALUserAccountNotFoundException if user is not found
 	 */
-	@CheckHttpResponse
 	public String getNumWatchingTitles(@NotNull HttpResponse response) throws MALUserAccountNotFoundException {
 		if (!isAccountExist(response)) {
 			throw new MALUserAccountNotFoundException("MAL User Account is Not Found!");

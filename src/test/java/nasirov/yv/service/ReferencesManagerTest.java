@@ -1,6 +1,5 @@
 package nasirov.yv.service;
 
-import com.sun.research.ws.wadl.HTTPMethods;
 import nasirov.yv.AbstractTest;
 import nasirov.yv.configuration.AppConfiguration;
 import nasirov.yv.http.HttpCaller;
@@ -18,6 +17,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.cache.Cache;
 import org.springframework.cache.CacheManager;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.util.ReflectionTestUtils;
@@ -27,7 +27,6 @@ import java.util.*;
 
 import static nasirov.yv.enums.MALAnimeStatus.WATCHING;
 import static org.junit.Assert.*;
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyMap;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.doReturn;
@@ -42,8 +41,7 @@ import static org.mockito.Mockito.doReturn;
 		AnimediaHTMLParser.class,
 		AppConfiguration.class})
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_CLASS)
-public class ReferencesManagerTest extends AbstractTest{
-	
+public class ReferencesManagerTest extends AbstractTest {
 	@MockBean
 	private HttpCaller httpCaller;
 	
@@ -62,9 +60,9 @@ public class ReferencesManagerTest extends AbstractTest{
 		List<AnimediaMALTitleReferences> multiSeasonsReferences = new ArrayList<>(referencesManager.getMultiSeasonsReferences());
 		assertNotNull(multiSeasonsReferences);
 		assertEquals(8, multiSeasonsReferences.size());
-		List<AnimediaMALTitleReferences> multiSeasonsReferencesList = getMultiSeasonsReferencesList(ArrayList.class,false);
+		List<AnimediaMALTitleReferences> multiSeasonsReferencesList = getMultiSeasonsReferencesList(ArrayList.class, false);
 		assertEquals(multiSeasonsReferencesList.size(), multiSeasonsReferences.size());
-		for(int i=0;i<multiSeasonsReferences.size();i++) {
+		for (int i = 0; i < multiSeasonsReferences.size(); i++) {
 			assertEquals(multiSeasonsReferences.get(0), multiSeasonsReferencesList.get(0));
 		}
 		Cache cache = cacheManager.getCache("multiSeasonsReferencesCache");
@@ -77,26 +75,25 @@ public class ReferencesManagerTest extends AbstractTest{
 		String fairyTailId = "9480";
 		String fairyTailUrl = "anime/skazka-o-hvoste-fei-TV1";
 		String saoUrl = "anime/mastera-mecha-onlayn";
-		doReturn(new HttpResponse(routinesIO.readFromResource(fairyTailHtml), HttpStatus.OK.value())).when(httpCaller).call(eq(animediaOnlineTv + fairyTailUrl), eq(HTTPMethods.GET), anyMap());
-		doReturn(new HttpResponse(routinesIO.readFromResource(saoHtml), HttpStatus.OK.value())).when(httpCaller).call(eq(animediaOnlineTv + saoUrl), eq(HTTPMethods.GET), anyMap());
-		doReturn(new HttpResponse(routinesIO.readFromResource(fairyTail1), HttpStatus.OK.value())).when(httpCaller).call(eq(animediaEpisodesList + fairyTailId + "/" + "1"), eq(HTTPMethods.GET), anyMap());
-		doReturn(new HttpResponse(routinesIO.readFromResource(fairyTail2), HttpStatus.OK.value())).when(httpCaller).call(eq(animediaEpisodesList + fairyTailId + "/" + "2"), eq(HTTPMethods.GET), anyMap());
-		doReturn(new HttpResponse(routinesIO.readFromResource(fairyTail3), HttpStatus.OK.value())).when(httpCaller).call(eq(animediaEpisodesList + fairyTailId + "/" + "3"), eq(HTTPMethods.GET), anyMap());
-		doReturn(new HttpResponse(routinesIO.readFromResource(fairyTail7), HttpStatus.OK.value())).when(httpCaller).call(eq(animediaEpisodesList + fairyTailId + "/" + "7"), eq(HTTPMethods.GET), anyMap());
-		doReturn(new HttpResponse(routinesIO.readFromResource(sao1), HttpStatus.OK.value())).when(httpCaller).call(eq(animediaEpisodesList + SAO_ID + "/" + "1"), eq(HTTPMethods.GET), anyMap());
-		doReturn(new HttpResponse(routinesIO.readFromResource(sao2), HttpStatus.OK.value())).when(httpCaller).call(eq(animediaEpisodesList + SAO_ID + "/" + "2"), eq(HTTPMethods.GET), anyMap());
-		doReturn(new HttpResponse(routinesIO.readFromResource(sao3), HttpStatus.OK.value())).when(httpCaller).call(eq(animediaEpisodesList + SAO_ID + "/" + "3"), eq(HTTPMethods.GET), anyMap());
-		doReturn(new HttpResponse(routinesIO.readFromResource(sao7), HttpStatus.OK.value())).when(httpCaller).call(eq(animediaEpisodesList + SAO_ID + "/" + "7"), eq(HTTPMethods.GET), anyMap());
-		Set<AnimediaMALTitleReferences> multiSeasonsReferencesList = getMultiSeasonsReferencesList(LinkedHashSet.class,false);
+		doReturn(new HttpResponse(routinesIO.readFromResource(fairyTailHtml), HttpStatus.OK.value())).when(httpCaller).call(eq(animediaOnlineTv + fairyTailUrl), eq(HttpMethod.GET), anyMap());
+		doReturn(new HttpResponse(routinesIO.readFromResource(saoHtml), HttpStatus.OK.value())).when(httpCaller).call(eq(animediaOnlineTv + saoUrl), eq(HttpMethod.GET), anyMap());
+		doReturn(new HttpResponse(routinesIO.readFromResource(fairyTail1), HttpStatus.OK.value())).when(httpCaller).call(eq(animediaEpisodesList + fairyTailId + "/" + "1"), eq(HttpMethod.GET), anyMap());
+		doReturn(new HttpResponse(routinesIO.readFromResource(fairyTail2), HttpStatus.OK.value())).when(httpCaller).call(eq(animediaEpisodesList + fairyTailId + "/" + "2"), eq(HttpMethod.GET), anyMap());
+		doReturn(new HttpResponse(routinesIO.readFromResource(fairyTail3), HttpStatus.OK.value())).when(httpCaller).call(eq(animediaEpisodesList + fairyTailId + "/" + "3"), eq(HttpMethod.GET), anyMap());
+		doReturn(new HttpResponse(routinesIO.readFromResource(fairyTail7), HttpStatus.OK.value())).when(httpCaller).call(eq(animediaEpisodesList + fairyTailId + "/" + "7"), eq(HttpMethod.GET), anyMap());
+		doReturn(new HttpResponse(routinesIO.readFromResource(sao1), HttpStatus.OK.value())).when(httpCaller).call(eq(animediaEpisodesList + SAO_ID + "/" + "1"), eq(HttpMethod.GET), anyMap());
+		doReturn(new HttpResponse(routinesIO.readFromResource(sao2), HttpStatus.OK.value())).when(httpCaller).call(eq(animediaEpisodesList + SAO_ID + "/" + "2"), eq(HttpMethod.GET), anyMap());
+		doReturn(new HttpResponse(routinesIO.readFromResource(sao3), HttpStatus.OK.value())).when(httpCaller).call(eq(animediaEpisodesList + SAO_ID + "/" + "3"), eq(HttpMethod.GET), anyMap());
+		doReturn(new HttpResponse(routinesIO.readFromResource(sao7), HttpStatus.OK.value())).when(httpCaller).call(eq(animediaEpisodesList + SAO_ID + "/" + "7"), eq(HttpMethod.GET), anyMap());
+		Set<AnimediaMALTitleReferences> multiSeasonsReferencesList = getMultiSeasonsReferencesList(LinkedHashSet.class, false);
 		referencesManager.updateReferences(multiSeasonsReferencesList);
 		List<AnimediaMALTitleReferences> updatedMultiSeasonsReferencesList = new ArrayList<>(multiSeasonsReferencesList);
 		List<AnimediaMALTitleReferences> updatedForCheck = getMultiSeasonsReferencesList(ArrayList.class, true);
 		assertEquals(updatedMultiSeasonsReferencesList.size(), updatedForCheck.size());
-		for(int i = 0; i < updatedMultiSeasonsReferencesList.size(); i++) {
+		for (int i = 0; i < updatedMultiSeasonsReferencesList.size(); i++) {
 			assertEquals(updatedMultiSeasonsReferencesList.get(i), updatedForCheck.get(i));
 		}
 	}
-	
 	
 	@Test
 	public void getMatchedReferences() throws Exception {
@@ -106,9 +103,9 @@ public class ReferencesManagerTest extends AbstractTest{
 		Set<AnimediaMALTitleReferences> matchedReferences = referencesManager.getMatchedReferences(multiSeasonsReferencesList, watchingTitles);
 		assertNotNull(matchedReferences);
 		assertEquals(2, matchedReferences.size());
-		matchedReferences.forEach(list -> assertEquals("testPoster",list.getPosterUrl()));
-		assertEquals(1,matchedReferences.stream().filter(set -> set.getTitleOnMAL().equals("fairy tail: final series")).count());
-		assertEquals(1,matchedReferences.stream().filter(set -> set.getTitleOnMAL().equals("sword art online: alicization")).count());
+		matchedReferences.forEach(list -> assertEquals("testPoster", list.getPosterUrl()));
+		assertEquals(1, matchedReferences.stream().filter(set -> set.getTitleOnMAL().equals("fairy tail: final series")).count());
+		assertEquals(1, matchedReferences.stream().filter(set -> set.getTitleOnMAL().equals("sword art online: alicization")).count());
 	}
 	
 	@Test
@@ -118,18 +115,18 @@ public class ReferencesManagerTest extends AbstractTest{
 		Set<Anime> multiSeasonsFromSearch = new LinkedHashSet<>();
 		String fairyUrl = animediaOnlineTv + "anime/skazka-o-hvoste-fei-TV1/";
 		String saoUrl = animediaOnlineTv + "anime/mastera-mecha-onlayn/";
-		multiSeasonsFromSearch.add(new Anime("",fairyUrl + "1/1",""));
-		multiSeasonsFromSearch.add(new Anime("",fairyUrl + "2/176",""));
-		multiSeasonsFromSearch.add(new Anime("",fairyUrl + "3/278",""));
-		multiSeasonsFromSearch.add(new Anime("",fairyUrl + "7/1",""));
-		multiSeasonsFromSearch.add(new Anime("",saoUrl + "1/1",""));
-		multiSeasonsFromSearch.add(new Anime("",saoUrl + "2/1",""));
-		multiSeasonsFromSearch.add(new Anime("",saoUrl + "3/1",""));
-		multiSeasonsFromSearch.add(new Anime("",saoUrl + "7/1",""));
+		multiSeasonsFromSearch.add(new Anime("", fairyUrl + "1/1", ""));
+		multiSeasonsFromSearch.add(new Anime("", fairyUrl + "2/176", ""));
+		multiSeasonsFromSearch.add(new Anime("", fairyUrl + "3/278", ""));
+		multiSeasonsFromSearch.add(new Anime("", fairyUrl + "7/1", ""));
+		multiSeasonsFromSearch.add(new Anime("", saoUrl + "1/1", ""));
+		multiSeasonsFromSearch.add(new Anime("", saoUrl + "2/1", ""));
+		multiSeasonsFromSearch.add(new Anime("", saoUrl + "3/1", ""));
+		multiSeasonsFromSearch.add(new Anime("", saoUrl + "7/1", ""));
 		boolean compareResult = referencesManager.isReferencesAreFull(multiSeasonsFromSearch, multiSeasonsReferencesList);
 		assertTrue(compareResult);
 		String fullUrl = saoUrl + "8/1";
-		multiSeasonsFromSearch.add(new Anime("", fullUrl,""));
+		multiSeasonsFromSearch.add(new Anime("", fullUrl, ""));
 		assertFalse(routinesIO.isDirectoryExists(tempFolderName));
 		compareResult = referencesManager.isReferencesAreFull(multiSeasonsFromSearch, multiSeasonsReferencesList);
 		assertFalse(compareResult);
@@ -144,15 +141,14 @@ public class ReferencesManagerTest extends AbstractTest{
 		String fairyUrl = "anime/skazka-o-hvoste-fei-TV1";
 		String fairyDataList = "3";
 		String currentMax = "300";
-		AnimediaMALTitleReferences animediaMALTitleReferences = new AnimediaMALTitleReferences(fairyUrl, fairyDataList,"",
-				"","","", currentMax,"","","");
+		AnimediaMALTitleReferences animediaMALTitleReferences = new AnimediaMALTitleReferences(fairyUrl, fairyDataList, "",
+				"", "", "", currentMax, "", "", "");
 		Set<AnimediaMALTitleReferences> multiSeasonsReferencesList = getMultiSeasonsReferencesList(LinkedHashSet.class, true);
 		assertEquals(1, multiSeasonsReferencesList.stream().filter(set -> set.getUrl().equals(fairyUrl) && set.getDataList().equals(fairyDataList)).count());
 		assertEquals(0, multiSeasonsReferencesList.stream().filter(set -> set.getUrl().equals(fairyUrl) && set.getDataList().equals(fairyDataList) && set.getCurrentMax().equals(currentMax)).count());
 		referencesManager.updateCurrentMax(multiSeasonsReferencesList, animediaMALTitleReferences);
 		assertEquals(1, multiSeasonsReferencesList.stream().filter(set -> set.getUrl().equals(fairyUrl) && set.getDataList().equals(fairyDataList)).count());
 		assertEquals(1, multiSeasonsReferencesList.stream().filter(set -> set.getUrl().equals(fairyUrl) && set.getDataList().equals(fairyDataList) && set.getCurrentMax().equals(currentMax)).count());
-		
 	}
 	
 	private Set<UserMALTitleInfo> getWatchingTitles() {
@@ -164,7 +160,7 @@ public class ReferencesManagerTest extends AbstractTest{
 		return userMALTitleInfo;
 	}
 	
-	private<T extends Collection> T getMultiSeasonsReferencesList(Class<T> collection, boolean updated) throws IllegalAccessException, InstantiationException {
+	private <T extends Collection> T getMultiSeasonsReferencesList(Class<T> collection, boolean updated) throws IllegalAccessException, InstantiationException {
 		T refs = collection.newInstance();
 		AnimediaMALTitleReferences fairyTail1 = new AnimediaMALTitleReferences("anime/skazka-o-hvoste-fei-TV1", "1", "1", "fairy tail", "1", "175",
 				null, null, null, null);
@@ -191,7 +187,6 @@ public class ReferencesManagerTest extends AbstractTest{
 			sao2.setCurrentMax("24");
 			sao3.setCurrentMax("16");
 			sao7.setCurrentMax("1");
-			
 			fairyTail1.setFirstEpisode("1");
 			fairyTail2.setFirstEpisode("176");
 			fairyTail3.setFirstEpisode("278");
@@ -200,7 +195,6 @@ public class ReferencesManagerTest extends AbstractTest{
 			sao2.setFirstEpisode("1");
 			sao3.setFirstEpisode("1");
 			sao7.setFirstEpisode("1");
-			
 			fairyTail1.setMin("1");
 			fairyTail2.setMin("176");
 			fairyTail3.setMin("278");
@@ -209,7 +203,6 @@ public class ReferencesManagerTest extends AbstractTest{
 			sao2.setMin("1");
 			sao3.setMin("1");
 			sao7.setMin("1");
-			
 			fairyTail1.setMax("175");
 			fairyTail2.setMax("277");
 			fairyTail3.setMax("xxx");

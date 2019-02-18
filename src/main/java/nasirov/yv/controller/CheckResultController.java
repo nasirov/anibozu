@@ -31,10 +31,13 @@ import java.util.stream.Collectors;
  * Created by nasirov.yv
  */
 @Controller
-//@RequestMapping("/checkResult")
 @Validated
 @Slf4j
 public class CheckResultController {
+	private static final String ERROR_MSG = "errorMsg";
+	
+	private static final String CHECK_RESULT = "checkResult";
+	
 	@Value("${cache.userMAL.name}")
 	private String userMALCacheName;
 	
@@ -84,23 +87,23 @@ public class CheckResultController {
 		} catch (MALUserAccountNotFoundException e) {
 			errorMsg = "MAL account " + username + " is not found";
 			log.error(errorMsg);
-			model.addAttribute("errorMsg", errorMsg);
-			return "checkResult";
+			model.addAttribute(ERROR_MSG, errorMsg);
+			return CHECK_RESULT;
 		} catch (WatchingTitlesNotFoundException e) {
 			errorMsg = e.getMessage();
 			log.error(errorMsg);
-			model.addAttribute("errorMsg", errorMsg);
-			return "checkResult";
+			model.addAttribute(ERROR_MSG, errorMsg);
+			return CHECK_RESULT;
 		} catch (MALUserAnimeListAccessException e) {
 			errorMsg = "Anime list " + username + " has private access!";
 			log.error(errorMsg);
-			model.addAttribute("errorMsg", errorMsg);
-			return "checkResult";
+			model.addAttribute(ERROR_MSG, errorMsg);
+			return CHECK_RESULT;
 		} catch (JSONNotFoundException e) {
 			errorMsg = "The application supports only default mal anime list view with wrapped json data! Json anime list is not found for " + username;
 			log.error(errorMsg);
-			model.addAttribute("errorMsg", errorMsg);
-			return "checkResult";
+			model.addAttribute(ERROR_MSG, errorMsg);
+			return CHECK_RESULT;
 		}
 		Cache userMALCache = cacheManager.getCache(userMALCacheName);
 		Cache userMatchedAnimeCache = cacheManager.getCache(userMatchedAnimeCacheName);
@@ -184,6 +187,6 @@ public class CheckResultController {
 		model.addAttribute("newEpisodeAvailable", newEpisodeAvailable);
 		model.addAttribute("newEpisodeNotAvailable", newEpisodeNotAvailable);
 		model.addAttribute("matchedNotFoundAnimeOnAnimedia", matchedNotFoundAnimeOnAnimedia);
-		return "checkResult";
+		return CHECK_RESULT;
 	}
 }

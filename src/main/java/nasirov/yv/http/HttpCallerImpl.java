@@ -4,10 +4,10 @@ import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.WebResource;
 import com.sun.jersey.api.client.filter.GZIPContentEncodingFilter;
-import com.sun.research.ws.wadl.HTTPMethods;
 import lombok.extern.slf4j.Slf4j;
 import nasirov.yv.response.HttpResponse;
 import org.brotli.dec.BrotliInputStream;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StreamUtils;
@@ -16,7 +16,7 @@ import javax.validation.constraints.NotNull;
 import javax.ws.rs.core.Cookie;
 import java.io.IOException;
 import java.io.InputStream;
-import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.Collection;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
@@ -43,7 +43,7 @@ public class HttpCallerImpl implements HttpCaller {
 	 * @return the http response with content and status
 	 */
 	@Override
-	public HttpResponse call(@NotNull String url, @NotNull HTTPMethods method, @NotNull Map<String, Map<String, String>> parameters) {
+	public HttpResponse call(@NotNull String url, @NotNull HttpMethod method, @NotNull Map<String, Map<String, String>> parameters) {
 		Client client = new Client();
 		client.addFilter(new GZIPContentEncodingFilter(true));
 		client.setConnectTimeout((int) TimeUnit.MINUTES.toMillis(5));
@@ -58,7 +58,8 @@ public class HttpCallerImpl implements HttpCaller {
 				try {
 					TimeUnit.SECONDS.sleep(2);
 				} catch (InterruptedException e) {
-					e.printStackTrace();
+					log.error("Thread was interrupted", e);
+					Thread.currentThread().interrupt();
 				}
 				log.error("{}\nRepeat request", response.toString());
 				response = sendRequest(enrichRequest(webResource, parameters), method);
@@ -92,7 +93,7 @@ public class HttpCallerImpl implements HttpCaller {
 		String encodedString = null;
 		try {
 			BrotliInputStream brotliInputStream = new BrotliInputStream(brotliEncodedInputStream);
-			encodedString = StreamUtils.copyToString(brotliInputStream, Charset.forName("UTF-8"));
+			encodedString = StreamUtils.copyToString(brotliInputStream, StandardCharsets.UTF_8);
 		} catch (IOException e) {
 			log.error("Exception while decoding from brotli", e);
 		}
@@ -126,7 +127,7 @@ public class HttpCallerImpl implements HttpCaller {
 	 * @param method         the http request method
 	 * @return the http response
 	 */
-	private ClientResponse sendRequest(WebResource.Builder requestBuilder, HTTPMethods method) {
+	private ClientResponse sendRequest(WebResource.Builder requestBuilder, HttpMethod method) {
 		ClientResponse response;
 		switch (method) {
 			case GET:

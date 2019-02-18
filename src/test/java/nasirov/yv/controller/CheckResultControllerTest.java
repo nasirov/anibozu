@@ -43,12 +43,11 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import static nasirov.yv.enums.MALAnimeStatus.WATCHING;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.anyList;
 import static org.mockito.Mockito.anySet;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -192,8 +191,8 @@ public class CheckResultControllerTest extends AbstractTest {
 		List<AnimediaMALTitleReferences> animediaMALTitleReferences = new ArrayList<>(getMatchedAnime());
 		AnimediaMALTitleReferences fairyTail1 = animediaMALTitleReferences.get(1);
 		AnimediaMALTitleReferences sao = animediaMALTitleReferences.get(0);
-		checkFront(content,fairyTail1.getFinalUrl(),fairyTail1.getPosterUrl(),fairyTail1.getTitleOnMAL(),
-				fairyTail1.getEpisodeNumberForWatch(),sao.getPosterUrl(),sao.getTitleOnMAL(),notFoundAnime.getAnimeUrl(),notFoundAnime.getPosterUrl(),notFoundAnime.getTitle());
+		checkFront(content, fairyTail1.getFinalUrl(), fairyTail1.getPosterUrl(), fairyTail1.getTitleOnMAL(),
+				fairyTail1.getEpisodeNumberForWatch(), sao.getPosterUrl(), sao.getTitleOnMAL(), notFoundAnime.getAnimeUrl(), notFoundAnime.getPosterUrl(), notFoundAnime.getTitle());
 	}
 	
 	@Test
@@ -208,51 +207,44 @@ public class CheckResultControllerTest extends AbstractTest {
 		matchedAnime.add(sao1);
 		matchedAnime.add(fairyTail1);
 		matchedAnime.add(sao3);
-		
 		Set<UserMALTitleInfo> nofFound = new LinkedHashSet<>();
 		UserMALTitleInfo notFoundAnime = new UserMALTitleInfo(0, WATCHING.getCode(), 0, "fairy tail: final series",
 				0, "testPoster", "testUrl");
 		nofFound.add(notFoundAnime);
-		
 		Set<UserMALTitleInfo> watchingTitles = new LinkedHashSet<>();
 		UserMALTitleInfo sao = new UserMALTitleInfo(0, WATCHING.getCode(), 0, "sword art online", 25, "", "");
 		UserMALTitleInfo saoAlicization = new UserMALTitleInfo(0, WATCHING.getCode(), 0, "sword art online: alicization", 25, "", "");
 		watchingTitles.add(notFoundAnime);
 		watchingTitles.add(sao);
 		watchingTitles.add(saoAlicization);
-		
 		AnimediaMALTitleReferences sao1Updated = new AnimediaMALTitleReferences("anime/mastera-mecha-onlayn", "1", "1", "sword art online", "1", "25",
 				"25", "saoPosterUrl", "", "");
 		List<AnimediaMALTitleReferences> checkCurrentlyUpdatedTitles = new ArrayList<>();
 		checkCurrentlyUpdatedTitles.add(sao1Updated);
-		
 		Cache userMALCache = cacheManager.getCache(userMALCacheName);
 		Cache userMatchedAnimeCache = cacheManager.getCache(userMatchedAnimeCacheName);
 		Cache matchedReferencesCache = cacheManager.getCache(matchedReferencesCacheName);
 		Cache currentlyUpdatedTitlesCache = cacheManager.getCache(currentlyUpdatedTitlesCacheName);
-		userMALCache.put(USERNAME,watchingTitles);//Set<UserMALTitleInfo>
-		userMatchedAnimeCache.put(USERNAME,matchedAnime);//Set<AnimediaMALTitleReferences>
-		currentlyUpdatedTitlesCache.put(currentlyUpdatedTitlesCacheName,new ArrayList<>());//List<AnimediaMALTitleReferences>
-		matchedReferencesCache.put(USERNAME,new LinkedHashSet<>());//Set<AnimediaMALTitleReferences>
-		
+		userMALCache.put(USERNAME, watchingTitles);//Set<UserMALTitleInfo>
+		userMatchedAnimeCache.put(USERNAME, matchedAnime);//Set<AnimediaMALTitleReferences>
+		currentlyUpdatedTitlesCache.put(currentlyUpdatedTitlesCacheName, new ArrayList<>());//List<AnimediaMALTitleReferences>
+		matchedReferencesCache.put(USERNAME, new LinkedHashSet<>());//Set<AnimediaMALTitleReferences>
 		doReturn(new ArrayList<>()).when(animediaService).getCurrentlyUpdatedTitles();
 		doReturn(checkCurrentlyUpdatedTitles).when(animediaService).checkCurrentlyUpdatedTitles(anyList(), anyList());
-		doReturn(true).when(malService).isWatchingTitlesUpdated(anySet(),anySet());
+		doReturn(true).when(malService).isWatchingTitlesUpdated(anySet(), anySet());
 		doReturn(new LinkedHashSet<>()).when(malService).getWatchingTitles(eq(USERNAME));
-		
 		doAnswer(invocation -> new ArrayList<>(nofFound)).when(notFoundAnimeOnAnimediaRepository).findAll();
-		
 		MockHttpServletResponse response = mockMvc.perform(post(PATH)
 				.param("username", USERNAME)).andReturn().getResponse();
 		assertNotNull(response);
 		String content = response.getContentAsString();
 		assertNotNull(content);
-		assertEquals(2,matchedAnime.size());
-		assertEquals(0,matchedAnime.stream().filter(set -> set.getTitleOnMAL().equals(fairyTail1.getTitleOnMAL())).count());
-		verify(referencesManager,times(1)).updateCurrentMax(anySet(),eq(sao1Updated));
-		verify(seasonAndEpisodeChecker,times(1)).updateEpisodeNumberForWatchAndFinalUrl(eq(watchingTitles),eq(sao1Updated),anySet());
-		checkFront(content,sao3.getFinalUrl(),sao3.getPosterUrl(),sao3.getTitleOnMAL(),sao3.getEpisodeNumberForWatch(),
-				sao1.getPosterUrl(),sao1.getTitleOnMAL(),notFoundAnime.getAnimeUrl(),notFoundAnime.getPosterUrl(),notFoundAnime.getTitle());
+		assertEquals(2, matchedAnime.size());
+		assertEquals(0, matchedAnime.stream().filter(set -> set.getTitleOnMAL().equals(fairyTail1.getTitleOnMAL())).count());
+		verify(referencesManager, times(1)).updateCurrentMax(anySet(), eq(sao1Updated));
+		verify(seasonAndEpisodeChecker, times(1)).updateEpisodeNumberForWatchAndFinalUrl(eq(watchingTitles), eq(sao1Updated), anySet());
+		checkFront(content, sao3.getFinalUrl(), sao3.getPosterUrl(), sao3.getTitleOnMAL(), sao3.getEpisodeNumberForWatch(),
+				sao1.getPosterUrl(), sao1.getTitleOnMAL(), notFoundAnime.getAnimeUrl(), notFoundAnime.getPosterUrl(), notFoundAnime.getTitle());
 	}
 	
 	private void checkFront(String content,

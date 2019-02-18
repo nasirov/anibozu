@@ -10,6 +10,8 @@ import org.springframework.util.FileSystemUtils;
 import org.springframework.util.ResourceUtils;
 
 import java.io.*;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.NotDirectoryException;
 import java.util.Collection;
 
 /**
@@ -124,7 +126,7 @@ public class RoutinesIO {
 				bufferedOutputStream.write(data, 0, nRead);
 				bufferedOutputStream.flush();
 			}
-			fromFile = new String(bufferedOutputStream.toByteArray(), "UTF-8");
+			fromFile = new String(bufferedOutputStream.toByteArray(), StandardCharsets.UTF_8);
 		} catch (IOException e) {
 			log.error("Error while reading from resource " + name, e);
 		}
@@ -146,7 +148,7 @@ public class RoutinesIO {
 				bufferedOutputStream.write(data, 0, readByte);
 				bufferedOutputStream.flush();
 			}
-			fromFile = new String(bufferedOutputStream.toByteArray(), "UTF-8");
+			fromFile = new String(bufferedOutputStream.toByteArray(), StandardCharsets.UTF_8);
 		} catch (IOException e) {
 			log.error("Exception while reading from resource " + resource, e);
 		}
@@ -163,7 +165,7 @@ public class RoutinesIO {
 				File file = ResourceUtils.getFile(resourceName);
 				writeToFile(file, value, append);
 			} catch (FileNotFoundException e) {
-				e.printStackTrace();
+				log.error("Resource {} is not found!", resourceName);
 			}
 		}
 	}
@@ -176,11 +178,11 @@ public class RoutinesIO {
 		}
 	}
 	
-	public boolean isDirectoryExists(String dirPath) {
+	public boolean isDirectoryExists(String dirPath) throws NotDirectoryException {
 		File dir = new File(dirPath);
 		boolean isExists = dir.exists();
 		if (isExists && !dir.isDirectory()) {
-			throw new RuntimeException(dirPath + " is not a directory!");
+			throw new NotDirectoryException(dirPath + " is not a directory!");
 		}
 		return isExists;
 	}

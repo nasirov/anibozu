@@ -1,14 +1,13 @@
 package nasirov.yv.parser;
 
-import com.sun.istack.NotNull;
 import lombok.extern.slf4j.Slf4j;
-import nasirov.yv.aop.CheckHttpResponse;
 import nasirov.yv.exception.*;
 import nasirov.yv.response.HttpResponse;
 import nasirov.yv.serialization.AnimediaMALTitleReferences;
 import org.springframework.stereotype.Component;
 
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -76,7 +75,6 @@ public class AnimediaHTMLParser {
 	 * @param response the animedia response
 	 * @return the map <anime id,map<data list, number of episodes>
 	 */
-	@CheckHttpResponse
 	public Map<String, Map<String, String>> getAnimeIdSeasonsAndEpisodesMap(@NotNull HttpResponse response) {
 		Map<String, Map<String, String>> animeIdSeasonsAndEpisodes = new HashMap<>();
 		try {
@@ -96,7 +94,6 @@ public class AnimediaHTMLParser {
 	 * @param response the animedia response
 	 * @return the first episode
 	 */
-	@CheckHttpResponse
 	public String getFirstEpisodeInSeason(@NotNull HttpResponse response) {
 		String firstEpisodeNumber = null;
 		try {
@@ -116,7 +113,6 @@ public class AnimediaHTMLParser {
 	 * @param response the animedia response
 	 * @return the map<data list, list<episodes range>>
 	 */
-	@CheckHttpResponse
 	public Map<String, List<String>> getEpisodesRange(@NotNull HttpResponse response) {
 		Map<String, List<String>> firstEpisodeNumber = new HashMap<>();
 		try {
@@ -133,7 +129,6 @@ public class AnimediaHTMLParser {
 	 * @param response the animedia response
 	 * @return the title name
 	 */
-	@CheckHttpResponse
 	public String getOriginalTitle(@NotNull HttpResponse response) {
 		String originalTitle = null;
 		try {
@@ -150,7 +145,6 @@ public class AnimediaHTMLParser {
 	 * @param response the animedia response
 	 * @return list of the currently updated titles
 	 */
-	@CheckHttpResponse
 	public List<AnimediaMALTitleReferences> getCurrentlyUpdatedTitlesList(@NotNull HttpResponse response) {
 		List<AnimediaMALTitleReferences> newSeriesList = new ArrayList<>();
 		try {
@@ -172,7 +166,7 @@ public class AnimediaHTMLParser {
 					dataList != null ? dataList : "", "", "", "", "",
 					currentMax != null ? currentMax : "", "", "", ""));
 		}
-		if (newSeriesList.size() == 0) {
+		if (newSeriesList.isEmpty()) {
 			throw new NewEpisodesListNotFoundException("New episodes not found!");
 		}
 		return newSeriesList;

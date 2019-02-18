@@ -1,7 +1,7 @@
-package nasirov.yv.service.contextListener;
+package nasirov.yv.service.context;
 
 import lombok.extern.slf4j.Slf4j;
-import nasirov.yv.service.annotation.LoadResources;
+import nasirov.yv.service.annotation.PrintApplicationLogo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
@@ -17,36 +17,36 @@ import java.lang.reflect.Method;
  */
 @Component
 @Slf4j
-public class LoadResourcesContextListener implements ApplicationListener<ContextRefreshedEvent> {
-	private ConfigurableListableBeanFactory beanFactory;
+public class LogoPrinterContextListener implements ApplicationListener<ContextRefreshedEvent> {
+	private ConfigurableListableBeanFactory factory;
 	
 	@Autowired
-	public LoadResourcesContextListener(ConfigurableListableBeanFactory beanFactory) {
-		this.beanFactory = beanFactory;
+	public LogoPrinterContextListener(ConfigurableListableBeanFactory factory) {
+		this.factory = factory;
 	}
 	
 	@Override
 	public void onApplicationEvent(ContextRefreshedEvent contextRefreshedEvent) {
 		ApplicationContext applicationContext = contextRefreshedEvent.getApplicationContext();
 		String[] beanDefinitionNames = applicationContext.getBeanDefinitionNames();
-		for (String name : beanDefinitionNames) {
-			BeanDefinition beanDefinition = beanFactory.getBeanDefinition(name);
+		for (String bean : beanDefinitionNames) {
+			BeanDefinition beanDefinition = factory.getBeanDefinition(bean);
 			String beanClassName = beanDefinition.getBeanClassName();
 			if (beanClassName != null) {
 				try {
-					Class<?> originalClass = Class.forName(beanClassName);
-					if (originalClass.isAnnotationPresent(LoadResources.class)) {
-						Method[] methods = originalClass.getMethods();
+					Class<?> beanClass = Class.forName(beanClassName);
+					if (beanClass.isAnnotationPresent(PrintApplicationLogo.class)) {
+						Method[] methods = beanClass.getMethods();
 						for (Method method : methods) {
-							if (method.isAnnotationPresent(LoadResources.class)) {
-								Object currentBean = applicationContext.getBean(name);
+							if (method.isAnnotationPresent(PrintApplicationLogo.class)) {
+								Object currentBean = applicationContext.getBean(bean);
 								Method currentMethod = currentBean.getClass().getMethod(method.getName(), method.getParameterTypes());
 								currentMethod.invoke(currentBean);
 							}
 						}
 					}
 				} catch (Exception e) {
-					log.error("Exception while handle LoadResources annotation bean ", e);
+					log.error("Exception while printing application logo", e);
 				}
 			}
 		}

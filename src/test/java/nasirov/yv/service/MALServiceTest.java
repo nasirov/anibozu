@@ -1,6 +1,5 @@
 package nasirov.yv.service;
 
-import com.sun.research.ws.wadl.HTTPMethods;
 import nasirov.yv.AbstractTest;
 import nasirov.yv.configuration.AppConfiguration;
 import nasirov.yv.http.HttpCaller;
@@ -13,16 +12,18 @@ import nasirov.yv.util.RoutinesIO;
 import nasirov.yv.util.URLBuilder;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.cache.Cache;
 import org.springframework.cache.CacheManager;
-import org.springframework.core.io.Resource;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.test.annotation.DirtiesContext;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.Set;
 
 import static nasirov.yv.enums.MALAnimeStatus.WATCHING;
 import static org.junit.Assert.*;
@@ -86,16 +87,16 @@ public class MALServiceTest extends AbstractTest {
 		String profileUrl = myAnimeListNet + PROFILE + TEST_ACC_FOR_DEV;
 		String firstJsonUrl = myAnimeListNet + ANIME_LIST + TEST_ACC_FOR_DEV + "?" + STATUS + "=" + WATCHING.getCode().toString();
 		String additionalJsonUrl = myAnimeListNet + ANIME_LIST + TEST_ACC_FOR_DEV + "/" + LOAD_JSON + "?" + "offset=" + MAX_NUMBER_OF_TITLE_IN_HTML + "&" + STATUS + "=" + WATCHING.getCode().toString();
-		doReturn(new HttpResponse(routinesIO.readFromResource(testAccForDevProfile), HttpStatus.OK.value())).when(httpCaller).call(eq(profileUrl), eq(HTTPMethods.GET), anyMap());
-		doReturn(new HttpResponse(routinesIO.readFromResource(testAccForDevWatchingTitles), HttpStatus.OK.value())).when(httpCaller).call(eq(firstJsonUrl), eq(HTTPMethods.GET), anyMap());
-		doReturn(new HttpResponse(routinesIO.readFromResource(testAccForDevAdditionalJson), HttpStatus.OK.value())).when(httpCaller).call(eq(additionalJsonUrl), eq(HTTPMethods.GET), anyMap());
+		doReturn(new HttpResponse(routinesIO.readFromResource(testAccForDevProfile), HttpStatus.OK.value())).when(httpCaller).call(eq(profileUrl), eq(HttpMethod.GET), anyMap());
+		doReturn(new HttpResponse(routinesIO.readFromResource(testAccForDevWatchingTitles), HttpStatus.OK.value())).when(httpCaller).call(eq(firstJsonUrl), eq(HttpMethod.GET), anyMap());
+		doReturn(new HttpResponse(routinesIO.readFromResource(testAccForDevAdditionalJson), HttpStatus.OK.value())).when(httpCaller).call(eq(additionalJsonUrl), eq(HttpMethod.GET), anyMap());
 		Set<UserMALTitleInfo> watchingTitles = malService.getWatchingTitles(TEST_ACC_FOR_DEV);
 		assertNotNull(watchingTitles);
 		assertEquals(watchingTitlesNum, watchingTitles.size());
 		watchingTitlesFromCache = userMALCache.get(TEST_ACC_FOR_DEV, LinkedHashSet.class);
 		assertNotNull(watchingTitlesFromCache);
 		assertEquals(watchingTitlesNum, watchingTitlesFromCache.size());
-		verify(httpCaller, times(3)).call(any(String.class), eq(HTTPMethods.GET), anyMap());
+		verify(httpCaller, times(3)).call(any(String.class), eq(HttpMethod.GET), anyMap());
 	}
 	
 	@Test

@@ -14,14 +14,13 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.Cache;
 import org.springframework.cache.CacheManager;
+import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Service;
 
 import javax.validation.constraints.NotEmpty;
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-
-import static com.sun.research.ws.wadl.HTTPMethods.GET;
 
 /**
  * Created by nasirov.yv
@@ -177,12 +176,12 @@ public class SeasonAndEpisodeChecker {
 		AnimediaTitleSearchInfo matchedOfSingleSeasonAnime = first.orElse(null);
 		if (matchedOfSingleSeasonAnime != null) {
 			String url = matchedOfSingleSeasonAnime.getUrl();
-			HttpResponse response = httpCaller.call(animediaOnlineTv + url, GET, animediaRequestParameters);
+			HttpResponse response = httpCaller.call(animediaOnlineTv + url, HttpMethod.GET, animediaRequestParameters);
 			Map<String, Map<String, String>> animeIdSeasonsAndEpisodesMap = animediaHTMLParser.getAnimeIdSeasonsAndEpisodesMap(response);
 			for (Map.Entry<String, Map<String, String>> animeIdDataListsAndEpisodes : animeIdSeasonsAndEpisodesMap.entrySet()) {
 				for (Map.Entry<String, String> dataListsAndEpisodes : animeIdDataListsAndEpisodes.getValue().entrySet()) {
 					String dataList = dataListsAndEpisodes.getKey();
-					HttpResponse resp = httpCaller.call(animediaEpisodesList + animeIdDataListsAndEpisodes.getKey() + "/" + dataList, GET, animediaRequestParameters);
+					HttpResponse resp = httpCaller.call(animediaEpisodesList + animeIdDataListsAndEpisodes.getKey() + "/" + dataList, HttpMethod.GET, animediaRequestParameters);
 					Map<String, List<String>> maxEpisodesAndEpisodesRange = animediaHTMLParser.getEpisodesRange(resp);
 					for (Map.Entry<String, List<String>> maxEpisodesAndEpisodesRangeEntry : maxEpisodesAndEpisodesRange.entrySet()) {
 						List<String> episodesRangeFromMinToMax = maxEpisodesAndEpisodesRangeEntry.getValue();
@@ -296,19 +295,4 @@ public class SeasonAndEpisodeChecker {
 		}
 		return nextEpisodeForWatchFinalUrl;
 	}
-//	public void differences(Set<AnimediaMALTitleReferences> references, Set<AnimediaMALTitleReferences> matchedAnime) {
-//		for (AnimediaMALTitleReferences watchedTitlesInfo : references) {
-//			if (watchedTitlesInfo.getTitleOnMAL().equalsIgnoreCase("none")) {
-//				continue;
-//			}
-//			long separatedSeason = matchedAnime.stream().filter(set -> set.getTitleOnMAL().equals(watchedTitlesInfo.getTitleOnMAL())).count();
-//			long matchedTitleAndDataList = matchedAnime.stream().filter(set -> set.getTitleOnMAL().equals(watchedTitlesInfo.getTitleOnMAL())
-//					&& set.getDataList().equals(watchedTitlesInfo.getDataList())).count();
-//			if (matchedTitleAndDataList == 0 && separatedSeason == 0) {
-//				log.info("В matchedAnime нет {}", watchedTitlesInfo.toString());
-//			} else if (matchedTitleAndDataList > 1) {
-//				log.info("В matchedAnime {} совпадений {}", matchedTitleAndDataList, watchedTitlesInfo.toString());
-//			}
-//		}
-//	}
 }

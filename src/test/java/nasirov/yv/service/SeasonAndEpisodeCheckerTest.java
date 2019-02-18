@@ -1,6 +1,5 @@
 package nasirov.yv.service;
 
-import com.sun.research.ws.wadl.HTTPMethods;
 import nasirov.yv.AbstractTest;
 import nasirov.yv.configuration.AppConfiguration;
 import nasirov.yv.http.HttpCaller;
@@ -18,6 +17,7 @@ import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.test.annotation.DirtiesContext;
 
@@ -79,8 +79,8 @@ public class SeasonAndEpisodeCheckerTest extends AbstractTest {
 		String singleUrl = "anime/chyornyj-klever";
 		String blackCloverId = "15341";
 		String blackCloverUrl = "black clover";
-		doReturn(new HttpResponse(routinesIO.readFromResource(singleSeasonHtml), HttpStatus.OK.value())).when(httpCaller).call(eq(animediaOnlineTv + singleUrl), eq(HTTPMethods.GET), anyMap());
-		doReturn(new HttpResponse(routinesIO.readFromResource(blackClover1), HttpStatus.OK.value())).when(httpCaller).call(eq(animediaEpisodesList + blackCloverId + "/1"), eq(HTTPMethods.GET), anyMap());
+		doReturn(new HttpResponse(routinesIO.readFromResource(singleSeasonHtml), HttpStatus.OK.value())).when(httpCaller).call(eq(animediaOnlineTv + singleUrl), eq(HttpMethod.GET), anyMap());
+		doReturn(new HttpResponse(routinesIO.readFromResource(blackClover1), HttpStatus.OK.value())).when(httpCaller).call(eq(animediaEpisodesList + blackCloverId + "/1"), eq(HttpMethod.GET), anyMap());
 		Set<AnimediaMALTitleReferences> multiSeasonsReferencesList = getReferences();
 		Set<UserMALTitleInfo> watchingTitles = getWatchingTitles(0, 0);
 		Set<AnimediaTitleSearchInfo> animediaSearchList = getAnimediaSearchList();

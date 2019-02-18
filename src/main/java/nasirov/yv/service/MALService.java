@@ -15,8 +15,8 @@ import nasirov.yv.util.URLBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Service;
 
 import javax.validation.constraints.NotEmpty;
@@ -25,7 +25,6 @@ import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import static com.sun.research.ws.wadl.HTTPMethods.GET;
 import static nasirov.yv.enums.MALAnimeStatus.WATCHING;
 
 /**
@@ -34,12 +33,6 @@ import static nasirov.yv.enums.MALAnimeStatus.WATCHING;
 @Service
 @Slf4j
 public class MALService {
-	@Value("${cache.userMAL.name}")
-	private String userMALCacheName;
-	
-	@Value("${urls.myAnimeList.net}")
-	private String myAnimeListNet;
-	
 	private static final String LOAD_JSON = "load.json";
 	
 	private static final String PROFILE = "profile/";
@@ -53,6 +46,18 @@ public class MALService {
 	 */
 	private static final Integer MAX_NUMBER_OF_TITLE_IN_HTML = 300;
 	
+	private static final Map<String, String> QUERY_PARAMS = new HashMap<>();
+	
+	static {
+		QUERY_PARAMS.put(STATUS, WATCHING.getCode().toString());
+	}
+	
+	@Value("${cache.userMAL.name}")
+	private String userMALCacheName;
+	
+	@Value("${urls.myAnimeList.net}")
+	private String myAnimeListNet;
+	
 	private HttpCaller httpCaller;
 	
 	private RequestParametersBuilder requestParametersBuilder;
@@ -63,21 +68,17 @@ public class MALService {
 	
 	private URLBuilder urlBuilder;
 	
-	private CacheManager cacheManager;
-	
 	@Autowired
 	public MALService(HttpCaller httpCaller,
 					  @Qualifier(value = "malRequestParametersBuilder") RequestParametersBuilder requestParametersBuilder,
 					  WrappedObjectMapper wrappedObjectMapper,
 					  MALParser malParser,
-					  URLBuilder urlBuilder,
-					  CacheManager cacheManager) {
+					  URLBuilder urlBuilder) {
 		this.httpCaller = httpCaller;
 		this.requestParametersBuilder = requestParametersBuilder;
 		this.wrappedObjectMapper = wrappedObjectMapper;
 		this.malParser = malParser;
 		this.urlBuilder = urlBuilder;
-		this.cacheManager = cacheManager;
 	}
 	
 	/**
@@ -96,10 +97,8 @@ public class MALService {
 		//делается первый стандартный запрос  на максимальное количество, т.е. 300
 		//стандартный запрос animelist/testAccForDev
 		Set<Set<UserMALTitleInfo>> titleJson = new LinkedHashSet<>();
-		String targetUrl = urlBuilder.build(myAnimeListNet + ANIME_LIST + username, new HashMap<String, String>() {{
-			put(STATUS, WATCHING.getCode().toString());
-		}});
-		titleJson.add(malParser.getUserTitlesInfo(httpCaller.call(targetUrl, GET, malRequestParameters), LinkedHashSet.class));
+		String targetUrl = urlBuilder.build(myAnimeListNet + ANIME_LIST + username, QUERY_PARAMS);
+		titleJson.add(malParser.getUserTitlesInfo(httpCaller.call(targetUrl, HttpMethod.GET, malRequestParameters), LinkedHashSet.class));
 		Integer diff;
 		//потом проверяем по количеству текущих аниме количество недогруженных аниме
 		if (numWatchingTitlesInteger > MAX_NUMBER_OF_TITLE_IN_HTML) {
@@ -120,8 +119,6 @@ public class MALService {
 		}
 		changePosterUrl(watchingTitles);
 		changeAnimeUrl(watchingTitles);
-		//Cache userMALCache = cacheManager.getCache(userMALCacheName);
-		//userMALCache.putIfAbsent(username, watchingTitles);
 		return watchingTitles;
 	}
 	
@@ -206,7 +203,7 @@ public class MALService {
 	 * @throws WatchingTitlesNotFoundException if number of watching titles is not found or == 0
 	 */
 	private Integer getNumberOfWatchingTitles(@NotEmpty String username, @NotNull Map<String, Map<String, String>> malRequestParameters) throws MALUserAccountNotFoundException, WatchingTitlesNotFoundException {
-		String numWatchingTitles = malParser.getNumWatchingTitles(httpCaller.call(myAnimeListNet + PROFILE + username, GET, malRequestParameters));
+		String numWatchingTitles = malParser.getNumWatchingTitles(httpCaller.call(myAnimeListNet + PROFILE + username, HttpMethod.GET, malRequestParameters));
 		Integer numWatchingTitlesInteger;
 		if (numWatchingTitles != null) {
 			numWatchingTitlesInteger = Integer.parseInt(numWatchingTitles);
@@ -232,7 +229,7 @@ public class MALService {
 		Map<String, String> queryParameters = new LinkedHashMap<>();
 		queryParameters.put("offset", numWatchingTitlesInteger.toString());
 		queryParameters.put(STATUS, WATCHING.getCode().toString());
-		HttpResponse response = httpCaller.call(urlBuilder.build(myAnimeListNet + ANIME_LIST + username + "/" + LOAD_JSON, queryParameters), GET, malRequestParameters);
+		HttpResponse response = httpCaller.call(urlBuilder.build(myAnimeListNet + ANIME_LIST + username + "/" + LOAD_JSON, queryParameters), HttpMethod.GET, malRequestParameters);
 		return wrappedObjectMapper.unmarshal(response.getContent(), UserMALTitleInfo.class, LinkedHashSet.class);
 	}
 }

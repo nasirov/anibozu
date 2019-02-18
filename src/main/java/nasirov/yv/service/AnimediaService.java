@@ -1,6 +1,5 @@
 package nasirov.yv.service;
 
-import com.sun.istack.NotNull;
 import lombok.extern.slf4j.Slf4j;
 import nasirov.yv.enums.AnimeTypeOnAnimedia;
 import nasirov.yv.http.HttpCaller;
@@ -20,15 +19,16 @@ import org.springframework.cache.Cache;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.core.io.Resource;
+import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ResourceUtils;
 
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.*;
 
-import static com.sun.research.ws.wadl.HTTPMethods.GET;
 import static nasirov.yv.enums.AnimeTypeOnAnimedia.*;
 
 /**
@@ -107,7 +107,7 @@ public class AnimediaService {
 	 */
 	@Cacheable(value = "animediaSearchListCache", key = "'animediaSearchListCache'")
 	public Set<AnimediaTitleSearchInfo> getAnimediaSearchList() {
-		HttpResponse animediaResponse = httpCaller.call(animediaAnimeList, GET, requestParametersBuilder.build());
+		HttpResponse animediaResponse = httpCaller.call(animediaAnimeList, HttpMethod.GET, requestParametersBuilder.build());
 		Set<AnimediaTitleSearchInfo> animediaSearchList = wrappedObjectMapper.unmarshal(animediaResponse.getContent(), AnimediaTitleSearchInfo.class, LinkedHashSet.class);
 		animediaSearchList.forEach(set -> {
 			set.setUrl(set.getUrl().replaceAll("https://online\\.animedia\\.tv/", "")
@@ -124,7 +124,7 @@ public class AnimediaService {
 	 */
 	public List<AnimediaMALTitleReferences> getCurrentlyUpdatedTitles() {
 		Cache currentlyUpdatedTitlesCache = cacheManager.getCache(currentlyUpdatedTitlesCacheName);
-		HttpResponse animediaResponse = httpCaller.call(animediaOnlineTv, GET, requestParametersBuilder.build());
+		HttpResponse animediaResponse = httpCaller.call(animediaOnlineTv, HttpMethod.GET, requestParametersBuilder.build());
 		List<AnimediaMALTitleReferences> currentlyUpdatedTitles = animediaHTMLParser.getCurrentlyUpdatedTitlesList(animediaResponse);
 		currentlyUpdatedTitlesCache.putIfAbsent(currentlyUpdatedTitlesCacheName, currentlyUpdatedTitles);
 		return currentlyUpdatedTitles;
@@ -144,45 +144,37 @@ public class AnimediaService {
 		Set<Anime> multi = new LinkedHashSet<>();
 		Set<Anime> single = new LinkedHashSet<>();
 		Set<Anime> announcement = new LinkedHashSet<>();
-		Map<AnimeTypeOnAnimedia, Set<Anime>> allSeasons = new HashMap<>();
+		EnumMap<AnimeTypeOnAnimedia, Set<Anime>> allSeasons = new EnumMap<>(AnimeTypeOnAnimedia.class);
 		for (AnimediaTitleSearchInfo animediaSearchList : animediaSearchListInput) {
 			String rootUrl = animediaSearchList.getUrl();
 			String url = animediaOnlineTv + rootUrl;
 			//get a html page with an anime
-			HttpResponse response = httpCaller.call(url
-					, GET, animediaRequestParameters);
+			HttpResponse response = httpCaller.call(url, HttpMethod.GET, animediaRequestParameters);
 			String content = response.getContent();
-			//not announcements
-			if (!content.contains(ANNOUNCEMENT_MARK)) {
-				//get the anime id, data sets and episodes
-				Map<String, Map<String, String>> seasonsAndEpisodes = animediaHTMLParser.getAnimeIdSeasonsAndEpisodesMap(response);
-				if (seasonsAndEpisodes != null) {
-					for (Map.Entry<String, Map<String, String>> entry : seasonsAndEpisodes.entrySet()) {
-						int dataListCount = 1;
-						for (Map.Entry<String, String> seasons : entry.getValue().entrySet()) {
-							String targetUrl;
-							//if data set count > 1 then it multi seasons anime and we should send additional request for each data list
-							if (entry.getValue().size() > 1) {
-								HttpResponse resp = httpCaller.call(animediaEpisodesList + entry.getKey() + "/" + seasons.getKey(), GET, animediaRequestParameters);
-								String count = String.valueOf(multiSeasonCount) + "." + dataListCount;
-								targetUrl = urlBuilder.build(url, seasons.getKey(), animediaHTMLParser.getFirstEpisodeInSeason(resp), null);
-								multi.add(new Anime(count, targetUrl, rootUrl));
-								dataListCount++;
-							} else {
-								//if data set count == 1 then it single season anime
-								targetUrl = urlBuilder.build(url, seasons.getKey(), null, seasons.getValue());
-								single.add(new Anime(String.valueOf(singleSeasonCount), targetUrl, rootUrl));
-								singleSeasonCount++;
-							}
-						}
-						if (entry.getValue().size() > 1) {
-							multiSeasonCount++;
-						}
-					}
-				}
-			} else {
+			if (content.contains(ANNOUNCEMENT_MARK)) {
 				announcement.add(new Anime(String.valueOf(announcementCount), url, rootUrl));
 				announcementCount++;
+				continue;
+			}
+			Map<String, Map<String, String>> animeIdSeasonsAndEpisodesMap = animediaHTMLParser.getAnimeIdSeasonsAndEpisodesMap(response);
+			for (Map.Entry<String, Map<String, String>> animeIdSeasonsAndEpisodesEntry : animeIdSeasonsAndEpisodesMap.entrySet()) {
+				int dataListCount = 1;
+				Map<String, String> seasonsAndEpisodesMap = animeIdSeasonsAndEpisodesEntry.getValue();
+				for (Map.Entry<String, String> seasonsAndEpisodesEntry : seasonsAndEpisodesMap.entrySet()) {
+					String dataList = seasonsAndEpisodesEntry.getKey();
+					if (seasonsAndEpisodesMap.size() > 1) {
+						String animeId = animeIdSeasonsAndEpisodesEntry.getKey();
+						handleMultiSeasonsAnime(animeId, dataList, animediaRequestParameters, multiSeasonCount, dataListCount, multi, url, rootUrl);
+						dataListCount++;
+					} else {
+						String maxEpisodeInDataList = seasonsAndEpisodesEntry.getValue();
+						handleSingleSeasonAnime(url, dataList, maxEpisodeInDataList, single, singleSeasonCount, rootUrl);
+						singleSeasonCount++;
+					}
+				}
+				if (seasonsAndEpisodesMap.size() > 1) {
+					multiSeasonCount++;
+				}
 			}
 		}
 		allSeasons.put(SINGLESEASON, single);
@@ -205,7 +197,7 @@ public class AnimediaService {
 		Set<Anime> singleSeasonAnime;
 		Set<Anime> multiSeasonsAnime;
 		Set<Anime> announcements;
-		Map<AnimeTypeOnAnimedia, Set<Anime>> allSeasons = new HashMap<>();
+		EnumMap<AnimeTypeOnAnimedia, Set<Anime>> allSeasons = new EnumMap<>(AnimeTypeOnAnimedia.class);
 		if (isUpdatedSortedAnimeResourcesExists(resourceAnnouncementsUrls.getFilename())
 				&& isUpdatedSortedAnimeResourcesExists(resourceMultiSeasonsAnimeUrls.getFilename())
 				&& isUpdatedSortedAnimeResourcesExists(resourceSingleSeasonsAnimeUrls.getFilename())) {
@@ -268,26 +260,22 @@ public class AnimediaService {
 	 */
 	public List<AnimediaMALTitleReferences> checkCurrentlyUpdatedTitles(@NotNull List<AnimediaMALTitleReferences> fresh, @NotNull List<AnimediaMALTitleReferences> fromCache) {
 		List<AnimediaMALTitleReferences> list = new ArrayList<>();
-		if (fresh != null && fromCache != null) {
-			if (fromCache.size() != 0 && fresh.size() != 0) {
-				AnimediaMALTitleReferences animediaMALTitleReferencesFromCache = fromCache.get(0);
-				if (fresh.size() != fromCache.size()
-						|| !fresh.get(0).equals(animediaMALTitleReferencesFromCache)) {
-					for (int i = 0; i < fresh.size(); i++) {
-						AnimediaMALTitleReferences temp = fresh.get(i);
-						if (temp.equals(animediaMALTitleReferencesFromCache)) {
-							break;
-						}
-						list.add(temp);
+		if (!fromCache.isEmpty() && !fresh.isEmpty()) {
+			AnimediaMALTitleReferences animediaMALTitleReferencesFromCache = fromCache.get(0);
+			if (fresh.size() != fromCache.size() || !fresh.get(0).equals(animediaMALTitleReferencesFromCache)) {
+				for (AnimediaMALTitleReferences temp : fresh) {
+					if (temp.equals(animediaMALTitleReferencesFromCache)) {
+						break;
 					}
+					list.add(temp);
 				}
-			} else if (fromCache.size() == 0 && fresh.size() != 0) {
-				list.addAll(fresh);
-			} else if (fromCache.size() != 0 && fresh.size() == 0) {
-				return list;
 			}
-			cacheManager.getCache(currentlyUpdatedTitlesCacheName).put(currentlyUpdatedTitlesCacheName, list);
+		} else if (fromCache.isEmpty() && !fresh.isEmpty()) {
+			list.addAll(fresh);
+		} else if (!fromCache.isEmpty() && fresh.isEmpty()) {
+			return list;
 		}
+		cacheManager.getCache(currentlyUpdatedTitlesCacheName).put(currentlyUpdatedTitlesCacheName, list);
 		return list;
 	}
 	
@@ -325,5 +313,24 @@ public class AnimediaService {
 			log.error("File {} is not found!", filename);
 		}
 		return isExists;
+	}
+	
+	private void handleSingleSeasonAnime(String url, String dataList, String maxEpisodeInDataList, Set<Anime> single, int singleSeasonCount, String rootUrl) {
+		String targetUrl = urlBuilder.build(url, dataList, null, maxEpisodeInDataList);
+		single.add(new Anime(String.valueOf(singleSeasonCount), targetUrl, rootUrl));
+	}
+	
+	private void handleMultiSeasonsAnime(String animeId,
+										 String dataList,
+										 Map<String, Map<String, String>> animediaRequestParameters,
+										 int multiSeasonCount,
+										 int dataListCount,
+										 Set<Anime> multi,
+										 String url,
+										 String rootUrl) {
+		HttpResponse resp = httpCaller.call(animediaEpisodesList + animeId + "/" + dataList, HttpMethod.GET, animediaRequestParameters);
+		String count = String.valueOf(multiSeasonCount) + "." + dataListCount;
+		String targetUrl = urlBuilder.build(url, dataList, animediaHTMLParser.getFirstEpisodeInSeason(resp), null);
+		multi.add(new Anime(count, targetUrl, rootUrl));
 	}
 }

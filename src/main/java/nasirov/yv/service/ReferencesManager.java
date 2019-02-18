@@ -15,16 +15,16 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.core.io.Resource;
+import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Service;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.io.File;
+import java.nio.file.NotDirectoryException;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import static com.sun.research.ws.wadl.HTTPMethods.GET;
 
 /**
  * Created by nasirov.yv
@@ -38,6 +38,8 @@ public class ReferencesManager {
 	private static final String REFERENCE_MAL_TITLE_TO_ANIMEDIA_TITLE = "(?<fullUrl>https://online\\.animedia\\.tv/(?<url>anime/.+)/(?<dataList>\\d{1,3})/(?<firstEpisode>\\d{1,3}))[\\s\\t]+(?<titleOnMAL>.+)";
 	
 	private static final String CONCERTIZE_EPISODE = ".+[\\s\\t]+((?<min>\\d{1,3})-(?<max>\\d{1,3}|[x]{3}))+";
+	
+	private static final String NONE = "none";
 	
 	@Value("${urls.online.animedia.tv}")
 	private String animediaOnlineTv;
@@ -107,7 +109,7 @@ public class ReferencesManager {
 			String[] concertizedEpisode = getConcertizedEpisode(titleOnMAL);
 			String min = null;
 			String max = null;
-			if (concertizedEpisode != null) {
+			if (concertizedEpisode.length != 0) {
 				min = concertizedEpisode[0];
 				max = concertizedEpisode[1];
 				titleOnMAL = titleOnMAL.replaceAll("\\d{1,3}-(\\d{1,3}|[x]{3})", "");
@@ -140,9 +142,8 @@ public class ReferencesManager {
 	private static String[] getConcertizedEpisode(String s) {
 		Pattern pattern = Pattern.compile(CONCERTIZE_EPISODE);
 		Matcher matcher = pattern.matcher(s);
-		String arr[] = null;
+		String[] arr = new String[2];
 		if (matcher.find()) {
-			arr = new String[2];
 			arr[0] = matcher.group("min");
 			arr[1] = matcher.group("max");
 		}
@@ -158,42 +159,45 @@ public class ReferencesManager {
 	public void updateReferences(@NotEmpty Set<AnimediaMALTitleReferences> references) {
 		Map<String, Map<String, String>> animediaRequestParameters = requestParametersBuilder.build();
 		Map<String, Map<String, Map<String, String>>> seasonsAndEpisodesCache = new HashMap<>();
-		for (AnimediaMALTitleReferences ref : references) {
-			if (ref.getTitleOnMAL().equalsIgnoreCase("none")) {
+		for (AnimediaMALTitleReferences reference : references) {
+			if (reference.getTitleOnMAL().equalsIgnoreCase(NONE)) {
 				continue;
 			}
-			String url = animediaOnlineTv + ref.getUrl();
-			Map<String, Map<String, String>> seasonsAndEpisodes;
+			String url = animediaOnlineTv + reference.getUrl();
+			Map<String, Map<String, String>> animeIdSeasonsAndEpisodesMap;
 			if (seasonsAndEpisodesCache.containsKey(url)) {
-				seasonsAndEpisodes = seasonsAndEpisodesCache.get(url);
+				animeIdSeasonsAndEpisodesMap = seasonsAndEpisodesCache.get(url);
 			} else {
-				HttpResponse response = httpCaller.call(url, GET, animediaRequestParameters);
-				seasonsAndEpisodes = animediaHTMLParser.getAnimeIdSeasonsAndEpisodesMap(response);
-				seasonsAndEpisodesCache.put(url, seasonsAndEpisodes);
+				animeIdSeasonsAndEpisodesMap = getTitleHtmlAndPutInCache(url, animediaRequestParameters, seasonsAndEpisodesCache);
 			}
-			if (seasonsAndEpisodes != null) {
-				for (Map.Entry<String, Map<String, String>> entry : seasonsAndEpisodes.entrySet()) {
-					for (Map.Entry<String, String> seasons : entry.getValue().entrySet()) {
-						if (ref.getDataList().equals(seasons.getKey())) {
-							HttpResponse resp = httpCaller.call(animediaEpisodesList + entry.getKey() + "/" + seasons.getKey(), GET, animediaRequestParameters);
+			if (animeIdSeasonsAndEpisodesMap != null && !animeIdSeasonsAndEpisodesMap.isEmpty()) {
+				for (Map.Entry<String, Map<String, String>> animeIdSeasonsAndEpisodesEntry : animeIdSeasonsAndEpisodesMap.entrySet()) {
+					Map<String, String> seasonsAndEpisodesMap = animeIdSeasonsAndEpisodesEntry.getValue();
+					for (Map.Entry<String, String> seasonsAndEpisodesEntry : seasonsAndEpisodesMap.entrySet()) {
+						String dataList = seasonsAndEpisodesEntry.getKey();
+						if (reference.getDataList().equals(dataList)) {
+							String animeId = animeIdSeasonsAndEpisodesEntry.getKey();
+							HttpResponse resp = httpCaller.call(animediaEpisodesList + animeId + "/" + dataList, HttpMethod.GET, animediaRequestParameters);
 							Map<String, List<String>> episodesRange = animediaHTMLParser.getEpisodesRange(resp);
-							if (episodesRange.size() != 0) {
+							if (!episodesRange.isEmpty()) {
 								for (Map.Entry<String, List<String>> range : episodesRange.entrySet()) {
-									List<String> value = range.getValue();
-									String key = range.getKey();
-									String firstElement = value.get(0);
-									Integer intKey = null;
-									Integer intFirstElement = null;
+									List<String> episodesList = range.getValue();
+									dataList = range.getKey();
+									String firstEpisodeAndMin = episodesList.get(0);
+									Integer intDataList = null;
+									Integer intFirstEpisodeAndMin = null;
 									//если в дата листах суммируют первую серию и последнюю с предыдущего дата листа, то нужна проверка для правильного максимума
 									//например, всего серий ххх, 1 даталист: серии 1 из 100; 2 дата лист: серии 101 из 100
-									if (!key.equalsIgnoreCase("xxx") && !key.equalsIgnoreCase("xx")) {
-										intKey = Integer.parseInt(key);
-										intFirstElement = Integer.parseInt(firstElement);
+									if (!dataList.equalsIgnoreCase("xxx") && !dataList.equalsIgnoreCase("xx")) {
+										intDataList = Integer.parseInt(dataList);
+										intFirstEpisodeAndMin = Integer.parseInt(firstEpisodeAndMin);
 									}
-									ref.setCurrentMax(value.get(value.size() - 1));
-									ref.setFirstEpisode(firstElement);
-									ref.setMin(firstElement);
-									ref.setMax(intKey != null && intKey < intFirstElement ? Integer.toString(intFirstElement + intKey) : key);
+									int lastIndex = episodesList.size() - 1;
+									String currentMax = episodesList.get(lastIndex);
+									reference.setCurrentMax(currentMax);
+									reference.setFirstEpisode(firstEpisodeAndMin);
+									reference.setMin(firstEpisodeAndMin);
+									reference.setMax(intDataList != null && intDataList < intFirstEpisodeAndMin ? Integer.toString(intFirstEpisodeAndMin + intDataList) : dataList);
 								}
 								break;
 							}
@@ -202,6 +206,15 @@ public class ReferencesManager {
 				}
 			}
 		}
+	}
+	
+	private Map<String, Map<String, String>> getTitleHtmlAndPutInCache(String url,
+																	   Map<String, Map<String, String>> animediaRequestParameters,
+																	   Map<String, Map<String, Map<String, String>>> seasonsAndEpisodesCache) {
+		HttpResponse response = httpCaller.call(url, HttpMethod.GET, animediaRequestParameters);
+		Map<String, Map<String, String>> seasonsAndEpisodes = animediaHTMLParser.getAnimeIdSeasonsAndEpisodesMap(response);
+		seasonsAndEpisodesCache.put(url, seasonsAndEpisodes);
+		return seasonsAndEpisodes;
 	}
 	
 	/**
@@ -267,8 +280,12 @@ public class ReferencesManager {
 			String fullUrl = anime.getFullUrl();
 			if (!raw.containsKey(fullUrl)) {
 				fullMatch = false;
-				if (!routinesIO.isDirectoryExists(tempFolderName)) {
-					routinesIO.mkDir(tempFolderName);
+				try {
+					if (!routinesIO.isDirectoryExists(tempFolderName)) {
+						routinesIO.mkDir(tempFolderName);
+					}
+				} catch (NotDirectoryException e) {
+					log.error("Check system.properties variable resources.tempFolder.name! {} is not a directory!", tempFolderName);
 				}
 				String prefix = tempFolderName + File.separator;
 				routinesIO.writeToFile(prefix + tempRawReferencesName, fullUrl, true);

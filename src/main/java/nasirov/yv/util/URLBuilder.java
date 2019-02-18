@@ -1,9 +1,9 @@
 package nasirov.yv.util;
 
-import com.sun.istack.NotNull;
-import com.sun.istack.Nullable;
+import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Component;
 
+import javax.validation.constraints.NotNull;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -16,7 +16,13 @@ import static nasirov.yv.enums.Constants.FIRST_EPISODE;
 @Component
 public class URLBuilder {
 	public String build(String url, String dataList, @Nullable String firstEpisodeInSeason, @Nullable String numberOfEpisodesInSeason) {
-		return url + "/" + dataList + "/" + (firstEpisodeInSeason != null ? firstEpisodeInSeason : (numberOfEpisodesInSeason != null ? episodeChecker(numberOfEpisodesInSeason) : null));
+		String episode = null;
+		if (firstEpisodeInSeason != null) {
+			episode = firstEpisodeInSeason;
+		} else if (numberOfEpisodesInSeason != null) {
+			episode = episodeChecker(numberOfEpisodesInSeason);
+		}
+		return url + "/" + dataList + "/" + episode;
 	}
 	
 	public String build(String url, @NotNull Map<String, String> queryParams) {
