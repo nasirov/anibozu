@@ -16,10 +16,10 @@ after_success:
 - docker login -u $DOCKER_USER -p $DOCKER_PASS
 - mvn dockerfile:build
 - mvn dockerfile:push
+- mvn sonar:sonar -Dsonar.host.url=$SONAR_HOST_URL -Dsonar.projectKey=$SONAR_PROJECTKEY -Dsonar.organization=$SONAR_ORGANIZATION -Dsonar.login=$SONAR_LOGIN
 
 notifications:
   email:
     recipients:
       - yurqaa@mail.ru
-    on_success: always
     on_failure: always
