@@ -29,7 +29,7 @@ import static nasirov.yv.enums.MALAnimeStatus.WATCHING;
 import static org.junit.Assert.*;
 import static org.mockito.ArgumentMatchers.anyMap;
 import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.Mockito.doReturn;
+import static org.mockito.Mockito.*;
 
 /**
  * Created by nasirov.yv
@@ -61,7 +61,7 @@ public class ReferencesManagerTest extends AbstractTest {
 		assertNotNull(multiSeasonsReferences);
 		assertEquals(8, multiSeasonsReferences.size());
 		List<AnimediaMALTitleReferences> multiSeasonsReferencesList = getMultiSeasonsReferencesList(ArrayList.class, false);
-		assertEquals(multiSeasonsReferencesList.size(), multiSeasonsReferences.size());
+		assertEquals(multiSeasonsReferencesList.size() - 1, multiSeasonsReferences.size());
 		for (int i = 0; i < multiSeasonsReferences.size(); i++) {
 			assertEquals(multiSeasonsReferences.get(0), multiSeasonsReferencesList.get(0));
 		}
@@ -93,6 +93,7 @@ public class ReferencesManagerTest extends AbstractTest {
 		for (int i = 0; i < updatedMultiSeasonsReferencesList.size(); i++) {
 			assertEquals(updatedMultiSeasonsReferencesList.get(i), updatedForCheck.get(i));
 		}
+		verify(httpCaller, never()).call(eq(animediaOnlineTv + "none"), eq(HttpMethod.GET), anyMap());
 	}
 	
 	@Test
@@ -178,6 +179,8 @@ public class ReferencesManagerTest extends AbstractTest {
 				null, null, null, null);
 		AnimediaMALTitleReferences sao7 = new AnimediaMALTitleReferences("anime/mastera-mecha-onlayn", "7", "1", "sword art online: extra edition", null, null,
 				null, null, null, null);
+		AnimediaMALTitleReferences none = new AnimediaMALTitleReferences("none", "", "", "none", null, null,
+				null, null, null, null);
 		if (updated) {
 			fairyTail1.setCurrentMax("175");
 			fairyTail2.setCurrentMax("277");
@@ -220,6 +223,7 @@ public class ReferencesManagerTest extends AbstractTest {
 		refs.add(sao2);
 		refs.add(sao3);
 		refs.add(sao7);
+		refs.add(none);
 		return refs;
 	}
 }

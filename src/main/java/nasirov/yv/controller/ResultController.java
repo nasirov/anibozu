@@ -33,10 +33,10 @@ import java.util.stream.Collectors;
 @Controller
 @Validated
 @Slf4j
-public class CheckResultController {
+public class ResultController {
 	private static final String ERROR_MSG = "errorMsg";
 	
-	private static final String CHECK_RESULT = "checkResult";
+	private static final String RESULT = "result";
 	
 	@Value("${cache.userMAL.name}")
 	private String userMALCacheName;
@@ -63,12 +63,12 @@ public class CheckResultController {
 	private NotFoundAnimeOnAnimediaRepository notFoundAnimeOnAnimediaRepository;
 	
 	@Autowired
-	public CheckResultController(MALService malService,
-								 AnimediaService animediaService,
-								 ReferencesManager referencesManager,
-								 SeasonAndEpisodeChecker seasonAndEpisodeChecker,
-								 CacheManager cacheManager,
-								 NotFoundAnimeOnAnimediaRepository notFoundAnimeOnAnimediaRepository) {
+	public ResultController(MALService malService,
+							AnimediaService animediaService,
+							ReferencesManager referencesManager,
+							SeasonAndEpisodeChecker seasonAndEpisodeChecker,
+							CacheManager cacheManager,
+							NotFoundAnimeOnAnimediaRepository notFoundAnimeOnAnimediaRepository) {
 		this.malService = malService;
 		this.animediaService = animediaService;
 		this.referencesManager = referencesManager;
@@ -77,33 +77,26 @@ public class CheckResultController {
 		this.notFoundAnimeOnAnimediaRepository = notFoundAnimeOnAnimediaRepository;
 	}
 	
-	@PostMapping("/checkResult")
+	@PostMapping("/result")
 	public String checkResult(@Size(min = 2, max = 16, message = "MAL username must be between 2 and 16 characters")
 							  @RequestParam(value = "username") String username, Model model) {
+		model.addAttribute("username", username);
 		Set<UserMALTitleInfo> watchingTitles;
 		String errorMsg;
 		try {
 			watchingTitles = malService.getWatchingTitles(username);
 		} catch (MALUserAccountNotFoundException e) {
 			errorMsg = "MAL account " + username + " is not found";
-			log.error(errorMsg);
-			model.addAttribute(ERROR_MSG, errorMsg);
-			return CHECK_RESULT;
+			return handleError(errorMsg, model, e);
 		} catch (WatchingTitlesNotFoundException e) {
 			errorMsg = e.getMessage();
-			log.error(errorMsg);
-			model.addAttribute(ERROR_MSG, errorMsg);
-			return CHECK_RESULT;
+			return handleError(errorMsg, model, e);
 		} catch (MALUserAnimeListAccessException e) {
 			errorMsg = "Anime list " + username + " has private access!";
-			log.error(errorMsg);
-			model.addAttribute(ERROR_MSG, errorMsg);
-			return CHECK_RESULT;
+			return handleError(errorMsg, model, e);
 		} catch (JSONNotFoundException e) {
 			errorMsg = "The application supports only default mal anime list view with wrapped json data! Json anime list is not found for " + username;
-			log.error(errorMsg);
-			model.addAttribute(ERROR_MSG, errorMsg);
-			return CHECK_RESULT;
+			return handleError(errorMsg, model, e);
 		}
 		Cache userMALCache = cacheManager.getCache(userMALCacheName);
 		Cache userMatchedAnimeCache = cacheManager.getCache(userMatchedAnimeCacheName);
@@ -187,6 +180,12 @@ public class CheckResultController {
 		model.addAttribute("newEpisodeAvailable", newEpisodeAvailable);
 		model.addAttribute("newEpisodeNotAvailable", newEpisodeNotAvailable);
 		model.addAttribute("matchedNotFoundAnimeOnAnimedia", matchedNotFoundAnimeOnAnimedia);
-		return CHECK_RESULT;
+		return RESULT;
+	}
+	
+	private String handleError(String errorMsg, Model model, Exception exception) {
+		log.error(errorMsg, exception);
+		model.addAttribute(ERROR_MSG, errorMsg);
+		return RESULT;
 	}
 }

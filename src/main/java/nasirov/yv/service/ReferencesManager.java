@@ -109,7 +109,7 @@ public class ReferencesManager {
 			String[] concertizedEpisode = getConcertizedEpisode(titleOnMAL);
 			String min = null;
 			String max = null;
-			if (concertizedEpisode.length != 0) {
+			if (concertizedEpisode != null) {
 				min = concertizedEpisode[0];
 				max = concertizedEpisode[1];
 				titleOnMAL = titleOnMAL.replaceAll("\\d{1,3}-(\\d{1,3}|[x]{3})", "");
@@ -142,8 +142,9 @@ public class ReferencesManager {
 	private static String[] getConcertizedEpisode(String s) {
 		Pattern pattern = Pattern.compile(CONCERTIZE_EPISODE);
 		Matcher matcher = pattern.matcher(s);
-		String[] arr = new String[2];
+		String[] arr = null;
 		if (matcher.find()) {
+			arr = new String[2];
 			arr[0] = matcher.group("min");
 			arr[1] = matcher.group("max");
 		}

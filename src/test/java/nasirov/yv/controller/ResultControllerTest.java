@@ -56,7 +56,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
  * Created by nasirov.yv
  */
 @ContextConfiguration(classes = {
-		CheckResultController.class,
+		ResultController.class,
 		AnimediaHTMLParser.class,
 		MALParser.class,
 		WrappedObjectMapper.class,
@@ -68,13 +68,10 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 		RoutinesIO.class,
 		MethodValidationPostProcessor.class})
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
-@WebMvcTest(CheckResultController.class)
-public class CheckResultControllerTest extends AbstractTest {
+@WebMvcTest(ResultController.class)
+public class ResultControllerTest extends AbstractTest {
 	@MockBean
 	private MALService malService;
-	
-	@MockBean
-	private HttpCaller httpCaller;
 	
 	@MockBean
 	private AnimediaService animediaService;
@@ -98,7 +95,7 @@ public class CheckResultControllerTest extends AbstractTest {
 	
 	private static final String USERNAME = "test";
 	
-	private static final String PATH = "/checkResult";
+	private static final String PATH = "/result";
 	
 	@Before
 	public void setUp() {
@@ -131,6 +128,7 @@ public class CheckResultControllerTest extends AbstractTest {
 		String content = response.getContentAsString();
 		assertNotNull(content);
 		assertTrue(content.contains("MAL account " + USERNAME + " is not found"));
+		checkTitleAndHeaderForError(content, USERNAME);
 	}
 	
 	@Test
@@ -143,6 +141,7 @@ public class CheckResultControllerTest extends AbstractTest {
 		String content = response.getContentAsString();
 		assertNotNull(content);
 		assertTrue(content.contains(errorMsg));
+		checkTitleAndHeaderForError(content, USERNAME);
 	}
 	
 	@Test
@@ -155,6 +154,7 @@ public class CheckResultControllerTest extends AbstractTest {
 		String content = response.getContentAsString();
 		assertNotNull(content);
 		assertTrue(content.contains(errorMsg));
+		checkTitleAndHeaderForError(content, USERNAME);
 	}
 	
 	@Test
@@ -167,6 +167,7 @@ public class CheckResultControllerTest extends AbstractTest {
 		String content = response.getContentAsString();
 		assertNotNull(content);
 		assertTrue(content.contains(errorMsg));
+		checkTitleAndHeaderForError(content, USERNAME);
 	}
 	
 	@Test
@@ -192,7 +193,7 @@ public class CheckResultControllerTest extends AbstractTest {
 		AnimediaMALTitleReferences fairyTail1 = animediaMALTitleReferences.get(1);
 		AnimediaMALTitleReferences sao = animediaMALTitleReferences.get(0);
 		checkFront(content, fairyTail1.getFinalUrl(), fairyTail1.getPosterUrl(), fairyTail1.getTitleOnMAL(),
-				fairyTail1.getEpisodeNumberForWatch(), sao.getPosterUrl(), sao.getTitleOnMAL(), notFoundAnime.getAnimeUrl(), notFoundAnime.getPosterUrl(), notFoundAnime.getTitle());
+				fairyTail1.getEpisodeNumberForWatch(), sao.getPosterUrl(), sao.getTitleOnMAL(), notFoundAnime.getAnimeUrl(), notFoundAnime.getPosterUrl(), notFoundAnime.getTitle(), USERNAME);
 	}
 	
 	@Test
@@ -244,7 +245,7 @@ public class CheckResultControllerTest extends AbstractTest {
 		verify(referencesManager, times(1)).updateCurrentMax(anySet(), eq(sao1Updated));
 		verify(seasonAndEpisodeChecker, times(1)).updateEpisodeNumberForWatchAndFinalUrl(eq(watchingTitles), eq(sao1Updated), anySet());
 		checkFront(content, sao3.getFinalUrl(), sao3.getPosterUrl(), sao3.getTitleOnMAL(), sao3.getEpisodeNumberForWatch(),
-				sao1.getPosterUrl(), sao1.getTitleOnMAL(), notFoundAnime.getAnimeUrl(), notFoundAnime.getPosterUrl(), notFoundAnime.getTitle());
+				sao1.getPosterUrl(), sao1.getTitleOnMAL(), notFoundAnime.getAnimeUrl(), notFoundAnime.getPosterUrl(), notFoundAnime.getTitle(),USERNAME);
 	}
 	
 	private void checkFront(String content,
@@ -256,19 +257,35 @@ public class CheckResultControllerTest extends AbstractTest {
 							String notAvailableTitle,
 							String notFoundMALUrl,
 							String notFoundPosterUrl,
-							String notFoundTitle) {
-		Pattern pattern = Pattern.compile("<h1>New Episode Available:</h1>\\R*<ul>\\R*\\s*<a href=\"" + availableFinalUrl + "\" target=\"_blank\"><img src=\"" + availablePosterUrl +
-				"\" height=\"318\" width=\"225\"\\R*\\s+alt=\"" + availableTitle + "\"\\R*\\s+title=\"" + availableTitle + " episode " + availableEpisodeNumberForWatch + "\"");
+							String notFoundTitle,
+							String username) {
+		Pattern pattern = Pattern.compile("<title>Result for " + username + "</title>");
 		Matcher matcher = pattern.matcher(content);
 		assertTrue(matcher.find());
-		pattern = Pattern.compile("<h1>New Episode Not Available:</h1>\\R*<ul>\\R*\\s*<img src=\"" + notAvailablePosterUrl + "\" height=\"318\" width=\"225\" alt=\""
-				+ notAvailableTitle + "\"\\R*\\s+title=\"" + notAvailableTitle + "\" class=\"fade\"/>");
+		pattern = Pattern.compile("<header>\\R\\s*<h1>Result for " + username + "</h1>\\R</header>");
 		matcher = pattern.matcher(content);
 		assertTrue(matcher.find());
-		pattern = Pattern.compile("<h1>Not Found on Animedia:</h1>\\R*<ul>\\R*\\s*<a href=\"" + notFoundMALUrl + "\" target=\"_blank\"><img src=\""
-				+ notFoundPosterUrl + "\" height=\"318\" width=\"225\"\\R*\\s+alt=\"" + notFoundTitle + "\"\\R*\\s+title=\"" + notFoundTitle + "\" class=\"fade\"/></a>");
+		pattern = Pattern.compile("<p class=\"title\">New Episode Available</p>\\R\\s*<ul>\\R\\s*<a href=\"" + availableFinalUrl + "\" target=\"_blank\"><img src=\"" + availablePosterUrl +
+				"\" height=\"318\" width=\"225\"\\R\\s+alt=\"" + availableTitle + "\"\\R\\s+title=\"" + availableTitle + " episode " + availableEpisodeNumberForWatch + "\"");
 		matcher = pattern.matcher(content);
 		assertTrue(matcher.find());
+		pattern = Pattern.compile("<p class=\"title\">New Episode Not Available</p>\\R\\s*<ul>\\R\\s*<img src=\"" + notAvailablePosterUrl + "\" height=\"318\" width=\"225\" alt=\""
+				+ notAvailableTitle + "\"\\R\\s+title=\"" + notAvailableTitle + "\" class=\"fade\"/>");
+		matcher = pattern.matcher(content);
+		assertTrue(matcher.find());
+		pattern = Pattern.compile("<p class=\"title\">Not Found on Animedia</p>\\R\\s*<ul>\\R\\s*<a href=\"" + notFoundMALUrl + "\" target=\"_blank\"><img src=\""
+				+ notFoundPosterUrl + "\" height=\"318\" width=\"225\"\\R\\s+alt=\"" + notFoundTitle + "\"\\R\\s+title=\"" + notFoundTitle + "\" class=\"fade\"/></a>");
+		matcher = pattern.matcher(content);
+		assertTrue(matcher.find());
+	}
+	
+	private void checkTitleAndHeaderForError(String content, String username) {
+		Pattern pattern = Pattern.compile("<title>Result for " + username + "</title>");
+		Matcher matcher = pattern.matcher(content);
+		assertTrue(matcher.find());
+		pattern = Pattern.compile("<header>\\R\\s*<h1>Result for " + username + "</h1>\\R</header>");
+		matcher = pattern.matcher(content);
+		assertFalse(matcher.find());
 	}
 	
 	private Set<AnimediaMALTitleReferences> getMatchedAnime() {

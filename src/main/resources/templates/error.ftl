@@ -3,16 +3,20 @@
 <html>
 <head>
     <title>Error</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
-          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous"/>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"/>
-    <link rel="shortcut icon" href="<@spring.url '/img/faviconError.ico'/>" type="image/x-icon">
+    <link rel="stylesheet" type="text/css" href="<@spring.url '/css/center-style.css'/>"/>
+    <link rel="stylesheet" type="text/css" href="<@spring.url '/css/nes.min.css'/>"/>
+    <link rel="stylesheet" type="text/css" href="<@spring.url '/css/ps2p.css'/>"/>
+    <link rel="shortcut icon" type="image/x-icon" href="<@spring.url '/img/faviconError.ico'/>">
 </head>
 <body>
-<div class="container">
-    <div class="jumbotron">
-        <h1 class="text-center"><i class="fa fa-frown-o"> </i> Sorry, something went wrong. </h1>
-        <p class="text-center"><a class="btn btn-primary" href="/"><i class="fa fa-home"></i>Try again</a></p>
+<div id="container">
+    <div class="inner">
+        <h2>Sorry, something went wrong</h2>
+        <span>
+            <a href="/">
+                <button type="button" class="nes-btn is-primary">Home</button>
+            </a>
+        </span>
     </div>
 </div>
 </body>

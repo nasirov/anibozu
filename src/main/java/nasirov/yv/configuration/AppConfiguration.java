@@ -57,7 +57,7 @@ public class AppConfiguration {
 	 * {@link SeasonAndEpisodeChecker#getMatchedAnime}
 	 * <p>
 	 * matchedReferencesCache-for updated user matched references(only multi) (before userMatchedAnimeCacheName)
-	 * {@link nasirov.yv.controller.CheckResultController#handleNewUser}
+	 * {@link nasirov.yv.controller.ResultController#handleNewUser}
 	 * <p>
 	 * currentlyUpdatedTitlesCache-for currently updated titles on animedia
 	 * {@link nasirov.yv.service.AnimediaService#getCurrentlyUpdatedTitles}

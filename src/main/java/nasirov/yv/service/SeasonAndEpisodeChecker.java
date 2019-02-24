@@ -74,7 +74,7 @@ public class SeasonAndEpisodeChecker {
 														   @NotEmpty Set<AnimediaTitleSearchInfo> animediaSearchList,
 														   @NotEmpty String username) {
 		Map<String, Map<String, String>> animediaRequestParameters = requestParametersBuilder.build();
-		log.info("CHECK RESULT FOR {}:", username);
+		log.info("RESULT FOR {}:", username);
 		Set<AnimediaMALTitleReferences> finalMatchedAnime = new LinkedHashSet<>();
 		for (UserMALTitleInfo userMALTitleInfo : watchingTitles) {
 			Set<AnimediaMALTitleReferences> matchedMultiSeasonsReferences = references.stream().filter(set -> set.getTitleOnMAL().equals(userMALTitleInfo.getTitle())).collect(Collectors.toSet());

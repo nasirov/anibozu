@@ -3,17 +3,27 @@
 <head>
     <meta charset="UTF-8">
     <title>Anime Checker</title>
-    <link rel="stylesheet" type="text/css" href="css/style.css"/>
-    <link rel="shortcut icon" href="img/favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" type="text/css" href="css/center-style.css"/>
+    <link rel="stylesheet" type="text/css" href="css/nes.min.css"/>
+    <link rel="stylesheet" type="text/css" href="css/ps2p.css">
+    <link rel="shortcut icon" type="image/x-icon" href="img/favicon.ico"/>
 </head>
+
 <body>
-<div class="parent">
-    <div class="block">
-        <form action="/checkResult/" method="post">
-            <input name="username" type="text" size="40" minlength="2" maxlength="16" required
-                   placeholder="Enter your MAL username...">
-            <input type="submit" value="Submit">
-        </form>
+<div id="container">
+    <div class="inner">
+        <section class="nes-container with-title is-centered">
+            <p class="title">Anime Checker</p>
+            <div class="nes-field">
+                <form action="/result/" method="post">
+                    <input type="text" id="name_field" class="nes-input" name="username" minlength="2"
+                           maxlength="16"
+                           required
+                           placeholder="Enter MAL username...">
+                    <input type="submit" class="nes-btn" value="Submit">
+                </form>
+            </div>
+        </section>
     </div>
 </div>
 </body>
