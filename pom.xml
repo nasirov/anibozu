@@ -134,6 +134,15 @@
                         </goals>
                     </execution>
                 </executions>
+                <configuration>
+                    <excludes>
+                        <exclude>nasirov/yv/serialization/*</exclude>
+                        <exclude>nasirov/yv/response/*</exclude>
+                        <exclude>nasirov/yv/enums/*</exclude>
+                        <exclude>nasirov/yv/parameter/*</exclude>
+                        <exclude>nasirov/yv/exception/*</exclude>
+                    </excludes>
+                </configuration>
             </plugin>
             <plugin>
                 <groupId>org.sonarsource.scanner.maven</groupId>
