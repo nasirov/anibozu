@@ -5,7 +5,7 @@
 [![Coverage Status](https://coveralls.io/repos/github/nasirov/anime-checker/badge.svg?branch=master)](https://coveralls.io/github/nasirov/anime-checker?branch=master)
 [![Apache License 2](https://img.shields.io/badge/license-ASF2-blue.svg)](https://www.apache.org/licenses/LICENSE-2.0.txt)
 
-The application analyzes user watching titles from **[My Anime List](https://myanimelist.net/)** and searches for new episodes on **[Animedia](https://online.animedia.tv/)**
+The application analyzes user watching titles from **[MyAnimeList](https://myanimelist.net/)** and searches for new episodes on **[Animedia](https://online.animedia.tv/)**
 
 # Docker
 #### Image
@@ -23,3 +23,17 @@ The application analyzes user watching titles from **[My Anime List](https://mya
 - After first full check your data puts in the cache for 30 min
 - Your title will update if it updates on mal or animedia in cached period
 - The application supports only default anime list view on mal
+
+# Screenshots
+
+![Index](/images/index.jpg)
+*Start page*
+
+![Index with username](/images/indexWithUsername.jpg)
+*Submit MAL username and wait a while*
+
+![Result View](/images/resultViewPt1.jpg)
+*Posters from "New Episode Available" section are provides links to new episodes on **[Animedia](https://online.animedia.tv/)***
+
+![Result View](/images/resultViewPt2.jpg)
+*Posters from "Not Found on Animedia" section are provides links to title page on **[MyAnimeList](https://myanimelist.net/)***
