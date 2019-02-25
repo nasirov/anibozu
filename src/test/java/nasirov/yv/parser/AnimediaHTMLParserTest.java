@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import static nasirov.yv.enums.Constants.FIRST_EPISODE;
 import static org.junit.Assert.*;
 
 /**
@@ -88,6 +89,9 @@ public class AnimediaHTMLParserTest extends AbstractTest {
 		HttpResponse responseWithOVA = new HttpResponse(routinesIO.readFromResource(sao7), HttpStatus.OK.value());
 		String firstEpisodeInSeasonOva = animediaHTMLParser.getFirstEpisodeInSeason(responseWithOVA);
 		assertEquals("1", firstEpisodeInSeasonOva);
+		HttpResponse responseWithoutFirstEpisode = new HttpResponse("<span>ОВА из 1</span>", HttpStatus.OK.value());
+		firstEpisodeInSeasonOva = animediaHTMLParser.getFirstEpisodeInSeason(responseWithoutFirstEpisode);
+		assertEquals(FIRST_EPISODE.getDescription(), firstEpisodeInSeasonOva);
 	}
 	
 	@Test(expected = NullPointerException.class)
@@ -108,6 +112,9 @@ public class AnimediaHTMLParserTest extends AbstractTest {
 		HttpResponse responseWithOVA = new HttpResponse(routinesIO.readFromResource(sao7), HttpStatus.OK.value());
 		Map<String, List<String>> ovaRange = animediaHTMLParser.getEpisodesRange(responseWithOVA);
 		checkEpisodesRange(ovaRange, "1", "1", 1);
+		HttpResponse responseWithoutFirstEpisode = new HttpResponse("<span>ОВА из 1</span>", HttpStatus.OK.value());
+		ovaRange = animediaHTMLParser.getEpisodesRange(responseWithoutFirstEpisode);
+		checkEpisodesRange(ovaRange, "1", FIRST_EPISODE.getDescription(), 1);
 	}
 	
 	@Test(expected = NullPointerException.class)
@@ -117,7 +124,10 @@ public class AnimediaHTMLParserTest extends AbstractTest {
 	
 	@Test
 	public void testGetEpisodesRangeRangeIsNotFound() throws Exception {
-		Map<String, List<String>> episodesRange = animediaHTMLParser.getEpisodesRange(new HttpResponse("", HttpStatus.OK.value()));
+		Map<String, List<String>> episodesRange = animediaHTMLParser.getEpisodesRange(new HttpResponse("<a href=\"/anime/mastera-mecha-onlayn/1/1\" title=\"Серия", HttpStatus.OK.value()));
+		assertNotNull(episodesRange);
+		assertEquals(0, episodesRange.size());
+		episodesRange = animediaHTMLParser.getEpisodesRange(new HttpResponse("", HttpStatus.OK.value()));
 		assertNotNull(episodesRange);
 		assertEquals(0, episodesRange.size());
 	}

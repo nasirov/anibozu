@@ -30,8 +30,7 @@ import static nasirov.yv.enums.MALAnimeStatus.WATCHING;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.mockito.ArgumentMatchers.*;
-import static org.mockito.Mockito.doAnswer;
-import static org.mockito.Mockito.doReturn;
+import static org.mockito.Mockito.*;
 
 /**
  * Created by nasirov.yv
@@ -50,6 +49,9 @@ public class SeasonAndEpisodeCheckerTest extends AbstractTest {
 	
 	@MockBean
 	private NotFoundAnimeOnAnimediaRepository notFoundAnimeOnAnimediaRepository;
+	
+	@MockBean
+	private ReferencesManager referencesManager;
 	
 	private List<UserMALTitleInfo> repoMock;
 	
@@ -125,6 +127,21 @@ public class SeasonAndEpisodeCheckerTest extends AbstractTest {
 				).count());
 		assertEquals(1, repoMock.size());
 		assertEquals("notFoundOnAnimedia", repoMock.get(0).getTitle());
+	}
+	
+	@Test
+	public void getMatchedAnimeUpdateMultiseasonsReferences() {
+		String username = "testUsername";
+		Set<AnimediaMALTitleReferences> multiSeasonsReferencesList = new LinkedHashSet<>();
+		AnimediaMALTitleReferences notUpdatedReference = new AnimediaMALTitleReferences(ONE_PIECE_URL, "1", "1", ONE_PIECE_NAME, null,null,"10", null, null, null);
+		multiSeasonsReferencesList.add(notUpdatedReference);
+		Set<UserMALTitleInfo> watchingTitles = new LinkedHashSet<>();
+		UserMALTitleInfo addedTitleInUserCachedPeriod = new UserMALTitleInfo(0, WATCHING.getCode(), 0, ONE_PIECE_NAME, 0, "onePiecePosterUrl", "onePieceAnimeUrl");
+		watchingTitles.add(addedTitleInUserCachedPeriod);
+		Set<AnimediaTitleSearchInfo> animediaSearchList = getAnimediaSearchList();
+		seasonAndEpisodeChecker.getMatchedAnime(watchingTitles, multiSeasonsReferencesList, animediaSearchList, username);
+		verify(referencesManager,times(1)).updateReferences(anySet());
+		assertEquals(addedTitleInUserCachedPeriod.getPosterUrl(), notUpdatedReference.getPosterUrl());
 	}
 	
 	@Test

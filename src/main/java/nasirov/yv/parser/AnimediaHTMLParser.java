@@ -216,7 +216,7 @@ public class AnimediaHTMLParser {
 					episodes.add(firstEpisodeInSeason);
 				}
 			} else if (description != null) {
-				episodes.add(checkDescription(description) ? FIRST_EPISODE.getDescription() : description);
+				episodes.add(isDescription(description) ? FIRST_EPISODE.getDescription() : description);
 			}
 		}
 		if (episodes.isEmpty() || maxEpisodes == null) {
@@ -235,7 +235,7 @@ public class AnimediaHTMLParser {
 		return "url not found";
 	}
 	
-	private boolean checkDescription(@NotEmpty String description) {
+	private boolean isDescription(@NotEmpty String description) {
 		Pattern pattern = Pattern.compile("\\D+");
 		Matcher matcher = pattern.matcher(description);
 		return matcher.find();

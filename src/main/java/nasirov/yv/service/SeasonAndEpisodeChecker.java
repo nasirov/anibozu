@@ -47,17 +47,21 @@ public class SeasonAndEpisodeChecker {
 	
 	private CacheManager cacheManager;
 	
+	private ReferencesManager referencesManager;
+	
 	@Autowired
 	public SeasonAndEpisodeChecker(HttpCaller httpCaller,
 								   @Qualifier("animediaRequestParametersBuilder") RequestParametersBuilder requestParametersBuilder,
 								   AnimediaHTMLParser animediaHTMLParser,
 								   NotFoundAnimeOnAnimediaRepository notFoundAnimeOnAnimediaRepositoryRepository,
-								   CacheManager cacheManager) {
+								   CacheManager cacheManager,
+								   ReferencesManager referencesManager) {
 		this.httpCaller = httpCaller;
 		this.requestParametersBuilder = requestParametersBuilder;
 		this.animediaHTMLParser = animediaHTMLParser;
 		this.notFoundAnimeOnAnimediaRepositoryRepository = notFoundAnimeOnAnimediaRepositoryRepository;
 		this.cacheManager = cacheManager;
+		this.referencesManager = referencesManager;
 	}
 	
 	/**
@@ -80,6 +84,14 @@ public class SeasonAndEpisodeChecker {
 			Set<AnimediaMALTitleReferences> matchedMultiSeasonsReferences = references.stream().filter(set -> set.getTitleOnMAL().equals(userMALTitleInfo.getTitle())).collect(Collectors.toSet());
 			//Increment to next episode for watch
 			Integer nextNumberOfEpisodeForWatch = userMALTitleInfo.getNumWatchedEpisodes() + 1;
+			if (!matchedMultiSeasonsReferences.isEmpty()) {
+				matchedMultiSeasonsReferences.stream().filter(set -> set.getCurrentMax() == null || set.getMin() == null || set.getMax() == null).forEach(ref ->{
+					Set<AnimediaMALTitleReferences> tempReferences = new LinkedHashSet<>();
+					tempReferences.add(ref);
+					referencesManager.updateReferences(tempReferences);
+					ref.setPosterUrl(userMALTitleInfo.getPosterUrl());
+				});
+			}
 			if (matchedMultiSeasonsReferences.size() == 1) {
 				handleOneMatchedResultInMultiSeasonsReferences(matchedMultiSeasonsReferences, userMALTitleInfo, finalMatchedAnime);
 			} else if (matchedMultiSeasonsReferences.size() > 1) {

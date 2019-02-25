@@ -15,7 +15,8 @@ import nasirov.yv.util.URLBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.Cache;
+import org.springframework.cache.CacheManager;
 import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Service;
 
@@ -42,9 +43,9 @@ public class MALService {
 	private static final String STATUS = "status";
 	
 	/**
-	 * Max number of rows on html page
+	 * Lazy initialization limit of titles in json in html page
 	 */
-	private static final Integer MAX_NUMBER_OF_TITLE_IN_HTML = 300;
+	private static final Integer MAX_NUMBER_OF_TITLES_IN_HTML = 300;
 	
 	private static final Map<String, String> QUERY_PARAMS = new HashMap<>();
 	
@@ -68,17 +69,21 @@ public class MALService {
 	
 	private URLBuilder urlBuilder;
 	
+	private CacheManager cacheManager;
+	
 	@Autowired
 	public MALService(HttpCaller httpCaller,
 					  @Qualifier(value = "malRequestParametersBuilder") RequestParametersBuilder requestParametersBuilder,
 					  WrappedObjectMapper wrappedObjectMapper,
 					  MALParser malParser,
-					  URLBuilder urlBuilder) {
+					  URLBuilder urlBuilder,
+					  CacheManager cacheManager) {
 		this.httpCaller = httpCaller;
 		this.requestParametersBuilder = requestParametersBuilder;
 		this.wrappedObjectMapper = wrappedObjectMapper;
 		this.malParser = malParser;
 		this.urlBuilder = urlBuilder;
+		this.cacheManager = cacheManager;
 	}
 	
 	/**
@@ -87,38 +92,40 @@ public class MALService {
 	 * @param username the MAL username
 	 * @return the watching titles
 	 */
-	@Cacheable(value = "userMALCache", key = "#username")
 	public Set<UserMALTitleInfo> getWatchingTitles(@NotEmpty String username) throws MALUserAccountNotFoundException, WatchingTitlesNotFoundException, MALUserAnimeListAccessException, JSONNotFoundException {
 		Map<String, Map<String, String>> malRequestParameters = requestParametersBuilder.build();
-		//get a number of user watching titles
+		//get amount of user watching titles
 		Integer numWatchingTitlesInteger = getNumberOfWatchingTitles(username, malRequestParameters);
-		//запрос на страницу с текущими аниме
-		//суть в том, что в один json с аниме инфой MAL добавляет только 300 аниме, а остальные нужно подгружать дополнительными запросами
-		//делается первый стандартный запрос  на максимальное количество, т.е. 300
-		//стандартный запрос animelist/testAccForDev
+		//get html with currently watching titles
+		//html with currently watching titles provides lazy json initialization with limit 300 entity
+		//if user watching titles > 300 then we have to do additional request(s)
+		//first request = 300 entity
+		//first request example animelist/username?status=1
 		Set<Set<UserMALTitleInfo>> titleJson = new LinkedHashSet<>();
 		String targetUrl = urlBuilder.build(myAnimeListNet + ANIME_LIST + username, QUERY_PARAMS);
 		titleJson.add(malParser.getUserTitlesInfo(httpCaller.call(targetUrl, HttpMethod.GET, malRequestParameters), LinkedHashSet.class));
 		Integer diff;
-		//потом проверяем по количеству текущих аниме количество недогруженных аниме
-		if (numWatchingTitlesInteger > MAX_NUMBER_OF_TITLE_IN_HTML) {
-			Set<UserMALTitleInfo> firstJson = getAllWatchingTitles(MAX_NUMBER_OF_TITLE_IN_HTML, malRequestParameters, username);
+		//check for missing titles
+		if (numWatchingTitlesInteger > MAX_NUMBER_OF_TITLES_IN_HTML) {
+			Set<UserMALTitleInfo> firstJson = getAllWatchingTitles(MAX_NUMBER_OF_TITLES_IN_HTML, malRequestParameters, username);
 			titleJson.add(firstJson);
-			diff = numWatchingTitlesInteger - MAX_NUMBER_OF_TITLE_IN_HTML;
+			diff = numWatchingTitlesInteger - MAX_NUMBER_OF_TITLES_IN_HTML;
 			int nextRequestCount = 2;
-			while (diff > MAX_NUMBER_OF_TITLE_IN_HTML) {
+			while (diff > MAX_NUMBER_OF_TITLES_IN_HTML) {
 				Set<UserMALTitleInfo> additionalJson = getAllWatchingTitles((numWatchingTitlesInteger * nextRequestCount), malRequestParameters, username);
 				titleJson.add(additionalJson);
 				nextRequestCount++;
-				diff -= MAX_NUMBER_OF_TITLE_IN_HTML;
+				diff -= MAX_NUMBER_OF_TITLES_IN_HTML;
 			}
 		}
 		Set<UserMALTitleInfo> watchingTitles = new LinkedHashSet<>();
 		for (Set<UserMALTitleInfo> set : titleJson) {
+			changePosterUrl(set);
+			changeAnimeUrl(set);
 			watchingTitles.addAll(set);
 		}
-		changePosterUrl(watchingTitles);
-		changeAnimeUrl(watchingTitles);
+		Cache userMALCache = cacheManager.getCache(userMALCacheName);
+		userMALCache.putIfAbsent(username, watchingTitles);
 		return watchingTitles;
 	}
 	
@@ -161,7 +168,7 @@ public class MALService {
 	 * to
 	 * https://cdn.myanimelist.net/images/anime/7/86743.jpg
 	 * <p>
-	 * because last url provided better quality image
+	 * because last url provides better quality image
 	 *
 	 * @param watchingTitles the user mal anime list
 	 */

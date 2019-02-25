@@ -107,7 +107,7 @@ public class ResultController {
 		List<AnimediaMALTitleReferences> currentlyUpdatedTitlesFromCache = currentlyUpdatedTitlesCache.get(currentlyUpdatedTitlesCacheName, ArrayList.class);
 		if (watchingTitlesFromCache != null && matchedAnimeFromCache != null && currentlyUpdatedTitlesFromCache != null) {
 			List<AnimediaMALTitleReferences> currentlyUpdatedTitles = animediaService.getCurrentlyUpdatedTitles();
-			return handleCachedUser(currentlyUpdatedTitles, currentlyUpdatedTitlesFromCache, matchedAnimeFromCache, watchingTitlesFromCache, watchingTitles, model);
+			return handleCachedUser(currentlyUpdatedTitles, currentlyUpdatedTitlesFromCache, matchedAnimeFromCache, watchingTitlesFromCache, watchingTitles, model, username);
 		}
 		return handleNewUser(matchedReferencesCache, username, watchingTitles, matchedAnimeFromCache, model);
 	}
@@ -117,8 +117,18 @@ public class ResultController {
 									Set<AnimediaMALTitleReferences> matchedAnimeFromCache,
 									Set<UserMALTitleInfo> watchingTitlesFromCache,
 									Set<UserMALTitleInfo> watchingTitles,
-									Model model) {
+									Model model,
+									String username) {
 		List<AnimediaMALTitleReferences> differences = animediaService.checkCurrentlyUpdatedTitles(currentlyUpdatedTitles, currentlyUpdatedTitlesFromCache);
+		updateCurrentMaxEpisodeNumberForWatchAndFinalUrl(differences, matchedAnimeFromCache, watchingTitlesFromCache);
+		boolean isWatchingTitlesUpdated = malService.isWatchingTitlesUpdated(watchingTitles, watchingTitlesFromCache);
+		if (isWatchingTitlesUpdated) {
+			updateWatchingTitlesAndMatchedAnime(matchedAnimeFromCache, watchingTitlesFromCache, username);
+		}
+		return enrichModel(matchedAnimeFromCache, watchingTitlesFromCache, model);
+	}
+	
+	private void updateCurrentMaxEpisodeNumberForWatchAndFinalUrl(List<AnimediaMALTitleReferences> differences, Set<AnimediaMALTitleReferences> matchedAnimeFromCache, Set<UserMALTitleInfo> watchingTitlesFromCache) {
 		if (!differences.isEmpty()) {
 			for (AnimediaMALTitleReferences currentlyUpdatedTitle : differences) {
 				long count = matchedAnimeFromCache.stream()
@@ -131,8 +141,26 @@ public class ResultController {
 				}
 			}
 		}
-		boolean isWatchingTitlesUpdated = malService.isWatchingTitlesUpdated(watchingTitles, watchingTitlesFromCache);
-		return enrichModel(matchedAnimeFromCache, watchingTitlesFromCache, model, isWatchingTitlesUpdated);
+	}
+	
+	private void updateWatchingTitlesAndMatchedAnime(Set<AnimediaMALTitleReferences> matchedAnimeFromCache, Set<UserMALTitleInfo> watchingTitlesFromCache, String username) {
+		Iterator<AnimediaMALTitleReferences> iterator = matchedAnimeFromCache.iterator();
+		while (iterator.hasNext()) {
+			AnimediaMALTitleReferences animediaMALTitleReferences = iterator.next();
+			UserMALTitleInfo removedFromAnimeList = watchingTitlesFromCache.stream().filter(set -> set.getTitle().equals(animediaMALTitleReferences.getTitleOnMAL())).findFirst().orElse(null);
+			if (removedFromAnimeList == null) {
+				iterator.remove();
+			}
+		}
+		for (UserMALTitleInfo watchingTitle : watchingTitlesFromCache) {
+			AnimediaMALTitleReferences animediaMALTitleReferences = matchedAnimeFromCache.stream().filter(set -> set.getTitleOnMAL().equals(watchingTitle.getTitle())).findAny().orElse(null);
+			if (animediaMALTitleReferences == null) {
+				Set<UserMALTitleInfo> tempWatchingTitles = new LinkedHashSet<>();
+				tempWatchingTitles.add(watchingTitle);
+				Set<AnimediaMALTitleReferences> newMatchedAnime = seasonAndEpisodeChecker.getMatchedAnime(tempWatchingTitles, referencesManager.getMultiSeasonsReferences(), animediaService.getAnimediaSearchList(), username);
+				matchedAnimeFromCache.addAll(newMatchedAnime);
+			}
+		}
 	}
 	
 	private String handleNewUser(Cache matchedReferencesCache,
@@ -156,20 +184,10 @@ public class ResultController {
 			matchedReferences = matchedReferencesFromCache;
 		}
 		Set<AnimediaMALTitleReferences> matchedAnime = matchedAnimeFromCache != null ? matchedAnimeFromCache : seasonAndEpisodeChecker.getMatchedAnime(watchingTitles, matchedReferences, animediaSearchList, username);
-		return enrichModel(matchedAnime, watchingTitles, model, false);
+		return enrichModel(matchedAnime, watchingTitles, model);
 	}
 	
-	private String enrichModel(Set<AnimediaMALTitleReferences> matchedAnime, Set<UserMALTitleInfo> watchingTitles, Model model, boolean isWatchingTitlesUpdated) {
-		if (isWatchingTitlesUpdated) {
-			Iterator<AnimediaMALTitleReferences> iterator = matchedAnime.iterator();
-			while (iterator.hasNext()) {
-				AnimediaMALTitleReferences animediaMALTitleReferences = iterator.next();
-				UserMALTitleInfo userMALTitleInfo = watchingTitles.stream().filter(set -> set.getTitle().equals(animediaMALTitleReferences.getTitleOnMAL())).findFirst().orElse(null);
-				if (userMALTitleInfo == null) {
-					iterator.remove();
-				}
-			}
-		}
+	private String enrichModel(Set<AnimediaMALTitleReferences> matchedAnime, Set<UserMALTitleInfo> watchingTitles, Model model) {
 		List<AnimediaMALTitleReferences> newEpisodeAvailable = matchedAnime.stream().filter(set -> !set.getFinalUrl().equals("")).collect(Collectors.toList());
 		List<AnimediaMALTitleReferences> newEpisodeNotAvailable = matchedAnime.stream().filter(set -> set.getFinalUrl().equals("")).collect(Collectors.toList());
 		Set<UserMALTitleInfo> notFoundAnimeOnAnimedia = new LinkedHashSet<>(notFoundAnimeOnAnimediaRepository.findAll());

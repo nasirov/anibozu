@@ -81,4 +81,10 @@ public class MALParserTest extends AbstractTest{
 	public void getNumWatchingTitlesAccountIsNotFound() throws Exception {
 		malParser.getNumWatchingTitles(new HttpResponse("",HttpStatus.NOT_FOUND.value()));
 	}
+	
+	@Test
+	public void getNumWatchingTitlesWatchingTitlesNotFound() throws Exception {
+		String numWatchingTitles = malParser.getNumWatchingTitles(new HttpResponse("", HttpStatus.OK.value()));
+		assertNull(numWatchingTitles);
+	}
 }

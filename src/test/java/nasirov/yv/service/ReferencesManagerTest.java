@@ -11,6 +11,7 @@ import nasirov.yv.serialization.Anime;
 import nasirov.yv.serialization.AnimediaMALTitleReferences;
 import nasirov.yv.serialization.UserMALTitleInfo;
 import nasirov.yv.util.RoutinesIO;
+import org.apache.tomcat.util.http.fileupload.FileUtils;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -21,6 +22,7 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.util.ReflectionTestUtils;
+import org.springframework.util.FileSystemUtils;
 
 import java.io.File;
 import java.util.*;
@@ -135,6 +137,15 @@ public class ReferencesManagerTest extends AbstractTest {
 		String prefix = tempFolderName + File.separator;
 		assertTrue(routinesIO.readFromFile(prefix + tempRawReferencesName).equals(fullUrl + System.lineSeparator()));
 		routinesIO.removeDir(tempFolderName);
+		String tempFileName = "test.txt";
+		File tempFile = new File(tempFileName);
+		tempFile.createNewFile();
+		assertTrue(tempFile.exists());
+		assertFalse(tempFile.isDirectory());
+		ReflectionTestUtils.setField(referencesManager, "tempFolderName", tempFileName);
+		referencesManager.isReferencesAreFull(multiSeasonsFromSearch, multiSeasonsReferencesList);
+		FileSystemUtils.deleteRecursively(tempFile);
+		assertFalse(tempFile.exists());
 	}
 	
 	@Test

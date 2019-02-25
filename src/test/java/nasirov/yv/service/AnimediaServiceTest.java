@@ -243,6 +243,7 @@ public class AnimediaServiceTest extends AbstractTest {
 		ReflectionTestUtils.setField(animediaService, "resourceAnnouncementsUrls", classPathResource);
 		ReflectionTestUtils.setField(animediaService, "resourceMultiSeasonsAnimeUrls", classPathResource);
 		ReflectionTestUtils.setField(animediaService, "resourceSingleSeasonsAnimeUrls", classPathResource);
+		ReflectionTestUtils.setField(animediaService, "tempFolderName", "classpath:notFound");
 		Map<AnimeTypeOnAnimedia, Set<Anime>> sortedAnime = animediaService.getAnimeSortedForTypeFromResources();
 		assertNotNull(sortedAnime);
 		assertTrue(sortedAnime.isEmpty());
