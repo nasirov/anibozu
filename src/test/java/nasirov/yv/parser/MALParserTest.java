@@ -8,15 +8,10 @@ import nasirov.yv.response.HttpResponse;
 import nasirov.yv.serialization.UserMALTitleInfo;
 import nasirov.yv.util.RoutinesIO;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.core.io.Resource;
 import org.springframework.http.HttpStatus;
 import org.springframework.test.annotation.DirtiesContext;
-import org.springframework.test.context.TestPropertySource;
-import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.LinkedHashSet;
 import java.util.Set;
@@ -31,8 +26,7 @@ import static org.junit.Assert.*;
 		MALParser.class,
 		RoutinesIO.class})
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_CLASS)
-public class MALParserTest extends AbstractTest{
-	
+public class MALParserTest extends AbstractTest {
 	private static final String USER_ANIME_LIST_PRIVATE_ACCESS = "Access to this list has been restricted by the owner";
 	
 	@Autowired
@@ -55,12 +49,12 @@ public class MALParserTest extends AbstractTest{
 	
 	@Test(expected = MALUserAnimeListAccessException.class)
 	public void getUserTitlesInfoAnimeListHasPrivateAccess() throws Exception {
-		malParser.getUserTitlesInfo(new HttpResponse(USER_ANIME_LIST_PRIVATE_ACCESS,HttpStatus.OK.value()), LinkedHashSet.class);
+		malParser.getUserTitlesInfo(new HttpResponse(USER_ANIME_LIST_PRIVATE_ACCESS, HttpStatus.OK.value()), LinkedHashSet.class);
 	}
 	
 	@Test(expected = JSONNotFoundException.class)
 	public void getUserTitlesInfoHtmlWithoutJson() throws Exception {
-		malParser.getUserTitlesInfo(new HttpResponse("",HttpStatus.OK.value()), LinkedHashSet.class);
+		malParser.getUserTitlesInfo(new HttpResponse("", HttpStatus.OK.value()), LinkedHashSet.class);
 	}
 	
 	@Test
@@ -69,7 +63,7 @@ public class MALParserTest extends AbstractTest{
 		assertNotNull(numWatchingTitlesString);
 		assertNotEquals("", numWatchingTitlesString);
 		int numWatchingTitles = Integer.parseInt(numWatchingTitlesString);
-		assertEquals(351, numWatchingTitles);
+		assertEquals(TEST_ACC_WATCHING_TITLES, numWatchingTitles);
 	}
 	
 	@Test(expected = NullPointerException.class)
@@ -79,7 +73,7 @@ public class MALParserTest extends AbstractTest{
 	
 	@Test(expected = MALUserAccountNotFoundException.class)
 	public void getNumWatchingTitlesAccountIsNotFound() throws Exception {
-		malParser.getNumWatchingTitles(new HttpResponse("",HttpStatus.NOT_FOUND.value()));
+		malParser.getNumWatchingTitles(new HttpResponse("", HttpStatus.NOT_FOUND.value()));
 	}
 	
 	@Test

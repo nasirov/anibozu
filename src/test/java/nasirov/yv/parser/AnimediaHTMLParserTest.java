@@ -7,10 +7,8 @@ import nasirov.yv.serialization.AnimediaMALTitleReferences;
 import nasirov.yv.util.RoutinesIO;
 import org.junit.Before;
 import org.junit.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.cache.CacheManager;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpStatus;
 import org.springframework.test.annotation.DirtiesContext;
@@ -30,8 +28,6 @@ import static org.junit.Assert.*;
 public class AnimediaHTMLParserTest extends AbstractTest {
 	@Value("classpath:animedia/search/pageWithCurrentlyAddedEpisodes.txt")
 	private Resource pageWithCurrentlyAddedEpisodes;
-	
-
 	
 	private AnimediaHTMLParser animediaHTMLParser;
 	
@@ -83,10 +79,10 @@ public class AnimediaHTMLParserTest extends AbstractTest {
 	
 	@Test
 	public void testGetFirstEpisodeInSeason() throws Exception {
-		HttpResponse firstDataListHtmlResponse = new HttpResponse(routinesIO.readFromResource(sao1), HttpStatus.OK.value());
+		HttpResponse firstDataListHtmlResponse = new HttpResponse(routinesIO.readFromResource(saoDataList1), HttpStatus.OK.value());
 		String firstEpisodeInSeason = animediaHTMLParser.getFirstEpisodeInSeason(firstDataListHtmlResponse);
 		assertEquals("1", firstEpisodeInSeason);
-		HttpResponse responseWithOVA = new HttpResponse(routinesIO.readFromResource(sao7), HttpStatus.OK.value());
+		HttpResponse responseWithOVA = new HttpResponse(routinesIO.readFromResource(saoDataList7), HttpStatus.OK.value());
 		String firstEpisodeInSeasonOva = animediaHTMLParser.getFirstEpisodeInSeason(responseWithOVA);
 		assertEquals("1", firstEpisodeInSeasonOva);
 		HttpResponse responseWithoutFirstEpisode = new HttpResponse("<span>ОВА из 1</span>", HttpStatus.OK.value());
@@ -106,10 +102,10 @@ public class AnimediaHTMLParserTest extends AbstractTest {
 	
 	@Test
 	public void testGetEpisodesRange() throws Exception {
-		HttpResponse firstDataListHtmlResponse = new HttpResponse(routinesIO.readFromResource(sao1), HttpStatus.OK.value());
+		HttpResponse firstDataListHtmlResponse = new HttpResponse(routinesIO.readFromResource(saoDataList1), HttpStatus.OK.value());
 		Map<String, List<String>> episodesRangeForFirstDataList = animediaHTMLParser.getEpisodesRange(firstDataListHtmlResponse);
 		checkEpisodesRange(episodesRangeForFirstDataList, "25", "1", 25);
-		HttpResponse responseWithOVA = new HttpResponse(routinesIO.readFromResource(sao7), HttpStatus.OK.value());
+		HttpResponse responseWithOVA = new HttpResponse(routinesIO.readFromResource(saoDataList7), HttpStatus.OK.value());
 		Map<String, List<String>> ovaRange = animediaHTMLParser.getEpisodesRange(responseWithOVA);
 		checkEpisodesRange(ovaRange, "1", "1", 1);
 		HttpResponse responseWithoutFirstEpisode = new HttpResponse("<span>ОВА из 1</span>", HttpStatus.OK.value());

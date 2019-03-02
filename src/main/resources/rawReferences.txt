@@ -361,8 +361,10 @@
 143.2 https://online.animedia.tv/anime/realnaya-devushka/2/1 3D Kanojo: Real Girl 2nd Season
 144.1 https://online.animedia.tv/anime/bezumnyj-azart/1/1 Kakegurui
 144.2 https://online.animedia.tv/anime/bezumnyj-azart/2/1 Kakegurui××
-145.1 https://online.animedia.tv/anime/mob-psiho-100-mob-psycho-100/1/1 Mob Psycho 100
-145.2 https://online.animedia.tv/anime/mob-psiho-100-mob-psycho-100/2/1 Mob Psycho 100 II
+145.1 https://online.animedia.tv/anime/mob-psycho-100/1/1 Mob Psycho 100
+145.2 https://online.animedia.tv/anime/mob-psycho-100/2/1 Mob Psycho 100 II
 146.1 https://online.animedia.tv/anime/kletki-za-rabotoj/1/1 Hataraku Saibou
 146.2 https://online.animedia.tv/anime/kletki-za-rabotoj/2/1 Hataraku Saibou: Kaze Shoukougun
 146.3 https://online.animedia.tv/anime/kletki-za-rabotoj/2/2 Hataraku Saibou PV
+147.1 https://online.animedia.tv/anime/boevyie-shinki/1/1 Busou Shinki
+147.2 https://online.animedia.tv/anime/boevyie-shinki/7/1 Busou Shinki: Install x Dream

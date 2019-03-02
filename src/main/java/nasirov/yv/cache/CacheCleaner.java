@@ -19,9 +19,6 @@ public class CacheCleaner {
 	@Value("${cache.userMAL.name}")
 	private String userMALCacheName;
 	
-	@Value("${cache.animediaSearchList.name}")
-	private String animediaSearchListCacheName;
-	
 	@Value("${cache.userMatchedAnime.name}")
 	private String userMatchedAnimeCacheName;
 	
@@ -40,7 +37,6 @@ public class CacheCleaner {
 	
 	@Scheduled(cron = "${cache.cron.expression}")
 	public void clearCache() {
-		clearAndLog(cacheManager, animediaSearchListCacheName);
 		clearAndLog(cacheManager, userMALCacheName);
 		clearAndLog(cacheManager, userMatchedAnimeCacheName);
 		clearAndLog(cacheManager, matchedReferencesCacheName);

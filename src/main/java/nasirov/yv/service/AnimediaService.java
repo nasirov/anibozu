@@ -17,7 +17,6 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.Cache;
 import org.springframework.cache.CacheManager;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Service;
@@ -105,15 +104,19 @@ public class AnimediaService {
 	 *
 	 * @return the list of title search info on animedia
 	 */
-	@Cacheable(value = "animediaSearchListCache", key = "'animediaSearchListCache'")
 	public Set<AnimediaTitleSearchInfo> getAnimediaSearchList() {
 		HttpResponse animediaResponse = httpCaller.call(animediaAnimeList, HttpMethod.GET, requestParametersBuilder.build());
 		Set<AnimediaTitleSearchInfo> animediaSearchList = wrappedObjectMapper.unmarshal(animediaResponse.getContent(), AnimediaTitleSearchInfo.class, LinkedHashSet.class);
+		String posterLowQualityQueryParameters = "h=70&q=50";
+		String posterHighQualityQueryParameters = "h=350&q=100";
+		String secureProtocol = "https:";
 		animediaSearchList.forEach(set -> {
-			set.setUrl(set.getUrl().replaceAll("https://online\\.animedia\\.tv/", "")
+			set.setUrl(set.getUrl().replaceAll(animediaOnlineTv, "")
 					.replace("[", "%5B").replace("]", "%5D"));
-			set.setPosterUrl("https:" + set.getPosterUrl().replace("h=70&q=50", "h=350&q=100"));
+			set.setPosterUrl(secureProtocol + set.getPosterUrl().replace(posterLowQualityQueryParameters, posterHighQualityQueryParameters));
 		});
+		Cache animediaSearchListCache = cacheManager.getCache(animediaSearchListCacheName);
+		animediaSearchListCache.putIfAbsent(animediaSearchListCacheName, animediaSearchList);
 		return animediaSearchList;
 	}
 	
@@ -233,10 +236,10 @@ public class AnimediaService {
 	 * @param animediaSearchList animedia search list
 	 * @return set of not found titles from animedia search list
 	 */
-	public Set<AnimediaTitleSearchInfo> checkAnime(@NotNull Set<Anime> singleSeasonAnime,
-												   @NotNull Set<Anime> multiSeasonsAnime,
-												   @NotNull Set<Anime> announcements,
-												   @NotNull Set<AnimediaTitleSearchInfo> animediaSearchList) {
+	public Set<AnimediaTitleSearchInfo> checkSortedAnime(@NotNull Set<Anime> singleSeasonAnime,
+														 @NotNull Set<Anime> multiSeasonsAnime,
+														 @NotNull Set<Anime> announcements,
+														 @NotNull Set<AnimediaTitleSearchInfo> animediaSearchList) {
 		Set<AnimediaTitleSearchInfo> notFound = new LinkedHashSet<>();
 		for (AnimediaTitleSearchInfo animediaTitleSearchInfo : animediaSearchList) {
 			long singleCount = singleSeasonAnime.stream().filter(set -> set.getRootUrl().equals(animediaTitleSearchInfo.getUrl())).count();
@@ -277,6 +280,32 @@ public class AnimediaService {
 		}
 		cacheManager.getCache(currentlyUpdatedTitlesCacheName).put(currentlyUpdatedTitlesCacheName, list);
 		return list;
+	}
+	
+	/**
+	 * Compare animedia search lists
+	 *
+	 * @param fromResources animedia search list from resources
+	 * @param fresh         new animedia search list
+	 * @return true if missing titles not available
+	 */
+	public boolean isAnimediaSearchListUpToDate(Set<AnimediaTitleSearchInfo> fromResources, Set<AnimediaTitleSearchInfo> fresh) {
+		boolean fullMatch = true;
+		for (AnimediaTitleSearchInfo fromResource : fromResources) {
+			AnimediaTitleSearchInfo matchedTitle = fresh.stream().filter(set -> set.getTitle().equals(fromResource.getTitle())).findAny().orElse(null);
+			if (matchedTitle == null) {
+				fullMatch = false;
+				log.warn("Title {} removed from fresh animedia search list! Please, remove it from the resources!", fromResource);
+			}
+		}
+		for (AnimediaTitleSearchInfo freshTitle : fresh) {
+			AnimediaTitleSearchInfo matchedTitle = fromResources.stream().filter(set -> set.getTitle().equals(freshTitle.getTitle())).findAny().orElse(null);
+			if (matchedTitle == null) {
+				fullMatch = false;
+				log.warn("New title available in animedia search list {} ! Please, add it to the resources!", freshTitle);
+			}
+		}
+		return fullMatch;
 	}
 	
 	private void addSortedAnimeToTempResources(Set<Anime> single, Set<Anime> multi, Set<Anime> announcement) {

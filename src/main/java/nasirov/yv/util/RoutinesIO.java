@@ -68,7 +68,7 @@ public class RoutinesIO {
 	
 	public <T extends CharSequence> void writeToFile(String pathToFile, T value, boolean append) {
 		try (BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(new File(pathToFile), append))) {
-			bufferedWriter.append(value);
+			bufferedWriter.append(value).append(System.lineSeparator());
 			bufferedWriter.flush();
 		} catch (IOException e) {
 			log.error("Error while writing to file " + pathToFile, e);
@@ -77,7 +77,7 @@ public class RoutinesIO {
 	
 	public <T extends CharSequence> void writeToFile(File file, T value, boolean append) {
 		try (BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(file, append))) {
-			bufferedWriter.append(value);
+			bufferedWriter.append(value).append(System.lineSeparator());
 			bufferedWriter.flush();
 		} catch (IOException e) {
 			log.error("Error while writing to file " + file, e);

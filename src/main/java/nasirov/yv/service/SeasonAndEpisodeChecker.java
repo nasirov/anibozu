@@ -85,33 +85,48 @@ public class SeasonAndEpisodeChecker {
 			//Increment to next episode for watch
 			Integer nextNumberOfEpisodeForWatch = userMALTitleInfo.getNumWatchedEpisodes() + 1;
 			if (!matchedMultiSeasonsReferences.isEmpty()) {
-				matchedMultiSeasonsReferences.stream().filter(set -> set.getCurrentMax() == null || set.getMin() == null || set.getMax() == null).forEach(ref ->{
+				matchedMultiSeasonsReferences.stream().filter(set -> set.getCurrentMax() == null || set.getMin() == null || set.getMax() == null).forEach(ref -> {
 					Set<AnimediaMALTitleReferences> tempReferences = new LinkedHashSet<>();
 					tempReferences.add(ref);
 					referencesManager.updateReferences(tempReferences);
 					ref.setPosterUrl(userMALTitleInfo.getPosterUrl());
 				});
 			}
-			if (matchedMultiSeasonsReferences.size() == 1) {
-				handleOneMatchedResultInMultiSeasonsReferences(matchedMultiSeasonsReferences, userMALTitleInfo, finalMatchedAnime);
-			} else if (matchedMultiSeasonsReferences.size() > 1) {
-				handleMoreThanOneMatchedResultInMultiSeasonsReferences(matchedMultiSeasonsReferences, nextNumberOfEpisodeForWatch, finalMatchedAnime);
-			} else {
-				long matchedCountOfSingleSeasonAnime = animediaSearchList.stream().filter(list -> list.getKeywords().contains(userMALTitleInfo.getTitle())).count();
-				if (matchedCountOfSingleSeasonAnime == 1) {
-					handleOneMatchedResultInAnimediaSearchList(animediaSearchList, userMALTitleInfo, nextNumberOfEpisodeForWatch, animediaRequestParameters, finalMatchedAnime);
-				} else if (matchedCountOfSingleSeasonAnime > 1) {
-					handleMoreThanOneMatchedResultInAnimediaSearchList(animediaSearchList, userMALTitleInfo);
-				} else {
-					if (matchedCountOfSingleSeasonAnime == 0) {
-						handleZeroMatchedResultInAnimediaSearchList(userMALTitleInfo);
-					}
-				}
+			switch (matchedMultiSeasonsReferences.size()) {
+				case 0:
+					int matchedCountOfSingleSeasonAnime = (int) animediaSearchList.stream().filter(list -> list.getKeywords().contains(userMALTitleInfo.getTitle())).count();
+					handleSingleSeasonTitle(matchedCountOfSingleSeasonAnime, animediaSearchList, userMALTitleInfo, nextNumberOfEpisodeForWatch, animediaRequestParameters, finalMatchedAnime);
+					break;
+				case 1:
+					handleOneMatchedResultInMultiSeasonsReferences(matchedMultiSeasonsReferences, userMALTitleInfo, finalMatchedAnime);
+					break;
+				default:
+					handleMoreThanOneMatchedResultInMultiSeasonsReferences(matchedMultiSeasonsReferences, nextNumberOfEpisodeForWatch, finalMatchedAnime);
+					break;
 			}
 		}
 		Cache userMatchedAnimeCache = cacheManager.getCache(userMatchedAnimeCacheName);
 		userMatchedAnimeCache.putIfAbsent(username, finalMatchedAnime);
 		return finalMatchedAnime;
+	}
+	
+	private void handleSingleSeasonTitle(int matchedCountOfSingleSeasonAnime,
+										 Set<AnimediaTitleSearchInfo> animediaSearchList,
+										 UserMALTitleInfo userMALTitleInfo,
+										 Integer nextNumberOfEpisodeForWatch,
+										 Map<String, Map<String, String>> animediaRequestParameters,
+										 Set<AnimediaMALTitleReferences> finalMatchedAnime) {
+		switch (matchedCountOfSingleSeasonAnime) {
+			case 0:
+				handleZeroMatchedResultInAnimediaSearchList(userMALTitleInfo);
+				break;
+			case 1:
+				handleOneMatchedResultInAnimediaSearchList(animediaSearchList, userMALTitleInfo, nextNumberOfEpisodeForWatch, animediaRequestParameters, finalMatchedAnime);
+				break;
+			default:
+				handleMoreThanOneMatchedResultInAnimediaSearchList(animediaSearchList, userMALTitleInfo, nextNumberOfEpisodeForWatch, animediaRequestParameters, finalMatchedAnime);
+				break;
+		}
 	}
 	
 	/**
@@ -231,13 +246,25 @@ public class SeasonAndEpisodeChecker {
 	/**
 	 * Handles more than one matched result in the animedia search list
 	 *
-	 * @param animediaSearchList the animedia search list
-	 * @param userMALTitleInfo   the user title info
+	 * @param animediaSearchList          the animedia search list
+	 * @param userMALTitleInfo            the user title info
+	 * @param nextNumberOfEpisodeForWatch the next episode for watch
+	 * @param animediaRequestParameters   the http parameters
+	 * @param finalMatchedAnime           the container for user matched titles
 	 */
 	private void handleMoreThanOneMatchedResultInAnimediaSearchList(Set<AnimediaTitleSearchInfo> animediaSearchList,
-																	UserMALTitleInfo userMALTitleInfo) {
+																	UserMALTitleInfo userMALTitleInfo,
+																	Integer nextNumberOfEpisodeForWatch,
+																	Map<String, Map<String, String>> animediaRequestParameters,
+																	Set<AnimediaMALTitleReferences> finalMatchedAnime) {
 		Set<AnimediaTitleSearchInfo> matchedResult = animediaSearchList.stream().filter(list -> list.getKeywords().contains(userMALTitleInfo.getTitle())).collect(Collectors.toSet());
-		log.info("Found several matches for {}\nMatches:\n{}", userMALTitleInfo.getTitle(), matchedResult);
+		int matchedCount = (int) matchedResult.stream().filter(list -> list.getKeywords().equals(userMALTitleInfo.getTitle())).count();
+		matchedResult = matchedResult.stream().filter(list -> list.getKeywords().equals(userMALTitleInfo.getTitle())).collect(Collectors.toSet());
+		if (matchedCount == 1) {
+			handleSingleSeasonTitle(matchedCount, matchedResult, userMALTitleInfo, nextNumberOfEpisodeForWatch, animediaRequestParameters, finalMatchedAnime);
+		} else {
+			log.error("Watching Title name {} duplicated in entities keywords {}", userMALTitleInfo, matchedResult);
+		}
 	}
 	
 	/**

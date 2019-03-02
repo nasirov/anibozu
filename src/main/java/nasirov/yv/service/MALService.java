@@ -112,7 +112,7 @@ public class MALService {
 			diff = numWatchingTitlesInteger - MAX_NUMBER_OF_TITLES_IN_HTML;
 			int nextRequestCount = 2;
 			while (diff > MAX_NUMBER_OF_TITLES_IN_HTML) {
-				Set<UserMALTitleInfo> additionalJson = getAllWatchingTitles((numWatchingTitlesInteger * nextRequestCount), malRequestParameters, username);
+				Set<UserMALTitleInfo> additionalJson = getAllWatchingTitles((MAX_NUMBER_OF_TITLES_IN_HTML * nextRequestCount), malRequestParameters, username);
 				titleJson.add(additionalJson);
 				nextRequestCount++;
 				diff -= MAX_NUMBER_OF_TITLES_IN_HTML;

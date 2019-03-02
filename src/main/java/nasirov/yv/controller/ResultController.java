@@ -50,6 +50,9 @@ public class ResultController {
 	@Value("${cache.currentlyUpdatedTitles.name}")
 	private String currentlyUpdatedTitlesCacheName;
 	
+	@Value("${cache.animediaSearchList.name}")
+	private String animediaSearchListCacheName;
+	
 	private MALService malService;
 	
 	private AnimediaService animediaService;
@@ -144,6 +147,8 @@ public class ResultController {
 	}
 	
 	private void updateWatchingTitlesAndMatchedAnime(Set<AnimediaMALTitleReferences> matchedAnimeFromCache, Set<UserMALTitleInfo> watchingTitlesFromCache, String username) {
+		Cache animediaSearchListCache = cacheManager.getCache(animediaSearchListCacheName);
+		Set<AnimediaTitleSearchInfo> animediaSearchList = animediaSearchListCache.get(animediaSearchListCacheName, LinkedHashSet.class);
 		Iterator<AnimediaMALTitleReferences> iterator = matchedAnimeFromCache.iterator();
 		while (iterator.hasNext()) {
 			AnimediaMALTitleReferences animediaMALTitleReferences = iterator.next();
@@ -157,7 +162,7 @@ public class ResultController {
 			if (animediaMALTitleReferences == null) {
 				Set<UserMALTitleInfo> tempWatchingTitles = new LinkedHashSet<>();
 				tempWatchingTitles.add(watchingTitle);
-				Set<AnimediaMALTitleReferences> newMatchedAnime = seasonAndEpisodeChecker.getMatchedAnime(tempWatchingTitles, referencesManager.getMultiSeasonsReferences(), animediaService.getAnimediaSearchList(), username);
+				Set<AnimediaMALTitleReferences> newMatchedAnime = seasonAndEpisodeChecker.getMatchedAnime(tempWatchingTitles, referencesManager.getMultiSeasonsReferences(), animediaSearchList, username);
 				matchedAnimeFromCache.addAll(newMatchedAnime);
 			}
 		}
@@ -169,20 +174,16 @@ public class ResultController {
 								 Set<AnimediaMALTitleReferences> matchedAnimeFromCache,
 								 Model model) {
 		animediaService.getCurrentlyUpdatedTitles();
-		Set<AnimediaTitleSearchInfo> animediaSearchList = animediaService.getAnimediaSearchList();
+		Cache animediaSearchListCache = cacheManager.getCache(animediaSearchListCacheName);
+		Set<AnimediaTitleSearchInfo> animediaSearchList = animediaSearchListCache.get(animediaSearchListCacheName, LinkedHashSet.class);
 		Set<AnimediaMALTitleReferences> allReferences = referencesManager.getMultiSeasonsReferences();
-		Set<AnimediaMALTitleReferences> matchedReferencesFromCache = matchedReferencesCache.get(username, LinkedHashSet.class);
 		Set<AnimediaMALTitleReferences> matchedReferences;
-		if (matchedReferencesFromCache == null) {
-			matchedReferences = referencesManager.getMatchedReferences(allReferences, watchingTitles);
-			long start = System.nanoTime();
-			referencesManager.updateReferences(matchedReferences);
-			long end = System.nanoTime();
-			log.info("Elapsed time for update references {}", end - start);
-			matchedReferencesCache.put(username, matchedReferences);
-		} else {
-			matchedReferences = matchedReferencesFromCache;
-		}
+		matchedReferences = referencesManager.getMatchedReferences(allReferences, watchingTitles);
+		long start = System.nanoTime();
+		referencesManager.updateReferences(matchedReferences);
+		long end = System.nanoTime();
+		log.info("Elapsed time for update references {}", end - start);
+		matchedReferencesCache.put(username, matchedReferences);
 		Set<AnimediaMALTitleReferences> matchedAnime = matchedAnimeFromCache != null ? matchedAnimeFromCache : seasonAndEpisodeChecker.getMatchedAnime(watchingTitles, matchedReferences, animediaSearchList, username);
 		return enrichModel(matchedAnime, watchingTitles, model);
 	}

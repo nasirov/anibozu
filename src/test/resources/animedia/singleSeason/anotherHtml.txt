@@ -1,0 +1,1716 @@
+HTTP/1.1 200 OK
+Date: Tue, 26 Feb 2019 20:23:49 GMT
+Content-Type: text/html; charset=UTF-8
+Connection: keep-alive
+Vary: Accept-Encoding
+Set-Cookie: anim_last_activity=1551212629; expires=Wed, 26-Feb-2020 20:23:49 GMT; Max-Age=31536000; path=/; httponly
+Set-Cookie: anim_tracker=%7B%220%22%3A%22anime%2FinayaAnother%22%2C%221%22%3A%22ajax%2Fepisodes%2F14554%2F2%2F8%22%2C%222%22%3A%22anime%2Fmob-psiho-100-mob-psycho-100%2F2%2F8%22%2C%22token%22%3A%227f6b17279df0edf57e31eb0c71c4b002%22%7D; path=/; httponly
+Set-Cookie: anim_csrf_token=deleted; expires=Thu, 01-Jan-1970 00:00:01 GMT; Max-Age=0; path=/; httponly
+Set-Cookie: anim_csrf_token=beeee626d77ed2f966765b622a31555cdd8e8c8f; expires=Tue, 26-Feb-2019 22:23:49 GMT; Max-Age=7200; path=/; httponly
+Expect-CT: max-age=604800, report-uri="https://report-uri.cloudflare.com/cdn-cgi/beacon/expect-ct"
+Server: cloudflare
+CF-RAY: 4af521b6aee7c279-FRA
+Content-Length: 102832
+
+<!DOCTYPE html>
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+
+    <title>&#9788; Аниме Иная / Another: смотреть мультсериал онлайн бесплатно</title>
+	<meta name="title" content="&#9788; Аниме Иная / Another: смотреть мультсериал онлайн бесплатно" />
+
+    <meta name="description" content="Смотреть аниме онлайн Иная Another  26 лет назад, в классе 3-В средней школы Ёмияма, умерла любимица одноклассников и учителей, девочка по имени Мисаки. Класс очень скорбел по ней, и как-то раз, один из ребят, указав на её место сказал, что она все ещё тут, вместе&#8230;" />
+	<meta name="keywords" content="Смотреть, Иная, Another, Мистика, Триллер, Ужасы, Школа, аниме онлайн, смотреть онлайн Иная, аниме Another, анимедия тв, онлайн анимедия, animedia, anime online, HD, Россия" />
+	<meta name="verification" content="2d8d54382bf5e339a1cadd83faff28" />
+
+	<meta property="og:title" content="&#9788; Аниме Иная / Another: смотреть мультсериал онлайн бесплатно" />
+
+	<meta property="og:description" content="Смотреть аниме онлайн Иная Another  26 лет назад, в классе 3-В средней школы Ёмияма, умерла любимица одноклассников и учителей, девочка по имени Мисаки. Класс очень скорбел по ней, и как-то раз, один из ребят, указав на её место сказал, что она все ещё тут, вместе&#8230;" />
+	<meta property="og:image" content="//static.animedia.tv/uploads/innaya.jpg" />
+	<meta property="og:url" content="https://online.animedia.tv/anime/inayaAnother" />
+	<meta property="og:type" content="" />
+	<meta property="og:video" href=""/>
+	<meta property="ya:ovs:allow_embed" content="true"/>
+    <link rel="image_src" href="//static.animedia.tv/uploads/innaya.jpg">
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
+	<link rel="canonical" href="https://online.animedia.tv/anime/inayaAnother">
+    <link rel="alternate" hreflang="ru-RU" href="https://online.animedia.tv/anime/inayaAnother" />
+    <link rel="alternate" hreflang="ru-UA" href="https://online.animedia.tv/anime/inayaAnother" />
+    <link rel="alternate" hreflang="ru-KZ" href="https://online.animedia.tv/anime/inayaAnother" />
+    <link rel="alternate" hreflang="ru-BY" href="https://online.animedia.tv/anime/inayaAnother" />
+    <link rel="alternate" hreflang="ru-MD" href="https://online.animedia.tv/anime/inayaAnother" />
+    <link rel="alternate" hreflang="ru-GE" href="https://online.animedia.tv/anime/inayaAnother" />
+    <link rel="alternate" hreflang="ru-KG" href="https://online.animedia.tv/anime/inayaAnother" />
+    <link rel="alternate" hreflang="ru-AM" href="https://online.animedia.tv/anime/inayaAnother" />
+    <link rel="alternate" hreflang="ru-UZ" href="https://online.animedia.tv/anime/inayaAnother" />
+    <link rel="alternate" hreflang="ru-TJ" href="https://online.animedia.tv/anime/inayaAnother" />
+    <link rel="alternate" hreflang="ru-TM" href="https://online.animedia.tv/anime/inayaAnother" />
+    <link rel="alternate" hreflang="ru-AZ" href="https://online.animedia.tv/anime/inayaAnother" />
+    <link rel="alternate" hreflang="ru" href="https://online.animedia.tv/anime/inayaAnother" />
+	<meta property="og:image:type" content="image/jpeg">
+    <meta name='wmail-verification' content='9973195d2a60ab01642e295b201562a0' />
+    <meta name="google-site-verification" content="RiXZxPB73fSIS4th4eaXmeM4ou1QaeOpVZDbCUpBJ5I" />
+	<meta name="yandex-verification" content="56a704d59a84519b" />
+    <!--!*** 17064***advMaker.net2042016 ###-->
+
+    <!-- Main Style-->
+    <link href="/css/style.css" rel="stylesheet">
+    <link href="/css/mystyle.css" rel="stylesheet">
+
+    <!-- Open Sans-->
+    <linK href="https://fonts.googleapis.com/css?family=Open+Sans:400italic,600italic,700italic,400,600,700&amp;subset=latin,cyrillic" rel="stylesheet" type="text/css"></linK>
+    <!-- Oswald-->
+    <linK href="https://fonts.googleapis.com/css?family=Oswald:400,700" rel="stylesheet" type="text/css"></linK>
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries--><!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <input id="log_in" type="hidden" max="0" />
+	 <!-- BEGIN ADVERTSERVE CODE -->
+	<script type="text/javascript">
+	var _avp = _avp || [];
+	(function() {
+	  var s = document.createElement('script');
+	  s.type = 'text/javascript'; s.async = true; s.src = window.location.protocol + '//adbetnet.advertserve.com/js/libcode3.js';
+	  var x = document.getElementsByTagName('script')[0];
+	  x.parentNode.insertBefore(s, x);
+	})();
+	</script>
+	<!-- END ADVERTSERVE CODE -->
+
+	<script>
+	(function () {
+		var stime = 0;
+		try {stime=new Event("").timeStamp.toFixed(2);}catch(e){}
+
+		var sc = document.createElement('script');
+		sc.type = 'text/javascript';
+		sc.setAttribute('async', 'async');
+		sc.setAttribute('data-mrmn-tag', 'iam');
+		sc.src = '//pbcde.com/mbp/pre/e090ed6f026a464874cc8cd114a27a20/'
+			+ document.location.host.replace(/^www./, '')
+			+ '?'
+			+ 'sid=' + parseInt(Math.random() * 1e3) + '_' + parseInt(Math.random() * 1e6) + '_' + parseInt(Math.random() * 1e9)
+			+ '&stime=' + stime
+			+ '&r=' + Math.random();
+		var l = document.createElement('link');l.rel="preload";l.href=sc.src;l.as="script";
+		if (document.head) {
+			document.head.appendChild(l);
+			document.head.appendChild(sc);
+		} else {
+			var node = document.getElementsByTagName("script")[0];
+			node.parentNode.insertBefore(l, node);
+			node.parentNode.insertBefore(sc, node);
+		}
+	})();
+	</script>
+  </head>
+
+  <a href="#" class="scrollup"></a>
+
+
+  <body class="post-page"  onload="init();" style="margin:0px;">
+    <!-- Header-->
+    <header class="fixed-header">
+      <div class="container">
+        <div class="fixed-header__logo fixed-header__dropdown"><a href="/" title="AnimediaTV Online" class="logo"></a></div>
+        <div class="fixed-header__burger fixed-header__dropdown"><a href="#" data-target="burger" class="icon-link icon-link__burger icon-dropdown">
+            <div class="header-icon"></div></a>
+          <div id="burger" class="dropdown">
+            <ul class="dropdown__sub-menu">
+              <li class="dropdown__sub-menu__item"><a href="//animedia.tv/pages/about" title="О проекте">О проекте</a></li>
+              <li class="dropdown__sub-menu__item"><a href="//animedia.tv/pages/advertisers" title="Рекламодателям">Рекламодателям</a></li>
+              <li class="dropdown__sub-menu__item"><a href="//animedia.tv/pages/pravoobladatelyam" title="Правообладателям">Правообладателям</a></li>
+              <li class="dropdown__sub-menu__item"><a href="//online.animedia.tv/teamwork" title="Вакансии">Вакансии</a></li>
+            </ul>
+          </div>
+        </div>
+        <div class="fixed-header__navigation">
+          <nav class="header-menu"><a href="/" title="Главная" class="header-menu__item">Главная</a><a href="//animedia.tv/news" title="Новости" class="header-menu__item">Новости</a><a href="//animedia.tv/blogs" title="Блоги" class="header-menu__item">Блоги</a><a href="//tt.animedia.tv/" title="Трекер" class="header-menu__item">Трекер</a><a href="//animedia.tv/project-team" title="Команда проекта" class="header-menu__item">Команда</a>
+          </nav>
+        </div>
+        <div class="fixed-header__right-icon fixed-header__dropdown"><a href="#" data-target="share" class="icon-link icon-link__share icon-dropdown">
+            <div class="header-icon"></div></a>
+          <div id="share" class="dropdown">
+            <ul class="dropdown__sub-menu">
+              <li class="dropdown__sub-menu__item"><a href="https://vk.com/animedia_tv" title="Мы Вконтакте">Мы Вконтакте</a></li>
+              <li class="dropdown__sub-menu__item"><a href="https://www.facebook.com/profile.php?id=100011328373546" title="Мы на Facebook">Мы на Facebook</a></li>
+              <li class="dropdown__sub-menu__item"><a href="https://twitter.com/AniMediaInfo" title="Мы в Twitter">Мы в Twitter</a></li>
+            </ul>
+          </div>
+        </div>
+        <div class="fixed-header__right-icon fixed-header__dropdown"><a href="#" data-target="search" class="icon-link icon-link__search icon-dropdown">
+            <div class="header-icon"></div></a>
+          <div id="search" class="dropdown">
+            <div class="dropdown__block">
+              <div class="dropdown__block__search">
+                <form role="search" id="search" method="GET" action="/search">
+				<a class="title_search_all" href="/search">Расширенный поиск</a>
+                  <div class="form-group">
+                    <div class="col-l dropdown__block__search__label">
+                      <label for="headerSearch" class="h1">Поиск</label>
+                     </div>
+                    <div class="col-l dropdown__block__search__input">
+
+                      <input type="text" name="q" type="search" required class="form-control">
+
+                      <div class="help-block"></div>
+                    </div>
+
+<!--                     <div class="col-l dropdown__block__search__submit">
+                      <button type="submit" class="btn btn__middle btn__red">Поиск</button>
+                    </div> -->
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="fixed-header__right-icon fixed-header__dropdown">
+          <a href="#" data-target="profile" class="icon-link icon-link__profile icon-dropdown">
+            <div class="header-icon"></div>
+			    </a>
+          <div id="profile" class="dropdown">
+
+
+            <div class="dropdown__block">
+              <div class="dropdown__block__login">
+                <div class="h1">Вход</div>
+                <p>Если вы у нас впервые - зарегистрируйтесь. Это не займет много времени, но даст вам дополнительные возможности.</p>
+                <form method="post" action="https://online.animedia.tv/"  >
+<div class='hiddenFields'>
+<input type="hidden" name="ACT" value="14" />
+<input type="hidden" name="RET" value="anime/inayaAnother" />
+<input type="hidden" name="site_id" value="1" />
+<input type="hidden" name="csrf_token" value="beeee626d77ed2f966765b622a31555cdd8e8c8f" />
+</div>
+
+
+				<form id="loginForm" action="#">
+                  <div class="form-group">
+                    <label for="login">Логин</label>
+                    <input id="username" name="username" type="text" required class="form-control form-control__small">
+                    <div class="help-block"></div>
+                  </div>
+                  <div class="form-group">
+                    <label for="password">Пароль</label>
+                    <input id="password" name="password" type="password" required class="form-control form-control__small">
+                    <div class="help-block"></div>
+                  </div>
+                  <div class="form-group">
+                    <button type="submit" class="btn btn__red btn__middle btn__login"><i class="ai ai-next"></i> Войти</button>
+                    <button type="button" class="btn btn__red btn__middle btn__reg-display"><i class="ai ai-next"></i> Регистрация</button>
+                  </div>
+
+
+
+				  </form>
+				  <p></br><img src="/img/or_auth.png"></p>
+				  <div class="form-group">
+
+					<form id="social_login_form" class="social_login_form" name="social_login_form" method="post" action="https://online.animedia.tv/"  >
+<div class='hiddenFields'>
+<input type="hidden" name="ACT" value="104" />
+<input type="hidden" name="RET" value="https://online.animedia.tv/anime/inayaAnother" />
+<input type="hidden" name="no_email_return" value="https://online.animedia.tv/anime/inayaAnother" />
+<input type="hidden" name="site_id" value="1" />
+<input type="hidden" name="csrf_token" value="beeee626d77ed2f966765b622a31555cdd8e8c8f" />
+</div>
+
+
+
+										<script type="text/javascript" charset="utf-8" src="https://online.animedia.tv/?ACT=jquery"></script>
+					<script type="text/javascript">
+					$(document).ready(function(){
+					$('.extlogin').click(function(){
+					$('#social_login_form input[name=provider]').val($(this).attr('rel'));
+					$('#social_login_form').submit();
+					});
+					});
+					</script>
+					<input type="hidden" name="provider" value="" />
+					<!-- <button href="#" rel="facebook" class="extlogin btn_fb btn__fb btn__middle btn__fb"> Войти через facebook</button> -->
+					<button href="#" rel="vkontakte" class="extlogin btn_vk btn__vk btn__middle btn__vk"> Войти через Вконтакте</button>
+
+</form>
+					<center></br><a href="#forgot_pass" class="forgot">Забыл пароль?</a></center>
+					<fieldset style="border:0;" id="forgot_pass" class="white-popup-block mfp-hide">
+						<form id="forgot_password_form" method="post" action="https://online.animedia.tv/"  >
+<div class='hiddenFields'>
+<input type="hidden" name="ACT" value="50" />
+<input type="hidden" name="RET" value="" />
+<input type="hidden" name="params_id" value="gkKwtmVDnUlBRZsgoJJgfnSLs" />
+<input type="hidden" name="site_id" value="1" />
+<input type="hidden" name="csrf_token" value="beeee626d77ed2f966765b622a31555cdd8e8c8f" />
+</div>
+
+
+						<div class="h1">Восстановление пароля</div>
+					  <p><textarea class="form-control" rows="1" type="text" name="email" id="email" placeholder="Введите свой E-mail адрес"></textarea></p>
+					<button type="submit" name="submit" class="btn btn-primary">Отправить</button>
+						</form>
+					</fieldset>
+                  </div>
+                </form>
+              </div>
+              <div class="dropdown__block__registration">
+                <div class="h1">Регистрация</div>
+				        <form id="member_form" method="post" action="https://online.animedia.tv/"  >
+<div class='hiddenFields'>
+<input type="hidden" name="ACT" value="48" />
+<input type="hidden" name="RET" value="https://online.animedia.tv/anime/inayaAnother" />
+<input type="hidden" name="params_id" value="EuQzGRSTJlGszXczOBuNxIEzg" />
+<input type="hidden" name="site_id" value="1" />
+<input type="hidden" name="csrf_token" value="beeee626d77ed2f966765b622a31555cdd8e8c8f" />
+</div>
+
+
+                <form id="regForm" action="#">
+                  <div class="form-group">
+                    <label for="regLogin">Логин</label>
+                    <input id="username" name="username" type="text" required class="form-control form-control__small">
+                    <div class="help-block"></div>
+                  </div>
+                  <div class="form-group">
+                    <label for="regMail">Email</label>
+                    <input name="email" id="email" type="email" required class="form-control form-control__small">
+                    <div class="help-block"></div>
+                  </div>
+                  <div class="form-group">
+                    <label for="regPassword">Пароль</label>
+                    <input id="password" name="password" type="password" required class="form-control form-control__small">
+                    <div class="help-block"></div>
+                  </div>
+                  <div class="form-group">
+                    <label for="regPasswordRepeat">Повторите пароль</label>
+                    <input type="password" id="password_confirm" name="password_confirm" required class="form-control form-control__small">
+                    <div class="help-block"></div>
+                  </div>
+                  <div class="form-group form-group__birthday">
+                    <label for="regBirthdayDay">Дата рождения</label>
+                    <div class="col-l col-l__day">
+                      <select id="bday_d" name="bday_d" type="bday_d" class="form-control form-control__small">
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                        <option value="6">6</option>
+                        <option value="7">7</option>
+                        <option value="8">8</option>
+                        <option value="9">9</option>
+                        <option value="10">10</option>
+                        <option value="11">11</option>
+                        <option value="12">12</option>
+                        <option value="13">13</option>
+                        <option value="14">14</option>
+                        <option value="15">15</option>
+                        <option value="16">16</option>
+                        <option value="17">17</option>
+                        <option value="18">18</option>
+                        <option value="19">19</option>
+                        <option value="20">20</option>
+                        <option value="21">21</option>
+                        <option value="22">22</option>
+                        <option value="23">23</option>
+                        <option value="24">24</option>
+                        <option value="25">25</option>
+                        <option value="26">26</option>
+                        <option value="27">27</option>
+                        <option value="28">28</option>
+                        <option value="29">29</option>
+                        <option value="30">30</option>
+                        <option value="31">31</option>
+                      </select>
+                      <div class="help-block"></div>
+                    </div>
+                    <div class="col-l col-l__month">
+                      <select id="bday_m" name="bday_m" type="bday_m" class="form-control form-control__small">
+                        <option value="1">Январь</option>
+                        <option value="2">Февраль</option>
+                        <option value="3">Март</option>
+                        <option value="4">Апрель</option>
+                        <option value="5">Май</option>
+                        <option value="6">Июнь</option>
+                        <option value="7">Июль</option>
+                        <option value="8">Август</option>
+                        <option value="9">Сентябрь</option>
+                        <option value="10">Октябрь</option>
+                        <option value="11">Ноябрь</option>
+                        <option value="12">Декабрь</option>
+                      </select>
+                      <div class="help-block"></div>
+                    </div>
+                    <div class="col-l col-l__year">
+                      <select id="bday_y" name="bday_y" type="bday_y" class="form-control form-control__small">
+                        <option value="1950">1950</option>
+                        <option value="1951">1951</option>
+                        <option value="1952">1952</option>
+                        <option value="1953">1953</option>
+                        <option value="1954">1954</option>
+                        <option value="1955">1955</option>
+                        <option value="1956">1956</option>
+                        <option value="1957">1957</option>
+                        <option value="1958">1958</option>
+                        <option value="1959">1959</option>
+                        <option value="1960">1960</option>
+                        <option value="1961">1961</option>
+                        <option value="1962">1962</option>
+                        <option value="1963">1963</option>
+                        <option value="1964">1964</option>
+                        <option value="1965">1965</option>
+                        <option value="1966">1966</option>
+                        <option value="1967">1967</option>
+                        <option value="1968">1968</option>
+                        <option value="1969">1969</option>
+                        <option value="1970">1970</option>
+                        <option value="1971">1971</option>
+                        <option value="1972">1972</option>
+                        <option value="1973">1973</option>
+                        <option value="1974">1974</option>
+                        <option value="1975">1975</option>
+                        <option value="1976">1976</option>
+                        <option value="1977">1977</option>
+                        <option value="1978">1978</option>
+                        <option value="1979">1979</option>
+                        <option value="1980">1980</option>
+                        <option value="1981">1981</option>
+                        <option value="1982">1982</option>
+                        <option value="1983">1983</option>
+                        <option value="1984">1984</option>
+                        <option value="1985">1985</option>
+                        <option value="1986">1986</option>
+                        <option value="1987">1987</option>
+                        <option value="1988">1988</option>
+                        <option value="1989">1989</option>
+                        <option value="1990">1990</option>
+                        <option value="1991">1991</option>
+                        <option value="1992">1992</option>
+                        <option value="1993">1993</option>
+                        <option value="1994">1994</option>
+                        <option value="1995">1995</option>
+                        <option value="1996">1996</option>
+                        <option value="1997">1997</option>
+                        <option value="1998">1998</option>
+                        <option value="1999">1999</option>
+                        <option value="2000">2000</option>
+                        <option value="2001">2001</option>
+                        <option value="2002">2002</option>
+                        <option value="2003">2003</option>
+                        <option value="2004">2004</option>
+                        <option value="2005">2005</option>
+                        <option value="2006">2006</option>
+                        <option value="2007">2007</option>
+                        <option value="2008">2008</option>
+                        <option value="2009">2009</option>
+                        <option value="2010">2010</option>
+                        <option value="2011">2011</option>
+                        <option value="2012">2012</option>
+                        <option value="2013">2013</option>
+                        <option value="2014">2014</option>
+                        <option value="2015">2015</option>
+						<option value="2016">2016</option>
+						<option value="2017">2017</option>
+                      </select>
+                      <div class="help-block"></div>
+                    </div>
+                  </div>
+                  <div class="form-group">
+				    <input type="hidden" name="accept_terms" value="y" />
+                    <button type="submit" class="btn btn__red btn__middle btn__reg"><i class="ai ai-next"></i> Зарегистрироваться!</button>
+                  </div>
+                </form>
+				</form>
+                <p>Если у вас есть аккаунт, вы можете  <a href="#" class="btn__login-display">войти</a>.</p>
+              </div>
+            </div>
+
+      </div>
+    </div>
+      </div>
+    </header>
+    <!-- Header end-->
+    <!-- Promo-->
+
+
+<!-- Copy and paste this code into banner place on the page. -->
+
+<div id="BpFDBDah"></div>
+<script>(function(w,d,o,g,r,a,m){w[r]=w[r]||function(){(w[r+'l']=w[r+'l']||[]).push(arguments)};if(!w.ABN){a=d.createElement(o),m=d.getElementsByTagName(o)[0];
+a.async=1;a.src=g;m.parentNode.insertBefore(a,m)}})(window,document,'script','https://xml.adbetnet.com/libs/b.js','ABNS');
+ABNS('BpFDBDah', {id:2140143783});
+</script>
+
+
+<!-- END ADVERTSERVE CODE -->
+<div class="promo2">
+      <div class="container">
+        <div class="promo__wrapper">
+          <div class="wwzwpromo__visible-section">
+			<div class="c002"></div>
+			<div  class="c016"></div>
+			<div class="ramka"></div>
+			<a id="first" class="pos-link" href="/anime/milyj-vo-frankce"></a>
+			<a id="second" class="pos"></a>
+			<div class="promo__parallax__layer2 layer-52"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+<script>
+$("#first").mouseover(function(){
+    $("#second").css("background-image", "url(/img/2/promo4/franxx.gif)");
+});
+
+$("#first").mouseout(function(){
+    $("#second").css("background-image", "url(/img/2/promo4/giff.png)");
+});
+
+</script>
+    <!-- Promo End-->
+
+<div id="is_not_logged" style="display: none;"></div>
+ <!-- Main container-->
+    <div class="container">
+      <div class="main-container">
+        <!-- Main navigation-->
+        <nav class="main-navigation"><a href="/" title="Новинки" class="main-navigation__item">Новинки</a><a href="/list" title="Аниме" class="main-navigation__item active">Аниме</a><a href="/movie" title="Фильмы" class="main-navigation__item">Фильмы</a><a href="/dorams" title="Дорамы" class="main-navigation__item">Дорамы</a><a href="/announcements" title="Анонсы" class="main-navigation__item">Анонсы</a><a href="/search" class="main-navigation__item search-link">Расширенный поиск</a>
+        </nav>
+        <!-- Main navigation End-->
+
+
+
+
+
+
+<!-- Content container-->
+        <div class="content-container">
+          <!-- Content. Left block-->
+          <div class="content">
+            <!-- Breadcrumbs-->
+            <div class="breadcrumbs">
+              <ul class="breadcrumbs__list">
+                <li class="breadcrumbs__list__item"><a href="/" title="Главная Аниме онлайн">Главная</a></li>
+                <li class="breadcrumbs__list__item"><a href="/list" title="Аниме онлайн смотреть">Аниме</a></li>
+                <li class="breadcrumbs__list__item"><span>Иная</span></li>
+
+              </ul>
+            </div>
+            <!-- Breadcrumbs End-->
+            <!-- Media-->
+            <div class="media">
+              <!-- Media post-->
+              <article class="media__post">
+                <div class="media__post__header">
+                  <h1 class="media__post__title">Иная смотреть онлайн</h1>
+                  <div class="media__post__original-title">Another </div>
+                  <div class="media__post__pegi pegi">16</div>
+                </div>
+                <div class="media__panel media__panel__gray">
+                  <div class="media__post__body">
+                    <p>26 лет назад, в классе 3-В средней школы Ёмияма, умерла любимица одноклассников и учителей, девочка по имени Мисаки. Класс очень скорбел по ней, и как-то раз, один из ребят, указав на её место сказал, что она все ещё тут, вместе с ними. С тех пор и до выпуска, одноклассники и даже учителя делали вид, что Мисаки жива и продолжает учиться в классе 3-В.</p>
+
+<p> Но на следующий год, с новым классом 3-В начали происходить ужасные вещи. Один за другим умирали учащиеся, их родственники или учителя этого класса.</p>
+
+<p> Тогда люди поняли, что навлекли проклятие, и теперь смерть навсегда привязана к классу 3-В.</p>
+
+<p> Спустя какое-то время, им удалось найти способ «обмануть» проклятие. Надо чтобы в каждом новом классе 3-В все игнорировали кого-то одного из одноклассников, таким образом оставляя место «мертвецу».</p>
+
+<p> Но недавно переведённый Коити Сакакибара не знает об этой истории, и ничего не подозревая он нарушает правила, начав общаться с загадочной одноклассницей Мисаки Мей, которую в этом году все должны были игнорировать для отвода проклятья.</p>
+
+<p> И вот, смерти возобновляются. Класс в панике, никто не хочет умирать.</p>
+
+<p> Но может есть и другой способ сломать проклятье класса 3-В?</p>
+                  </div>
+                  <div class="media__post__info">
+                    <div class="col-l">
+                      <div class="releases-date">Дата выпуска: <span>с <a href="/search?q=2012" title="Аниме онлайн 2012 года">2012</a> года</span></div>
+                      <div class="director">Статус: <span>Завершен</span></div>
+                    </div>
+                    <div class="col-l">
+                      <!-- <div class="released">Уже вышло: <span>4 сезона по 12 серий, 2 ОВЫ, <a href="#">4 фильма</a></span></div> -->
+					  <div class="genre-tags">Жанр: <a href="https://online.animedia.tv/category/mistery" title="Жанр аниме онлайн Мистика">Мистика</a><a href="https://online.animedia.tv/category/thriller" title="Жанр аниме онлайн Триллер">Триллер</a><a href="https://online.animedia.tv/category/horror" title="Жанр аниме онлайн Ужасы">Ужасы</a><a href="https://online.animedia.tv/category/school" title="Жанр аниме онлайн Школа">Школа</a></div>
+					  <div class="studio">Студия: <a href="/search?q=P.A. Works" title="Студия аниме P.A. Works">P.A. Works</a></div>
+                    </div>
+                  </div>
+                </div>
+              </article>
+              <!--Media post End-->
+
+              <!-- Media screenshots-->
+
+              <!-- Media screenshots End-->
+              <!-- Media sub information-->
+
+<center>
+<div id='e3de435b70'></div>
+
+<script type='text/javascript' data-cfasync='false'>
+ (function(){
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.charset = 'utf-8';
+  script.async = 'true';
+  script.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//et-cod.com/bens/vinos.js?13282a' + Math.random();
+  document.body.appendChild(script);
+ })();
+</script>
+<!-- <a target="_blank" href="//bp2.infiplay.com/promo/?utm_source=animedia&utm_campaign=banner&utm_content=1"><img src="/gif/BP_banners-875x150-anim.gif"></a> -->
+</center>
+              <div class="media__sub__info">
+                <div class="media__panel media__panel__gray">
+                  <div class="media__bnts">
+
+                  <a href="/anime/inayaAnother/1/1" class="btn btn__big btn__red btn__play-first"><i class="ai ai-next"></i> Смотреть онлайн</a>
+
+
+
+				  <a href="javascript:;" id="save_fav" data-id='9392' class="add btn btn__d-gray btn__big btn__bookmark"><i class="ai ai-bookmark"></i> В закладки</a>
+
+				  <a href="javascript:;" data-id='9392' class="add btn btn__d-gray btn__big btn__like"><i class="ai ai-like__empty"></i> Мне нравится!</a>
+
+
+
+				  <a href="/error-on-site" target="_blank" class="btn btn__d-gray btn__big btn__error"><i class="ai ai-alert"></i> Нашел ошибку?</a>
+
+				  </div>
+                  <div class="media__sub__info__text">Все релизы на сайте могут содержать эротические сцены, ненормативную лексику и сцены насилия. По-умолчанию ограничение по возрасту 16+.<br>Пользователи младше указанной возрастной категории могут просматривать релизы на свой страх и риск, либо под присмотром родителей.</div>
+				</div>
+
+
+
+
+			  </div>
+
+			<!-- btn error end -->
+              <!-- Media sub information End-->
+              <!-- Media series tabs-->
+
+              <div class="media__tabs">
+                <!-- tabs navigation-->
+                <ul role="tablist" class="media__tabs__nav nav-tabs" data-entry_id="9392">
+                  <li class="media__tabs__nav__item active"><a href="#tab0" role="tab" data-toggle="tab">1 Сезон</a></li>
+
+
+
+
+
+
+                </ul>
+                <!-- tabs navigation end-->
+                <!-- tabs sub-panel-->
+
+                <!-- tabs sub-panel end-->
+                <!-- tabs content-->
+                <div class="media__tabs__content tab-content">
+                  <div id="tab0" role="tabpanel" class="media__tabs__panel tab-pane active">
+                    <div id="carousel0" data-interval="false" data-wrap="false" class="media__tabs__series carousel slide">
+                      <div class="media__tabs__series__list carousel-inner" data-list_id="1"></div>
+                      <div class="clearfix"></div>
+                      <div class="media__tabs__series__footer">
+                        <div class="media__tabs__series__footer__item"><a href="#carousel0" data-slide="prev" class="media__tabs__series__control carousel-control prev"><i class="ai ai-prev"></i></a></div>
+                        <div class="media__tabs__series__footer__item media__tabs__series__footer__item__center">Серии <span class="start-series"></span>-<span class="end-series"></span> из 12</div>
+                        <div class="media__tabs__series__footer__item"><a href="#carousel0" data-slide="next" class="media__tabs__series__control carousel-control next"><i class="ai ai-next"></i></a></div>
+                      </div>
+                    </div>
+                  </div>
+                  <div id="tab1" role="tabpanel" class="media__tabs__panel tab-pane">
+                    <div id="carousel1" data-interval="false" data-wrap="false" class="media__tabs__series carousel slide">
+
+                      <div class="media__tabs__series__list carousel-inner" data-list_id="2"></div>
+
+                      <div class="clearfix"></div>
+                      <div class="media__tabs__series__footer">
+                        <div class="media__tabs__series__footer__item"><a href="#carousel1" data-slide="prev" class="media__tabs__series__control carousel-control prev"><i class="ai ai-prev"></i></a></div>
+                        <div class="media__tabs__series__footer__item media__tabs__series__footer__item__center">Серии <span class="start-series"></span>-<span class="end-series"></span> из </div>
+                        <div class="media__tabs__series__footer__item"><a href="#carousel1" data-slide="next" class="media__tabs__series__control carousel-control next"><i class="ai ai-next"></i></a></div>
+                      </div>
+                    </div>
+                  </div>
+                  <div id="tab2" role="tabpanel" class="media__tabs__panel tab-pane">
+                    <div id="carousel2" data-interval="false" data-wrap="false" class="media__tabs__series carousel slide">
+
+                      <div class="media__tabs__series__list carousel-inner" data-list_id="3"></div>
+
+                      <div class="clearfix"></div>
+                      <div class="media__tabs__series__footer">
+                        <div class="media__tabs__series__footer__item"><a href="#carousel2" data-slide="prev" class="media__tabs__series__control carousel-control prev"><i class="ai ai-prev"></i></a></div>
+                        <div class="media__tabs__series__footer__item media__tabs__series__footer__item__center">Серии <span class="start-series"></span>-<span class="end-series"></span> из </div>
+                        <div class="media__tabs__series__footer__item"><a href="#carousel2" data-slide="next" class="media__tabs__series__control carousel-control next"><i class="ai ai-next"></i></a></div>
+                      </div>
+                    </div>
+                  </div>
+                  <div id="tab3" role="tabpanel" class="media__tabs__panel tab-pane">
+                    <div id="carousel3" data-interval="false" data-wrap="false" class="media__tabs__series carousel slide">
+
+                      <div class="media__tabs__series__list carousel-inner" data-list_id="4"></div>
+
+                      <div class="clearfix"></div>
+                      <div class="media__tabs__series__footer">
+                        <div class="media__tabs__series__footer__item"><a href="#carousel3" data-slide="prev" class="media__tabs__series__control carousel-control prev"><i class="ai ai-prev"></i></a></div>
+                        <div class="media__tabs__series__footer__item media__tabs__series__footer__item__center">Серии <span class="start-series"></span>-<span class="end-series"></span> из </div>
+                        <div class="media__tabs__series__footer__item"><a href="#carousel3" data-slide="next" class="media__tabs__series__control carousel-control next"><i class="ai ai-next"></i></a></div>
+                      </div>
+                    </div>
+                  </div>
+                  <div id="tab4" role="tabpanel" class="media__tabs__panel tab-pane">
+                    <div id="carousel4" data-interval="false" data-wrap="false" class="media__tabs__series carousel slide">
+
+                      <div class="media__tabs__series__list carousel-inner" data-list_id="5"></div>
+
+                      <div class="clearfix"></div>
+                      <div class="media__tabs__series__footer">
+                        <div class="media__tabs__series__footer__item"><a href="#carousel4" data-slide="prev" class="media__tabs__series__control carousel-control prev"><i class="ai ai-prev"></i></a></div>
+                        <div class="media__tabs__series__footer__item media__tabs__series__footer__item__center">Серии <span class="start-series"></span>-<span class="end-series"></span> из </div>
+                        <div class="media__tabs__series__footer__item"><a href="#carousel4" data-slide="next" class="media__tabs__series__control carousel-control next"><i class="ai ai-next"></i></a></div>
+                      </div>
+                    </div>
+                  </div>
+                  <div id="tab5" role="tabpanel" class="media__tabs__panel tab-pane">
+                    <div id="carousel5" data-interval="false" data-wrap="false" class="media__tabs__series carousel slide">
+
+                      <div class="media__tabs__series__list carousel-inner" data-list_id="6"></div>
+
+                      <div class="clearfix"></div>
+                      <div class="media__tabs__series__footer">
+                        <div class="media__tabs__series__footer__item"><a href="#carousel5" data-slide="prev" class="media__tabs__series__control carousel-control prev"><i class="ai ai-prev"></i></a></div>
+                        <div class="media__tabs__series__footer__item media__tabs__series__footer__item__center">Серии <span class="start-series"></span>-<span class="end-series"></span> из </div>
+                        <div class="media__tabs__series__footer__item"><a href="#carousel5" data-slide="next" class="media__tabs__series__control carousel-control next"><i class="ai ai-next"></i></a></div>
+                      </div>
+                    </div>
+                  </div>
+                  <div id="tab6" role="tabpanel" class="media__tabs__panel tab-pane">
+                    <div id="carousel6" data-interval="false" data-wrap="false" class="media__tabs__series carousel slide">
+
+                      <div class="media__tabs__series__list carousel-inner" data-list_id="7"></div>
+
+                      <div class="clearfix"></div>
+                      <div class="media__tabs__series__footer">
+                        <div class="media__tabs__series__footer__item"><a href="#carousel6" data-slide="prev" class="media__tabs__series__control carousel-control prev"><i class="ai ai-prev"></i></a></div>
+                        <div class="media__tabs__series__footer__item media__tabs__series__footer__item__center">Серии <span class="start-series"></span>-<span class="end-series"></span> из </div>
+                        <div class="media__tabs__series__footer__item"><a href="#carousel6" data-slide="next" class="media__tabs__series__control carousel-control next"><i class="ai ai-next"></i></a></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <!-- tabs content end-->
+              </div>
+              <!-- Media series tabs End-->
+
+
+			                <div class="media__related">
+                <div class="media__panel media__panel__gray">
+                  <h3 class="media__related__title">С этим релизом смотрят:</h3>
+                  <div class="media__related__list">
+
+                    <div class="media__related__list__item"><a href="https://online.animedia.tv/anime/apokalipsis-myauCat-Shit-One" title="Смотреть онлайн Апокалипсис Мяу" class="zoomLink"><img data-src="//static.animedia.tv/uploads/CSO2.jpg?w=133&h=183" alt="Смотреть онлайн Апокалипсис Мяу" width="133" height="183"></a></div>
+
+                    <div class="media__related__list__item"><a href="https://online.animedia.tv/anime/zajki-s-urala" title="Смотреть онлайн Зайки с Урала" class="zoomLink"><img data-src="//static.animedia.tv/uploads/1280.jpg?w=133&h=183" alt="Смотреть онлайн Зайки с Урала" width="133" height="183"></a></div>
+
+                    <div class="media__related__list__item"><a href="https://online.animedia.tv/anime/van-pis-film-pervyj" title="Смотреть онлайн Ван-Пис: Фильм первый" class="zoomLink"><img data-src="//static.animedia.tv/uploads/The_Great_Gold_Pirate.jpg?w=133&h=183" alt="Смотреть онлайн Ван-Пис: Фильм первый" width="133" height="183"></a></div>
+
+                    <div class="media__related__list__item"><a href="https://online.animedia.tv/anime/ya-snimu-cukumogami" title="Смотреть онлайн Я сниму Цукумогами" class="zoomLink"><img data-src="//static.animedia.tv/uploads/2131214123123.jpg?w=133&h=183" alt="Смотреть онлайн Я сниму Цукумогами" width="133" height="183"></a></div>
+
+                    <div class="media__related__list__item"><a href="https://online.animedia.tv/anime/bakutsuri-bar-hunter" title="Смотреть онлайн Bakutsuri Bar Hunter" class="zoomLink"><img data-src="//static.animedia.tv/uploads/445.jpg?w=133&h=183" alt="Смотреть онлайн Bakutsuri Bar Hunter" width="133" height="183"></a></div>
+
+                    <div class="media__related__list__item"><a href="https://online.animedia.tv/anime/blich" title="Смотреть онлайн Блич" class="zoomLink"><img data-src="//static.animedia.tv/uploads/EC3F3HIiGE4.jpg?w=133&h=183" alt="Смотреть онлайн Блич" width="133" height="183"></a></div>
+
+                  </div><a href="/list" class="btn btn__gray btn__more"><i class="ai ai-next"></i> Все релизы</a>
+                  <div class="clearfix"></div>
+                </div>
+              </div>
+
+              <!-- Media related posts End-->
+
+				<div class="content-comments" id="comments-widget">
+					<div class="content-comments-title">Комментарии
+						<div class="content-comments-count">65</div>
+					</div>
+
+
+						<!-- Styles -->
+		<link rel="stylesheet" type="text/css" href="/css/jquery-comments.css">
+		<link rel="stylesheet" type="text/css" href="/js/plugins/wysiwyg/wysiwyg-editor.min.css">
+
+		<!-- Data -->
+		<link href="/css/fonts/font-awesome.min.css" type="text/css" rel="stylesheet">
+		<!-- Libraries -->
+
+		<!-- Init jquery-comments -->
+		<script type="text/javascript">
+			var current_member_id = "0";
+			//var current_roleText = "";
+			//var current_roleText = "";
+			var current_avatar =  '';
+			var entry_id = 9392;
+			var comments_form_url = '/ajax/comments_form/9392';
+			var next = '';
+			var prev = '';
+			var limit = 10;
+
+		</script>
+
+<script>next="https://online.animedia.tv/ajax/comments/9392/P10";</script>
+
+
+
+<div id="comments_form"></div>
+<div id="comments-container" style="max-width: 860px;"></div>
+
+				<div class="paggintane_comment">
+				<a href="javascript:;" id="new_comments" class="next_comment">Вперед</a>
+				<a href="javascript:;" id="old_comments" class="prev_comment">Назад</a>
+				</div>
+
+				</div>
+
+
+				<div id="40364" class="scominv">
+				<a href="/anime/inayaAnother#40364" title="Комментарий к аниме онлайн Иная от 10Life">10Life</a>
+				<p>Неплохой хоррер, в данном аниме много отвлекающих факторов, нагоняющих еще больше вопросов. Не скажу, что данный тайтл можно отнести к категории особо интеллектуальных, но интригу и напряжение держит в течении просмотра. Концовка меня разочаровала, основная идея сюжета хоть и была не плоха, но ее раскрытие сильно подкачало, в конечном итоге мы имеем красивую рисовку и кучу трупов..</p>
+				</div>
+
+				<div id="40290" class="scominv">
+				<a href="/anime/inayaAnother#40290" title="Комментарий к аниме онлайн Иная от Илья Плясуля">Илья Плясуля</a>
+				<p>тупая девка. неужели так сложно было сказать кто был мертвяком, если знала? и не было бы столько смертей. а то всех перебили, пока правду не выяснили.</p>
+				</div>
+
+				<div id="40057" class="scominv">
+				<a href="/anime/inayaAnother#40057" title="Комментарий к аниме онлайн Иная от Аня Бессмертная">Аня Бессмертная</a>
+				<p>Ван лав &lt;33</p>
+
+
+				</div>
+
+				<div id="39469" class="scominv">
+				<a href="/anime/inayaAnother#39469" title="Комментарий к аниме онлайн Иная от L11ssa">L11ssa</a>
+				<p>111111/10, говорить нечего.</p>
+				</div>
+
+				<div id="38523" class="scominv">
+				<a href="/anime/inayaAnother#38523" title="Комментарий к аниме онлайн Иная от Алексей Игнатенко">Алексей Игнатенко</a>
+				<p>Просто 11/10 </p>
+				</div>
+
+				<div id="36933" class="scominv">
+				<a href="/anime/inayaAnother#36933" title="Комментарий к аниме онлайн Иная от Zharar">Zharar</a>
+				<p>В целом аниме неплохое, под конец интереснее егосмотреть. Но оно такое не логичное. Но посмотреть стоит.</p>
+				</div>
+
+				<div id="36272" class="scominv">
+				<a href="/anime/inayaAnother#36272" title="Комментарий к аниме онлайн Иная от Плюха">Плюха</a>
+				<p>А какое было второе аниме у тебя? </p>
+
+
+				</div>
+
+				<div id="35706" class="scominv">
+				<a href="/anime/inayaAnother#35706" title="Комментарий к аниме онлайн Иная от Андрей Кот 3">Андрей Кот 3</a>
+				<p>чет я нифига не понял</p>
+				</div>
+
+				<div id="33916" class="scominv">
+				<a href="/anime/inayaAnother#33916" title="Комментарий к аниме онлайн Иная от Анжелика Заморских">Анжелика Заморских</a>
+				<p>А ты не купишь ?И темболее 21 век</p>
+				</div>
+
+				<div id="33912" class="scominv">
+				<a href="/anime/inayaAnother#33912" title="Комментарий к аниме онлайн Иная от Анжелика Заморских">Анжелика Заморских</a>
+				<p>Аниме конечно не логичное , но сюжет имеется , и замысел понятен </p>
+
+
+				</div>
+
+				<div id="33854" class="scominv">
+				<a href="/anime/inayaAnother#33854" title="Комментарий к аниме онлайн Иная от Marcy">Marcy</a>
+				<p>Немногг не логичное, посмотрела еще только когда вышло и сегодня пересмотрела. По сути я сразу поняла что Реико была мертвой, это уже и так было понятно. Хотя приятно было пересмотреть и вспомнить молодость хд</p>
+				</div>
+
+				<div id="33410" class="scominv">
+				<a href="/anime/inayaAnother#33410" title="Комментарий к аниме онлайн Иная от Василиса Чан">Василиса Чан</a>
+				<p>Шикарное аниме..Не знаю, почему многим не нравится &lt;3</p>
+				</div>
+
+				<div id="32641" class="scominv">
+				<a href="/anime/inayaAnother#32641" title="Комментарий к аниме онлайн Иная от Марья Холод">Марья Холод</a>
+				<p>очень хорошее аниме пересматривала 2 раза, тут еще жанра детектив нахватает мне кажется)) впечатления просто слов нет я бы сказала но буду придерживаться.</p>
+				</div>
+
+				<div id="32098" class="scominv">
+				<a href="/anime/inayaAnother#32098" title="Комментарий к аниме онлайн Иная от Вика Герасимова">Вика Герасимова</a>
+				<p>Для любителей пощекотать нервишки самое то, мне лично аниме понравилось</p>
+
+
+				</div>
+
+				<div id="31948" class="scominv">
+				<a href="/anime/inayaAnother#31948" title="Комментарий к аниме онлайн Иная от Radion Savchenko">Radion Savchenko</a>
+				<p>Озвучка Херня Девушки как Будто Все Курят.</p>
+				</div>
+
+				<div id="30674" class="scominv">
+				<a href="/anime/inayaAnother#30674" title="Комментарий к аниме онлайн Иная от p0nqa">p0nqa</a>
+				<p>И логики мало.</p>
+				</div>
+
+				<div id="30673" class="scominv">
+				<a href="/anime/inayaAnother#30673" title="Комментарий к аниме онлайн Иная от p0nqa">p0nqa</a>
+				<p>Стиль - да, сюжет - нет нет и еще раз нет. Глупее и бессмысленнее аниме я еще не видела. Полнометражка про ходячую рыбу и то интереснее была, а здесь бред сивой кобылы.</p>
+				</div>
+
+				<div id="28934" class="scominv">
+				<a href="/anime/inayaAnother#28934" title="Комментарий к аниме онлайн Иная от Anime4nik">Anime4nik</a>
+				<p>Иная маё первое Аниме :)<br />
+решил пересмотреть</p>
+				</div>
+
+				<div id="26715" class="scominv">
+				<a href="/anime/inayaAnother#26715" title="Комментарий к аниме онлайн Иная от Ваня Холодный">Ваня Холодный</a>
+				<p>мне лично очень понравилось</p>
+				</div>
+
+				<div id="26610" class="scominv">
+				<a href="/anime/inayaAnother#26610" title="Комментарий к аниме онлайн Иная от Ваня Холодный">Ваня Холодный</a>
+				<p>Прекрасное впечатление после просмотра</p>
+				</div>
+
+				<div id="25091" class="scominv">
+				<a href="/anime/inayaAnother#25091" title="Комментарий к аниме онлайн Иная от Кирилл Бабалык">Кирилл Бабалык</a>
+				<p>Норм анима</p>
+				</div>
+
+				<div id="24715" class="scominv">
+				<a href="/anime/inayaAnother#24715" title="Комментарий к аниме онлайн Иная от PaSHTeT">PaSHTeT</a>
+				<p>А разве нельзя было после 8 класса перевестись в другую школу </p>
+				</div>
+
+				<div id="23848" class="scominv">
+				<a href="/anime/inayaAnother#23848" title="Комментарий к аниме онлайн Иная от 4a4i">4a4i</a>
+				<p>да немного своеобразное аниме на большого любителя</p>
+				</div>
+
+				<div id="23828" class="scominv">
+				<a href="/anime/inayaAnother#23828" title="Комментарий к аниме онлайн Иная от Дмитрий Цой">Дмитрий Цой</a>
+				<p>Цирк. Переигрывают и таят всё, будто сами хотят умереть.<br />
+А после всех убийств с серьёзными лицами продолжают нести ахинею.<br />
+А у главного героя недоумевающее лицо, как у отсталого.<br />
+После всего, что я смотрел - это совсем не могу осилить, извините...</p>
+
+
+				</div>
+
+				<div id="23039" class="scominv">
+				<a href="/anime/inayaAnother#23039" title="Комментарий к аниме онлайн Иная от Epsillion">Epsillion</a>
+				<p>Ну как сказать... Опенинг шикарен! Слишком шикарен.</p>
+				</div>
+
+				<div id="23000" class="scominv">
+				<a href="/anime/inayaAnother#23000" title="Комментарий к аниме онлайн Иная от Epsillion">Epsillion</a>
+				<p>Анимеха пошла по нраву. Хорошое для просмотра! Спасибо за озвучку!</p>
+				</div>
+
+				<div id="21344" class="scominv">
+				<a href="/anime/inayaAnother#21344" title="Комментарий к аниме онлайн Иная от MrStrongCookies">MrStrongCookies</a>
+				<p>ну на счет перевода, 2012 год был давнейший, могли где то что то упустить </p>
+				</div>
+
+				<div id="21340" class="scominv">
+				<a href="/anime/inayaAnother#21340" title="Комментарий к аниме онлайн Иная от hpcarry">hpcarry</a>
+				<p>Очень тронуло! И всё же, возможно, я повторюсь, но быдло перевод портит всё впечатление...</p>
+				</div>
+
+				<div id="20427" class="scominv">
+				<a href="/anime/inayaAnother#20427" title="Комментарий к аниме онлайн Иная от Droid Thirteen">Droid Thirteen</a>
+				<p>Мгхаази!! Самую няху сначала завалили(((</p>
+				</div>
+
+				<div id="19979" class="scominv">
+				<a href="/anime/inayaAnother#19979" title="Комментарий к аниме онлайн Иная от Руслан Саидов">Руслан Саидов</a>
+				<p>Отличное аниме!Спасибо за озвучку!</p>
+				</div>
+
+				<div id="19758" class="scominv">
+				<a href="/anime/inayaAnother#19758" title="Комментарий к аниме онлайн Иная от Олександр Мосунов">Олександр Мосунов</a>
+				<p>в том, что его выражают... и, обычно. не обдумав.</p>
+
+
+				</div>
+
+				<div id="19319" class="scominv">
+				<a href="/anime/inayaAnother#19319" title="Комментарий к аниме онлайн Иная от Bashmak_1">Bashmak_1</a>
+				<p>Нравится ваш сайт и плеер тоже рекламы не так много и перемотать можно, но вот в отличии от других сайтов с кучей рекламы совершено не грузит, не знаю в чем проблема либо в интернете либо ваш плеер требовательный. =(</p>
+
+
+				</div>
+
+				<div id="18169" class="scominv">
+				<a href="/anime/inayaAnother#18169" title="Комментарий к аниме онлайн Иная от Артем Дружинин">Артем Дружинин</a>
+				<p>Отличное аниме, и озвучка хорошая.</p>
+				</div>
+
+				<div id="17382" class="scominv">
+				<a href="/anime/inayaAnother#17382" title="Комментарий к аниме онлайн Иная от MrStrongCookies">MrStrongCookies</a>
+				<p>Нет, он к нам не относиться :)</p>
+				</div>
+
+				<div id="17361" class="scominv">
+				<a href="/anime/inayaAnother#17361" title="Комментарий к аниме онлайн Иная от BlackPrince">BlackPrince</a>
+				<p>MRSTRONGCOOCIES,Можно задать вопрос вот есть сайт ****** он как то относится к этому сайту?<br />
+(Если да то хотелось бы узнать когда выйдет приложение *********).</p>
+				</div>
+
+				<div id="17360" class="scominv">
+				<a href="/anime/inayaAnother#17360" title="Комментарий к аниме онлайн Иная от BlackPrince">BlackPrince</a>
+				<p>Так досмотрел я аниме решил коменты почитать и тут я смотрю озвучку по полной говном обливают(простите что так вырожаюсь),но реально хотите я скажу вам реально тупую озвучку идите смотрите аниме ван пис и меч королевы с озвучкой от персоны вот и &#8220;наслождайтесь&#8221;её озвучкой **** и ещё раз вам не нравится смотреть с токой озвучкой это аниме просто не смотрите его вас ни кто не заставляет или идите и сами себе переводите и озвучивайте!!!<br />
+Ну а в конце хотел бы сказать спасибо анимедии огромное спасибо что перевели и озвучили это аниме ;)</p>
+
+
+				</div>
+
+				<div id="17109" class="scominv">
+				<a href="/anime/inayaAnother#17109" title="Комментарий к аниме онлайн Иная от MrStrongCookies">MrStrongCookies</a>
+				<p>а вы лучше можете ?) ДАвайте сделайте :)</p>
+				</div>
+
+				<div id="17107" class="scominv">
+				<a href="/anime/inayaAnother#17107" title="Комментарий к аниме онлайн Иная от Игорь Анпилов">Игорь Анпилов</a>
+				<p>что за перевод анимедия??? акцент как из рельных пацанов.... тупой, словно гопник (мужсской перевод)﻿</p>
+				</div>
+
+				<div id="16894" class="scominv">
+				<a href="/anime/inayaAnother#16894" title="Комментарий к аниме онлайн Иная от MrStrongCookies">MrStrongCookies</a>
+				<p>это глупо, тут не нужен 2 сезон </p>
+				</div>
+
+				<div id="16861" class="scominv">
+				<a href="/anime/inayaAnother#16861" title="Комментарий к аниме онлайн Иная от valkyrie777">valkyrie777</a>
+				<p>Говорят ближе к 18-20 годам вторую книгу допишут и выйдет еще 2 сезон</p>
+				</div>
+
+				<div id="15477" class="scominv">
+				<a href="/anime/inayaAnother#15477" title="Комментарий к аниме онлайн Иная от Тимур Махмуд">Тимур Махмуд</a>
+				<p>шикарно)</p>
+				</div>
+
+				<div id="15424" class="scominv">
+				<a href="/anime/inayaAnother#15424" title="Комментарий к аниме онлайн Иная от SinGen">SinGen</a>
+				<p>Шикарное Аниме, было очень интересно смотреть, спасибо за озвучку :3</p>
+				</div>
+
+				<div id="10206" class="scominv">
+				<a href="/anime/inayaAnother#10206" title="Комментарий к аниме онлайн Иная от abblnk">abblnk</a>
+				<p>****** вашу, это шикарно.</p>
+				</div>
+
+				<div id="9990" class="scominv">
+				<a href="/anime/inayaAnother#9990" title="Комментарий к аниме онлайн Иная от abblnk">abblnk</a>
+				<p><b>Василий Никополиди</b>, а что плохого в выражении собственного мнения?</p>
+				</div>
+
+				<div id="9923" class="scominv">
+				<a href="/anime/inayaAnother#9923" title="Комментарий к аниме онлайн Иная от 4a4i">4a4i</a>
+				<p><b>Василий Никополиди</b>, спасибо, мы стараемся для Вас)</p>
+				</div>
+
+				<div id="9915" class="scominv">
+				<a href="/anime/inayaAnother#9915" title="Комментарий к аниме онлайн Иная от Василий Никополиди">Василий Никополиди</a>
+				<p>Дорогая Анимедия, вот почему есть уроды, которые чем то не довольны и говорят об этом открыто?! Особено на Анимедии! Ведь этот проэкт бесплатный для всех!! НЕ*** ЖАЛОВАТЬСЯ!</p>
+				</div>
+
+				<div id="9561" class="scominv">
+				<a href="/anime/inayaAnother#9561" title="Комментарий к аниме онлайн Иная от MrStrongCookies">MrStrongCookies</a>
+				<p><b>Bogdanov Vitali</b>, ну коль можете сделать лучше, милости просим, оставьте заявку администрации в ВК)</p>
+				</div>
+
+				<div id="9554" class="scominv">
+				<a href="/anime/inayaAnother#9554" title="Комментарий к аниме онлайн Иная от Bogdanov Vitali">Bogdanov Vitali</a>
+				<p>Уважаемый переводчик! Убедительная просьба, купите себе англо-русский и японо-русский словарики. Причем оба! Потому, что такого говённого перевода Я еще ни разу не слышал!!!</p>
+				</div>
+
+				<div id="9301" class="scominv">
+				<a href="/anime/inayaAnother#9301" title="Комментарий к аниме онлайн Иная от Даниил Жабин">Даниил Жабин</a>
+				<p>Супер)</p>
+
+
+				</div>
+
+				<div id="4719" class="scominv">
+				<a href="/anime/inayaAnother#4719" title="Комментарий к аниме онлайн Иная от MrStrongCookies">MrStrongCookies</a>
+				<p><b>Tantar</b>, увы всегда почти так)</p>
+				</div>
+
+				<div id="4708" class="scominv">
+				<a href="/anime/inayaAnother#4708" title="Комментарий к аниме онлайн Иная от Tantar">Tantar</a>
+				<p>Хороший ужастик,но тупость гг поражает)</p>
+				</div>
+
+				<div id="4674" class="scominv">
+				<a href="/anime/inayaAnother#4674" title="Комментарий к аниме онлайн Иная от Nyan">Nyan</a>
+				<p>Пострашнее многих фильмов ужасов! И озвучка отличная:3</p>
+				</div>
+
+				<div id="4660" class="scominv">
+				<a href="/anime/inayaAnother#4660" title="Комментарий к аниме онлайн Иная от Nyan">Nyan</a>
+				<p>Интересно, <b>что</b> видит её глаз?</p>
+
+
+				</div>
+
+				<div id="4657" class="scominv">
+				<a href="/anime/inayaAnother#4657" title="Комментарий к аниме онлайн Иная от Nyan">Nyan</a>
+				<p><b>KoEn</b>,где??</p>
+				</div>
+
+				<div id="4622" class="scominv">
+				<a href="/anime/inayaAnother#4622" title="Комментарий к аниме онлайн Иная от Дмитрий Гуров">Дмитрий Гуров</a>
+				<p>Класно!</p>
+
+
+				</div>
+
+				<div id="4548" class="scominv">
+				<a href="/anime/inayaAnother#4548" title="Комментарий к аниме онлайн Иная от MrStrongCookies">MrStrongCookies</a>
+				<p><b>Kito</b>, добавил)</p>
+				</div>
+
+				<div id="4546" class="scominv">
+				<a href="/anime/inayaAnother#4546" title="Комментарий к аниме онлайн Иная от Kito">Kito</a>
+				<p>А почему это аниме не стоит жанр &#8220;ужасы&#8221; ? Ведь оно таковым и является!!!</p>
+				</div>
+
+				<div id="4353" class="scominv">
+				<a href="/anime/inayaAnother#4353" title="Комментарий к аниме онлайн Иная от Руслан Хасанов">Руслан Хасанов</a>
+				<p>чем то похож на пункт назначения ))))</p>
+				</div>
+
+				<div id="2652" class="scominv">
+				<a href="/anime/inayaAnother#2652" title="Комментарий к аниме онлайн Иная от Andrew_G">Andrew_G</a>
+				<p>Прямо за душу берёт)</p>
+				</div>
+
+				<div id="2570" class="scominv">
+				<a href="/anime/inayaAnother#2570" title="Комментарий к аниме онлайн Иная от GreK">GreK</a>
+				<p>Лучшее аниме-ужас!!</p>
+
+
+				</div>
+
+				<div id="1406" class="scominv">
+				<a href="/anime/inayaAnother#1406" title="Комментарий к аниме онлайн Иная от Sania1995">Sania1995</a>
+				<p>Прикольный)</p>
+				</div>
+
+				<div id="1189" class="scominv">
+				<a href="/anime/inayaAnother#1189" title="Комментарий к аниме онлайн Иная от vlad1995">vlad1995</a>
+				<p>норм)</p>
+
+
+				</div>
+
+				<div id="927" class="scominv">
+				<a href="/anime/inayaAnother#927" title="Комментарий к аниме онлайн Иная от KoEn">KoEn</a>
+				<p>гут! даже кровяка есть)</p>
+				</div>
+
+				<div id="551" class="scominv">
+				<a href="/anime/inayaAnother#551" title="Комментарий к аниме онлайн Иная от Ксения Дувалина">Ксения Дувалина</a>
+				<p>а я посмотрела</p>
+				</div>
+
+				<div id="81" class="scominv">
+				<a href="/anime/inayaAnother#81" title="Комментарий к аниме онлайн Иная от Мартов">Мартов</a>
+				<p>боже ну почему rutube</p>
+				</div>
+
+
+            </div>
+            <!-- Media End-->
+          </div>
+
+          <!-- Content. Left block End-->
+          <!-- Right sidebar-->
+          <aside class="right-sidebar">
+            <!-- Post info widget-->
+            <div class="widget">
+              <div class="widget__post-info">
+                <div class="widget__post-info__poster"><a href="//static.animedia.tv/uploads/innaya.jpg" class="zoomLink"><img data-src="//static.animedia.tv/uploads/innaya.jpg?w=280&h=385" alt="Онлайн аниме Иная" width="280" height="385"></a></div>
+                <div class="widget__post-info__rating">
+
+                    <div id="rating-form" style="display: none;">
+                        <form id="rating_form9392" name="Anime Reviews" method="post" action="https://online.animedia.tv/anime/inayaAnother"  >
+<div class='hiddenFields'>
+<input type="hidden" name="ACT" value="81" />
+<input type="hidden" name="RET" value="https://online.animedia.tv/anime/inayaAnother" />
+<input type="hidden" name="URI" value="anime/inayaAnother" />
+<input type="hidden" name="PRV" value="" />
+<input type="hidden" name="entry_id" value="9392" />
+<input type="hidden" name="params_id" value="EpXfDImahn9ctJaXqY64BVzeQ" />
+<input type="hidden" name="ajax_request" value="y" />
+<input type="hidden" name="site_id" value="1" />
+<input type="hidden" name="csrf_token" value="beeee626d77ed2f966765b622a31555cdd8e8c8f" />
+</div>
+
+</form>
+                    </div>
+                  <div class="post-rating">
+
+                      <input type="hidden" data-filled="ai ai-star__full" data-empty="ai ai-star__stroke" data-fractions="2" value='4.5' class="rating">
+                  </div>
+
+                </div>
+                <div class="widget__post-info__btns">
+
+                  <a href="/anime/inayaAnother/1/1" class="btn btn__big btn__red btn__play-first"><i class="ai ai-next"></i> Смотреть онлайн</a>
+
+
+				  <a href="https://tt.animedia.tv/anime/inaya" class="btn btn__big btn__green btn__dowload-torrent"><i class="ai ai-download"></i> Скачать торрент</a>
+
+
+
+
+				  <a href="/assistance-to-the-project" class="btn btn__big btn__soft-black"><i class="ai ai-next"></i> Помочь проекту</a>
+                </div>
+				 <center> <div id='e50c3e9040'></div>
+
+<script type='text/javascript' data-cfasync='false'>
+ (function(){
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.charset = 'utf-8';
+  script.async = 'true';
+  script.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//et-cod.com/bens/vinos.js?13281a' + Math.random();
+  document.body.appendChild(script);
+ })();
+</script>
+
+
+
+
+
+ <!-- <a target="_blank" href="//www.vsemayki.ru/catalog/anime?sort=sell&page=4&utm_manager=4915865&utm_source=animedia&utm_medium=banner&utm_campaign=all"><img src="/images/anime.gif"></a> -->
+
+ </center></br>
+
+                <div class="widget__post-info__voicers">
+                  <div class="h3 widget__post-info__voicers__title">Релиз озвучивали:</div>
+                  <ul class="widget__post-info__voicers__links">
+                    <li class="widget__post-info__voicers__links__item"><a href="/search?qv=SHACHIBURI">SHACHIBURI</a> & <a href="/search?qv=SILV">SILV</a> </li>
+                  </ul>
+                </div>
+
+
+              </div>
+            </div>
+
+            <!-- Post info widget End-->
+            <!-- Aside banner-->
+
+            <!-- New series widget-->
+				<div class="widget">
+  <div class="h3 widget__title">Новые серии </div>
+  <div class="widget__new-series">
+<!-- New series widget item-->
+    <div class="widget__new-series__item widget__item">
+	<a href="/anime/mob-psycho-100/2/8" title="Cмотреть онлайн аниме Моб Психо 100 Серия 8" class="widget__new-series__item__thumb"><img data-src="//static.animedia.tv/screens/1551127347026b42980a0bfff1f654507b4779f73f14189e2f_min.jpg?w=104&q=50" alt="Cмотреть онлайн аниме Моб Психо 100 Серия 8" title="Серия 8 аниме Моб Психо 100 онлайн"></a>
+      <div class="widget__new-series__item__info">
+	  <a href="/anime/mob-psycho-100/2/8" title="Cмотреть онлайн аниме Моб Психо 100 Серия 8" class="h4 widget__new-series__item__title">Моб Психо 100 ТВ2</a>
+        <div class="widget__new-series__item__status">
+
+		Серия 8 из
+
+		12
+
+
+
+
+		</div>
+
+	  <div class="date_newseries">Добавлено 46 мин. назад</div>
+
+
+
+
+
+	  </div>
+
+    </div><!-- New series widget item-->
+    <div class="widget__new-series__item widget__item">
+	<a href="/anime/radiant" title="Cмотреть онлайн аниме Радиант Серия 21" class="widget__new-series__item__thumb"><img data-src="//static.animedia.tv/screens/155120849665b1e1fe95131e335b5beecbdfa9743dd2d80d71_min.jpg?w=104&q=50" alt="Cмотреть онлайн аниме Радиант Серия 21" title="Серия 21 аниме Радиант онлайн"></a>
+      <div class="widget__new-series__item__info">
+	  <a href="/anime/radiant" title="Cмотреть онлайн аниме Радиант Серия 21" class="h4 widget__new-series__item__title">Радиант</a>
+        <div class="widget__new-series__item__status status-end">Релиз завершён</div>
+      <div class="date_newseries">Добавлено 53 мин. назад</div>
+
+
+
+
+
+
+	  </div>
+
+    </div><!-- New series widget item-->
+    <div class="widget__new-series__item widget__item">
+	<a href="/anime/chyornyj-klever/1/72" title="Cмотреть онлайн аниме Чёрный клевер Серия 72" class="widget__new-series__item__thumb"><img data-src="//static.animedia.tv/screens/155120507135e09e8df1a1f9eeab0e0590e81970163c566b7e_min.jpg?w=104&q=50" alt="Cмотреть онлайн аниме Чёрный клевер Серия 72" title="Серия 72 аниме Чёрный клевер онлайн"></a>
+      <div class="widget__new-series__item__info">
+	  <a href="/anime/chyornyj-klever/1/72" title="Cмотреть онлайн аниме Чёрный клевер Серия 72" class="h4 widget__new-series__item__title">Чёрный клевер</a>
+        <div class="widget__new-series__item__status">
+
+		Серия 72 из
+		xxx
+
+
+
+
+
+		</div>
+      <div class="date_newseries">Добавлено  2 час. назад</div>
+
+
+
+
+
+
+	  </div>
+
+    </div><!-- New series widget item-->
+    <div class="widget__new-series__item widget__item">
+	<a href="/anime/bugipop-nikogda-ne-smeyotsya/1/13" title="Cмотреть онлайн аниме Бугипоп никогда не смеётся Серия 13" class="widget__new-series__item__thumb"><img data-src="//static.animedia.tv/screens/1551202128f276f3fe08aa50946c500c67251c82d59fe95098_min.jpg?w=104&q=50" alt="Cмотреть онлайн аниме Бугипоп никогда не смеётся Серия 13" title="Серия 13 аниме Бугипоп никогда не смеётся онлайн"></a>
+      <div class="widget__new-series__item__info">
+	  <a href="/anime/bugipop-nikogda-ne-smeyotsya/1/13" title="Cмотреть онлайн аниме Бугипоп никогда не смеётся Серия 13" class="h4 widget__new-series__item__title">Бугипоп никогда не смеётся</a>
+        <div class="widget__new-series__item__status">
+
+		Серия 13 из
+		XXX
+
+
+
+
+
+		</div>
+      <div class="date_newseries">Добавлено  2 час. назад</div>
+
+
+
+
+
+
+	  </div>
+
+    </div><!-- New series widget item-->
+    <div class="widget__new-series__item widget__item">
+	<a href="/anime/o-moyom-pererozhdenii-v-sliz/1/21" title="Cмотреть онлайн аниме О моём перерождении в слизь Серия 21" class="widget__new-series__item__thumb"><img data-src="//static.animedia.tv/screens/155115578629006e3e3984850013824184e7859f15c7a6b247_min.jpg?w=104&q=50" alt="Cмотреть онлайн аниме О моём перерождении в слизь Серия 21" title="Серия 21 аниме О моём перерождении в слизь онлайн"></a>
+      <div class="widget__new-series__item__info">
+	  <a href="/anime/o-moyom-pererozhdenii-v-sliz/1/21" title="Cмотреть онлайн аниме О моём перерождении в слизь Серия 21" class="h4 widget__new-series__item__title">О моём перерождении в слизь</a>
+        <div class="widget__new-series__item__status">
+
+		Серия 21 из
+		24
+
+
+
+
+
+		</div>
+      <div class="date_newseries">Добавлено 23 час. назад</div>
+
+
+
+
+
+
+	  </div>
+
+    </div><!-- New series widget item-->
+    <div class="widget__new-series__item widget__item">
+	<a href="/anime/pyat-nevest/1/7" title="Cмотреть онлайн аниме Пять невест Серия 7" class="widget__new-series__item__thumb"><img data-src="//static.animedia.tv/screens/155112709571ea3c4ba418ca2b9ff22ec749f2fdb257445479_min.jpg?w=104&q=50" alt="Cмотреть онлайн аниме Пять невест Серия 7" title="Серия 7 аниме Пять невест онлайн"></a>
+      <div class="widget__new-series__item__info">
+	  <a href="/anime/pyat-nevest/1/7" title="Cмотреть онлайн аниме Пять невест Серия 7" class="h4 widget__new-series__item__title">Пять невест</a>
+        <div class="widget__new-series__item__status">
+
+		Серия 7 из
+		12
+
+
+
+
+
+		</div>
+      <div class="date_newseries">Добавлено 23 час. назад</div>
+
+
+
+
+
+
+	  </div>
+
+    </div><!-- New series widget item-->
+    <div class="widget__new-series__item widget__item">
+	<a href="/anime/uiz/1/8" title="Cмотреть онлайн аниме Уиз Серия 8" class="widget__new-series__item__thumb"><img data-src="//static.animedia.tv/screens/15511254887f75b16d84e8da7637fb9403530c61a2d552e65a_min.jpg?w=104&q=50" alt="Cмотреть онлайн аниме Уиз Серия 8" title="Серия 8 аниме Уиз онлайн"></a>
+      <div class="widget__new-series__item__info">
+	  <a href="/anime/uiz/1/8" title="Cмотреть онлайн аниме Уиз Серия 8" class="h4 widget__new-series__item__title">Уиз</a>
+        <div class="widget__new-series__item__status">
+
+		Серия 8 из
+		13
+
+
+
+
+
+		</div>
+      <div class="date_newseries">Добавлено 23 час. назад</div>
+
+
+
+
+
+
+	  </div>
+
+    </div><!-- New series widget item-->
+    <div class="widget__new-series__item widget__item">
+	<a href="/anime/bezumnyj-azart/2/7" title="Cмотреть онлайн аниме Безумный азарт Серия 7" class="widget__new-series__item__thumb"><img data-src="//static.animedia.tv/screens/155112266523e831d10a671319aff705b4238fd14d76dab5a2_min.jpg?w=104&q=50" alt="Cмотреть онлайн аниме Безумный азарт Серия 7" title="Серия 7 аниме Безумный азарт онлайн"></a>
+      <div class="widget__new-series__item__info">
+	  <a href="/anime/bezumnyj-azart/2/7" title="Cмотреть онлайн аниме Безумный азарт Серия 7" class="h4 widget__new-series__item__title">Безумный азарт ТВ2</a>
+        <div class="widget__new-series__item__status">
+
+		Серия 7 из
+
+		12
+
+
+
+
+		</div>
+
+	  <div class="date_newseries">Добавлено 1 день назад</div>
+
+
+
+
+
+	  </div>
+
+    </div><!-- New series widget item-->
+    <div class="widget__new-series__item widget__item">
+	<a href="/anime/boruto-novoe-pokolenie-naruto/1/95" title="Cмотреть онлайн аниме Боруто: Новое поколение Наруто Серия 95" class="widget__new-series__item__thumb"><img data-src="//static.animedia.tv/screens/15511190767bde79e50ab98708cede1255651a8dcc853fc8c5_min.jpg?w=104&q=50" alt="Cмотреть онлайн аниме Боруто: Новое поколение Наруто Серия 95" title="Серия 95 аниме Боруто: Новое поколение Наруто онлайн"></a>
+      <div class="widget__new-series__item__info">
+	  <a href="/anime/boruto-novoe-pokolenie-naruto/1/95" title="Cмотреть онлайн аниме Боруто: Новое поколение Наруто Серия 95" class="h4 widget__new-series__item__title">Боруто: Новое поколение Наруто</a>
+        <div class="widget__new-series__item__status">
+
+		Серия 95 из
+		XXX
+
+
+
+
+
+		</div>
+      <div class="date_newseries">Добавлено 1 день назад</div>
+
+
+
+
+
+
+	  </div>
+
+    </div><!-- New series widget item-->
+    <div class="widget__new-series__item widget__item">
+	<a href="/anime/randevu-s-zhiznyu-3/1/7" title="Cмотреть онлайн аниме Рандеву с жизнью 3 Серия 7" class="widget__new-series__item__thumb"><img data-src="//static.animedia.tv/screens/1551112536d977d8091e3118b88810d78f61db9fe8999b5748_min.jpg?w=104&q=50" alt="Cмотреть онлайн аниме Рандеву с жизнью 3 Серия 7" title="Серия 7 аниме Рандеву с жизнью 3 онлайн"></a>
+      <div class="widget__new-series__item__info">
+	  <a href="/anime/randevu-s-zhiznyu-3/1/7" title="Cмотреть онлайн аниме Рандеву с жизнью 3 Серия 7" class="h4 widget__new-series__item__title">Рандеву с жизнью 3</a>
+        <div class="widget__new-series__item__status">
+
+		Серия 7 из
+		12
+
+
+
+
+
+		</div>
+      <div class="date_newseries">Добавлено 1 день назад</div>
+
+
+
+
+
+
+	  </div>
+
+    </div>
+<a href="/new" class="btn btn__gray btn__more"><i class="ai ai-next"></i> Больше серий</a>
+  </div>
+</div>
+            <!-- New series widget End-->
+            <!-- Aside banner-->
+            <!-- Last news widget-->
+				<script type="text/javascript" src="//vk.com/js/api/openapi.js?150"></script>
+<!-- VK Widget -->
+<div id="vk_groups"></div>
+<script type="text/javascript">
+VK.Widgets.Group("vk_groups", {mode: 3, width: "310", color3: 'E70D2F'}, 13912875);
+</script></br>
+
+            <!-- Last news widget End-->
+
+          </aside>
+
+          <!-- Right sidebar End-->
+          <!-- Big banner-->
+        </div>
+      </div>
+    </div>
+    <!-- Main container End-->
+
+<!-- Finished releases-->
+<div class="finished-releases">
+      <div class="container">
+        <div class="finished-releases__wrapper">
+          <!-- Finished releases header-->
+          <div class="finished-releases__header">
+            <div class="h1 finished-releases__header__title">Завершённые релизы</div><a href="/completed" class="btn btn__gray btn__more"><i class="ai ai-next"></i> Все релизы</a>
+          </div>
+          <!-- Finished releases header End-->
+          <!-- Finished releases list-->
+          <div class="finished-releases__list xads-list">
+
+		   <!-- item-->
+            <div class="ads-list__item">
+              <div class="ads-list__item__thumb"><a href="https://online.animedia.tv/anime/truslivyj-velosipedist-zapasnoj-velosiped"><img data-src="//static.animedia.tv/uploads/VELOSIPED.jpg?h=385&w=280&q=80" alt="Постер аниме Трусливый велосипедист: Запасной велосипед" title="Постер аниме Трусливый велосипедист: Запасной велосипед"></a>
+                  <div class="ads-list__item__overlay overlay">
+
+					</br><h2 style="color: #fff">9.0/10</h2>
+					<div class="overlay__counters">
+                      <div class="overlay__counters__primary"><a href="https://online.animedia.tv/anime/truslivyj-velosipedist-zapasnoj-velosiped" title="Смотреть онлайн Трусливый велосипедист: Запасной велосипед" class="overlay__counters__primary__wrap"><span>5865</span> просмотров</a></div>
+                      <div class="overlay__counters__secondary"><span class="overlay__counters__secondary__comments"><i class="ai ai-comment"></i>4</span><span class="overlay__counters__secondary__likes"><i class="ai ai-like__full"></i>  10</span></div>
+                    </div>
+                    <div class="overlay__footer">
+                      <div class="col-l"><a href="//tt.animedia.tv/anime/truslivyj-velosipedist-zapasnoj-velosiped" title="Скачать Трусливый велосипедист: Запасной велосипед" class="btn btn__green btn__sm"><i class="ai ai-download"></i> Скачать</a></div>
+                      <div class="col-l"><a href="https://online.animedia.tv/anime/truslivyj-velosipedist-zapasnoj-velosiped" title="Подробнее" class="btn btn__black btn__sm"><i class="ai ai-next"></i> Подробно</a></div>
+                    </div>
+                  </div>
+              </div>
+              <div class="original-title">Yowamushi Pedal: Spare Bike</div><a href="https://online.animedia.tv/anime/truslivyj-velosipedist-zapasnoj-velosiped" title="Трусливый велосипедист: Запасной велосипед" class="h3 ads-list__item__title">Трусливый велосипедист: Запасной велосипед</a>
+				<div class="genre-tags">Жанр: <a href="https://online.animedia.tv/category/drama" title="Драма">Драма</a><a href="https://online.animedia.tv/category/comedy" title="Комедия">Комедия</a><a href="https://online.animedia.tv/category/shounen" title="Сёнэн">Сёнэн</a><a href="https://online.animedia.tv/category/sport" title="Спорт">Спорт</a></div>
+            </div>
+
+
+		   <!-- item-->
+            <div class="ads-list__item">
+              <div class="ads-list__item__thumb"><a href="https://online.animedia.tv/anime/zahvatchiki-komnatyi-na-shest-tatami"><img data-src="//static.animedia.tv/uploads/21.jpg?h=385&w=280&q=80" alt="Постер аниме Захватчики комнаты на шесть татами" title="Постер аниме Захватчики комнаты на шесть татами"></a>
+                  <div class="ads-list__item__overlay overlay">
+
+					</br><h2 style="color: #fff">8.0/10</h2>
+					<div class="overlay__counters">
+                      <div class="overlay__counters__primary"><a href="https://online.animedia.tv/anime/zahvatchiki-komnatyi-na-shest-tatami" title="Смотреть онлайн Захватчики комнаты на шесть татами" class="overlay__counters__primary__wrap"><span>37634</span> просмотров</a></div>
+                      <div class="overlay__counters__secondary"><span class="overlay__counters__secondary__comments"><i class="ai ai-comment"></i>9</span><span class="overlay__counters__secondary__likes"><i class="ai ai-like__full"></i>  74</span></div>
+                    </div>
+                    <div class="overlay__footer">
+                      <div class="col-l"><a href="//tt.animedia.tv/anime/zahvatchiki-komnaty-na-shest-tatami" title="Скачать Захватчики комнаты на шесть татами" class="btn btn__green btn__sm"><i class="ai ai-download"></i> Скачать</a></div>
+                      <div class="col-l"><a href="https://online.animedia.tv/anime/zahvatchiki-komnatyi-na-shest-tatami" title="Подробнее" class="btn btn__black btn__sm"><i class="ai ai-next"></i> Подробно</a></div>
+                    </div>
+                  </div>
+              </div>
+              <div class="original-title">Rokujouma no Shinryakusha</div><a href="https://online.animedia.tv/anime/zahvatchiki-komnatyi-na-shest-tatami" title="Захватчики комнаты на шесть татами" class="h3 ads-list__item__title">Захватчики комнаты на шесть татами</a>
+				<div class="genre-tags">Жанр: <a href="https://online.animedia.tv/category/comedy" title="Комедия">Комедия</a><a href="https://online.animedia.tv/category/slice-of-Life" title="Повседневность">Повседневность</a><a href="https://online.animedia.tv/category/advanture" title="Приключения">Приключения</a></div>
+            </div>
+
+
+		   <!-- item-->
+            <div class="ads-list__item">
+              <div class="ads-list__item__thumb"><a href="https://online.animedia.tv/anime/tetrad-smerti1"><img data-src="//static.animedia.tv/uploads/dnftst.jpg?h=385&w=280&q=80" alt="Постер аниме Тетрадь смерти" title="Постер аниме Тетрадь смерти"></a>
+                  <div class="ads-list__item__overlay overlay">
+
+					</br><h2 style="color: #fff">3.0/10</h2>
+					<div class="overlay__counters">
+                      <div class="overlay__counters__primary"><a href="https://online.animedia.tv/anime/tetrad-smerti1" title="Смотреть онлайн Тетрадь смерти" class="overlay__counters__primary__wrap"><span>13453</span> просмотров</a></div>
+                      <div class="overlay__counters__secondary"><span class="overlay__counters__secondary__comments"><i class="ai ai-comment"></i>35</span><span class="overlay__counters__secondary__likes"><i class="ai ai-like__full"></i>  21</span></div>
+                    </div>
+                    <div class="overlay__footer">
+                      <div class="col-l"><a href="//tt.animedia.tv/anime/tetrad-smerti" title="Скачать Тетрадь смерти" class="btn btn__green btn__sm"><i class="ai ai-download"></i> Скачать</a></div>
+                      <div class="col-l"><a href="https://online.animedia.tv/anime/tetrad-smerti1" title="Подробнее" class="btn btn__black btn__sm"><i class="ai ai-next"></i> Подробно</a></div>
+                    </div>
+                  </div>
+              </div>
+              <div class="original-title">Death Note</div><a href="https://online.animedia.tv/anime/tetrad-smerti1" title="Тетрадь смерти" class="h3 ads-list__item__title">Тетрадь смерти</a>
+				<div class="genre-tags">Жанр: <a href="https://online.animedia.tv/category/detective" title="Детектив">Детектив</a><a href="https://online.animedia.tv/category/thriller" title="Триллер">Триллер</a><a href="https://online.animedia.tv/category/horror" title="Ужасы">Ужасы</a><a href="https://online.animedia.tv/category/fantasy" title="Фэнтези">Фэнтези</a></div>
+            </div>
+
+
+		   <!-- item-->
+            <div class="ads-list__item">
+              <div class="ads-list__item__thumb"><a href="https://online.animedia.tv/anime/etot-zamechatelnyj-mir"><img data-src="//static.animedia.tv/uploads/worldala12.jpg?h=385&w=280&q=80" alt="Постер аниме Этот замечательный мир!" title="Постер аниме Этот замечательный мир!"></a>
+                  <div class="ads-list__item__overlay overlay">
+
+					</br><h2 style="color: #fff">9.5/10</h2>
+					<div class="overlay__counters">
+                      <div class="overlay__counters__primary"><a href="https://online.animedia.tv/anime/etot-zamechatelnyj-mir" title="Смотреть онлайн Этот замечательный мир!" class="overlay__counters__primary__wrap"><span>479118</span> просмотров</a></div>
+                      <div class="overlay__counters__secondary"><span class="overlay__counters__secondary__comments"><i class="ai ai-comment"></i>299</span><span class="overlay__counters__secondary__likes"><i class="ai ai-like__full"></i>  722</span></div>
+                    </div>
+                    <div class="overlay__footer">
+                      <div class="col-l"><a href="//tt.animedia.tv/anime/etot-zamechatelnyj-mir" title="Скачать Этот замечательный мир!" class="btn btn__green btn__sm"><i class="ai ai-download"></i> Скачать</a></div>
+                      <div class="col-l"><a href="https://online.animedia.tv/anime/etot-zamechatelnyj-mir" title="Подробнее" class="btn btn__black btn__sm"><i class="ai ai-next"></i> Подробно</a></div>
+                    </div>
+                  </div>
+              </div>
+              <div class="original-title">Kono Subarashii Sekai ni Shukufuku wo!</div><a href="https://online.animedia.tv/anime/etot-zamechatelnyj-mir" title="Этот замечательный мир!" class="h3 ads-list__item__title">Этот замечательный мир!</a>
+				<div class="genre-tags">Жанр: <a href="https://online.animedia.tv/category/comedy" title="Комедия">Комедия</a><a href="https://online.animedia.tv/category/advanture" title="Приключения">Приключения</a><a href="https://online.animedia.tv/category/romance" title="Романтика">Романтика</a><a href="https://online.animedia.tv/category/fantasy" title="Фэнтези">Фэнтези</a></div>
+            </div>
+
+
+          </div>
+          <!-- Finished releases list End-->
+        </div>
+      </div>
+    </div>
+    <!-- Finished releases End-->
+    <!-- Footer-->
+    <footer class="main-footer">
+      <div class="container">
+        <div class="main-footer__wrapper">
+          <div class="main-footer__sub-menu-wrapper">
+            <!-- About project sub-menu-->
+            <div class="main-footer__sub-menu main-footer__item">
+              <div class="h4 main-footer__item__title">О проекте</div>
+              <ul class="main-footer__sub-menu__list">
+                <li class="main-footer__sub-menu__list__item"><a href="//animedia.tv/pages/about" title="О проекте">О проекте</a></li>
+                <li class="main-footer__sub-menu__list__item"><a href="//animedia.tv/pages/advertisers" title="Рекламодателям">Рекламодателям</a></li>
+                <li class="main-footer__sub-menu__list__item"><a href="//animedia.tv/project-team" title="Наша команда">Наша команда</a></li>
+                <li class="main-footer__sub-menu__list__item"><a href="//online.animedia.tv/teamwork" title="Вакансии">Вакансии</a></li>
+                <li class="main-footer__sub-menu__list__item"><a href="//animedia.tv/pages/pravoobladatelyam" title="Правообладателям">Правообладателям</a></li>
+              </ul>
+            </div>
+            <!-- About project sub-menu End-->
+            <!-- News sub-menu-->
+            <div class="main-footer__sub-menu main-footer__item">
+              <div class="h4 main-footer__item__title">Новости</div>
+              <ul class="main-footer__sub-menu__list">
+                <li class="main-footer__sub-menu__list__item"><a href="//animedia.tv/news/anime" title="Аниме-новости">Аниме-новости</a></li>
+                <li class="main-footer__sub-menu__list__item"><a href="//animedia.tv/news/games" title="Игровые новости">Игровые новости</a></li>
+                <li class="main-footer__sub-menu__list__item"><a href="//animedia.tv/news/music" title="Музыкальные новости">Музыкальные новости</a></li>
+                <li class="main-footer__sub-menu__list__item"><a href="//animedia.tv/news/novosti-aziatskogo-kino" title="Новости кино Азии">Новости кино Азии</a></li>
+                <li class="main-footer__sub-menu__list__item"><a href="//animedia.tv/news/novosti-proekta" title="Новости проекта">Новости проекта</a></li>
+              </ul>
+            </div>
+            <!-- News sub-menu End-->
+            <!-- Blogs sub-menu-->
+            <div class="main-footer__sub-menu main-footer__item">
+              <div class="h4 main-footer__item__title">Блоги</div>
+              <ul class="main-footer__sub-menu__list">
+                <li class="main-footer__sub-menu__list__item"><a href="//animedia.tv/blogs/voicers" title="Блоги войсеров">Блоги войсеров</a></li>
+                <li class="main-footer__sub-menu__list__item"><a href="//animedia.tv/blogs/threads" title="Тематические блоги">Тематические блоги</a></li>
+                <li class="main-footer__sub-menu__list__item"><a href="//animedia.tv/blogs/video" title="Видеоблоги">Видеоблоги</a></li>
+                <li class="main-footer__sub-menu__list__item"><a href="#" title="Рецензии">Рецензии</a></li>
+                <li class="main-footer__sub-menu__list__item"><a href="//animedia.tv/blogs/project" title="Блог проекта">Блог проекта</a></li>
+              </ul>
+            </div>
+            <!-- Blogs sub-menu End-->
+            <!-- Torrents sub-menu-->
+            <div class="main-footer__sub-menu main-footer__item">
+              <div class="h4 main-footer__item__title">Торрент-трекер</div>
+              <ul class="main-footer__sub-menu__list">
+                <li class="main-footer__sub-menu__list__item"><a href="//tt.animedia.tv/" title="Аниме и дорамы">Аниме и дорамы</a></li>
+                <li class="main-footer__sub-menu__list__item"><a href="//tt.animedia.tv/" title="jMusic и OST">jMusic и OST</a></li>
+                <li class="main-footer__sub-menu__list__item"><a href="//tt.animedia.tv/" title="Манга">Манга</a></li>
+                <li class="main-footer__sub-menu__list__item"><a href="//tt.animedia.tv/" title="Игры">Игры</a></li>
+                <li class="main-footer__sub-menu__list__item"><a href="//tt.animedia.tv/" title="Прочее">Прочее</a></li>
+              </ul>
+            </div>
+            <!-- Torrents sub-menu End-->
+          </div>
+          <!-- News subscribe-->
+          <div class="main-footer__news-subscribe main-footer__item">
+            <div class="h4 main-footer__item__title">Аниме</div>
+            <p>Хочешь быть всегда в теме происходящего аниме мира? Хочешь знать о выходе новых аниме? Тогда заходи на наш аниме сайт почаще!  У нас всё самое новое из мира аниме!</p>
+
+
+          </div>
+          <!-- News subscribe end-->
+        </div>
+      </div>
+    </footer>
+    <!-- Footer end-->
+    <!-- Copyright-->
+    <div class="copyright">
+      <div class="container">
+        <div class="copyright__wrapper">
+          <p class="copyright__left-col">(C) Copyright "Animedia.TV" 2009-2019</p>
+          <p class="copyright__right-col"><a title="Design by Tsumi" class="tsumi-link"></a></p>
+		  <p class="copyright__center-col"><!--LiveInternet counter--><script type="text/javascript"><!--
+document.write("<a href='http://www.liveinternet.ru/click' "+
+"target=_blank><img src='//counter.yadro.ru/hit?t44.6;r"+
+escape(document.referrer)+((typeof(screen)=="undefined")?"":
+";s"+screen.width+"*"+screen.height+"*"+(screen.colorDepth?
+screen.colorDepth:screen.pixelDepth))+";u"+escape(document.URL)+
+";"+Math.random()+
+"' alt='' title='LiveInternet' "+
+"border='0' width='31' height='31'><\/a>")
+//--></script><!--/LiveInternet-->
+
+<!-- Yandex.Metrika counter -->
+<script type="text/javascript">
+    (function (d, w, c) {
+        (w[c] = w[c] || []).push(function() {
+            try {
+                w.yaCounter35079065 = new Ya.Metrika({
+                    id:35079065,
+                    clickmap:true,
+                    trackLinks:true,
+                    accurateTrackBounce:true
+                });
+            } catch(e) {}});
+
+        var n = d.getElementsByTagName("script")[0],
+            s = d.createElement("script"),
+            f = function () { n.parentNode.insertBefore(s, n); };
+        s.type = "text/javascript";
+        s.async = true;
+        s.src = "https://mc.yandex.ru/metrika/watch.js";
+
+        if (w.opera == "[object Opera]") {
+            d.addEventListener("DOMContentLoaded", f, false);
+        } else {f();}
+    })(document, window, "yandex_metrika_callbacks");
+</script>
+<noscript><div><img src="https://mc.yandex.ru/watch/35079065" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+<!-- /Yandex.Metrika counter -->
+</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Copyright-->
+    <!-- jQuery -->
+    <script src="/js/1.11.1/jquery.min.js"></script>
+
+    <!-- Plugins-->
+    <script src="/js/plugins.min.js"></script>
+    <link rel="stylesheet" href="/js/plugins/selectize/css/selectize.bootstrap3.css" />
+    <script src="/js/plugins/selectize/js/selectize.min.js"></script>
+	<script src="/js/lazyload.min.js"></script>
+	<script>new LazyLoad();</script>
+	<script type="text/javascript" src="/js/plugins/noty/packaged/jquery.noty.packaged.js"></script>
+    <!-- Apps-->
+    <script src="/js/apps.js"></script>
+    <script src="/js/r.js"></script>
+    <script type="text/javascript" src="/js/fdcore.script.js"></script>
+
+
+
+    	<script type="text/javascript" src="/js/jquery-comments.js"></script>
+    	<script type="text/javascript" src="/js/animedia-comments.js"></script>
+    	<script type="text/javascript" src="/js/moment.js"></script>
+    	<script type="text/javascript" src="/js/moment-loc.js"></script>
+
+
+
+
+
+  </body>
+</html>

@@ -6,7 +6,6 @@ import nasirov.yv.exception.JSONNotFoundException;
 import nasirov.yv.exception.MALUserAccountNotFoundException;
 import nasirov.yv.exception.MALUserAnimeListAccessException;
 import nasirov.yv.exception.WatchingTitlesNotFoundException;
-import nasirov.yv.http.HttpCaller;
 import nasirov.yv.parameter.AnimediaRequestParametersBuilder;
 import nasirov.yv.parameter.MALRequestParametersBuilder;
 import nasirov.yv.parser.AnimediaHTMLParser;
@@ -179,8 +178,7 @@ public class ResultControllerTest extends AbstractTest {
 		doAnswer(invocation -> new ArrayList<>(nofFound)).when(notFoundAnimeOnAnimediaRepository).findAll();
 		doReturn(nofFound).when(malService).getWatchingTitles(eq(USERNAME));
 		doReturn(new ArrayList<>()).when(animediaService).getCurrentlyUpdatedTitles();
-		doReturn(new LinkedHashSet<>()).when(animediaService).getAnimediaSearchList();
-		doReturn(new LinkedHashSet<>()).when(referencesManager).getMultiSeasonsReferences();
+		cacheManager.getCache(animediaSearchListCacheName).put(animediaSearchListCacheName, new LinkedHashSet<>());
 		doReturn(new LinkedHashSet<>()).when(referencesManager).getMultiSeasonsReferences();
 		doReturn(new LinkedHashSet<>()).when(referencesManager).getMatchedReferences(anySet(), anySet());
 		doReturn(getMatchedAnime()).when(seasonAndEpisodeChecker).getMatchedAnime(anySet(), anySet(), anySet(), eq(USERNAME));
@@ -245,7 +243,7 @@ public class ResultControllerTest extends AbstractTest {
 		verify(referencesManager, times(1)).updateCurrentMax(anySet(), eq(sao1Updated));
 		verify(seasonAndEpisodeChecker, times(1)).updateEpisodeNumberForWatchAndFinalUrl(eq(watchingTitles), eq(sao1Updated), anySet());
 		checkFront(content, sao3.getFinalUrl(), sao3.getPosterUrl(), sao3.getTitleOnMAL(), sao3.getEpisodeNumberForWatch(),
-				sao1.getPosterUrl(), sao1.getTitleOnMAL(), notFoundAnime.getAnimeUrl(), notFoundAnime.getPosterUrl(), notFoundAnime.getTitle(),USERNAME);
+				sao1.getPosterUrl(), sao1.getTitleOnMAL(), notFoundAnime.getAnimeUrl(), notFoundAnime.getPosterUrl(), notFoundAnime.getTitle(), USERNAME);
 	}
 	
 	private void checkFront(String content,

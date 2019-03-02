@@ -29,7 +29,11 @@ import java.util.Set;
 import static nasirov.yv.enums.MALAnimeStatus.WATCHING;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-import static org.mockito.ArgumentMatchers.*;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyMap;
+import static org.mockito.ArgumentMatchers.anySet;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.*;
 
 /**
@@ -53,7 +57,7 @@ public class SeasonAndEpisodeCheckerTest extends AbstractTest {
 	@MockBean
 	private ReferencesManager referencesManager;
 	
-	private List<UserMALTitleInfo> repoMock;
+	private List<UserMALTitleInfo> notFoundOnAnimediaRepoMock;
 	
 	@Autowired
 	private SeasonAndEpisodeChecker seasonAndEpisodeChecker;
@@ -65,39 +69,65 @@ public class SeasonAndEpisodeCheckerTest extends AbstractTest {
 	
 	private static final String ONE_PIECE_NAME = "one piece";
 	
+	private static final String USERNAME = "testUsername";
+	
+	private static final String DATA_LIST_1 = "/1";
+	
+	private static final String DATA_LIST_1_EPISODE_1 = "/1/1";
+	
+	private static final String BLACK_CLOVER_URL = "anime/chyornyj-klever";
+	
+	private static final String BLACK_CLOVER_ID = "15341";
+	
+	private static final String BLACK_CLOVER_TITLE = "black clover";
+	
+	private static final String ANOTHER_URL = "anime/inayaAnother";
+	
+	private static final String ANOTHER_ID = "9392";
+	
+	private static final String ANOTHER_TITLE = "another";
+	
 	@Before
 	public void setUp() {
-		repoMock = new ArrayList<>();
+		notFoundOnAnimediaRepoMock = new ArrayList<>();
 		doAnswer(answer -> {
-			repoMock.add(answer.getArgument(0));
+			notFoundOnAnimediaRepoMock.add(answer.getArgument(0));
 			return (answer.getArgument(0));
 		}).when(notFoundAnimeOnAnimediaRepository).saveAndFlush(any(UserMALTitleInfo.class));
-		doAnswer(answer -> repoMock.stream().filter(list -> String.valueOf(list.getTitle()).equals(answer.getArgument(0))).count() > 0).when(notFoundAnimeOnAnimediaRepository).exitsByTitle(anyString());
+		doAnswer(answer -> notFoundOnAnimediaRepoMock.stream().filter(list -> String.valueOf(list.getTitle()).equals(answer.getArgument(0))).count() > 0).when(notFoundAnimeOnAnimediaRepository).exitsByTitle(anyString());
+		doReturn(new HttpResponse(routinesIO.readFromResource(blackCloverHtml), HttpStatus.OK.value())).when(httpCaller).call(eq(animediaOnlineTv + BLACK_CLOVER_URL), eq(HttpMethod.GET), anyMap());
+		doReturn(new HttpResponse(routinesIO.readFromResource(blackCloverDataList1), HttpStatus.OK.value())).when(httpCaller).call(eq(animediaEpisodesList + BLACK_CLOVER_ID + DATA_LIST_1), eq(HttpMethod.GET), anyMap());
+		doReturn(new HttpResponse(routinesIO.readFromResource(anotherHtml), HttpStatus.OK.value())).when(httpCaller).call(eq(animediaOnlineTv + ANOTHER_URL), eq(HttpMethod.GET), anyMap());
+		doReturn(new HttpResponse(routinesIO.readFromResource(anotherDataList1), HttpStatus.OK.value())).when(httpCaller).call(eq(animediaEpisodesList + ANOTHER_ID + DATA_LIST_1), eq(HttpMethod.GET), anyMap());
 	}
 	
 	@Test
-	public void getMatchedAnime() throws Exception {
-		String username = "testUsername";
-		String singleUrl = "anime/chyornyj-klever";
-		String blackCloverId = "15341";
-		String blackCloverUrl = "black clover";
-		doReturn(new HttpResponse(routinesIO.readFromResource(singleSeasonHtml), HttpStatus.OK.value())).when(httpCaller).call(eq(animediaOnlineTv + singleUrl), eq(HttpMethod.GET), anyMap());
-		doReturn(new HttpResponse(routinesIO.readFromResource(blackClover1), HttpStatus.OK.value())).when(httpCaller).call(eq(animediaEpisodesList + blackCloverId + "/1"), eq(HttpMethod.GET), anyMap());
+	public void getMatchedAnimeNewEpisodesAvailable() throws Exception {
 		Set<AnimediaMALTitleReferences> multiSeasonsReferencesList = getReferences();
-		Set<UserMALTitleInfo> watchingTitles = getWatchingTitles(0, 0);
+		Set<UserMALTitleInfo> watchingTitles = getWatchingTitles(0, 0, 0);
 		Set<AnimediaTitleSearchInfo> animediaSearchList = getAnimediaSearchList();
-		Set<AnimediaMALTitleReferences> matchedAnime = seasonAndEpisodeChecker.getMatchedAnime(watchingTitles, multiSeasonsReferencesList, animediaSearchList, username);
+		Set<AnimediaMALTitleReferences> matchedAnime = seasonAndEpisodeChecker.getMatchedAnime(watchingTitles, multiSeasonsReferencesList, animediaSearchList, USERNAME);
 		assertNotNull(matchedAnime);
-		assertEquals(2, matchedAnime.size());
+		assertEquals(3, matchedAnime.size());
 		assertEquals(1, matchedAnime.stream()
-				.filter(set -> set.getTitleOnMAL().equals(blackCloverUrl)
-						&& set.getUrl().equals(singleUrl)
+				.filter(set -> set.getTitleOnMAL().equals(BLACK_CLOVER_TITLE)
+						&& set.getUrl().equals(BLACK_CLOVER_URL)
 						&& set.getDataList().equals("1")
 						&& set.getMin().equals("1")
 						&& set.getMax().equals("xxx")
 						&& set.getCurrentMax().equals("69")
 						&& set.getEpisodeNumberForWatch().equals("1")
-						&& set.getFinalUrl().equals(animediaOnlineTv + singleUrl + "/1/1")
+						&& set.getFinalUrl().equals(animediaOnlineTv + BLACK_CLOVER_URL + DATA_LIST_1_EPISODE_1)
+				).count());
+		assertEquals(1, matchedAnime.stream()
+				.filter(set -> set.getTitleOnMAL().equals(ANOTHER_TITLE)
+						&& set.getUrl().equals(ANOTHER_URL)
+						&& set.getDataList().equals("1")
+						&& set.getMin().equals("1")
+						&& set.getMax().equals("12")
+						&& set.getCurrentMax().equals("12")
+						&& set.getEpisodeNumberForWatch().equals("1")
+						&& set.getFinalUrl().equals(animediaOnlineTv + ANOTHER_URL + DATA_LIST_1_EPISODE_1)
 				).count());
 		assertEquals(1, matchedAnime.stream()
 				.filter(set -> set.getTitleOnMAL().equals(ONE_PIECE_NAME)
@@ -107,14 +137,86 @@ public class SeasonAndEpisodeCheckerTest extends AbstractTest {
 						&& set.getMax().equals("175")
 						&& set.getCurrentMax().equals("175")
 						&& set.getEpisodeNumberForWatch().equals("1")
-						&& set.getFinalUrl().equals(animediaOnlineTv + ONE_PIECE_URL + "/1/1")
+						&& set.getFinalUrl().equals(animediaOnlineTv + ONE_PIECE_URL + DATA_LIST_1_EPISODE_1)
 				).count());
-		assertEquals(1, repoMock.size());
-		assertEquals("notFoundOnAnimedia", repoMock.get(0).getTitle());
-		watchingTitles = getWatchingTitles(0, 800);
-		matchedAnime = seasonAndEpisodeChecker.getMatchedAnime(watchingTitles, multiSeasonsReferencesList, animediaSearchList, username);
+		assertEquals(1, notFoundOnAnimediaRepoMock.size());
+		assertEquals("notFoundOnAnimedia", notFoundOnAnimediaRepoMock.get(0).getTitle());
+	}
+	
+	@Test
+	public void getMatchedAnimeNewEpisodesNotAvailable() throws Exception {
+		Set<AnimediaMALTitleReferences> multiSeasonsReferencesList = getReferences();
+		Set<UserMALTitleInfo> watchingTitles = getWatchingTitles(69, 870, 12);
+		Set<AnimediaTitleSearchInfo> animediaSearchList = getAnimediaSearchList();
+		Set<AnimediaMALTitleReferences> matchedAnime = seasonAndEpisodeChecker.getMatchedAnime(watchingTitles, multiSeasonsReferencesList, animediaSearchList, USERNAME);
+		assertNotNull(matchedAnime);
+		assertEquals(3, matchedAnime.size());
+		assertEquals(1, matchedAnime.stream()
+				.filter(set -> set.getTitleOnMAL().equals(BLACK_CLOVER_TITLE)
+						&& set.getUrl().equals(BLACK_CLOVER_URL)
+						&& set.getDataList().equals("1")
+						&& set.getMin().equals("1")
+						&& set.getMax().equals("xxx")
+						&& set.getCurrentMax().equals("69")
+						&& set.getEpisodeNumberForWatch().equals("")
+						&& set.getFinalUrl().equals("")
+				).count());
+		assertEquals(1, matchedAnime.stream()
+				.filter(set -> set.getTitleOnMAL().equals(ANOTHER_TITLE)
+						&& set.getUrl().equals(ANOTHER_URL)
+						&& set.getDataList().equals("1")
+						&& set.getMin().equals("1")
+						&& set.getMax().equals("12")
+						&& set.getCurrentMax().equals("12")
+						&& set.getEpisodeNumberForWatch().equals("")
+						&& set.getFinalUrl().equals("")
+				).count());
+		assertEquals(1, matchedAnime.stream()
+				.filter(set -> set.getTitleOnMAL().equals(ONE_PIECE_NAME)
+						&& set.getUrl().equals(ONE_PIECE_URL)
+						&& set.getDataList().equals("5")
+						&& set.getMin().equals("701")
+						&& set.getMax().equals("xxx")
+						&& set.getCurrentMax().equals("870")
+						&& set.getEpisodeNumberForWatch().equals("")
+						&& set.getFinalUrl().equals("")
+				).count());
+		assertEquals(1, notFoundOnAnimediaRepoMock.size());
+		assertEquals("notFoundOnAnimedia", notFoundOnAnimediaRepoMock.get(0).getTitle());
+	}
+	
+	@Test
+	public void getMatchedAnimeMoreThanOneMatchesInAnimediaSearchList() {
+		Set<AnimediaMALTitleReferences> multiSeasonsReferencesList = getReferences();
+		Set<UserMALTitleInfo> watchingTitles = getWatchingTitles(0, 0, 0);
+		Set<AnimediaTitleSearchInfo> animediaSearchList = getAnimediaSearchList();
+		AnimediaTitleSearchInfo singleWithEqualsKeywords = new AnimediaTitleSearchInfo("another smth to test", "another", "anime/another-smth-to-test", "anotherSmthToTestUrl");
+		animediaSearchList.add(singleWithEqualsKeywords);
+		Set<AnimediaMALTitleReferences> matchedAnime = seasonAndEpisodeChecker.getMatchedAnime(watchingTitles, multiSeasonsReferencesList, animediaSearchList, USERNAME);
 		assertNotNull(matchedAnime);
 		assertEquals(2, matchedAnime.size());
+		assertEquals(0, matchedAnime.stream()
+				.filter(set -> set.getTitleOnMAL().equals(ANOTHER_TITLE)
+						&& set.getUrl().equals(ANOTHER_URL)
+						&& set.getDataList().equals("1")
+						&& set.getMin().equals("1")
+						&& set.getMax().equals("12")
+						&& set.getCurrentMax().equals("12")
+						&& set.getEpisodeNumberForWatch().equals("1")
+						&& set.getFinalUrl().equals(animediaOnlineTv + ANOTHER_URL + DATA_LIST_1_EPISODE_1)
+				).count());
+		assertEquals(1, notFoundOnAnimediaRepoMock.size());
+		assertEquals("notFoundOnAnimedia", notFoundOnAnimediaRepoMock.get(0).getTitle());
+	}
+	
+	@Test
+	public void getMatchedAnimeMoreThanOneMatchesInMultiSeasonsReferences() {
+		Set<AnimediaMALTitleReferences> multiSeasonsReferencesList = getReferences();
+		Set<UserMALTitleInfo> watchingTitles = getWatchingTitles(0, 800, 0);
+		Set<AnimediaTitleSearchInfo> animediaSearchList = getAnimediaSearchList();
+		Set<AnimediaMALTitleReferences> matchedAnime = seasonAndEpisodeChecker.getMatchedAnime(watchingTitles, multiSeasonsReferencesList, animediaSearchList, USERNAME);
+		assertNotNull(matchedAnime);
+		assertEquals(3, matchedAnime.size());
 		assertEquals(1, matchedAnime.stream()
 				.filter(set -> set.getTitleOnMAL().equals(ONE_PIECE_NAME)
 						&& set.getUrl().equals(ONE_PIECE_URL)
@@ -125,22 +227,22 @@ public class SeasonAndEpisodeCheckerTest extends AbstractTest {
 						&& set.getEpisodeNumberForWatch().equals("801")
 						&& set.getFinalUrl().equals(animediaOnlineTv + ONE_PIECE_URL + "/5/801")
 				).count());
-		assertEquals(1, repoMock.size());
-		assertEquals("notFoundOnAnimedia", repoMock.get(0).getTitle());
+		assertEquals(1, notFoundOnAnimediaRepoMock.size());
+		assertEquals("notFoundOnAnimedia", notFoundOnAnimediaRepoMock.get(0).getTitle());
 	}
 	
 	@Test
 	public void getMatchedAnimeUpdateMultiseasonsReferences() {
 		String username = "testUsername";
 		Set<AnimediaMALTitleReferences> multiSeasonsReferencesList = new LinkedHashSet<>();
-		AnimediaMALTitleReferences notUpdatedReference = new AnimediaMALTitleReferences(ONE_PIECE_URL, "1", "1", ONE_PIECE_NAME, null,null,"10", null, null, null);
+		AnimediaMALTitleReferences notUpdatedReference = new AnimediaMALTitleReferences(ONE_PIECE_URL, "1", "1", ONE_PIECE_NAME, null, null, "10", null, null, null);
 		multiSeasonsReferencesList.add(notUpdatedReference);
 		Set<UserMALTitleInfo> watchingTitles = new LinkedHashSet<>();
 		UserMALTitleInfo addedTitleInUserCachedPeriod = new UserMALTitleInfo(0, WATCHING.getCode(), 0, ONE_PIECE_NAME, 0, "onePiecePosterUrl", "onePieceAnimeUrl");
 		watchingTitles.add(addedTitleInUserCachedPeriod);
 		Set<AnimediaTitleSearchInfo> animediaSearchList = getAnimediaSearchList();
 		seasonAndEpisodeChecker.getMatchedAnime(watchingTitles, multiSeasonsReferencesList, animediaSearchList, username);
-		verify(referencesManager,times(1)).updateReferences(anySet());
+		verify(referencesManager, times(1)).updateReferences(anySet());
 		assertEquals(addedTitleInUserCachedPeriod.getPosterUrl(), notUpdatedReference.getPosterUrl());
 	}
 	
@@ -154,7 +256,7 @@ public class SeasonAndEpisodeCheckerTest extends AbstractTest {
 			String max = references.getMax();
 			String currentMax = references.getCurrentMax();
 			String nextEpisodeForWatch = String.valueOf(numWatchedEpisodes + 1);
-			Set<UserMALTitleInfo> watchingTitlesFresh = getWatchingTitles(5, numWatchedEpisodes);
+			Set<UserMALTitleInfo> watchingTitlesFresh = getWatchingTitles(5, numWatchedEpisodes, 0);
 			AnimediaMALTitleReferences onePiece3 = new AnimediaMALTitleReferences(ONE_PIECE_URL, dataList, firstEpisodeAndMin, ONE_PIECE_NAME, firstEpisodeAndMin, max, currentMax, "onePiecePosterUrl", null, null);
 			seasonAndEpisodeChecker.updateEpisodeNumberForWatchAndFinalUrl(watchingTitlesFresh, onePiece3, matchedReferences);
 			assertEquals(1, matchedReferences.stream()
@@ -170,14 +272,16 @@ public class SeasonAndEpisodeCheckerTest extends AbstractTest {
 		}
 	}
 	
-	private Set<UserMALTitleInfo> getWatchingTitles(Integer blackCloverNumWatchingEpisodes, Integer onePieceNumWatchingEpisodes) {
+	private Set<UserMALTitleInfo> getWatchingTitles(Integer blackCloverNumWatchingEpisodes, Integer onePieceNumWatchingEpisodes, Integer anotherNumWatchingEpisodes) {
 		Set<UserMALTitleInfo> watchingTitles = new LinkedHashSet<>();
 		UserMALTitleInfo notFound = new UserMALTitleInfo(0, WATCHING.getCode(), 0, "notFoundOnAnimedia", 0, "notFoundOnAnimediaPosterUrl", "notFoundOnAnimediaAnimeUrl");
 		UserMALTitleInfo single = new UserMALTitleInfo(0, WATCHING.getCode(), blackCloverNumWatchingEpisodes, "black clover", 0, "blackCloverPosterUrl", "blackCloverAnimeUrl");
+		UserMALTitleInfo singleForConcretizeCase = new UserMALTitleInfo(0, WATCHING.getCode(), anotherNumWatchingEpisodes, "another", 0, "anotherPosterUrl", "anotherAnimeUrl");
 		UserMALTitleInfo multi = new UserMALTitleInfo(0, WATCHING.getCode(), onePieceNumWatchingEpisodes, ONE_PIECE_NAME, 0, "onePiecePosterUrl", "onePieceAnimeUrl");
 		watchingTitles.add(notFound);
 		watchingTitles.add(single);
 		watchingTitles.add(multi);
+		watchingTitles.add(singleForConcretizeCase);
 		return watchingTitles;
 	}
 	
@@ -197,9 +301,6 @@ public class SeasonAndEpisodeCheckerTest extends AbstractTest {
 	}
 	
 	private Set<AnimediaTitleSearchInfo> getAnimediaSearchList() {
-		Set<AnimediaTitleSearchInfo> animediaTitleSearchInfo = new LinkedHashSet<>();
-		AnimediaTitleSearchInfo single = new AnimediaTitleSearchInfo("чёрный клевер", "чёрный клевер black clover черный клевер", "anime/chyornyj-klever", "blackCloverPosterUrl");
-		animediaTitleSearchInfo.add(single);
-		return animediaTitleSearchInfo;
+		return routinesIO.unmarshalFromResource(animediaSearchListSeveralTitlesMatchedForKeywords, AnimediaTitleSearchInfo.class, LinkedHashSet.class);
 	}
 }
