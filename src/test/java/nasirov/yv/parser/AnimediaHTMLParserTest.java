@@ -5,11 +5,9 @@ import nasirov.yv.configuration.AppConfiguration;
 import nasirov.yv.response.HttpResponse;
 import nasirov.yv.serialization.AnimediaMALTitleReferences;
 import nasirov.yv.util.RoutinesIO;
-import org.junit.Before;
 import org.junit.Test;
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.core.io.Resource;
 import org.springframework.http.HttpStatus;
 import org.springframework.test.annotation.DirtiesContext;
 
@@ -23,21 +21,17 @@ import static org.junit.Assert.*;
 /**
  * Created by nasirov.yv
  */
-@SpringBootTest(classes = {AppConfiguration.class})
+@SpringBootTest(classes = {AppConfiguration.class,
+		AnimediaHTMLParser.class,
+		WrappedObjectMapper.class,
+		RoutinesIO.class})
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_CLASS)
 public class AnimediaHTMLParserTest extends AbstractTest {
-	@Value("classpath:animedia/search/pageWithCurrentlyAddedEpisodes.txt")
-	private Resource pageWithCurrentlyAddedEpisodes;
-	
+	@Autowired
 	private AnimediaHTMLParser animediaHTMLParser;
 	
+	@Autowired
 	private RoutinesIO routinesIO;
-	
-	@Before
-	public void setUp() {
-		animediaHTMLParser = new AnimediaHTMLParser();
-		routinesIO = new RoutinesIO(new WrappedObjectMapper());
-	}
 	
 	@Test
 	public void testGetAnimeIdSeasonsAndEpisodesMap() throws Exception {

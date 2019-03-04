@@ -1,7 +1,6 @@
 package nasirov.yv.service;
 
 import nasirov.yv.AbstractTest;
-import nasirov.yv.configuration.AppConfiguration;
 import nasirov.yv.exception.WatchingTitlesNotFoundException;
 import nasirov.yv.http.HttpCaller;
 import nasirov.yv.parameter.MALRequestParametersBuilder;
@@ -11,12 +10,14 @@ import nasirov.yv.response.HttpResponse;
 import nasirov.yv.serialization.UserMALTitleInfo;
 import nasirov.yv.util.RoutinesIO;
 import nasirov.yv.util.URLBuilder;
+import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.cache.Cache;
 import org.springframework.cache.CacheManager;
+import org.springframework.cache.concurrent.ConcurrentMapCache;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.test.annotation.DirtiesContext;
@@ -39,8 +40,6 @@ import static org.mockito.Mockito.*;
 		MALService.class,
 		MALParser.class,
 		WrappedObjectMapper.class,
-		CacheManager.class,
-		AppConfiguration.class,
 		URLBuilder.class,
 		MALRequestParametersBuilder.class,
 		RoutinesIO.class})
@@ -74,14 +73,22 @@ public class MALServiceTest extends AbstractTest {
 	@MockBean
 	private HttpCaller httpCaller;
 	
+	@MockBean
+	private CacheManager cacheManager;
+	
 	@Autowired
 	private RoutinesIO routinesIO;
 	
 	@Autowired
-	private CacheManager cacheManager;
-	
-	@Autowired
 	private MALService malService;
+	
+	private Cache userMALCacheStub;
+	
+	@Before
+	public void setUp() {
+		userMALCacheStub = new ConcurrentMapCache(animediaSearchListCacheName);
+		doAnswer(answer -> userMALCacheStub).when(cacheManager).getCache(userMALCacheName);
+	}
 	
 	@Test
 	public void getWatchingTitles() throws Exception {

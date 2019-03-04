@@ -40,6 +40,9 @@ public abstract class AbstractTest {
 	@Value("${cache.userMAL.name}")
 	protected String userMALCacheName;
 	
+	@Value("${cache.multiSeasonsReferences.name}")
+	protected String multiSeasonsReferencesCacheName;
+	
 	@Value("${urls.myAnimeList.net}")
 	protected String myAnimeListNet;
 	

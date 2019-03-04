@@ -1,7 +1,6 @@
 package nasirov.yv.service;
 
 import nasirov.yv.AbstractTest;
-import nasirov.yv.configuration.AppConfiguration;
 import nasirov.yv.http.HttpCaller;
 import nasirov.yv.parameter.AnimediaRequestParametersBuilder;
 import nasirov.yv.parser.AnimediaHTMLParser;
@@ -11,12 +10,14 @@ import nasirov.yv.serialization.Anime;
 import nasirov.yv.serialization.AnimediaMALTitleReferences;
 import nasirov.yv.serialization.UserMALTitleInfo;
 import nasirov.yv.util.RoutinesIO;
+import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.cache.Cache;
 import org.springframework.cache.CacheManager;
+import org.springframework.cache.concurrent.ConcurrentMapCache;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.test.annotation.DirtiesContext;
@@ -39,21 +40,28 @@ import static org.mockito.Mockito.*;
 		WrappedObjectMapper.class,
 		RoutinesIO.class,
 		AnimediaRequestParametersBuilder.class,
-		AnimediaHTMLParser.class,
-		AppConfiguration.class})
+		AnimediaHTMLParser.class})
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_CLASS)
 public class ReferencesManagerTest extends AbstractTest {
 	@MockBean
 	private HttpCaller httpCaller;
 	
+	@MockBean
+	private CacheManager cacheManager;
+	
 	@Autowired
 	private RoutinesIO routinesIO;
 	
 	@Autowired
-	private CacheManager cacheManager;
-	
-	@Autowired
 	private ReferencesManager referencesManager;
+	
+	private Cache multiSeasonsReferencesCacheStub;
+	
+	@Before
+	public void setUp() {
+		multiSeasonsReferencesCacheStub = new ConcurrentMapCache(multiSeasonsReferencesCacheName);
+		doAnswer(answer -> multiSeasonsReferencesCacheStub).when(cacheManager).getCache(multiSeasonsReferencesCacheName);
+	}
 	
 	@Test
 	public void getMultiSeasonsReferences() throws Exception {
@@ -66,7 +74,7 @@ public class ReferencesManagerTest extends AbstractTest {
 		for (int i = 0; i < multiSeasonsReferences.size(); i++) {
 			assertEquals(multiSeasonsReferences.get(0), multiSeasonsReferencesList.get(0));
 		}
-		Cache cache = cacheManager.getCache("multiSeasonsReferencesCache");
+		Cache cache = cacheManager.getCache(multiSeasonsReferencesCacheName);
 		assertNotNull(cache);
 		cache.clear();
 	}

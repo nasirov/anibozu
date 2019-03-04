@@ -13,12 +13,14 @@ import nasirov.yv.serialization.AnimediaMALTitleReferences;
 import nasirov.yv.serialization.AnimediaTitleSearchInfo;
 import nasirov.yv.util.RoutinesIO;
 import nasirov.yv.util.URLBuilder;
+import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.cache.Cache;
 import org.springframework.cache.CacheManager;
+import org.springframework.cache.concurrent.ConcurrentMapCache;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
@@ -32,6 +34,7 @@ import static nasirov.yv.enums.AnimeTypeOnAnimedia.*;
 import static org.junit.Assert.*;
 import static org.mockito.ArgumentMatchers.anyMap;
 import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.doReturn;
 
 /**
@@ -40,8 +43,6 @@ import static org.mockito.Mockito.doReturn;
 @SpringBootTest(classes = {AnimediaService.class,
 		AnimediaHTMLParser.class,
 		WrappedObjectMapper.class,
-		CacheManager.class,
-		AppConfiguration.class,
 		URLBuilder.class,
 		RoutinesIO.class,
 		AnimediaRequestParametersBuilder.class})
@@ -50,7 +51,7 @@ public class AnimediaServiceTest extends AbstractTest {
 	@MockBean
 	private HttpCaller httpCaller;
 	
-	@Autowired
+	@MockBean
 	private CacheManager cacheManager;
 	
 	@Autowired
@@ -61,6 +62,22 @@ public class AnimediaServiceTest extends AbstractTest {
 	
 	@Autowired
 	private AnimediaService animediaService;
+	
+	private Cache animediaSearchListCacheStub;
+	
+	private Cache currentlyUpdatedTitlesCacheStub;
+	
+	private Cache sortedAnimediaSearchListCacheStub;
+	
+	@Before
+	public void setUp() {
+		animediaSearchListCacheStub = new ConcurrentMapCache(animediaSearchListCacheName);
+		currentlyUpdatedTitlesCacheStub = new ConcurrentMapCache(currentlyUpdatedTitlesCacheName);
+		sortedAnimediaSearchListCacheStub = new ConcurrentMapCache(sortedAnimediaSearchListCacheName);
+		doAnswer(answer -> animediaSearchListCacheStub).when(cacheManager).getCache(animediaSearchListCacheName);
+		doAnswer(answer -> currentlyUpdatedTitlesCacheStub).when(cacheManager).getCache(currentlyUpdatedTitlesCacheName);
+		doAnswer(answer -> sortedAnimediaSearchListCacheStub).when(cacheManager).getCache(sortedAnimediaSearchListCacheName);
+	}
 	
 	@Test
 	public void testGetAnimediaSearchList() throws Exception {
