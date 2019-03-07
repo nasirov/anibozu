@@ -114,9 +114,6 @@ public class RoutinesIO {
 	
 	public String readFromResource(String name) {
 		InputStream systemResourceAsStream = ClassLoader.getSystemResourceAsStream(name);
-		if (systemResourceAsStream == null) {
-			throw new NullPointerException("Resource " + name + " not found!");
-		}
 		String fromFile = null;
 		try (BufferedInputStream byteArrayInputStream = new BufferedInputStream(systemResourceAsStream);
 			 ByteArrayOutputStream bufferedOutputStream = new ByteArrayOutputStream()) {
@@ -134,11 +131,6 @@ public class RoutinesIO {
 	}
 	
 	public String readFromResource(Resource resource) {
-		if (resource == null) {
-			throw new NullPointerException("Resource is null!");
-		} else if (!resource.exists()) {
-			throw new NullPointerException("Resource doesn't exists!");
-		}
 		String fromFile = null;
 		try (BufferedInputStream byteArrayInputStream = new BufferedInputStream(resource.getInputStream());
 			 ByteArrayOutputStream bufferedOutputStream = new ByteArrayOutputStream()) {

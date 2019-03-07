@@ -1,7 +1,6 @@
 package nasirov.yv.service;
 
 import nasirov.yv.AbstractTest;
-import nasirov.yv.configuration.AppConfiguration;
 import nasirov.yv.enums.AnimeTypeOnAnimedia;
 import nasirov.yv.http.HttpCaller;
 import nasirov.yv.parameter.AnimediaRequestParametersBuilder;

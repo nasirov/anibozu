@@ -1,12 +1,12 @@
-<!DOCTYPE html>
-<html lang="en">
+<#import "/spring.ftl" as spring/>
+
 <head>
     <meta charset="UTF-8">
     <title>Anime Checker</title>
-    <link rel="stylesheet" type="text/css" href="css/center-style.css"/>
-    <link rel="stylesheet" type="text/css" href="css/nes.min.css"/>
-    <link rel="stylesheet" type="text/css" href="css/ps2p.css">
-    <link rel="shortcut icon" type="image/x-icon" href="img/favicon.ico"/>
+    <link rel="stylesheet" type="text/css" href="<@spring.url '/css/center-style.css'/>"/>
+    <link rel="stylesheet" type="text/css" href="<@spring.url '/css/ps2p.css'/>"/>
+    <link rel="stylesheet" type="text/css" href="<@spring.url '/css/nes.min.css'/>"/>
+    <link rel="shortcut icon" type="image/x-icon" href="<@spring.url '/img/favicon.ico'/>"/>
 </head>
 
 <body>
@@ -27,4 +27,3 @@
     </div>
 </div>
 </body>
-</html>

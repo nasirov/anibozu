@@ -16,13 +16,13 @@ import java.util.Collection;
 @Component
 @Slf4j
 public class WrappedObjectMapper {
-	private static final ObjectMapper objectMapper = new ObjectMapper();
+	private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
 	
 	public <T, C extends Collection> C unmarshal(@NotNull String content, @NotNull Class<T> targetClass, @NotNull Class<C> collection) {
-		CollectionType collectionType = objectMapper.getTypeFactory().constructCollectionType(collection, targetClass);
+		CollectionType collectionType = OBJECT_MAPPER.getTypeFactory().constructCollectionType(collection, targetClass);
 		C value = null;
 		try {
-			value = objectMapper.readValue(content, collectionType);
+			value = OBJECT_MAPPER.readValue(content, collectionType);
 		} catch (IOException e) {
 			log.error("Exception while unmarshalling", e);
 		}
@@ -32,7 +32,7 @@ public class WrappedObjectMapper {
 	public <T> T unmarshal(@NotNull String content, @NotNull Class<T> targetClass) {
 		T value = null;
 		try {
-			value = objectMapper.readValue(content, targetClass);
+			value = OBJECT_MAPPER.readValue(content, targetClass);
 		} catch (IOException e) {
 			log.error("Exception while unmarshalling", e);
 		}
@@ -41,7 +41,7 @@ public class WrappedObjectMapper {
 	
 	public <T extends File, C> void marshal(@NotNull T objectValue, @NotNull C content) {
 		try {
-			objectMapper.writeValue(objectValue, content);
+			OBJECT_MAPPER.writeValue(objectValue, content);
 		} catch (IOException e) {
 			log.error("Exception while marshalling to file", e);
 		}
