@@ -42,12 +42,24 @@ import static org.mockito.Mockito.*;
 @SpringBootTest(classes = {AppConfiguration.class,
 		SeasonAndEpisodeChecker.class,
 		AnimediaRequestParametersBuilder.class,
-		AnimediaHTMLParser.class,
-		RoutinesIO.class,
-		WrappedObjectMapper.class
+		AnimediaHTMLParser.class
 })
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_CLASS)
 public class SeasonAndEpisodeCheckerTest extends AbstractTest {
+	@MockBean
+	private HttpCaller httpCaller;
+	
+	@MockBean
+	private NotFoundAnimeOnAnimediaRepository notFoundAnimeOnAnimediaRepository;
+	
+	@MockBean
+	private ReferencesManager referencesManager;
+	
+	private List<UserMALTitleInfo> notFoundOnAnimediaRepoMock;
+	
+	@Autowired
+	private SeasonAndEpisodeChecker seasonAndEpisodeChecker;
+	
 	private static final String ONE_PIECE_URL = "anime/one-piece-van-pis-tv";
 	
 	private static final String ONE_PIECE_NAME = "one piece";
@@ -70,35 +82,18 @@ public class SeasonAndEpisodeCheckerTest extends AbstractTest {
 	
 	private static final String ANOTHER_TITLE = "another";
 	
-	@MockBean
-	private HttpCaller httpCaller;
-	
-	@MockBean
-	private NotFoundAnimeOnAnimediaRepository notFoundAnimeOnAnimediaRepository;
-	
-	@MockBean
-	private ReferencesManager referencesManager;
-	
-	@Autowired
-	private SeasonAndEpisodeChecker seasonAndEpisodeChecker;
-	
-	@Autowired
-	private RoutinesIO routinesIO;
-	
-	private List<UserMALTitleInfo> notFoundOnAnimediaRepoStub;
-	
 	@Before
 	public void setUp() {
-		notFoundOnAnimediaRepoStub = new ArrayList<>();
+		notFoundOnAnimediaRepoMock = new ArrayList<>();
 		doAnswer(answer -> {
-			notFoundOnAnimediaRepoStub.add(answer.getArgument(0));
+			notFoundOnAnimediaRepoMock.add(answer.getArgument(0));
 			return (answer.getArgument(0));
 		}).when(notFoundAnimeOnAnimediaRepository).saveAndFlush(any(UserMALTitleInfo.class));
-		doAnswer(answer -> notFoundOnAnimediaRepoStub.stream().filter(list -> String.valueOf(list.getTitle()).equals(answer.getArgument(0))).count() > 0).when(notFoundAnimeOnAnimediaRepository).exitsByTitle(anyString());
-		doReturn(new HttpResponse(routinesIO.readFromResource(blackCloverHtml), HttpStatus.OK.value())).when(httpCaller).call(eq(animediaOnlineTv + BLACK_CLOVER_URL), eq(HttpMethod.GET), anyMap());
-		doReturn(new HttpResponse(routinesIO.readFromResource(blackCloverDataList1), HttpStatus.OK.value())).when(httpCaller).call(eq(animediaEpisodesList + BLACK_CLOVER_ID + DATA_LIST_1), eq(HttpMethod.GET), anyMap());
-		doReturn(new HttpResponse(routinesIO.readFromResource(anotherHtml), HttpStatus.OK.value())).when(httpCaller).call(eq(animediaOnlineTv + ANOTHER_URL), eq(HttpMethod.GET), anyMap());
-		doReturn(new HttpResponse(routinesIO.readFromResource(anotherDataList1), HttpStatus.OK.value())).when(httpCaller).call(eq(animediaEpisodesList + ANOTHER_ID + DATA_LIST_1), eq(HttpMethod.GET), anyMap());
+		doAnswer(answer -> notFoundOnAnimediaRepoMock.stream().filter(list -> String.valueOf(list.getTitle()).equals(answer.getArgument(0))).count() > 0).when(notFoundAnimeOnAnimediaRepository).exitsByTitle(anyString());
+		doReturn(new HttpResponse(RoutinesIO.readFromResource(blackCloverHtml), HttpStatus.OK.value())).when(httpCaller).call(eq(animediaOnlineTv + BLACK_CLOVER_URL), eq(HttpMethod.GET), anyMap());
+		doReturn(new HttpResponse(RoutinesIO.readFromResource(blackCloverDataList1), HttpStatus.OK.value())).when(httpCaller).call(eq(animediaEpisodesList + BLACK_CLOVER_ID + DATA_LIST_1), eq(HttpMethod.GET), anyMap());
+		doReturn(new HttpResponse(RoutinesIO.readFromResource(anotherHtml), HttpStatus.OK.value())).when(httpCaller).call(eq(animediaOnlineTv + ANOTHER_URL), eq(HttpMethod.GET), anyMap());
+		doReturn(new HttpResponse(RoutinesIO.readFromResource(anotherDataList1), HttpStatus.OK.value())).when(httpCaller).call(eq(animediaEpisodesList + ANOTHER_ID + DATA_LIST_1), eq(HttpMethod.GET), anyMap());
 	}
 	
 	@Test
@@ -139,8 +134,8 @@ public class SeasonAndEpisodeCheckerTest extends AbstractTest {
 						&& set.getEpisodeNumberForWatch().equals("1")
 						&& set.getFinalUrl().equals(animediaOnlineTv + ONE_PIECE_URL + DATA_LIST_1_EPISODE_1)
 				).count());
-		assertEquals(1, notFoundOnAnimediaRepoStub.size());
-		assertEquals("notFoundOnAnimedia", notFoundOnAnimediaRepoStub.get(0).getTitle());
+		assertEquals(1, notFoundOnAnimediaRepoMock.size());
+		assertEquals("notFoundOnAnimedia", notFoundOnAnimediaRepoMock.get(0).getTitle());
 	}
 	
 	@Test
@@ -181,8 +176,8 @@ public class SeasonAndEpisodeCheckerTest extends AbstractTest {
 						&& set.getEpisodeNumberForWatch().equals("")
 						&& set.getFinalUrl().equals("")
 				).count());
-		assertEquals(1, notFoundOnAnimediaRepoStub.size());
-		assertEquals("notFoundOnAnimedia", notFoundOnAnimediaRepoStub.get(0).getTitle());
+		assertEquals(1, notFoundOnAnimediaRepoMock.size());
+		assertEquals("notFoundOnAnimedia", notFoundOnAnimediaRepoMock.get(0).getTitle());
 	}
 	
 	@Test
@@ -205,8 +200,8 @@ public class SeasonAndEpisodeCheckerTest extends AbstractTest {
 						&& set.getEpisodeNumberForWatch().equals("1")
 						&& set.getFinalUrl().equals(animediaOnlineTv + ANOTHER_URL + DATA_LIST_1_EPISODE_1)
 				).count());
-		assertEquals(1, notFoundOnAnimediaRepoStub.size());
-		assertEquals("notFoundOnAnimedia", notFoundOnAnimediaRepoStub.get(0).getTitle());
+		assertEquals(1, notFoundOnAnimediaRepoMock.size());
+		assertEquals("notFoundOnAnimedia", notFoundOnAnimediaRepoMock.get(0).getTitle());
 	}
 	
 	@Test
@@ -227,8 +222,8 @@ public class SeasonAndEpisodeCheckerTest extends AbstractTest {
 						&& set.getEpisodeNumberForWatch().equals("801")
 						&& set.getFinalUrl().equals(animediaOnlineTv + ONE_PIECE_URL + "/5/801")
 				).count());
-		assertEquals(1, notFoundOnAnimediaRepoStub.size());
-		assertEquals("notFoundOnAnimedia", notFoundOnAnimediaRepoStub.get(0).getTitle());
+		assertEquals(1, notFoundOnAnimediaRepoMock.size());
+		assertEquals("notFoundOnAnimedia", notFoundOnAnimediaRepoMock.get(0).getTitle());
 	}
 	
 	@Test
@@ -301,6 +296,6 @@ public class SeasonAndEpisodeCheckerTest extends AbstractTest {
 	}
 	
 	private Set<AnimediaTitleSearchInfo> getAnimediaSearchList() {
-		return routinesIO.unmarshalFromResource(animediaSearchListSeveralTitlesMatchedForKeywords, AnimediaTitleSearchInfo.class, LinkedHashSet.class);
+		return RoutinesIO.unmarshalFromResource(animediaSearchListSeveralTitlesMatchedForKeywords, AnimediaTitleSearchInfo.class, LinkedHashSet.class);
 	}
 }

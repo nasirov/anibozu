@@ -1,6 +1,7 @@
 package nasirov.yv.service;
 
 import nasirov.yv.AbstractTest;
+import nasirov.yv.configuration.AppConfiguration;
 import nasirov.yv.enums.AnimeTypeOnAnimedia;
 import nasirov.yv.http.HttpCaller;
 import nasirov.yv.parameter.AnimediaRequestParametersBuilder;
@@ -11,15 +12,12 @@ import nasirov.yv.serialization.Anime;
 import nasirov.yv.serialization.AnimediaMALTitleReferences;
 import nasirov.yv.serialization.AnimediaTitleSearchInfo;
 import nasirov.yv.util.RoutinesIO;
-import nasirov.yv.util.URLBuilder;
-import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.cache.Cache;
 import org.springframework.cache.CacheManager;
-import org.springframework.cache.concurrent.ConcurrentMapCache;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
@@ -33,7 +31,6 @@ import static nasirov.yv.enums.AnimeTypeOnAnimedia.*;
 import static org.junit.Assert.*;
 import static org.mockito.ArgumentMatchers.anyMap;
 import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.doReturn;
 
 /**
@@ -41,46 +38,23 @@ import static org.mockito.Mockito.doReturn;
  */
 @SpringBootTest(classes = {AnimediaService.class,
 		AnimediaHTMLParser.class,
-		WrappedObjectMapper.class,
-		URLBuilder.class,
-		RoutinesIO.class,
+		CacheManager.class,
+		AppConfiguration.class,
 		AnimediaRequestParametersBuilder.class})
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_CLASS)
 public class AnimediaServiceTest extends AbstractTest {
 	@MockBean
 	private HttpCaller httpCaller;
 	
-	@MockBean
+	@Autowired
 	private CacheManager cacheManager;
-	
-	@Autowired
-	private WrappedObjectMapper wrappedObjectMapper;
-	
-	@Autowired
-	private RoutinesIO routinesIO;
 	
 	@Autowired
 	private AnimediaService animediaService;
 	
-	private Cache animediaSearchListCacheStub;
-	
-	private Cache currentlyUpdatedTitlesCacheStub;
-	
-	private Cache sortedAnimediaSearchListCacheStub;
-	
-	@Before
-	public void setUp() {
-		animediaSearchListCacheStub = new ConcurrentMapCache(animediaSearchListCacheName);
-		currentlyUpdatedTitlesCacheStub = new ConcurrentMapCache(currentlyUpdatedTitlesCacheName);
-		sortedAnimediaSearchListCacheStub = new ConcurrentMapCache(sortedAnimediaSearchListCacheName);
-		doAnswer(answer -> animediaSearchListCacheStub).when(cacheManager).getCache(animediaSearchListCacheName);
-		doAnswer(answer -> currentlyUpdatedTitlesCacheStub).when(cacheManager).getCache(currentlyUpdatedTitlesCacheName);
-		doAnswer(answer -> sortedAnimediaSearchListCacheStub).when(cacheManager).getCache(sortedAnimediaSearchListCacheName);
-	}
-	
 	@Test
 	public void testGetAnimediaSearchList() throws Exception {
-		doReturn(new HttpResponse(routinesIO.readFromResource(animediaSearchListFull), HttpStatus.OK.value())).when(httpCaller).call(eq(animediaAnimeList), eq(HttpMethod.GET), anyMap());
+		doReturn(new HttpResponse(RoutinesIO.readFromResource(animediaSearchListFull), HttpStatus.OK.value())).when(httpCaller).call(eq(animediaAnimeList), eq(HttpMethod.GET), anyMap());
 		Set<AnimediaTitleSearchInfo> animediaSearchList = animediaService.getAnimediaSearchList();
 		int fullSize = 780;
 		assertNotNull(animediaSearchList);
@@ -97,7 +71,7 @@ public class AnimediaServiceTest extends AbstractTest {
 	
 	@Test
 	public void testGetCurrentlyUpdatedTitles() throws Exception {
-		doReturn(new HttpResponse(routinesIO.readFromResource(pageWithCurrentlyAddedEpisodes), HttpStatus.OK.value())).when(httpCaller).call(eq(animediaOnlineTv), eq(HttpMethod.GET), anyMap());
+		doReturn(new HttpResponse(RoutinesIO.readFromResource(pageWithCurrentlyAddedEpisodes), HttpStatus.OK.value())).when(httpCaller).call(eq(animediaOnlineTv), eq(HttpMethod.GET), anyMap());
 		List<AnimediaMALTitleReferences> currentlyUpdatedTitles = animediaService.getCurrentlyUpdatedTitles();
 		int currentlyUpdatedSize = 10;
 		assertNotNull(currentlyUpdatedTitles);
@@ -119,19 +93,19 @@ public class AnimediaServiceTest extends AbstractTest {
 		animediaTitleSearchInfo.add(singleSeasonAnime);
 		animediaTitleSearchInfo.add(multiSeasonsAnime);
 		animediaTitleSearchInfo.add(announcement);
-		doReturn(new HttpResponse(routinesIO.readFromResource(blackCloverHtml), HttpStatus.OK.value()))
+		doReturn(new HttpResponse(RoutinesIO.readFromResource(blackCloverHtml), HttpStatus.OK.value()))
 				.when(httpCaller).call(eq(animediaOnlineTv + singleSeasonAnime.getUrl()), eq(HttpMethod.GET), anyMap());
-		doReturn(new HttpResponse(routinesIO.readFromResource(saoHtml), HttpStatus.OK.value()))
+		doReturn(new HttpResponse(RoutinesIO.readFromResource(saoHtml), HttpStatus.OK.value()))
 				.when(httpCaller).call(eq(animediaOnlineTv + multiSeasonsAnime.getUrl()), eq(HttpMethod.GET), anyMap());
-		doReturn(new HttpResponse(routinesIO.readFromResource(announcementHtml), HttpStatus.OK.value()))
+		doReturn(new HttpResponse(RoutinesIO.readFromResource(announcementHtml), HttpStatus.OK.value()))
 				.when(httpCaller).call(eq(animediaOnlineTv + announcement.getUrl()), eq(HttpMethod.GET), anyMap());
-		doReturn(new HttpResponse(routinesIO.readFromResource(saoDataList1), HttpStatus.OK.value()))
+		doReturn(new HttpResponse(RoutinesIO.readFromResource(saoDataList1), HttpStatus.OK.value()))
 				.when(httpCaller).call(eq(animediaEpisodesList + SAO_ID + "/1"), eq(HttpMethod.GET), anyMap());
-		doReturn(new HttpResponse(routinesIO.readFromResource(saoDataList2), HttpStatus.OK.value()))
+		doReturn(new HttpResponse(RoutinesIO.readFromResource(saoDataList2), HttpStatus.OK.value()))
 				.when(httpCaller).call(eq(animediaEpisodesList + SAO_ID + "/2"), eq(HttpMethod.GET), anyMap());
-		doReturn(new HttpResponse(routinesIO.readFromResource(saoDataList3), HttpStatus.OK.value()))
+		doReturn(new HttpResponse(RoutinesIO.readFromResource(saoDataList3), HttpStatus.OK.value()))
 				.when(httpCaller).call(eq(animediaEpisodesList + SAO_ID + "/3"), eq(HttpMethod.GET), anyMap());
-		doReturn(new HttpResponse(routinesIO.readFromResource(saoDataList7), HttpStatus.OK.value()))
+		doReturn(new HttpResponse(RoutinesIO.readFromResource(saoDataList7), HttpStatus.OK.value()))
 				.when(httpCaller).call(eq(animediaEpisodesList + SAO_ID + "/7"), eq(HttpMethod.GET), anyMap());
 		Map<AnimeTypeOnAnimedia, Set<Anime>> sortedAnime = animediaService.getAnimeSortedForType(animediaTitleSearchInfo);
 		assertNotNull(sortedAnime);
@@ -146,16 +120,16 @@ public class AnimediaServiceTest extends AbstractTest {
 		List<Anime> announcementsFromCache = new ArrayList<>(sortedAnimediaSearchListCache.get(AnimeTypeOnAnimedia.ANNOUNCEMENT.getDescription(), LinkedHashSet.class));
 		compareResults(singleFromCache, multiFromCache, announcementsFromCache, singleSeasonAnime, multiSeasonsAnime, announcement);
 		String prefix = tempFolderName + File.separator;
-		assertTrue(routinesIO.isDirectoryExists(tempFolderName));
+		assertTrue(RoutinesIO.isDirectoryExists(tempFolderName));
 		assertTrue(new File(prefix + singleSeasonsAnimeUrls.getFilename()).exists());
 		assertTrue(new File(prefix + multiSeasonsAnimeUrls.getFilename()).exists());
 		assertTrue(new File(prefix + announcementsJson.getFilename()).exists());
-		routinesIO.removeDir(tempFolderName);
+		RoutinesIO.removeDir(tempFolderName);
 	}
 	
 	@Test
 	public void testCheckCurrentlyUpdatedTitlesDifferentValues() throws Exception {
-		doReturn(new HttpResponse(routinesIO.readFromResource(pageWithCurrentlyAddedEpisodes), HttpStatus.OK.value())).when(httpCaller).call(eq(animediaOnlineTv), eq(HttpMethod.GET), anyMap());
+		doReturn(new HttpResponse(RoutinesIO.readFromResource(pageWithCurrentlyAddedEpisodes), HttpStatus.OK.value())).when(httpCaller).call(eq(animediaOnlineTv), eq(HttpMethod.GET), anyMap());
 		List<AnimediaMALTitleReferences> currentlyUpdatedTitles = animediaService.getCurrentlyUpdatedTitles();
 		List<AnimediaMALTitleReferences> animediaMALTitleReferencesFresh = new ArrayList<>();
 		currentlyUpdatedTitles.forEach(list -> animediaMALTitleReferencesFresh.add(new AnimediaMALTitleReferences(list)));
@@ -175,7 +149,7 @@ public class AnimediaServiceTest extends AbstractTest {
 	
 	@Test
 	public void testCheckCurrentlyUpdatedTitlesCacheEmpty() {
-		doReturn(new HttpResponse(routinesIO.readFromResource(pageWithCurrentlyAddedEpisodes), HttpStatus.OK.value())).when(httpCaller).call(eq(animediaOnlineTv), eq(HttpMethod.GET), anyMap());
+		doReturn(new HttpResponse(RoutinesIO.readFromResource(pageWithCurrentlyAddedEpisodes), HttpStatus.OK.value())).when(httpCaller).call(eq(animediaOnlineTv), eq(HttpMethod.GET), anyMap());
 		List<AnimediaMALTitleReferences> currentlyUpdatedTitles = animediaService.getCurrentlyUpdatedTitles();
 		List<AnimediaMALTitleReferences> result;
 		result = animediaService.checkCurrentlyUpdatedTitles(currentlyUpdatedTitles, new ArrayList<>());
@@ -194,7 +168,7 @@ public class AnimediaServiceTest extends AbstractTest {
 	
 	@Test
 	public void testCheckCurrentlyUpdatedTitlesFreshEmpty() {
-		doReturn(new HttpResponse(routinesIO.readFromResource(pageWithCurrentlyAddedEpisodes), HttpStatus.OK.value())).when(httpCaller).call(eq(animediaOnlineTv), eq(HttpMethod.GET), anyMap());
+		doReturn(new HttpResponse(RoutinesIO.readFromResource(pageWithCurrentlyAddedEpisodes), HttpStatus.OK.value())).when(httpCaller).call(eq(animediaOnlineTv), eq(HttpMethod.GET), anyMap());
 		List<AnimediaMALTitleReferences> currentlyUpdatedTitles = animediaService.getCurrentlyUpdatedTitles();
 		List<AnimediaMALTitleReferences> result;
 		result = animediaService.checkCurrentlyUpdatedTitles(new ArrayList<>(), currentlyUpdatedTitles);
@@ -233,11 +207,11 @@ public class AnimediaServiceTest extends AbstractTest {
 		ReflectionTestUtils.setField(animediaService, "resourceAnnouncementsUrls", announcementsJson);
 		ReflectionTestUtils.setField(animediaService, "resourceMultiSeasonsAnimeUrls", multiSeasonsAnimeUrls);
 		ReflectionTestUtils.setField(animediaService, "resourceSingleSeasonsAnimeUrls", singleSeasonsAnimeUrls);
-		routinesIO.mkDir(tempFolderName);
+		RoutinesIO.mkDir(tempFolderName);
 		String prefix = tempFolderName + File.separator;
-		routinesIO.writeToFile(prefix + announcementsJson.getFilename(), routinesIO.readFromResource(announcementsJson), false);
-		routinesIO.writeToFile(prefix + multiSeasonsAnimeUrls.getFilename(), routinesIO.readFromResource(multiSeasonsAnimeUrls), false);
-		routinesIO.writeToFile(prefix + singleSeasonsAnimeUrls.getFilename(), routinesIO.readFromResource(singleSeasonsAnimeUrls), false);
+		RoutinesIO.writeToFile(prefix + announcementsJson.getFilename(), RoutinesIO.readFromResource(announcementsJson), false);
+		RoutinesIO.writeToFile(prefix + multiSeasonsAnimeUrls.getFilename(), RoutinesIO.readFromResource(multiSeasonsAnimeUrls), false);
+		RoutinesIO.writeToFile(prefix + singleSeasonsAnimeUrls.getFilename(), RoutinesIO.readFromResource(singleSeasonsAnimeUrls), false);
 		Map<AnimeTypeOnAnimedia, Set<Anime>> sortedAnime = animediaService.getAnimeSortedForTypeFromResources();
 		assertNotNull(sortedAnime);
 		assertEquals(3, sortedAnime.size());
@@ -250,7 +224,7 @@ public class AnimediaServiceTest extends AbstractTest {
 		Cache cache = cacheManager.getCache(animediaSearchListCacheName);
 		assertNotNull(cache);
 		cache.clear();
-		routinesIO.removeDir(tempFolderName);
+		RoutinesIO.removeDir(tempFolderName);
 	}
 	
 	@Test
@@ -267,10 +241,10 @@ public class AnimediaServiceTest extends AbstractTest {
 	
 	@Test
 	public void testCheckAnime() throws Exception {
-		Set<Anime> single = wrappedObjectMapper.unmarshal(routinesIO.readFromResource(singleSeasonsAnimeUrls), Anime.class, LinkedHashSet.class);
-		Set<Anime> multi = wrappedObjectMapper.unmarshal(routinesIO.readFromResource(multiSeasonsAnimeUrls), Anime.class, LinkedHashSet.class);
-		Set<Anime> announcement = wrappedObjectMapper.unmarshal(routinesIO.readFromResource(announcementsJson), Anime.class, LinkedHashSet.class);
-		Set<AnimediaTitleSearchInfo> searchListForCheck = wrappedObjectMapper.unmarshal(routinesIO.readFromResource(animediaSearchListForCheck), AnimediaTitleSearchInfo.class, LinkedHashSet.class);
+		Set<Anime> single = WrappedObjectMapper.unmarshal(RoutinesIO.readFromResource(singleSeasonsAnimeUrls), Anime.class, LinkedHashSet.class);
+		Set<Anime> multi = WrappedObjectMapper.unmarshal(RoutinesIO.readFromResource(multiSeasonsAnimeUrls), Anime.class, LinkedHashSet.class);
+		Set<Anime> announcement = WrappedObjectMapper.unmarshal(RoutinesIO.readFromResource(announcementsJson), Anime.class, LinkedHashSet.class);
+		Set<AnimediaTitleSearchInfo> searchListForCheck = WrappedObjectMapper.unmarshal(RoutinesIO.readFromResource(animediaSearchListForCheck), AnimediaTitleSearchInfo.class, LinkedHashSet.class);
 		List<AnimediaTitleSearchInfo> notFound = new ArrayList<>(animediaService.checkSortedAnime(single, multi, announcement, searchListForCheck));
 		assertNotNull(notFound);
 		assertEquals(1, notFound.size());
@@ -279,14 +253,14 @@ public class AnimediaServiceTest extends AbstractTest {
 	
 	@Test
 	public void testIsAnimediaSearchListUpToDate() {
-		Set<AnimediaTitleSearchInfo> fresh = routinesIO.unmarshalFromResource(animediaSearchListForCheck, AnimediaTitleSearchInfo.class, LinkedHashSet.class);
+		Set<AnimediaTitleSearchInfo> fresh = RoutinesIO.unmarshalFromResource(animediaSearchListForCheck, AnimediaTitleSearchInfo.class, LinkedHashSet.class);
 		Iterator<AnimediaTitleSearchInfo> iterator = fresh.iterator();
 		while (iterator.hasNext()) {
 			iterator.next();
 			iterator.remove();
 			break;
 		}
-		Set<AnimediaTitleSearchInfo> fromResources = routinesIO.unmarshalFromResource(animediaSearchListForCheck, AnimediaTitleSearchInfo.class, LinkedHashSet.class);
+		Set<AnimediaTitleSearchInfo> fromResources = RoutinesIO.unmarshalFromResource(animediaSearchListForCheck, AnimediaTitleSearchInfo.class, LinkedHashSet.class);
 		assertNotEquals(fresh.size(), fromResources.size());
 		assertFalse(animediaService.isAnimediaSearchListUpToDate(fromResources, fresh));
 		assertFalse(animediaService.isAnimediaSearchListUpToDate(fresh, fromResources));

@@ -198,8 +198,6 @@
 72.4 https://online.animedia.tv/anime/dyurarara-2/4/1 Durarara!!x2 Ketsu
 73.1 https://online.animedia.tv/anime/prikaz-svyshe/1/1 Big Order (TV)
 73.2 https://online.animedia.tv/anime/prikaz-svyshe/5/1 Big Order
-74.1 https://online.animedia.tv/anime/sharlotta/1/1 Charlotte
-74.2 https://online.animedia.tv/anime/sharlotta/2/1 Charlotte: Tsuyoimono-tachi
 75.1 https://online.animedia.tv/anime/inari-lisitsyi-i-volshebnaya-lyubov/1/1 Inari, Konkon, Koi Iroha.
 75.2 https://online.animedia.tv/anime/inari-lisitsyi-i-volshebnaya-lyubov/2/1 Inari, Konkon, Koi Iroha.: Inari, Konkon, Semishigure.
 76.1 https://online.animedia.tv/anime/vmeste-s-gospodinom/1/1 Tono to Issho: Gantai no Yabou

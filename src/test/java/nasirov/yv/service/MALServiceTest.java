@@ -1,6 +1,7 @@
 package nasirov.yv.service;
 
 import nasirov.yv.AbstractTest;
+import nasirov.yv.configuration.AppConfiguration;
 import nasirov.yv.exception.WatchingTitlesNotFoundException;
 import nasirov.yv.http.HttpCaller;
 import nasirov.yv.parameter.MALRequestParametersBuilder;
@@ -10,14 +11,12 @@ import nasirov.yv.response.HttpResponse;
 import nasirov.yv.serialization.UserMALTitleInfo;
 import nasirov.yv.util.RoutinesIO;
 import nasirov.yv.util.URLBuilder;
-import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.cache.Cache;
 import org.springframework.cache.CacheManager;
-import org.springframework.cache.concurrent.ConcurrentMapCache;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.test.annotation.DirtiesContext;
@@ -39,10 +38,9 @@ import static org.mockito.Mockito.*;
 @SpringBootTest(classes = {
 		MALService.class,
 		MALParser.class,
-		WrappedObjectMapper.class,
-		URLBuilder.class,
-		MALRequestParametersBuilder.class,
-		RoutinesIO.class})
+		CacheManager.class,
+		AppConfiguration.class,
+		MALRequestParametersBuilder.class})
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_CLASS)
 public class MALServiceTest extends AbstractTest {
 	private static final String LOAD_JSON = "load.json";
@@ -73,22 +71,11 @@ public class MALServiceTest extends AbstractTest {
 	@MockBean
 	private HttpCaller httpCaller;
 	
-	@MockBean
+	@Autowired
 	private CacheManager cacheManager;
 	
 	@Autowired
-	private RoutinesIO routinesIO;
-	
-	@Autowired
 	private MALService malService;
-	
-	private Cache userMALCacheStub;
-	
-	@Before
-	public void setUp() {
-		userMALCacheStub = new ConcurrentMapCache(animediaSearchListCacheName);
-		doAnswer(answer -> userMALCacheStub).when(cacheManager).getCache(userMALCacheName);
-	}
 	
 	@Test
 	public void getWatchingTitles() throws Exception {
@@ -99,10 +86,10 @@ public class MALServiceTest extends AbstractTest {
 		String firstJsonUrl = myAnimeListNet + ANIME_LIST + TEST_ACC_FOR_DEV + "?" + STATUS + "=" + WATCHING.getCode().toString();
 		String additionalJsonUrl = myAnimeListNet + ANIME_LIST + TEST_ACC_FOR_DEV + "/" + LOAD_JSON + "?" + "offset=" + MAX_NUMBER_OF_TITLE_IN_HTML + "&" + STATUS + "=" + WATCHING.getCode().toString();
 		String additionalJsonUrlMore600 = myAnimeListNet + ANIME_LIST + TEST_ACC_FOR_DEV + "/" + LOAD_JSON + "?" + "offset=" + (MAX_NUMBER_OF_TITLE_IN_HTML * 2) + "&" + STATUS + "=" + WATCHING.getCode().toString();
-		doReturn(new HttpResponse(routinesIO.readFromResource(testAccForDevProfile), HttpStatus.OK.value())).when(httpCaller).call(eq(profileUrl), eq(HttpMethod.GET), anyMap());
-		doReturn(new HttpResponse(routinesIO.readFromResource(testAccForDevWatchingTitles), HttpStatus.OK.value())).when(httpCaller).call(eq(firstJsonUrl), eq(HttpMethod.GET), anyMap());
-		doReturn(new HttpResponse(routinesIO.readFromResource(testAccForDevAdditionalJson), HttpStatus.OK.value())).when(httpCaller).call(eq(additionalJsonUrl), eq(HttpMethod.GET), anyMap());
-		doReturn(new HttpResponse(routinesIO.readFromResource(additionalAnimeListJson), HttpStatus.OK.value())).when(httpCaller).call(eq(additionalJsonUrlMore600), eq(HttpMethod.GET), anyMap());
+		doReturn(new HttpResponse(RoutinesIO.readFromResource(testAccForDevProfile), HttpStatus.OK.value())).when(httpCaller).call(eq(profileUrl), eq(HttpMethod.GET), anyMap());
+		doReturn(new HttpResponse(RoutinesIO.readFromResource(testAccForDevWatchingTitles), HttpStatus.OK.value())).when(httpCaller).call(eq(firstJsonUrl), eq(HttpMethod.GET), anyMap());
+		doReturn(new HttpResponse(RoutinesIO.readFromResource(testAccForDevAdditionalJson), HttpStatus.OK.value())).when(httpCaller).call(eq(additionalJsonUrl), eq(HttpMethod.GET), anyMap());
+		doReturn(new HttpResponse(RoutinesIO.readFromResource(additionalAnimeListJson), HttpStatus.OK.value())).when(httpCaller).call(eq(additionalJsonUrlMore600), eq(HttpMethod.GET), anyMap());
 		Set<UserMALTitleInfo> watchingTitles = malService.getWatchingTitles(TEST_ACC_FOR_DEV);
 		assertNotNull(watchingTitles);
 		assertEquals(TEST_ACC_WATCHING_TITLES, watchingTitles.size());

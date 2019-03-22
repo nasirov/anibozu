@@ -19,7 +19,7 @@ The application analyzes user watching titles from **[MyAnimeList](https://myani
 
 # Note
 - Keep in mind that most of the data is creates in runtime and the application check result is directly depends on mal and animedia ping and the amount of your watching titles
-- For example, test case with 352 multiseasons titles handles about 5 minutes
+- For example, test case with 352 multiseasons titles handles about 2 minutes
 - After first full check your data puts in the cache for 30 min
 - Your title will update if it updates on mal or animedia in cached period
 - The application supports only default anime list view on mal

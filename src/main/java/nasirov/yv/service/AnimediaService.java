@@ -74,29 +74,17 @@ public class AnimediaService {
 	
 	private AnimediaHTMLParser animediaHTMLParser;
 	
-	private URLBuilder urlBuilder;
-	
-	private RoutinesIO routinesIO;
-	
 	private CacheManager cacheManager;
-	
-	private WrappedObjectMapper wrappedObjectMapper;
 	
 	@Autowired
 	public AnimediaService(HttpCaller httpCaller,
 						   @Qualifier(value = "animediaRequestParametersBuilder") RequestParametersBuilder requestParametersBuilder,
 						   AnimediaHTMLParser animediaHTMLParser,
-						   URLBuilder urlBuilder,
-						   RoutinesIO routinesIO,
-						   CacheManager cacheManager,
-						   WrappedObjectMapper wrappedObjectMapper) {
+						   CacheManager cacheManager) {
 		this.httpCaller = httpCaller;
 		this.requestParametersBuilder = requestParametersBuilder;
 		this.animediaHTMLParser = animediaHTMLParser;
-		this.urlBuilder = urlBuilder;
-		this.routinesIO = routinesIO;
 		this.cacheManager = cacheManager;
-		this.wrappedObjectMapper = wrappedObjectMapper;
 	}
 	
 	/**
@@ -106,7 +94,7 @@ public class AnimediaService {
 	 */
 	public Set<AnimediaTitleSearchInfo> getAnimediaSearchList() {
 		HttpResponse animediaResponse = httpCaller.call(animediaAnimeList, HttpMethod.GET, requestParametersBuilder.build());
-		Set<AnimediaTitleSearchInfo> animediaSearchList = wrappedObjectMapper.unmarshal(animediaResponse.getContent(), AnimediaTitleSearchInfo.class, LinkedHashSet.class);
+		Set<AnimediaTitleSearchInfo> animediaSearchList = WrappedObjectMapper.unmarshal(animediaResponse.getContent(), AnimediaTitleSearchInfo.class, LinkedHashSet.class);
 		String posterLowQualityQueryParameters = "h=70&q=50";
 		String posterHighQualityQueryParameters = "h=350&q=100";
 		String secureProtocol = "https:";
@@ -206,18 +194,18 @@ public class AnimediaService {
 				&& isUpdatedSortedAnimeResourcesExists(resourceSingleSeasonsAnimeUrls.getFilename())) {
 			log.info("Loading updated sorted anime from the resources ...");
 			String prefix = tempFolderName + File.separator;
-			singleSeasonAnime = routinesIO.unmarshalFromFile(prefix + resourceSingleSeasonsAnimeUrls.getFilename(), Anime.class, LinkedHashSet.class);
-			multiSeasonsAnime = routinesIO.unmarshalFromFile(prefix + resourceMultiSeasonsAnimeUrls.getFilename(), Anime.class, LinkedHashSet.class);
-			announcements = routinesIO.unmarshalFromFile(prefix + resourceAnnouncementsUrls.getFilename(), Anime.class, LinkedHashSet.class);
+			singleSeasonAnime = RoutinesIO.unmarshalFromFile(prefix + resourceSingleSeasonsAnimeUrls.getFilename(), Anime.class, LinkedHashSet.class);
+			multiSeasonsAnime = RoutinesIO.unmarshalFromFile(prefix + resourceMultiSeasonsAnimeUrls.getFilename(), Anime.class, LinkedHashSet.class);
+			announcements = RoutinesIO.unmarshalFromFile(prefix + resourceAnnouncementsUrls.getFilename(), Anime.class, LinkedHashSet.class);
 			handleResults(allSeasons, singleSeasonAnime, multiSeasonsAnime, announcements);
 			log.info("Updated sorted anime are successfully loaded from the resources.");
 		} else if (resourceAnnouncementsUrls.exists()
 				&& resourceMultiSeasonsAnimeUrls.exists()
 				&& resourceSingleSeasonsAnimeUrls.exists()) {
 			log.info("Loading sorted anime from the resources ...");
-			singleSeasonAnime = routinesIO.unmarshalFromResource(resourceSingleSeasonsAnimeUrls, Anime.class, LinkedHashSet.class);
-			multiSeasonsAnime = routinesIO.unmarshalFromResource(resourceMultiSeasonsAnimeUrls, Anime.class, LinkedHashSet.class);
-			announcements = routinesIO.unmarshalFromResource(resourceAnnouncementsUrls, Anime.class, LinkedHashSet.class);
+			singleSeasonAnime = RoutinesIO.unmarshalFromResource(resourceSingleSeasonsAnimeUrls, Anime.class, LinkedHashSet.class);
+			multiSeasonsAnime = RoutinesIO.unmarshalFromResource(resourceMultiSeasonsAnimeUrls, Anime.class, LinkedHashSet.class);
+			announcements = RoutinesIO.unmarshalFromResource(resourceAnnouncementsUrls, Anime.class, LinkedHashSet.class);
 			handleResults(allSeasons, singleSeasonAnime, multiSeasonsAnime, announcements);
 			log.info("Sorted anime are successfully loaded from the resources.");
 		} else {
@@ -310,10 +298,10 @@ public class AnimediaService {
 	
 	private void addSortedAnimeToTempResources(Set<Anime> single, Set<Anime> multi, Set<Anime> announcement) {
 		String prefix = tempFolderName + File.separator;
-		routinesIO.mkDir(tempFolderName);
-		routinesIO.marshalToResources(prefix + resourceSingleSeasonsAnimeUrls.getFilename(), single);
-		routinesIO.marshalToResources(prefix + resourceMultiSeasonsAnimeUrls.getFilename(), multi);
-		routinesIO.marshalToResources(prefix + resourceAnnouncementsUrls.getFilename(), announcement);
+		RoutinesIO.mkDir(tempFolderName);
+		RoutinesIO.marshalToResources(prefix + resourceSingleSeasonsAnimeUrls.getFilename(), single);
+		RoutinesIO.marshalToResources(prefix + resourceMultiSeasonsAnimeUrls.getFilename(), multi);
+		RoutinesIO.marshalToResources(prefix + resourceAnnouncementsUrls.getFilename(), announcement);
 	}
 	
 	private void addSortedAnimeToCache(Set<Anime> single, Set<Anime> multi, Set<Anime> announcement) {
@@ -345,7 +333,7 @@ public class AnimediaService {
 	}
 	
 	private void handleSingleSeasonAnime(String url, String dataList, String maxEpisodeInDataList, Set<Anime> single, int singleSeasonCount, String rootUrl) {
-		String targetUrl = urlBuilder.build(url, dataList, null, maxEpisodeInDataList);
+		String targetUrl = URLBuilder.build(url, dataList, null, maxEpisodeInDataList);
 		single.add(new Anime(String.valueOf(singleSeasonCount), targetUrl, rootUrl));
 	}
 	
@@ -359,7 +347,7 @@ public class AnimediaService {
 										 String rootUrl) {
 		HttpResponse resp = httpCaller.call(animediaEpisodesList + animeId + "/" + dataList, HttpMethod.GET, animediaRequestParameters);
 		String count = String.valueOf(multiSeasonCount) + "." + dataListCount;
-		String targetUrl = urlBuilder.build(url, dataList, animediaHTMLParser.getFirstEpisodeInSeason(resp), null);
+		String targetUrl = URLBuilder.build(url, dataList, animediaHTMLParser.getFirstEpisodeInSeason(resp), null);
 		multi.add(new Anime(count, targetUrl, rootUrl));
 	}
 }

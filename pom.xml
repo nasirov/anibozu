@@ -10,7 +10,7 @@
     </parent>
     <groupId>nasirov.yv</groupId>
     <artifactId>anime-checker</artifactId>
-    <version>1.0</version>
+    <version>2.0</version>
     <name>anime-checker</name>
     <description>Analyzes user anime list from myanimelist.net and searches for new episodes on animedia.tv
     </description>
@@ -25,6 +25,9 @@
         <org.jacoco>0.8.3</org.jacoco>
         <org.sonarsource.scanner.maven>3.6.0.1398</org.sonarsource.scanner.maven>
         <org.eluder.coveralls>4.3.0</org.eluder.coveralls>
+        <jersey2.version>2.27</jersey2.version>
+        <wiremock-jre8>2.22.0</wiremock-jre8>
+        <jbrotli>0.5.0</jbrotli>
     </properties>
 
     <dependencies>
@@ -71,6 +74,13 @@
             <version>${jersey-bundle}</version>
         </dependency>
 
+        <dependency>
+            <groupId>org.glassfish.jersey.test-framework.providers</groupId>
+            <artifactId>jersey-test-framework-provider-grizzly2</artifactId>
+            <version>${jersey2.version}</version>
+            <scope>test</scope>
+        </dependency>
+
         <!-- https://mvnrepository.com/artifact/com.sun.jersey/jersey-json -->
         <dependency>
             <groupId>com.sun.jersey</groupId>
@@ -85,7 +95,29 @@
             <version>${dec}</version>
         </dependency>
 
+        <dependency>
+            <groupId>com.github.tomakehurst</groupId>
+            <artifactId>wiremock-jre8</artifactId>
+            <version>${wiremock-jre8}</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.meteogroup.jbrotli</groupId>
+            <artifactId>jbrotli</artifactId>
+            <version>${jbrotli}</version>
+            <scope>test</scope>
+        </dependency>
+
     </dependencies>
+
+    <repositories>
+        <repository>
+            <id>bintray-nitram509-jbrotli</id>
+            <name>bintray</name>
+            <url>http://dl.bintray.com/nitram509/jbrotli</url>
+        </repository>
+    </repositories>
 
     <build>
         <plugins>

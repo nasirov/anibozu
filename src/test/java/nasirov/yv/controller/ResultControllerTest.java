@@ -1,6 +1,7 @@
 package nasirov.yv.controller;
 
 import nasirov.yv.AbstractTest;
+import nasirov.yv.configuration.AppConfiguration;
 import nasirov.yv.exception.JSONNotFoundException;
 import nasirov.yv.exception.MALUserAccountNotFoundException;
 import nasirov.yv.exception.MALUserAnimeListAccessException;
@@ -26,7 +27,6 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.cache.Cache;
 import org.springframework.cache.CacheManager;
-import org.springframework.cache.concurrent.ConcurrentMapCache;
 import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ContextConfiguration;
@@ -58,31 +58,15 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 		ResultController.class,
 		AnimediaHTMLParser.class,
 		MALParser.class,
-		WrappedObjectMapper.class,
+		CacheManager.class,
+		AppConfiguration.class,
 		URLBuilder.class,
 		MALRequestParametersBuilder.class,
 		AnimediaRequestParametersBuilder.class,
-		RoutinesIO.class,
 		MethodValidationPostProcessor.class})
-@DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_CLASS)
+@DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 @WebMvcTest(ResultController.class)
 public class ResultControllerTest extends AbstractTest {
-	private static final String USERNAME = "test";
-	
-	private static final String PATH = "/result";
-	
-	private List<UserMALTitleInfo> notFoundAnimeOnAnimediaRepositoryStub;
-	
-	private Cache animediaSearchListCacheStub;
-	
-	private Cache userMALCacheStub;
-	
-	private Cache userMatchedAnimeCacheStub;
-	
-	private Cache matchedReferencesCacheStub;
-	
-	private Cache currentlyUpdatedTitlesCacheStub;
-	
 	@MockBean
 	private MALService malService;
 	
@@ -95,33 +79,29 @@ public class ResultControllerTest extends AbstractTest {
 	@MockBean
 	private SeasonAndEpisodeChecker seasonAndEpisodeChecker;
 	
-	@MockBean
+	@Autowired
 	private CacheManager cacheManager;
-	
-	@MockBean
-	private NotFoundAnimeOnAnimediaRepository notFoundAnimeOnAnimediaRepository;
 	
 	@Autowired
 	private MockMvc mockMvc;
 	
+	@MockBean
+	private NotFoundAnimeOnAnimediaRepository notFoundAnimeOnAnimediaRepository;
+	
+	private List<UserMALTitleInfo> repoMock;
+	
+	private static final String USERNAME = "test";
+	
+	private static final String PATH = "/result";
+	
 	@Before
 	public void setUp() {
-		animediaSearchListCacheStub = new ConcurrentMapCache(animediaSearchListCacheName);
-		userMALCacheStub = new ConcurrentMapCache(userMALCacheName);
-		userMatchedAnimeCacheStub = new ConcurrentMapCache(userMatchedAnimeCacheName);
-		matchedReferencesCacheStub = new ConcurrentMapCache(matchedReferencesCacheName);
-		currentlyUpdatedTitlesCacheStub = new ConcurrentMapCache(currentlyUpdatedTitlesCacheName);
-		doAnswer(answer -> animediaSearchListCacheStub).when(cacheManager).getCache(animediaSearchListCacheName);
-		doAnswer(answer -> userMALCacheStub).when(cacheManager).getCache(userMALCacheName);
-		doAnswer(answer -> userMatchedAnimeCacheStub).when(cacheManager).getCache(userMatchedAnimeCacheName);
-		doAnswer(answer -> matchedReferencesCacheStub).when(cacheManager).getCache(matchedReferencesCacheName);
-		doAnswer(answer -> currentlyUpdatedTitlesCacheStub).when(cacheManager).getCache(currentlyUpdatedTitlesCacheName);
-		notFoundAnimeOnAnimediaRepositoryStub = new ArrayList<>();
+		repoMock = new ArrayList<>();
 		doAnswer(answer -> {
-			notFoundAnimeOnAnimediaRepositoryStub.add(answer.getArgument(0));
+			repoMock.add(answer.getArgument(0));
 			return (answer.getArgument(0));
 		}).when(notFoundAnimeOnAnimediaRepository).saveAndFlush(any(UserMALTitleInfo.class));
-		doAnswer(answer -> notFoundAnimeOnAnimediaRepositoryStub.stream().filter(list -> String.valueOf(list.getTitle()).equals(answer.getArgument(0))).count() > 0).when(notFoundAnimeOnAnimediaRepository).exitsByTitle(anyString());
+		doAnswer(answer -> repoMock.stream().filter(list -> String.valueOf(list.getTitle()).equals(answer.getArgument(0))).count() > 0).when(notFoundAnimeOnAnimediaRepository).exitsByTitle(anyString());
 	}
 	
 	@Test(expected = NestedServletException.class)

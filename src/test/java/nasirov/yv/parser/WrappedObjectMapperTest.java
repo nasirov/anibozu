@@ -3,8 +3,6 @@ package nasirov.yv.parser;
 import nasirov.yv.AbstractTest;
 import nasirov.yv.serialization.Anime;
 import org.junit.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.util.FileSystemUtils;
 
 import java.io.BufferedReader;
@@ -19,24 +17,20 @@ import static org.junit.Assert.*;
 /**
  * Created by nasirov.yv
  */
-@SpringBootTest(classes = {WrappedObjectMapper.class})
 public class WrappedObjectMapperTest extends AbstractTest {
-	@Autowired
-	private WrappedObjectMapper wrappedObjectMapper;
-	
 	@Test
 	public void unmarshalCollectionNullValue() throws Exception {
-		assertNull(wrappedObjectMapper.unmarshal("", String.class, List.class));
+		assertNull(WrappedObjectMapper.unmarshal("", String.class, List.class));
 	}
 	
 	@Test
 	public void unmarshalNullValue() throws Exception {
-		assertNull(wrappedObjectMapper.unmarshal("", String.class));
+		assertNull(WrappedObjectMapper.unmarshal("", String.class));
 	}
 	
 	@Test
 	public void unmarshalCollection() throws Exception {
-		List<Anime> unmarshal = wrappedObjectMapper.unmarshal(getCollectionJson(), Anime.class, ArrayList.class);
+		List<Anime> unmarshal = WrappedObjectMapper.unmarshal(getCollectionJson(), Anime.class, ArrayList.class);
 		assertNotNull(unmarshal);
 		assertFalse(unmarshal.isEmpty());
 		assertEquals(2, unmarshal.size());
@@ -52,7 +46,7 @@ public class WrappedObjectMapperTest extends AbstractTest {
 	
 	@Test
 	public void unmarshalSingleElement() throws Exception {
-		Anime singleElement = wrappedObjectMapper.unmarshal(getSingleElementJson(), Anime.class);
+		Anime singleElement = WrappedObjectMapper.unmarshal(getSingleElementJson(), Anime.class);
 		assertNotNull(singleElement);
 		assertEquals("1", singleElement.getId());
 		assertEquals("https://online.animedia.tv/anime/pyat-nevest/1/1", singleElement.getFullUrl());
@@ -61,7 +55,7 @@ public class WrappedObjectMapperTest extends AbstractTest {
 	
 	@Test(expected = NullPointerException.class)
 	public void marshalNPE() {
-		wrappedObjectMapper.marshal(null, null);
+		WrappedObjectMapper.marshal(null, null);
 	}
 	
 	@Test
@@ -69,7 +63,7 @@ public class WrappedObjectMapperTest extends AbstractTest {
 		File tempDir = new File(tempFolderName + File.separator + "test.txt");
 		assertFalse(tempDir.exists());
 		Anime forMarshal = new Anime("1", "https://online.animedia.tv/anime/pyat-nevest/1/1", "anime/pyat-nevest");
-		wrappedObjectMapper.marshal(tempDir, forMarshal);
+		WrappedObjectMapper.marshal(tempDir, forMarshal);
 		assertFalse(tempDir.exists());
 	}
 	
@@ -78,7 +72,7 @@ public class WrappedObjectMapperTest extends AbstractTest {
 		File tempFile = new File("test.txt");
 		assertFalse(tempFile.exists());
 		Anime forMarshal = new Anime("1", "https://online.animedia.tv/anime/pyat-nevest/1/1", "anime/pyat-nevest");
-		wrappedObjectMapper.marshal(tempFile, forMarshal);
+		WrappedObjectMapper.marshal(tempFile, forMarshal);
 		assertTrue(tempFile.exists());
 		StringBuilder stringBuilder = new StringBuilder();
 		try (BufferedReader bufferedReader = new BufferedReader(new FileReader(tempFile))) {

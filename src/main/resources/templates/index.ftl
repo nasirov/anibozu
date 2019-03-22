@@ -15,10 +15,8 @@
         <section class="nes-container with-title is-centered">
             <p class="title">Anime Checker</p>
             <div class="nes-field">
-                <form action="/result/" method="post">
-                    <input type="text" id="name_field" class="nes-input" name="username" minlength="2"
-                           maxlength="16"
-                           required
+                <form id="username-submit-form" action="/result/" method="post">
+                    <input type="text" id="name_field" class="nes-input" name="username"
                            placeholder="Enter MAL username...">
                     <input type="submit" class="nes-btn" value="Submit">
                 </form>
@@ -27,3 +25,5 @@
     </div>
 </div>
 </body>
+<script src="<@spring.url '/js/jquery.min.js"'/>"></script>
+<script src="<@spring.url '/js/submit.form.js"'/>"></script>

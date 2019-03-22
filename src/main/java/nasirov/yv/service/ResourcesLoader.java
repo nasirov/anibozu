@@ -31,15 +31,11 @@ public class ResourcesLoader {
 	
 	private CacheManager cacheManager;
 	
-	private RoutinesIO routinesIO;
-	
 	@Autowired
 	public ResourcesLoader(ReferencesManager referencesManager,
-						   CacheManager cacheManager,
-						   RoutinesIO routinesIO) {
+						   CacheManager cacheManager) {
 		this.referencesManager = referencesManager;
 		this.cacheManager = cacheManager;
-		this.routinesIO = routinesIO;
 	}
 	
 	@LoadResources
@@ -49,8 +45,8 @@ public class ResourcesLoader {
 	
 	@LoadResources
 	public void loadAnimediaSearchInfoList() {
-		Cache animediaSearchListCache = cacheManager.getCache("animediaSearchListCache");
-		Set<AnimediaTitleSearchInfo> animediaSearchList = routinesIO.unmarshalFromResource(resourceAnimediaSearchList, AnimediaTitleSearchInfo.class, LinkedHashSet.class);
+		Cache animediaSearchListCache = cacheManager.getCache(animediaSearchListCacheName);
+		Set<AnimediaTitleSearchInfo> animediaSearchList = RoutinesIO.unmarshalFromResource(resourceAnimediaSearchList, AnimediaTitleSearchInfo.class, LinkedHashSet.class);
 		animediaSearchListCache.put(animediaSearchListCacheName, animediaSearchList);
 	}
 }

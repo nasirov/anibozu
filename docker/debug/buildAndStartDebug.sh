@@ -1,12 +1,13 @@
 #!/bin/bash
-file="../../target/anime-checker-1.0.jar"
-if [[ ! -f "$file" ]]
+fileName="anime-checker-2.0.jar"
+filePath="../../target/$fileName"
+if [[ ! -f "$filePath" ]]
 then
     cd ../../
     mvn clean install
     cd docker/debug
 fi
-cp ../../target/anime-checker-1.0.jar anime-checker-1.0.jar
+cp "$filePath" "$fileName"
 docker build -t nasirov/anime-checker:debug .
-rm anime-checker-1.0.jar
+rm "$fileName"
 docker-compose up
