@@ -5,8 +5,8 @@ import nasirov.yv.configuration.AppConfiguration;
 import nasirov.yv.response.HttpResponse;
 import nasirov.yv.serialization.AnimediaMALTitleReferences;
 import nasirov.yv.util.RoutinesIO;
-import org.junit.Before;
 import org.junit.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.core.io.Resource;
@@ -23,25 +23,17 @@ import static org.junit.Assert.*;
 /**
  * Created by nasirov.yv
  */
-@SpringBootTest(classes = {AppConfiguration.class})
+@SpringBootTest(classes = {AppConfiguration.class,
+		AnimediaHTMLParser.class})
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_CLASS)
 public class AnimediaHTMLParserTest extends AbstractTest {
-	@Value("classpath:animedia/search/pageWithCurrentlyAddedEpisodes.txt")
-	private Resource pageWithCurrentlyAddedEpisodes;
 	
+	@Autowired
 	private AnimediaHTMLParser animediaHTMLParser;
-	
-	private RoutinesIO routinesIO;
-	
-	@Before
-	public void setUp() {
-		animediaHTMLParser = new AnimediaHTMLParser();
-		routinesIO = new RoutinesIO(new WrappedObjectMapper());
-	}
 	
 	@Test
 	public void testGetAnimeIdSeasonsAndEpisodesMap() throws Exception {
-		HttpResponse multiSeasonsHtmlResponse = new HttpResponse(routinesIO.readFromResource(saoHtml), HttpStatus.OK.value());
+		HttpResponse multiSeasonsHtmlResponse = new HttpResponse(RoutinesIO.readFromResource(saoHtml), HttpStatus.OK.value());
 		Map<String, Map<String, String>> animeIdSeasonsAndEpisodesMap = animediaHTMLParser.getAnimeIdSeasonsAndEpisodesMap(multiSeasonsHtmlResponse);
 		assertNotNull(animeIdSeasonsAndEpisodesMap);
 		List<String> dataLists = new ArrayList<>();
@@ -79,10 +71,10 @@ public class AnimediaHTMLParserTest extends AbstractTest {
 	
 	@Test
 	public void testGetFirstEpisodeInSeason() throws Exception {
-		HttpResponse firstDataListHtmlResponse = new HttpResponse(routinesIO.readFromResource(saoDataList1), HttpStatus.OK.value());
+		HttpResponse firstDataListHtmlResponse = new HttpResponse(RoutinesIO.readFromResource(saoDataList1), HttpStatus.OK.value());
 		String firstEpisodeInSeason = animediaHTMLParser.getFirstEpisodeInSeason(firstDataListHtmlResponse);
 		assertEquals("1", firstEpisodeInSeason);
-		HttpResponse responseWithOVA = new HttpResponse(routinesIO.readFromResource(saoDataList7), HttpStatus.OK.value());
+		HttpResponse responseWithOVA = new HttpResponse(RoutinesIO.readFromResource(saoDataList7), HttpStatus.OK.value());
 		String firstEpisodeInSeasonOva = animediaHTMLParser.getFirstEpisodeInSeason(responseWithOVA);
 		assertEquals("1", firstEpisodeInSeasonOva);
 		HttpResponse responseWithoutFirstEpisode = new HttpResponse("<span>ОВА из 1</span>", HttpStatus.OK.value());
@@ -102,10 +94,10 @@ public class AnimediaHTMLParserTest extends AbstractTest {
 	
 	@Test
 	public void testGetEpisodesRange() throws Exception {
-		HttpResponse firstDataListHtmlResponse = new HttpResponse(routinesIO.readFromResource(saoDataList1), HttpStatus.OK.value());
+		HttpResponse firstDataListHtmlResponse = new HttpResponse(RoutinesIO.readFromResource(saoDataList1), HttpStatus.OK.value());
 		Map<String, List<String>> episodesRangeForFirstDataList = animediaHTMLParser.getEpisodesRange(firstDataListHtmlResponse);
 		checkEpisodesRange(episodesRangeForFirstDataList, "25", "1", 25);
-		HttpResponse responseWithOVA = new HttpResponse(routinesIO.readFromResource(saoDataList7), HttpStatus.OK.value());
+		HttpResponse responseWithOVA = new HttpResponse(RoutinesIO.readFromResource(saoDataList7), HttpStatus.OK.value());
 		Map<String, List<String>> ovaRange = animediaHTMLParser.getEpisodesRange(responseWithOVA);
 		checkEpisodesRange(ovaRange, "1", "1", 1);
 		HttpResponse responseWithoutFirstEpisode = new HttpResponse("<span>ОВА из 1</span>", HttpStatus.OK.value());
@@ -130,7 +122,7 @@ public class AnimediaHTMLParserTest extends AbstractTest {
 	
 	@Test
 	public void testGetOriginalTitle() throws Exception {
-		HttpResponse html = new HttpResponse(routinesIO.readFromResource(saoHtml), HttpStatus.OK.value());
+		HttpResponse html = new HttpResponse(RoutinesIO.readFromResource(saoHtml), HttpStatus.OK.value());
 		String originalTitle = animediaHTMLParser.getOriginalTitle(html);
 		assertEquals("Sword Art Online", originalTitle);
 	}
@@ -147,7 +139,7 @@ public class AnimediaHTMLParserTest extends AbstractTest {
 	
 	@Test
 	public void testGetCurrentlyUpdatedTitlesList() throws Exception {
-		HttpResponse html = new HttpResponse(routinesIO.readFromResource(pageWithCurrentlyAddedEpisodes), HttpStatus.OK.value());
+		HttpResponse html = new HttpResponse(RoutinesIO.readFromResource(pageWithCurrentlyAddedEpisodes), HttpStatus.OK.value());
 		List<AnimediaMALTitleReferences> currentlyUpdatedTitlesList = animediaHTMLParser.getCurrentlyUpdatedTitlesList(html);
 		assertNotNull(currentlyUpdatedTitlesList);
 		assertEquals(10, currentlyUpdatedTitlesList.size());

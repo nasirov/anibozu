@@ -22,9 +22,7 @@ import static org.junit.Assert.*;
  * Created by nasirov.yv
  */
 @SpringBootTest(classes = {
-		WrappedObjectMapper.class,
-		MALParser.class,
-		RoutinesIO.class})
+		MALParser.class})
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_CLASS)
 public class MALParserTest extends AbstractTest {
 	private static final String USER_ANIME_LIST_PRIVATE_ACCESS = "Access to this list has been restricted by the owner";
@@ -32,12 +30,9 @@ public class MALParserTest extends AbstractTest {
 	@Autowired
 	private MALParser malParser;
 	
-	@Autowired
-	private RoutinesIO routinesIO;
-	
 	@Test
 	public void getUserTitlesInfo() throws Exception {
-		Set<UserMALTitleInfo> userTitlesInfo = malParser.getUserTitlesInfo(new HttpResponse(routinesIO.readFromResource(testAccForDevWatchingTitles), HttpStatus.OK.value()), LinkedHashSet.class);
+		Set<UserMALTitleInfo> userTitlesInfo = malParser.getUserTitlesInfo(new HttpResponse(RoutinesIO.readFromResource(testAccForDevWatchingTitles), HttpStatus.OK.value()), LinkedHashSet.class);
 		assertNotNull(userTitlesInfo);
 		assertEquals(300, userTitlesInfo.size());
 	}
@@ -59,7 +54,7 @@ public class MALParserTest extends AbstractTest {
 	
 	@Test
 	public void getNumWatchingTitles() throws Exception {
-		String numWatchingTitlesString = malParser.getNumWatchingTitles(new HttpResponse(routinesIO.readFromResource(testAccForDevProfile), HttpStatus.OK.value()));
+		String numWatchingTitlesString = malParser.getNumWatchingTitles(new HttpResponse(RoutinesIO.readFromResource(testAccForDevProfile), HttpStatus.OK.value()));
 		assertNotNull(numWatchingTitlesString);
 		assertNotEquals("", numWatchingTitlesString);
 		int numWatchingTitles = Integer.parseInt(numWatchingTitlesString);

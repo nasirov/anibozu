@@ -63,26 +63,18 @@ public class MALService {
 	
 	private RequestParametersBuilder requestParametersBuilder;
 	
-	private WrappedObjectMapper wrappedObjectMapper;
-	
 	private MALParser malParser;
-	
-	private URLBuilder urlBuilder;
 	
 	private CacheManager cacheManager;
 	
 	@Autowired
 	public MALService(HttpCaller httpCaller,
 					  @Qualifier(value = "malRequestParametersBuilder") RequestParametersBuilder requestParametersBuilder,
-					  WrappedObjectMapper wrappedObjectMapper,
 					  MALParser malParser,
-					  URLBuilder urlBuilder,
 					  CacheManager cacheManager) {
 		this.httpCaller = httpCaller;
 		this.requestParametersBuilder = requestParametersBuilder;
-		this.wrappedObjectMapper = wrappedObjectMapper;
 		this.malParser = malParser;
-		this.urlBuilder = urlBuilder;
 		this.cacheManager = cacheManager;
 	}
 	
@@ -102,7 +94,7 @@ public class MALService {
 		//first request = 300 entity
 		//first request example animelist/username?status=1
 		Set<Set<UserMALTitleInfo>> titleJson = new LinkedHashSet<>();
-		String targetUrl = urlBuilder.build(myAnimeListNet + ANIME_LIST + username, QUERY_PARAMS);
+		String targetUrl = URLBuilder.build(myAnimeListNet + ANIME_LIST + username, QUERY_PARAMS);
 		titleJson.add(malParser.getUserTitlesInfo(httpCaller.call(targetUrl, HttpMethod.GET, malRequestParameters), LinkedHashSet.class));
 		Integer diff;
 		//check for missing titles
@@ -122,6 +114,7 @@ public class MALService {
 		for (Set<UserMALTitleInfo> set : titleJson) {
 			changePosterUrl(set);
 			changeAnimeUrl(set);
+			//set.forEach(info -> watchingTitles.add(new UserMALTitleInfo(info)));
 			watchingTitles.addAll(set);
 		}
 		Cache userMALCache = cacheManager.getCache(userMALCacheName);
@@ -236,7 +229,7 @@ public class MALService {
 		Map<String, String> queryParameters = new LinkedHashMap<>();
 		queryParameters.put("offset", numWatchingTitlesInteger.toString());
 		queryParameters.put(STATUS, WATCHING.getCode().toString());
-		HttpResponse response = httpCaller.call(urlBuilder.build(myAnimeListNet + ANIME_LIST + username + "/" + LOAD_JSON, queryParameters), HttpMethod.GET, malRequestParameters);
-		return wrappedObjectMapper.unmarshal(response.getContent(), UserMALTitleInfo.class, LinkedHashSet.class);
+		HttpResponse response = httpCaller.call(URLBuilder.build(myAnimeListNet + ANIME_LIST + username + "/" + LOAD_JSON, queryParameters), HttpMethod.GET, malRequestParameters);
+		return WrappedObjectMapper.unmarshal(response.getContent(), UserMALTitleInfo.class, LinkedHashSet.class);
 	}
 }

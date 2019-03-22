@@ -17,5 +17,6 @@
 
 logs/
 /*.json
+/*.txt
 /*.bat
 temp/

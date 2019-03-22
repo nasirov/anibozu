@@ -2,6 +2,7 @@ package nasirov.yv.serialization;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 import org.codehaus.jackson.annotate.JsonProperty;
@@ -23,6 +24,7 @@ import javax.persistence.Id;
 public class UserMALTitleInfo {
 	@Id
 	@GeneratedValue
+	@EqualsAndHashCode.Exclude
 	private int id;
 	
 	/**

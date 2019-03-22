@@ -38,12 +38,9 @@ import static org.mockito.Mockito.*;
 @SpringBootTest(classes = {
 		MALService.class,
 		MALParser.class,
-		WrappedObjectMapper.class,
 		CacheManager.class,
 		AppConfiguration.class,
-		URLBuilder.class,
-		MALRequestParametersBuilder.class,
-		RoutinesIO.class})
+		MALRequestParametersBuilder.class})
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_CLASS)
 public class MALServiceTest extends AbstractTest {
 	private static final String LOAD_JSON = "load.json";
@@ -75,9 +72,6 @@ public class MALServiceTest extends AbstractTest {
 	private HttpCaller httpCaller;
 	
 	@Autowired
-	private RoutinesIO routinesIO;
-	
-	@Autowired
 	private CacheManager cacheManager;
 	
 	@Autowired
@@ -92,10 +86,10 @@ public class MALServiceTest extends AbstractTest {
 		String firstJsonUrl = myAnimeListNet + ANIME_LIST + TEST_ACC_FOR_DEV + "?" + STATUS + "=" + WATCHING.getCode().toString();
 		String additionalJsonUrl = myAnimeListNet + ANIME_LIST + TEST_ACC_FOR_DEV + "/" + LOAD_JSON + "?" + "offset=" + MAX_NUMBER_OF_TITLE_IN_HTML + "&" + STATUS + "=" + WATCHING.getCode().toString();
 		String additionalJsonUrlMore600 = myAnimeListNet + ANIME_LIST + TEST_ACC_FOR_DEV + "/" + LOAD_JSON + "?" + "offset=" + (MAX_NUMBER_OF_TITLE_IN_HTML * 2) + "&" + STATUS + "=" + WATCHING.getCode().toString();
-		doReturn(new HttpResponse(routinesIO.readFromResource(testAccForDevProfile), HttpStatus.OK.value())).when(httpCaller).call(eq(profileUrl), eq(HttpMethod.GET), anyMap());
-		doReturn(new HttpResponse(routinesIO.readFromResource(testAccForDevWatchingTitles), HttpStatus.OK.value())).when(httpCaller).call(eq(firstJsonUrl), eq(HttpMethod.GET), anyMap());
-		doReturn(new HttpResponse(routinesIO.readFromResource(testAccForDevAdditionalJson), HttpStatus.OK.value())).when(httpCaller).call(eq(additionalJsonUrl), eq(HttpMethod.GET), anyMap());
-		doReturn(new HttpResponse(routinesIO.readFromResource(additionalAnimeListJson), HttpStatus.OK.value())).when(httpCaller).call(eq(additionalJsonUrlMore600), eq(HttpMethod.GET), anyMap());
+		doReturn(new HttpResponse(RoutinesIO.readFromResource(testAccForDevProfile), HttpStatus.OK.value())).when(httpCaller).call(eq(profileUrl), eq(HttpMethod.GET), anyMap());
+		doReturn(new HttpResponse(RoutinesIO.readFromResource(testAccForDevWatchingTitles), HttpStatus.OK.value())).when(httpCaller).call(eq(firstJsonUrl), eq(HttpMethod.GET), anyMap());
+		doReturn(new HttpResponse(RoutinesIO.readFromResource(testAccForDevAdditionalJson), HttpStatus.OK.value())).when(httpCaller).call(eq(additionalJsonUrl), eq(HttpMethod.GET), anyMap());
+		doReturn(new HttpResponse(RoutinesIO.readFromResource(additionalAnimeListJson), HttpStatus.OK.value())).when(httpCaller).call(eq(additionalJsonUrlMore600), eq(HttpMethod.GET), anyMap());
 		Set<UserMALTitleInfo> watchingTitles = malService.getWatchingTitles(TEST_ACC_FOR_DEV);
 		assertNotNull(watchingTitles);
 		assertEquals(TEST_ACC_WATCHING_TITLES, watchingTitles.size());

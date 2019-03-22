@@ -3,9 +3,7 @@ package nasirov.yv.util;
 import lombok.extern.slf4j.Slf4j;
 import nasirov.yv.parser.WrappedObjectMapper;
 import org.apache.tomcat.util.http.fileupload.FileUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
-import org.springframework.stereotype.Component;
 import org.springframework.util.FileSystemUtils;
 import org.springframework.util.ResourceUtils;
 
@@ -18,55 +16,47 @@ import java.util.Collection;
  * IO operations
  * Created by nasirov.yv
  */
-@Component
 @Slf4j
 public class RoutinesIO {
-	private WrappedObjectMapper wrappedObjectMapper;
-	
-	@Autowired
-	public RoutinesIO(WrappedObjectMapper wrappedObjectMapper) {
-		this.wrappedObjectMapper = wrappedObjectMapper;
+	public static void marshalToFile(String pathToFile, Object value) {
+		WrappedObjectMapper.marshal(new File(pathToFile), value);
 	}
 	
-	public void marshalToFile(String pathToFile, Object value) {
-		wrappedObjectMapper.marshal(new File(pathToFile), value);
-	}
-	
-	public void marshalToResources(String pathToFile, Object value) {
+	public static void marshalToResources(String pathToFile, Object value) {
 		try {
 			File file = ResourceUtils.getFile(pathToFile);
-			wrappedObjectMapper.marshal(file, value);
+			WrappedObjectMapper.marshal(file, value);
 		} catch (IOException e) {
 			log.error("Error while marshalling to file " + pathToFile, e);
 		}
 	}
 	
-	public <T, C extends Collection> C unmarshalFromFile(String pathToFile, Class<T> targetClass, Class<C> collection) {
+	public static <T, C extends Collection> C unmarshalFromFile(String pathToFile, Class<T> targetClass, Class<C> collection) {
 		String content = readFromFile(pathToFile);
-		return wrappedObjectMapper.unmarshal(content, targetClass, collection);
+		return WrappedObjectMapper.unmarshal(content, targetClass, collection);
 	}
 	
-	public <T, C extends Collection> C unmarshalFromResource(String resourceName, Class<T> targetClass, Class<C> collection) {
+	public static <T, C extends Collection> C unmarshalFromResource(String resourceName, Class<T> targetClass, Class<C> collection) {
 		String content = readFromResource(resourceName);
-		return wrappedObjectMapper.unmarshal(content, targetClass, collection);
+		return WrappedObjectMapper.unmarshal(content, targetClass, collection);
 	}
 	
-	public <T, C extends Collection> C unmarshalFromResource(Resource resource, Class<T> targetClass, Class<C> collection) {
+	public static <T, C extends Collection> C unmarshalFromResource(Resource resource, Class<T> targetClass, Class<C> collection) {
 		String content = readFromResource(resource);
-		return wrappedObjectMapper.unmarshal(content, targetClass, collection);
+		return WrappedObjectMapper.unmarshal(content, targetClass, collection);
 	}
 	
-	public <T> T unmarshalFromFile(String pathToFile, Class<T> targetClass) {
+	public static <T> T unmarshalFromFile(String pathToFile, Class<T> targetClass) {
 		String content = readFromFile(pathToFile);
-		return wrappedObjectMapper.unmarshal(content, targetClass);
+		return WrappedObjectMapper.unmarshal(content, targetClass);
 	}
 	
-	public <T> T unmarshalFromResource(String resourceName, Class<T> targetClass) {
+	public static <T> T unmarshalFromResource(String resourceName, Class<T> targetClass) {
 		String content = readFromResource(resourceName);
-		return wrappedObjectMapper.unmarshal(content, targetClass);
+		return WrappedObjectMapper.unmarshal(content, targetClass);
 	}
 	
-	public <T extends CharSequence> void writeToFile(String pathToFile, T value, boolean append) {
+	public static <T extends CharSequence> void writeToFile(String pathToFile, T value, boolean append) {
 		try (BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(new File(pathToFile), append))) {
 			bufferedWriter.append(value).append(System.lineSeparator());
 			bufferedWriter.flush();
@@ -75,7 +65,7 @@ public class RoutinesIO {
 		}
 	}
 	
-	public <T extends CharSequence> void writeToFile(File file, T value, boolean append) {
+	public static <T extends CharSequence> void writeToFile(File file, T value, boolean append) {
 		try (BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(file, append))) {
 			bufferedWriter.append(value).append(System.lineSeparator());
 			bufferedWriter.flush();
@@ -84,7 +74,7 @@ public class RoutinesIO {
 		}
 	}
 	
-	public String readFromFile(String pathToFile) {
+	public static String readFromFile(String pathToFile) {
 		StringBuilder stringBuilder = new StringBuilder();
 		try (BufferedReader bufferedReader = new BufferedReader(new FileReader(new File(pathToFile)))) {
 			String s;
@@ -98,7 +88,7 @@ public class RoutinesIO {
 		return stringBuilder.toString();
 	}
 	
-	public String readFromFile(File file) {
+	public static String readFromFile(File file) {
 		StringBuilder stringBuilder = new StringBuilder();
 		try (BufferedReader bufferedReader = new BufferedReader(new FileReader(file))) {
 			String s;
@@ -112,7 +102,7 @@ public class RoutinesIO {
 		return stringBuilder.toString();
 	}
 	
-	public String readFromResource(String name) {
+	public static String readFromResource(String name) {
 		InputStream systemResourceAsStream = ClassLoader.getSystemResourceAsStream(name);
 		if (systemResourceAsStream == null) {
 			throw new NullPointerException("Resource " + name + " not found!");
@@ -133,7 +123,7 @@ public class RoutinesIO {
 		return fromFile;
 	}
 	
-	public String readFromResource(Resource resource) {
+	public static String readFromResource(Resource resource) {
 		if (resource == null) {
 			throw new NullPointerException("Resource is null!");
 		} else if (!resource.exists()) {
@@ -155,7 +145,7 @@ public class RoutinesIO {
 		return fromFile;
 	}
 	
-	public boolean isResourceExist(String resourceName) {
+	public static boolean isResourceExist(String resourceName) {
 		return ClassLoader.getSystemResourceAsStream(resourceName) != null;
 	}
 	
@@ -170,7 +160,7 @@ public class RoutinesIO {
 		}
 	}
 	
-	public void mkDir(String dirPath) {
+	public static void mkDir(String dirPath) {
 		try {
 			FileUtils.forceMkdir(new File(dirPath));
 		} catch (IOException e) {
@@ -178,7 +168,7 @@ public class RoutinesIO {
 		}
 	}
 	
-	public boolean isDirectoryExists(String dirPath) throws NotDirectoryException {
+	public static boolean isDirectoryExists(String dirPath) throws NotDirectoryException {
 		File dir = new File(dirPath);
 		boolean isExists = dir.exists();
 		if (isExists && !dir.isDirectory()) {
@@ -187,7 +177,7 @@ public class RoutinesIO {
 		return isExists;
 	}
 	
-	public boolean removeDir(String dirPath) {
+	public static boolean removeDir(String dirPath) {
 		return FileSystemUtils.deleteRecursively(new File(dirPath));
 	}
 }

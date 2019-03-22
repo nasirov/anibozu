@@ -5,7 +5,6 @@ import nasirov.yv.configuration.AppConfiguration;
 import nasirov.yv.http.HttpCaller;
 import nasirov.yv.parameter.AnimediaRequestParametersBuilder;
 import nasirov.yv.parser.AnimediaHTMLParser;
-import nasirov.yv.parser.WrappedObjectMapper;
 import nasirov.yv.response.HttpResponse;
 import nasirov.yv.serialization.Anime;
 import nasirov.yv.serialization.AnimediaMALTitleReferences;
@@ -36,8 +35,6 @@ import static org.mockito.Mockito.*;
  * Created by nasirov.yv
  */
 @SpringBootTest(classes = {ReferencesManager.class,
-		WrappedObjectMapper.class,
-		RoutinesIO.class,
 		AnimediaRequestParametersBuilder.class,
 		AnimediaHTMLParser.class,
 		AppConfiguration.class})
@@ -45,9 +42,6 @@ import static org.mockito.Mockito.*;
 public class ReferencesManagerTest extends AbstractTest {
 	@MockBean
 	private HttpCaller httpCaller;
-	
-	@Autowired
-	private RoutinesIO routinesIO;
 	
 	@Autowired
 	private CacheManager cacheManager;
@@ -76,16 +70,16 @@ public class ReferencesManagerTest extends AbstractTest {
 		String fairyTailId = "9480";
 		String fairyTailUrl = "anime/skazka-o-hvoste-fei-TV1";
 		String saoUrl = "anime/mastera-mecha-onlayn";
-		doReturn(new HttpResponse(routinesIO.readFromResource(fairyTailHtml), HttpStatus.OK.value())).when(httpCaller).call(eq(animediaOnlineTv + fairyTailUrl), eq(HttpMethod.GET), anyMap());
-		doReturn(new HttpResponse(routinesIO.readFromResource(saoHtml), HttpStatus.OK.value())).when(httpCaller).call(eq(animediaOnlineTv + saoUrl), eq(HttpMethod.GET), anyMap());
-		doReturn(new HttpResponse(routinesIO.readFromResource(fairyTailDataList1), HttpStatus.OK.value())).when(httpCaller).call(eq(animediaEpisodesList + fairyTailId + "/" + "1"), eq(HttpMethod.GET), anyMap());
-		doReturn(new HttpResponse(routinesIO.readFromResource(fairyTailDataList2), HttpStatus.OK.value())).when(httpCaller).call(eq(animediaEpisodesList + fairyTailId + "/" + "2"), eq(HttpMethod.GET), anyMap());
-		doReturn(new HttpResponse(routinesIO.readFromResource(fairyTailDataList3), HttpStatus.OK.value())).when(httpCaller).call(eq(animediaEpisodesList + fairyTailId + "/" + "3"), eq(HttpMethod.GET), anyMap());
-		doReturn(new HttpResponse(routinesIO.readFromResource(fairyTailDataList7), HttpStatus.OK.value())).when(httpCaller).call(eq(animediaEpisodesList + fairyTailId + "/" + "7"), eq(HttpMethod.GET), anyMap());
-		doReturn(new HttpResponse(routinesIO.readFromResource(saoDataList1), HttpStatus.OK.value())).when(httpCaller).call(eq(animediaEpisodesList + SAO_ID + "/" + "1"), eq(HttpMethod.GET), anyMap());
-		doReturn(new HttpResponse(routinesIO.readFromResource(saoDataList2), HttpStatus.OK.value())).when(httpCaller).call(eq(animediaEpisodesList + SAO_ID + "/" + "2"), eq(HttpMethod.GET), anyMap());
-		doReturn(new HttpResponse(routinesIO.readFromResource(saoDataList3), HttpStatus.OK.value())).when(httpCaller).call(eq(animediaEpisodesList + SAO_ID + "/" + "3"), eq(HttpMethod.GET), anyMap());
-		doReturn(new HttpResponse(routinesIO.readFromResource(saoDataList7), HttpStatus.OK.value())).when(httpCaller).call(eq(animediaEpisodesList + SAO_ID + "/" + "7"), eq(HttpMethod.GET), anyMap());
+		doReturn(new HttpResponse(RoutinesIO.readFromResource(fairyTailHtml), HttpStatus.OK.value())).when(httpCaller).call(eq(animediaOnlineTv + fairyTailUrl), eq(HttpMethod.GET), anyMap());
+		doReturn(new HttpResponse(RoutinesIO.readFromResource(saoHtml), HttpStatus.OK.value())).when(httpCaller).call(eq(animediaOnlineTv + saoUrl), eq(HttpMethod.GET), anyMap());
+		doReturn(new HttpResponse(RoutinesIO.readFromResource(fairyTailDataList1), HttpStatus.OK.value())).when(httpCaller).call(eq(animediaEpisodesList + fairyTailId + "/" + "1"), eq(HttpMethod.GET), anyMap());
+		doReturn(new HttpResponse(RoutinesIO.readFromResource(fairyTailDataList2), HttpStatus.OK.value())).when(httpCaller).call(eq(animediaEpisodesList + fairyTailId + "/" + "2"), eq(HttpMethod.GET), anyMap());
+		doReturn(new HttpResponse(RoutinesIO.readFromResource(fairyTailDataList3), HttpStatus.OK.value())).when(httpCaller).call(eq(animediaEpisodesList + fairyTailId + "/" + "3"), eq(HttpMethod.GET), anyMap());
+		doReturn(new HttpResponse(RoutinesIO.readFromResource(fairyTailDataList7), HttpStatus.OK.value())).when(httpCaller).call(eq(animediaEpisodesList + fairyTailId + "/" + "7"), eq(HttpMethod.GET), anyMap());
+		doReturn(new HttpResponse(RoutinesIO.readFromResource(saoDataList1), HttpStatus.OK.value())).when(httpCaller).call(eq(animediaEpisodesList + SAO_ID + "/" + "1"), eq(HttpMethod.GET), anyMap());
+		doReturn(new HttpResponse(RoutinesIO.readFromResource(saoDataList2), HttpStatus.OK.value())).when(httpCaller).call(eq(animediaEpisodesList + SAO_ID + "/" + "2"), eq(HttpMethod.GET), anyMap());
+		doReturn(new HttpResponse(RoutinesIO.readFromResource(saoDataList3), HttpStatus.OK.value())).when(httpCaller).call(eq(animediaEpisodesList + SAO_ID + "/" + "3"), eq(HttpMethod.GET), anyMap());
+		doReturn(new HttpResponse(RoutinesIO.readFromResource(saoDataList7), HttpStatus.OK.value())).when(httpCaller).call(eq(animediaEpisodesList + SAO_ID + "/" + "7"), eq(HttpMethod.GET), anyMap());
 		Set<AnimediaMALTitleReferences> multiSeasonsReferencesList = getMultiSeasonsReferencesList(LinkedHashSet.class, false);
 		referencesManager.updateReferences(multiSeasonsReferencesList);
 		List<AnimediaMALTitleReferences> updatedMultiSeasonsReferencesList = new ArrayList<>(multiSeasonsReferencesList);
@@ -112,7 +106,7 @@ public class ReferencesManagerTest extends AbstractTest {
 	
 	@Test
 	public void checkReferences() throws Exception {
-		routinesIO.removeDir(tempFolderName);
+		RoutinesIO.removeDir(tempFolderName);
 		Set<AnimediaMALTitleReferences> multiSeasonsReferencesList = getMultiSeasonsReferencesList(LinkedHashSet.class, true);
 		Set<Anime> multiSeasonsFromSearch = new LinkedHashSet<>();
 		String fairyUrl = animediaOnlineTv + "anime/skazka-o-hvoste-fei-TV1/";
@@ -129,13 +123,13 @@ public class ReferencesManagerTest extends AbstractTest {
 		assertTrue(compareResult);
 		String fullUrl = saoUrl + "8/1";
 		multiSeasonsFromSearch.add(new Anime("", fullUrl, ""));
-		assertFalse(routinesIO.isDirectoryExists(tempFolderName));
+		assertFalse(RoutinesIO.isDirectoryExists(tempFolderName));
 		compareResult = referencesManager.isReferencesAreFull(multiSeasonsFromSearch, multiSeasonsReferencesList);
 		assertFalse(compareResult);
-		assertTrue(routinesIO.isDirectoryExists(tempFolderName));
+		assertTrue(RoutinesIO.isDirectoryExists(tempFolderName));
 		String prefix = tempFolderName + File.separator;
-		assertTrue(routinesIO.readFromFile(prefix + tempRawReferencesName).equals(fullUrl + System.lineSeparator()));
-		routinesIO.removeDir(tempFolderName);
+		assertTrue(RoutinesIO.readFromFile(prefix + tempRawReferencesName).equals(fullUrl + System.lineSeparator()));
+		RoutinesIO.removeDir(tempFolderName);
 		String tempFileName = "test.txt";
 		File tempFile = new File(tempFileName);
 		tempFile.createNewFile();

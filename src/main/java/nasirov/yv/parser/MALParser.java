@@ -6,7 +6,6 @@ import nasirov.yv.exception.MALUserAccountNotFoundException;
 import nasirov.yv.exception.MALUserAnimeListAccessException;
 import nasirov.yv.response.HttpResponse;
 import nasirov.yv.serialization.UserMALTitleInfo;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 
@@ -29,13 +28,6 @@ public class MALParser {
 	
 	private static final String NUMBER_OF_WATCHING_TITLES = "Watching</a><span class=\"di-ib fl-r lh10\">(?<numWatchingTitles>\\d*?)</span>";
 	
-	private WrappedObjectMapper wrappedObjectMapper;
-	
-	@Autowired
-	public MALParser(WrappedObjectMapper wrappedObjectMapper) {
-		this.wrappedObjectMapper = wrappedObjectMapper;
-	}
-	
 	/**
 	 * Searches for the user anime list
 	 *
@@ -47,7 +39,7 @@ public class MALParser {
 	 * @throws JSONNotFoundException           if the json anime list is not found
 	 */
 	public <T extends Collection> T getUserTitlesInfo(@NotNull HttpResponse response, @NotNull Class<T> collection) throws MALUserAnimeListAccessException, JSONNotFoundException {
-		return wrappedObjectMapper.unmarshal(getJsonAnimeListFromHtml(response.getContent()), UserMALTitleInfo.class, collection);
+		return WrappedObjectMapper.unmarshal(getJsonAnimeListFromHtml(response.getContent()), UserMALTitleInfo.class, collection);
 	}
 	
 	/**

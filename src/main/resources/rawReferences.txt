@@ -78,7 +78,7 @@
 26.2.3 https://online.animedia.tv/anime/servamp/2/3 Servamp Specials
 26.2.4 https://online.animedia.tv/anime/servamp/2/4 Servamp: Hai ni Mamireta Shoukei - All the world's a stage
 27.1 https://online.animedia.tv/anime/yamada-i-sem-vedmochek/1/1 Yamada-kun to 7-nin no Majo
-27.2 https://online.animedia.tv/anime/yamada-i-sem-vedmochek/6/1 Yamada-kun to 7-nin no Majo (OVA)
+27.2 https://online.animedia.tv/anime/yamada-i-sem-vedmochek/6/1 Yamada-kun to 7-nin no Majo: Mou Hitotsu no Suzaku-sai
 28.1 https://online.animedia.tv/anime/gintama/1/1 Gintama  1-201
 28.2 https://online.animedia.tv/anime/gintama/2/202 Gintama'  202-252
 28.3 https://online.animedia.tv/anime/gintama/3/253 Gintama': Enchousen 253-265
@@ -198,8 +198,6 @@
 72.4 https://online.animedia.tv/anime/dyurarara-2/4/1 Durarara!!x2 Ketsu
 73.1 https://online.animedia.tv/anime/prikaz-svyshe/1/1 Big Order (TV)
 73.2 https://online.animedia.tv/anime/prikaz-svyshe/5/1 Big Order
-74.1 https://online.animedia.tv/anime/sharlotta/1/1 Charlotte
-74.2 https://online.animedia.tv/anime/sharlotta/2/1 Charlotte: Tsuyoimono-tachi
 75.1 https://online.animedia.tv/anime/inari-lisitsyi-i-volshebnaya-lyubov/1/1 Inari, Konkon, Koi Iroha.
 75.2 https://online.animedia.tv/anime/inari-lisitsyi-i-volshebnaya-lyubov/2/1 Inari, Konkon, Koi Iroha.: Inari, Konkon, Semishigure.
 76.1 https://online.animedia.tv/anime/vmeste-s-gospodinom/1/1 Tono to Issho: Gantai no Yabou

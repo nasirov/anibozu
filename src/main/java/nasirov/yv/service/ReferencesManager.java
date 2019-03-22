@@ -62,21 +62,13 @@ public class ReferencesManager {
 	
 	private AnimediaHTMLParser animediaHTMLParser;
 	
-	private WrappedObjectMapper wrappedObjectMapper;
-	
-	private RoutinesIO routinesIO;
-	
 	@Autowired
 	public ReferencesManager(HttpCaller httpCaller,
 							 @Qualifier("animediaRequestParametersBuilder") RequestParametersBuilder requestParametersBuilder,
-							 AnimediaHTMLParser animediaHTMLParser,
-							 WrappedObjectMapper wrappedObjectMapper,
-							 RoutinesIO routinesIO) {
+							 AnimediaHTMLParser animediaHTMLParser) {
 		this.httpCaller = httpCaller;
 		this.requestParametersBuilder = requestParametersBuilder;
 		this.animediaHTMLParser = animediaHTMLParser;
-		this.wrappedObjectMapper = wrappedObjectMapper;
-		this.routinesIO = routinesIO;
 	}
 	
 	/**
@@ -86,11 +78,11 @@ public class ReferencesManager {
 	 */
 	@Cacheable(value = "multiSeasonsReferencesCache")
 	public Set<AnimediaMALTitleReferences> getMultiSeasonsReferences() {
-		return wrappedObjectMapper.unmarshal(rawToPretty(rawReferencesResource), AnimediaMALTitleReferences.class, LinkedHashSet.class);
+		return WrappedObjectMapper.unmarshal(rawToPretty(rawReferencesResource), AnimediaMALTitleReferences.class, LinkedHashSet.class);
 	}
 	
 	private String rawToPretty(Resource rawReferencesResource) {
-		return createJsonReferences(routinesIO.readFromResource(rawReferencesResource));
+		return createJsonReferences(RoutinesIO.readFromResource(rawReferencesResource));
 	}
 	
 	/**
@@ -282,14 +274,14 @@ public class ReferencesManager {
 			if (!raw.containsKey(fullUrl)) {
 				fullMatch = false;
 				try {
-					if (!routinesIO.isDirectoryExists(tempFolderName)) {
-						routinesIO.mkDir(tempFolderName);
+					if (!RoutinesIO.isDirectoryExists(tempFolderName)) {
+						RoutinesIO.mkDir(tempFolderName);
 					}
 				} catch (NotDirectoryException e) {
 					log.error("Check system.properties variable resources.tempFolder.name! {} is not a directory!", tempFolderName);
 				}
 				String prefix = tempFolderName + File.separator;
-				routinesIO.writeToFile(prefix + tempRawReferencesName, fullUrl, true);
+				RoutinesIO.writeToFile(prefix + tempRawReferencesName, fullUrl, true);
 				log.warn("Not found in the raw references {} Please, add missing reference to the resources!", fullUrl);
 			}
 		}

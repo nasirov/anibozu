@@ -58,13 +58,11 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 		ResultController.class,
 		AnimediaHTMLParser.class,
 		MALParser.class,
-		WrappedObjectMapper.class,
 		CacheManager.class,
 		AppConfiguration.class,
 		URLBuilder.class,
 		MALRequestParametersBuilder.class,
 		AnimediaRequestParametersBuilder.class,
-		RoutinesIO.class,
 		MethodValidationPostProcessor.class})
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 @WebMvcTest(ResultController.class)
