@@ -61,7 +61,7 @@ public class AnimediaHTMLParser {
 	 */
 	private static final String EPISODE_IN_DATA_LIST = "<span>(?<description>Серия\\" + ".|Cерия|Серия|Серии|серия|серии|ОВА|OVA|ONA|ODA"
 			+ "|ФИЛЬМ|Фильмы|Сп[е|э]шл|СПЕШЛ|Фильм|Трейлер)?\\s?(?<firstEpisodeInSeason>\\d{1,3})?"
-			+ "(-\\d{1,3})?(\\s\\(\\d{1,3}\\))?\\s?(из)?\\s?(?<maxEpisodes>.{1,3})?</span>";
+			+ "(-\\d{1,3})?(\\s\\(\\d{1,3}\\))?\\s*?(из)?\\s?(?<maxEpisodes>.{1,3})?</span>";
 
 	/**
 	 * For original title
@@ -77,9 +77,6 @@ public class AnimediaHTMLParser {
 					+ ".+\"></a>\\R*" + "\\s*<div class=\"widget__new-series__item__info\">\\R*"
 					+ "\\s*<a href=\".+\" title=\".+\" class=\"h4 widget__new-series__item__title\">.+</a>";
 
-	/**
-	 * For url
-	 */
 	private static final String GET_URL = "href=\"(?<url>/anime/.*?/\\d{1,3}/\\d{1,3})\"";
 
 	/**
