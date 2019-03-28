@@ -86,8 +86,9 @@
 28.5 https://online.animedia.tv/anime/gintama/6/1 Gintama.
 28.6 https://online.animedia.tv/anime/gintama/7/1 Gintama.: Porori-hen
 29.1 https://online.animedia.tv/anime/vanpanchmen/1/1 One Punch Man
-29.2 https://online.animedia.tv/anime/vanpanchmen/2/1 One Punch Man Specials
+29.2 https://online.animedia.tv/anime/vanpanchmen/2/1 One Punch Man 2nd Season
 29.3 https://online.animedia.tv/anime/vanpanchmen/5/1 One Punch Man: Road to Hero
+29.4 https://online.animedia.tv/anime/vanpanchmen/7/1 One Punch Man Specials
 30.1 https://online.animedia.tv/anime/novaya-igra/1/1 New Game!
 30.2 https://online.animedia.tv/anime/novaya-igra/6/1 New Game!: Watashi, Shain Ryokou tte Hajimete nano de...
 31.1 https://online.animedia.tv/anime/udar-krovi/1/1 Strike the Blood
@@ -156,6 +157,7 @@
 55.2 https://online.animedia.tv/anime/moya-zhena-prezident-studsoveta-plyus/2/1 Okusama ga Seitokaichou!+!
 56.1 https://online.animedia.tv/anime/bungou-stray-dogs-velikij-iz-brodyachih-psov/1/1 Bungou Stray Dogs
 56.2 https://online.animedia.tv/anime/bungou-stray-dogs-velikij-iz-brodyachih-psov/2/1 Bungou Stray Dogs 2nd Season
+56.3 https://online.animedia.tv/anime/bungou-stray-dogs-velikij-iz-brodyachih-psov/3/1 Bungou Stray Dogs 3rd Season
 57.1 https://online.animedia.tv/anime/blagoslovennaya-kampanella/1/1 Shukufuku no Campanella
 57.2 https://online.animedia.tv/anime/blagoslovennaya-kampanella/2/1 Shukufuku no Campanella: La Campanella Della Benedizione
 58.1 https://online.animedia.tv/anime/usio-i-tora/1/1 Ushio to Tora (TV)

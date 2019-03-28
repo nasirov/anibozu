@@ -1,9 +1,10 @@
 package nasirov.yv.parser;
 
-import nasirov.yv.AbstractTest;
-import nasirov.yv.serialization.Anime;
-import org.junit.Test;
-import org.springframework.util.FileSystemUtils;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -11,23 +12,26 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-
-import static org.junit.Assert.*;
+import nasirov.yv.AbstractTest;
+import nasirov.yv.serialization.Anime;
+import org.junit.Test;
+import org.springframework.util.FileSystemUtils;
 
 /**
  * Created by nasirov.yv
  */
 public class WrappedObjectMapperTest extends AbstractTest {
+
 	@Test
 	public void unmarshalCollectionNullValue() throws Exception {
 		assertNull(WrappedObjectMapper.unmarshal("", String.class, List.class));
 	}
-	
+
 	@Test
 	public void unmarshalNullValue() throws Exception {
 		assertNull(WrappedObjectMapper.unmarshal("", String.class));
 	}
-	
+
 	@Test
 	public void unmarshalCollection() throws Exception {
 		List<Anime> unmarshal = WrappedObjectMapper.unmarshal(getCollectionJson(), Anime.class, ArrayList.class);
@@ -43,7 +47,7 @@ public class WrappedObjectMapperTest extends AbstractTest {
 		assertEquals("https://online.animedia.tv/anime/domashnij-pitomec-inogda-sidyaschij-na-moej-golove/1/1", element.getFullUrl());
 		assertEquals("anime/domashnij-pitomec-inogda-sidyaschij-na-moej-golove", element.getRootUrl());
 	}
-	
+
 	@Test
 	public void unmarshalSingleElement() throws Exception {
 		Anime singleElement = WrappedObjectMapper.unmarshal(getSingleElementJson(), Anime.class);
@@ -52,12 +56,12 @@ public class WrappedObjectMapperTest extends AbstractTest {
 		assertEquals("https://online.animedia.tv/anime/pyat-nevest/1/1", singleElement.getFullUrl());
 		assertEquals("anime/pyat-nevest", singleElement.getRootUrl());
 	}
-	
+
 	@Test(expected = NullPointerException.class)
 	public void marshalNPE() {
 		WrappedObjectMapper.marshal(null, null);
 	}
-	
+
 	@Test
 	public void marshalException() throws IOException {
 		File tempDir = new File(tempFolderName + File.separator + "test.txt");
@@ -66,7 +70,7 @@ public class WrappedObjectMapperTest extends AbstractTest {
 		WrappedObjectMapper.marshal(tempDir, forMarshal);
 		assertFalse(tempDir.exists());
 	}
-	
+
 	@Test
 	public void marshal() throws Exception {
 		File tempFile = new File("test.txt");
@@ -85,22 +89,14 @@ public class WrappedObjectMapperTest extends AbstractTest {
 		assertEquals(getSingleElementJson(), stringBuilder.toString());
 		assertFalse(tempFile.exists());
 	}
-	
+
 	private String getCollectionJson() {
-		return "[\n" +
-				"  {\n" +
-				"    \"id\": \"1\",\n" +
-				"    \"fullUrl\": \"https://online.animedia.tv/anime/pyat-nevest/1/1\",\n" +
-				"    \"rootUrl\": \"anime/pyat-nevest\"\n" +
-				"  },\n" +
-				"  {\n" +
-				"    \"id\": \"2\",\n" +
-				"    \"fullUrl\": \"https://online.animedia.tv/anime/domashnij-pitomec-inogda-sidyaschij-na-moej-golove/1/1\",\n" +
-				"    \"rootUrl\": \"anime/domashnij-pitomec-inogda-sidyaschij-na-moej-golove\"\n" +
-				"  }\n" +
-				"]";
+		return "[\n" + "  {\n" + "    \"id\": \"1\",\n" + "    \"fullUrl\": \"https://online.animedia.tv/anime/pyat-nevest/1/1\",\n"
+				+ "    \"rootUrl\": \"anime/pyat-nevest\"\n" + "  },\n" + "  {\n" + "    \"id\": \"2\",\n"
+				+ "    \"fullUrl\": \"https://online.animedia.tv/anime/domashnij-pitomec-inogda-sidyaschij-na-moej-golove/1/1\",\n"
+				+ "    \"rootUrl\": \"anime/domashnij-pitomec-inogda-sidyaschij-na-moej-golove\"\n" + "  }\n" + "]";
 	}
-	
+
 	private String getSingleElementJson() {
 		return "{\"id\":\"1\",\"fullUrl\":\"https://online.animedia.tv/anime/pyat-nevest/1/1\",\"rootUrl\":\"anime/pyat-nevest\"}";
 	}

@@ -4,21 +4,21 @@ import com.sun.jersey.api.client.ClientHandlerException;
 import com.sun.jersey.api.client.ClientRequest;
 import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.filter.ClientFilter;
+import java.io.IOException;
+import java.io.InputStream;
+import javax.ws.rs.core.MultivaluedMap;
 import lombok.extern.slf4j.Slf4j;
 import org.brotli.dec.BrotliInputStream;
 import org.springframework.http.HttpHeaders;
-
-import javax.ws.rs.core.MultivaluedMap;
-import java.io.IOException;
-import java.io.InputStream;
 
 /**
  * Created by nasirov.yv
  */
 @Slf4j
 public class BrotliContentEncodingFilter extends ClientFilter {
+
 	private static final String BROTLI_HEADER = "br";
-	
+
 	@Override
 	public ClientResponse handle(ClientRequest clientRequest) throws ClientHandlerException {
 		ClientResponse response = getNext().handle(clientRequest);

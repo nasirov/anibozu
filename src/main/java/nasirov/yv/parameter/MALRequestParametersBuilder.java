@@ -8,4 +8,5 @@ import org.springframework.stereotype.Component;
  */
 @Component("malRequestParametersBuilder")
 public class MALRequestParametersBuilder implements RequestParametersBuilder {
+
 }

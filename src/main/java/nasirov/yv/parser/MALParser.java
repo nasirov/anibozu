@@ -1,5 +1,10 @@
 package nasirov.yv.parser;
 
+import java.util.Collection;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import lombok.extern.slf4j.Slf4j;
 import nasirov.yv.exception.JSONNotFoundException;
 import nasirov.yv.exception.MALUserAccountNotFoundException;
@@ -9,12 +14,6 @@ import nasirov.yv.serialization.UserMALTitleInfo;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
-import java.util.Collection;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 /**
  * Parser MAL html
  * Created by nasirov.yv
@@ -22,26 +21,28 @@ import java.util.regex.Pattern;
 @Component
 @Slf4j
 public class MALParser {
+
 	private static final String JSON_ANIME_LIST = "<table class=\"list-table\" data-items=\"(?<jsonAnimeList>.*)\">";
-	
+
 	private static final String USER_ANIME_LIST_PRIVATE_ACCESS = "Access to this list has been restricted by the owner";
-	
+
 	private static final String NUMBER_OF_WATCHING_TITLES = "Watching</a><span class=\"di-ib fl-r lh10\">(?<numWatchingTitles>\\d*?)</span>";
-	
+
 	/**
 	 * Searches for the user anime list
 	 *
-	 * @param response   the mal response
+	 * @param response the mal response
 	 * @param collection any collection
-	 * @param <T>        a class extends collection
+	 * @param <T> a class extends collection
 	 * @return collection with user anime titles
 	 * @throws MALUserAnimeListAccessException if the user anime list has private access
-	 * @throws JSONNotFoundException           if the json anime list is not found
+	 * @throws JSONNotFoundException if the json anime list is not found
 	 */
-	public <T extends Collection> T getUserTitlesInfo(@NotNull HttpResponse response, @NotNull Class<T> collection) throws MALUserAnimeListAccessException, JSONNotFoundException {
+	public <T extends Collection> T getUserTitlesInfo(@NotNull HttpResponse response, @NotNull Class<T> collection)
+			throws MALUserAnimeListAccessException, JSONNotFoundException {
 		return WrappedObjectMapper.unmarshal(getJsonAnimeListFromHtml(response.getContent()), UserMALTitleInfo.class, collection);
 	}
-	
+
 	/**
 	 * Searches "Currently Watching" titles in the user profile html
 	 *
@@ -60,7 +61,7 @@ public class MALParser {
 		}
 		return null;
 	}
-	
+
 	/**
 	 * Check user
 	 *
@@ -70,13 +71,13 @@ public class MALParser {
 	private boolean isAccountExist(@NotNull HttpResponse response) {
 		return !response.getStatus().equals(HttpStatus.NOT_FOUND.value());
 	}
-	
+
 	/**
 	 * Search in mal html json anime list
 	 *
 	 * @param content mal html
 	 * @return string json anime list
-	 * @throws JSONNotFoundException           if json not found
+	 * @throws JSONNotFoundException if json not found
 	 * @throws MALUserAnimeListAccessException if user anime list has private access
 	 */
 	private String getJsonAnimeListFromHtml(@NotEmpty String content) throws JSONNotFoundException, MALUserAnimeListAccessException {

@@ -1,5 +1,13 @@
 package nasirov.yv.parser;
 
+import static nasirov.yv.enums.Constants.FIRST_EPISODE;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 import nasirov.yv.AbstractTest;
 import nasirov.yv.configuration.AppConfiguration;
 import nasirov.yv.response.HttpResponse;
@@ -7,30 +15,20 @@ import nasirov.yv.serialization.AnimediaMALTitleReferences;
 import nasirov.yv.util.RoutinesIO;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.core.io.Resource;
 import org.springframework.http.HttpStatus;
 import org.springframework.test.annotation.DirtiesContext;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-
-import static nasirov.yv.enums.Constants.FIRST_EPISODE;
-import static org.junit.Assert.*;
 
 /**
  * Created by nasirov.yv
  */
-@SpringBootTest(classes = {AppConfiguration.class,
-		AnimediaHTMLParser.class})
+@SpringBootTest(classes = {AppConfiguration.class, AnimediaHTMLParser.class})
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_CLASS)
 public class AnimediaHTMLParserTest extends AbstractTest {
-	
+
 	@Autowired
 	private AnimediaHTMLParser animediaHTMLParser;
-	
+
 	@Test
 	public void testGetAnimeIdSeasonsAndEpisodesMap() throws Exception {
 		HttpResponse multiSeasonsHtmlResponse = new HttpResponse(RoutinesIO.readFromResource(saoHtml), HttpStatus.OK.value());
@@ -56,19 +54,20 @@ public class AnimediaHTMLParserTest extends AbstractTest {
 		assertEquals("24", maxEpisode.get(2));
 		assertEquals("1", maxEpisode.get(3));
 	}
-	
+
 	@Test(expected = NullPointerException.class)
 	public void testGetAnimeIdSeasonsAndEpisodesMapHttpResponseIsNull() throws Exception {
 		assertNotNull(animediaHTMLParser.getAnimeIdSeasonsAndEpisodesMap(null));
 	}
-	
+
 	@Test
 	public void testGetAnimeIdSeasonsAndEpisodesMapSeasonsAndEpisodesNotFound() throws Exception {
-		Map<String, Map<String, String>> animeIdSeasonsAndEpisodesMap = animediaHTMLParser.getAnimeIdSeasonsAndEpisodesMap(new HttpResponse("<div class=\"media__post__original-title\"> test title </div>", HttpStatus.OK.value()));
+		Map<String, Map<String, String>> animeIdSeasonsAndEpisodesMap = animediaHTMLParser
+				.getAnimeIdSeasonsAndEpisodesMap(new HttpResponse("<div class=\"media__post__original-title\"> test title </div>", HttpStatus.OK.value()));
 		assertNotNull(animeIdSeasonsAndEpisodesMap);
 		assertEquals(0, animeIdSeasonsAndEpisodesMap.size());
 	}
-	
+
 	@Test
 	public void testGetFirstEpisodeInSeason() throws Exception {
 		HttpResponse firstDataListHtmlResponse = new HttpResponse(RoutinesIO.readFromResource(saoDataList1), HttpStatus.OK.value());
@@ -81,17 +80,17 @@ public class AnimediaHTMLParserTest extends AbstractTest {
 		firstEpisodeInSeasonOva = animediaHTMLParser.getFirstEpisodeInSeason(responseWithoutFirstEpisode);
 		assertEquals(FIRST_EPISODE.getDescription(), firstEpisodeInSeasonOva);
 	}
-	
+
 	@Test(expected = NullPointerException.class)
 	public void testGetFirstEpisodeInSeasonHttpResponseIsNull() throws Exception {
 		assertNull(animediaHTMLParser.getFirstEpisodeInSeason(null));
 	}
-	
+
 	@Test
 	public void testGetFirstEpisodeInSeasonFirstEpisodeNotFound() throws Exception {
 		assertNull(animediaHTMLParser.getFirstEpisodeInSeason(new HttpResponse("", HttpStatus.OK.value())));
 	}
-	
+
 	@Test
 	public void testGetEpisodesRange() throws Exception {
 		HttpResponse firstDataListHtmlResponse = new HttpResponse(RoutinesIO.readFromResource(saoDataList1), HttpStatus.OK.value());
@@ -104,39 +103,40 @@ public class AnimediaHTMLParserTest extends AbstractTest {
 		ovaRange = animediaHTMLParser.getEpisodesRange(responseWithoutFirstEpisode);
 		checkEpisodesRange(ovaRange, "1", FIRST_EPISODE.getDescription(), 1);
 	}
-	
+
 	@Test(expected = NullPointerException.class)
 	public void testGetEpisodesRangeHttpResponseIsNull() throws Exception {
 		assertNull(animediaHTMLParser.getEpisodesRange(null));
 	}
-	
+
 	@Test
 	public void testGetEpisodesRangeRangeIsNotFound() throws Exception {
-		Map<String, List<String>> episodesRange = animediaHTMLParser.getEpisodesRange(new HttpResponse("<a href=\"/anime/mastera-mecha-onlayn/1/1\" title=\"Серия", HttpStatus.OK.value()));
+		Map<String, List<String>> episodesRange = animediaHTMLParser
+				.getEpisodesRange(new HttpResponse("<a href=\"/anime/mastera-mecha-onlayn/1/1\" title=\"Серия", HttpStatus.OK.value()));
 		assertNotNull(episodesRange);
 		assertEquals(0, episodesRange.size());
 		episodesRange = animediaHTMLParser.getEpisodesRange(new HttpResponse("", HttpStatus.OK.value()));
 		assertNotNull(episodesRange);
 		assertEquals(0, episodesRange.size());
 	}
-	
+
 	@Test
 	public void testGetOriginalTitle() throws Exception {
 		HttpResponse html = new HttpResponse(RoutinesIO.readFromResource(saoHtml), HttpStatus.OK.value());
 		String originalTitle = animediaHTMLParser.getOriginalTitle(html);
 		assertEquals("Sword Art Online", originalTitle);
 	}
-	
+
 	@Test(expected = NullPointerException.class)
 	public void testGetOriginalTitleHttpResponseIsNull() throws Exception {
 		assertNull(animediaHTMLParser.getOriginalTitle(null));
 	}
-	
+
 	@Test
 	public void testGetOriginalTitleOriginalTitleIsNotFound() throws Exception {
 		assertNull(animediaHTMLParser.getOriginalTitle(new HttpResponse("", HttpStatus.OK.value())));
 	}
-	
+
 	@Test
 	public void testGetCurrentlyUpdatedTitlesList() throws Exception {
 		HttpResponse html = new HttpResponse(RoutinesIO.readFromResource(pageWithCurrentlyAddedEpisodes), HttpStatus.OK.value());
@@ -150,19 +150,20 @@ public class AnimediaHTMLParserTest extends AbstractTest {
 			assertEquals(currentlyUpdatedTitlesList.get(i).getCurrentMax(), currentlyAddedEpisodesListForCheck.get(i).getCurrentMax());
 		}
 	}
-	
+
 	@Test(expected = NullPointerException.class)
 	public void testGetCurrentlyUpdatedTitlesListHttpResponseIsNull() throws Exception {
 		assertNull(animediaHTMLParser.getCurrentlyUpdatedTitlesList(null));
 	}
-	
+
 	@Test
 	public void testGetCurrentlyUpdatedTitlesListIsNotFound() throws Exception {
-		List<AnimediaMALTitleReferences> currentlyUpdatedTitlesList = animediaHTMLParser.getCurrentlyUpdatedTitlesList(new HttpResponse("", HttpStatus.OK.value()));
+		List<AnimediaMALTitleReferences> currentlyUpdatedTitlesList = animediaHTMLParser
+				.getCurrentlyUpdatedTitlesList(new HttpResponse("", HttpStatus.OK.value()));
 		assertNotNull(currentlyUpdatedTitlesList);
 		assertEquals(0, currentlyUpdatedTitlesList.size());
 	}
-	
+
 	private void checkEpisodesRange(Map<String, List<String>> range, String maxEpisode, String firstEpisode, int rangeSize) {
 		for (Map.Entry<String, List<String>> listEntry : range.entrySet()) {
 			assertEquals(rangeSize, listEntry.getValue().size());
@@ -170,11 +171,12 @@ public class AnimediaHTMLParserTest extends AbstractTest {
 			assertEquals(maxEpisode, listEntry.getValue().get(rangeSize - 1));
 		}
 	}
-	
+
 	private List<AnimediaMALTitleReferences> getCurrentlyAddedEpisodesListForCheck() {
 		List<AnimediaMALTitleReferences> currentlyUpdatedTitlesList = new ArrayList<>();
 		currentlyUpdatedTitlesList.add(new AnimediaMALTitleReferences("/anime/pyat-nevest", "1", "", "", "", "", "3", "", "", ""));
-		currentlyUpdatedTitlesList.add(new AnimediaMALTitleReferences("/anime/domashnij-pitomec-inogda-sidyaschij-na-moej-golove", "1", "", "", "", "", "3", "", "", ""));
+		currentlyUpdatedTitlesList
+				.add(new AnimediaMALTitleReferences("/anime/domashnij-pitomec-inogda-sidyaschij-na-moej-golove", "1", "", "", "", "", "3", "", "", ""));
 		currentlyUpdatedTitlesList.add(new AnimediaMALTitleReferences("/anime/yarost-bahamuta-druzya-iz-manarii", "1", "", "", "", "", "2", "", "", ""));
 		currentlyUpdatedTitlesList.add(new AnimediaMALTitleReferences("/anime/chyornyj-klever", "1", "", "", "", "", "68", "", "", ""));
 		currentlyUpdatedTitlesList.add(new AnimediaMALTitleReferences("/anime/mastera-mecha-onlayn", "3", "", "", "", "", "16", "", "", ""));

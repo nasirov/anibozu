@@ -11,11 +11,12 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class HttpResponse {
+
 	/**
 	 * Response content
 	 */
 	private String content;
-	
+
 	/**
 	 * Http status
 	 */

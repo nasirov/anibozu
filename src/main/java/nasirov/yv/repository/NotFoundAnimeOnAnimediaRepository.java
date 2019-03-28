@@ -11,6 +11,7 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public interface NotFoundAnimeOnAnimediaRepository extends JpaRepository<UserMALTitleInfo, Integer> {
+
 	@Query(value = "SELECT CASE WHEN COUNT(u) > 0 THEN 'true' ELSE 'false' END FROM UserMALTitleInfo u WHERE u.title = ?1")
 	boolean exitsByTitle(String title);
 }

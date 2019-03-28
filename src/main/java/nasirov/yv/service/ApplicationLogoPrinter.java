@@ -12,9 +12,10 @@ import org.springframework.stereotype.Service;
 @Service
 @PrintApplicationLogo
 public class ApplicationLogoPrinter {
+
 	@Value("classpath:${resources.applicationLogo.name}")
 	private Resource resourcesApplicationLogo;
-	
+
 	@PrintApplicationLogo
 	public void printApplicationLogo() {
 		String logo = RoutinesIO.readFromResource(resourcesApplicationLogo);

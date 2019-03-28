@@ -1,22 +1,22 @@
 body {
-    padding: 0 2rem;
-    margin: 2rem;
+  padding: 0 2rem;
+  margin: 2rem;
 }
 
 .grow:hover {
-    -webkit-transform: scale(1.2);
-    -ms-transform: scale(5.2);
-    transform: scale(1.2);
+  -webkit-transform: scale(1.2);
+  -ms-transform: scale(5.2);
+  transform: scale(1.2);
 }
 
 .fade {
-    opacity: 1;
+  opacity: 1;
 }
 
 .fade:hover {
-    opacity: 0.6;
+  opacity: 0.6;
 }
 
 .nes-container:not(:last-child) {
-    margin-bottom: 1rem;
+  margin-bottom: 1rem;
 }

@@ -1,5 +1,6 @@
 package nasirov.yv.service.context;
 
+import java.lang.reflect.Method;
 import lombok.extern.slf4j.Slf4j;
 import nasirov.yv.service.annotation.LoadResources;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,21 +11,20 @@ import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.stereotype.Component;
 
-import java.lang.reflect.Method;
-
 /**
  * Created by nasirov.yv
  */
 @Component
 @Slf4j
 public class LoadResourcesContextListener implements ApplicationListener<ContextRefreshedEvent> {
+
 	private ConfigurableListableBeanFactory beanFactory;
-	
+
 	@Autowired
 	public LoadResourcesContextListener(ConfigurableListableBeanFactory beanFactory) {
 		this.beanFactory = beanFactory;
 	}
-	
+
 	@Override
 	public void onApplicationEvent(ContextRefreshedEvent contextRefreshedEvent) {
 		ApplicationContext applicationContext = contextRefreshedEvent.getApplicationContext();

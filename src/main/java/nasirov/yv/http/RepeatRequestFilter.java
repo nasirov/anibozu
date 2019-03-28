@@ -5,16 +5,16 @@ import com.sun.jersey.api.client.ClientHandlerException;
 import com.sun.jersey.api.client.ClientRequest;
 import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.filter.ClientFilter;
+import java.util.concurrent.TimeUnit;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
-
-import java.util.concurrent.TimeUnit;
 
 /**
  * Created by nasirov.yv
  */
 @Slf4j
 public class RepeatRequestFilter extends ClientFilter {
+
 	@Override
 	public ClientResponse handle(ClientRequest clientRequest) throws ClientHandlerException {
 		ClientHandler clientHandler = getNext();

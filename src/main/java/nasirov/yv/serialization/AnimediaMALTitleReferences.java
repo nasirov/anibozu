@@ -14,56 +14,57 @@ import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 @NoArgsConstructor
 @AllArgsConstructor
 public class AnimediaMALTitleReferences {
+
 	/**
 	 * URL on Animedia
 	 */
 	private String url;
-	
+
 	/**
 	 * Data list number on Animedia
 	 */
 	private String dataList;
-	
+
 	/**
 	 * First episode in Animedia
 	 */
 	private String firstEpisode;
-	
+
 	/**
 	 * Title on MAL
 	 */
 	private String titleOnMAL;
-	
+
 	/**
 	 * Min range episodes
 	 */
 	private String min;
-	
+
 	/**
 	 * Max range episodes
 	 */
 	private String max;
-	
+
 	/**
 	 * Current max episode
 	 */
 	private String currentMax;
-	
+
 	/**
 	 * Poster URL
 	 */
 	private String posterUrl;
-	
+
 	/**
 	 * URL for new episode
 	 */
 	private String finalUrl;
-	
+
 	/**
 	 * Next episode for watch
 	 */
 	private String episodeNumberForWatch;
-	
+
 	public AnimediaMALTitleReferences(AnimediaMALTitleReferences animediaMALTitleReference) {
 		this.url = animediaMALTitleReference.getUrl();
 		this.dataList = animediaMALTitleReference.getDataList();

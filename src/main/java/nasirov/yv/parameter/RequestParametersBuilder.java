@@ -1,18 +1,20 @@
 package nasirov.yv.parameter;
 
-import nasirov.yv.enums.RequestParameters;
-import org.springframework.http.HttpHeaders;
+import static javax.ws.rs.core.MediaType.APPLICATION_XHTML_XML;
+import static javax.ws.rs.core.MediaType.APPLICATION_XML;
+import static javax.ws.rs.core.MediaType.TEXT_HTML;
 
 import java.util.HashMap;
 import java.util.Map;
-
-import static javax.ws.rs.core.MediaType.*;
+import nasirov.yv.enums.RequestParameters;
+import org.springframework.http.HttpHeaders;
 
 /**
  * Interface for http request parameters builder
  * Created by nasirov.yv
  */
 public interface RequestParametersBuilder {
+
 	default Map<String, Map<String, String>> build() {
 		Map<String, Map<String, String>> params = new HashMap<>();
 		Map<String, String> headers = new HashMap<>();

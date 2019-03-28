@@ -5,14 +5,6 @@ import com.sun.jersey.api.client.ClientHandlerException;
 import com.sun.jersey.api.client.ClientRequest;
 import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.filter.ClientFilter;
-import lombok.extern.slf4j.Slf4j;
-import nasirov.yv.util.URLBuilder;
-import org.glassfish.jersey.message.internal.CookiesParser;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
-
-import javax.ws.rs.core.Cookie;
-import javax.ws.rs.core.MultivaluedMap;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.text.NumberFormat;
@@ -20,24 +12,36 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import javax.ws.rs.core.Cookie;
+import javax.ws.rs.core.MultivaluedMap;
+import lombok.extern.slf4j.Slf4j;
+import nasirov.yv.util.URLBuilder;
+import org.glassfish.jersey.message.internal.CookiesParser;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 
 /**
  * Created by nasirov.yv
  */
 @Slf4j
 public class CloudflareDDoSProtectionAvoidingFilter extends ClientFilter {
+
 	private static final String DDOS_PROTECTION = "DDoS protection by Cloudflare";
-	
+
 	private static final String CF_COOKIE = "__cfduid";
-	
+
 	private static final String CF_CLEARANCE = "cf_clearance";
-	
-	private static final String CHALLENGE_FORM_REGEX = "<form id=\"challenge-form\" action=\"/(?<url>.+)\" method=\"get\">\\s*<input type=\"hidden\" name=\"(?<sName>.+)\"\\s*value=\"(?<sValue>.+)\"></input>\\s*<input type=\"hidden\" name=\"(?<jschlVcName>.+)\" value=\"(?<jschlVcValue>.+)\"/>\\s*<input type=\"hidden\" name=\"(?<passName>.+)\" value=\"(?<passValue>.+)\"/>\\s*<input type=\"hidden\" id=\"jschl-answer\" name=\"(?<jschlAnswerName>.+)\"/>\\s*</form>";
-	
-	private static final String SEED_REGEX = "var[\\s\\w,]+\\R?\\s+(?<arrayName>.+)\\s?=\\s?\\{\"(?<stringSeed>.+)\":\\s?(?<numberSeedExpression>.*?)};";
-	
+
+	private static final String CHALLENGE_FORM_REGEX = "<form id=\"challenge-form\" action=\"/(?<url>.+)\" method=\"get\">\\s*<input type=\"hidden\" "
+			+ "name=\"(?<sName>.+)\"\\s*value=\"(?<sValue>.+)\"></input>\\s*<input type=\"hidden\" name=\"(?<jschlVcName>.+)\" value=\"(?<jschlVcValue>.+)"
+			+ "\"/>\\s*<input type=\"hidden\" name=\"(?<passName>.+)\" value=\"(?<passValue>.+)\"/>\\s*<input type=\"hidden\" id=\"jschl-answer\" name=\""
+			+ "(?<jschlAnswerName>.+)\"/>\\s*</form>";
+
+	private static final String SEED_REGEX =
+			"var[\\s\\w,]+\\R?\\s+(?<arrayName>.+)\\s?=\\s?\\{\"(?<stringSeed>.+)\":\\s?(?<numberSeedExpression>.*?)" + "};";
+
 	private static final String ADDITIONAL_EXPRESSION_REGEX = "(?<operation>[+\\-*/]+)=(?<expressionWithNumberSeed>.*?);";
-	
+
 	@Override
 	public ClientResponse handle(ClientRequest clientRequest) throws ClientHandlerException {
 		ClientHandler clientHandler = getNext();
@@ -69,22 +73,23 @@ public class CloudflareDDoSProtectionAvoidingFilter extends ClientFilter {
 		}
 		return clientResponse;
 	}
-	
+
 	private void setCookie(ClientResponse response, ClientRequest request, String cookieName) {
 		MultivaluedMap<String, String> headers = response.getHeaders();
-		String cookieHeader = headers.get(HttpHeaders.SET_COOKIE).stream().filter(cookie -> cookie.contains(cookieName)).findFirst().orElseThrow(() -> new ClientHandlerException((cookieName + " not available!")));
+		String cookieHeader = headers.get(HttpHeaders.SET_COOKIE).stream().filter(cookie -> cookie.contains(cookieName)).findFirst()
+				.orElseThrow(() -> new ClientHandlerException((cookieName + " not available!")));
 		Cookie cookie = CookiesParser.parseCookie(cookieHeader);
 		String oldCookie = (String) request.getHeaders().getFirst(HttpHeaders.COOKIE);
 		String newCookie = cookie.getName() + "=" + cookie.getValue();
 		String finalCookie = oldCookie != null ? oldCookie + "; " + newCookie : newCookie;
 		request.getHeaders().putSingle(HttpHeaders.COOKIE, finalCookie);
 	}
-	
+
 	private void setReferer(ClientRequest request, String url) {
 		MultivaluedMap<String, Object> headers = request.getHeaders();
 		headers.add(HttpHeaders.REFERER, url);
 	}
-	
+
 	private String getVerificationUrl(String content, String url) {
 		String finalUrl;
 		Pattern pattern = Pattern.compile(SEED_REGEX);
@@ -133,17 +138,18 @@ public class CloudflareDDoSProtectionAvoidingFilter extends ClientFilter {
 			queriesForUrl.remove("url");
 			finalUrl = URLBuilder.build(host + urlPath, queriesForUrl);
 		} else {
-			throw new ClientHandlerException("Cloudflare DDoS Protection Seed Is Not Found! Check response and Regex!\nResponse from " + url + " :\n" + content);
+			throw new ClientHandlerException(
+					"Cloudflare DDoS Protection Seed Is Not Found! Check response and Regex!\nResponse from " + url + " :\n" + content);
 		}
 		return finalUrl;
 	}
-	
+
 	private String getSum(String expression) {
 		String unobfuscatedExpression = replaceObfuscatedValuesWithNumbers(expression);
 		String expressionsSummaryWithDivisionOperation = getExpressionsSummaryWithDivisionOperation(unobfuscatedExpression);
 		return divideExpressions(expressionsSummaryWithDivisionOperation);
 	}
-	
+
 	private String replaceObfuscatedValuesWithNumbers(String expression) {
 		String result = "";
 		Pattern pattern = Pattern.compile("(!\\+\\[])");
@@ -163,7 +169,7 @@ public class CloudflareDDoSProtectionAvoidingFilter extends ClientFilter {
 		}
 		return result;
 	}
-	
+
 	private String getExpressionsSummaryWithDivisionOperation(String unobfuscatedExpression) {
 		String[] splitedByDivisionOperation = unobfuscatedExpression.split("/");
 		StringBuilder expressionsSummaryWithDivisionOperation = new StringBuilder();
@@ -184,7 +190,7 @@ public class CloudflareDDoSProtectionAvoidingFilter extends ClientFilter {
 		}
 		return expressionsSummaryWithDivisionOperation.toString();
 	}
-	
+
 	private String divideExpressions(String expressionsSummaryWithDivisionOperation) {
 		String[] expressionsSummary = expressionsSummaryWithDivisionOperation.split("/");
 		double finalSummary = 0;
@@ -197,7 +203,7 @@ public class CloudflareDDoSProtectionAvoidingFilter extends ClientFilter {
 		}
 		return String.valueOf(finalSummary);
 	}
-	
+
 	private Map<String, String> getQueriesForUrl(String content) {
 		Map<String, String> queries = new LinkedHashMap<>();
 		Pattern pattern = Pattern.compile(CHALLENGE_FORM_REGEX);

@@ -455,6 +455,11 @@
     "rootUrl": "anime/vanpanchmen"
   },
   {
+    "id": "32.4",
+    "fullUrl": "https://online.animedia.tv/anime/vanpanchmen/7/1",
+    "rootUrl": "anime/vanpanchmen"
+  },
+  {
     "id": "33.1",
     "fullUrl": "https://online.animedia.tv/anime/novaya-igra/1/1",
     "rootUrl": "anime/novaya-igra"
@@ -792,6 +797,11 @@
   {
     "id": "59.2",
     "fullUrl": "https://online.animedia.tv/anime/bungou-stray-dogs-velikij-iz-brodyachih-psov/2/1",
+    "rootUrl": "anime/bungou-stray-dogs-velikij-iz-brodyachih-psov"
+  },
+  {
+    "id": "59.3",
+    "fullUrl": "https://online.animedia.tv/anime/bungou-stray-dogs-velikij-iz-brodyachih-psov/3/1",
     "rootUrl": "anime/bungou-stray-dogs-velikij-iz-brodyachih-psov"
   },
   {

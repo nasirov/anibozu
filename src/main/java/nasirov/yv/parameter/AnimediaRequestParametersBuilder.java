@@ -8,4 +8,5 @@ import org.springframework.stereotype.Component;
  */
 @Component("animediaRequestParametersBuilder")
 public class AnimediaRequestParametersBuilder implements RequestParametersBuilder {
+
 }

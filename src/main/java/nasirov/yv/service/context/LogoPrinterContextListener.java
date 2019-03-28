@@ -1,5 +1,6 @@
 package nasirov.yv.service.context;
 
+import java.lang.reflect.Method;
 import lombok.extern.slf4j.Slf4j;
 import nasirov.yv.service.annotation.PrintApplicationLogo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,21 +11,20 @@ import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.stereotype.Component;
 
-import java.lang.reflect.Method;
-
 /**
  * Created by nasirov.yv
  */
 @Component
 @Slf4j
 public class LogoPrinterContextListener implements ApplicationListener<ContextRefreshedEvent> {
+
 	private ConfigurableListableBeanFactory factory;
-	
+
 	@Autowired
 	public LogoPrinterContextListener(ConfigurableListableBeanFactory factory) {
 		this.factory = factory;
 	}
-	
+
 	@Override
 	public void onApplicationEvent(ContextRefreshedEvent contextRefreshedEvent) {
 		ApplicationContext applicationContext = contextRefreshedEvent.getApplicationContext();

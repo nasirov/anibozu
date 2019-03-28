@@ -1,21 +1,22 @@
 package nasirov.yv.util;
 
-import org.springframework.lang.Nullable;
+import static nasirov.yv.enums.Constants.FIRST_EPISODE;
 
-import javax.validation.constraints.NotNull;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import static nasirov.yv.enums.Constants.FIRST_EPISODE;
+import javax.validation.constraints.NotNull;
+import org.springframework.lang.Nullable;
 
 /**
  * Created by nasirov.yv
  */
 public class URLBuilder {
+
 	private URLBuilder() {
-	
+
 	}
+
 	public static String build(String url, String dataList, @Nullable String firstEpisodeInSeason, @Nullable String numberOfEpisodesInSeason) {
 		String episode = null;
 		if (firstEpisodeInSeason != null) {
@@ -25,11 +26,11 @@ public class URLBuilder {
 		}
 		return url + "/" + dataList + "/" + episode;
 	}
-	
+
 	public static String build(String url, @NotNull Map<String, String> queryParams) {
 		return url + addQueryParametersToURL(queryParams);
 	}
-	
+
 	private static String addQueryParametersToURL(Map<String, String> queryParams) {
 		int count = 1;
 		int size = queryParams.size();
@@ -44,7 +45,7 @@ public class URLBuilder {
 		}
 		return stringBuilder.toString();
 	}
-	
+
 	private static String episodeChecker(String episode) {
 		Pattern pattern = Pattern.compile("(\\d{1,3}-(\\d{1,3}|[xX]{1,3}))");
 		Matcher matcher = pattern.matcher(episode);

@@ -1,5 +1,16 @@
 package nasirov.yv.service;
 
+import java.io.File;
+import java.nio.file.NotDirectoryException;
+import java.util.HashMap;
+import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import lombok.extern.slf4j.Slf4j;
 import nasirov.yv.http.HttpCaller;
 import nasirov.yv.parameter.RequestParametersBuilder;
@@ -18,59 +29,52 @@ import org.springframework.core.io.Resource;
 import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Service;
 
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
-import java.io.File;
-import java.nio.file.NotDirectoryException;
-import java.util.*;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 /**
  * Created by nasirov.yv
  */
 @Service
 @Slf4j
 public class ReferencesManager {
+
 	/**
 	 * For a title url on animedia and a title on mal
 	 */
-	private static final String REFERENCE_MAL_TITLE_TO_ANIMEDIA_TITLE = "(?<fullUrl>https://online\\.animedia\\.tv/(?<url>anime/.+)/(?<dataList>\\d{1,3})/(?<firstEpisode>\\d{1,3}))[\\s\\t]+(?<titleOnMAL>.+)";
-	
+	private static final String REFERENCE_MAL_TITLE_TO_ANIMEDIA_TITLE =
+			"(?<fullUrl>https://online\\.animedia\\.tv/(?<url>anime/.+)/(?<dataList>\\d{1," + "3})/(?<firstEpisode>\\d{1,3}))[\\s\\t]+(?<titleOnMAL>.+)";
+
 	private static final String CONCERTIZE_EPISODE = ".+[\\s\\t]+((?<min>\\d{1,3})-(?<max>\\d{1,3}|[x]{3}))+";
-	
+
 	private static final String NONE = "none";
-	
+
 	@Value("${urls.online.animedia.tv}")
 	private String animediaOnlineTv;
-	
+
 	@Value("${urls.online.animedia.anime.episodes.list}")
 	private String animediaEpisodesList;
-	
+
 	@Value("${resources.tempFolder.name}")
 	private String tempFolderName;
-	
+
 	@Value("${resources.tempRawReferences.name}")
 	private String tempRawReferencesName;
-	
+
 	@Value("classpath:${resources.rawReference.name}")
 	private Resource rawReferencesResource;
-	
+
 	private HttpCaller httpCaller;
-	
+
 	private RequestParametersBuilder requestParametersBuilder;
-	
+
 	private AnimediaHTMLParser animediaHTMLParser;
-	
+
 	@Autowired
-	public ReferencesManager(HttpCaller httpCaller,
-							 @Qualifier("animediaRequestParametersBuilder") RequestParametersBuilder requestParametersBuilder,
-							 AnimediaHTMLParser animediaHTMLParser) {
+	public ReferencesManager(HttpCaller httpCaller, @Qualifier("animediaRequestParametersBuilder") RequestParametersBuilder requestParametersBuilder,
+			AnimediaHTMLParser animediaHTMLParser) {
 		this.httpCaller = httpCaller;
 		this.requestParametersBuilder = requestParametersBuilder;
 		this.animediaHTMLParser = animediaHTMLParser;
 	}
-	
+
 	/**
 	 * Creates container with the anime references
 	 *
@@ -80,11 +84,11 @@ public class ReferencesManager {
 	public Set<AnimediaMALTitleReferences> getMultiSeasonsReferences() {
 		return WrappedObjectMapper.unmarshal(rawToPretty(rawReferencesResource), AnimediaMALTitleReferences.class, LinkedHashSet.class);
 	}
-	
+
 	private String rawToPretty(Resource rawReferencesResource) {
 		return createJsonReferences(RoutinesIO.readFromResource(rawReferencesResource));
 	}
-	
+
 	/**
 	 * Creates json from raw references
 	 *
@@ -106,31 +110,25 @@ public class ReferencesManager {
 				max = concertizedEpisode[1];
 				titleOnMAL = titleOnMAL.replaceAll("\\d{1,3}-(\\d{1,3}|[x]{3})", "");
 			}
-			stringBuilder.append("{\"url\":\"").append(matcher.group("url"))
-					.append("\",").append("\"dataList\":\"").append(matcher.group("dataList"))
-					.append("\",").append("\"firstEpisode\":\"").append(matcher.group("firstEpisode"))
-					.append("\",").append("\"titleOnMAL\":\"").append(titleOnMAL.trim().toLowerCase())
-					.append("\",");
+			stringBuilder.append("{\"url\":\"").append(matcher.group("url")).append("\",").append("\"dataList\":\"").append(matcher.group("dataList"))
+					.append("\",").append("\"firstEpisode\":\"").append(matcher.group("firstEpisode")).append("\",").append("\"titleOnMAL\":\"")
+					.append(titleOnMAL.trim().toLowerCase()).append("\",");
 			if (min != null) {
-				stringBuilder.append("\"min\":\"").append(min)
-						.append("\",");
+				stringBuilder.append("\"min\":\"").append(min).append("\",");
 			} else {
-				stringBuilder.append("\"min\":").append(min)
-						.append(",");
+				stringBuilder.append("\"min\":").append(min).append(",");
 			}
 			if (max != null) {
-				stringBuilder.append("\"max\":\"").append(max)
-						.append("\"},");
+				stringBuilder.append("\"max\":\"").append(max).append("\"},");
 			} else {
-				stringBuilder.append("\"max\":").append(max)
-						.append("},");
+				stringBuilder.append("\"max\":").append(max).append("},");
 			}
 		}
 		stringBuilder.replace(stringBuilder.length() - 1, stringBuilder.length(), "");
 		stringBuilder.append("]");
 		return stringBuilder.toString();
 	}
-	
+
 	private static String[] getConcertizedEpisode(String s) {
 		Pattern pattern = Pattern.compile(CONCERTIZE_EPISODE);
 		Matcher matcher = pattern.matcher(s);
@@ -142,7 +140,7 @@ public class ReferencesManager {
 		}
 		return arr;
 	}
-	
+
 	/**
 	 * Updates multiseasons anime references
 	 * min,max,first episode,current max
@@ -190,7 +188,8 @@ public class ReferencesManager {
 									reference.setCurrentMax(currentMax);
 									reference.setFirstEpisode(firstEpisodeAndMin);
 									reference.setMin(firstEpisodeAndMin);
-									reference.setMax(intDataList != null && intDataList < intFirstEpisodeAndMin ? Integer.toString(intFirstEpisodeAndMin + intDataList) : dataList);
+									reference.setMax(
+											intDataList != null && intDataList < intFirstEpisodeAndMin ? Integer.toString(intFirstEpisodeAndMin + intDataList) : dataList);
 								}
 								break;
 							}
@@ -200,73 +199,72 @@ public class ReferencesManager {
 			}
 		}
 	}
-	
-	private Map<String, Map<String, String>> getTitleHtmlAndPutInCache(String url,
-																	   Map<String, Map<String, String>> animediaRequestParameters,
-																	   Map<String, Map<String, Map<String, String>>> seasonsAndEpisodesCache) {
+
+	private Map<String, Map<String, String>> getTitleHtmlAndPutInCache(String url, Map<String, Map<String, String>> animediaRequestParameters,
+			Map<String, Map<String, Map<String, String>>> seasonsAndEpisodesCache) {
 		HttpResponse response = httpCaller.call(url, HttpMethod.GET, animediaRequestParameters);
 		Map<String, Map<String, String>> seasonsAndEpisodes = animediaHTMLParser.getAnimeIdSeasonsAndEpisodesMap(response);
 		seasonsAndEpisodesCache.put(url, seasonsAndEpisodes);
 		return seasonsAndEpisodes;
 	}
-	
+
 	/**
 	 * Compare multiseasons references and user watching titles and
 	 * Creates container with matched anime
 	 *
-	 * @param references     the  multiseasons references
+	 * @param references the  multiseasons references
 	 * @param watchingTitles the user watching titles
 	 * @return the matched user references
 	 */
-	public Set<AnimediaMALTitleReferences> getMatchedReferences(@NotEmpty Set<AnimediaMALTitleReferences> references, @NotEmpty Set<UserMALTitleInfo> watchingTitles) {
+	public Set<AnimediaMALTitleReferences> getMatchedReferences(@NotEmpty Set<AnimediaMALTitleReferences> references,
+			@NotEmpty Set<UserMALTitleInfo> watchingTitles) {
 		Set<AnimediaMALTitleReferences> tempReferences = new LinkedHashSet<>();
 		if (references != null && watchingTitles != null) {
 			for (UserMALTitleInfo userMALTitleInfo : watchingTitles) {
-				references.stream()
-						.filter(set -> set.getTitleOnMAL().equals(userMALTitleInfo.getTitle()))
-						.forEach(set -> {
-							set.setPosterUrl(userMALTitleInfo.getPosterUrl());
-							tempReferences.add(new AnimediaMALTitleReferences(set));
-						});
+				references.stream().filter(set -> set.getTitleOnMAL().equals(userMALTitleInfo.getTitle())).forEach(set -> {
+					set.setPosterUrl(userMALTitleInfo.getPosterUrl());
+					tempReferences.add(new AnimediaMALTitleReferences(set));
+				});
 			}
 		}
 		return tempReferences;
 	}
-	
+
 	/**
 	 * Compare multi seasons titles from animedia search list with multi seasons references from resources
 	 *
 	 * @param multiSeasonsAnime multi seasons titles from animedia
-	 * @param allReferences     all multi seasons references from resources
+	 * @param allReferences all multi seasons references from resources
 	 * @return true if multi seasons references from resources are full, if false then we must add the new reference to the raw mapping
 	 */
 	public boolean isReferencesAreFull(@NotEmpty Set<Anime> multiSeasonsAnime, @NotEmpty Set<AnimediaMALTitleReferences> allReferences) {
 		Map<String, String> readFromRaw = convertReferencesSetToMap(allReferences);
 		return compareMaps(multiSeasonsAnime, readFromRaw);
 	}
-	
+
 	/**
 	 * Updates currentMax matched reference and set titleOnMal for currentlyUpdatedTitle
 	 *
 	 * @param matchedAnimeFromCache the matched user anime from cache
 	 * @param currentlyUpdatedTitle the currently updated title on animedia
 	 */
-	public void updateCurrentMax(@NotEmpty Set<AnimediaMALTitleReferences> matchedAnimeFromCache, @NotNull AnimediaMALTitleReferences currentlyUpdatedTitle) {
+	public void updateCurrentMax(@NotEmpty Set<AnimediaMALTitleReferences> matchedAnimeFromCache,
+			@NotNull AnimediaMALTitleReferences currentlyUpdatedTitle) {
 		matchedAnimeFromCache.stream()
-				.filter(set -> set.getUrl().equals(currentlyUpdatedTitle.getUrl())
-						&& set.getDataList().equals(currentlyUpdatedTitle.getDataList()))
+				.filter(set -> set.getUrl().equals(currentlyUpdatedTitle.getUrl()) && set.getDataList().equals(currentlyUpdatedTitle.getDataList()))
 				.forEach(set -> {
 					set.setCurrentMax(currentlyUpdatedTitle.getCurrentMax());
 					currentlyUpdatedTitle.setTitleOnMAL(set.getTitleOnMAL());
 				});
 	}
-	
+
 	private Map<String, String> convertReferencesSetToMap(@NotEmpty Set<AnimediaMALTitleReferences> allReferences) {
 		Map<String, String> urlTitle = new HashMap<>();
-		allReferences.forEach(set -> urlTitle.put(animediaOnlineTv + set.getUrl() + "/" + set.getDataList() + "/" + set.getFirstEpisode(), set.getTitleOnMAL()));
+		allReferences
+				.forEach(set -> urlTitle.put(animediaOnlineTv + set.getUrl() + "/" + set.getDataList() + "/" + set.getFirstEpisode(), set.getTitleOnMAL()));
 		return urlTitle;
 	}
-	
+
 	private boolean compareMaps(@NotEmpty Set<Anime> multi, @NotEmpty Map<String, String> raw) {
 		boolean fullMatch = true;
 		for (Anime anime : multi) {

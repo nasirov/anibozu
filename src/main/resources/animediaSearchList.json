@@ -468,24 +468,6 @@
     "poster": "https://static.animedia.tv/uploads/YuNA.jpg?h=350&q=100"
   },
   {
-    "title": "ингресс",
-    "keywords": "ингресс ingress the animation ingress the animation",
-    "url": "anime/ingress",
-    "poster": "https://static.animedia.tv/uploads/450.jpg?h=350&q=100"
-  },
-  {
-    "title": "двойной удар: даг и кирилл",
-    "keywords": "двойной удар: даг и кирилл double decker! doug & kirill",
-    "url": "anime/dvojnoj-udar-dag-i-kirill",
-    "poster": "https://static.animedia.tv/uploads/446.jpg?h=350&q=100"
-  },
-  {
-    "title": "bakutsuri bar hunter",
-    "keywords": "bakutsuri bar hunter bakutsuri bar hunter",
-    "url": "anime/bakutsuri-bar-hunter",
-    "poster": "https://static.animedia.tv/uploads/445.jpg?h=350&q=100"
-  },
-  {
     "title": "вольный стиль!",
     "keywords": "вольный стиль! free! плавательный клуб старшей школы иватоби, всплеск!, вольный!",
     "url": "anime/svoboda",
@@ -700,12 +682,6 @@
     "keywords": "uma musume: pretty derby",
     "url": "anime/devushki-poni-slavnoe-derbi",
     "poster": "https://static.animedia.tv/uploads/l40dIomtiL8.jpg?h=350&q=100"
-  },
-  {
-    "title": "я сниму цукумогами",
-    "keywords": "я сниму цукумогами  tsukumogami kashimasu",
-    "url": "anime/ya-snimu-cukumogami",
-    "poster": "https://static.animedia.tv/uploads/2131214123123.jpg?h=350&q=100"
   },
   {
     "title": "о том, кем работает королева драконов",
@@ -4666,5 +4642,83 @@
     "keywords": "kuuchuu buranko",
     "url": "anime/trapetsiya",
     "poster": "https://static.animedia.tv/uploads/936.jpg?h=350&q=100"
+  },
+  {
+    "title": "задержи этот звук!",
+    "keywords": "kono oto tomare!",
+    "url": "anime/zaderzhi-etot-zvuk",
+    "poster": "https://static.animedia.tv/uploads/13515312535.jpg?h=350&q=100"
+  },
+  {
+    "title": "девушка-сэнрю",
+    "keywords": "девушка-сэнрю  senryuu shoujo",
+    "url": "anime/devushka-senryu",
+    "poster": "https://static.animedia.tv/uploads/5515.jpg?h=350&q=100"
+  },
+  {
+    "title": "магмел синего моря",
+    "keywords": "магмел синего моря  gunjou no magmel",
+    "url": "anime/magmel-sinego-morya1",
+    "poster": "https://static.animedia.tv/uploads/55133.jpg?h=350&q=100"
+  },
+  {
+    "title": "внук мудреца",
+    "keywords": "внук мудреца  kenja no mago",
+    "url": "anime/vnuk-mudreca",
+    "poster": "https://static.animedia.tv/uploads/5512.jpg?h=350&q=100"
+  },
+  {
+    "title": "исчезнувший город",
+    "keywords": "исчезнувший город  shoumetsu toshi",
+    "url": "anime/ischeznuvshij-gorod",
+    "poster": "https://static.animedia.tv/uploads/5599.jpg?h=350&q=100"
+  },
+  {
+    "title": "сарадзаммай",
+    "keywords": "сарадзаммай sarazanmai",
+    "url": "anime/saradzammaj",
+    "poster": "https://static.animedia.tv/uploads/5588.jpg?h=350&q=100"
+  },
+  {
+    "title": "оккультные служащие полуночи",
+    "keywords": "оккультные служащие полуночи  mayonaka no occult koumuin",
+    "url": "anime/okkultnye-sluzhaschie-polunochi",
+    "poster": "https://static.animedia.tv/uploads/5577.jpg?h=350&q=100"
+  },
+  {
+    "title": "корзинка фруктов",
+    "keywords": "корзинка фруктов fruits basket",
+    "url": "anime/korzinka-fruktov",
+    "poster": "https://static.animedia.tv/uploads/5566.jpg?h=350&q=100"
+  },
+  {
+    "title": "кэрол и тьюсдей",
+    "keywords": "кэрол и тьюсдей carole & tuesday",
+    "url": "anime/kerol-i-tyusdej",
+    "poster": "https://static.animedia.tv/uploads/55555.jpg?h=350&q=100"
+  },
+  {
+    "title": "клинок, рассекающий демонов",
+    "keywords": "клинок, рассекающий демонов kimetsu no yaiba",
+    "url": "anime/klinok-rassekayuschij-demonov",
+    "poster": "https://static.animedia.tv/uploads/553535353.jpg?h=350&q=100"
+  },
+  {
+    "title": "юно: девушка, что воспевает любовь на грани этого мира",
+    "keywords": "юно: девушка, что воспевает любовь на грани этого мира kono yo no hate de koi wo utau shoujo yu-no",
+    "url": "anime/yuno-devushka-chto-vospevaet-lyubov-na-grani-etogo-mira",
+    "poster": "https://static.animedia.tv/uploads/55221313.jpg?h=350&q=100"
+  },
+  {
+    "title": "пропавшие феи",
+    "keywords": "пропавшие феи fairy gone",
+    "url": "anime/propavshie-fei",
+    "poster": "https://static.animedia.tv/uploads/51122.jpg?h=350&q=100"
+  },
+  {
+    "title": "молодая невеста господина нобунаги",
+    "keywords": "молодая невеста господина нобунаги  nobunaga-sensei no osanazuma",
+    "url": "anime/molodaya-nevesta-gospodina-nobunagi",
+    "poster": "https://static.animedia.tv/uploads/5542141241.jpg?h=350&q=100"
   }
 ]

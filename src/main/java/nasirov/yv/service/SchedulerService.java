@@ -1,5 +1,12 @@
 package nasirov.yv.service;
 
+import static nasirov.yv.enums.AnimeTypeOnAnimedia.ANNOUNCEMENT;
+import static nasirov.yv.enums.AnimeTypeOnAnimedia.MULTISEASONS;
+import static nasirov.yv.enums.AnimeTypeOnAnimedia.SINGLESEASON;
+
+import java.util.LinkedHashSet;
+import java.util.Map;
+import java.util.Set;
 import lombok.extern.slf4j.Slf4j;
 import nasirov.yv.enums.AnimeTypeOnAnimedia;
 import nasirov.yv.serialization.Anime;
@@ -12,36 +19,29 @@ import org.springframework.cache.CacheManager;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
-import java.util.LinkedHashSet;
-import java.util.Map;
-import java.util.Set;
-
-import static nasirov.yv.enums.AnimeTypeOnAnimedia.*;
-
 /**
  * Created by nasirov.yv
  */
 @Service
 @Slf4j
 public class SchedulerService {
+
 	@Value("${cache.animediaSearchList.name}")
 	private String animediaSearchListCacheName;
-	
+
 	private ReferencesManager referencesManager;
-	
+
 	private AnimediaService animediaService;
-	
+
 	private CacheManager cacheManager;
-	
+
 	@Autowired
-	public SchedulerService(ReferencesManager referencesManager,
-							AnimediaService animediaService,
-							CacheManager cacheManager) {
+	public SchedulerService(ReferencesManager referencesManager, AnimediaService animediaService, CacheManager cacheManager) {
 		this.referencesManager = referencesManager;
 		this.animediaService = animediaService;
 		this.cacheManager = cacheManager;
 	}
-	
+
 	@Scheduled(cron = "${resources.check.cron.expression}")
 	private void checkApplicationResources() {
 		log.info("Start of checking classpath resources ...");
@@ -58,7 +58,8 @@ public class SchedulerService {
 		Set<Anime> singleSeasonAnime = allSeasons.get(SINGLESEASON);
 		Set<Anime> multiSeasonsAnime = allSeasons.get(MULTISEASONS);
 		Set<Anime> announcements = allSeasons.get(ANNOUNCEMENT);
-		Set<AnimediaTitleSearchInfo> notFoundInTheResources = animediaService.checkSortedAnime(singleSeasonAnime, multiSeasonsAnime, announcements, animediaSearchList);
+		Set<AnimediaTitleSearchInfo> notFoundInTheResources = animediaService
+				.checkSortedAnime(singleSeasonAnime, multiSeasonsAnime, announcements, animediaSearchList);
 		if (!notFoundInTheResources.isEmpty()) {
 			log.info("Sorted anime from classpath aren't up-to-date. Start of updating sorted anime ...");
 			allSeasons = animediaService.getAnimeSortedForType(animediaSearchList);

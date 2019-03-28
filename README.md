@@ -29,7 +29,10 @@ The application analyzes user watching titles from **[MyAnimeList](https://myani
 ![Index](/images/index.jpg)
 *Start page*
 
-![Index with username](/images/indexWithUsername.jpg)
+![Invalid Input](/images/invalidInput.jpg)
+*MAL username must be between 2 and 16 characters*
+
+![Submit form](/images/validInputAndDataProcessing.gif)
 *Submit MAL username and wait a while*
 
 ![Result View](/images/resultViewPt1.jpg)
