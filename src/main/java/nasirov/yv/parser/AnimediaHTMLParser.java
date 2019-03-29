@@ -34,47 +34,47 @@ public class AnimediaHTMLParser {
 	 * For tab id and episodes number
 	 */
 	private static final String TAB_AND_EPISODES =
-			"\\s*<div id=\"tab(?<numberOfTab>\\d{1,3})\" role=\"tabpanel\" class=\"media__tabs__panel " + "tab-pane\\s?(active)?\">\\R"
-					+ "\\s*<div id=\"carousel\\d{1,3}\" data-interval=\"false\" data-wrap=\"false\" " + "class=\"media__tabs__series carousel slide\">\\R"
-					+ "\\s*<div class=\"media__tabs__series__list carousel-inner\" data-list_id=\"" + "(?<dataList>\\d{1,3})\"></div>\\R"
-					+ "\\s*<div class=\"clearfix\"></div>\\R" + "\\s*<div class=\"media__tabs__series__footer\">\\R"
+			"\\s*<div id=\"tab(?<numberOfTab>\\d{1,3})\" role=\"tabpanel\" class=\"media__tabs__panel tab-pane\\s?(active)?\">\\R"
+					+ "\\s*<div id=\"carousel\\d{1,3}\" data-interval=\"false\" data-wrap=\"false\" class=\"media__tabs__series carousel slide\">\\R"
+					+ "\\s*<div class=\"media__tabs__series__list carousel-inner\" data-list_id=\"(?<dataList>\\d{1,3})\"></div>\\R"
+					+ "\\s*<div class=\"clearfix\"></div>\\R\\s*<div class=\"media__tabs__series__footer\">\\R"
 					+ "\\s*<div class=\"media__tabs__series__footer__item\"><a "
 					+ "href=\"#carousel\\d{1,3}\" data-slide=\"prev\" class=\"media__tabs__series__control "
-					+ "carousel-control prev\"><i class=\"ai ai-prev\"></i></a></div>\\R" + "\\s*<div class=\"media__tabs__series__footer__item "
-					+ "media__tabs__series__footer__item__center\">Серии <span " + "class=\"start-series\"></span>-<span class=\"end-series\"></span> из "
+					+ "carousel-control prev\"><i class=\"ai ai-prev\"></i></a></div>\\R\\s*<div class=\"media__tabs__series__footer__item "
+					+ "media__tabs__series__footer__item__center\">Серии <span class=\"start-series\"></span>-<span class=\"end-series\"></span> из "
 					+ "(?<numberOfEpisodes>(\\d{1,4}|[xX]{1,3}))(.+)?</div>";
 
 	/**
 	 * For tab id and season
 	 */
 	private static final String TAB_AND_SEASONS =
-			"<li class=\"media__tabs__nav__item\\s?(active)" + "?\"><a href=\"#tab(?<numberOfTab>\\d{1,3})\" role=\"tab\" data-toggle=\"tab\">(?<season>"
+			"<li class=\"media__tabs__nav__item\\s?(active)?\"><a href=\"#tab(?<numberOfTab>\\d{1,3})\" role=\"tab\" data-toggle=\"tab\">(?<season>"
 					+ ".+)</a></li>";
 
 	/**
 	 * For anime id
 	 */
-	private static final String DATA_ENTRY_ID = "<ul role=\"tablist\" class=\"media__tabs__nav " + "nav-tabs\" data-entry_id=\"(?<animeId>\\d+)\".*?";
+	private static final String DATA_ENTRY_ID = "<ul role=\"tablist\" class=\"media__tabs__nav nav-tabs\" data-entry_id=\"(?<animeId>\\d+)\".*?";
 
 	/**
 	 * For episodes in data list
 	 */
-	private static final String EPISODE_IN_DATA_LIST = "<span>(?<description>Серия\\" + ".|Cерия|Серия|Серии|серия|серии|ОВА|OVA|ONA|ODA"
+	private static final String EPISODE_IN_DATA_LIST = "<span>(?<description>Серия\\.|Cерия|Серия|Серии|серия|серии|ОВА|OVA|ONA|ODA"
 			+ "|ФИЛЬМ|Фильмы|Сп[е|э]шл|СПЕШЛ|Фильм|Трейлер)?\\s?(?<firstEpisodeInSeason>\\d{1,3})?"
 			+ "(-\\d{1,3})?(\\s\\(\\d{1,3}\\))?\\s*?(из)?\\s?(?<maxEpisodes>.{1,3})?</span>";
 
 	/**
 	 * For original title
 	 */
-	private static final String ORIGINAL_TITLE = "<div class=\"media__post__original-title\">" + "(?<originalTitle>[^а-яА-Я\\n]*).+?</div>";
+	private static final String ORIGINAL_TITLE = "<div class=\"media__post__original-title\">(?<originalTitle>[^а-яА-Я\\n]*).+?</div>";
 
 	/**
 	 * For currently updated titles
 	 */
 	private static final String NEW_SERIES_INFO =
-			"\\s*<div class=\"widget__new-series__item widget__item\">\\R*" + "\\s*<a href=\"(?<fullUrl>(?<root>/anime/.+)/(?<dataList>\\d{1,3})/"
-					+ "(?<currentMax>\\d{1,3}))\" title=\".+\" " + "class=\"widget__new-series__item__thumb\"><img data-src=\".+\" alt=\".+\" title=\""
-					+ ".+\"></a>\\R*" + "\\s*<div class=\"widget__new-series__item__info\">\\R*"
+			"\\s*<div class=\"widget__new-series__item widget__item\">\\R*\\s*<a href=\"(?<fullUrl>(?<root>/anime/.+)/(?<dataList>\\d{1,3})/"
+					+ "(?<currentMax>\\d{1,3}))\" title=\".+\" class=\"widget__new-series__item__thumb\"><img data-src=\".+\" alt=\".+\" title=\""
+					+ ".+\"></a>\\R*\\s*<div class=\"widget__new-series__item__info\">\\R*"
 					+ "\\s*<a href=\".+\" title=\".+\" class=\"h4 widget__new-series__item__title\">.+</a>";
 
 	private static final String GET_URL = "href=\"(?<url>/anime/.*?/\\d{1,3}/\\d{1,3})\"";
