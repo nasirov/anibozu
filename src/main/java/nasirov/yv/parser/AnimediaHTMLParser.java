@@ -206,7 +206,6 @@ public class AnimediaHTMLParser {
 		Pattern pattern = Pattern.compile(EPISODE_IN_DATA_LIST);
 		Matcher matcher = pattern.matcher(content);
 		if (matcher.find()) {
-			RoutinesIO.writeToFile("321.txt", matcher.group(), true);
 			String description = matcher.group("description");
 			String firstEpisodeInSeason = matcher.group("firstEpisodeInSeason");
 			if (firstEpisodeInSeason == null && description != null) {
