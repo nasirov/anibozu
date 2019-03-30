@@ -1793,5 +1793,25 @@
     "id": "145.2",
     "fullUrl": "https://online.animedia.tv/anime/boevyie-shinki/7/1",
     "rootUrl": "anime/boevyie-shinki"
+  },
+  {
+    "id": "146.1",
+    "fullUrl": "https://online.animedia.tv/anime/krasnyiy-sad/1/1",
+    "rootUrl": "anime/krasnyiy-sad"
+  },
+  {
+    "id": "146.2",
+    "fullUrl": "https://online.animedia.tv/anime/krasnyiy-sad/7/1",
+    "rootUrl": "anime/krasnyiy-sad"
+  },
+  {
+    "id": "147.1",
+    "fullUrl": "https://online.animedia.tv/anime/kendi-boy/1/1",
+    "rootUrl": "anime/kendi-boy"
+  },
+  {
+    "id": "147.2",
+    "fullUrl": "https://online.animedia.tv/anime/kendi-boy/7/1",
+    "rootUrl": "anime/kendi-boy"
   }
 ]

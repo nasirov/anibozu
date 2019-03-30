@@ -368,3 +368,9 @@
 146.3 https://online.animedia.tv/anime/kletki-za-rabotoj/2/2 Hataraku Saibou PV
 147.1 https://online.animedia.tv/anime/boevyie-shinki/1/1 Busou Shinki
 147.2 https://online.animedia.tv/anime/boevyie-shinki/7/1 Busou Shinki: Install x Dream
+148.1 https://online.animedia.tv/anime/krasnyiy-sad/1/1 Red Garden
+148.2 https://online.animedia.tv/anime/krasnyiy-sad/7/1 Red Garden: Dead Girls
+149.1 https://online.animedia.tv/anime/kendi-boy/1/1 Candy Boy: Nonchalant Talk of the Certain Twin Sisters in Daily Life
+149.2 https://online.animedia.tv/anime/kendi-boy/7/1 Candy☆Boy: Side Story For Archive
+149.3 https://online.animedia.tv/anime/kendi-boy/7/2 Candy Boy Episode: EX01 - Mirai Yohouzu
+149.4 https://online.animedia.tv/anime/kendi-boy/7/3 Candy Boy Episode: EX02 - Shiawase Kyouyuu Riron

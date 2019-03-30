@@ -3121,26 +3121,16 @@
   },
   {
     "id": "625",
-    "fullUrl": "https://online.animedia.tv/anime/krasnyiy-sad/1/1",
-    "rootUrl": "anime/krasnyiy-sad"
-  },
-  {
-    "id": "626",
     "fullUrl": "https://online.animedia.tv/anime/detektivnoe-agentstvo-otohime-OVA/1/1",
     "rootUrl": "anime/detektivnoe-agentstvo-otohime-OVA"
   },
   {
-    "id": "627",
+    "id": "626",
     "fullUrl": "https://online.animedia.tv/anime/vostorjennoe-semeystvo/1/1",
     "rootUrl": "anime/vostorjennoe-semeystvo"
   },
   {
-    "id": "628",
-    "fullUrl": "https://online.animedia.tv/anime/kendi-boy/1/1",
-    "rootUrl": "anime/kendi-boy"
-  },
-  {
-    "id": "629",
+    "id": "627",
     "fullUrl": "https://online.animedia.tv/anime/trapetsiya/1/1",
     "rootUrl": "anime/trapetsiya"
   }
