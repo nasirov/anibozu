@@ -57,7 +57,9 @@ public class HttpCallerImplTest extends AbstractTest {
 
 	private static final String GZIP = "gzip";
 
-	private static final String HOST = "http://localhost:8080";
+	private static final Integer PORT = 8888;
+
+	private static final String HOST = "http://localhost:" + PORT;
 
 	private static final String URL = "/test";
 
@@ -92,7 +94,7 @@ public class HttpCallerImplTest extends AbstractTest {
 	}
 
 	@Rule
-	public WireMockRule wireMockRule = new WireMockRule();
+	public WireMockRule wireMockRule = new WireMockRule(8888);
 	@Value("classpath:animedia/htmlWithObfuscatedJsCode.txt")
 	private Resource htmlWithObfuscatedJsCode;
 	@Autowired
