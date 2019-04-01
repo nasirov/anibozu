@@ -67,26 +67,42 @@ public class HttpCallerImplTest extends AbstractTest {
 
 	private static final String CF_CLEARANCE = "cf_clearance";
 
+	private static final String DDOS_PROTECTION = "DDoS protection by Cloudflare";
+
+	private static final String DDOS_PROTECTION_SCENARIO = "ddosProtectionScenario";
+	private static final String VERIFICATION_REQUEST_STATE = "verificationRequestState";
+	private static final String REDIRECTION_REQUEST_STATE = "redirectionRequestState";
+	private static final String REPEAT_REQUEST_SCENARIO = "repeatRequestScenario";
+	private static final String REPEAT_REQUEST_STATE = "repeatRequestState";
+	private static final String CFDUID_COOKIE_VALUE_FROM_FIRST_RESPONSE =
+			"__cfduid=d8b040a07f373f9e8d339900293e506821552331240; expires=Tue, 10-Mar-20 19:07:20 GMT; path=/; domain=.animedia.tv; HttpOnly; " +
+					"Secure";
+	private static final String CFDUID_COOKIE_VALUE_FROM_SECOND_RESPONSE =
+			"__cfduid=d68132f63eb16421a69619256c999e54d1552331244; expires=Tue, 10-Mar-20 19:07:24 GMT; path=/; domain=.animedia.tv; HttpOnly; " +
+					"Secure";
+	private static final String CF_CLEARANCE_COOKIE_VALUE =
+			"cf_clearance=aa8303d5738c258f80819ea743ba1fe9628491fd-1552331244-28800-150; path=/; expires=Tue, 12-Mar-19 "
+					+ "04:07:24 GMT; domain=.animedia.tv; HttpOnly";
+	private static final String VERIFICATION_URL = "/cdn-cgi/l/chk_jschl?s=9d0aaf7a0b3157f59adfd2f429a412e6a613f2ec-1552331240-1800-ATF7ze"
+			+ "/hpQxe5hACBFqEz1jCWAi7mc81UlMKpn3ZgcT7VUT3WsyZZ+ROkdUSxRY96y9dQyugvHCVlmlxNicA1NtCSVqBJVw090q8o9c15fFB&jschl_vc"
+			+ "=e6608832f1dd24e9c032111e373fedae&pass=1552331244.31-l7kKFWKlpL&jschl_answer=21.5393795269";
+
 	static {
 		BrotliLibraryLoader.loadBrotli();
 	}
 
+	@Rule
+	public WireMockRule wireMockRule = new WireMockRule();
 	@Value("classpath:animedia/htmlWithObfuscatedJsCode.txt")
 	private Resource htmlWithObfuscatedJsCode;
-
 	@Autowired
 	private HttpCaller httpCaller;
-
 	@Autowired
 	@Qualifier("animediaRequestParametersBuilder")
 	private RequestParametersBuilder animediaRequestParametersBuilder;
-
 	@Autowired
 	@Qualifier("animediaRequestParametersBuilder")
 	private RequestParametersBuilder malRequestParametersBuilder;
-
-	@Rule
-	public WireMockRule wireMockRule = new WireMockRule();
 
 	@Test
 	public void brotliResponseOK() {
@@ -138,11 +154,9 @@ public class HttpCallerImplTest extends AbstractTest {
 
 	@Test
 	public void tooManyRequests() throws IOException {
-		String repeatRequestScenario = "repeatRequestScenario";
-		String repeatRequestState = "repeatRequestState";
-		stubFor(get(urlPathEqualTo(URL)).inScenario(repeatRequestScenario).whenScenarioStateIs(STARTED)
-				.willReturn(aResponse().withStatus(HttpStatus.TOO_MANY_REQUESTS.value()).withBody(TEST_BODY)).willSetStateTo(repeatRequestState));
-		stubFor(get(urlPathEqualTo(URL)).inScenario(repeatRequestScenario).whenScenarioStateIs(repeatRequestState)
+		stubFor(get(urlPathEqualTo(URL)).inScenario(REPEAT_REQUEST_SCENARIO).whenScenarioStateIs(STARTED)
+				.willReturn(aResponse().withStatus(HttpStatus.TOO_MANY_REQUESTS.value()).withBody(TEST_BODY)).willSetStateTo(REPEAT_REQUEST_STATE));
+		stubFor(get(urlPathEqualTo(URL)).inScenario(REPEAT_REQUEST_SCENARIO).whenScenarioStateIs(REPEAT_REQUEST_STATE)
 				.willReturn(aResponse().withStatus(HttpStatus.OK.value()).withBody(TEST_BODY)));
 		httpCaller.call(HOST + URL, HttpMethod.GET, malRequestParametersBuilder.build());
 		verify(2, getRequestedFor(urlPathEqualTo(URL)));
@@ -150,35 +164,65 @@ public class HttpCallerImplTest extends AbstractTest {
 
 	@Test
 	public void avoidDDoSProtection() {
-		String ddosProtectionScenario = "ddosProtectionScenario";
-		String verificationRequestState = "verificationRequestState";
-		String redirectionRequestState = "redirectionRequestState";
 		Map<String, Map<String, String>> requestParams = animediaRequestParametersBuilder.build();
-		String cfduidCookieValueFromFirstResponse = "__cfduid=d8b040a07f373f9e8d339900293e506821552331240; expires=Tue, 10-Mar-20 19:07:20 GMT; path=/; "
-				+ "domain=.animedia.tv; HttpOnly; Secure";
-		String cfduidCookieValueFromSecondResponse = "__cfduid=d68132f63eb16421a69619256c999e54d1552331244; expires=Tue, 10-Mar-20 19:07:24 GMT; path=/;"
-				+ " domain=.animedia.tv; HttpOnly; Secure";
-		String cfClearanceCookieValue = "cf_clearance=aa8303d5738c258f80819ea743ba1fe9628491fd-1552331244-28800-150; path=/; expires=Tue, 12-Mar-19 "
-				+ "04:07:24 GMT; domain=.animedia.tv; HttpOnly";
-		String verificationUrl = "/cdn-cgi/l/chk_jschl?s=9d0aaf7a0b3157f59adfd2f429a412e6a613f2ec-1552331240-1800-ATF7ze"
-				+ "/hpQxe5hACBFqEz1jCWAi7mc81UlMKpn3ZgcT7VUT3WsyZZ+ROkdUSxRY96y9dQyugvHCVlmlxNicA1NtCSVqBJVw090q8o9c15fFB&jschl_vc"
-				+ "=e6608832f1dd24e9c032111e373fedae&pass=1552331244.31-l7kKFWKlpL&jschl_answer=21.5393795269";
-		stubFor(get(urlPathEqualTo(URL)).inScenario(ddosProtectionScenario).whenScenarioStateIs(STARTED)
+		stubFor(get(urlPathEqualTo(URL)).inScenario(DDOS_PROTECTION_SCENARIO).whenScenarioStateIs(STARTED)
 				.willReturn(aResponse().withStatus(HttpStatus.SERVICE_UNAVAILABLE.value())
-						.withHeader(HttpHeaders.SET_COOKIE, cfduidCookieValueFromFirstResponse).withBody(RoutinesIO.readFromResource(htmlWithObfuscatedJsCode)))
-				.willSetStateTo(verificationRequestState));
-		stubFor(get(urlEqualTo(verificationUrl)).inScenario(ddosProtectionScenario).whenScenarioStateIs(verificationRequestState)
-				.withHeader(HttpHeaders.COOKIE, equalTo(getCookieValue(CF_COOKIE, cfduidCookieValueFromFirstResponse)))
-				.willReturn(aResponse().withStatus(HttpStatus.FOUND.value()).withHeader(HttpHeaders.SET_COOKIE, cfduidCookieValueFromSecondResponse)
-						.withHeader(HttpHeaders.SET_COOKIE, cfClearanceCookieValue).withHeader(HttpHeaders.LOCATION, HOST + URL).withBody("302 Found"))
-				.willSetStateTo(redirectionRequestState));
-		stubFor(get(urlPathEqualTo(URL)).inScenario(ddosProtectionScenario).whenScenarioStateIs(redirectionRequestState).withHeader(HttpHeaders.COOKIE,
-				equalTo(getCookieValue(CF_COOKIE, cfduidCookieValueFromFirstResponse) + "; " + getCookieValue(CF_CLEARANCE, cfClearanceCookieValue)))
+						.withHeader(HttpHeaders.SET_COOKIE, CFDUID_COOKIE_VALUE_FROM_FIRST_RESPONSE)
+						.withBody(RoutinesIO.readFromResource(htmlWithObfuscatedJsCode))).willSetStateTo(VERIFICATION_REQUEST_STATE));
+		stubFor(get(urlEqualTo(VERIFICATION_URL)).inScenario(DDOS_PROTECTION_SCENARIO).whenScenarioStateIs(VERIFICATION_REQUEST_STATE)
+				.withHeader(HttpHeaders.COOKIE, equalTo(getCookieValue(CF_COOKIE, CFDUID_COOKIE_VALUE_FROM_FIRST_RESPONSE)))
+				.willReturn(aResponse().withStatus(HttpStatus.FOUND.value()).withHeader(HttpHeaders.SET_COOKIE, CFDUID_COOKIE_VALUE_FROM_SECOND_RESPONSE)
+						.withHeader(HttpHeaders.SET_COOKIE, CF_CLEARANCE_COOKIE_VALUE).withHeader(HttpHeaders.LOCATION, HOST + URL).withBody("302 Found"))
+				.willSetStateTo(REDIRECTION_REQUEST_STATE));
+		stubFor(get(urlPathEqualTo(URL)).inScenario(DDOS_PROTECTION_SCENARIO).whenScenarioStateIs(REDIRECTION_REQUEST_STATE)
+				.withHeader(HttpHeaders.COOKIE,
+						equalTo(
+								getCookieValue(CF_COOKIE, CFDUID_COOKIE_VALUE_FROM_FIRST_RESPONSE) + "; " + getCookieValue(CF_CLEARANCE, CF_CLEARANCE_COOKIE_VALUE)))
 				.willReturn(aResponse().withStatus(HttpStatus.OK.value()).withBody(TEST_BODY)));
 		HttpResponse response = httpCaller.call(HOST + URL, HttpMethod.GET, requestParams);
 		assertEquals(HttpStatus.OK.value(), response.getStatus().intValue());
 		assertEquals(TEST_BODY, response.getContent());
 		checkHeaders(getAllServeEvents(), getHttpHeadersList(requestParams));
+	}
+
+	@Test(expected = ClientHandlerException.class)
+	public void avoidDDoSProtectionSeedNotFound() {
+		Map<String, Map<String, String>> requestParams = animediaRequestParametersBuilder.build();
+		stubFor(get(urlPathEqualTo(URL)).willReturn(aResponse().withStatus(HttpStatus.SERVICE_UNAVAILABLE.value()).withBody(DDOS_PROTECTION)));
+		httpCaller.call(HOST + URL, HttpMethod.GET, requestParams);
+	}
+
+	@Test(expected = ClientHandlerException.class)
+	public void avoidDDoSProtectionRequiredCfduidCookieNoAvailable() {
+		Map<String, Map<String, String>> requestParams = animediaRequestParametersBuilder.build();
+		String cfduidCookieValueFromFirstResponse = "";
+		stubFor(get(urlPathEqualTo(URL)).willReturn(aResponse().withStatus(HttpStatus.SERVICE_UNAVAILABLE.value())
+				.withHeader(HttpHeaders.SET_COOKIE, cfduidCookieValueFromFirstResponse).withBody(RoutinesIO.readFromResource(htmlWithObfuscatedJsCode))));
+		httpCaller.call(HOST + URL, HttpMethod.GET, requestParams);
+	}
+
+	@Test(expected = ClientHandlerException.class)
+	public void avoidDDoSProtectionRequiredCfClearanceCookieNoAvailable() {
+		Map<String, Map<String, String>> requestParams = animediaRequestParametersBuilder.build();
+		stubFor(get(urlPathEqualTo(URL)).inScenario(DDOS_PROTECTION_SCENARIO).whenScenarioStateIs(STARTED)
+				.willReturn(aResponse().withStatus(HttpStatus.SERVICE_UNAVAILABLE.value())
+						.withHeader(HttpHeaders.SET_COOKIE, CFDUID_COOKIE_VALUE_FROM_FIRST_RESPONSE)
+						.withBody(RoutinesIO.readFromResource(htmlWithObfuscatedJsCode))).willSetStateTo(VERIFICATION_REQUEST_STATE));
+		stubFor(get(urlEqualTo(VERIFICATION_URL)).inScenario(DDOS_PROTECTION_SCENARIO).whenScenarioStateIs(VERIFICATION_REQUEST_STATE)
+				.withHeader(HttpHeaders.COOKIE, equalTo(getCookieValue(CF_COOKIE, CFDUID_COOKIE_VALUE_FROM_FIRST_RESPONSE)))
+				.willReturn(aResponse().withStatus(HttpStatus.FOUND.value()).withHeader(HttpHeaders.SET_COOKIE, CFDUID_COOKIE_VALUE_FROM_SECOND_RESPONSE)
+						.withHeader(HttpHeaders.SET_COOKIE, "").withHeader(HttpHeaders.LOCATION, HOST + URL).withBody("302 Found"))
+				.willSetStateTo(REDIRECTION_REQUEST_STATE));
+		httpCaller.call(HOST + URL, HttpMethod.GET, requestParams);
+	}
+
+	@Test
+	public void avoidDDoSProtectionServiceUnavailableNotDDoSProtection() {
+		Map<String, Map<String, String>> requestParams = animediaRequestParametersBuilder.build();
+		stubFor(get(urlPathEqualTo(URL)).willReturn(aResponse().withStatus(HttpStatus.SERVICE_UNAVAILABLE.value()).withBody(TEST_BODY)));
+		HttpResponse response = httpCaller.call(HOST + URL, HttpMethod.GET, requestParams);
+		assertEquals(HttpStatus.SERVICE_UNAVAILABLE.value(), response.getStatus().intValue());
+		assertEquals(TEST_BODY, response.getContent());
 	}
 
 	private String getCookieValue(String cookie, String value) {

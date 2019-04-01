@@ -5,8 +5,10 @@ import com.sun.jersey.api.client.ClientHandlerException;
 import com.sun.jersey.api.client.ClientRequest;
 import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.filter.ClientFilter;
+import java.io.ByteArrayInputStream;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.nio.charset.StandardCharsets;
 import java.text.NumberFormat;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -37,8 +39,8 @@ public class CloudflareDDoSProtectionAvoidingFilter extends ClientFilter {
 			+ "\"/>\\s*<input type=\"hidden\" name=\"(?<passName>.+)\" value=\"(?<passValue>.+)\"/>\\s*<input type=\"hidden\" id=\"jschl-answer\" name=\""
 			+ "(?<jschlAnswerName>.+)\"/>\\s*</form>";
 
-	private static final String SEED_REGEX =
-			"var[\\s\\w,]+\\R?\\s+(?<arrayName>.+)\\s?=\\s?\\{\"(?<stringSeed>.+)\":\\s?(?<numberSeedExpression>.*?)};";
+	private static final String SEED_REGEX = "var[\\s\\w,]+\\R?\\s+(?<arrayName>.+)\\s?=\\s?\\{\"(?<stringSeed>.+)\":\\s?(?<numberSeedExpression>.*?)"
+			+ "};";
 
 	private static final String ADDITIONAL_EXPRESSION_REGEX = "(?<operation>[+\\-*/]+)=(?<expressionWithNumberSeed>.*?);";
 
@@ -69,6 +71,8 @@ public class CloudflareDDoSProtectionAvoidingFilter extends ClientFilter {
 					setCookie(clientResponse, clientRequest, CF_CLEARANCE);
 					clientResponse = clientHandler.handle(clientRequest);
 				}
+			} else {
+				clientResponse.setEntityInputStream(new ByteArrayInputStream(content.getBytes(StandardCharsets.UTF_8)));
 			}
 		}
 		return clientResponse;
