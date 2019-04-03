@@ -163,4 +163,7 @@ public abstract class AbstractTest {
 
 	@Value("classpath:rawReferencesForTest.txt")
 	protected Resource rawReferencesForTestResource;
+
+	@Value("classpath:${resources.animediaSearchList.name}")
+	protected Resource resourceAnimediaSearchList;
 }

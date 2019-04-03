@@ -36,11 +36,14 @@ public class LoadResourcesContextListener implements ApplicationListener<Context
 				try {
 					Class<?> originalClass = Class.forName(beanClassName);
 					if (originalClass.isAnnotationPresent(LoadResources.class)) {
-						Method[] methods = originalClass.getMethods();
+						Method[] methods = originalClass.getDeclaredMethods();
 						for (Method method : methods) {
 							if (method.isAnnotationPresent(LoadResources.class)) {
 								Object currentBean = applicationContext.getBean(name);
-								Method currentMethod = currentBean.getClass().getMethod(method.getName(), method.getParameterTypes());
+								Method currentMethod = currentBean.getClass().getDeclaredMethod(method.getName(), method.getParameterTypes());
+								if (!currentMethod.isAccessible()) {
+									currentMethod.setAccessible(true);
+								}
 								currentMethod.invoke(currentBean);
 							}
 						}

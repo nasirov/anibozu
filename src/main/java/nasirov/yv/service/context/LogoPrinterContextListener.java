@@ -36,11 +36,14 @@ public class LogoPrinterContextListener implements ApplicationListener<ContextRe
 				try {
 					Class<?> beanClass = Class.forName(beanClassName);
 					if (beanClass.isAnnotationPresent(PrintApplicationLogo.class)) {
-						Method[] methods = beanClass.getMethods();
+						Method[] methods = beanClass.getDeclaredMethods();
 						for (Method method : methods) {
 							if (method.isAnnotationPresent(PrintApplicationLogo.class)) {
 								Object currentBean = applicationContext.getBean(bean);
-								Method currentMethod = currentBean.getClass().getMethod(method.getName(), method.getParameterTypes());
+								Method currentMethod = currentBean.getClass().getDeclaredMethod(method.getName(), method.getParameterTypes());
+								if (!currentMethod.isAccessible()) {
+									currentMethod.setAccessible(true);
+								}
 								currentMethod.invoke(currentBean);
 							}
 						}
