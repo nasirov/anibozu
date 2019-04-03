@@ -126,8 +126,8 @@
 43.2 https://online.animedia.tv/anime/siniy-ekzortsist/2/1 Ao no Exorcist: Kyoto Fujouou-hen
 44.1 https://online.animedia.tv/anime/elfijskaya-pesn/1/1 Elfen Lied
 44.2 https://online.animedia.tv/anime/elfijskaya-pesn/2/1 Elfen Lied: Tooriame nite Arui wa, Shoujo wa Ikani Shite Sono Shinjou ni Itatta ka? - Regenschauer
-45.1 https://online.animedia.tv/anime/skazaniya-zestirii/1/0 Tales of Zestiria the X
-45.2 https://online.animedia.tv/anime/skazaniya-zestirii/2/1 Tales of Zestiria the X 2nd Season
+45.1 https://online.animedia.tv/anime/skazaniya-zestirii/1/0 Tales of Zestiria the Cross
+45.2 https://online.animedia.tv/anime/skazaniya-zestirii/2/1 Tales of Zestiria the Cross 2nd Season
 46.1 https://online.animedia.tv/anime/prizrak-v-dospehah-sindrom-odinochki/1/1 Ghost in the Shell: Stand Alone Complex
 46.2 https://online.animedia.tv/anime/prizrak-v-dospehah-sindrom-odinochki/2/1 Ghost in the Shell: Stand Alone Complex 2nd GIG
 47.1 https://online.animedia.tv/anime/brodyaga-kensin-OVA/1/1 Rurouni Kenshin: Meiji Kenkaku Romantan
