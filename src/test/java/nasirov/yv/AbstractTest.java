@@ -161,8 +161,8 @@ public abstract class AbstractTest {
 	@Value("classpath:mal/testAccForDevWatchingTitles.txt")
 	protected Resource testAccForDevWatchingTitles;
 
-	@Value("classpath:rawReferencesForTest.txt")
-	protected Resource rawReferencesForTestResource;
+	@Value("classpath:referencesForTest.json")
+	protected Resource referencesForTestResource;
 
 	@Value("classpath:${resources.animediaSearchList.name}")
 	protected Resource resourceAnimediaSearchList;

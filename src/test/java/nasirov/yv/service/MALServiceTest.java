@@ -125,7 +125,7 @@ public class MALServiceTest extends AbstractTest {
 
 	@Test
 	public void isWatchingTitlesUpdatedEquals() throws Exception {
-		LinkedHashSet<UserMALTitleInfo> cached = new LinkedHashSet<>(getWatchingTitlesForTest(CACHED_ANIME_LIST));
+		Set<UserMALTitleInfo> cached = new LinkedHashSet<>(getWatchingTitlesForTest(CACHED_ANIME_LIST));
 		assertFalse(malService.isWatchingTitlesUpdated(cached, cached));
 		assertEquals(cached, new LinkedHashSet<>(getWatchingTitlesForTest(CACHED_ANIME_LIST)));
 	}
@@ -165,6 +165,40 @@ public class MALServiceTest extends AbstractTest {
 		assertEquals(cached, animeListWithRemovedTitle);
 		assertFalse(cached.contains(removedTitle));
 		assertFalse(animeListWithRemovedTitle.contains(removedTitle));
+	}
+
+	@Test
+	public void getWatchingTitlesWithUpdatedNumberOfWatchedEpisodes() {
+		UserMALTitleInfo accelWorld = new UserMALTitleInfo(0,
+				WATCHING.getCode(),
+				0,
+				"accel world",
+				24,
+				"https://myanimelist.cdn-dena.com/images/anime/8/38155.webp",
+				"https://myanimelist.net//anime/11759/Accel_World");
+		Set<UserMALTitleInfo> cached = new LinkedHashSet<>();
+		cached.add(accelWorld);
+		Set<UserMALTitleInfo> fresh = new LinkedHashSet<>();
+		fresh.add(accelWorld);
+		Set<UserMALTitleInfo> watchingTitlesWithUpdatedNumberOfWatchedEpisodes = malService
+				.getWatchingTitlesWithUpdatedNumberOfWatchedEpisodes(fresh, cached);
+		assertEquals(0, watchingTitlesWithUpdatedNumberOfWatchedEpisodes.size());
+		int freshNumWatcheEpisodes = 10;
+		UserMALTitleInfo increasedAccelWorld = new UserMALTitleInfo(accelWorld);
+		increasedAccelWorld.setNumWatchedEpisodes(freshNumWatcheEpisodes);
+		fresh.add(increasedAccelWorld);
+		watchingTitlesWithUpdatedNumberOfWatchedEpisodes = malService.getWatchingTitlesWithUpdatedNumberOfWatchedEpisodes(fresh, cached);
+		assertEquals(1, watchingTitlesWithUpdatedNumberOfWatchedEpisodes.size());
+		assertEquals(1, watchingTitlesWithUpdatedNumberOfWatchedEpisodes.stream().filter(title -> title.equals(increasedAccelWorld)).count());
+		fresh.clear();
+		accelWorld.setNumWatchedEpisodes(freshNumWatcheEpisodes);
+		freshNumWatcheEpisodes = 5;
+		UserMALTitleInfo decreasedAccelWorld = new UserMALTitleInfo(accelWorld);
+		decreasedAccelWorld.setNumWatchedEpisodes(freshNumWatcheEpisodes);
+		fresh.add(decreasedAccelWorld);
+		watchingTitlesWithUpdatedNumberOfWatchedEpisodes = malService.getWatchingTitlesWithUpdatedNumberOfWatchedEpisodes(fresh, cached);
+		assertEquals(1, watchingTitlesWithUpdatedNumberOfWatchedEpisodes.size());
+		assertEquals(1, watchingTitlesWithUpdatedNumberOfWatchedEpisodes.stream().filter(title -> title.equals(decreasedAccelWorld)).count());
 	}
 
 	private void checkTitlesWithUpdatedNumberOfWatchedEpisodes(String typeOfChange) {

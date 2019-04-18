@@ -39,8 +39,8 @@ public class CloudflareDDoSProtectionAvoidingFilter extends ClientFilter {
 			+ "\"/>\\s*<input type=\"hidden\" name=\"(?<passName>.+)\" value=\"(?<passValue>.+)\"/>\\s*<input type=\"hidden\" id=\"jschl-answer\" name=\""
 			+ "(?<jschlAnswerName>.+)\"/>\\s*</form>";
 
-	private static final String SEED_REGEX = "var[\\s\\w,]+\\R?\\s+(?<arrayName>.+)\\s?=\\s?\\{\"(?<stringSeed>.+)\":\\s?(?<numberSeedExpression>.*?)"
-			+ "};";
+	private static final String SEED_REGEX =
+			"var[\\s\\w,]+\\R?\\s+(?<arrayName>.+)\\s?=\\s?\\{\"(?<stringSeed>.+)\":\\s?(?<numberSeedExpression>.*?)" + "};";
 
 	private static final String ADDITIONAL_EXPRESSION_REGEX = "(?<operation>[+\\-*/]+)=(?<expressionWithNumberSeed>.*?);";
 

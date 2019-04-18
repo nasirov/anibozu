@@ -72,19 +72,27 @@ public class HttpCallerImplTest extends AbstractTest {
 	private static final String DDOS_PROTECTION = "DDoS protection by Cloudflare";
 
 	private static final String DDOS_PROTECTION_SCENARIO = "ddosProtectionScenario";
+
 	private static final String VERIFICATION_REQUEST_STATE = "verificationRequestState";
+
 	private static final String REDIRECTION_REQUEST_STATE = "redirectionRequestState";
+
 	private static final String REPEAT_REQUEST_SCENARIO = "repeatRequestScenario";
+
 	private static final String REPEAT_REQUEST_STATE = "repeatRequestState";
+
 	private static final String CFDUID_COOKIE_VALUE_FROM_FIRST_RESPONSE =
 			"__cfduid=d8b040a07f373f9e8d339900293e506821552331240; expires=Tue, 10-Mar-20 19:07:20 GMT; path=/; domain=.animedia.tv; HttpOnly; " +
 					"Secure";
+
 	private static final String CFDUID_COOKIE_VALUE_FROM_SECOND_RESPONSE =
 			"__cfduid=d68132f63eb16421a69619256c999e54d1552331244; expires=Tue, 10-Mar-20 19:07:24 GMT; path=/; domain=.animedia.tv; HttpOnly; " +
 					"Secure";
+
 	private static final String CF_CLEARANCE_COOKIE_VALUE =
 			"cf_clearance=aa8303d5738c258f80819ea743ba1fe9628491fd-1552331244-28800-150; path=/; expires=Tue, 12-Mar-19 "
 					+ "04:07:24 GMT; domain=.animedia.tv; HttpOnly";
+
 	private static final String VERIFICATION_URL = "/cdn-cgi/l/chk_jschl?s=9d0aaf7a0b3157f59adfd2f429a412e6a613f2ec-1552331240-1800-ATF7ze"
 			+ "/hpQxe5hACBFqEz1jCWAi7mc81UlMKpn3ZgcT7VUT3WsyZZ+ROkdUSxRY96y9dQyugvHCVlmlxNicA1NtCSVqBJVw090q8o9c15fFB&jschl_vc"
 			+ "=e6608832f1dd24e9c032111e373fedae&pass=1552331244.31-l7kKFWKlpL&jschl_answer=21.5393795269";
@@ -95,13 +103,17 @@ public class HttpCallerImplTest extends AbstractTest {
 
 	@Rule
 	public WireMockRule wireMockRule = new WireMockRule(8888);
+
 	@Value("classpath:animedia/htmlWithObfuscatedJsCode.txt")
 	private Resource htmlWithObfuscatedJsCode;
+
 	@Autowired
 	private HttpCaller httpCaller;
+
 	@Autowired
 	@Qualifier("animediaRequestParametersBuilder")
 	private RequestParametersBuilder animediaRequestParametersBuilder;
+
 	@Autowired
 	@Qualifier("animediaRequestParametersBuilder")
 	private RequestParametersBuilder malRequestParametersBuilder;

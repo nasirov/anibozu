@@ -128,7 +128,10 @@ public class MALService {
 	}
 
 	/**
-	 * Compare cached and fresh user watching titles
+	 * Compares cached and fresh user watching titles and:
+	 * update num of watched episodes
+	 * add new title in cache if it doesn't exist in watchingTitlesFromCache
+	 * remove title from cache if it doesn't exist in watchingTitlesNew
 	 *
 	 * @param watchingTitlesNew fresh watching titles
 	 * @param watchingTitlesFromCache cached watching titles
@@ -159,6 +162,27 @@ public class MALService {
 			}
 		}
 		return isWatchingTitlesUpdated;
+	}
+
+	/**
+	 * Compares number of watched episodes fresh and cached watching titles
+	 *
+	 * @param watchingTitlesNew fresh mal user title info
+	 * @param watchingTitlesFromCache cached mal user title info
+	 * @return collection with watching titles which number of watched episodes was updated
+	 */
+	public Set<UserMALTitleInfo> getWatchingTitlesWithUpdatedNumberOfWatchedEpisodes(@NotNull Set<UserMALTitleInfo> watchingTitlesNew,
+			@NotNull Set<UserMALTitleInfo> watchingTitlesFromCache) {
+		Set<UserMALTitleInfo> result = new LinkedHashSet<>();
+		for (UserMALTitleInfo userMALTitleInfoNew : watchingTitlesNew) {
+			Integer numWatchedEpisodesNew = userMALTitleInfoNew.getNumWatchedEpisodes();
+			UserMALTitleInfo userMALTitleInfoFromCache = watchingTitlesFromCache.stream()
+					.filter(set -> set.getTitle().equalsIgnoreCase(userMALTitleInfoNew.getTitle())).findFirst().orElse(null);
+			if (userMALTitleInfoFromCache != null && !userMALTitleInfoFromCache.getNumWatchedEpisodes().equals(numWatchedEpisodesNew)) {
+				result.add(userMALTitleInfoNew);
+			}
+		}
+		return result;
 	}
 
 	/**

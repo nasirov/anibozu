@@ -175,16 +175,8 @@ public class AnimediaHTMLParser {
 		while (matcher.find()) {
 			String dataList = matcher.group("dataList");
 			String currentMax = matcher.group("currentMax");
-			newSeriesList.add(new AnimediaMALTitleReferences(matcher.group("root"),
-					dataList != null ? dataList : "",
-					"",
-					"",
-					"",
-					"",
-					currentMax != null ? currentMax : "",
-					"",
-					"",
-					""));
+			newSeriesList.add(AnimediaMALTitleReferences.builder().url(matcher.group("root")).dataList(dataList != null ? dataList : "")
+					.currentMax(currentMax != null ? currentMax : "").build());
 		}
 		if (newSeriesList.isEmpty()) {
 			throw new NewEpisodesListNotFoundException("New episodes not found!");

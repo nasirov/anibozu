@@ -174,17 +174,22 @@ public class AnimediaHTMLParserTest extends AbstractTest {
 
 	private List<AnimediaMALTitleReferences> getCurrentlyAddedEpisodesListForCheck() {
 		List<AnimediaMALTitleReferences> currentlyUpdatedTitlesList = new ArrayList<>();
-		currentlyUpdatedTitlesList.add(new AnimediaMALTitleReferences("/anime/pyat-nevest", "1", "", "", "", "", "3", "", "", ""));
+		currentlyUpdatedTitlesList.add(AnimediaMALTitleReferences.builder().url("/anime/pyat-nevest").dataList("1").currentMax("3").build());
 		currentlyUpdatedTitlesList
-				.add(new AnimediaMALTitleReferences("/anime/domashnij-pitomec-inogda-sidyaschij-na-moej-golove", "1", "", "", "", "", "3", "", "", ""));
-		currentlyUpdatedTitlesList.add(new AnimediaMALTitleReferences("/anime/yarost-bahamuta-druzya-iz-manarii", "1", "", "", "", "", "2", "", "", ""));
-		currentlyUpdatedTitlesList.add(new AnimediaMALTitleReferences("/anime/chyornyj-klever", "1", "", "", "", "", "68", "", "", ""));
-		currentlyUpdatedTitlesList.add(new AnimediaMALTitleReferences("/anime/mastera-mecha-onlayn", "3", "", "", "", "", "16", "", "", ""));
-		currentlyUpdatedTitlesList.add(new AnimediaMALTitleReferences("/anime/domekano", "1", "", "", "", "", "3", "", "", ""));
-		currentlyUpdatedTitlesList.add(new AnimediaMALTitleReferences("/anime/o-moyom-pererozhdenii-v-sliz", "1", "", "", "", "", "17", "", "", ""));
-		currentlyUpdatedTitlesList.add(new AnimediaMALTitleReferences("/anime/boruto-novoe-pokolenie-naruto", "1", "", "", "", "", "91", "", "", ""));
-		currentlyUpdatedTitlesList.add(new AnimediaMALTitleReferences("/anime/mob-psiho-100-mob-psycho-100", "2", "", "", "", "", "4", "", "", ""));
-		currentlyUpdatedTitlesList.add(new AnimediaMALTitleReferences("/anime/one-piece-van-pis-tv", "5", "", "", "", "", "870", "", "", ""));
+				.add(AnimediaMALTitleReferences.builder().url("/anime/domashnij-pitomec-inogda-sidyaschij-na-moej-golove").dataList("1").currentMax("3")
+						.build());
+		currentlyUpdatedTitlesList
+				.add(AnimediaMALTitleReferences.builder().url("/anime/yarost-bahamuta-druzya-iz-manarii").dataList("1").currentMax("2").build());
+		currentlyUpdatedTitlesList.add(AnimediaMALTitleReferences.builder().url("/anime/chyornyj-klever").dataList("1").currentMax("68").build());
+		currentlyUpdatedTitlesList.add(AnimediaMALTitleReferences.builder().url("/anime/mastera-mecha-onlayn").dataList("3").currentMax("16").build());
+		currentlyUpdatedTitlesList.add(AnimediaMALTitleReferences.builder().url("/anime/domekano").dataList("1").currentMax("3").build());
+		currentlyUpdatedTitlesList
+				.add(AnimediaMALTitleReferences.builder().url("/anime/o-moyom-pererozhdenii-v-sliz").dataList("1").currentMax("17").build());
+		currentlyUpdatedTitlesList
+				.add(AnimediaMALTitleReferences.builder().url("/anime/boruto-novoe-pokolenie-naruto").dataList("1").currentMax("91").build());
+		currentlyUpdatedTitlesList
+				.add(AnimediaMALTitleReferences.builder().url("/anime/mob-psiho-100-mob-psycho-100").dataList("2").currentMax("4").build());
+		currentlyUpdatedTitlesList.add(AnimediaMALTitleReferences.builder().url("/anime/one-piece-van-pis-tv").dataList("5").currentMax("870").build());
 		return currentlyUpdatedTitlesList;
 	}
 }

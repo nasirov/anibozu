@@ -6,61 +6,31 @@
   },
   {
     "id": "2",
-    "fullUrl": "https://online.animedia.tv/anime/devushka-senryu",
-    "rootUrl": "anime/devushka-senryu"
-  },
-  {
-    "id": "3",
     "fullUrl": "https://online.animedia.tv/anime/magmel-sinego-morya1",
     "rootUrl": "anime/magmel-sinego-morya1"
   },
   {
-    "id": "4",
+    "id": "3",
     "fullUrl": "https://online.animedia.tv/anime/vnuk-mudreca",
     "rootUrl": "anime/vnuk-mudreca"
   },
   {
-    "id": "5",
+    "id": "4",
     "fullUrl": "https://online.animedia.tv/anime/ischeznuvshij-gorod",
     "rootUrl": "anime/ischeznuvshij-gorod"
   },
   {
-    "id": "6",
+    "id": "5",
     "fullUrl": "https://online.animedia.tv/anime/saradzammaj",
     "rootUrl": "anime/saradzammaj"
   },
   {
-    "id": "7",
-    "fullUrl": "https://online.animedia.tv/anime/okkultnye-sluzhaschie-polunochi",
-    "rootUrl": "anime/okkultnye-sluzhaschie-polunochi"
-  },
-  {
-    "id": "8",
-    "fullUrl": "https://online.animedia.tv/anime/korzinka-fruktov",
-    "rootUrl": "anime/korzinka-fruktov"
-  },
-  {
-    "id": "9",
+    "id": "6",
     "fullUrl": "https://online.animedia.tv/anime/kerol-i-tyusdej",
     "rootUrl": "anime/kerol-i-tyusdej"
   },
   {
-    "id": "10",
-    "fullUrl": "https://online.animedia.tv/anime/klinok-rassekayuschij-demonov",
-    "rootUrl": "anime/klinok-rassekayuschij-demonov"
-  },
-  {
-    "id": "11",
-    "fullUrl": "https://online.animedia.tv/anime/yuno-devushka-chto-vospevaet-lyubov-na-grani-etogo-mira",
-    "rootUrl": "anime/yuno-devushka-chto-vospevaet-lyubov-na-grani-etogo-mira"
-  },
-  {
-    "id": "12",
-    "fullUrl": "https://online.animedia.tv/anime/propavshie-fei",
-    "rootUrl": "anime/propavshie-fei"
-  },
-  {
-    "id": "13",
+    "id": "7",
     "fullUrl": "https://online.animedia.tv/anime/molodaya-nevesta-gospodina-nobunagi",
     "rootUrl": "anime/molodaya-nevesta-gospodina-nobunagi"
   }

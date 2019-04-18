@@ -49,21 +49,21 @@ public class SchedulerService {
 		Set<AnimediaTitleSearchInfo> animediaSearchList = animediaSearchListCache.get(animediaSearchListCacheName, LinkedHashSet.class);
 		Set<AnimediaTitleSearchInfo> animediaSearchListFresh = animediaService.getAnimediaSearchList();
 		Set<AnimediaMALTitleReferences> allReferences = referencesManager.getMultiSeasonsReferences();
-		Map<AnimeTypeOnAnimedia, Set<Anime>> allSeasons = animediaService.getAnimeSortedForTypeFromResources();
-		if (allSeasons.isEmpty()) {
+		Map<AnimeTypeOnAnimedia, Set<Anime>> allTypes = animediaService.getAnimeSortedByTypeFromResources();
+		if (allTypes.isEmpty()) {
 			log.info("Start of creating sorted anime ...");
-			allSeasons = animediaService.getAnimeSortedForType(animediaSearchList);
+			allTypes = animediaService.getAnimeSortedByType(animediaSearchList);
 			log.info("Sorted anime for type are successfully created.");
 		}
-		Set<Anime> singleSeasonAnime = allSeasons.get(SINGLESEASON);
-		Set<Anime> multiSeasonsAnime = allSeasons.get(MULTISEASONS);
-		Set<Anime> announcements = allSeasons.get(ANNOUNCEMENT);
+		Set<Anime> singleSeasonAnime = allTypes.get(SINGLESEASON);
+		Set<Anime> multiSeasonsAnime = allTypes.get(MULTISEASONS);
+		Set<Anime> announcements = allTypes.get(ANNOUNCEMENT);
 		Set<AnimediaTitleSearchInfo> notFoundInTheResources = animediaService
 				.checkSortedAnime(singleSeasonAnime, multiSeasonsAnime, announcements, animediaSearchList);
 		if (!notFoundInTheResources.isEmpty()) {
 			log.info("Sorted anime from classpath aren't up-to-date. Start of updating sorted anime ...");
-			allSeasons = animediaService.getAnimeSortedForType(animediaSearchList);
-			multiSeasonsAnime = allSeasons.get(MULTISEASONS);
+			allTypes = animediaService.getAnimeSortedByType(animediaSearchList);
+			multiSeasonsAnime = allTypes.get(MULTISEASONS);
 			log.info("End of updating sorted anime.");
 		}
 		boolean referencesAreFull = referencesManager.isReferencesAreFull(multiSeasonsAnime, allReferences);

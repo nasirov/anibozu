@@ -46,7 +46,7 @@ public class AppConfiguration {
 	 * {@link ReferencesManager#getMultiSeasonsReferences}
 	 * <p>
 	 * sortedAnimediaSearchListCache-for sorted animedia titles(multi,single,announcements)
-	 * {@link nasirov.yv.service.AnimediaService#getAnimeSortedForType ,nasirov.yv.service.AnimediaService#getAnimeSortedForTypeFromResources}
+	 * {@link nasirov.yv.service.AnimediaService#getAnimeSortedByType ,nasirov.yv.service.AnimediaService#getAnimeSortedByTypeFromResources}
 	 * <p>
 	 * userMALCache-for user watching titles(username-watching titles)
 	 * {@link nasirov.yv.service.MALService#getWatchingTitles}

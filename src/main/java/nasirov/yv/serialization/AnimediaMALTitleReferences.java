@@ -1,6 +1,7 @@
 package nasirov.yv.serialization;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
@@ -13,6 +14,7 @@ import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class AnimediaMALTitleReferences {
 
 	/**
@@ -26,7 +28,7 @@ public class AnimediaMALTitleReferences {
 	private String dataList;
 
 	/**
-	 * First episode in Animedia
+	 * First episode on Animedia
 	 */
 	private String firstEpisode;
 
@@ -38,12 +40,12 @@ public class AnimediaMALTitleReferences {
 	/**
 	 * Min range episodes
 	 */
-	private String min;
+	private String minConcretizedEpisodeOnAnimedia;
 
 	/**
 	 * Max range episodes
 	 */
-	private String max;
+	private String maxConcretizedEpisodeOnAnimedia;
 
 	/**
 	 * Current max episode
@@ -65,16 +67,28 @@ public class AnimediaMALTitleReferences {
 	 */
 	private String episodeNumberForWatch;
 
+	/**
+	 * Min range episodes on MAL
+	 */
+	private String minConcretizedEpisodeOnMAL;
+
+	/**
+	 * Min range episodes on MAL
+	 */
+	private String maxConcretizedEpisodeOnMAL;
+
 	public AnimediaMALTitleReferences(AnimediaMALTitleReferences animediaMALTitleReference) {
 		this.url = animediaMALTitleReference.getUrl();
 		this.dataList = animediaMALTitleReference.getDataList();
 		this.firstEpisode = animediaMALTitleReference.getFirstEpisode();
 		this.titleOnMAL = animediaMALTitleReference.getTitleOnMAL();
-		this.min = animediaMALTitleReference.getMin();
-		this.max = animediaMALTitleReference.getMax();
+		this.minConcretizedEpisodeOnAnimedia = animediaMALTitleReference.getMinConcretizedEpisodeOnAnimedia();
+		this.maxConcretizedEpisodeOnAnimedia = animediaMALTitleReference.getMaxConcretizedEpisodeOnAnimedia();
 		this.currentMax = animediaMALTitleReference.getCurrentMax();
 		this.posterUrl = animediaMALTitleReference.getPosterUrl();
 		this.finalUrl = animediaMALTitleReference.getFinalUrl();
 		this.episodeNumberForWatch = animediaMALTitleReference.getEpisodeNumberForWatch();
+		this.minConcretizedEpisodeOnMAL = animediaMALTitleReference.getMinConcretizedEpisodeOnMAL();
+		this.maxConcretizedEpisodeOnMAL = animediaMALTitleReference.getMaxConcretizedEpisodeOnMAL();
 	}
 }

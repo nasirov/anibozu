@@ -1,5 +1,5 @@
 #!/bin/bash
-fileName="anime-checker-2.0.jar"
+fileName="anime-checker-1.0.jar"
 filePath="../../target/$fileName"
 if [[ ! -f "$filePath" ]]
 then

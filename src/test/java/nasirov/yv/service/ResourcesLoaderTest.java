@@ -25,6 +25,7 @@ import org.springframework.test.annotation.DirtiesContext.ClassMode;
  */
 @SpringBootTest(classes = {ResourcesLoader.class, AppConfiguration.class, LoadResourcesContextListener.class})
 @DirtiesContext(classMode = ClassMode.AFTER_EACH_TEST_METHOD)
+@SuppressWarnings("unchecked")
 public class ResourcesLoaderTest extends AbstractTest {
 
 	@MockBean

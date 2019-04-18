@@ -97,7 +97,7 @@ public class AnimediaServiceTest extends AbstractTest {
 	}
 
 	@Test
-	public void testGetSortedForSeasonAnime() throws Exception {
+	public void testGetSortedBySeasonAnime() throws Exception {
 		Set<AnimediaTitleSearchInfo> animediaTitleSearchInfo = new LinkedHashSet<>();
 		AnimediaTitleSearchInfo singleSeasonAnime = getSingleSeasonAnime();
 		AnimediaTitleSearchInfo multiSeasonsAnime = getMultiSeasonsAnime();
@@ -119,7 +119,7 @@ public class AnimediaServiceTest extends AbstractTest {
 				.call(eq(animediaEpisodesList + SAO_ID + "/3"), eq(HttpMethod.GET), anyMap());
 		doReturn(new HttpResponse(RoutinesIO.readFromResource(saoDataList7), HttpStatus.OK.value())).when(httpCaller)
 				.call(eq(animediaEpisodesList + SAO_ID + "/7"), eq(HttpMethod.GET), anyMap());
-		Map<AnimeTypeOnAnimedia, Set<Anime>> sortedAnime = animediaService.getAnimeSortedForType(animediaTitleSearchInfo);
+		Map<AnimeTypeOnAnimedia, Set<Anime>> sortedAnime = animediaService.getAnimeSortedByType(animediaTitleSearchInfo);
 		assertNotNull(sortedAnime);
 		assertEquals(3, sortedAnime.size());
 		List<Anime> single = new ArrayList<>(sortedAnime.get(SINGLESEASON));
@@ -214,7 +214,7 @@ public class AnimediaServiceTest extends AbstractTest {
 		ReflectionTestUtils.setField(animediaService, "resourceAnnouncementsUrls", announcementsJson);
 		ReflectionTestUtils.setField(animediaService, "resourceMultiSeasonsAnimeUrls", multiSeasonsAnimeUrls);
 		ReflectionTestUtils.setField(animediaService, "resourceSingleSeasonsAnimeUrls", singleSeasonsAnimeUrls);
-		Map<AnimeTypeOnAnimedia, Set<Anime>> sortedAnime = animediaService.getAnimeSortedForTypeFromResources();
+		Map<AnimeTypeOnAnimedia, Set<Anime>> sortedAnime = animediaService.getAnimeSortedByTypeFromResources();
 		assertNotNull(sortedAnime);
 		assertEquals(3, sortedAnime.size());
 		List<Anime> single = new ArrayList<>(sortedAnime.get(SINGLESEASON));
@@ -238,7 +238,7 @@ public class AnimediaServiceTest extends AbstractTest {
 		RoutinesIO.writeToFile(prefix + announcementsJson.getFilename(), RoutinesIO.readFromResource(announcementsJson), false);
 		RoutinesIO.writeToFile(prefix + multiSeasonsAnimeUrls.getFilename(), RoutinesIO.readFromResource(multiSeasonsAnimeUrls), false);
 		RoutinesIO.writeToFile(prefix + singleSeasonsAnimeUrls.getFilename(), RoutinesIO.readFromResource(singleSeasonsAnimeUrls), false);
-		Map<AnimeTypeOnAnimedia, Set<Anime>> sortedAnime = animediaService.getAnimeSortedForTypeFromResources();
+		Map<AnimeTypeOnAnimedia, Set<Anime>> sortedAnime = animediaService.getAnimeSortedByTypeFromResources();
 		assertNotNull(sortedAnime);
 		assertEquals(3, sortedAnime.size());
 		List<Anime> single = new ArrayList<>(sortedAnime.get(SINGLESEASON));
@@ -260,7 +260,7 @@ public class AnimediaServiceTest extends AbstractTest {
 		ReflectionTestUtils.setField(animediaService, "resourceMultiSeasonsAnimeUrls", classPathResource);
 		ReflectionTestUtils.setField(animediaService, "resourceSingleSeasonsAnimeUrls", classPathResource);
 		ReflectionTestUtils.setField(animediaService, "tempFolderName", "classpath:notFound");
-		Map<AnimeTypeOnAnimedia, Set<Anime>> sortedAnime = animediaService.getAnimeSortedForTypeFromResources();
+		Map<AnimeTypeOnAnimedia, Set<Anime>> sortedAnime = animediaService.getAnimeSortedByTypeFromResources();
 		assertNotNull(sortedAnime);
 		assertTrue(sortedAnime.isEmpty());
 	}

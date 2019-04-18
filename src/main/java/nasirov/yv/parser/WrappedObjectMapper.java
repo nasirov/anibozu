@@ -17,7 +17,6 @@ public class WrappedObjectMapper {
 	private static final ObjectMapper objectMapper = new ObjectMapper();
 
 	private WrappedObjectMapper() {
-
 	}
 
 	public static <T, C extends Collection> C unmarshal(@NotNull String content, @NotNull Class<T> targetClass, @NotNull Class<C> collection) {

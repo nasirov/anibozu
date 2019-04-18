@@ -42,6 +42,7 @@ import org.springframework.util.ResourceUtils;
  */
 @Service
 @Slf4j
+@SuppressWarnings("unchecked")
 public class AnimediaService {
 
 	private static final String ANNOUNCEMENT_MARK = "<a href=\"/announcements\" title=\"Аниме онлайн смотреть\">Анонсы</a>";
@@ -141,7 +142,7 @@ public class AnimediaService {
 	 * @param animediaSearchListInput the anime info for search on animedia
 	 * @return list[0] - singleSeason anime, list[1] - multiSeason anime,list[2] - announcements
 	 */
-	public Map<AnimeTypeOnAnimedia, Set<Anime>> getAnimeSortedForType(@NotEmpty Set<AnimediaTitleSearchInfo> animediaSearchListInput) {
+	public Map<AnimeTypeOnAnimedia, Set<Anime>> getAnimeSortedByType(@NotEmpty Set<AnimediaTitleSearchInfo> animediaSearchListInput) {
 		Map<String, Map<String, String>> animediaRequestParameters = requestParametersBuilder.build();
 		int multiSeasonCount = 1;
 		int singleSeasonCount = 1;
@@ -186,7 +187,7 @@ public class AnimediaService {
 		allSeasons.put(MULTISEASONS, multi);
 		allSeasons.put(ANNOUNCEMENT, announcement);
 		addSortedAnimeToTempResources(single, multi, announcement);
-		addSortedAnimeToCache(single, multi, announcement);
+		putSortedAnimeToCache(single, multi, announcement);
 		return allSeasons;
 	}
 
@@ -198,7 +199,7 @@ public class AnimediaService {
 	 *
 	 * @return list[0] - singleSeason anime, list[1] - multiSeason anime,list[2] - announcements
 	 */
-	public Map<AnimeTypeOnAnimedia, Set<Anime>> getAnimeSortedForTypeFromResources() {
+	public Map<AnimeTypeOnAnimedia, Set<Anime>> getAnimeSortedByTypeFromResources() {
 		Set<Anime> singleSeasonAnime;
 		Set<Anime> multiSeasonsAnime;
 		Set<Anime> announcements;
@@ -335,7 +336,7 @@ public class AnimediaService {
 		RoutinesIO.marshalToResources(prefix + resourceAnnouncementsUrls.getFilename(), announcement);
 	}
 
-	private void addSortedAnimeToCache(Set<Anime> single, Set<Anime> multi, Set<Anime> announcement) {
+	private void putSortedAnimeToCache(Set<Anime> single, Set<Anime> multi, Set<Anime> announcement) {
 		Cache sortedAnimediaSearchListCache = cacheManager.getCache(sortedAnimediaSearchListCacheName);
 		sortedAnimediaSearchListCache.put(SINGLESEASON.getDescription(), single);
 		sortedAnimediaSearchListCache.put(MULTISEASONS.getDescription(), multi);

@@ -36,11 +36,31 @@ import org.springframework.web.bind.annotation.RequestParam;
 @Controller
 @Validated
 @Slf4j
+@SuppressWarnings("unchecked")
 public class ResultController {
 
 	private static final String ERROR_MSG = "errorMsg";
 
 	private static final String RESULT = "result";
+
+	private static final String NOT_SUPPORTED_ANIME_LIST_ERROR_MSG =
+			"The application supports only default mal anime list view with wrapped json " + "data! Json anime " + "list is not found for ";
+
+	private static final String ANIME_LIST_HAS_PRIVATE_ACCESS_ERROR_MSG_PART_1 = "Anime list ";
+
+	private static final String ANIME_LIST_HAS_PRIVATE_ACCESS_ERROR_MSG_PART_2 = " has private access!";
+
+	private static final String MAL_ACCOUNT_IS_NOT_FOUND_ERROR_MSG_PART_1 = "MAL account ";
+
+	private static final String MAL_ACCOUNT_IS_NOT_FOUND_ERROR_MSG_PART_2 = " is not found";
+
+	private static final String MODEL_ATTRIBUTE_USERNAME = "username";
+
+	private static final String MODEL_ATTRIBUTE_NEW_EPISODE_AVAILABLE = "newEpisodeAvailable";
+
+	private static final String MODEL_ATTRIBUTE_NEW_EPISODE_NOT_AVAILABLE = "newEpisodeNotAvailable";
+
+	private static final String MODEL_ATTRIBUTE_NOT_FOUND_ON_ANIMEDIA = "matchedNotFoundAnimeOnAnimedia";
 
 	@Value("${cache.userMAL.name}")
 	private String userMALCacheName;
@@ -85,22 +105,22 @@ public class ResultController {
 	public String checkResult(
 			@Size(min = 2, max = 16, message = "MAL username must be between 2 and 16 characters") @RequestParam(value = "username") String username,
 			Model model) {
-		model.addAttribute("username", username);
+		model.addAttribute(MODEL_ATTRIBUTE_USERNAME, username);
 		Set<UserMALTitleInfo> watchingTitles;
 		String errorMsg;
 		try {
 			watchingTitles = malService.getWatchingTitles(username);
 		} catch (MALUserAccountNotFoundException e) {
-			errorMsg = "MAL account " + username + " is not found";
+			errorMsg = MAL_ACCOUNT_IS_NOT_FOUND_ERROR_MSG_PART_1 + username + MAL_ACCOUNT_IS_NOT_FOUND_ERROR_MSG_PART_2;
 			return handleError(errorMsg, model, e);
 		} catch (WatchingTitlesNotFoundException e) {
 			errorMsg = e.getMessage();
 			return handleError(errorMsg, model, e);
 		} catch (MALUserAnimeListAccessException e) {
-			errorMsg = "Anime list " + username + " has private access!";
+			errorMsg = ANIME_LIST_HAS_PRIVATE_ACCESS_ERROR_MSG_PART_1 + username + ANIME_LIST_HAS_PRIVATE_ACCESS_ERROR_MSG_PART_2;
 			return handleError(errorMsg, model, e);
 		} catch (JSONNotFoundException e) {
-			errorMsg = "The application supports only default mal anime list view with wrapped json data! Json anime list is not found for " + username;
+			errorMsg = NOT_SUPPORTED_ANIME_LIST_ERROR_MSG + username;
 			return handleError(errorMsg, model, e);
 		}
 		Cache userMALCache = cacheManager.getCache(userMALCacheName);
@@ -112,27 +132,28 @@ public class ResultController {
 		List<AnimediaMALTitleReferences> currentlyUpdatedTitlesFromCache = currentlyUpdatedTitlesCache
 				.get(currentlyUpdatedTitlesCacheName, ArrayList.class);
 		if (watchingTitlesFromCache != null && matchedAnimeFromCache != null && currentlyUpdatedTitlesFromCache != null) {
-			List<AnimediaMALTitleReferences> currentlyUpdatedTitles = animediaService.getCurrentlyUpdatedTitles();
-			return handleCachedUser(currentlyUpdatedTitles,
-					currentlyUpdatedTitlesFromCache,
-					matchedAnimeFromCache,
-					watchingTitlesFromCache,
-					watchingTitles,
-					model,
-					username);
+			return handleCachedUser(currentlyUpdatedTitlesFromCache, matchedAnimeFromCache, watchingTitlesFromCache, watchingTitles, model, username);
 		}
 		return handleNewUser(matchedReferencesCache, username, watchingTitles, matchedAnimeFromCache, model);
 	}
 
-	private String handleCachedUser(List<AnimediaMALTitleReferences> currentlyUpdatedTitles,
-			List<AnimediaMALTitleReferences> currentlyUpdatedTitlesFromCache, Set<AnimediaMALTitleReferences> matchedAnimeFromCache,
-			Set<UserMALTitleInfo> watchingTitlesFromCache, Set<UserMALTitleInfo> watchingTitles, Model model, String username) {
+	private String handleCachedUser(List<AnimediaMALTitleReferences> currentlyUpdatedTitlesFromCache,
+			Set<AnimediaMALTitleReferences> matchedAnimeFromCache, Set<UserMALTitleInfo> watchingTitlesFromCache, Set<UserMALTitleInfo> watchingTitles,
+			Model model, String username) {
 		List<AnimediaMALTitleReferences> differences = animediaService
-				.checkCurrentlyUpdatedTitles(currentlyUpdatedTitles, currentlyUpdatedTitlesFromCache);
+				.checkCurrentlyUpdatedTitles(animediaService.getCurrentlyUpdatedTitles(), currentlyUpdatedTitlesFromCache);
 		updateCurrentMaxEpisodeNumberForWatchAndFinalUrl(differences, matchedAnimeFromCache, watchingTitlesFromCache);
+		Set<UserMALTitleInfo> watchingTitlesWithUpdatedNumberOfWatchedEpisodes = malService
+				.getWatchingTitlesWithUpdatedNumberOfWatchedEpisodes(watchingTitles, watchingTitlesFromCache);
+		if (!watchingTitlesWithUpdatedNumberOfWatchedEpisodes.isEmpty()) {
+			seasonAndEpisodeChecker.updateEpisodeNumberForWatchAndFinalUrl(watchingTitlesWithUpdatedNumberOfWatchedEpisodes,
+					matchedAnimeFromCache,
+					animediaService.getAnimediaSearchList(),
+					username);
+		}
 		boolean isWatchingTitlesUpdated = malService.isWatchingTitlesUpdated(watchingTitles, watchingTitlesFromCache);
 		if (isWatchingTitlesUpdated) {
-			updateWatchingTitlesAndMatchedAnime(matchedAnimeFromCache, watchingTitlesFromCache, username);
+			updateWatchingTitlesAndMatchedReferences(matchedAnimeFromCache, watchingTitlesFromCache, username);
 		}
 		return enrichModel(matchedAnimeFromCache, watchingTitlesFromCache, model);
 	}
@@ -142,8 +163,8 @@ public class ResultController {
 		if (!differences.isEmpty()) {
 			for (AnimediaMALTitleReferences currentlyUpdatedTitle : differences) {
 				long count = matchedAnimeFromCache.stream()
-						.filter(set -> set.getUrl().equals(currentlyUpdatedTitle.getUrl()) && set.getDataList().equals(currentlyUpdatedTitle.getDataList()))
-						.count();
+						.filter(set -> set.getUrl().equals(currentlyUpdatedTitle.getUrl()) && set.getDataList().equals(currentlyUpdatedTitle.getDataList())
+								&& set.getMinConcretizedEpisodeOnMAL() == null && set.getMaxConcretizedEpisodeOnMAL() == null).count();
 				if (count != 0) {
 					referencesManager.updateCurrentMax(matchedAnimeFromCache, currentlyUpdatedTitle);
 					seasonAndEpisodeChecker.updateEpisodeNumberForWatchAndFinalUrl(watchingTitlesFromCache, currentlyUpdatedTitle, matchedAnimeFromCache);
@@ -152,7 +173,7 @@ public class ResultController {
 		}
 	}
 
-	private void updateWatchingTitlesAndMatchedAnime(Set<AnimediaMALTitleReferences> matchedAnimeFromCache,
+	private void updateWatchingTitlesAndMatchedReferences(Set<AnimediaMALTitleReferences> matchedAnimeFromCache,
 			Set<UserMALTitleInfo> watchingTitlesFromCache, String username) {
 		Cache animediaSearchListCache = cacheManager.getCache(animediaSearchListCacheName);
 		Set<AnimediaTitleSearchInfo> animediaSearchList = animediaSearchListCache.get(animediaSearchListCacheName, LinkedHashSet.class);
@@ -168,7 +189,7 @@ public class ResultController {
 		for (UserMALTitleInfo watchingTitle : watchingTitlesFromCache) {
 			AnimediaMALTitleReferences animediaMALTitleReferences = matchedAnimeFromCache.stream()
 					.filter(set -> set.getTitleOnMAL().equals(watchingTitle.getTitle())).findAny().orElse(null);
-			if (animediaMALTitleReferences == null) {
+			if (animediaMALTitleReferences == null && !notFoundAnimeOnAnimediaRepository.exitsByTitle(watchingTitle.getTitle())) {
 				Set<UserMALTitleInfo> tempWatchingTitles = new LinkedHashSet<>();
 				tempWatchingTitles.add(watchingTitle);
 				Set<AnimediaMALTitleReferences> newMatchedAnime = seasonAndEpisodeChecker
@@ -183,9 +204,8 @@ public class ResultController {
 		animediaService.getCurrentlyUpdatedTitles();
 		Cache animediaSearchListCache = cacheManager.getCache(animediaSearchListCacheName);
 		Set<AnimediaTitleSearchInfo> animediaSearchList = animediaSearchListCache.get(animediaSearchListCacheName, LinkedHashSet.class);
-		Set<AnimediaMALTitleReferences> allReferences = referencesManager.getMultiSeasonsReferences();
 		Set<AnimediaMALTitleReferences> matchedReferences;
-		matchedReferences = referencesManager.getMatchedReferences(allReferences, watchingTitles);
+		matchedReferences = referencesManager.getMatchedReferences(referencesManager.getMultiSeasonsReferences(), watchingTitles);
 		long start = System.nanoTime();
 		referencesManager.updateReferences(matchedReferences);
 		long end = System.nanoTime();
@@ -203,13 +223,11 @@ public class ResultController {
 				.collect(Collectors.toList());
 		Set<UserMALTitleInfo> notFoundAnimeOnAnimedia = new LinkedHashSet<>(notFoundAnimeOnAnimediaRepository.findAll());
 		Set<UserMALTitleInfo> matchedNotFoundAnimeOnAnimedia = new LinkedHashSet<>();
-		for (UserMALTitleInfo userMALTitleInfo : watchingTitles) {
-			notFoundAnimeOnAnimedia.stream().filter(set -> set.getTitle().equals(userMALTitleInfo.getTitle())).forEach
-					(matchedNotFoundAnimeOnAnimedia::add);
-		}
-		model.addAttribute("newEpisodeAvailable", newEpisodeAvailable);
-		model.addAttribute("newEpisodeNotAvailable", newEpisodeNotAvailable);
-		model.addAttribute("matchedNotFoundAnimeOnAnimedia", matchedNotFoundAnimeOnAnimedia);
+		watchingTitles.forEach(title -> notFoundAnimeOnAnimedia.stream().filter(set -> set.getTitle().equals(title.getTitle()))
+				.forEach(matchedNotFoundAnimeOnAnimedia::add));
+		model.addAttribute(MODEL_ATTRIBUTE_NEW_EPISODE_AVAILABLE, newEpisodeAvailable);
+		model.addAttribute(MODEL_ATTRIBUTE_NEW_EPISODE_NOT_AVAILABLE, newEpisodeNotAvailable);
+		model.addAttribute(MODEL_ATTRIBUTE_NOT_FOUND_ON_ANIMEDIA, matchedNotFoundAnimeOnAnimedia);
 		return RESULT;
 	}
 

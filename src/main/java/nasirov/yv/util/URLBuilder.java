@@ -14,7 +14,6 @@ import org.springframework.lang.Nullable;
 public class URLBuilder {
 
 	private URLBuilder() {
-
 	}
 
 	public static String build(String url, String dataList, @Nullable String firstEpisodeInSeason, @Nullable String numberOfEpisodesInSeason) {

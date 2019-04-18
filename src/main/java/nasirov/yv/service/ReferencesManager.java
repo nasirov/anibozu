@@ -7,15 +7,12 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import lombok.extern.slf4j.Slf4j;
 import nasirov.yv.http.HttpCaller;
 import nasirov.yv.parameter.RequestParametersBuilder;
 import nasirov.yv.parser.AnimediaHTMLParser;
-import nasirov.yv.parser.WrappedObjectMapper;
 import nasirov.yv.response.HttpResponse;
 import nasirov.yv.serialization.Anime;
 import nasirov.yv.serialization.AnimediaMALTitleReferences;
@@ -36,15 +33,7 @@ import org.springframework.stereotype.Service;
 @Slf4j
 public class ReferencesManager {
 
-	/**
-	 * For a title url on animedia and a title on mal
-	 */
-	private static final String REFERENCE_MAL_TITLE_TO_ANIMEDIA_TITLE =
-			"(?<fullUrl>https://online\\.animedia\\.tv/(?<url>anime/.+)/(?<dataList>\\d{1,3})/(?<firstEpisode>\\d{1,3}))[\\s\\t]+(?<titleOnMAL>.+)";
-
-	private static final String CONCERTIZE_EPISODE = ".+[\\s\\t]+((?<min>\\d{1,3})-(?<max>\\d{1,3}|[x]{3}))+";
-
-	private static final String NONE = "none";
+	private static final String NOT_FOUND_ON_MAL = "none";
 
 	@Value("${urls.online.animedia.tv}")
 	private String animediaOnlineTv;
@@ -59,7 +48,7 @@ public class ReferencesManager {
 	private String tempRawReferencesName;
 
 	@Value("classpath:${resources.rawReference.name}")
-	private Resource rawReferencesResource;
+	private Resource referencesResourceJson;
 
 	private HttpCaller httpCaller;
 
@@ -82,68 +71,12 @@ public class ReferencesManager {
 	 */
 	@Cacheable(value = "multiSeasonsReferencesCache")
 	public Set<AnimediaMALTitleReferences> getMultiSeasonsReferences() {
-		return WrappedObjectMapper.unmarshal(rawToPretty(rawReferencesResource), AnimediaMALTitleReferences.class, LinkedHashSet.class);
-	}
-
-	private String rawToPretty(Resource rawReferencesResource) {
-		return createJsonReferences(RoutinesIO.readFromResource(rawReferencesResource));
-	}
-
-	/**
-	 * Creates json from raw references
-	 *
-	 * @param content the string with all raw references
-	 * @return the json references
-	 */
-	private String createJsonReferences(@NotEmpty String content) {
-		Pattern pattern = Pattern.compile(REFERENCE_MAL_TITLE_TO_ANIMEDIA_TITLE);
-		Matcher matcher = pattern.matcher(content);
-		StringBuilder stringBuilder = new StringBuilder();
-		stringBuilder.append("[");
-		while (matcher.find()) {
-			String titleOnMAL = matcher.group("titleOnMAL");
-			String[] concertizedEpisode = getConcertizedEpisode(titleOnMAL);
-			String min = null;
-			String max = null;
-			if (concertizedEpisode != null) {
-				min = concertizedEpisode[0];
-				max = concertizedEpisode[1];
-				titleOnMAL = titleOnMAL.replaceAll("\\d{1,3}-(\\d{1,3}|[x]{3})", "");
-			}
-			stringBuilder.append("{\"url\":\"").append(matcher.group("url")).append("\",").append("\"dataList\":\"").append(matcher.group("dataList"))
-					.append("\",").append("\"firstEpisode\":\"").append(matcher.group("firstEpisode")).append("\",").append("\"titleOnMAL\":\"")
-					.append(titleOnMAL.trim().toLowerCase()).append("\",");
-			if (min != null) {
-				stringBuilder.append("\"min\":\"").append(min).append("\",");
-			} else {
-				stringBuilder.append("\"min\":").append(min).append(",");
-			}
-			if (max != null) {
-				stringBuilder.append("\"max\":\"").append(max).append("\"},");
-			} else {
-				stringBuilder.append("\"max\":").append(max).append("},");
-			}
-		}
-		stringBuilder.replace(stringBuilder.length() - 1, stringBuilder.length(), "");
-		stringBuilder.append("]");
-		return stringBuilder.toString();
-	}
-
-	private static String[] getConcertizedEpisode(String s) {
-		Pattern pattern = Pattern.compile(CONCERTIZE_EPISODE);
-		Matcher matcher = pattern.matcher(s);
-		String[] arr = null;
-		if (matcher.find()) {
-			arr = new String[2];
-			arr[0] = matcher.group("min");
-			arr[1] = matcher.group("max");
-		}
-		return arr;
+		return RoutinesIO.unmarshalFromResource(referencesResourceJson, AnimediaMALTitleReferences.class, LinkedHashSet.class);
 	}
 
 	/**
 	 * Updates multiseasons anime references
-	 * min,max,first episode,current max
+	 * minConcretizedEpisodeOnAnimedia,maxConcretizedEpisodeOnAnimedia,first episode,current max
 	 *
 	 * @param references the references
 	 */
@@ -151,7 +84,8 @@ public class ReferencesManager {
 		Map<String, Map<String, String>> animediaRequestParameters = requestParametersBuilder.build();
 		Map<String, Map<String, Map<String, String>>> seasonsAndEpisodesCache = new HashMap<>();
 		for (AnimediaMALTitleReferences reference : references) {
-			if (reference.getTitleOnMAL().equalsIgnoreCase(NONE)) {
+			if ((reference.getMinConcretizedEpisodeOnAnimedia() != null && reference.getMaxConcretizedEpisodeOnAnimedia() != null
+					&& reference.getCurrentMax() != null && reference.getFirstEpisode() != null) || reference.getTitleOnMAL().equalsIgnoreCase(NOT_FOUND_ON_MAL)) {
 				continue;
 			}
 			String url = animediaOnlineTv + reference.getUrl();
@@ -161,7 +95,7 @@ public class ReferencesManager {
 			} else {
 				animeIdSeasonsAndEpisodesMap = getTitleHtmlAndPutInCache(url, animediaRequestParameters, seasonsAndEpisodesCache);
 			}
-			if (animeIdSeasonsAndEpisodesMap != null && !animeIdSeasonsAndEpisodesMap.isEmpty()) {
+			if (!animeIdSeasonsAndEpisodesMap.isEmpty()) {
 				for (Map.Entry<String, Map<String, String>> animeIdSeasonsAndEpisodesEntry : animeIdSeasonsAndEpisodesMap.entrySet()) {
 					Map<String, String> seasonsAndEpisodesMap = animeIdSeasonsAndEpisodesEntry.getValue();
 					for (Map.Entry<String, String> seasonsAndEpisodesEntry : seasonsAndEpisodesMap.entrySet()) {
@@ -173,23 +107,24 @@ public class ReferencesManager {
 							if (!episodesRange.isEmpty()) {
 								for (Map.Entry<String, List<String>> range : episodesRange.entrySet()) {
 									List<String> episodesList = range.getValue();
-									dataList = range.getKey();
+									String maxEpisodes = range.getKey();
 									String firstEpisodeAndMin = episodesList.get(0);
-									Integer intDataList = null;
+									Integer intMaxEpisodes = null;
 									Integer intFirstEpisodeAndMin = null;
 									//если в дата листах суммируют первую серию и последнюю с предыдущего дата листа, то нужна проверка для правильного максимума
-									//например, всего серий ххх, 1 даталист: серии 1 из 100; 2 дата лист: серии 101 из 100
-									if (!dataList.equalsIgnoreCase("xxx") && !dataList.equalsIgnoreCase("xx")) {
-										intDataList = Integer.parseInt(dataList);
+									//например, всего серий ххх, 1 даталист: серии 1 из 100; 2 дата лист: серии 51 из 100
+									if (!maxEpisodes.equalsIgnoreCase("xxx") && !maxEpisodes.equalsIgnoreCase("xx")) {
+										intMaxEpisodes = Integer.parseInt(maxEpisodes);
 										intFirstEpisodeAndMin = Integer.parseInt(firstEpisodeAndMin);
 									}
 									int lastIndex = episodesList.size() - 1;
 									String currentMax = episodesList.get(lastIndex);
 									reference.setCurrentMax(currentMax);
 									reference.setFirstEpisode(firstEpisodeAndMin);
-									reference.setMin(firstEpisodeAndMin);
-									reference.setMax(
-											intDataList != null && intDataList < intFirstEpisodeAndMin ? Integer.toString(intFirstEpisodeAndMin + intDataList) : dataList);
+									reference.setMinConcretizedEpisodeOnAnimedia(firstEpisodeAndMin);
+									reference.setMaxConcretizedEpisodeOnAnimedia(
+											intMaxEpisodes != null && intMaxEpisodes < intFirstEpisodeAndMin ? Integer.toString(intFirstEpisodeAndMin + intMaxEpisodes)
+													: maxEpisodes);
 								}
 								break;
 							}
