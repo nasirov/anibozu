@@ -3136,32 +3136,67 @@
   },
   {
     "id": "628",
+    "fullUrl": "https://online.animedia.tv/anime/zaderzhi-etot-zvuk/1/1",
+    "rootUrl": "anime/zaderzhi-etot-zvuk"
+  },
+  {
+    "id": "629",
     "fullUrl": "https://online.animedia.tv/anime/devushka-senryu/1/1",
     "rootUrl": "anime/devushka-senryu"
   },
   {
-    "id": "629",
+    "id": "630",
+    "fullUrl": "https://online.animedia.tv/anime/magmel-sinego-morya1/1/1",
+    "rootUrl": "anime/magmel-sinego-morya1"
+  },
+  {
+    "id": "631",
+    "fullUrl": "https://online.animedia.tv/anime/vnuk-mudreca/1/1",
+    "rootUrl": "anime/vnuk-mudreca"
+  },
+  {
+    "id": "632",
+    "fullUrl": "https://online.animedia.tv/anime/ischeznuvshij-gorod/1/1",
+    "rootUrl": "anime/ischeznuvshij-gorod"
+  },
+  {
+    "id": "633",
+    "fullUrl": "https://online.animedia.tv/anime/saradzammaj/1/1",
+    "rootUrl": "anime/saradzammaj"
+  },
+  {
+    "id": "634",
     "fullUrl": "https://online.animedia.tv/anime/okkultnye-sluzhaschie-polunochi/1/1",
     "rootUrl": "anime/okkultnye-sluzhaschie-polunochi"
   },
   {
-    "id": "630",
+    "id": "635",
     "fullUrl": "https://online.animedia.tv/anime/korzinka-fruktov/1/1",
     "rootUrl": "anime/korzinka-fruktov"
   },
   {
-    "id": "631",
+    "id": "636",
+    "fullUrl": "https://online.animedia.tv/anime/kerol-i-tyusdej/1/1",
+    "rootUrl": "anime/kerol-i-tyusdej"
+  },
+  {
+    "id": "637",
     "fullUrl": "https://online.animedia.tv/anime/klinok-rassekayuschij-demonov/1/1",
     "rootUrl": "anime/klinok-rassekayuschij-demonov"
   },
   {
-    "id": "632",
+    "id": "638",
     "fullUrl": "https://online.animedia.tv/anime/yuno-devushka-chto-vospevaet-lyubov-na-grani-etogo-mira/1/1",
     "rootUrl": "anime/yuno-devushka-chto-vospevaet-lyubov-na-grani-etogo-mira"
   },
   {
-    "id": "633",
+    "id": "639",
     "fullUrl": "https://online.animedia.tv/anime/propavshie-fei/1/1",
     "rootUrl": "anime/propavshie-fei"
+  },
+  {
+    "id": "640",
+    "fullUrl": "https://online.animedia.tv/anime/molodaya-nevesta-gospodina-nobunagi/1/1",
+    "rootUrl": "anime/molodaya-nevesta-gospodina-nobunagi"
   }
 ]
