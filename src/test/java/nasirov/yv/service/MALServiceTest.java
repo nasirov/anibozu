@@ -44,7 +44,7 @@ import org.springframework.test.annotation.DirtiesContext;
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_CLASS)
 public class MALServiceTest extends AbstractTest {
 
-	private static final String LOAD_JSON = "load.json";
+	private static final String LOAD_JSON = "/load.json";
 
 	private static final String PROFILE = "profile/";
 
@@ -86,10 +86,10 @@ public class MALServiceTest extends AbstractTest {
 		String profileUrl = myAnimeListNet + PROFILE + TEST_ACC_FOR_DEV;
 		String firstJsonUrl = myAnimeListNet + ANIME_LIST + TEST_ACC_FOR_DEV + "?" + STATUS + "=" + WATCHING.getCode().toString();
 		String additionalJsonUrl =
-				myAnimeListNet + ANIME_LIST + TEST_ACC_FOR_DEV + "/" + LOAD_JSON + "?" + "offset=" + MAX_NUMBER_OF_TITLE_IN_HTML + "&" + STATUS + "="
-						+ WATCHING.getCode().toString();
+				myAnimeListNet + ANIME_LIST + TEST_ACC_FOR_DEV + LOAD_JSON + "?" + "offset=" + MAX_NUMBER_OF_TITLE_IN_HTML + "&" + STATUS + "=" + WATCHING
+						.getCode().toString();
 		String additionalJsonUrlMore600 =
-				myAnimeListNet + ANIME_LIST + TEST_ACC_FOR_DEV + "/" + LOAD_JSON + "?" + "offset=" + (MAX_NUMBER_OF_TITLE_IN_HTML * 2) + "&" + STATUS + "="
+				myAnimeListNet + ANIME_LIST + TEST_ACC_FOR_DEV + LOAD_JSON + "?" + "offset=" + (MAX_NUMBER_OF_TITLE_IN_HTML * 2) + "&" + STATUS + "="
 						+ WATCHING.getCode().toString();
 		doReturn(new HttpResponse(RoutinesIO.readFromResource(testAccForDevProfile), HttpStatus.OK.value())).when(httpCaller)
 				.call(eq(profileUrl), eq(HttpMethod.GET), anyMap());

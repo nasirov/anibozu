@@ -39,7 +39,7 @@ import org.springframework.stereotype.Service;
 @Slf4j
 public class MALService {
 
-	private static final String LOAD_JSON = "load.json";
+	private static final String LOAD_JSON = "/load.json";
 
 	private static final String PROFILE = "profile/";
 
@@ -263,7 +263,7 @@ public class MALService {
 		queryParameters.put("offset", numWatchingTitlesInteger.toString());
 		queryParameters.put(STATUS, WATCHING.getCode().toString());
 		HttpResponse response = httpCaller
-				.call(URLBuilder.build(myAnimeListNet + ANIME_LIST + username + "/" + LOAD_JSON, queryParameters), HttpMethod.GET, malRequestParameters);
+				.call(URLBuilder.build(myAnimeListNet + ANIME_LIST + username + LOAD_JSON, queryParameters), HttpMethod.GET, malRequestParameters);
 		return WrappedObjectMapper.unmarshal(response.getContent(), UserMALTitleInfo.class, LinkedHashSet.class);
 	}
 }
