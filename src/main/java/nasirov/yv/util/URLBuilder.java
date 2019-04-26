@@ -2,11 +2,13 @@ package nasirov.yv.util;
 
 import static nasirov.yv.enums.Constants.FIRST_EPISODE;
 
+import java.nio.charset.StandardCharsets;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.validation.constraints.NotNull;
 import org.springframework.lang.Nullable;
+import org.springframework.web.util.UriUtils;
 
 /**
  * Created by nasirov.yv
@@ -42,7 +44,7 @@ public class URLBuilder {
 			}
 			count++;
 		}
-		return stringBuilder.toString();
+		return UriUtils.encodeQuery(stringBuilder.toString(), StandardCharsets.UTF_8);
 	}
 
 	private static String episodeChecker(String episode) {
