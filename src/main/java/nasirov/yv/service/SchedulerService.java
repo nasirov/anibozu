@@ -44,36 +44,49 @@ public class SchedulerService {
 
 	@Scheduled(cron = "${resources.check.cron.expression}")
 	private void checkApplicationResources() {
-		log.info("Start of checking classpath resources ...");
+		log.info("START OF CHECKING CLASSPATH RESOURCES ...");
 		Cache animediaSearchListCache = cacheManager.getCache(animediaSearchListCacheName);
 		Set<AnimediaTitleSearchInfo> animediaSearchList = animediaSearchListCache.get(animediaSearchListCacheName, LinkedHashSet.class);
 		Set<AnimediaTitleSearchInfo> animediaSearchListFresh = animediaService.getAnimediaSearchList();
-		Set<AnimediaMALTitleReferences> allReferences = referencesManager.getMultiSeasonsReferences();
-		Map<AnimeTypeOnAnimedia, Set<Anime>> allTypes = animediaService.getAnimeSortedByTypeFromResources();
-		if (allTypes.isEmpty()) {
-			log.info("Start of creating sorted anime ...");
-			allTypes = animediaService.getAnimeSortedByType(animediaSearchList);
-			log.info("Sorted anime for type are successfully created.");
+		Map<AnimeTypeOnAnimedia, Set<Anime>> allTypes;
+		boolean animediaSearchListUpToDate = animediaService.isAnimediaSearchListUpToDate(animediaSearchList, animediaSearchListFresh);
+		if (animediaSearchListUpToDate) {
+			allTypes = animediaService.getAnimeSortedByTypeFromResources();
+			log.info("ANIMEDIA TITLE SEARCH LIST IS UP-TO-DATE.");
+			if (allTypes.isEmpty()) {
+				log.info("START OF CREATING SORTED ANIME BASED ON ANIMEDIA SEARCH LIST FROM RESOURCES ...");
+				allTypes = animediaService.getAnimeSortedByType(animediaSearchList);
+				log.info("SORTED ANIME BY TYPE ARE SUCCESSFULLY CREATED.");
+			}
+		} else {
+			log.info("ANIMEDIA TITLE SEARCH LIST ISN'T UP-TO-DATE.");
+			log.info("START OF CREATING SORTED ANIME BASED ON FRESH ANIMEDIA SEARCH LIST ...");
+			allTypes = animediaService.getAnimeSortedByType(animediaSearchListFresh);
+			log.info("SORTED ANIME BY TYPE ARE SUCCESSFULLY CREATED.");
 		}
 		Set<Anime> singleSeasonAnime = allTypes.get(SINGLESEASON);
 		Set<Anime> multiSeasonsAnime = allTypes.get(MULTISEASONS);
 		Set<Anime> announcements = allTypes.get(ANNOUNCEMENT);
 		Set<AnimediaTitleSearchInfo> notFoundInTheResources = animediaService
-				.checkSortedAnime(singleSeasonAnime, multiSeasonsAnime, announcements, animediaSearchList);
+				.checkSortedAnime(singleSeasonAnime, multiSeasonsAnime, announcements, animediaSearchListFresh);
 		if (!notFoundInTheResources.isEmpty()) {
-			log.info("Sorted anime from classpath aren't up-to-date. Start of updating sorted anime ...");
+			log.info("SORTED ANIME AREN'T UP-TO-DATE. START OF UPDATING SORTED ANIME ...");
 			allTypes = animediaService.getAnimeSortedByType(animediaSearchList);
+			singleSeasonAnime = allTypes.get(SINGLESEASON);
 			multiSeasonsAnime = allTypes.get(MULTISEASONS);
-			log.info("End of updating sorted anime.");
+			announcements = allTypes.get(ANNOUNCEMENT);
+			log.info("END OF UPDATING SORTED ANIME.");
 		}
+		Set<AnimediaMALTitleReferences> allReferences = referencesManager.getMultiSeasonsReferences();
 		boolean referencesAreFull = referencesManager.isReferencesAreFull(multiSeasonsAnime, allReferences);
 		if (referencesAreFull) {
-			log.info("Classpath multiseasons references are up-to-date.");
+			log.info("CLASSPATH MULTISEASONS REFERENCES ARE UP-TO-DATE.");
 		}
-		boolean animediaSearchListUpToDate = animediaService.isAnimediaSearchListUpToDate(animediaSearchList, animediaSearchListFresh);
-		if (animediaSearchListUpToDate) {
-			log.info("Animedia title search list is up-to-date.");
+		boolean allSingleSeasonTitlesHasConcretizedMALName = animediaService
+				.isAllSingleSeasonAnimeHasConcretizedMALTitleInKeywordsInAnimediaSearchListFromResources(singleSeasonAnime, animediaSearchList);
+		if (allSingleSeasonTitlesHasConcretizedMALName) {
+			log.info("ALL SINGLE SEASON ANIME HAS CONCRETIZED MAL NAME.");
 		}
-		log.info("End of checking classpath resources.");
+		log.info("END OF CHECKING CLASSPATH RESOURCES.");
 	}
 }

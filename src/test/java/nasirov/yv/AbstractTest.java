@@ -29,6 +29,12 @@ public abstract class AbstractTest {
 	@Value("${resources.tempRemovedTitlesFromAnimediaSearchList.name}")
 	protected String tempRemovedTitlesFromAnimediaSearchList;
 
+	@Value("${resources.tempDuplicatedUrlsInAnimediaSearchList.name}")
+	protected String tempDuplicatedUrlsInAnimediaSearchList;
+
+	@Value("${resources.tempSingleSeasonTitlesWithCyrillicKeywordsInAnimediaSearchList.name}")
+	protected String tempSingleSeasonTitlesWithCyrillicKeywordsInAnimediaSearchList;
+
 	@Value("${cache.animediaSearchList.name}")
 	protected String animediaSearchListCacheName;
 

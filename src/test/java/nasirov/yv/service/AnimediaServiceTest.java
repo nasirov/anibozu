@@ -51,6 +51,7 @@ import org.springframework.util.FileSystemUtils;
 @SpringBootTest(classes = {AnimediaService.class, AnimediaHTMLParser.class, CacheManager.class, AppConfiguration.class,
 		AnimediaRequestParametersBuilder.class})
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
+@SuppressWarnings("unchecked")
 public class AnimediaServiceTest extends AbstractTest {
 
 	@MockBean
@@ -64,14 +65,17 @@ public class AnimediaServiceTest extends AbstractTest {
 
 	@Test
 	public void testGetAnimediaSearchList() throws Exception {
+		String posterHighQualityQueryParameters = "h=350&q=100";
 		doReturn(new HttpResponse(RoutinesIO.readFromResource(animediaSearchListFull), HttpStatus.OK.value())).when(httpCaller)
 				.call(eq(animediaAnimeList), eq(HttpMethod.GET), anyMap());
 		Set<AnimediaTitleSearchInfo> animediaSearchList = animediaService.getAnimediaSearchList();
-		int fullSize = 780;
+		int fullSize = 787;
 		assertNotNull(animediaSearchList);
 		assertEquals(fullSize, animediaSearchList.size());
-		long count = animediaSearchList.stream().filter(set -> set.getUrl().startsWith(animediaOnlineTv)).count();
-		assertEquals(0, count);
+		assertEquals(fullSize, animediaSearchList.stream().filter(set -> set.getUrl().matches("^anime/.+")).count());
+		assertEquals(fullSize,
+				animediaSearchList.stream()
+						.filter(set -> set.getPosterUrl().matches("https://static\\.animedia\\.tv/uploads/.+\\?" + posterHighQualityQueryParameters)).count());
 		Cache cache = cacheManager.getCache(animediaSearchListCacheName);
 		assertNotNull(cache);
 		Set<AnimediaTitleSearchInfo> animediaSearchListFromCache = cache.get(animediaSearchListCacheName, LinkedHashSet.class);
@@ -350,6 +354,60 @@ public class AnimediaServiceTest extends AbstractTest {
 		assertFalse(tempFile.exists());
 	}
 
+	@Test
+	public void testIsAnimediaSearchListDuplicatedUrlsInAnimediaSearchListFromResources() throws NotDirectoryException {
+		Set<AnimediaTitleSearchInfo> fresh = RoutinesIO
+				.unmarshalFromResource(animediaSearchListForCheck, AnimediaTitleSearchInfo.class, LinkedHashSet.class);
+		Set<AnimediaTitleSearchInfo> fromResources = RoutinesIO
+				.unmarshalFromResource(animediaSearchListForCheck, AnimediaTitleSearchInfo.class, LinkedHashSet.class);
+		AnimediaTitleSearchInfo duplicate = new AnimediaTitleSearchInfo(fromResources.stream().findFirst().get());
+		duplicate.setTitle(duplicate.getTitle() + "test");
+		fromResources.add(duplicate);
+		checkListsNotEquals(fresh, fromResources);
+		String prefix = tempFolderName + File.separator;
+		File tempDuplicates = new File(prefix + tempDuplicatedUrlsInAnimediaSearchList);
+		assertTrue(tempDuplicates.exists());
+		List<AnimediaTitleSearchInfo> titlesWithEqualsUrls = RoutinesIO.unmarshalFromFile(tempDuplicates, AnimediaTitleSearchInfo.class, ArrayList
+				.class);
+		assertEquals(2, titlesWithEqualsUrls.size());
+		assertTrue(titlesWithEqualsUrls.contains(duplicate));
+		assertTrue(titlesWithEqualsUrls.contains(fromResources.stream().filter(x -> x.getUrl().equals(duplicate.getUrl())).findFirst().get()));
+		RoutinesIO.removeDir(tempFolderName);
+	}
+
+	@Test
+	public void testIsAllSingleSeasonAnimeHasConcretizedMALTitleInKeywordsInAnimediaSearchListFromResources() throws IOException {
+		RoutinesIO.removeDir(tempFolderName);
+		Set<AnimediaTitleSearchInfo> fromResources = RoutinesIO
+				.unmarshalFromResource(animediaSearchListForCheck, AnimediaTitleSearchInfo.class, LinkedHashSet.class);
+		Anime ingress = new Anime("1.1", animediaOnlineTv + "anime/ingress/1/1", "anime/ingress");
+		Set<Anime> singleSeason = new LinkedHashSet<>();
+		singleSeason.add(ingress);
+		assertTrue(animediaService.isAllSingleSeasonAnimeHasConcretizedMALTitleInKeywordsInAnimediaSearchListFromResources(singleSeason, fromResources));
+		assertFalse(RoutinesIO.isDirectoryExists(tempFolderName));
+		AnimediaTitleSearchInfo titleWithRusKeywords = fromResources.stream().filter(title -> title.getUrl().equals(ingress.getRootUrl())).findFirst()
+				.get();
+		titleWithRusKeywords.setKeywords(titleWithRusKeywords.getKeywords() + " ингресс");
+		assertFalse(animediaService.isAllSingleSeasonAnimeHasConcretizedMALTitleInKeywordsInAnimediaSearchListFromResources(singleSeason,
+				fromResources));
+		assertTrue(RoutinesIO.isDirectoryExists(tempFolderName));
+		String prefix = tempFolderName + File.separator;
+		File tempRusKeywords = new File(prefix + tempSingleSeasonTitlesWithCyrillicKeywordsInAnimediaSearchList);
+		assertTrue(tempRusKeywords.exists());
+		assertEquals(titleWithRusKeywords, RoutinesIO.unmarshalFromFile(tempRusKeywords, AnimediaTitleSearchInfo.class, ArrayList.class).get(0));
+		RoutinesIO.removeDir(tempFolderName);
+		String tempFileName = "test123.txt";
+		File tempFile = new File(tempFileName);
+		tempFile.createNewFile();
+		assertTrue(tempFile.exists());
+		assertFalse(tempFile.isDirectory());
+		ReflectionTestUtils.setField(animediaService, "tempFolderName", tempFileName);
+		assertFalse(animediaService.isAllSingleSeasonAnimeHasConcretizedMALTitleInKeywordsInAnimediaSearchListFromResources(singleSeason,
+				fromResources));
+		FileSystemUtils.deleteRecursively(tempFile);
+		assertFalse(tempFile.exists());
+	}
+
 	private void checkListsNotEquals(Set<AnimediaTitleSearchInfo> fresh, Set<AnimediaTitleSearchInfo> fromResources) throws NotDirectoryException {
 		assertNotEquals(fresh, fromResources);
 		assertFalse(animediaService.isAnimediaSearchListUpToDate(fromResources, fresh));
@@ -405,8 +463,7 @@ public class AnimediaServiceTest extends AbstractTest {
 	}
 
 	private AnimediaTitleSearchInfo getSingleSeasonAnime() {
-		return new AnimediaTitleSearchInfo("чёрный клевер",
-				"чёрный клевер black clover черный клевер",
+		return new AnimediaTitleSearchInfo("чёрный клевер", "black clover",
 				"anime/chyornyj-klever",
 				"http://static.animedia.tv/uploads/KLEVER.jpg?h=350&q=100");
 	}

@@ -1808,5 +1808,20 @@
     "id": "147.2",
     "fullUrl": "https://online.animedia.tv/anime/kendi-boy/7/1",
     "rootUrl": "anime/kendi-boy"
+  },
+  {
+    "id": "148.1",
+    "fullUrl": "https://online.animedia.tv/anime/vtorjenie-gigantov/1/1",
+    "rootUrl": "anime/vtorjenie-gigantov"
+  },
+  {
+    "id": "148.2",
+    "fullUrl": "https://online.animedia.tv/anime/vtorjenie-gigantov/2/1",
+    "rootUrl": "anime/vtorjenie-gigantov"
+  },
+  {
+    "id": "148.3",
+    "fullUrl": "https://online.animedia.tv/anime/vtorjenie-gigantov/3/1",
+    "rootUrl": "anime/vtorjenie-gigantov"
   }
 ]

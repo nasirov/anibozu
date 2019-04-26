@@ -181,7 +181,7 @@
   },
   {
     "title": "тетрадь смерти",
-    "keywords": "",
+    "keywords": "death note",
     "url": "anime/tetrad-smerti",
     "poster": "https://static.animedia.tv/uploads/Death_note.jpg?h=350&q=100"
   },
@@ -208,12 +208,6 @@
     "keywords": "mononoke hime",
     "url": "anime/princessa-mononoke",
     "poster": "https://static.animedia.tv/uploads/princ.jpg?h=350&q=100"
-  },
-  {
-    "title": "атака титанов",
-    "keywords": "атака титанов attack on titan вторжение гигантов shingeki no kyojin",
-    "url": "anime/ataka-titanov",
-    "poster": "https://static.animedia.tv/uploads/shingeki_no_kyojin3.jpg?h=350&q=100"
   },
   {
     "title": "академия ведьмочек",
@@ -2569,7 +2563,7 @@
   },
   {
     "title": "прикончи меня, детка",
-    "keywords": "прикончи меня, детка kill me baby",
+    "keywords": "kill me baby",
     "url": "anime/prikonchi-menya-detka",
     "poster": "https://static.animedia.tv/uploads/Kill_me.jpg?h=350&q=100"
   },
@@ -3398,7 +3392,7 @@
   {
     "title": "воробьиный отель",
     "keywords": "sparrow's hotel",
-    "url": "anime/Sparrows-Hotelvorobinyiy-otel",
+    "url": "anime/vorobinyj-otel",
     "poster": "https://static.animedia.tv/uploads/883.jpg?h=350&q=100"
   },
   {
@@ -4657,7 +4651,7 @@
   },
   {
     "title": "магмел синего моря",
-    "keywords": "магмел синего моря  gunjou no magmel",
+    "keywords": "gunjou no magmel",
     "url": "anime/magmel-sinego-morya1",
     "poster": "https://static.animedia.tv/uploads/55133.jpg?h=350&q=100"
   },
@@ -4669,13 +4663,13 @@
   },
   {
     "title": "исчезнувший город",
-    "keywords": "исчезнувший город  shoumetsu toshi",
+    "keywords": "shoumetsu toshi",
     "url": "anime/ischeznuvshij-gorod",
     "poster": "https://static.animedia.tv/uploads/5599.jpg?h=350&q=100"
   },
   {
     "title": "сарадзаммай",
-    "keywords": "сарадзаммай sarazanmai",
+    "keywords": "sarazanmai",
     "url": "anime/saradzammaj",
     "poster": "https://static.animedia.tv/uploads/5588.jpg?h=350&q=100"
   },
@@ -4693,7 +4687,7 @@
   },
   {
     "title": "кэрол и тьюсдей",
-    "keywords": "кэрол и тьюсдей carole & tuesday",
+    "keywords": "carole & tuesday",
     "url": "anime/kerol-i-tyusdej",
     "poster": "https://static.animedia.tv/uploads/55555.jpg?h=350&q=100"
   },
@@ -4717,8 +4711,20 @@
   },
   {
     "title": "молодая невеста господина нобунаги",
-    "keywords": "молодая невеста господина нобунаги  nobunaga-sensei no osanazuma",
+    "keywords": "nobunaga-sensei no osanazuma",
     "url": "anime/molodaya-nevesta-gospodina-nobunagi",
     "poster": "https://static.animedia.tv/uploads/5542141241.jpg?h=350&q=100"
+  },
+  {
+    "title": "атака титанов",
+    "keywords": "атака титанов attack on titan вторжение гигантов shingeki no kyojin",
+    "url": "anime/vtorjenie-gigantov",
+    "poster": "https://static.animedia.tv/uploads/attackTitan.jpg?h=350&q=100"
+  },
+  {
+    "title": "тетрадь смерти",
+    "keywords": "",
+    "url": "anime/tetrad-smerti1",
+    "poster": "https://static.animedia.tv/uploads/dnftst.jpg?h=350&q=100"
   }
 ]

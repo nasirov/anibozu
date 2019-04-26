@@ -25,9 +25,6 @@ public class CacheCleaner {
 	@Value("${cache.matchedReferences.name}")
 	private String matchedReferencesCacheName;
 
-	@Value("${cache.currentlyUpdatedTitles.name}")
-	private String currentlyUpdatedTitlesCacheName;
-
 	private CacheManager cacheManager;
 
 	@Autowired

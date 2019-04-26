@@ -47,6 +47,10 @@ import org.springframework.util.FileSystemUtils;
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_CLASS)
 public class ReferencesManagerTest extends AbstractTest {
 
+	private static final String FAIRY_TAIL_ROOT_URL = "anime/skazka-o-hvoste-fei-TV1";
+
+	private static final String SAO_ROOT_URL = "anime/mastera-mecha-onlayn";
+
 	@MockBean
 	private HttpCaller httpCaller;
 
@@ -75,12 +79,10 @@ public class ReferencesManagerTest extends AbstractTest {
 	@Test
 	public void updateReferences() throws Exception {
 		String fairyTailId = "9480";
-		String fairyTailUrl = "anime/skazka-o-hvoste-fei-TV1";
-		String saoUrl = "anime/mastera-mecha-onlayn";
 		doReturn(new HttpResponse(RoutinesIO.readFromResource(fairyTailHtml), HttpStatus.OK.value())).when(httpCaller)
-				.call(eq(animediaOnlineTv + fairyTailUrl), eq(HttpMethod.GET), anyMap());
+				.call(eq(animediaOnlineTv + FAIRY_TAIL_ROOT_URL), eq(HttpMethod.GET), anyMap());
 		doReturn(new HttpResponse(RoutinesIO.readFromResource(saoHtml), HttpStatus.OK.value())).when(httpCaller)
-				.call(eq(animediaOnlineTv + saoUrl), eq(HttpMethod.GET), anyMap());
+				.call(eq(animediaOnlineTv + SAO_ROOT_URL), eq(HttpMethod.GET), anyMap());
 		doReturn(new HttpResponse(RoutinesIO.readFromResource(fairyTailDataList1), HttpStatus.OK.value())).when(httpCaller)
 				.call(eq(animediaEpisodesList + fairyTailId + "/" + "1"), eq(HttpMethod.GET), anyMap());
 		doReturn(new HttpResponse(RoutinesIO.readFromResource(fairyTailDataList2), HttpStatus.OK.value())).when(httpCaller)
@@ -129,26 +131,26 @@ public class ReferencesManagerTest extends AbstractTest {
 		RoutinesIO.removeDir(tempFolderName);
 		Set<AnimediaMALTitleReferences> multiSeasonsReferencesList = getMultiSeasonsReferencesList(LinkedHashSet.class, true);
 		Set<Anime> multiSeasonsFromSearch = new LinkedHashSet<>();
-		String fairyUrl = animediaOnlineTv + "anime/skazka-o-hvoste-fei-TV1/";
-		String saoUrl = animediaOnlineTv + "anime/mastera-mecha-onlayn/";
-		multiSeasonsFromSearch.add(new Anime("", fairyUrl + "1/1", ""));
-		multiSeasonsFromSearch.add(new Anime("", fairyUrl + "2/176", ""));
-		multiSeasonsFromSearch.add(new Anime("", fairyUrl + "3/278", ""));
-		multiSeasonsFromSearch.add(new Anime("", fairyUrl + "7/1", ""));
-		multiSeasonsFromSearch.add(new Anime("", saoUrl + "1/1", ""));
-		multiSeasonsFromSearch.add(new Anime("", saoUrl + "2/1", ""));
-		multiSeasonsFromSearch.add(new Anime("", saoUrl + "3/1", ""));
-		multiSeasonsFromSearch.add(new Anime("", saoUrl + "7/1", ""));
+		String fairyUrl = animediaOnlineTv + FAIRY_TAIL_ROOT_URL;
+		String saoUrl = animediaOnlineTv + SAO_ROOT_URL;
+		multiSeasonsFromSearch.add(new Anime("1.1", fairyUrl + "/1/1", FAIRY_TAIL_ROOT_URL));
+		multiSeasonsFromSearch.add(new Anime("1.2", fairyUrl + "/2/176", FAIRY_TAIL_ROOT_URL));
+		multiSeasonsFromSearch.add(new Anime("1.3", fairyUrl + "/3/278", FAIRY_TAIL_ROOT_URL));
+		multiSeasonsFromSearch.add(new Anime("1.4", fairyUrl + "/7/1", FAIRY_TAIL_ROOT_URL));
+		multiSeasonsFromSearch.add(new Anime("2.1", saoUrl + "/1/1", SAO_ROOT_URL));
+		multiSeasonsFromSearch.add(new Anime("2.2", saoUrl + "/2/1", SAO_ROOT_URL));
+		multiSeasonsFromSearch.add(new Anime("2.3", saoUrl + "/3/1", SAO_ROOT_URL));
+		multiSeasonsFromSearch.add(new Anime("2.4", saoUrl + "/7/1", SAO_ROOT_URL));
 		boolean compareResult = referencesManager.isReferencesAreFull(multiSeasonsFromSearch, multiSeasonsReferencesList);
 		assertTrue(compareResult);
-		String fullUrl = saoUrl + "8/1";
-		multiSeasonsFromSearch.add(new Anime("", fullUrl, ""));
+		Anime missingReference = new Anime("2.5", saoUrl + "/8/1", SAO_ROOT_URL);
+		multiSeasonsFromSearch.add(missingReference);
 		assertFalse(RoutinesIO.isDirectoryExists(tempFolderName));
 		compareResult = referencesManager.isReferencesAreFull(multiSeasonsFromSearch, multiSeasonsReferencesList);
 		assertFalse(compareResult);
 		assertTrue(RoutinesIO.isDirectoryExists(tempFolderName));
 		String prefix = tempFolderName + File.separator;
-		assertTrue(RoutinesIO.readFromFile(prefix + tempRawReferencesName).equals(fullUrl + System.lineSeparator()));
+		assertTrue(RoutinesIO.unmarshalFromFile(prefix + tempRawReferencesName, Anime.class, ArrayList.class).get(0).equals(missingReference));
 		RoutinesIO.removeDir(tempFolderName);
 		String tempFileName = "test.txt";
 		File tempFile = new File(tempFileName);
@@ -163,26 +165,27 @@ public class ReferencesManagerTest extends AbstractTest {
 
 	@Test
 	public void updateReference() throws Exception {
-		String fairyUrl = "anime/skazka-o-hvoste-fei-TV1";
 		String fairyDataList = "3";
 		String currentMax = "300";
-		AnimediaMALTitleReferences animediaMALTitleReferences = AnimediaMALTitleReferences.builder().url(fairyUrl).dataList(fairyDataList)
+		AnimediaMALTitleReferences animediaMALTitleReferences = AnimediaMALTitleReferences.builder().url(FAIRY_TAIL_ROOT_URL).dataList(fairyDataList)
 				.firstEpisode("").minConcretizedEpisodeOnAnimedia("").maxConcretizedEpisodeOnAnimedia("").currentMax(currentMax).posterUrl("").finalUrl("")
 				.episodeNumberForWatch("").build();
 		Set<AnimediaMALTitleReferences> multiSeasonsReferencesList = getMultiSeasonsReferencesList(LinkedHashSet.class, true);
 		assertEquals(1,
-				multiSeasonsReferencesList.stream().filter(set -> set.getUrl().equals(fairyUrl) && set.getDataList().equals(fairyDataList)).count());
+				multiSeasonsReferencesList.stream().filter(set -> set.getUrl().equals(FAIRY_TAIL_ROOT_URL) && set.getDataList().equals(fairyDataList))
+						.count());
 		assertEquals(0,
 				multiSeasonsReferencesList.stream()
-						.filter(set -> set.getUrl().equals(fairyUrl) && set.getDataList().equals(fairyDataList) && set.getCurrentMax().equals(currentMax))
-						.count());
+						.filter(set -> set.getUrl().equals(FAIRY_TAIL_ROOT_URL) && set.getDataList().equals(fairyDataList) && set.getCurrentMax()
+								.equals(currentMax)).count());
 		referencesManager.updateCurrentMax(multiSeasonsReferencesList, animediaMALTitleReferences);
 		assertEquals(1,
-				multiSeasonsReferencesList.stream().filter(set -> set.getUrl().equals(fairyUrl) && set.getDataList().equals(fairyDataList)).count());
+				multiSeasonsReferencesList.stream().filter(set -> set.getUrl().equals(FAIRY_TAIL_ROOT_URL) && set.getDataList().equals(fairyDataList))
+						.count());
 		assertEquals(1,
 				multiSeasonsReferencesList.stream()
-						.filter(set -> set.getUrl().equals(fairyUrl) && set.getDataList().equals(fairyDataList) && set.getCurrentMax().equals(currentMax))
-						.count());
+						.filter(set -> set.getUrl().equals(FAIRY_TAIL_ROOT_URL) && set.getDataList().equals(fairyDataList) && set.getCurrentMax()
+								.equals(currentMax)).count());
 	}
 
 	private Set<UserMALTitleInfo> getWatchingTitles() {
@@ -197,23 +200,21 @@ public class ReferencesManagerTest extends AbstractTest {
 	private <T extends Collection> T getMultiSeasonsReferencesList(Class<T> collection, boolean updated)
 			throws IllegalAccessException, InstantiationException {
 		T refs = collection.newInstance();
-		AnimediaMALTitleReferences fairyTail1 = AnimediaMALTitleReferences.builder().url("anime/skazka-o-hvoste-fei-TV1").dataList("1").firstEpisode("1")
+		AnimediaMALTitleReferences fairyTail1 = AnimediaMALTitleReferences.builder().url(FAIRY_TAIL_ROOT_URL).dataList("1").firstEpisode("1")
 				.minConcretizedEpisodeOnAnimedia("1").maxConcretizedEpisodeOnAnimedia("175").currentMax("175").titleOnMAL("fairy tail").build();
-		AnimediaMALTitleReferences fairyTail2 = AnimediaMALTitleReferences.builder().url("anime/skazka-o-hvoste-fei-TV1").dataList("2")
-				.firstEpisode("176").minConcretizedEpisodeOnAnimedia("176").maxConcretizedEpisodeOnAnimedia("277").currentMax("277")
-				.titleOnMAL("fairy tail (2014)").build();
-		AnimediaMALTitleReferences fairyTail3 = AnimediaMALTitleReferences.builder().url("anime/skazka-o-hvoste-fei-TV1").dataList("3")
-				.firstEpisode("278").minConcretizedEpisodeOnAnimedia("278").maxConcretizedEpisodeOnAnimedia("xxx").titleOnMAL("fairy tail: final series")
-				.build();
-		AnimediaMALTitleReferences fairyTail7 = AnimediaMALTitleReferences.builder().url("anime/skazka-o-hvoste-fei-TV1").dataList("7").firstEpisode("1")
+		AnimediaMALTitleReferences fairyTail2 = AnimediaMALTitleReferences.builder().url(FAIRY_TAIL_ROOT_URL).dataList("2").firstEpisode("176")
+				.minConcretizedEpisodeOnAnimedia("176").maxConcretizedEpisodeOnAnimedia("277").currentMax("277").titleOnMAL("fairy tail (2014)").build();
+		AnimediaMALTitleReferences fairyTail3 = AnimediaMALTitleReferences.builder().url(FAIRY_TAIL_ROOT_URL).dataList("3").firstEpisode("278")
+				.minConcretizedEpisodeOnAnimedia("278").maxConcretizedEpisodeOnAnimedia("xxx").titleOnMAL("fairy tail: final series").build();
+		AnimediaMALTitleReferences fairyTail7 = AnimediaMALTitleReferences.builder().url(FAIRY_TAIL_ROOT_URL).dataList("7").firstEpisode("1")
 				.titleOnMAL("fairy tail ova").build();
-		AnimediaMALTitleReferences sao1 = AnimediaMALTitleReferences.builder().url("anime/mastera-mecha-onlayn").dataList("1").firstEpisode("1")
+		AnimediaMALTitleReferences sao1 = AnimediaMALTitleReferences.builder().url(SAO_ROOT_URL).dataList("1").firstEpisode("1")
 				.titleOnMAL("sword art online").build();
-		AnimediaMALTitleReferences sao2 = AnimediaMALTitleReferences.builder().url("anime/mastera-mecha-onlayn").dataList("2").firstEpisode("1")
+		AnimediaMALTitleReferences sao2 = AnimediaMALTitleReferences.builder().url(SAO_ROOT_URL).dataList("2").firstEpisode("1")
 				.titleOnMAL("sword art online ii").build();
-		AnimediaMALTitleReferences sao3 = AnimediaMALTitleReferences.builder().url("anime/mastera-mecha-onlayn").dataList("3").firstEpisode("1")
+		AnimediaMALTitleReferences sao3 = AnimediaMALTitleReferences.builder().url(SAO_ROOT_URL).dataList("3").firstEpisode("1")
 				.titleOnMAL("sword art online: alicization").build();
-		AnimediaMALTitleReferences sao7 = AnimediaMALTitleReferences.builder().url("anime/mastera-mecha-onlayn").dataList("7").firstEpisode("1")
+		AnimediaMALTitleReferences sao7 = AnimediaMALTitleReferences.builder().url(SAO_ROOT_URL).dataList("7").firstEpisode("1")
 				.titleOnMAL("sword art online: extra edition").build();
 		AnimediaMALTitleReferences none = AnimediaMALTitleReferences.builder().url("anime/velikiy-uchitel-onidzuka").dataList("1").firstEpisode("1")
 				.titleOnMAL("none").build();

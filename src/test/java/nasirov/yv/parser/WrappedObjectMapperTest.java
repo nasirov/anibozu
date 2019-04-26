@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 import nasirov.yv.AbstractTest;
 import nasirov.yv.serialization.Anime;
+import nasirov.yv.util.RoutinesIO;
 import org.junit.Test;
 import org.springframework.util.FileSystemUtils;
 
@@ -64,6 +65,7 @@ public class WrappedObjectMapperTest extends AbstractTest {
 
 	@Test
 	public void marshalException() throws IOException {
+		RoutinesIO.removeDir(tempFolderName);
 		File tempDir = new File(tempFolderName + File.separator + "test.txt");
 		assertFalse(tempDir.exists());
 		Anime forMarshal = new Anime("1", "https://online.animedia.tv/anime/pyat-nevest/1/1", "anime/pyat-nevest");

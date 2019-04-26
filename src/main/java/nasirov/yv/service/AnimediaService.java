@@ -13,6 +13,8 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import lombok.extern.slf4j.Slf4j;
@@ -55,6 +57,12 @@ public class AnimediaService {
 
 	@Value("${resources.tempRemovedTitlesFromAnimediaSearchList.name}")
 	private String tempRemovedTitlesFromAnimediaSearchList;
+
+	@Value("${resources.tempDuplicatedUrlsInAnimediaSearchList.name}")
+	private String tempDuplicatedUrlsInAnimediaSearchList;
+
+	@Value("${resources.tempSingleSeasonTitlesWithCyrillicKeywordsInAnimediaSearchList.name}")
+	private String tempSingleSeasonTitlesWithCyrillicKeywordsInAnimediaSearchList;
 
 	@Value("${cache.animediaSearchList.name}")
 	private String animediaSearchListCacheName;
@@ -113,10 +121,9 @@ public class AnimediaService {
 				.unmarshal(animediaResponse.getContent(), AnimediaTitleSearchInfo.class, LinkedHashSet.class);
 		String posterLowQualityQueryParameters = "h=70&q=50";
 		String posterHighQualityQueryParameters = "h=350&q=100";
-		String secureProtocol = "https:";
 		animediaSearchList.forEach(set -> {
 			set.setUrl(set.getUrl().replaceAll(animediaOnlineTv, "").replace("[", "%5B").replace("]", "%5D"));
-			set.setPosterUrl(secureProtocol + set.getPosterUrl().replace(posterLowQualityQueryParameters, posterHighQualityQueryParameters));
+			set.setPosterUrl(set.getPosterUrl().replace(posterLowQualityQueryParameters, posterHighQualityQueryParameters));
 		});
 		Cache animediaSearchListCache = cacheManager.getCache(animediaSearchListCacheName);
 		animediaSearchListCache.putIfAbsent(animediaSearchListCacheName, animediaSearchList);
@@ -292,24 +299,30 @@ public class AnimediaService {
 		boolean fullMatch = true;
 		List<AnimediaTitleSearchInfo> removedTitlesFromSearchList = new ArrayList<>();
 		List<AnimediaTitleSearchInfo> newTitlesInSearchList = new ArrayList<>();
+		Set<AnimediaTitleSearchInfo> duplicates = new LinkedHashSet<>();
 		for (AnimediaTitleSearchInfo fromResource : fromResources) {
-			AnimediaTitleSearchInfo matchedTitle = fresh.stream().filter(set -> set.getTitle().equals(fromResource.getTitle())).findAny().orElse(null);
+			AnimediaTitleSearchInfo matchedTitle = fresh.stream().filter(set -> set.getUrl().equals(fromResource.getUrl())).findAny().orElse(null);
 			if (matchedTitle == null) {
 				removedTitlesFromSearchList.add(fromResource);
 				fullMatch = false;
 				log.warn("Title {} removed from fresh animedia search list! Please, remove it from the resources!", fromResource);
 			}
+			long duplicatedTitlesCount = fromResources.stream().filter(set -> set.getUrl().equals(fromResource.getUrl())).count();
+			if (duplicatedTitlesCount > 1) {
+				duplicates.add(fromResource);
+				fullMatch = false;
+				log.warn("Duplicated title in animedia search list from resources {}", fromResource);
+			}
 		}
 		for (AnimediaTitleSearchInfo freshTitle : fresh) {
-			AnimediaTitleSearchInfo matchedTitle = fromResources.stream().filter(set -> set.getTitle().equals(freshTitle.getTitle())).findAny()
-					.orElse(null);
+			AnimediaTitleSearchInfo matchedTitle = fromResources.stream().filter(set -> set.getUrl().equals(freshTitle.getUrl())).findAny().orElse(null);
 			if (matchedTitle == null) {
 				newTitlesInSearchList.add(freshTitle);
 				fullMatch = false;
 				log.warn("New title available in animedia search list {} ! Please, add it to the resources!", freshTitle);
 			}
 		}
-		if (!newTitlesInSearchList.isEmpty() || !removedTitlesFromSearchList.isEmpty()) {
+		if (!newTitlesInSearchList.isEmpty() || !removedTitlesFromSearchList.isEmpty() || !duplicates.isEmpty()) {
 			String prefix = tempFolderName + File.separator;
 			try {
 				if (!RoutinesIO.isDirectoryExists(tempFolderName)) {
@@ -321,11 +334,47 @@ public class AnimediaService {
 				if (!removedTitlesFromSearchList.isEmpty()) {
 					RoutinesIO.marshalToFile(prefix + tempRemovedTitlesFromAnimediaSearchList, removedTitlesFromSearchList);
 				}
+				if (!duplicates.isEmpty()) {
+					RoutinesIO.marshalToFile(prefix + tempDuplicatedUrlsInAnimediaSearchList, duplicates);
+				}
 			} catch (NotDirectoryException e) {
 				log.error(e.getMessage());
 			}
 		}
 		return fullMatch;
+	}
+
+	/**
+	 * Checks single season titles keywords for a concretized title name from MAL
+	 * if title keywords contain cyrillic characters that means the title not handled
+	 *
+	 * @param singleSeasonAnime all single season anime
+	 * @param animediaSearchListFromResources the animedia search list from resources
+	 * @return true if keywords not contain cyrillic characters, else false
+	 */
+	public boolean isAllSingleSeasonAnimeHasConcretizedMALTitleInKeywordsInAnimediaSearchListFromResources(Set<Anime> singleSeasonAnime,
+			Set<AnimediaTitleSearchInfo> animediaSearchListFromResources) {
+		Pattern pattern = Pattern.compile("[а-яА-я]");
+		Set<AnimediaTitleSearchInfo> matched = new LinkedHashSet<>();
+		for (Anime x : singleSeasonAnime) {
+			animediaSearchListFromResources.stream().filter(y -> {
+				Matcher matcher = pattern.matcher(y.getKeywords());
+				return y.getUrl().equals(x.getRootUrl()) && matcher.find();
+			}).forEach(matched::add);
+		}
+		if (!matched.isEmpty()) {
+			try {
+				if (!RoutinesIO.isDirectoryExists(tempFolderName)) {
+					RoutinesIO.mkDir(tempFolderName);
+				}
+				String prefix = tempFolderName + File.separator;
+				log.warn("CONCRETIZE THIS TITLES FROM ANIMEDIA SEARCH LIST {}", matched);
+				RoutinesIO.marshalToFile(prefix + tempSingleSeasonTitlesWithCyrillicKeywordsInAnimediaSearchList, matched);
+			} catch (NotDirectoryException e) {
+				log.error(e.getMessage());
+			}
+		}
+		return matched.isEmpty();
 	}
 
 	private void addSortedAnimeToTempResources(Set<Anime> single, Set<Anime> multi, Set<Anime> announcement) {

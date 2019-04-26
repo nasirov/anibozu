@@ -85,7 +85,8 @@ public class ReferencesManager {
 		Map<String, Map<String, Map<String, String>>> seasonsAndEpisodesCache = new HashMap<>();
 		for (AnimediaMALTitleReferences reference : references) {
 			if ((reference.getMinConcretizedEpisodeOnAnimedia() != null && reference.getMaxConcretizedEpisodeOnAnimedia() != null
-					&& reference.getCurrentMax() != null && reference.getFirstEpisode() != null) || reference.getTitleOnMAL().equalsIgnoreCase(NOT_FOUND_ON_MAL)) {
+					&& reference.getCurrentMax() != null && reference.getFirstEpisode() != null) || reference.getTitleOnMAL()
+					.equalsIgnoreCase(NOT_FOUND_ON_MAL)) {
 				continue;
 			}
 			String url = animediaOnlineTv + reference.getUrl();
@@ -202,20 +203,24 @@ public class ReferencesManager {
 
 	private boolean compareMaps(@NotEmpty Set<Anime> multi, @NotEmpty Map<String, String> raw) {
 		boolean fullMatch = true;
+		Set<Anime> missingReferences = new LinkedHashSet<>();
 		for (Anime anime : multi) {
 			String fullUrl = anime.getFullUrl();
 			if (!raw.containsKey(fullUrl)) {
 				fullMatch = false;
-				try {
-					if (!RoutinesIO.isDirectoryExists(tempFolderName)) {
-						RoutinesIO.mkDir(tempFolderName);
-					}
-				} catch (NotDirectoryException e) {
-					log.error("Check system.properties variable resources.tempFolder.name! {} is not a directory!", tempFolderName);
+				missingReferences.add(anime);
+			}
+		}
+		if (!missingReferences.isEmpty()) {
+			try {
+				if (!RoutinesIO.isDirectoryExists(tempFolderName)) {
+					RoutinesIO.mkDir(tempFolderName);
 				}
 				String prefix = tempFolderName + File.separator;
-				RoutinesIO.writeToFile(prefix + tempRawReferencesName, fullUrl, true);
-				log.warn("Not found in the raw references {} Please, add missing reference to the resources!", fullUrl);
+				RoutinesIO.marshalToFile(prefix + tempRawReferencesName, missingReferences);
+				log.warn("Not found in the raw references {} Please, add missing reference to the resources!", missingReferences.toString());
+			} catch (NotDirectoryException e) {
+				log.error("Check system.properties variable resources.tempFolder.name! {} is not a directory!", tempFolderName);
 			}
 		}
 		return fullMatch;
