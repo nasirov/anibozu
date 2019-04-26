@@ -74,7 +74,6 @@ public class SchedulerService {
 			allTypes = animediaService.getAnimeSortedByType(animediaSearchList);
 			singleSeasonAnime = allTypes.get(SINGLESEASON);
 			multiSeasonsAnime = allTypes.get(MULTISEASONS);
-			announcements = allTypes.get(ANNOUNCEMENT);
 			log.info("END OF UPDATING SORTED ANIME.");
 		}
 		Set<AnimediaMALTitleReferences> allReferences = referencesManager.getMultiSeasonsReferences();
