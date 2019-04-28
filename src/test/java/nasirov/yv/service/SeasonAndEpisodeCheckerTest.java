@@ -123,11 +123,11 @@ public class SeasonAndEpisodeCheckerTest extends AbstractTest {
 		doReturn(new HttpResponse(RoutinesIO.readFromResource(blackCloverHtml), HttpStatus.OK.value())).when(httpCaller)
 				.call(eq(animediaOnlineTv + BLACK_CLOVER_URL), eq(HttpMethod.GET), anyMap());
 		doReturn(new HttpResponse(RoutinesIO.readFromResource(blackCloverDataList1), HttpStatus.OK.value())).when(httpCaller)
-				.call(eq(animediaEpisodesList + BLACK_CLOVER_ID + DATA_LIST_1), eq(HttpMethod.GET), anyMap());
+				.call(eq(animediaEpisodesList + BLACK_CLOVER_ID + DATA_LIST_1 + animediaEpisodesListPostfix), eq(HttpMethod.GET), anyMap());
 		doReturn(new HttpResponse(RoutinesIO.readFromResource(anotherHtml), HttpStatus.OK.value())).when(httpCaller)
 				.call(eq(animediaOnlineTv + ANOTHER_URL), eq(HttpMethod.GET), anyMap());
 		doReturn(new HttpResponse(RoutinesIO.readFromResource(anotherDataList1), HttpStatus.OK.value())).when(httpCaller)
-				.call(eq(animediaEpisodesList + ANOTHER_ID + DATA_LIST_1), eq(HttpMethod.GET), anyMap());
+				.call(eq(animediaEpisodesList + ANOTHER_ID + DATA_LIST_1 + animediaEpisodesListPostfix), eq(HttpMethod.GET), anyMap());
 	}
 
 	@Test

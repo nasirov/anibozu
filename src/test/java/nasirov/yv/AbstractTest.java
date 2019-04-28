@@ -68,6 +68,9 @@ public abstract class AbstractTest {
 	@Value("${urls.online.animedia.anime.episodes.list}")
 	protected String animediaEpisodesList;
 
+	@Value("${urls.online.animedia.anime.episodes.postfix}")
+	protected String animediaEpisodesListPostfix;
+
 	@Value("${cache.matchedReferences.name}")
 	protected String matchedReferencesCacheName;
 

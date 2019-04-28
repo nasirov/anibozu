@@ -41,6 +41,9 @@ public class ReferencesManager {
 	@Value("${urls.online.animedia.anime.episodes.list}")
 	private String animediaEpisodesList;
 
+	@Value("${urls.online.animedia.anime.episodes.postfix}")
+	private String animediaEpisodesListPostfix;
+
 	@Value("${resources.tempFolder.name}")
 	private String tempFolderName;
 
@@ -103,7 +106,7 @@ public class ReferencesManager {
 						String dataList = seasonsAndEpisodesEntry.getKey();
 						if (reference.getDataList().equals(dataList)) {
 							String animeId = animeIdSeasonsAndEpisodesEntry.getKey();
-							HttpResponse resp = httpCaller.call(animediaEpisodesList + animeId + "/" + dataList, HttpMethod.GET, animediaRequestParameters);
+							HttpResponse resp = httpCaller.call(animediaEpisodesList + animeId + "/" + dataList + animediaEpisodesListPostfix, HttpMethod.GET, animediaRequestParameters);
 							Map<String, List<String>> episodesRange = animediaHTMLParser.getEpisodesRange(resp);
 							if (!episodesRange.isEmpty()) {
 								for (Map.Entry<String, List<String>> range : episodesRange.entrySet()) {

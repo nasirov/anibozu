@@ -116,13 +116,13 @@ public class AnimediaServiceTest extends AbstractTest {
 		doReturn(new HttpResponse(RoutinesIO.readFromResource(announcementHtml), HttpStatus.OK.value())).when(httpCaller)
 				.call(eq(animediaOnlineTv + announcement.getUrl()), eq(HttpMethod.GET), anyMap());
 		doReturn(new HttpResponse(RoutinesIO.readFromResource(saoDataList1), HttpStatus.OK.value())).when(httpCaller)
-				.call(eq(animediaEpisodesList + SAO_ID + "/1"), eq(HttpMethod.GET), anyMap());
+				.call(eq(animediaEpisodesList + SAO_ID + "/1" + animediaEpisodesListPostfix), eq(HttpMethod.GET), anyMap());
 		doReturn(new HttpResponse(RoutinesIO.readFromResource(saoDataList2), HttpStatus.OK.value())).when(httpCaller)
-				.call(eq(animediaEpisodesList + SAO_ID + "/2"), eq(HttpMethod.GET), anyMap());
+				.call(eq(animediaEpisodesList + SAO_ID + "/2" + animediaEpisodesListPostfix), eq(HttpMethod.GET), anyMap());
 		doReturn(new HttpResponse(RoutinesIO.readFromResource(saoDataList3), HttpStatus.OK.value())).when(httpCaller)
-				.call(eq(animediaEpisodesList + SAO_ID + "/3"), eq(HttpMethod.GET), anyMap());
+				.call(eq(animediaEpisodesList + SAO_ID + "/3" + animediaEpisodesListPostfix), eq(HttpMethod.GET), anyMap());
 		doReturn(new HttpResponse(RoutinesIO.readFromResource(saoDataList7), HttpStatus.OK.value())).when(httpCaller)
-				.call(eq(animediaEpisodesList + SAO_ID + "/7"), eq(HttpMethod.GET), anyMap());
+				.call(eq(animediaEpisodesList + SAO_ID + "/7" + animediaEpisodesListPostfix), eq(HttpMethod.GET), anyMap());
 		Map<AnimeTypeOnAnimedia, Set<Anime>> sortedAnime = animediaService.getAnimeSortedByType(animediaTitleSearchInfo);
 		assertNotNull(sortedAnime);
 		assertEquals(3, sortedAnime.size());

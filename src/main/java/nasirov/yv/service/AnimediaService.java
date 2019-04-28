@@ -82,6 +82,9 @@ public class AnimediaService {
 	@Value("${urls.online.animedia.anime.episodes.list}")
 	private String animediaEpisodesList;
 
+	@Value("${urls.online.animedia.anime.episodes.postfix}")
+	private String animediaEpisodesListPostfix;
+
 	@Value("classpath:${resources.multiSeasonsAnimeUrls.name}")
 	private Resource resourceMultiSeasonsAnimeUrls;
 
@@ -422,7 +425,7 @@ public class AnimediaService {
 
 	private void handleMultiSeasonsAnime(String animeId, String dataList, Map<String, Map<String, String>> animediaRequestParameters,
 			int multiSeasonCount, int dataListCount, Set<Anime> multi, String url, String rootUrl) {
-		HttpResponse resp = httpCaller.call(animediaEpisodesList + animeId + "/" + dataList, HttpMethod.GET, animediaRequestParameters);
+		HttpResponse resp = httpCaller.call(animediaEpisodesList + animeId + "/" + dataList + animediaEpisodesListPostfix, HttpMethod.GET, animediaRequestParameters);
 		String count = String.valueOf(multiSeasonCount) + "." + dataListCount;
 		String targetUrl = URLBuilder.build(url, dataList, animediaHTMLParser.getFirstEpisodeInSeason(resp), null);
 		multi.add(new Anime(count, targetUrl, rootUrl));

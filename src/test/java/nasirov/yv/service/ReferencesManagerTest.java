@@ -84,21 +84,21 @@ public class ReferencesManagerTest extends AbstractTest {
 		doReturn(new HttpResponse(RoutinesIO.readFromResource(saoHtml), HttpStatus.OK.value())).when(httpCaller)
 				.call(eq(animediaOnlineTv + SAO_ROOT_URL), eq(HttpMethod.GET), anyMap());
 		doReturn(new HttpResponse(RoutinesIO.readFromResource(fairyTailDataList1), HttpStatus.OK.value())).when(httpCaller)
-				.call(eq(animediaEpisodesList + fairyTailId + "/" + "1"), eq(HttpMethod.GET), anyMap());
+				.call(eq(animediaEpisodesList + fairyTailId + "/" + "1" + animediaEpisodesListPostfix), eq(HttpMethod.GET), anyMap());
 		doReturn(new HttpResponse(RoutinesIO.readFromResource(fairyTailDataList2), HttpStatus.OK.value())).when(httpCaller)
-				.call(eq(animediaEpisodesList + fairyTailId + "/" + "2"), eq(HttpMethod.GET), anyMap());
+				.call(eq(animediaEpisodesList + fairyTailId + "/" + "2" + animediaEpisodesListPostfix), eq(HttpMethod.GET), anyMap());
 		doReturn(new HttpResponse(RoutinesIO.readFromResource(fairyTailDataList3), HttpStatus.OK.value())).when(httpCaller)
-				.call(eq(animediaEpisodesList + fairyTailId + "/" + "3"), eq(HttpMethod.GET), anyMap());
+				.call(eq(animediaEpisodesList + fairyTailId + "/" + "3" + animediaEpisodesListPostfix), eq(HttpMethod.GET), anyMap());
 		doReturn(new HttpResponse(RoutinesIO.readFromResource(fairyTailDataList7), HttpStatus.OK.value())).when(httpCaller)
-				.call(eq(animediaEpisodesList + fairyTailId + "/" + "7"), eq(HttpMethod.GET), anyMap());
+				.call(eq(animediaEpisodesList + fairyTailId + "/" + "7" + animediaEpisodesListPostfix), eq(HttpMethod.GET), anyMap());
 		doReturn(new HttpResponse(RoutinesIO.readFromResource(saoDataList1), HttpStatus.OK.value())).when(httpCaller)
-				.call(eq(animediaEpisodesList + SAO_ID + "/" + "1"), eq(HttpMethod.GET), anyMap());
+				.call(eq(animediaEpisodesList + SAO_ID + "/" + "1" + animediaEpisodesListPostfix), eq(HttpMethod.GET), anyMap());
 		doReturn(new HttpResponse(RoutinesIO.readFromResource(saoDataList2), HttpStatus.OK.value())).when(httpCaller)
-				.call(eq(animediaEpisodesList + SAO_ID + "/" + "2"), eq(HttpMethod.GET), anyMap());
+				.call(eq(animediaEpisodesList + SAO_ID + "/" + "2" + animediaEpisodesListPostfix), eq(HttpMethod.GET), anyMap());
 		doReturn(new HttpResponse(RoutinesIO.readFromResource(saoDataList3), HttpStatus.OK.value())).when(httpCaller)
-				.call(eq(animediaEpisodesList + SAO_ID + "/" + "3"), eq(HttpMethod.GET), anyMap());
+				.call(eq(animediaEpisodesList + SAO_ID + "/" + "3" + animediaEpisodesListPostfix), eq(HttpMethod.GET), anyMap());
 		doReturn(new HttpResponse(RoutinesIO.readFromResource(saoDataList7), HttpStatus.OK.value())).when(httpCaller)
-				.call(eq(animediaEpisodesList + SAO_ID + "/" + "7"), eq(HttpMethod.GET), anyMap());
+				.call(eq(animediaEpisodesList + SAO_ID + "/" + "7" + animediaEpisodesListPostfix), eq(HttpMethod.GET), anyMap());
 		Set<AnimediaMALTitleReferences> multiSeasonsReferencesList = getMultiSeasonsReferencesList(LinkedHashSet.class, false);
 		referencesManager.updateReferences(multiSeasonsReferencesList);
 		List<AnimediaMALTitleReferences> updatedMultiSeasonsReferencesList = new ArrayList<>(multiSeasonsReferencesList);

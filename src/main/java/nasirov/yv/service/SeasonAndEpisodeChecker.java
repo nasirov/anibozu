@@ -42,6 +42,9 @@ public class SeasonAndEpisodeChecker {
 	@Value("${urls.online.animedia.anime.episodes.list}")
 	private String animediaEpisodesList;
 
+	@Value("${urls.online.animedia.anime.episodes.postfix}")
+	private String animediaEpisodesListPostfix;
+
 	@Value("${urls.cdn.myAnimeList.net}")
 	private String myAnimeListStaticContentUrl;
 
@@ -323,7 +326,7 @@ public class SeasonAndEpisodeChecker {
 				for (Map.Entry<String, String> dataListsAndEpisodes : animeIdDataListsAndEpisodes.getValue().entrySet()) {
 					String dataList = dataListsAndEpisodes.getKey();
 					HttpResponse resp = httpCaller
-							.call(animediaEpisodesList + animeIdDataListsAndEpisodes.getKey() + "/" + dataList, HttpMethod.GET, animediaRequestParameters);
+							.call(animediaEpisodesList + animeIdDataListsAndEpisodes.getKey() + "/" + dataList + animediaEpisodesListPostfix, HttpMethod.GET, animediaRequestParameters);
 					Map<String, List<String>> maxEpisodesAndEpisodesRange = animediaHTMLParser.getEpisodesRange(resp);
 					for (Map.Entry<String, List<String>> maxEpisodesAndEpisodesRangeEntry : maxEpisodesAndEpisodesRange.entrySet()) {
 						List<String> episodesRangeFromMinToMax = maxEpisodesAndEpisodesRangeEntry.getValue();
