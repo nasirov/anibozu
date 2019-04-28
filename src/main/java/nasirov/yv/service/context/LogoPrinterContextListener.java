@@ -49,7 +49,7 @@ public class LogoPrinterContextListener implements ApplicationListener<ContextRe
 						}
 					}
 				} catch (Exception e) {
-					log.error("Exception while printing application logo", e);
+					log.error("EXCEPTION WHILE PRINTING APPLICATION LOGO", e);
 				}
 			}
 		}

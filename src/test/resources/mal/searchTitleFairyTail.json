@@ -1,0 +1,174 @@
+{
+  "categories": [
+    {
+      "type": "anime",
+      "items": [
+        {
+          "id": 6702,
+          "type": "anime",
+          "name": "Fairy Tail",
+          "url": "https:\/\/myanimelist.net\/anime\/6702\/Fairy_Tail",
+          "image_url": "https:\/\/cdn.myanimelist.net\/r\/116x180\/images\/anime\/5\/18179.jpg?s=4e638a4ea22d93e2ab7617edc7aa7ad0",
+          "thumbnail_url": "https:\/\/cdn.myanimelist.net\/r\/116x76\/images\/anime\/5\/18179.jpg?s=ed739ee55b878209b0b28ba635388d7d",
+          "payload": {
+            "media_type": "TV",
+            "start_year": 2009,
+            "aired": "Oct 12, 2009 to Mar 30, 2013",
+            "score": "8.02",
+            "status": "Finished Airing"
+          },
+          "es_score": 31.400858
+        },
+        {
+          "id": 22043,
+          "type": "anime",
+          "name": "Fairy Tail (2014)",
+          "url": "https:\/\/myanimelist.net\/anime\/22043\/Fairy_Tail_2014",
+          "image_url": "https:\/\/cdn.myanimelist.net\/r\/116x180\/images\/anime\/3\/60551.jpg?s=a7f7110c53bef850f1fdb40b1e3570cd",
+          "thumbnail_url": "https:\/\/cdn.myanimelist.net\/r\/116x76\/images\/anime\/3\/60551.jpg?s=4be45da023c2c368eb446ed3161a7356",
+          "payload": {
+            "media_type": "TV",
+            "start_year": 2014,
+            "aired": "Apr 5, 2014 to Mar 26, 2016",
+            "score": "8.07",
+            "status": "Finished Airing"
+          },
+          "es_score": 25.532484
+        },
+        {
+          "id": 18393,
+          "type": "anime",
+          "name": "Fairy Tail x Rave",
+          "url": "https:\/\/myanimelist.net\/anime\/18393\/Fairy_Tail_x_Rave",
+          "image_url": "https:\/\/cdn.myanimelist.net\/r\/116x180\/images\/anime\/9\/58513.jpg?s=51790b442dc124226a79171320e3a119",
+          "thumbnail_url": "https:\/\/cdn.myanimelist.net\/r\/116x76\/images\/anime\/9\/58513.jpg?s=e6cce2bc8693c8426ab8e745d8f946bb",
+          "payload": {
+            "media_type": "OVA",
+            "start_year": 2013,
+            "aired": "Aug 16, 2013",
+            "score": "7.41",
+            "status": "Finished Airing"
+          },
+          "es_score": 21.373426
+        },
+        {
+          "id": 12049,
+          "type": "anime",
+          "name": "Fairy Tail Movie 1: Houou no Miko",
+          "url": "https:\/\/myanimelist.net\/anime\/12049\/Fairy_Tail_Movie_1__Houou_no_Miko",
+          "image_url": "https:\/\/cdn.myanimelist.net\/r\/116x180\/images\/anime\/13\/47083.jpg?s=1105ef1231a437903cc76f1a690bc888",
+          "thumbnail_url": "https:\/\/cdn.myanimelist.net\/r\/116x76\/images\/anime\/13\/47083.jpg?s=6f716ed2c571b74f1a414f357c7e6422",
+          "payload": {
+            "media_type": "Movie",
+            "start_year": 2012,
+            "aired": "Aug 18, 2012",
+            "score": "7.60",
+            "status": "Finished Airing"
+          },
+          "es_score": 15.591511
+        },
+        {
+          "id": 35972,
+          "type": "anime",
+          "name": "Fairy Tail: Final Series",
+          "url": "https:\/\/myanimelist.net\/anime\/35972\/Fairy_Tail__Final_Series",
+          "image_url": "https:\/\/cdn.myanimelist.net\/r\/116x180\/images\/anime\/1536\/93863.jpg?s=260f400a26cc75b802de9a5c2fc7175b",
+          "thumbnail_url": "https:\/\/cdn.myanimelist.net\/r\/116x76\/images\/anime\/1536\/93863.jpg?s=56beb33ef5058472a0d48d5ecfd1fa03",
+          "payload": {
+            "media_type": "TV",
+            "start_year": 2018,
+            "aired": "Oct 7, 2018 to ?",
+            "score": "8.23",
+            "status": "Currently Airing"
+          },
+          "es_score": 14.818187
+        },
+        {
+          "id": 9982,
+          "type": "anime",
+          "name": "Fairy Tail OVA",
+          "url": "https:\/\/myanimelist.net\/anime\/9982\/Fairy_Tail_OVA",
+          "image_url": "https:\/\/cdn.myanimelist.net\/r\/116x180\/images\/anime\/10\/65661.jpg?s=ea8317cf1b3992038a7d34985540dc77",
+          "thumbnail_url": "https:\/\/cdn.myanimelist.net\/r\/116x76\/images\/anime\/10\/65661.jpg?s=9f0e64a45c884aa0a713a1afc41dca1c",
+          "payload": {
+            "media_type": "OVA",
+            "start_year": 2011,
+            "aired": "Apr 15, 2011 to Jun 17, 2013",
+            "score": "7.72",
+            "status": "Finished Airing"
+          },
+          "es_score": 13.2387705
+        },
+        {
+          "id": 30778,
+          "type": "anime",
+          "name": "Fairy Tail Movie 2: Dragon Cry",
+          "url": "https:\/\/myanimelist.net\/anime\/30778\/Fairy_Tail_Movie_2__Dragon_Cry",
+          "image_url": "https:\/\/cdn.myanimelist.net\/r\/116x180\/images\/anime\/13\/85391.jpg?s=5c67d731b347a0165222ba5b190b9024",
+          "thumbnail_url": "https:\/\/cdn.myanimelist.net\/r\/116x76\/images\/anime\/13\/85391.jpg?s=db99cadf720603d89221efa61eb3decf",
+          "payload": {
+            "media_type": "Movie",
+            "start_year": 2017,
+            "aired": "May 6, 2017",
+            "score": "7.73",
+            "status": "Finished Airing"
+          },
+          "es_score": 12.620252
+        }
+      ]
+    },
+    {
+      "type": "manga",
+      "items": [
+        {
+          "id": 598,
+          "type": "manga",
+          "name": "Fairy Tail",
+          "url": "https:\/\/myanimelist.net\/manga\/598\/Fairy_Tail",
+          "image_url": "https:\/\/cdn.myanimelist.net\/r\/116x180\/images\/manga\/3\/198604.jpg?s=030cf213e4c5a3f555f9c361a2400ca5",
+          "thumbnail_url": "https:\/\/cdn.myanimelist.net\/r\/116x76\/images\/manga\/3\/198604.jpg?s=f7607f75a5775b798fc7d3da0e03a78d",
+          "payload": {
+            "media_type": "Manga",
+            "start_year": 2006,
+            "published": "Aug 2, 2006 to Jul 26, 2017",
+            "score": "7.82",
+            "status": "Finished"
+          },
+          "es_score": 28.827642
+        },
+        {
+          "id": 91971,
+          "type": "manga",
+          "name": "Fairy Tail Gaiden",
+          "url": "https:\/\/myanimelist.net\/manga\/91971\/Fairy_Tail_Gaiden",
+          "image_url": "https:\/\/cdn.myanimelist.net\/r\/116x180\/images\/manga\/2\/171669.jpg?s=4210203d3c142fe0f453eb31e0d27014",
+          "thumbnail_url": "https:\/\/cdn.myanimelist.net\/r\/116x76\/images\/manga\/2\/171669.jpg?s=177999c3456c79bedbb158ad81d1b958",
+          "payload": {
+            "media_type": "Manga",
+            "start_year": 2015,
+            "published": "Jul 30, 2015 to Sep 14, 2016",
+            "score": "7.28",
+            "status": "Finished"
+          },
+          "es_score": 12.568503
+        },
+        {
+          "id": 69903,
+          "type": "manga",
+          "name": "Fairy Tail Zer\u00f8",
+          "url": "https:\/\/myanimelist.net\/manga\/69903\/Fairy_Tail_Zer\u00f8",
+          "image_url": "https:\/\/cdn.myanimelist.net\/r\/116x180\/images\/manga\/1\/167384.jpg?s=0e2d05983e399facbd6d278387323135",
+          "thumbnail_url": "https:\/\/cdn.myanimelist.net\/r\/116x76\/images\/manga\/1\/167384.jpg?s=97e9700168aa1df34d52e2581fc53968",
+          "payload": {
+            "media_type": "Manga",
+            "start_year": 2014,
+            "published": "Jul 16, 2014 to Jul 17, 2015",
+            "score": "8.07",
+            "status": "Finished"
+          },
+          "es_score": 12.514657
+        }
+      ]
+    }
+  ]
+}

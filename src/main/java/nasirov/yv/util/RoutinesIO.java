@@ -38,7 +38,7 @@ public class RoutinesIO {
 			File file = ResourceUtils.getFile(pathToFile);
 			WrappedObjectMapper.marshal(file, value);
 		} catch (IOException e) {
-			log.error("Error while marshalling to file " + pathToFile, e);
+			log.error("ERROR WHILE MARSHALLING TO FILE " + pathToFile, e);
 		}
 	}
 
@@ -85,7 +85,7 @@ public class RoutinesIO {
 			bufferedWriter.append(value).append(System.lineSeparator());
 			bufferedWriter.flush();
 		} catch (IOException e) {
-			log.error("Error while writing to file " + pathToFile, e);
+			log.error("ERROR WHILE WRITING TO FILE " + pathToFile, e);
 		}
 	}
 
@@ -94,7 +94,7 @@ public class RoutinesIO {
 			bufferedWriter.append(value).append(System.lineSeparator());
 			bufferedWriter.flush();
 		} catch (IOException e) {
-			log.error("Error while writing to file " + file, e);
+			log.error("ERROR WHILE WRITING TO FILE " + file, e);
 		}
 	}
 
@@ -108,7 +108,7 @@ public class RoutinesIO {
 			}
 			return stringBuilder.toString();
 		} catch (Exception e) {
-			log.error("Error while reading from file " + pathToFile, e);
+			log.error("ERROR WHILE READING FROM FILE " + pathToFile, e);
 		}
 		return stringBuilder.toString();
 	}
@@ -122,7 +122,7 @@ public class RoutinesIO {
 			}
 			return stringBuilder.toString();
 		} catch (Exception e) {
-			log.error("Error while reading from file " + file, e);
+			log.error("ERROR WHILE READING FROM FILE " + file, e);
 		}
 		return stringBuilder.toString();
 	}
@@ -140,7 +140,7 @@ public class RoutinesIO {
 			}
 			fromFile = new String(bufferedOutputStream.toByteArray(), StandardCharsets.UTF_8);
 		} catch (IOException e) {
-			log.error("Error while reading from resource " + name, e);
+			log.error("ERROR WHILE READING FROM RESOURCE " + name, e);
 		}
 		return fromFile;
 	}
@@ -158,7 +158,7 @@ public class RoutinesIO {
 			}
 			fromFile = new String(bufferedOutputStream.toByteArray(), StandardCharsets.UTF_8);
 		} catch (IOException e) {
-			log.error("Exception while reading from resource " + resource, e);
+			log.error("EXCEPTION WHILE READING FROM RESOURCE " + resource, e);
 		}
 		return fromFile;
 	}
@@ -167,7 +167,7 @@ public class RoutinesIO {
 		try {
 			FileUtils.forceMkdir(new File(dirPath));
 		} catch (IOException e) {
-			log.error("Exception while creating directory", e);
+			log.error("EXCEPTION WHILE CREATING DIRECTORY", e);
 		}
 	}
 

@@ -213,22 +213,22 @@ public class AnimediaService {
 		EnumMap<AnimeTypeOnAnimedia, Set<Anime>> allSeasons = new EnumMap<>(AnimeTypeOnAnimedia.class);
 		if (isUpdatedSortedAnimeResourcesExists(resourceAnnouncementsUrls.getFilename()) && isUpdatedSortedAnimeResourcesExists(
 				resourceMultiSeasonsAnimeUrls.getFilename()) && isUpdatedSortedAnimeResourcesExists(resourceSingleSeasonsAnimeUrls.getFilename())) {
-			log.info("Loading updated sorted anime from the resources ...");
+			log.info("LOADING UPDATED SORTED ANIME FROM THE RESOURCES ...");
 			String prefix = tempFolderName + File.separator;
 			singleSeasonAnime = RoutinesIO.unmarshalFromFile(prefix + resourceSingleSeasonsAnimeUrls.getFilename(), Anime.class, LinkedHashSet.class);
 			multiSeasonsAnime = RoutinesIO.unmarshalFromFile(prefix + resourceMultiSeasonsAnimeUrls.getFilename(), Anime.class, LinkedHashSet.class);
 			announcements = RoutinesIO.unmarshalFromFile(prefix + resourceAnnouncementsUrls.getFilename(), Anime.class, LinkedHashSet.class);
 			handleResults(allSeasons, singleSeasonAnime, multiSeasonsAnime, announcements);
-			log.info("Updated sorted anime are successfully loaded from the resources.");
+			log.info("UPDATED SORTED ANIME ARE SUCCESSFULLY LOADED FROM THE RESOURCES.");
 		} else if (resourceAnnouncementsUrls.exists() && resourceMultiSeasonsAnimeUrls.exists() && resourceSingleSeasonsAnimeUrls.exists()) {
-			log.info("Loading sorted anime from the resources ...");
+			log.info("LOADING SORTED ANIME FROM THE RESOURCES ...");
 			singleSeasonAnime = RoutinesIO.unmarshalFromResource(resourceSingleSeasonsAnimeUrls, Anime.class, LinkedHashSet.class);
 			multiSeasonsAnime = RoutinesIO.unmarshalFromResource(resourceMultiSeasonsAnimeUrls, Anime.class, LinkedHashSet.class);
 			announcements = RoutinesIO.unmarshalFromResource(resourceAnnouncementsUrls, Anime.class, LinkedHashSet.class);
 			handleResults(allSeasons, singleSeasonAnime, multiSeasonsAnime, announcements);
-			log.info("Sorted anime are successfully loaded from the resources.");
+			log.info("SORTED ANIME ARE SUCCESSFULLY LOADED FROM THE RESOURCES.");
 		} else {
-			log.warn("Sorted anime are not found in any resources!");
+			log.warn("SORTED ANIME ARE NOT FOUND IN ANY RESOURCES!");
 			return allSeasons;
 		}
 		return allSeasons;
@@ -251,7 +251,7 @@ public class AnimediaService {
 			long multiCount = multiSeasonsAnime.stream().filter(set -> set.getRootUrl().equals(animediaTitleSearchInfo.getUrl())).count();
 			long announcementCount = announcements.stream().filter(set -> set.getRootUrl().equals(animediaTitleSearchInfo.getUrl())).count();
 			if (singleCount == 0 && multiCount == 0 && announcementCount == 0) {
-				log.warn("Not found in any sorted anime lists {}", animediaOnlineTv + animediaTitleSearchInfo.getUrl());
+				log.warn("NOT FOUND IN ANY SORTED ANIME LISTS {}", animediaOnlineTv + animediaTitleSearchInfo.getUrl());
 				notFound.add(animediaTitleSearchInfo);
 			}
 		}
@@ -305,13 +305,13 @@ public class AnimediaService {
 			if (matchedTitle == null) {
 				removedTitlesFromSearchList.add(fromResource);
 				fullMatch = false;
-				log.warn("Title {} removed from fresh animedia search list! Please, remove it from the resources!", fromResource);
+				log.warn("TITLE {} REMOVED FROM FRESH ANIMEDIA SEARCH LIST! PLEASE, REMOVE IT FROM THE RESOURCES!", fromResource);
 			}
 			long duplicatedTitlesCount = fromResources.stream().filter(set -> set.getUrl().equals(fromResource.getUrl())).count();
 			if (duplicatedTitlesCount > 1) {
 				duplicates.add(fromResource);
 				fullMatch = false;
-				log.warn("Duplicated title in animedia search list from resources {}", fromResource);
+				log.warn("DUPLICATED TITLE IN ANIMEDIA SEARCH LIST FROM RESOURCES {}", fromResource);
 			}
 		}
 		for (AnimediaTitleSearchInfo freshTitle : fresh) {
@@ -319,7 +319,7 @@ public class AnimediaService {
 			if (matchedTitle == null) {
 				newTitlesInSearchList.add(freshTitle);
 				fullMatch = false;
-				log.warn("New title available in animedia search list {} ! Please, add it to the resources!", freshTitle);
+				log.warn("NEW TITLE AVAILABLE IN ANIMEDIA SEARCH LIST {} ! PLEASE, ADD IT TO THE RESOURCES!", freshTitle);
 			}
 		}
 		if (!newTitlesInSearchList.isEmpty() || !removedTitlesFromSearchList.isEmpty() || !duplicates.isEmpty()) {
@@ -354,7 +354,7 @@ public class AnimediaService {
 	 */
 	public boolean isAllSingleSeasonAnimeHasConcretizedMALTitleInKeywordsInAnimediaSearchListFromResources(Set<Anime> singleSeasonAnime,
 			Set<AnimediaTitleSearchInfo> animediaSearchListFromResources) {
-		Pattern pattern = Pattern.compile("[а-яА-я]");
+		Pattern pattern = Pattern.compile("[а-яА-Я]");
 		Set<AnimediaTitleSearchInfo> matched = new LinkedHashSet<>();
 		for (Anime x : singleSeasonAnime) {
 			animediaSearchListFromResources.stream().filter(y -> {
@@ -409,7 +409,7 @@ public class AnimediaService {
 		try {
 			isExists = ResourceUtils.getFile(prefix + filename).exists();
 		} catch (FileNotFoundException e) {
-			log.error("File {} is not found!", filename);
+			log.error("FILE {} IS NOT FOUND!", filename);
 		}
 		return isExists;
 	}

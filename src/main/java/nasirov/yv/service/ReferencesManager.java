@@ -218,9 +218,9 @@ public class ReferencesManager {
 				}
 				String prefix = tempFolderName + File.separator;
 				RoutinesIO.marshalToFile(prefix + tempRawReferencesName, missingReferences);
-				log.warn("Not found in the raw references {} Please, add missing reference to the resources!", missingReferences.toString());
+				log.warn("NOT FOUND IN THE RAW REFERENCES {} PLEASE, ADD MISSING REFERENCE TO THE RESOURCES!", missingReferences.toString());
 			} catch (NotDirectoryException e) {
-				log.error("Check system.properties variable resources.tempFolder.name! {} is not a directory!", tempFolderName);
+				log.error("CHECK system.properties VARIABLE resources.tempfolder.name! {} IS NOT A DIRECTORY!", tempFolderName);
 			}
 		}
 		return fullMatch;

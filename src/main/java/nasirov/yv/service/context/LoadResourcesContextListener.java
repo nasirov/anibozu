@@ -49,7 +49,7 @@ public class LoadResourcesContextListener implements ApplicationListener<Context
 						}
 					}
 				} catch (Exception e) {
-					log.error("Exception while handle LoadResources annotation bean ", e);
+					log.error("EXCEPTION WHILE HANDLE LOADRESOURCES ANNOTATION BEAN ", e);
 				}
 			}
 		}

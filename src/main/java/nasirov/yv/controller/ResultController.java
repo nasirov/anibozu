@@ -209,7 +209,7 @@ public class ResultController {
 		long start = System.nanoTime();
 		referencesManager.updateReferences(matchedReferences);
 		long end = System.nanoTime();
-		log.info("Elapsed time for update references {}", end - start);
+		log.info("ELAPSED TIME FOR UPDATE REFERENCES {}", end - start);
 		matchedReferencesCache.put(username, matchedReferences);
 		Set<AnimediaMALTitleReferences> matchedAnime = matchedAnimeFromCache != null ? matchedAnimeFromCache
 				: seasonAndEpisodeChecker.getMatchedAnime(watchingTitles, matchedReferences, animediaSearchList, username);

@@ -2,7 +2,6 @@ package nasirov.yv.service;
 
 import static nasirov.yv.enums.MALAnimeStatus.WATCHING;
 
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
@@ -13,6 +12,7 @@ import java.util.regex.Pattern;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import lombok.extern.slf4j.Slf4j;
+import nasirov.yv.enums.MALCategories;
 import nasirov.yv.exception.JSONNotFoundException;
 import nasirov.yv.exception.MALUserAccountNotFoundException;
 import nasirov.yv.exception.MALUserAnimeListAccessException;
@@ -22,6 +22,7 @@ import nasirov.yv.parameter.RequestParametersBuilder;
 import nasirov.yv.parser.MALParser;
 import nasirov.yv.parser.WrappedObjectMapper;
 import nasirov.yv.response.HttpResponse;
+import nasirov.yv.serialization.MALSearchResult;
 import nasirov.yv.serialization.UserMALTitleInfo;
 import nasirov.yv.util.URLBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +31,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.Cache;
 import org.springframework.cache.CacheManager;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 /**
@@ -40,6 +42,8 @@ import org.springframework.stereotype.Service;
 public class MALService {
 
 	private static final String LOAD_JSON = "/load.json";
+
+	private static final String SEARCH_PREFIX_JSON = "search/prefix.json";
 
 	private static final String PROFILE = "profile/";
 
@@ -52,10 +56,14 @@ public class MALService {
 	 */
 	private static final Integer MAX_NUMBER_OF_TITLES_IN_HTML = 300;
 
-	private static final Map<String, String> QUERY_PARAMS = new HashMap<>();
+	private static final Map<String, String> QUERY_PARAMS_FOR_ANIME_LIST = new LinkedHashMap<>();
+
+	private static final Map<String, String> QUERY_PARAMS_FOR_TITLE_NAME_CHECK = new LinkedHashMap<>();
 
 	static {
-		QUERY_PARAMS.put(STATUS, WATCHING.getCode().toString());
+		QUERY_PARAMS_FOR_ANIME_LIST.put(STATUS, WATCHING.getCode().toString());
+		QUERY_PARAMS_FOR_TITLE_NAME_CHECK.put("type", "all");
+		QUERY_PARAMS_FOR_TITLE_NAME_CHECK.put("v", "1");
 	}
 
 	@Value("${cache.userMAL.name}")
@@ -98,7 +106,7 @@ public class MALService {
 		//first request = 300 entity
 		//first request example animelist/username?status=1
 		Set<Set<UserMALTitleInfo>> titleJson = new LinkedHashSet<>();
-		String targetUrl = URLBuilder.build(myAnimeListNet + ANIME_LIST + username, QUERY_PARAMS);
+		String targetUrl = URLBuilder.build(myAnimeListNet + ANIME_LIST + username, QUERY_PARAMS_FOR_ANIME_LIST);
 		titleJson.add(malParser.getUserTitlesInfo(httpCaller.call(targetUrl, HttpMethod.GET, malRequestParameters), LinkedHashSet.class));
 		Integer diff;
 		//check for missing titles
@@ -183,6 +191,20 @@ public class MALService {
 			}
 		}
 		return result;
+	}
+
+	public boolean isTitleExist(String titleOnMAL) {
+		QUERY_PARAMS_FOR_TITLE_NAME_CHECK.put("keyword", titleOnMAL);
+		HttpResponse malResponse = httpCaller.call(URLBuilder.build(myAnimeListNet + SEARCH_PREFIX_JSON, QUERY_PARAMS_FOR_TITLE_NAME_CHECK),
+				HttpMethod.GET,
+				requestParametersBuilder.build());
+		if (malResponse.getStatus() == HttpStatus.OK.value()) {
+			MALSearchResult malSearchResult = WrappedObjectMapper.unmarshal(malResponse.getContent(), MALSearchResult.class);
+			return 1 == malSearchResult.getCategories().stream().filter(categories -> categories.getType().equals(MALCategories.ANIME.getDescription()))
+					.flatMap(categories -> categories.getItems().stream())
+					.filter(title -> title.getName().equalsIgnoreCase(titleOnMAL) && title.getType().equals(MALCategories.ANIME.getDescription())).count();
+		}
+		return false;
 	}
 
 	/**

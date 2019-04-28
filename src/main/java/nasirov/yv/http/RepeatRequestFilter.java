@@ -25,10 +25,10 @@ public class RepeatRequestFilter extends ClientFilter {
 				try {
 					TimeUnit.SECONDS.sleep(4);
 				} catch (InterruptedException e) {
-					log.error("Thread was interrupted", e);
+					log.error("THREAD WAS INTERRUPTED", e);
 					Thread.currentThread().interrupt();
 				}
-				log.error("{}\nRepeat request", clientResponse.toString());
+				log.error("{}\nREPEAT REQUEST", clientResponse.toString());
 				clientResponse = clientHandler.handle(clientRequest);
 				status = clientResponse.getStatus();
 				if (status != HttpStatus.TOO_MANY_REQUESTS.value()) {

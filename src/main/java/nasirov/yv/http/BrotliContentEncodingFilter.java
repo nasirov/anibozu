@@ -35,7 +35,7 @@ public class BrotliContentEncodingFilter extends ClientFilter {
 						try {
 							entityStream.close();
 						} catch (IOException e2) {
-							log.error("Exception while closing entity input stream!", e2);
+							log.error("EXCEPTION WHILE CLOSING ENTITY INPUT STREAM!", e2);
 						}
 					}
 					throw new ClientHandlerException(e);

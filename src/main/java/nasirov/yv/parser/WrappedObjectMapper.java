@@ -25,7 +25,7 @@ public class WrappedObjectMapper {
 		try {
 			value = objectMapper.readValue(content, collectionType);
 		} catch (IOException e) {
-			log.error("Exception while unmarshalling", e);
+			log.error("EXCEPTION WHILE UNMARSHALLING", e);
 		}
 		return value;
 	}
@@ -35,7 +35,7 @@ public class WrappedObjectMapper {
 		try {
 			value = objectMapper.readValue(content, targetClass);
 		} catch (IOException e) {
-			log.error("Exception while unmarshalling", e);
+			log.error("EXCEPTION WHILE UNMARSHALLING", e);
 		}
 		return value;
 	}
@@ -44,7 +44,7 @@ public class WrappedObjectMapper {
 		try {
 			objectMapper.writeValue(objectValue, content);
 		} catch (IOException e) {
-			log.error("Exception while marshalling to file", e);
+			log.error("EXCEPTION WHILE MARSHALLING TO FILE", e);
 		}
 	}
 }

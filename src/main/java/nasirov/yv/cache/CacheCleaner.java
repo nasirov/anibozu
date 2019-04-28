@@ -42,6 +42,6 @@ public class CacheCleaner {
 	private void clearAndLog(@NotNull CacheManager cacheManager, @NotNull String cacheName) {
 		Cache cache = cacheManager.getCache(cacheName);
 		cache.clear();
-		log.info("Clear " + cacheName);
+		log.info("CLEAR " + cacheName);
 	}
 }

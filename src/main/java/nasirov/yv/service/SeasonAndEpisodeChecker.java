@@ -351,7 +351,7 @@ public class SeasonAndEpisodeChecker {
 	 * @param userMALTitleInfo the user title info
 	 */
 	private void handleZeroMatchedResultInAnimediaSearchList(UserMALTitleInfo userMALTitleInfo) {
-		log.info("Anime {}({}) is not found on animedia!", userMALTitleInfo.getTitle(), userMALTitleInfo.getAnimeUrl());
+		log.info("ANIME {}({}) IS NOT FOUND ON ANIMEDIA!", userMALTitleInfo.getTitle(), userMALTitleInfo.getAnimeUrl());
 		if (!notFoundAnimeOnAnimediaRepository.exitsByTitle(userMALTitleInfo.getTitle())) {
 			notFoundAnimeOnAnimediaRepository.saveAndFlush(userMALTitleInfo);
 		}
@@ -363,7 +363,7 @@ public class SeasonAndEpisodeChecker {
 	 * @param userMALTitleInfo the user title info
 	 */
 	private void handleMoreThanOneMatchedResultInAnimediaSearchList(UserMALTitleInfo userMALTitleInfo) {
-		log.error("Watching Title name {} duplicated in animedia search list keywords. Check animedia search list resource!", userMALTitleInfo);
+		log.error("WATCHING TITLE NAME {} DUPLICATED IN ANIMEDIA SEARCH LIST KEYWORDS. CHECK ANIMEDIA SEARCH LIST RESOURCE!", userMALTitleInfo);
 	}
 
 	/**
@@ -375,7 +375,7 @@ public class SeasonAndEpisodeChecker {
 	 */
 	public void updateEpisodeNumberForWatchAndFinalUrl(@NotEmpty Set<UserMALTitleInfo> watchingTitles, @NotEmpty AnimediaMALTitleReferences references,
 			@NotEmpty Set<AnimediaMALTitleReferences> matchedAnimeFromCache) {
-		log.info("Updating matched references...");
+		log.info("UPDATING MATCHED REFERENCES...");
 		for (UserMALTitleInfo userMALTitleInfo : watchingTitles) {
 			//Increment to next episode for watch
 			Integer episodeNumberForWatch;
@@ -416,7 +416,7 @@ public class SeasonAndEpisodeChecker {
 		Integer episodeNumberForWatch;
 		Map<String, String> nextEpisodeForWatchAndFinalUrl;
 		Set<AnimediaMALTitleReferences> allMultiSeasonsReferences = referencesManager.getMultiSeasonsReferences();
-		log.info("Updating matched references...");
+		log.info("UPDATING MATCHED REFERENCES...");
 		for (UserMALTitleInfo updatedTitle : updatedWatchingTitles) {
 			AnimediaMALTitleReferences reference = matchedAnimeFromCache.stream().filter(ref -> ref.getTitleOnMAL().equals(updatedTitle.getTitle()))
 					.findFirst().orElse(null);
@@ -473,13 +473,13 @@ public class SeasonAndEpisodeChecker {
 		if (episodeNumberForWatch <= Integer.parseInt(animediaMALTitleReferences.getCurrentMax())) {
 			finalUrl =
 					animediaOnlineTv + animediaMALTitleReferences.getUrl() + "/" + animediaMALTitleReferences.getDataList() + "/" + episodeNumberForWatch;
-			log.info("New episode is available {} !", finalUrl);
+			log.info("NEW EPISODE IS AVAILABLE {} !", finalUrl);
 			nextEpisodeForWatchFinalUrl.put(episodeNumberForWatch.toString(), finalUrl);
 		} else {
 			finalUrl =
 					animediaOnlineTv + animediaMALTitleReferences.getUrl() + "/" + animediaMALTitleReferences.getDataList() + "/" + animediaMALTitleReferences
 							.getFirstEpisode();
-			log.info("New episode for {} is not available.", finalUrl);
+			log.info("NEW EPISODE FOR {} IS NOT AVAILABLE.", finalUrl);
 			nextEpisodeForWatchFinalUrl.put("", "");
 		}
 		return nextEpisodeForWatchFinalUrl;

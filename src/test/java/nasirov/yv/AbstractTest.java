@@ -167,6 +167,12 @@ public abstract class AbstractTest {
 	@Value("classpath:mal/testAccForDevWatchingTitles.txt")
 	protected Resource testAccForDevWatchingTitles;
 
+	@Value("classpath:mal/searchTitleFairyTail.json")
+	protected Resource searchTitleFairyTail;
+
+	@Value("classpath:mal/searchTitleNotFound.json")
+	protected Resource searchTitleNotFound;
+
 	@Value("classpath:referencesForTest.json")
 	protected Resource referencesForTestResource;
 

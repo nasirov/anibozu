@@ -56,7 +56,7 @@ public class CloudflareDDoSProtectionAvoidingFilter extends ClientFilter {
 				try {
 					clientRequest.setURI(new URI(verificationUrl));
 				} catch (URISyntaxException e) {
-					log.error("Invalid URL {}", verificationUrl);
+					log.error("INVALID URL {}", verificationUrl);
 				}
 				setCookie(clientResponse, clientRequest, CF_COOKIE);
 				setReferer(clientRequest, url);
@@ -66,7 +66,7 @@ public class CloudflareDDoSProtectionAvoidingFilter extends ClientFilter {
 					try {
 						clientRequest.setURI(new URI(location));
 					} catch (URISyntaxException e) {
-						log.error("Invalid URL {} ", location);
+						log.error("INVALID URL {} ", location);
 					}
 					setCookie(clientResponse, clientRequest, CF_CLEARANCE);
 					clientResponse = clientHandler.handle(clientRequest);

@@ -23,12 +23,14 @@ import nasirov.yv.configuration.AppConfiguration;
 import nasirov.yv.exception.WatchingTitlesNotFoundException;
 import nasirov.yv.http.HttpCaller;
 import nasirov.yv.parameter.MALRequestParametersBuilder;
+import nasirov.yv.parameter.RequestParametersBuilder;
 import nasirov.yv.parser.MALParser;
 import nasirov.yv.response.HttpResponse;
 import nasirov.yv.serialization.UserMALTitleInfo;
 import nasirov.yv.util.RoutinesIO;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.cache.Cache;
@@ -45,6 +47,8 @@ import org.springframework.test.annotation.DirtiesContext;
 public class MALServiceTest extends AbstractTest {
 
 	private static final String LOAD_JSON = "/load.json";
+
+	private static final String SEARCH_PREFIX_JSON = "search/prefix.json";
 
 	private static final String PROFILE = "profile/";
 
@@ -77,6 +81,10 @@ public class MALServiceTest extends AbstractTest {
 
 	@Autowired
 	private MALService malService;
+
+	@Autowired
+	@Qualifier("malRequestParametersBuilder")
+	private RequestParametersBuilder parametersBuilder;
 
 	@Test
 	public void getWatchingTitles() throws Exception {
@@ -199,6 +207,30 @@ public class MALServiceTest extends AbstractTest {
 		watchingTitlesWithUpdatedNumberOfWatchedEpisodes = malService.getWatchingTitlesWithUpdatedNumberOfWatchedEpisodes(fresh, cached);
 		assertEquals(1, watchingTitlesWithUpdatedNumberOfWatchedEpisodes.size());
 		assertEquals(1, watchingTitlesWithUpdatedNumberOfWatchedEpisodes.stream().filter(title -> title.equals(decreasedAccelWorld)).count());
+	}
+
+	@Test
+	public void testIsTitleExistResultFound() {
+		String url = myAnimeListNet + SEARCH_PREFIX_JSON + "?type=all&v=1&keyword=fairy%20tail";
+		doReturn(new HttpResponse(RoutinesIO.readFromResource(searchTitleFairyTail), HttpStatus.OK.value())).when(httpCaller)
+				.call(eq(url), eq(HttpMethod.GET), eq(parametersBuilder.build()));
+		assertTrue(malService.isTitleExist("fairy tail"));
+	}
+
+	@Test
+	public void testIsTitleExistResultNotFound() {
+		String url = myAnimeListNet + SEARCH_PREFIX_JSON + "?type=all&v=1&keyword=notFairyTail";
+		doReturn(new HttpResponse(RoutinesIO.readFromResource(searchTitleNotFound), HttpStatus.OK.value())).when(httpCaller)
+				.call(eq(url), eq(HttpMethod.GET), eq(parametersBuilder.build()));
+		assertFalse(malService.isTitleExist("notFairyTail"));
+	}
+
+	@Test
+	public void testIsTitleExistBadRequest() {
+		String url = myAnimeListNet + SEARCH_PREFIX_JSON + "?type=all&v=1&keyword=notFairyTail";
+		doReturn(new HttpResponse("{\"errors\":[{\"message\":\"Your keyword length must save less than or equal to 100.\"}]}",
+				HttpStatus.BAD_REQUEST.value())).when(httpCaller).call(eq(url), eq(HttpMethod.GET), eq(parametersBuilder.build()));
+		assertFalse(malService.isTitleExist("notFairyTail"));
 	}
 
 	private void checkTitlesWithUpdatedNumberOfWatchedEpisodes(String typeOfChange) {
