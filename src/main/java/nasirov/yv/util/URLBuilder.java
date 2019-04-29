@@ -29,7 +29,7 @@ public class URLBuilder {
 	}
 
 	public static String build(String url, @NotNull Map<String, String> queryParams) {
-		return url + addQueryParametersToURL(queryParams);
+		return url + (queryParams.isEmpty()? "" : addQueryParametersToURL(queryParams));
 	}
 
 	private static String addQueryParametersToURL(Map<String, String> queryParams) {
