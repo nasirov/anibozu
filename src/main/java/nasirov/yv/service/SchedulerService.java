@@ -9,6 +9,8 @@ import java.nio.file.NotDirectoryException;
 import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import lombok.extern.slf4j.Slf4j;
 import nasirov.yv.enums.AnimeTypeOnAnimedia;
 import nasirov.yv.serialization.Anime;
@@ -27,6 +29,7 @@ import org.springframework.stereotype.Service;
  */
 @Service
 @Slf4j
+@SuppressWarnings("unchecked")
 public class SchedulerService {
 
 	@Value("${cache.animediaSearchList.name}")
@@ -134,10 +137,12 @@ public class SchedulerService {
 			log.info("ALL SINGLESEASON ANIME HAS CONCRETIZED MAL NAMES.");
 			log.info("START OF CHECKING SINGLESEASON TITLE NAME ON MAL ...");
 			Set<AnimediaTitleSearchInfo> tempAllSingleSeasonTitles = new LinkedHashSet<>();
+			Pattern pattern = Pattern.compile("[а-яА-Я]");
 			for (Anime x : singleSeasonAnime) {
-				animediaSearchList.stream()
-						.filter(title -> title.getUrl().equals(x.getRootUrl()) && !title.getKeywords().matches("[а-яА-Я]") && !title.getKeywords().equals(""))
-						.forEach(tempAllSingleSeasonTitles::add);
+				animediaSearchList.stream().filter(title -> {
+					Matcher matcher = pattern.matcher(title.getKeywords());
+					return title.getUrl().equals(x.getRootUrl()) && !matcher.find() && !title.getKeywords().equals("");
+				}).forEach(tempAllSingleSeasonTitles::add);
 			}
 			Set<AnimediaTitleSearchInfo> searchTitlesWithInvalidMALTitleName = new LinkedHashSet<>();
 			for (AnimediaTitleSearchInfo title : tempAllSingleSeasonTitles) {

@@ -207,7 +207,7 @@ public class AnimediaService {
 	 * 1.resources from temp/ means that resources from classpath are not updated
 	 * 2.resources from classpath
 	 *
-	 * @return list[0] - singleSeason anime, list[1] - multiSeason anime,list[2] - announcements
+	 * @return map with singleseason anime, multiseasons anime and announcements
 	 */
 	public Map<AnimeTypeOnAnimedia, Set<Anime>> getAnimeSortedByTypeFromResources() {
 		Set<Anime> singleSeasonAnime;
@@ -425,7 +425,8 @@ public class AnimediaService {
 
 	private void handleMultiSeasonsAnime(String animeId, String dataList, Map<String, Map<String, String>> animediaRequestParameters,
 			int multiSeasonCount, int dataListCount, Set<Anime> multi, String url, String rootUrl) {
-		HttpResponse resp = httpCaller.call(animediaEpisodesList + animeId + "/" + dataList + animediaEpisodesListPostfix, HttpMethod.GET, animediaRequestParameters);
+		HttpResponse resp = httpCaller
+				.call(animediaEpisodesList + animeId + "/" + dataList + animediaEpisodesListPostfix, HttpMethod.GET, animediaRequestParameters);
 		String count = String.valueOf(multiSeasonCount) + "." + dataListCount;
 		String targetUrl = URLBuilder.build(url, dataList, animediaHTMLParser.getFirstEpisodeInSeason(resp), null);
 		multi.add(new Anime(count, targetUrl, rootUrl));

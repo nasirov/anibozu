@@ -74,6 +74,12 @@ public abstract class AbstractTest {
 	@Value("${cache.matchedReferences.name}")
 	protected String matchedReferencesCacheName;
 
+	@Value("${resources.tempReferencesWithInvalidMALTitleName.name}")
+	protected String tempReferencesWithInvalidMALTitleName;
+
+	@Value("${resources.tempSearchTitlesWithInvalidMALTitleName.name}")
+	protected String tempSearchTitlesWithInvalidMALTitleName;
+
 	@Value("classpath:animedia/fairyTail/fairyTailHtml.txt")
 	protected Resource fairyTailHtml;
 
