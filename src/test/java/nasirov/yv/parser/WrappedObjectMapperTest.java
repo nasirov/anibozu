@@ -10,6 +10,8 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
 import nasirov.yv.AbstractTest;
@@ -90,6 +92,16 @@ public class WrappedObjectMapperTest extends AbstractTest {
 		FileSystemUtils.deleteRecursively(tempFile);
 		assertEquals(getSingleElementJson(), stringBuilder.toString());
 		assertFalse(tempFile.exists());
+	}
+
+	@Test
+	public void testConstructor() throws IllegalAccessException, InvocationTargetException, InstantiationException {
+		Constructor<?>[] declaredConstructors = WrappedObjectMapper.class.getDeclaredConstructors();
+		assertEquals(1, declaredConstructors.length);
+		assertFalse(declaredConstructors[0].isAccessible());
+		declaredConstructors[0].setAccessible(true);
+		WrappedObjectMapper fromPrivateConstructor = (WrappedObjectMapper) declaredConstructors[0].newInstance();
+		assertNotNull(fromPrivateConstructor);
 	}
 
 	private String getCollectionJson() {
