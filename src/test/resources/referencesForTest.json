@@ -152,5 +152,19 @@
     "episodeNumberForWatch": null,
     "minConcretizedEpisodeOnMAL": "1",
     "maxConcretizedEpisodeOnMAL": "1"
+  },
+  {
+    "url": "anime/vtorjenie-gigantov",
+    "dataList": "3",
+    "firstEpisode": "13",
+    "titleOnMAL": "shingeki no kyojin season 3 part 2",
+    "minConcretizedEpisodeOnAnimedia": "13",
+    "maxConcretizedEpisodeOnAnimedia": "22",
+    "currentMax": null,
+    "posterUrl": null,
+    "finalUrl": null,
+    "episodeNumberForWatch": null,
+    "minConcretizedEpisodeOnMAL": "1",
+    "maxConcretizedEpisodeOnMAL": "10"
   }
 ]

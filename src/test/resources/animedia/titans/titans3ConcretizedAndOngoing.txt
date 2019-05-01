@@ -1,0 +1,91 @@
+<div class="media__tabs__series__list carousel-inner" data-list_id="3">
+    <div class="media__tabs__series__list__item"><a href="/anime/vtorjenie-gigantov/3/1" title="Серия 1 (38)"><img data-src="//static.animedia.tv/screens/1532375281e1b7af22522c4a5f28a1818c299391959318b039_min.jpg?w=153&h=86&fit=crop&q=45" alt="Серия 1 (38)"></a><span>Серия 1 (38) из 22</span></div><div class="media__tabs__series__list__item"><a href="/anime/vtorjenie-gigantov/3/2" title="Серия 2 (39)"><img data-src="//static.animedia.tv/screens/1532975594c8c2eddd55e50929314335229e49832c61070a9c_min.jpg?w=153&h=86&fit=crop&q=45" alt="Серия 2 (39)"></a><span>Серия 2 (39) из 22</span></div><div class="media__tabs__series__list__item"><a href="/anime/vtorjenie-gigantov/3/3" title="Серия 3 (40)"><img data-src="//static.animedia.tv/screens/15335799317df8d2cb0f07cf6b6345ca5196c345d95787aa1b_min.jpg?w=153&h=86&fit=crop&q=45" alt="Серия 3 (40)"></a><span>Серия 3 (40) из 22</span></div><div class="media__tabs__series__list__item"><a href="/anime/vtorjenie-gigantov/3/4" title="Серия 4 (41)"><img data-src="//static.animedia.tv/screens/1534187328fe9d4554c1d7740e340598330e2b29ff9d9d9fe9_min.jpg?w=153&h=86&fit=crop&q=45" alt="Серия 4 (41)"></a><span>Серия 4 (41) из 22</span></div><div class="media__tabs__series__list__item"><a href="/anime/vtorjenie-gigantov/3/5" title="Серия 5 (42)"><img data-src="//static.animedia.tv/screens/15348811861891a2b74a1dd2f2c41c1ee2f2369e8aee361cf7_min.jpg?w=153&h=86&fit=crop&q=45" alt="Серия 5 (42)"></a><span>Серия 5 (42) из 22</span></div><div class="media__tabs__series__list__item"><a href="/anime/vtorjenie-gigantov/3/6" title="Серия 6 (43)"><img data-src="//static.animedia.tv/screens/153574499918c5e4dc47be564a0fc4803707f0c64032f28a93_min.jpg?w=153&h=86&fit=crop&q=45" alt="Серия 6 (43)"></a><span>Серия 6 (43) из 22</span></div><div class="media__tabs__series__list__item"><a href="/anime/vtorjenie-gigantov/3/7" title="Серия 7 (44)"><img data-src="//static.animedia.tv/screens/1536007202175c43001b5fe4c3955a35529eaa93c7031cc2e4_min.jpg?w=153&h=86&fit=crop&q=45" alt="Серия 7 (44)"></a><span>Серия 7 (44) из 22</span></div><div class="media__tabs__series__list__item"><a href="/anime/vtorjenie-gigantov/3/8" title="Серия 8 (45)"><img data-src="//static.animedia.tv/screens/15368677958c87348c83a06cbff1d1daa54c7e1ae748693ef6_min.jpg?w=153&h=86&fit=crop&q=45" alt="Серия 8 (45)"></a><span>Серия 8 (45) из 22</span></div><div class="media__tabs__series__list__item"><a href="/anime/vtorjenie-gigantov/3/9" title="Серия 9 (46)"><img data-src="//static.animedia.tv/screens/15372877595de404655b3f16b8203a1c7f9ea67668591cbe92_min.jpg?w=153&h=86&fit=crop&q=45" alt="Серия 9 (46)"></a><span>Серия 9 (46) из 22</span></div><div class="media__tabs__series__list__item"><a href="/anime/vtorjenie-gigantov/3/10" title="Серия 10 (47)"><img data-src="//static.animedia.tv/screens/1537810849a310f158d11b9b6e2b75bcfe06e01505f9cba81c_min.jpg?w=153&h=86&fit=crop&q=45" alt="Серия 10 (47)"></a><span>Серия 10 (47) из 22</span></div><div class="media__tabs__series__list__item"><a href="/anime/vtorjenie-gigantov/3/11" title="Серия 11 (48)"><img data-src="//static.animedia.tv/screens/15390287093697c4a2aea9bc74b3793111dd9658a94ca86192_min.jpg?w=153&h=86&fit=crop&q=45" alt="Серия 11 (48)"></a><span>Серия 11 (48) из 22</span></div><div class="media__tabs__series__list__item"><a href="/anime/vtorjenie-gigantov/3/12" title="Серия 12 (49)"><img data-src="//static.animedia.tv/screens/153961846121409756fc0c6e036267662d6efb0dbcce4a7a14_min.jpg?w=153&h=86&fit=crop&q=45" alt="Серия 12 (49)"></a><span>Серия 12 (49) из 22</span></div><div class="media__tabs__series__list__item"><a href="/anime/vtorjenie-gigantov/3/13" title="Серия 13 (50)"><img data-src="//static.animedia.tv/screens/1556563827ce69a029abb5e4a04af46848f5b4eec2552ac6f1_min.jpg?w=153&h=86&fit=crop&q=45" alt="Серия 13 (50)"></a><span>Серия 13 (50) из 22</span></div>
+</div>
+<div class="clearfix"></div>
+<div class="media__tabs__series__footer">
+    <div class="media__tabs__series__footer__item"><a href="#carousel2" data-slide="prev" class="media__tabs__series__control carousel-control prev"><i class="ai ai-prev"></i></a></div>
+    <div class="media__tabs__series__footer__item media__tabs__series__footer__item__center">Серии <span class="start-series"></span>-<span class="end-series"></span> из 22</div>
+    <div class="media__tabs__series__footer__item"><a href="#carousel2" data-slide="next" class="media__tabs__series__control carousel-control next"><i class="ai ai-next"></i></a></div>
+</div>
+
+
+
+<script>
+    $(document).ready(function () {
+
+        /**
+         * Слайдер серий в табах
+         */
+        var seriesCount = 15,
+                $seriesCarousel = $('.media__tabs__series');
+
+        $seriesCarousel.each(function () {
+            var $carousel = $(this),
+                    $list = $carousel.find('.media__tabs__series__list'),
+                    $active = '';
+
+            while($list.children('div:not(.series-list__wrap)').length) {
+                $list.children('div:not(.series-list__wrap):lt('+seriesCount+')').wrapAll('<div class="series-list__wrap row item">');
+            }
+
+            var $item = $list.find('.series-list__wrap'),
+                    $firstItem = $list.find('.series-list__wrap:first-child'),
+                    $lastItem = $list.find('.series-list__wrap:last-child'),
+                    $control = $carousel.find('.media__tabs__series__control'),
+                    $controlPrev = $carousel.find('.media__tabs__series__control.prev'),
+                    $controlNext = $carousel.find('.media__tabs__series__control.next'),
+                    $startSeries = $carousel.find('.start-series'),
+                    $endSeries = $carousel.find('.end-series'),
+                    firstMax = $firstItem.find('.media__tabs__series__list__item').length;
+
+            $firstItem.addClass('active');
+            $controlPrev.addClass('disabled');
+            $startSeries.html('1');
+            $endSeries.html(firstMax);
+
+            if ($list.find('.media__tabs__series__list__item').length <= 15 ) {$control.hide();}
+
+            var i = 1;
+            var j = 1;
+
+            $control.click(function (e) {
+                var	$active = $list.find('.active'),
+                        firstActive = getItemIndex($active),
+                        lastActive = $item.length;
+
+                $control.removeClass('disabled');
+
+                if ( $(this).hasClass('prev') && firstActive === 1 ) {$controlPrev.addClass('disabled');} else {$controlPrev.removeClass('disabled');}
+                if ( $(this).hasClass('next') && firstActive+2 === lastActive ) {$controlNext.addClass('disabled');} else {$controlNext.removeClass('disabled');}
+
+
+                if ( $(this).hasClass('next') ) {
+                    var firstMin = $list.find('.series-list__wrap:nth-child('+ (i++) +') .media__tabs__series__list__item').length,
+                            lastMin = $list.find('.series-list__wrap:nth-child('+ ((j++)+1) +') .media__tabs__series__list__item').length,
+                            startText = $startSeries.text(),
+                            startText = Number(startText) + firstMin,
+                            endText = $endSeries.text(),
+                            endText =  Number(endText) + lastMin;
+                    $startSeries.html(startText);
+                    $endSeries.html(endText);
+                }
+                if ( $(this).hasClass('prev') ) {
+                    var firstMin = $list.find('.series-list__wrap:nth-child('+ ((i--)-1) +') .media__tabs__series__list__item').length,
+                            lastMin = $list.find('.series-list__wrap:nth-child('+ (j--) +') .media__tabs__series__list__item').length,
+                            startText = $startSeries.text(),
+                            startText = Number(startText) - firstMin,
+                            endText = $endSeries.text(),
+                            endText =  Number(endText) - lastMin;
+                    $startSeries.html(startText);
+                    $endSeries.html(endText);
+                }
+            });
+            getItemIndex = function (item) {
+                var $items = item.parent().children('.item')
+                return $items.index(item || $active)
+            }
+        });
+
+
+    });
+</script>

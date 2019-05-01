@@ -106,7 +106,8 @@ public class ReferencesManager {
 						String dataList = seasonsAndEpisodesEntry.getKey();
 						if (reference.getDataList().equals(dataList)) {
 							String animeId = animeIdSeasonsAndEpisodesEntry.getKey();
-							HttpResponse resp = httpCaller.call(animediaEpisodesList + animeId + "/" + dataList + animediaEpisodesListPostfix, HttpMethod.GET, animediaRequestParameters);
+							HttpResponse resp = httpCaller
+									.call(animediaEpisodesList + animeId + "/" + dataList + animediaEpisodesListPostfix, HttpMethod.GET, animediaRequestParameters);
 							Map<String, List<String>> episodesRange = animediaHTMLParser.getEpisodesRange(resp);
 							if (!episodesRange.isEmpty()) {
 								for (Map.Entry<String, List<String>> range : episodesRange.entrySet()) {
@@ -123,12 +124,14 @@ public class ReferencesManager {
 									}
 									int lastIndex = episodesList.size() - 1;
 									String currentMax = episodesList.get(lastIndex);
+									if (!isTitleConcretizedAndOngoing(reference)) {
+										reference.setFirstEpisode(firstEpisodeAndMin);
+										reference.setMinConcretizedEpisodeOnAnimedia(firstEpisodeAndMin);
+										reference.setMaxConcretizedEpisodeOnAnimedia(
+												intMaxEpisodes != null && intMaxEpisodes < intFirstEpisodeAndMin ? Integer.toString(intFirstEpisodeAndMin + intMaxEpisodes)
+														: maxEpisodes);
+									}
 									reference.setCurrentMax(currentMax);
-									reference.setFirstEpisode(firstEpisodeAndMin);
-									reference.setMinConcretizedEpisodeOnAnimedia(firstEpisodeAndMin);
-									reference.setMaxConcretizedEpisodeOnAnimedia(
-											intMaxEpisodes != null && intMaxEpisodes < intFirstEpisodeAndMin ? Integer.toString(intFirstEpisodeAndMin + intMaxEpisodes)
-													: maxEpisodes);
 								}
 								break;
 							}
@@ -227,5 +230,11 @@ public class ReferencesManager {
 			}
 		}
 		return fullMatch;
+	}
+
+	private boolean isTitleConcretizedAndOngoing(AnimediaMALTitleReferences reference) {
+		return reference.getMinConcretizedEpisodeOnAnimedia() != null && reference.getMaxConcretizedEpisodeOnAnimedia() != null
+				&& reference.getCurrentMax() == null && reference.getFirstEpisode() != null && reference.getMinConcretizedEpisodeOnMAL() != null
+				&& reference.getMaxConcretizedEpisodeOnMAL() != null;
 	}
 }

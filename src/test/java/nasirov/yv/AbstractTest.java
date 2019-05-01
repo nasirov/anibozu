@@ -158,6 +158,12 @@ public abstract class AbstractTest {
 	@Value("classpath:animedia/singleSeason/anotherHtml.txt")
 	protected Resource anotherHtml;
 
+	@Value("classpath:animedia/titans/titans3ConcretizedAndOngoing.txt")
+	protected Resource titans3ConcretizedAndOngoing;
+
+	@Value("classpath:animedia/titans/titansHtml.txt")
+	protected Resource titansHtml;
+
 	@Value("classpath:animedia/singleSeason/another1.txt")
 	protected Resource anotherDataList1;
 

@@ -1,0 +1,2026 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <title>Аниме Атака Титанов / Attack On Titan: смотреть мультсериал онлайн бесплатно в русской озвучке</title>
+	<meta name="title" content="Аниме Атака Титанов / Attack On Titan: смотреть мультсериал онлайн бесплатно в русской озвучке" />
+
+    <meta name="description" content="Смотреть аниме онлайн Атака титанов Attack on Titan Вторжение Гигантов, Shingeki no Kyojin Эрен и его семья живут в безопасности, ведь от гигантских человекоподобных людоедов, именуемых титанами, их и весь город защищает огромная непреодолимая стена. Но в тот день случилось непредвиденное и привычная жизнь всего человечества обратилась в сплошной кошмар. В один миг&#8230;" />
+	<meta name="keywords" content="Смотреть, Атака титанов, Attack on Titan, Драма, Приключения, Сёнэн, Фэнтези, Экшен, аниме онлайн, смотреть онлайн Атака титанов, аниме Attack on Titan, анимедия тв, онлайн анимедия, animedia, anime online, HD, Россия" />
+	<meta name="verification" content="2d8d54382bf5e339a1cadd83faff28" />
+
+	<meta property="og:title" content="Аниме Атака Титанов / Attack On Titan: смотреть мультсериал онлайн бесплатно в русской озвучке" />
+
+	<meta property="og:description" content="Смотреть аниме онлайн Атака титанов Attack on Titan Вторжение Гигантов, Shingeki no Kyojin Эрен и его семья живут в безопасности, ведь от гигантских человекоподобных людоедов, именуемых титанами, их и весь город защищает огромная непреодолимая стена. Но в тот день случилось непредвиденное и привычная жизнь всего человечества обратилась в сплошной кошмар. В один миг&#8230;" />
+	<meta property="og:image" content="https://static.animedia.tv/uploads/attackTitan.jpg" />
+	<meta property="og:url" content="https://online.animedia.tv/anime/vtorjenie-gigantov" />
+	<meta property="og:type" content="" />
+
+    <link rel="image_src" href="https://static.animedia.tv/uploads/attackTitan.jpg">
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
+	<link rel="canonical" href="https://online.animedia.tv/anime/vtorjenie-gigantov">
+    <link rel="alternate" hreflang="ru-RU" href="https://online.animedia.tv/anime/vtorjenie-gigantov" />
+    <link rel="alternate" hreflang="ru-UA" href="https://online.animedia.tv/anime/vtorjenie-gigantov" />
+    <link rel="alternate" hreflang="ru-KZ" href="https://online.animedia.tv/anime/vtorjenie-gigantov" />
+    <link rel="alternate" hreflang="ru-BY" href="https://online.animedia.tv/anime/vtorjenie-gigantov" />
+    <link rel="alternate" hreflang="ru-MD" href="https://online.animedia.tv/anime/vtorjenie-gigantov" />
+    <link rel="alternate" hreflang="ru-GE" href="https://online.animedia.tv/anime/vtorjenie-gigantov" />
+    <link rel="alternate" hreflang="ru-KG" href="https://online.animedia.tv/anime/vtorjenie-gigantov" />
+    <link rel="alternate" hreflang="ru-AM" href="https://online.animedia.tv/anime/vtorjenie-gigantov" />
+    <link rel="alternate" hreflang="ru-UZ" href="https://online.animedia.tv/anime/vtorjenie-gigantov" />
+    <link rel="alternate" hreflang="ru-TJ" href="https://online.animedia.tv/anime/vtorjenie-gigantov" />
+    <link rel="alternate" hreflang="ru-TM" href="https://online.animedia.tv/anime/vtorjenie-gigantov" />
+    <link rel="alternate" hreflang="ru-AZ" href="https://online.animedia.tv/anime/vtorjenie-gigantov" />
+    <link rel="alternate" hreflang="ru" href="https://online.animedia.tv/anime/vtorjenie-gigantov" />
+	<meta property="og:image:type" content="image/jpeg">
+    <meta name='wmail-verification' content='9973195d2a60ab01642e295b201562a0' />
+	<meta name="yandex-verification" content="56a704d59a84519b" />
+    <!--!*** 17064***advMaker.net2042016 ###-->
+    <!-- jQuery -->
+    <script src="/js/1.11.1/jquery.min.js"></script>
+    <!-- Main Style-->
+    <link href="/css/style.css" rel="stylesheet">
+    <link href="/css/mystyle.css" rel="stylesheet">
+
+    <!-- Open Sans-->
+    <linK href="https://fonts.googleapis.com/css?family=Open+Sans:400italic,600italic,700italic,400,600,700&amp;subset=latin,cyrillic" rel="stylesheet" type="text/css"></linK>
+    <!-- Oswald-->
+    <linK href="https://fonts.googleapis.com/css?family=Oswald:400,700" rel="stylesheet" type="text/css"></linK>
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries--><!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <input id="log_in" type="hidden" max="0" />
+	 <!-- BEGIN ADVERTSERVE CODE -->
+	<script type="text/javascript">
+	var _avp = _avp || [];
+	(function() {
+	  var s = document.createElement('script');
+	  s.type = 'text/javascript'; s.async = true; s.src = window.location.protocol + '//adbetnet.advertserve.com/js/libcode3.js';
+	  var x = document.getElementsByTagName('script')[0];
+	  x.parentNode.insertBefore(s, x);
+	})();
+	</script>
+	<!-- END ADVERTSERVE CODE -->
+
+	<script>
+	(function () {
+		var stime = 0;
+		try {stime=new Event("").timeStamp.toFixed(2);}catch(e){}
+
+		var sc = document.createElement('script');
+		sc.type = 'text/javascript';
+		sc.setAttribute('async', 'async');
+		sc.setAttribute('data-mrmn-tag', 'iam');
+		sc.src = '//pbcde.com/mbp/pre/e090ed6f026a464874cc8cd114a27a20/'
+			+ document.location.host.replace(/^www./, '')
+			+ '?'
+			+ 'sid=' + parseInt(Math.random() * 1e3) + '_' + parseInt(Math.random() * 1e6) + '_' + parseInt(Math.random() * 1e9)
+			+ '&stime=' + stime
+			+ '&r=' + Math.random();
+		var l = document.createElement('link');l.rel="preload";l.href=sc.src;l.as="script";
+		if (document.head) {
+			document.head.appendChild(l);
+			document.head.appendChild(sc);
+		} else {
+			var node = document.getElementsByTagName("script")[0];
+			node.parentNode.insertBefore(l, node);
+			node.parentNode.insertBefore(sc, node);
+		}
+	})();
+	</script>
+  </head>
+
+  <a href="#" class="scrollup"></a>
+
+
+  <body class="post-page"  onload="init();" style="margin:0px;">
+    <!-- Header-->
+    <header class="fixed-header">
+      <div class="container">
+        <div class="fixed-header__logo fixed-header__dropdown"><a href="/" title="AnimediaTV Online" class="logo"></a></div>
+        <div class="fixed-header__burger fixed-header__dropdown"><a href="#" data-target="burger" class="icon-link icon-link__burger icon-dropdown">
+            <div class="header-icon"></div></a>
+          <div id="burger" class="dropdown">
+            <ul class="dropdown__sub-menu">
+              <li class="dropdown__sub-menu__item"><a href="//animedia.tv/pages/about" title="О проекте">О проекте</a></li>
+              <li class="dropdown__sub-menu__item"><a href="//animedia.tv/pages/advertisers" title="Рекламодателям">Рекламодателям</a></li>
+              <li class="dropdown__sub-menu__item"><a href="//animedia.tv/pages/pravoobladatelyam" title="Правообладателям">Правообладателям</a></li>
+              <li class="dropdown__sub-menu__item"><a href="//online.animedia.tv/teamwork" title="Вакансии">Вакансии</a></li>
+            </ul>
+          </div>
+        </div>
+        <div class="fixed-header__navigation">
+          <nav class="header-menu"><a href="/" title="Главная" class="header-menu__item">Главная</a><a href="//animedia.tv/news" title="Новости" class="header-menu__item">Новости</a><a href="//animedia.tv/blogs" title="Блоги" class="header-menu__item">Блоги</a><a href="//tt.animedia.tv/" title="Трекер" class="header-menu__item">Трекер</a><a href="//animedia.tv/project-team" title="Команда проекта" class="header-menu__item">Команда</a>
+          </nav>
+        </div>
+        <div class="fixed-header__right-icon fixed-header__dropdown"><a href="#" data-target="share" class="icon-link icon-link__share icon-dropdown">
+            <div class="header-icon"></div></a>
+          <div id="share" class="dropdown">
+            <ul class="dropdown__sub-menu">
+              <li class="dropdown__sub-menu__item"><a href="https://vk.com/animedia_tv" title="Мы Вконтакте">Мы Вконтакте</a></li>
+              <li class="dropdown__sub-menu__item"><a href="https://www.facebook.com/profile.php?id=100011328373546" title="Мы на Facebook">Мы на Facebook</a></li>
+              <li class="dropdown__sub-menu__item"><a href="https://twitter.com/AniMediaInfo" title="Мы в Twitter">Мы в Twitter</a></li>
+            </ul>
+          </div>
+        </div>
+        <div class="fixed-header__right-icon fixed-header__dropdown"><a href="#" data-target="search" class="icon-link icon-link__search icon-dropdown">
+            <div class="header-icon"></div></a>
+          <div id="search" class="dropdown">
+            <div class="dropdown__block">
+              <div class="dropdown__block__search">
+                <form role="search" id="search" method="GET" action="/search">
+				<a class="title_search_all" href="/search">Расширенный поиск</a>
+<script src="/semantic/dist/semantic.js"></script>
+<link rel="stylesheet" type="text/css" class="ui" href="/semantic/dist/semantic3-1.css">
+
+                  <div class="form-group">
+                     <div class="col-l dropdown__block__search__label">
+                      <label for="headerSearch" class="h1">Поиск</label>
+                     </div>
+
+					<div class="ui search">
+					  <div class="ui left icon input">
+						<input class="prompt" type="text" id="search-query" name="keywords" placeholder="Поиск">
+						<i class="search icon"></i>
+					  </div>
+					</div>
+
+                  </div>
+
+<script>
+$('.ui.search')
+  .search({
+    type          : 'category',
+	cache         : 'true',
+    minCharacters : 3,
+    apiSettings   : {
+      onResponse: function(githubResponse) {
+        var
+          response = {
+            results : {}}
+        ;
+        // translate GitHub API response to work with search
+        $.each(githubResponse.items, function(index, item) {
+          var
+            language   = item.language || 'Unknown',
+            maxResults = 10
+          ;
+          if(index >= maxResults) {
+            return false;
+          }
+          // create new language category
+          if(response.results[language] === undefined) {
+            response.results[language] = {
+              name    : language,
+              results : []
+            };
+          }
+          // add result to category
+          response.results[language].results.push({
+            title       : item.name,
+            description : item.description,
+            url         : item.html_url,
+			image       : item.image
+          });
+        });
+        return response;
+      },
+	  url: 'https://online.animedia.tv/ajax/url_s/search&keywords={query}'
+    },
+	error : {
+  source      : 'Cannot search. No source used, and Semantic API module was not included',
+  noResults   : 'По Вашему запросу нет результатов',
+  logging     : 'Error in debug logging, exiting.',
+  noTemplate  : 'A valid template name was not specified.',
+  serverError : 'There was an issue with querying the server.',
+  maxResults  : 'Results must be an array to use maxResults setting',
+  method      : 'The method you called is not defined.'
+}
+  })
+
+;</script>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="fixed-header__right-icon fixed-header__dropdown">
+          <a href="#" data-target="profile" class="icon-link icon-link__profile icon-dropdown">
+            <div class="header-icon"></div>
+			    </a>
+          <div id="profile" class="dropdown">
+
+
+            <div class="dropdown__block">
+              <div class="dropdown__block__login">
+                <div class="h1">Вход</div>
+                <p>Если вы у нас впервые - зарегистрируйтесь. Это не займет много времени, но даст вам дополнительные возможности.</p>
+                <form method="post" action="https://online.animedia.tv/"  >
+<div class='hiddenFields'>
+<input type="hidden" name="ACT" value="14" />
+<input type="hidden" name="RET" value="anime/vtorjenie-gigantov" />
+<input type="hidden" name="site_id" value="1" />
+<input type="hidden" name="csrf_token" value="4d5a93e6c0624e79c8852d05c75c96bde327b644" />
+</div>
+
+
+				<form id="loginForm" action="#">
+                  <div class="form-group">
+                    <label for="login">Логин</label>
+                    <input id="username" name="username" type="text" required class="form-control form-control__small">
+                    <div class="help-block"></div>
+                  </div>
+                  <div class="form-group">
+                    <label for="password">Пароль</label>
+                    <input id="password" name="password" type="password" required class="form-control form-control__small">
+                    <div class="help-block"></div>
+                  </div>
+                  <div class="form-group">
+                    <button type="submit" class="btn btn__red btn__middle btn__login"><i class="ai ai-next"></i> Войти</button>
+                    <button type="button" class="btn btn__red btn__middle btn__reg-display"><i class="ai ai-next"></i> Регистрация</button>
+                  </div>
+
+
+
+				  </form>
+				  <p></br><img src="/img/or_auth.png"></p>
+				  <div class="form-group">
+
+					<form id="social_login_form" class="social_login_form" name="social_login_form" method="post" action="https://online.animedia.tv/"  >
+<div class='hiddenFields'>
+<input type="hidden" name="ACT" value="104" />
+<input type="hidden" name="RET" value="https://online.animedia.tv/anime/vtorjenie-gigantov" />
+<input type="hidden" name="no_email_return" value="https://online.animedia.tv/anime/vtorjenie-gigantov" />
+<input type="hidden" name="site_id" value="1" />
+<input type="hidden" name="csrf_token" value="4d5a93e6c0624e79c8852d05c75c96bde327b644" />
+</div>
+
+
+
+
+					<script type="text/javascript">
+					$(document).ready(function(){
+					$('.extlogin').click(function(){
+					$('#social_login_form input[name=provider]').val($(this).attr('rel'));
+					$('#social_login_form').submit();
+					});
+					});
+					</script>
+					<input type="hidden" name="provider" value="" />
+					<!-- <button href="#" rel="facebook" class="extlogin btn_fb btn__fb btn__middle btn__fb"> Войти через facebook</button> -->
+					<button href="#" rel="vkontakte" class="extlogin btn_vk btn__vk btn__middle btn__vk"> Войти через Вконтакте</button>
+
+</form>
+					<center></br><a href="#forgot_pass" class="forgot">Забыл пароль?</a></center>
+					<fieldset style="border:0;" id="forgot_pass" class="white-popup-block mfp-hide">
+						<form id="forgot_password_form" method="post" action="https://online.animedia.tv/"  >
+<div class='hiddenFields'>
+<input type="hidden" name="ACT" value="50" />
+<input type="hidden" name="RET" value="" />
+<input type="hidden" name="params_id" value="tILHbILwGIFQPYpFPGqzbzzPV" />
+<input type="hidden" name="site_id" value="1" />
+<input type="hidden" name="csrf_token" value="4d5a93e6c0624e79c8852d05c75c96bde327b644" />
+</div>
+
+
+						<div class="h1">Восстановление пароля</div>
+					  <p><textarea class="form-control" rows="1" type="text" name="email" id="email" placeholder="Введите свой E-mail адрес"></textarea></p>
+					<button type="submit" name="submit" class="btn btn-primary">Отправить</button>
+						</form>
+					</fieldset>
+                  </div>
+                </form>
+              </div>
+              <div class="dropdown__block__registration">
+                <div class="h1">Регистрация</div>
+				        <form id="member_form" method="post" action="https://online.animedia.tv/"  >
+<div class='hiddenFields'>
+<input type="hidden" name="ACT" value="48" />
+<input type="hidden" name="RET" value="https://online.animedia.tv/anime/vtorjenie-gigantov" />
+<input type="hidden" name="params_id" value="YXiGcWpCymaaxhUyyTWbucpzb" />
+<input type="hidden" name="site_id" value="1" />
+<input type="hidden" name="csrf_token" value="4d5a93e6c0624e79c8852d05c75c96bde327b644" />
+</div>
+
+
+                <form id="regForm" action="#">
+                  <div class="form-group">
+                    <label for="regLogin">Логин</label>
+                    <input id="username" name="username" type="text" required class="form-control form-control__small">
+                    <div class="help-block"></div>
+                  </div>
+                  <div class="form-group">
+                    <label for="regMail">Email</label>
+                    <input name="email" id="email" type="email" required class="form-control form-control__small">
+                    <div class="help-block"></div>
+                  </div>
+                  <div class="form-group">
+                    <label for="regPassword">Пароль</label>
+                    <input id="password" name="password" type="password" required class="form-control form-control__small">
+                    <div class="help-block"></div>
+                  </div>
+                  <div class="form-group">
+                    <label for="regPasswordRepeat">Повторите пароль</label>
+                    <input type="password" id="password_confirm" name="password_confirm" required class="form-control form-control__small">
+                    <div class="help-block"></div>
+                  </div>
+                  <div class="form-group form-group__birthday">
+                    <label for="regBirthdayDay">Дата рождения</label>
+                    <div class="col-l col-l__day">
+                      <select id="bday_d" name="bday_d" type="bday_d" class="form-control form-control__small">
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                        <option value="6">6</option>
+                        <option value="7">7</option>
+                        <option value="8">8</option>
+                        <option value="9">9</option>
+                        <option value="10">10</option>
+                        <option value="11">11</option>
+                        <option value="12">12</option>
+                        <option value="13">13</option>
+                        <option value="14">14</option>
+                        <option value="15">15</option>
+                        <option value="16">16</option>
+                        <option value="17">17</option>
+                        <option value="18">18</option>
+                        <option value="19">19</option>
+                        <option value="20">20</option>
+                        <option value="21">21</option>
+                        <option value="22">22</option>
+                        <option value="23">23</option>
+                        <option value="24">24</option>
+                        <option value="25">25</option>
+                        <option value="26">26</option>
+                        <option value="27">27</option>
+                        <option value="28">28</option>
+                        <option value="29">29</option>
+                        <option value="30">30</option>
+                        <option value="31">31</option>
+                      </select>
+                      <div class="help-block"></div>
+                    </div>
+                    <div class="col-l col-l__month">
+                      <select id="bday_m" name="bday_m" type="bday_m" class="form-control form-control__small">
+                        <option value="1">Январь</option>
+                        <option value="2">Февраль</option>
+                        <option value="3">Март</option>
+                        <option value="4">Апрель</option>
+                        <option value="5">Май</option>
+                        <option value="6">Июнь</option>
+                        <option value="7">Июль</option>
+                        <option value="8">Август</option>
+                        <option value="9">Сентябрь</option>
+                        <option value="10">Октябрь</option>
+                        <option value="11">Ноябрь</option>
+                        <option value="12">Декабрь</option>
+                      </select>
+                      <div class="help-block"></div>
+                    </div>
+                    <div class="col-l col-l__year">
+                      <select id="bday_y" name="bday_y" type="bday_y" class="form-control form-control__small">
+                        <option value="1950">1950</option>
+                        <option value="1951">1951</option>
+                        <option value="1952">1952</option>
+                        <option value="1953">1953</option>
+                        <option value="1954">1954</option>
+                        <option value="1955">1955</option>
+                        <option value="1956">1956</option>
+                        <option value="1957">1957</option>
+                        <option value="1958">1958</option>
+                        <option value="1959">1959</option>
+                        <option value="1960">1960</option>
+                        <option value="1961">1961</option>
+                        <option value="1962">1962</option>
+                        <option value="1963">1963</option>
+                        <option value="1964">1964</option>
+                        <option value="1965">1965</option>
+                        <option value="1966">1966</option>
+                        <option value="1967">1967</option>
+                        <option value="1968">1968</option>
+                        <option value="1969">1969</option>
+                        <option value="1970">1970</option>
+                        <option value="1971">1971</option>
+                        <option value="1972">1972</option>
+                        <option value="1973">1973</option>
+                        <option value="1974">1974</option>
+                        <option value="1975">1975</option>
+                        <option value="1976">1976</option>
+                        <option value="1977">1977</option>
+                        <option value="1978">1978</option>
+                        <option value="1979">1979</option>
+                        <option value="1980">1980</option>
+                        <option value="1981">1981</option>
+                        <option value="1982">1982</option>
+                        <option value="1983">1983</option>
+                        <option value="1984">1984</option>
+                        <option value="1985">1985</option>
+                        <option value="1986">1986</option>
+                        <option value="1987">1987</option>
+                        <option value="1988">1988</option>
+                        <option value="1989">1989</option>
+                        <option value="1990">1990</option>
+                        <option value="1991">1991</option>
+                        <option value="1992">1992</option>
+                        <option value="1993">1993</option>
+                        <option value="1994">1994</option>
+                        <option value="1995">1995</option>
+                        <option value="1996">1996</option>
+                        <option value="1997">1997</option>
+                        <option value="1998">1998</option>
+                        <option value="1999">1999</option>
+                        <option value="2000">2000</option>
+                        <option value="2001">2001</option>
+                        <option value="2002">2002</option>
+                        <option value="2003">2003</option>
+                        <option value="2004">2004</option>
+                        <option value="2005">2005</option>
+                        <option value="2006">2006</option>
+                        <option value="2007">2007</option>
+                        <option value="2008">2008</option>
+                        <option value="2009">2009</option>
+                        <option value="2010">2010</option>
+                        <option value="2011">2011</option>
+                        <option value="2012">2012</option>
+                        <option value="2013">2013</option>
+                        <option value="2014">2014</option>
+                        <option value="2015">2015</option>
+						<option value="2016">2016</option>
+						<option value="2017">2017</option>
+                      </select>
+                      <div class="help-block"></div>
+                    </div>
+                  </div>
+                  <div class="form-group">
+				    <input type="hidden" name="accept_terms" value="y" />
+                    <button type="submit" class="btn btn__red btn__middle btn__reg"><i class="ai ai-next"></i> Зарегистрироваться!</button>
+                  </div>
+                </form>
+				</form>
+                <p>Если у вас есть аккаунт, вы можете  <a href="#" class="btn__login-display">войти</a>.</p>
+              </div>
+            </div>
+
+      </div>
+    </div>
+      </div>
+    </header>
+    <!-- Header end-->
+    <!-- Promo-->
+
+
+<!-- Copy and paste this code into banner place on the page. -->
+
+<div id="BpFDBDah"></div>
+<script>(function(w,d,o,g,r,a,m){w[r]=w[r]||function(){(w[r+'l']=w[r+'l']||[]).push(arguments)};if(!w.ABN){a=d.createElement(o),m=d.getElementsByTagName(o)[0];
+a.async=1;a.src=g;m.parentNode.insertBefore(a,m)}})(window,document,'script','https://xml.adbetnet.com/libs/b.js','ABNS');
+ABNS('BpFDBDah', {id:2140143783});
+</script>
+
+
+<!-- END ADVERTSERVE CODE -->
+<div class="promo2">
+      <div class="container">
+        <div class="promo__wrapper">
+          <div class="wwzwpromo__visible-section">
+			<div class="c002"></div>
+			<div  class="c016"></div>
+			<div class="ramka"></div>
+			<a id="first" class="pos-link" href="/anime/milyj-vo-frankce"></a>
+			<a id="second" class="pos"></a>
+			<div class="promo__parallax__layer2 layer-52"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+<script>
+$("#first").mouseover(function(){
+    $("#second").css("background-image", "url(/img/2/promo4/franxx.gif)");
+});
+
+$("#first").mouseout(function(){
+    $("#second").css("background-image", "url(/img/2/promo4/giff.png)");
+});
+
+</script>
+    <!-- Promo End-->
+
+<div id="is_not_logged" style="display: none;"></div>
+ <!-- Main container-->
+    <div class="container">
+      <div class="main-container">
+        <!-- Main navigation-->
+        <nav class="main-navigation"><a href="/" title="Новинки" class="main-navigation__item ">Новинки</a><a href="/list" title="Аниме" class="main-navigation__item active">Аниме</a><a href="/movie" title="Фильмы" class="main-navigation__item ">Фильмы</a><a href="/announcements" title="Анонсы" class="main-navigation__item ">Анонсы</a><a href="/top-100-anime" title="Анонсы" class="main-navigation__item ">ТОП 100</a><!-- <a href="/streams" title="Стримы" class="main-navigation__item ">Стримы <img data-twitch-channel="drahonn"></a> --><a href="/search" class="main-navigation__item search-link ">Расширенный поиск</a>
+</nav>
+        <!-- Main navigation End-->
+
+
+
+
+
+
+        <!-- Content container-->
+        <div class="content-container">
+          <!-- Content. Left block-->
+          <div class="content">
+            <!-- Breadcrumbs-->
+            <div class="breadcrumbs">
+              <ul class="breadcrumbs__list">
+                <li class="breadcrumbs__list__item"><a href="/" title="Главная Аниме онлайн">Главная</a></li>
+                <li class="breadcrumbs__list__item"><a href="/list" title="Аниме онлайн смотреть">Аниме</a></li>
+                <li class="breadcrumbs__list__item"><span>Атака титанов</span></li>
+
+              </ul>
+            </div>
+            <!-- Breadcrumbs End-->
+            <!-- Media-->
+            <div class="media">
+              <!-- Media post-->
+              <article class="media__post">
+                <div class="media__post__header">
+                  <h1 class="media__post__title">Атака титанов смотреть онлайн</h1>
+                  <div class="media__post__original-title">Attack on Titan Вторжение Гигантов, Shingeki no Kyojin</div>
+                  <div class="media__post__pegi pegi">16</div>
+                </div>
+                <div class="media__panel media__panel__gray">
+                  <div class="media__post__body">
+                    <p>Эрен и его семья живут в безопасности, ведь от гигантских человекоподобных людоедов, именуемых титанами, их и весь город защищает огромная непреодолимая стена. Но в тот день случилось непредвиденное и привычная жизнь всего человечества обратилась в сплошной кошмар.</p>
+
+<p>  В один миг у стены появился огромнейший Титан-Колос и без проблем пробил главные врата. За считанные минуты город наполнился неудержимыми монстрами-людоедами.</p>
+
+<p>  Выжившие в панике ринулись во внутренние стены, чтобы укрыться от неминуемой смерти, но повезло далеко не всем. Прямо на глазах у маленького Эрена и его сводной сестры Микасы гигант съедает его мать, но самим детям удается спастись благодаря доблестному полицейскому.</p>
+
+<p>  Все население повергнуто в хаос, гиганты захватили огромную часть, итак, ограниченных земель человечества, ресурсы на исходе и ничто теперь не гарантирует безопасности, ведь Колос может появится в любой миг и на этот раз уничтожить человечество навсегда.</p>
+
+<p>  Но страх не занимает мыслей Эрена, единственное о чём он думает, это как сильно он желает уничтожить всех титанов. Не имея иного решения в данной ситуации, Эрен, а вместе с ним Микаса и их друг детства Армин, вступают в «Легион Разведки» - единственные войска, которые напрямую уничтожают титанов и даруют человечеству надежду на светлое будущее.</p></br>
+                  </div>
+                  <div class="media__post__info">
+                    <div class="col-l">
+                      <div class="releases-date">Дата выпуска: <span>с <a href="/search?q=2013" title="Аниме онлайн 2013 года">2013</a> года</span></div>
+                      <div class="director">Статус: <span>В работе</span></div>
+                    </div>
+                    <div class="col-l">
+                      <!-- <div class="released">Уже вышло: <span>4 сезона по 12 серий, 2 ОВЫ, <a href="#">4 фильма</a></span></div> -->
+					  <div class="genre-tags">Жанр: <a href="https://online.animedia.tv/category/drama" title="Жанр аниме онлайн Драма">Драма</a><a href="https://online.animedia.tv/category/advanture" title="Жанр аниме онлайн Приключения">Приключения</a><a href="https://online.animedia.tv/category/shounen" title="Жанр аниме онлайн Сёнэн">Сёнэн</a><a href="https://online.animedia.tv/category/fantasy" title="Жанр аниме онлайн Фэнтези">Фэнтези</a><a href="https://online.animedia.tv/category/ekshen" title="Жанр аниме онлайн Экшен">Экшен</a></div>
+					  <div class="studio">Студия: <a href="/search?q=Production I.G" title="Студия аниме Production I.G">Production I.G</a></div>
+                    </div>
+                  </div>
+                </div>
+              </article>
+              <!--Media post End-->
+
+              <!-- Media screenshots-->
+
+              <div class="media__sshots">
+                <h3 class="media__sshots__title">Скриншоты</h3>
+                <ul class="media__sshots__list">
+
+                <li class="media__sshots__list__item"><a href="https://static.animedia.tv/uploads/9302/0mualbl24u4u.png" title="Увеличить" class="zoomLink"><img data-src="https://static.animedia.tv/uploads/9302/0mualbl24u4u.png?w=175" alt="Скриншот аниме Атака титанов" title="Скриншот из аниме онлайн Атака титанов"></a></li>
+
+                <li class="media__sshots__list__item"><a href="https://static.animedia.tv/uploads/9302/2y53j15d9y1s.png" title="Увеличить" class="zoomLink"><img data-src="https://static.animedia.tv/uploads/9302/2y53j15d9y1s.png?w=175" alt="Скриншот аниме Атака титанов" title="Скриншот из аниме онлайн Атака титанов"></a></li>
+
+                <li class="media__sshots__list__item"><a href="https://static.animedia.tv/uploads/9302/5i4wt73paxke.png" title="Увеличить" class="zoomLink"><img data-src="https://static.animedia.tv/uploads/9302/5i4wt73paxke.png?w=175" alt="Скриншот аниме Атака титанов" title="Скриншот из аниме онлайн Атака титанов"></a></li>
+
+                <li class="media__sshots__list__item"><a href="https://static.animedia.tv/uploads/9302/p2ib2h6jbu7b.png" title="Увеличить" class="zoomLink"><img data-src="https://static.animedia.tv/uploads/9302/p2ib2h6jbu7b.png?w=175" alt="Скриншот аниме Атака титанов" title="Скриншот из аниме онлайн Атака титанов"></a></li>
+
+                <li class="media__sshots__list__item"><a href="https://static.animedia.tv/uploads/9302/a56d42bf502defba054011956dd0effdc722548a.jpg" title="Увеличить" class="zoomLink"><img data-src="https://static.animedia.tv/uploads/9302/a56d42bf502defba054011956dd0effdc722548a.jpg?w=175" alt="Скриншот аниме Атака титанов" title="Скриншот из аниме онлайн Атака титанов"></a></li>
+
+			   </ul>
+              </div>
+
+              <!-- Media screenshots End-->
+              <!-- Media sub information-->
+
+<center>
+<div id='e3de435b70'></div>
+
+<script type='text/javascript' data-cfasync='false'>
+ (function(){
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.charset = 'utf-8';
+  script.async = 'true';
+  script.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//et-cod.com/bens/vinos.js?13282a' + Math.random();
+  document.body.appendChild(script);
+ })();
+</script>
+
+</center>
+
+              <div class="media__sub__info">
+					<div class="media__panel media__panel__gray">
+                  <div class="media__bnts">
+
+                  <a href="/anime/vtorjenie-gigantov/1/1" class="btn btn__big btn__red btn__play-first"><i class="ai ai-next"></i> Смотреть онлайн</a>
+
+
+
+				  <a href="javascript:open_auth();" id="save_fav" data-id='9302' class="add btn btn__d-gray btn__big btn__bookmark"><i class="ai ai-bookmark"></i> В закладки</a>
+
+				  <a href="javascript:open_auth();" data-id='9302' class="add btn btn__d-gray btn__big btn__like"><i class="ai ai-like__empty"></i> Мне нравится!</a>
+
+
+
+				  <a href="/error-on-site" target="_blank" class="btn btn__d-gray btn__big btn__error"><i class="ai ai-alert"></i> Нашел ошибку?</a>
+
+				  </div>
+                  <div class="media__sub__info__text">Все релизы на сайте могут содержать эротические сцены, ненормативную лексику и сцены насилия. По-умолчанию ограничение по возрасту 16+.<br>Пользователи младше указанной возрастной категории могут просматривать релизы на свой страх и риск, либо под присмотром родителей.</div>
+				</div>
+
+
+
+
+			  </div>
+
+			<!-- btn error end -->
+              <!-- Media sub information End-->
+              <!-- Media series tabs-->
+
+              <div class="media__tabs">
+                <!-- tabs navigation-->
+                <ul role="tablist" class="media__tabs__nav nav-tabs" data-entry_id="9302">
+                  <li class="media__tabs__nav__item active"><a href="#tab0" role="tab" data-toggle="tab">1 Сезон</a></li>
+                  <li class="media__tabs__nav__item"><a href="#tab1" role="tab" data-toggle="tab">2 сезон</a></li>
+                  <li class="media__tabs__nav__item"><a href="#tab2" role="tab" data-toggle="tab">3 сезон</a></li>
+
+
+
+				  <li class="media__tabs__nav__item"><a href="#tab6" role="tab" data-toggle="tab">ОВА</a></li>
+                </ul>
+                <!-- tabs navigation end-->
+                <!-- tabs sub-panel-->
+
+                <!-- tabs sub-panel end-->
+                <!-- tabs content-->
+                <div class="media__tabs__content tab-content">
+                  <div id="tab0" role="tabpanel" class="media__tabs__panel tab-pane active">
+                    <div id="carousel0" data-interval="false" data-wrap="false" class="media__tabs__series carousel slide">
+                      <div class="media__tabs__series__list carousel-inner" data-list_id="1"></div>
+                      <div class="clearfix"></div>
+                      <div class="media__tabs__series__footer">
+                        <div class="media__tabs__series__footer__item"><a href="#carousel0" data-slide="prev" class="media__tabs__series__control carousel-control prev"><i class="ai ai-prev"></i></a></div>
+                        <div class="media__tabs__series__footer__item media__tabs__series__footer__item__center">Серии <span class="start-series"></span>-<span class="end-series"></span> из 25</div>
+                        <div class="media__tabs__series__footer__item"><a href="#carousel0" data-slide="next" class="media__tabs__series__control carousel-control next"><i class="ai ai-next"></i></a></div>
+                      </div>
+                    </div>
+                  </div>
+                  <div id="tab1" role="tabpanel" class="media__tabs__panel tab-pane">
+                    <div id="carousel1" data-interval="false" data-wrap="false" class="media__tabs__series carousel slide">
+
+                      <div class="media__tabs__series__list carousel-inner" data-list_id="2"></div>
+
+                      <div class="clearfix"></div>
+                      <div class="media__tabs__series__footer">
+                        <div class="media__tabs__series__footer__item"><a href="#carousel1" data-slide="prev" class="media__tabs__series__control carousel-control prev"><i class="ai ai-prev"></i></a></div>
+                        <div class="media__tabs__series__footer__item media__tabs__series__footer__item__center">Серии <span class="start-series"></span>-<span class="end-series"></span> из 12</div>
+                        <div class="media__tabs__series__footer__item"><a href="#carousel1" data-slide="next" class="media__tabs__series__control carousel-control next"><i class="ai ai-next"></i></a></div>
+                      </div>
+                    </div>
+                  </div>
+                  <div id="tab2" role="tabpanel" class="media__tabs__panel tab-pane">
+                    <div id="carousel2" data-interval="false" data-wrap="false" class="media__tabs__series carousel slide">
+
+                      <div class="media__tabs__series__list carousel-inner" data-list_id="3"></div>
+
+                      <div class="clearfix"></div>
+                      <div class="media__tabs__series__footer">
+                        <div class="media__tabs__series__footer__item"><a href="#carousel2" data-slide="prev" class="media__tabs__series__control carousel-control prev"><i class="ai ai-prev"></i></a></div>
+                        <div class="media__tabs__series__footer__item media__tabs__series__footer__item__center">Серии <span class="start-series"></span>-<span class="end-series"></span> из 22</div>
+                        <div class="media__tabs__series__footer__item"><a href="#carousel2" data-slide="next" class="media__tabs__series__control carousel-control next"><i class="ai ai-next"></i></a></div>
+                      </div>
+                    </div>
+                  </div>
+                  <div id="tab3" role="tabpanel" class="media__tabs__panel tab-pane">
+                    <div id="carousel3" data-interval="false" data-wrap="false" class="media__tabs__series carousel slide">
+
+                      <div class="media__tabs__series__list carousel-inner" data-list_id="4"></div>
+
+                      <div class="clearfix"></div>
+                      <div class="media__tabs__series__footer">
+                        <div class="media__tabs__series__footer__item"><a href="#carousel3" data-slide="prev" class="media__tabs__series__control carousel-control prev"><i class="ai ai-prev"></i></a></div>
+                        <div class="media__tabs__series__footer__item media__tabs__series__footer__item__center">Серии <span class="start-series"></span>-<span class="end-series"></span> из </div>
+                        <div class="media__tabs__series__footer__item"><a href="#carousel3" data-slide="next" class="media__tabs__series__control carousel-control next"><i class="ai ai-next"></i></a></div>
+                      </div>
+                    </div>
+                  </div>
+                  <div id="tab4" role="tabpanel" class="media__tabs__panel tab-pane">
+                    <div id="carousel4" data-interval="false" data-wrap="false" class="media__tabs__series carousel slide">
+
+                      <div class="media__tabs__series__list carousel-inner" data-list_id="5"></div>
+
+                      <div class="clearfix"></div>
+                      <div class="media__tabs__series__footer">
+                        <div class="media__tabs__series__footer__item"><a href="#carousel4" data-slide="prev" class="media__tabs__series__control carousel-control prev"><i class="ai ai-prev"></i></a></div>
+                        <div class="media__tabs__series__footer__item media__tabs__series__footer__item__center">Серии <span class="start-series"></span>-<span class="end-series"></span> из </div>
+                        <div class="media__tabs__series__footer__item"><a href="#carousel4" data-slide="next" class="media__tabs__series__control carousel-control next"><i class="ai ai-next"></i></a></div>
+                      </div>
+                    </div>
+                  </div>
+                  <div id="tab5" role="tabpanel" class="media__tabs__panel tab-pane">
+                    <div id="carousel5" data-interval="false" data-wrap="false" class="media__tabs__series carousel slide">
+
+                      <div class="media__tabs__series__list carousel-inner" data-list_id="6"></div>
+
+                      <div class="clearfix"></div>
+                      <div class="media__tabs__series__footer">
+                        <div class="media__tabs__series__footer__item"><a href="#carousel5" data-slide="prev" class="media__tabs__series__control carousel-control prev"><i class="ai ai-prev"></i></a></div>
+                        <div class="media__tabs__series__footer__item media__tabs__series__footer__item__center">Серии <span class="start-series"></span>-<span class="end-series"></span> из </div>
+                        <div class="media__tabs__series__footer__item"><a href="#carousel5" data-slide="next" class="media__tabs__series__control carousel-control next"><i class="ai ai-next"></i></a></div>
+                      </div>
+                    </div>
+                  </div>
+                  <div id="tab6" role="tabpanel" class="media__tabs__panel tab-pane">
+                    <div id="carousel6" data-interval="false" data-wrap="false" class="media__tabs__series carousel slide">
+
+                      <div class="media__tabs__series__list carousel-inner" data-list_id="7"></div>
+
+                      <div class="clearfix"></div>
+                      <div class="media__tabs__series__footer">
+                        <div class="media__tabs__series__footer__item"><a href="#carousel6" data-slide="prev" class="media__tabs__series__control carousel-control prev"><i class="ai ai-prev"></i></a></div>
+                        <div class="media__tabs__series__footer__item media__tabs__series__footer__item__center">Серии <span class="start-series"></span>-<span class="end-series"></span> из 1</div>
+                        <div class="media__tabs__series__footer__item"><a href="#carousel6" data-slide="next" class="media__tabs__series__control carousel-control next"><i class="ai ai-next"></i></a></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <!-- tabs content end-->
+              </div>
+              <!-- Media series tabs End-->
+
+
+			                <div class="media__related">
+                <div class="media__panel media__panel__gray">
+                  <h3 class="media__related__title">С этим релизом смотрят:</h3>
+                  <div class="media__related__list">
+
+                    <div class="media__related__list__item"><a href="https://online.animedia.tv/anime/bungou-stray-dogs-velikij-iz-brodyachih-psov" title="Смотреть онлайн Великий из бродячих псов" class="zoomLink"><img data-src="https://static.animedia.tv/uploads/bung12.jpg?w=133&h=183" alt="Смотреть онлайн Великий из бродячих псов" width="133" height="183"></a></div>
+
+                    <div class="media__related__list__item"><a href="https://online.animedia.tv/anime/prints-preispodney-demonyi-i-realist" title="Смотреть онлайн Принц Преисподней: Демоны и Реалист" class="zoomLink"><img data-src="https://static.animedia.tv/uploads/949.jpg?w=133&h=183" alt="Смотреть онлайн Принц Преисподней: Демоны и Реалист" width="133" height="183"></a></div>
+
+                    <div class="media__related__list__item"><a href="https://online.animedia.tv/anime/kod-krushitel" title="Смотреть онлайн Код: Крушитель" class="zoomLink"><img data-src="https://static.animedia.tv/uploads/CodeBreaker.jpg?w=133&h=183" alt="Смотреть онлайн Код: Крушитель" width="133" height="183"></a></div>
+
+                    <div class="media__related__list__item"><a href="https://online.animedia.tv/anime/OreShura" title="Смотреть онлайн Меж двух огней, Девушка и Подруга детства!" class="zoomLink"><img data-src="https://static.animedia.tv/uploads/829.jpg?w=133&h=183" alt="Смотреть онлайн Меж двух огней, Девушка и Подруга детства!" width="133" height="183"></a></div>
+
+                    <div class="media__related__list__item"><a href="https://online.animedia.tv/anime/yarost-bahamuta-druzya-iz-manarii" title="Смотреть онлайн Ярость Бахамута: Друзья из Манарии" class="zoomLink"><img data-src="https://static.animedia.tv/uploads/BAKhAMUT.jpg?w=133&h=183" alt="Смотреть онлайн Ярость Бахамута: Друзья из Манарии" width="133" height="183"></a></div>
+
+                    <div class="media__related__list__item"><a href="https://online.animedia.tv/anime/velzevul" title="Смотреть онлайн Вельзевул" class="zoomLink"><img data-src="https://static.animedia.tv/uploads/beelzebub1.jpg?w=133&h=183" alt="Смотреть онлайн Вельзевул" width="133" height="183"></a></div>
+
+                  </div><a href="/list" class="btn btn__gray btn__more"><i class="ai ai-next"></i> Все релизы</a>
+                  <div class="clearfix"></div>
+                </div>
+              </div>
+
+              <!-- Media related posts End-->
+
+
+
+
+			  <div class="content-comments" id="comments-widget">
+
+			<link type="text/css" rel="stylesheet" href="/commenton/style/content_view.css">
+			<section class="commenton commenton_block">
+    <div class="commenton_box"
+         data-time-zone="">
+
+		<div class="cn_head">
+
+                <div class="content-commentsnew-title">Оставить комментарий
+				<div class="content-comments-count new">585</div>
+                </div>
+
+				<div class="cn_sort">
+                Сначала новые<div class="cn_sort_block">
+    <div class="cn_sort_box">
+                            <div class="cn_sort_point" data-cn-sort="old">Сначала старые</div>
+                                            <div class="cn_sort_point" data-cn-sort="best">Сначала лучшие</div>
+                        </div>
+</div>				</div>
+
+            <hr>
+
+            <br>
+        </div>
+
+
+        		<a href="javascript:open_auth();">Авторизуйтесь</a> или пройдите <a href="javascript:open_auth();">регистрацию</a> на нашем сайте, чтобы оставлять комментарии.
+
+
+        <div class="cn_comments_block">
+		            <div class="cn_main_comment_block" data-cn-main-comment-id="47750">
+    <div id="cnm-47750" class="cn_comment_box" data-cn-comment-type="main">
+        <div class="cn_avatar_block">
+            <div
+                    class="cn_avatar cn_icon_native"
+                    style="background: url(https://static.animedia.tv/avatars//uploads/avatar_65345.jpg) center / cover no-repeat;                            ">
+                            </div>
+
+                    </div>
+
+        <div class="cn_comment">
+            <div class="cn_string_1">
+                <div
+                        class="cn_name" dir="ltr">Арина Волкова 1</div> <a href="#cnm-47750"><i class="linkify icon"></i></a>
+                <div
+                        class="cn_date"
+                        data-time-second="1556546403"
+                        title="29 апреля 2019 17:00">
+                    1 день назад</div>
+
+                            </div>
+            <div class="cn_string_2">
+                <div class="cn_text">
+                    завтра серия выйдет                </div>
+                                    <div class="cn_attach">
+                                            </div>
+                            </div>
+            <div class="cn_string_3">
+                				<div class="cn_answer_button"><a href="javascript:open_auth();">Ответить</a></div>
+
+                                    <div class="cn_like_box">
+                        <div class="cn_like_meter">
+                                                    </div>
+                                                <div class="cn_like"                              data-cn-hype="like"></div>
+                        <div class="cn_dislike"                              data-cn-hype="dislike"></div>
+                    </div>
+                            </div>
+
+
+
+    <div id="cnab-47750"
+         class="cn_comments_answer_block ">
+        <div id="cna-375" class="cn_comment_box" data-cn-comment-type="answer">
+    <div class="cn_avatar_block">
+        <div
+                class="cn_avatar cn_icon_native"
+                style="background: url(https://static.animedia.tv/avatars/default_set/ava6832.png) center / cover no-repeat;                        ">
+                    </div>
+
+            </div>
+
+    <div class="cn_comment">
+        <div class="cn_string_1">
+            <div
+                    class="cn_name" dir="ltr"> MrStrongCookies</div> <a href="#cnm-47750"><i class="linkify icon"></i></a>
+
+				                            <div
+                    class="cn_date"
+                    data-time-second="1556550035"
+                    title="29 апреля 2019 18:00">
+                1 день назад</div>
+
+                    </div>
+
+
+        <div class="cn_string_2">
+            <div class="cn_text">
+
+                                Должна быть сегодня серия, к ночи            </div>
+                            <div class="cn_attach">
+                                    </div>
+                    </div>
+        <div class="cn_string_3">
+		         				<div class="cn_answer_button"><a href="javascript:open_auth();">Ответить</a></div>
+				                                        <div class="cn_like_box">
+                    <div class="cn_like_meter">
+                                            </div>
+                                        <div class="cn_like"                          data-cn-hype="like"></div>
+                    <div class="cn_dislike"                          data-cn-hype="dislike"></div>
+                </div>
+                    </div>
+    </div>
+</div><div class="cn_comments_answer_block "></div>    </div>
+ </div>
+   </div>
+
+
+</div><div class="cn_main_comment_block" data-cn-main-comment-id="47320">
+    <div id="cnm-47320" class="cn_comment_box" data-cn-comment-type="main">
+        <div class="cn_avatar_block">
+            <div
+                    class="cn_avatar cn_icon_native"
+                    style="background: url(https://static.animedia.tv/avatars//uploads/avatar_85214.jpg) center / cover no-repeat;                            ">
+                            </div>
+
+                    </div>
+
+        <div class="cn_comment">
+            <div class="cn_string_1">
+                <div
+                        class="cn_name" dir="ltr">Лёша Иванов 1</div> <a href="#cnm-47320"><i class="linkify icon"></i></a>
+                <div
+                        class="cn_date"
+                        data-time-second="1555185755"
+                        title="13 апреля 2019 23:02">
+                    2 недели назад</div>
+
+                            </div>
+            <div class="cn_string_2">
+                <div class="cn_text">
+                    Я не понимаю а где новая серия то??                </div>
+                                    <div class="cn_attach">
+                                            </div>
+                            </div>
+            <div class="cn_string_3">
+                				<div class="cn_answer_button"><a href="javascript:open_auth();">Ответить</a></div>
+
+                                    <div class="cn_like_box">
+                        <div class="cn_like_meter">
+                                                    </div>
+                                                <div class="cn_like"                              data-cn-hype="like"></div>
+                        <div class="cn_dislike"                              data-cn-hype="dislike"></div>
+                    </div>
+                            </div>
+
+
+
+    <div id="cnab-47320"
+         class="cn_comments_answer_block ">
+        <div id="cna-115" class="cn_comment_box" data-cn-comment-type="answer">
+    <div class="cn_avatar_block">
+        <div
+                class="cn_avatar cn_icon_native"
+                style="background: url(https://static.animedia.tv/avatars/uploads/avatar_1537696559_2.jpg) center / cover no-repeat;                        ">
+                    </div>
+
+            </div>
+
+    <div class="cn_comment">
+        <div class="cn_string_1">
+            <div
+                    class="cn_name" dir="ltr"> 4a4i</div> <a href="#cnm-47320"><i class="linkify icon"></i></a>
+
+				                            <div
+                    class="cn_date"
+                    data-time-second="1555185919"
+                    title="13 апреля 2019 23:05">
+                2 недели назад</div>
+
+                    </div>
+
+
+        <div class="cn_string_2">
+            <div class="cn_text">
+
+                                с 28 апреля продолжение            </div>
+                            <div class="cn_attach">
+                                    </div>
+                    </div>
+        <div class="cn_string_3">
+		         				<div class="cn_answer_button"><a href="javascript:open_auth();">Ответить</a></div>
+				                                        <div class="cn_like_box">
+                    <div class="cn_like_meter">
+                                                    <div class="cn_like_cool">1</div>
+                                            </div>
+                                        <div class="cn_like"                          data-cn-hype="like"></div>
+                    <div class="cn_dislike"                          data-cn-hype="dislike"></div>
+                </div>
+                    </div>
+    </div>
+</div><div class="cn_comments_answer_block "><div id="cna-248" class="cn_comment_box" data-cn-comment-type="answer">
+    <div class="cn_avatar_block">
+        <div
+                class="cn_avatar cn_icon_native"
+                style="background: url(https://static.animedia.tv/avatar-foxy.png) center / cover no-repeat;                        ">
+                    </div>
+
+            </div>
+
+    <div class="cn_comment">
+        <div class="cn_string_1">
+            <div
+                    class="cn_name" dir="ltr"> Arsenij390</div> <a href="#cnm-47320"><i class="linkify icon"></i></a>
+
+				                            <div
+                    class="cn_date"
+                    data-time-second="1555863852"
+                    title="21 апреля 2019 19:24">
+                1 неделя назад</div>
+
+                    </div>
+
+
+        <div class="cn_string_2">
+            <div class="cn_text">
+
+                                Оу дааааа, как азмечательно тоооо            </div>
+                            <div class="cn_attach">
+                                    </div>
+                    </div>
+        <div class="cn_string_3">
+		         				<div class="cn_answer_button"><a href="javascript:open_auth();">Ответить</a></div>
+				                                        <div class="cn_like_box">
+                    <div class="cn_like_meter">
+                                            </div>
+                                        <div class="cn_like"                          data-cn-hype="like"></div>
+                    <div class="cn_dislike"                          data-cn-hype="dislike"></div>
+                </div>
+                    </div>
+    </div>
+</div><div class="cn_comments_answer_block cn_last_answer"></div></div>    </div>
+ </div>
+   </div>
+
+
+</div><div class="cn_main_comment_block" data-cn-main-comment-id="23296">
+    <div id="cnm-23296" class="cn_comment_box" data-cn-comment-type="main">
+        <div class="cn_avatar_block">
+            <div
+                    class="cn_avatar cn_icon_"
+                    style="background: url(https://static.animedia.tv/avatars/uploads/avatar_38114.jpg) center / cover no-repeat;                            ">
+                            </div>
+
+                    </div>
+
+        <div class="cn_comment">
+            <div class="cn_string_1">
+                <div
+                        class="cn_name" dir="ltr">goldspice1337</div> <a href="#cnm-23296"><i class="linkify icon"></i></a>
+                <div
+                        class="cn_date"
+                        data-time-second="1554751755"
+                        title="8 апреля 2019 22:29">
+                    3 недели назад</div>
+
+                            </div>
+            <div class="cn_string_2">
+                <div class="cn_text">
+                    Столько новых загадок и тайн! Море догадок и прочего.. Люди могут становится титанами не по своей воле? Титаны терроризируют людей уже давно? Животные тоже могут??                </div>
+                                    <div class="cn_attach">
+                                            </div>
+                            </div>
+            <div class="cn_string_3">
+                				<div class="cn_answer_button"><a href="javascript:open_auth();">Ответить</a></div>
+
+                                    <div class="cn_like_box">
+                        <div class="cn_like_meter">
+                                                    </div>
+                                                <div class="cn_like"                              data-cn-hype="like"></div>
+                        <div class="cn_dislike"                              data-cn-hype="dislike"></div>
+                    </div>
+                            </div>
+
+
+
+    <div id="cnab-23296"
+         class="cn_comments_answer_block ">
+            </div>
+ </div>
+   </div>
+
+
+</div><div class="cn_main_comment_block" data-cn-main-comment-id="24065">
+    <div id="cnm-24065" class="cn_comment_box" data-cn-comment-type="main">
+        <div class="cn_avatar_block">
+            <div
+                    class="cn_avatar cn_icon_"
+                    style="background: url(https://static.animedia.tv/avatars/uploads/avatar_1537696559_2.jpg) center / cover no-repeat;                            ">
+                            </div>
+
+                    </div>
+
+        <div class="cn_comment">
+            <div class="cn_string_1">
+                <div
+                        class="cn_name" dir="ltr">4a4i</div> <a href="#cnm-24065"><i class="linkify icon"></i></a>
+                <div
+                        class="cn_date"
+                        data-time-second="1554751755"
+                        title="8 апреля 2019 22:29">
+                    3 недели назад</div>
+
+                            </div>
+            <div class="cn_string_2">
+                <div class="cn_text">
+                    спасибо)                </div>
+                                    <div class="cn_attach">
+                                            </div>
+                            </div>
+            <div class="cn_string_3">
+                				<div class="cn_answer_button"><a href="javascript:open_auth();">Ответить</a></div>
+
+                                    <div class="cn_like_box">
+                        <div class="cn_like_meter">
+                                                    </div>
+                                                <div class="cn_like"                              data-cn-hype="like"></div>
+                        <div class="cn_dislike"                              data-cn-hype="dislike"></div>
+                    </div>
+                            </div>
+
+
+
+    <div id="cnab-24065"
+         class="cn_comments_answer_block ">
+            </div>
+ </div>
+   </div>
+
+
+</div><div class="cn_main_comment_block" data-cn-main-comment-id="24834">
+    <div id="cnm-24834" class="cn_comment_box" data-cn-comment-type="main">
+        <div class="cn_avatar_block">
+            <div
+                    class="cn_avatar cn_icon_"
+                    style="background: url(https://static.animedia.tv/avatars/uploads/avatar_19903.png) center / cover no-repeat;                            ">
+                            </div>
+
+                    </div>
+
+        <div class="cn_comment">
+            <div class="cn_string_1">
+                <div
+                        class="cn_name" dir="ltr">MyTime</div> <a href="#cnm-24834"><i class="linkify icon"></i></a>
+                <div
+                        class="cn_date"
+                        data-time-second="1554751755"
+                        title="8 апреля 2019 22:29">
+                    3 недели назад</div>
+
+                            </div>
+            <div class="cn_string_2">
+                <div class="cn_text">
+                    Пересказ сюжета,  затянутый излишними моментами. <br />
+                </div>
+                                    <div class="cn_attach">
+                                            </div>
+                            </div>
+            <div class="cn_string_3">
+                				<div class="cn_answer_button"><a href="javascript:open_auth();">Ответить</a></div>
+
+                                    <div class="cn_like_box">
+                        <div class="cn_like_meter">
+                                                    </div>
+                                                <div class="cn_like"                              data-cn-hype="like"></div>
+                        <div class="cn_dislike"                              data-cn-hype="dislike"></div>
+                    </div>
+                            </div>
+
+
+
+    <div id="cnab-24834"
+         class="cn_comments_answer_block ">
+            </div>
+ </div>
+   </div>
+
+
+</div><div class="cn_main_comment_block" data-cn-main-comment-id="22531">
+    <div id="cnm-22531" class="cn_comment_box" data-cn-comment-type="main">
+        <div class="cn_avatar_block">
+            <div
+                    class="cn_avatar cn_icon_"
+                    style="background: url(https://static.animedia.tv/avatars/) center / cover no-repeat;                            ">
+                            </div>
+
+                    </div>
+
+        <div class="cn_comment">
+            <div class="cn_string_1">
+                <div
+                        class="cn_name" dir="ltr">Black_God_of_Death</div> <a href="#cnm-22531"><i class="linkify icon"></i></a>
+                <div
+                        class="cn_date"
+                        data-time-second="1554751755"
+                        title="8 апреля 2019 22:29">
+                    3 недели назад</div>
+
+                            </div>
+            <div class="cn_string_2">
+                <div class="cn_text">
+                    скажите пожалуйста, а почему не открывается сайт tt.animedia.tv?                </div>
+                                    <div class="cn_attach">
+                                            </div>
+                            </div>
+            <div class="cn_string_3">
+                				<div class="cn_answer_button"><a href="javascript:open_auth();">Ответить</a></div>
+
+                                    <div class="cn_like_box">
+                        <div class="cn_like_meter">
+                                                    </div>
+                                                <div class="cn_like"                              data-cn-hype="like"></div>
+                        <div class="cn_dislike"                              data-cn-hype="dislike"></div>
+                    </div>
+                            </div>
+
+
+
+    <div id="cnab-22531"
+         class="cn_comments_answer_block ">
+            </div>
+ </div>
+   </div>
+
+
+</div><div class="cn_main_comment_block" data-cn-main-comment-id="38403">
+    <div id="cnm-38403" class="cn_comment_box" data-cn-comment-type="main">
+        <div class="cn_avatar_block">
+            <div
+                    class="cn_avatar cn_icon_"
+                    style="background: url(https://static.animedia.tv/avatars//uploads/avatar_65812.jpg) center / cover no-repeat;                            ">
+                            </div>
+
+                    </div>
+
+        <div class="cn_comment">
+            <div class="cn_string_1">
+                <div
+                        class="cn_name" dir="ltr">id152043431</div> <a href="#cnm-38403"><i class="linkify icon"></i></a>
+                <div
+                        class="cn_date"
+                        data-time-second="1554751755"
+                        title="8 апреля 2019 22:29">
+                    3 недели назад</div>
+
+                            </div>
+            <div class="cn_string_2">
+                <div class="cn_text">
+                    чую... ох, как чую... попахивает диким эпиком, не правда ли?                </div>
+                                    <div class="cn_attach">
+                                            </div>
+                            </div>
+            <div class="cn_string_3">
+                				<div class="cn_answer_button"><a href="javascript:open_auth();">Ответить</a></div>
+
+                                    <div class="cn_like_box">
+                        <div class="cn_like_meter">
+                                                    </div>
+                                                <div class="cn_like"                              data-cn-hype="like"></div>
+                        <div class="cn_dislike"                              data-cn-hype="dislike"></div>
+                    </div>
+                            </div>
+
+
+
+    <div id="cnab-38403"
+         class="cn_comments_answer_block ">
+            </div>
+ </div>
+   </div>
+
+
+</div><div class="cn_main_comment_block" data-cn-main-comment-id="22533">
+    <div id="cnm-22533" class="cn_comment_box" data-cn-comment-type="main">
+        <div class="cn_avatar_block">
+            <div
+                    class="cn_avatar cn_icon_"
+                    style="background: url(https://static.animedia.tv/avatars/uploads/avatar_1537696559_2.jpg) center / cover no-repeat;                            ">
+                            </div>
+
+                    </div>
+
+        <div class="cn_comment">
+            <div class="cn_string_1">
+                <div
+                        class="cn_name" dir="ltr">4a4i</div> <a href="#cnm-22533"><i class="linkify icon"></i></a>
+                <div
+                        class="cn_date"
+                        data-time-second="1554751755"
+                        title="8 апреля 2019 22:29">
+                    3 недели назад</div>
+
+                            </div>
+            <div class="cn_string_2">
+                <div class="cn_text">
+                    работает                </div>
+                                    <div class="cn_attach">
+                                            </div>
+                            </div>
+            <div class="cn_string_3">
+                				<div class="cn_answer_button"><a href="javascript:open_auth();">Ответить</a></div>
+
+                                    <div class="cn_like_box">
+                        <div class="cn_like_meter">
+                                                    </div>
+                                                <div class="cn_like"                              data-cn-hype="like"></div>
+                        <div class="cn_dislike"                              data-cn-hype="dislike"></div>
+                    </div>
+                            </div>
+
+
+
+    <div id="cnab-22533"
+         class="cn_comments_answer_block ">
+            </div>
+ </div>
+   </div>
+
+
+</div><div class="cn_main_comment_block" data-cn-main-comment-id="22789">
+    <div id="cnm-22789" class="cn_comment_box" data-cn-comment-type="main">
+        <div class="cn_avatar_block">
+            <div
+                    class="cn_avatar cn_icon_"
+                    style="background: url(https://static.animedia.tv/avatars/uploads/avatar_25683.jpg) center / cover no-repeat;                            ">
+                            </div>
+
+                    </div>
+
+        <div class="cn_comment">
+            <div class="cn_string_1">
+                <div
+                        class="cn_name" dir="ltr">skanec</div> <a href="#cnm-22789"><i class="linkify icon"></i></a>
+                <div
+                        class="cn_date"
+                        data-time-second="1554751755"
+                        title="8 апреля 2019 22:29">
+                    3 недели назад</div>
+
+                            </div>
+            <div class="cn_string_2">
+                <div class="cn_text">
+                    как же долго пришлось ждать :D<br />
+                </div>
+                                    <div class="cn_attach">
+                                            </div>
+                            </div>
+            <div class="cn_string_3">
+                				<div class="cn_answer_button"><a href="javascript:open_auth();">Ответить</a></div>
+
+                                    <div class="cn_like_box">
+                        <div class="cn_like_meter">
+                                                    </div>
+                                                <div class="cn_like"                              data-cn-hype="like"></div>
+                        <div class="cn_dislike"                              data-cn-hype="dislike"></div>
+                    </div>
+                            </div>
+
+
+
+    <div id="cnab-22789"
+         class="cn_comments_answer_block ">
+            </div>
+ </div>
+   </div>
+
+
+</div><div class="cn_main_comment_block" data-cn-main-comment-id="22790">
+    <div id="cnm-22790" class="cn_comment_box" data-cn-comment-type="main">
+        <div class="cn_avatar_block">
+            <div
+                    class="cn_avatar cn_icon_"
+                    style="background: url(https://static.animedia.tv/avatars/uploads/avatar_35366.jpg) center / cover no-repeat;                            ">
+                            </div>
+
+                    </div>
+
+        <div class="cn_comment">
+            <div class="cn_string_1">
+                <div
+                        class="cn_name" dir="ltr">Trafalgar Law</div> <a href="#cnm-22790"><i class="linkify icon"></i></a>
+                <div
+                        class="cn_date"
+                        data-time-second="1554751755"
+                        title="8 апреля 2019 22:29">
+                    3 недели назад</div>
+
+                            </div>
+            <div class="cn_string_2">
+                <div class="cn_text">
+                    Наконец-то! Какой же он помпезный!!!                </div>
+                                    <div class="cn_attach">
+                                            </div>
+                            </div>
+            <div class="cn_string_3">
+                				<div class="cn_answer_button"><a href="javascript:open_auth();">Ответить</a></div>
+
+                                    <div class="cn_like_box">
+                        <div class="cn_like_meter">
+                                                    </div>
+                                                <div class="cn_like"                              data-cn-hype="like"></div>
+                        <div class="cn_dislike"                              data-cn-hype="dislike"></div>
+                    </div>
+                            </div>
+
+
+
+    <div id="cnab-22790"
+         class="cn_comments_answer_block ">
+            </div>
+ </div>
+   </div>
+
+
+</div>        </div>
+
+                    <div class="cn_more_comments"
+                 data-cn-more="10"></div>
+
+
+        <div class="cn_screen_image_view">
+            <div class="cn_image_view"></div>
+        </div>
+
+        <div class="cn_screen_video_view">
+            <div class="cn_video_view"></div>
+        </div>
+
+        <div class="cn_block_notice_modal">
+            <div class="cn_notice_modal"></div>
+        </div>
+
+        <div class="cn_loaded_by_link">Загружено по ссылке</div>
+
+    </div>
+</section>
+
+
+
+
+				</div>
+
+
+
+            </div>
+            <!-- Media End-->
+          </div>
+
+          <!-- Content. Left block End-->
+          <!-- Right sidebar-->
+          <aside class="right-sidebar">
+            <!-- Post info widget-->
+            <div class="widget">
+              <div class="widget__post-info">
+                <div class="widget__post-info__poster"><a href="https://static.animedia.tv/uploads/attackTitan.jpg" class="zoomLink"><img data-src="https://static.animedia.tv/uploads/attackTitan.jpg?w=280&h=385" alt="Онлайн аниме Атака титанов" width="280" height="385"></a></div>
+                <div class="widget__post-info__rating">
+
+                    <div id="rating-form" style="display: none;">
+                        <form id="rating_form9302" name="Anime Reviews" method="post" action="https://online.animedia.tv/anime/vtorjenie-gigantov"  >
+<div class='hiddenFields'>
+<input type="hidden" name="ACT" value="81" />
+<input type="hidden" name="RET" value="https://online.animedia.tv/anime/vtorjenie-gigantov" />
+<input type="hidden" name="URI" value="anime/vtorjenie-gigantov" />
+<input type="hidden" name="PRV" value="" />
+<input type="hidden" name="entry_id" value="9302" />
+<input type="hidden" name="params_id" value="uDd9kuAxRCKD3V4Zzc9tviTd0" />
+<input type="hidden" name="ajax_request" value="y" />
+<input type="hidden" name="site_id" value="1" />
+<input type="hidden" name="csrf_token" value="4d5a93e6c0624e79c8852d05c75c96bde327b644" />
+</div>
+
+</form>
+                    </div>
+                  <div class="post-rating">
+
+                      <input type="hidden" data-filled="ai ai-star__full" data-empty="ai ai-star__stroke" data-fractions="2" value='4' class="rating">
+                  </div>
+
+                </div>
+                <div class="widget__post-info__btns">
+
+                  <a href="/anime/vtorjenie-gigantov/1/1" class="btn btn__big btn__red btn__play-first"><i class="ai ai-next"></i> Смотреть онлайн</a>
+
+
+				  <a href="https://tt.animedia.tv/anime/attack-on-titan" class="btn btn__big btn__green btn__dowload-torrent"><i class="ai ai-download"></i> Скачать торрент</a>
+
+
+
+
+				  <a href="/assistance-to-the-project" class="btn btn__big btn__soft-black"><i class="ai ai-next"></i> Помочь проекту</a>
+                </div>
+				 <center> <div id='e50c3e9040'></div>
+
+<script type='text/javascript' data-cfasync='false'>
+ (function(){
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.charset = 'utf-8';
+  script.async = 'true';
+  script.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//et-cod.com/bens/vinos.js?13281a' + Math.random();
+  document.body.appendChild(script);
+ })();
+</script>
+
+
+
+
+
+ <!-- <a target="_blank" href="//www.vsemayki.ru/catalog/anime?sort=sell&page=4&utm_manager=4915865&utm_source=animedia&utm_medium=banner&utm_campaign=all"><img src="/images/anime.gif"></a> -->
+
+ </center></br>
+
+                <div class="widget__post-info__voicers">
+                  <div class="h3 widget__post-info__voicers__title">Релиз озвучивали:</div>
+                  <ul class="widget__post-info__voicers__links">
+                    <li class="widget__post-info__voicers__links__item"><a href="/search?qv=FREYA">FREYA</a> & <a href="/search?qv=NAZEL">NAZEL</a> </li>
+                  </ul>
+                </div>
+
+
+              </div>
+            </div>
+            <!-- Post info widget End-->
+            <!-- Aside banner-->
+
+            <!-- New series widget-->
+				<div class="widget">
+  <div class="h3 widget__title">Новые серии </div>
+  <div class="widget__new-series">
+<!-- New series widget item-->
+    <div class="widget__new-series__item widget__item">
+	<a href="/anime/vanpanchmen/2/4" title="Cмотреть онлайн аниме Ванпанчмен Серия 4" class="widget__new-series__item__thumb"><img data-src="//static.animedia.tv/screens/1556651907eb522ed9e87c353287a72ef81c91747091adc36a_min.jpg?w=104&q=50" alt="Cмотреть онлайн аниме Ванпанчмен Серия 4" title="Серия 4 аниме Ванпанчмен онлайн"></a>
+      <div class="widget__new-series__item__info">
+	  <a href="/anime/vanpanchmen/2/4" title="Cмотреть онлайн аниме Ванпанчмен Серия 4" class="h4 widget__new-series__item__title">Ванпанчмен ТВ2</a>
+        <div class="widget__new-series__item__status">
+
+		Серия 4 из
+
+		12
+
+
+
+
+		</div>
+
+	  <div class="date_newseries">Добавлено 56 мин. назад</div>
+
+
+
+
+
+	  </div>
+
+    </div><!-- New series widget item-->
+    <div class="widget__new-series__item widget__item">
+	<a href="/anime/propavshie-fei/1/4" title="Cмотреть онлайн аниме Пропавшие феи Серия 4" class="widget__new-series__item__thumb"><img data-src="//static.animedia.tv/screens/1556647237b6a570de6d369429675de7053f3f13b9ee8c8ccc_min.jpg?w=104&q=50" alt="Cмотреть онлайн аниме Пропавшие феи Серия 4" title="Серия 4 аниме Пропавшие феи онлайн"></a>
+      <div class="widget__new-series__item__info">
+	  <a href="/anime/propavshie-fei/1/4" title="Cмотреть онлайн аниме Пропавшие феи Серия 4" class="h4 widget__new-series__item__title">Пропавшие феи</a>
+        <div class="widget__new-series__item__status">
+
+		Серия 4 из
+		24
+
+
+
+
+
+		</div>
+      <div class="date_newseries">Добавлено 57 мин. назад</div>
+
+
+
+
+
+
+	  </div>
+
+    </div><!-- New series widget item-->
+    <div class="widget__new-series__item widget__item">
+	<a href="/anime/devushka-senryu/1/4" title="Cмотреть онлайн аниме Девушка-сэнрю Серия 4" class="widget__new-series__item__thumb"><img data-src="//static.animedia.tv/screens/155664701071b5d73531df1d1d6b9785fa08f38ab6bdf00db7_min.jpg?w=104&q=50" alt="Cмотреть онлайн аниме Девушка-сэнрю Серия 4" title="Серия 4 аниме Девушка-сэнрю онлайн"></a>
+      <div class="widget__new-series__item__info">
+	  <a href="/anime/devushka-senryu/1/4" title="Cмотреть онлайн аниме Девушка-сэнрю Серия 4" class="h4 widget__new-series__item__title">Девушка-сэнрю</a>
+        <div class="widget__new-series__item__status">
+
+		Серия 4 из
+		12
+
+
+
+
+
+		</div>
+      <div class="date_newseries">Добавлено  2 час. назад</div>
+
+
+
+
+
+
+	  </div>
+
+    </div><!-- New series widget item-->
+    <div class="widget__new-series__item widget__item">
+	<a href="/anime/chyornyj-klever/1/81" title="Cмотреть онлайн аниме Чёрный клевер Серия 81" class="widget__new-series__item__thumb"><img data-src="//static.animedia.tv/screens/1556643153a67cdd88fa8e7d331d2882e379f19deba58ffaa1_min.jpg?w=104&q=50" alt="Cмотреть онлайн аниме Чёрный клевер Серия 81" title="Серия 81 аниме Чёрный клевер онлайн"></a>
+      <div class="widget__new-series__item__info">
+	  <a href="/anime/chyornyj-klever/1/81" title="Cмотреть онлайн аниме Чёрный клевер Серия 81" class="h4 widget__new-series__item__title">Чёрный клевер</a>
+        <div class="widget__new-series__item__status">
+
+		Серия 81 из
+		xxx
+
+
+
+
+
+		</div>
+      <div class="date_newseries">Добавлено  3 час. назад</div>
+
+
+
+
+
+
+	  </div>
+
+    </div><!-- New series widget item-->
+    <div class="widget__new-series__item widget__item">
+	<a href="/anime/vtorjenie-gigantov/3/13" title="Cмотреть онлайн аниме Атака титанов Серия 13 (50)" class="widget__new-series__item__thumb"><img data-src="//static.animedia.tv/screens/1556563827ce69a029abb5e4a04af46848f5b4eec2552ac6f1_min.jpg?w=104&q=50" alt="Cмотреть онлайн аниме Атака титанов Серия 13 (50)" title="Серия 13 (50) аниме Атака титанов онлайн"></a>
+      <div class="widget__new-series__item__info">
+	  <a href="/anime/vtorjenie-gigantov/3/13" title="Cмотреть онлайн аниме Атака титанов Серия 13 (50)" class="h4 widget__new-series__item__title">Атака титанов ТВ3</a>
+        <div class="widget__new-series__item__status">
+
+		Серия 13 (50) из
+
+
+		22
+
+
+
+		</div>
+
+
+	  <div class="date_newseries">Добавлено 3 час. назад</div>
+
+
+
+
+	  </div>
+
+    </div><!-- New series widget item-->
+    <div class="widget__new-series__item widget__item">
+	<a href="/anime/kerol-i-tyusdej/1/3" title="Cмотреть онлайн аниме Кэрол и Тьюсдей Серия 3" class="widget__new-series__item__thumb"><img data-src="//static.animedia.tv/screens/1556618109d365dc762ce555c28bb6b614ebb1663aaeafb2eb_min.jpg?w=104&q=50" alt="Cмотреть онлайн аниме Кэрол и Тьюсдей Серия 3" title="Серия 3 аниме Кэрол и Тьюсдей онлайн"></a>
+      <div class="widget__new-series__item__info">
+	  <a href="/anime/kerol-i-tyusdej/1/3" title="Cмотреть онлайн аниме Кэрол и Тьюсдей Серия 3" class="h4 widget__new-series__item__title">Кэрол и Тьюсдей</a>
+        <div class="widget__new-series__item__status">
+
+		Серия 3 из
+		24
+
+
+
+
+
+		</div>
+      <div class="date_newseries">Добавлено 9 час. назад</div>
+
+
+
+
+
+
+	  </div>
+
+    </div><!-- New series widget item-->
+    <div class="widget__new-series__item widget__item">
+	<a href="/anime/klinok-rassekayuschij-demonov/1/4" title="Cмотреть онлайн аниме Клинок, рассекающий демонов Серия 4" class="widget__new-series__item__thumb"><img data-src="//static.animedia.tv/screens/15565704810c7c58e519e678a0e8de63d7499c57c1aedb61dc_min.jpg?w=104&q=50" alt="Cмотреть онлайн аниме Клинок, рассекающий демонов Серия 4" title="Серия 4 аниме Клинок, рассекающий демонов онлайн"></a>
+      <div class="widget__new-series__item__info">
+	  <a href="/anime/klinok-rassekayuschij-demonov/1/4" title="Cмотреть онлайн аниме Клинок, рассекающий демонов Серия 4" class="h4 widget__new-series__item__title">Клинок, рассекающий демонов</a>
+        <div class="widget__new-series__item__status">
+
+		Серия 4 из
+		26
+
+
+
+
+
+		</div>
+      <div class="date_newseries">Добавлено 23 час. назад</div>
+
+
+
+
+
+
+	  </div>
+
+    </div><!-- New series widget item-->
+    <div class="widget__new-series__item widget__item">
+	<a href="/anime/molodaya-nevesta-gospodina-nobunagi/1/4" title="Cмотреть онлайн аниме Молодая невеста господина Нобунаги Серия 4" class="widget__new-series__item__thumb"><img data-src="//static.animedia.tv/screens/1556567598a063ffb62324f0d4bd3ec257252a8e93d2b5e654_min.jpg?w=104&q=50" alt="Cмотреть онлайн аниме Молодая невеста господина Нобунаги Серия 4" title="Серия 4 аниме Молодая невеста господина Нобунаги онлайн"></a>
+      <div class="widget__new-series__item__info">
+	  <a href="/anime/molodaya-nevesta-gospodina-nobunagi/1/4" title="Cмотреть онлайн аниме Молодая невеста господина Нобунаги Серия 4" class="h4 widget__new-series__item__title">Молодая невеста господина Нобунаги</a>
+        <div class="widget__new-series__item__status">
+
+		Серия 4 из
+		12
+
+
+
+
+
+		</div>
+      <div class="date_newseries">Добавлено 1 день назад</div>
+
+
+
+
+
+
+	  </div>
+
+    </div><!-- New series widget item-->
+    <div class="widget__new-series__item widget__item">
+	<a href="/anime/JoJo/5/28" title="Cмотреть онлайн аниме Невероятное приключение ДжоДжо Серия 28" class="widget__new-series__item__thumb"><img data-src="//static.animedia.tv/screens/1556566613ae6147e092de79da76e8eb5b93702fc47b7bcc9f_min.jpg?w=104&q=50" alt="Cмотреть онлайн аниме Невероятное приключение ДжоДжо Серия 28" title="Серия 28 аниме Невероятное приключение ДжоДжо онлайн"></a>
+      <div class="widget__new-series__item__info">
+	  <a href="/anime/JoJo/5/28" title="Cмотреть онлайн аниме Невероятное приключение ДжоДжо Серия 28" class="h4 widget__new-series__item__title">Невероятное приключение ДжоДжо ТВ5</a>
+        <div class="widget__new-series__item__status">
+
+		Серия 28 из
+
+
+
+
+		39
+
+		</div>
+
+
+
+
+	  <div class="date_newseries">Добавлено 1 день назад</div>
+
+
+	  </div>
+
+    </div><!-- New series widget item-->
+    <div class="widget__new-series__item widget__item">
+	<a href="/anime/yuno-devushka-chto-vospevaet-lyubov-na-grani-etogo-mira/1/4" title="Cмотреть онлайн аниме Юно: Девушка, что воспевает любовь на грани этого мира Серия 4" class="widget__new-series__item__thumb"><img data-src="//static.animedia.tv/screens/155655555616f2cfa6fa6192c0acbb8f7bd98980c9f1e7d95b_min.jpg?w=104&q=50" alt="Cмотреть онлайн аниме Юно: Девушка, что воспевает любовь на грани этого мира Серия 4" title="Серия 4 аниме Юно: Девушка, что воспевает любовь на грани этого мира онлайн"></a>
+      <div class="widget__new-series__item__info">
+	  <a href="/anime/yuno-devushka-chto-vospevaet-lyubov-na-grani-etogo-mira/1/4" title="Cмотреть онлайн аниме Юно: Девушка, что воспевает любовь на грани этого мира Серия 4" class="h4 widget__new-series__item__title">Юно: Девушка, что воспевает любовь на грани этого мира</a>
+        <div class="widget__new-series__item__status">
+
+		Серия 4 из
+		12
+
+
+
+
+
+		</div>
+      <div class="date_newseries">Добавлено 1 день назад</div>
+
+
+
+
+
+
+	  </div>
+
+    </div>
+<a href="/new" class="btn btn__gray btn__more"><i class="ai ai-next"></i> Больше серий</a>
+  </div>
+</div>
+            <!-- New series widget End-->
+            <!-- Aside banner-->
+            <!-- Last news widget-->
+				<script type="text/javascript" src="//vk.com/js/api/openapi.js?150"></script>
+<!-- VK Widget -->
+<div id="vk_groups"></div>
+<script type="text/javascript">
+VK.Widgets.Group("vk_groups", {mode: 3, width: "310", color3: 'E70D2F'}, 13912875);
+</script></br>
+
+            <!-- Last news widget End-->
+
+          </aside>
+
+          <!-- Right sidebar End-->
+          <!-- Big banner-->
+        </div>
+      </div>
+    </div>
+    <!-- Main container End-->
+
+
+<!-- Finished releases-->
+<div class="finished-releases">
+      <div class="container">
+        <div class="finished-releases__wrapper">
+          <!-- Finished releases header-->
+          <div class="finished-releases__header">
+            <div class="h2 finished-releases__header__title widget__title">Завершённые релизы</div><a href="/completed" class="btn btn__gray btn__more"><i class="ai ai-next"></i> Все релизы</a>
+          </div>
+          <!-- Finished releases header End-->
+          <!-- Finished releases list-->
+          <div class="finished-releases__list xads-list">
+
+		   <!-- item-->
+            <div class="ads-list__item">
+              <div class="ads-list__item__thumb"><a href="https://online.animedia.tv/anime/vorobinyj-otel"><img data-src="https://static.animedia.tv/uploads/883.jpg?h=385&w=280&q=80" alt="Постер аниме Воробьиный отель" title="Постер аниме Воробьиный отель"></a>
+                  <div class="ads-list__item__overlay overlay">
+
+					</br><h2 style="color: #fff">4.0/10</h2>
+					<div class="overlay__counters">
+                      <div class="overlay__counters__primary"><a href="https://online.animedia.tv/anime/vorobinyj-otel" title="Смотреть онлайн Воробьиный отель" class="overlay__counters__primary__wrap"><span>14311</span> просмотров</a></div>
+                      <div class="overlay__counters__secondary"><span class="overlay__counters__secondary__comments"><i class="ai ai-comment"></i>0</span><span class="overlay__counters__secondary__likes"><i class="ai ai-like__full"></i>  5</span></div>
+                    </div>
+                    <div class="overlay__footer">
+                      <div class="col-l"><a href="//tt.animedia.tv/anime/vorobinyj-otel" title="Скачать Воробьиный отель" class="btn btn__green btn__sm"><i class="ai ai-download"></i> Скачать</a></div>
+                      <div class="col-l"><a href="https://online.animedia.tv/anime/vorobinyj-otel" title="Подробнее" class="btn btn__black btn__sm"><i class="ai ai-next"></i> Подробно</a></div>
+                    </div>
+                  </div>
+              </div>
+              <div class="original-title">Sparrows Hotel</div><a href="https://online.animedia.tv/anime/vorobinyj-otel" title="Воробьиный отель" class="h3 ads-list__item__title">Воробьиный отель</a>
+				<div class="genre-tags">Жанр: <a href="https://online.animedia.tv/category/comedy" title="Комедия">Комедия</a></div>
+            </div>
+
+
+		   <!-- item-->
+            <div class="ads-list__item">
+              <div class="ads-list__item__thumb"><a href="https://online.animedia.tv/anime/devochki-volshebnicy-specialnaya-operaciya"><img data-src="https://static.animedia.tv/uploads/%D0%92%D0%9E%D0%9B%D0%A8%D0%95%D0%91%D0%9D%D0%98%D0%A6%D0%90.jpg?h=385&w=280&q=80" alt="Постер аниме Девочки-волшебницы: Специальная операция" title="Постер аниме Девочки-волшебницы: Специальная операция"></a>
+                  <div class="ads-list__item__overlay overlay">
+
+					</br><h2 style="color: #fff">7.6/10</h2>
+					<div class="overlay__counters">
+                      <div class="overlay__counters__primary"><a href="https://online.animedia.tv/anime/devochki-volshebnicy-specialnaya-operaciya" title="Смотреть онлайн Девочки-волшебницы: Специальная операция" class="overlay__counters__primary__wrap"><span>23952</span> просмотров</a></div>
+                      <div class="overlay__counters__secondary"><span class="overlay__counters__secondary__comments"><i class="ai ai-comment"></i>20</span><span class="overlay__counters__secondary__likes"><i class="ai ai-like__full"></i>  18</span></div>
+                    </div>
+                    <div class="overlay__footer">
+                      <div class="col-l"><a href="//tt.animedia.tv/anime/devochki-volshebnicy-specialnaya-operaciya" title="Скачать Девочки-волшебницы: Специальная операция" class="btn btn__green btn__sm"><i class="ai ai-download"></i> Скачать</a></div>
+                      <div class="col-l"><a href="https://online.animedia.tv/anime/devochki-volshebnicy-specialnaya-operaciya" title="Подробнее" class="btn btn__black btn__sm"><i class="ai ai-next"></i> Подробно</a></div>
+                    </div>
+                  </div>
+              </div>
+              <div class="original-title">Mahou Shoujo Tokushusen Asuka</div><a href="https://online.animedia.tv/anime/devochki-volshebnicy-specialnaya-operaciya" title="Девочки-волшебницы: Специальная операция" class="h3 ads-list__item__title">Девочки-волшебницы: Специальная операция</a>
+				<div class="genre-tags">Жанр: <a href="https://online.animedia.tv/category/drama" title="Драма">Драма</a><a href="https://online.animedia.tv/category/seinen" title="Сэйнэн">Сэйнэн</a></div>
+            </div>
+
+
+		   <!-- item-->
+            <div class="ads-list__item">
+              <div class="ads-list__item__thumb"><a href="https://online.animedia.tv/anime/indeks-volshebstvaA-Certain-Magical-Index"><img data-src="https://static.animedia.tv/uploads/index.jpg?h=385&w=280&q=80" alt="Постер аниме Индекс Волшебства" title="Постер аниме Индекс Волшебства"></a>
+                  <div class="ads-list__item__overlay overlay">
+
+					</br><h2 style="color: #fff">8.6/10</h2>
+					<div class="overlay__counters">
+                      <div class="overlay__counters__primary"><a href="https://online.animedia.tv/anime/indeks-volshebstvaA-Certain-Magical-Index" title="Смотреть онлайн Индекс Волшебства" class="overlay__counters__primary__wrap"><span>424989</span> просмотров</a></div>
+                      <div class="overlay__counters__secondary"><span class="overlay__counters__secondary__comments"><i class="ai ai-comment"></i>55</span><span class="overlay__counters__secondary__likes"><i class="ai ai-like__full"></i>  169</span></div>
+                    </div>
+                    <div class="overlay__footer">
+                      <div class="col-l"><a href="//tt.animedia.tv/anime/indeks-volshebstva-tv-1" title="Скачать Индекс Волшебства" class="btn btn__green btn__sm"><i class="ai ai-download"></i> Скачать</a></div>
+                      <div class="col-l"><a href="https://online.animedia.tv/anime/indeks-volshebstvaA-Certain-Magical-Index" title="Подробнее" class="btn btn__black btn__sm"><i class="ai ai-next"></i> Подробно</a></div>
+                    </div>
+                  </div>
+              </div>
+              <div class="original-title">A Certain Magical Index</div><a href="https://online.animedia.tv/anime/indeks-volshebstvaA-Certain-Magical-Index" title="Индекс Волшебства" class="h3 ads-list__item__title">Индекс Волшебства</a>
+				<div class="genre-tags">Жанр: <a href="https://online.animedia.tv/category/comedy" title="Комедия">Комедия</a><a href="https://online.animedia.tv/category/mistery" title="Мистика">Мистика</a><a href="https://online.animedia.tv/category/advanture" title="Приключения">Приключения</a><a href="https://online.animedia.tv/category/fantastika" title="Фантастика">Фантастика</a><a href="https://online.animedia.tv/category/fantasy" title="Фэнтези">Фэнтези</a></div>
+            </div>
+
+
+		   <!-- item-->
+            <div class="ads-list__item">
+              <div class="ads-list__item__thumb"><a href="https://online.animedia.tv/anime/tanets-klinka"><img data-src="https://static.animedia.tv/uploads/1198.jpg?h=385&w=280&q=80" alt="Постер аниме Танец Клинка" title="Постер аниме Танец Клинка"></a>
+                  <div class="ads-list__item__overlay overlay">
+
+					</br><h2 style="color: #fff">7.6/10</h2>
+					<div class="overlay__counters">
+                      <div class="overlay__counters__primary"><a href="https://online.animedia.tv/anime/tanets-klinka" title="Смотреть онлайн Танец Клинка" class="overlay__counters__primary__wrap"><span>84293</span> просмотров</a></div>
+                      <div class="overlay__counters__secondary"><span class="overlay__counters__secondary__comments"><i class="ai ai-comment"></i>42</span><span class="overlay__counters__secondary__likes"><i class="ai ai-like__full"></i>  165</span></div>
+                    </div>
+                    <div class="overlay__footer">
+                      <div class="col-l"><a href="//tt.animedia.tv/anime/tanec-klinka" title="Скачать Танец Клинка" class="btn btn__green btn__sm"><i class="ai ai-download"></i> Скачать</a></div>
+                      <div class="col-l"><a href="https://online.animedia.tv/anime/tanets-klinka" title="Подробнее" class="btn btn__black btn__sm"><i class="ai ai-next"></i> Подробно</a></div>
+                    </div>
+                  </div>
+              </div>
+              <div class="original-title">Seirei Tsukai no Blade Dance </div><a href="https://online.animedia.tv/anime/tanets-klinka" title="Танец Клинка" class="h3 ads-list__item__title">Танец Клинка</a>
+				<div class="genre-tags">Жанр: <a href="https://online.animedia.tv/category/comedy" title="Комедия">Комедия</a><a href="https://online.animedia.tv/category/advanture" title="Приключения">Приключения</a><a href="https://online.animedia.tv/category/romance" title="Романтика">Романтика</a><a href="https://online.animedia.tv/category/fantasy" title="Фэнтези">Фэнтези</a></div>
+            </div>
+
+
+          </div>
+          <!-- Finished releases list End-->
+        </div>
+      </div>
+    </div>
+    <!-- Finished releases End-->
+    <!-- Footer-->
+    <footer class="main-footer">
+      <div class="container">
+        <div class="main-footer__wrapper">
+          <div class="main-footer__sub-menu-wrapper">
+            <!-- About project sub-menu-->
+            <div class="main-footer__sub-menu main-footer__item">
+              <div class="h4 main-footer__item__title">О проекте</div>
+              <ul class="main-footer__sub-menu__list">
+                <li class="main-footer__sub-menu__list__item"><a href="//animedia.tv/pages/about" title="О проекте">О проекте</a></li>
+                <li class="main-footer__sub-menu__list__item"><a href="//animedia.tv/pages/advertisers" title="Рекламодателям">Рекламодателям</a></li>
+                <li class="main-footer__sub-menu__list__item"><a href="//animedia.tv/project-team" title="Наша команда">Наша команда</a></li>
+                <li class="main-footer__sub-menu__list__item"><a href="//online.animedia.tv/teamwork" title="Вакансии">Вакансии</a></li>
+                <li class="main-footer__sub-menu__list__item"><a href="//animedia.tv/pages/pravoobladatelyam" title="Правообладателям">Правообладателям</a></li>
+              </ul>
+            </div>
+            <!-- About project sub-menu End-->
+            <!-- News sub-menu-->
+            <div class="main-footer__sub-menu main-footer__item">
+              <div class="h4 main-footer__item__title">Новости</div>
+              <ul class="main-footer__sub-menu__list">
+                <li class="main-footer__sub-menu__list__item"><a href="//animedia.tv/news/anime" title="Аниме-новости">Аниме-новости</a></li>
+                <li class="main-footer__sub-menu__list__item"><a href="//animedia.tv/news/games" title="Игровые новости">Игровые новости</a></li>
+                <li class="main-footer__sub-menu__list__item"><a href="//animedia.tv/news/music" title="Музыкальные новости">Музыкальные новости</a></li>
+                <li class="main-footer__sub-menu__list__item"><a href="//animedia.tv/news/novosti-aziatskogo-kino" title="Новости кино Азии">Новости кино Азии</a></li>
+                <li class="main-footer__sub-menu__list__item"><a href="//animedia.tv/news/novosti-proekta" title="Новости проекта">Новости проекта</a></li>
+              </ul>
+            </div>
+            <!-- News sub-menu End-->
+            <!-- Blogs sub-menu-->
+            <div class="main-footer__sub-menu main-footer__item">
+              <div class="h4 main-footer__item__title">Блоги</div>
+              <ul class="main-footer__sub-menu__list">
+                <li class="main-footer__sub-menu__list__item"><a href="//animedia.tv/blogs/voicers" title="Блоги войсеров">Блоги войсеров</a></li>
+                <li class="main-footer__sub-menu__list__item"><a href="//animedia.tv/blogs/threads" title="Тематические блоги">Тематические блоги</a></li>
+                <li class="main-footer__sub-menu__list__item"><a href="//animedia.tv/blogs/video" title="Видеоблоги">Видеоблоги</a></li>
+                <li class="main-footer__sub-menu__list__item"><a href="#" title="Рецензии">Рецензии</a></li>
+                <li class="main-footer__sub-menu__list__item"><a href="//animedia.tv/blogs/project" title="Блог проекта">Блог проекта</a></li>
+              </ul>
+            </div>
+            <!-- Blogs sub-menu End-->
+            <!-- Torrents sub-menu-->
+            <div class="main-footer__sub-menu main-footer__item">
+              <div class="h4 main-footer__item__title">Торрент-трекер</div>
+              <ul class="main-footer__sub-menu__list">
+                <li class="main-footer__sub-menu__list__item"><a href="//tt.animedia.tv/" title="Аниме и дорамы">Аниме и дорамы</a></li>
+                <li class="main-footer__sub-menu__list__item"><a href="//tt.animedia.tv/" title="jMusic и OST">jMusic и OST</a></li>
+                <li class="main-footer__sub-menu__list__item"><a href="//tt.animedia.tv/" title="Манга">Манга</a></li>
+                <li class="main-footer__sub-menu__list__item"><a href="//tt.animedia.tv/" title="Игры">Игры</a></li>
+                <li class="main-footer__sub-menu__list__item"><a href="//tt.animedia.tv/" title="Прочее">Прочее</a></li>
+              </ul>
+            </div>
+            <!-- Torrents sub-menu End-->
+          </div>
+          <!-- News subscribe-->
+          <div class="main-footer__news-subscribe main-footer__item">
+            <div class="h4 main-footer__item__title">Аниме</div>
+            <p>Хочешь быть всегда в теме происходящего аниме мира? Хочешь знать о выходе новых аниме? Тогда заходи на наш аниме сайт почаще!  У нас всё самое новое из мира аниме!</p>
+
+
+          </div>
+          <!-- News subscribe end-->
+        </div>
+      </div>
+    </footer>
+    <!-- Footer end-->
+    <!-- Copyright-->
+    <div class="copyright">
+      <div class="container">
+        <div class="copyright__wrapper">
+          <p class="copyright__left-col">(C) Copyright "Animedia.TV" 2009-2019</p>
+          <p class="copyright__right-col"><a title="Design by Tsumi" class="tsumi-link"></a></p>
+		  <p class="copyright__center-col"><!--LiveInternet counter--><script type="text/javascript"><!--
+document.write("<a href='http://www.liveinternet.ru/click' "+
+"target=_blank><img src='//counter.yadro.ru/hit?t44.6;r"+
+escape(document.referrer)+((typeof(screen)=="undefined")?"":
+";s"+screen.width+"*"+screen.height+"*"+(screen.colorDepth?
+screen.colorDepth:screen.pixelDepth))+";u"+escape(document.URL)+
+";"+Math.random()+
+"' alt='' title='LiveInternet' "+
+"border='0' width='31' height='31'><\/a>")
+//--></script><!--/LiveInternet-->
+
+<!-- Yandex.Metrika counter -->
+<script type="text/javascript">
+    (function (d, w, c) {
+        (w[c] = w[c] || []).push(function() {
+            try {
+                w.yaCounter35079065 = new Ya.Metrika({
+                    id:35079065,
+                    clickmap:true,
+                    trackLinks:true,
+                    accurateTrackBounce:true
+                });
+            } catch(e) {}});
+
+        var n = d.getElementsByTagName("script")[0],
+            s = d.createElement("script"),
+            f = function () { n.parentNode.insertBefore(s, n); };
+        s.type = "text/javascript";
+        s.async = true;
+        s.src = "https://mc.yandex.ru/metrika/watch.js";
+
+        if (w.opera == "[object Opera]") {
+            d.addEventListener("DOMContentLoaded", f, false);
+        } else {f();}
+    })(document, window, "yandex_metrika_callbacks");
+</script>
+<noscript><div><img src="https://mc.yandex.ru/watch/35079065" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+<!-- /Yandex.Metrika counter -->
+</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Copyright-->
+
+
+    <!-- Plugins-->
+    <script src="/js/plugins.min.js"></script>
+    <link rel="stylesheet" href="/js/plugins/selectize/css/selectize.bootstrap3.css" />
+    <script src="/js/plugins/selectize/js/selectize.min.js"></script>
+	<script src="/js/lazyload.min.js"></script>
+	<script>new LazyLoad();</script>
+	<script type="text/javascript" src="/js/plugins/noty/packaged/jquery.noty.packaged.js"></script>
+    <!-- Apps-->
+    <script src="/js/apps.js"></script>
+    <script src="/js/r.js"></script>
+    <script type="text/javascript" src="/js/fdcore.script.js"></script>
+
+<script src="/commenton/js/jquery-3.2.1.min.js"></script>
+<script src="/commenton/js/view.min.js"></script>
+<script src="/commenton/js/common_view.min.js"></script>
+<script src="/commenton/js/ajax.min.js"></script>
+
+
+  </body>
+</html>

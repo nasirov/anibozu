@@ -51,6 +51,8 @@ public class ReferencesManagerTest extends AbstractTest {
 
 	private static final String SAO_ROOT_URL = "anime/mastera-mecha-onlayn";
 
+	private static final String TITANS_ROOT_URL = "anime/vtorjenie-gigantov";
+
 	@MockBean
 	private HttpCaller httpCaller;
 
@@ -65,7 +67,7 @@ public class ReferencesManagerTest extends AbstractTest {
 		ReflectionTestUtils.setField(referencesManager, "referencesResourceJson", referencesForTestResource);
 		List<AnimediaMALTitleReferences> multiSeasonsReferences = new ArrayList<>(referencesManager.getMultiSeasonsReferences());
 		assertNotNull(multiSeasonsReferences);
-		assertEquals(11, multiSeasonsReferences.size());
+		assertEquals(12, multiSeasonsReferences.size());
 		List<AnimediaMALTitleReferences> multiSeasonsReferencesList = getMultiSeasonsReferencesList(ArrayList.class, false);
 		assertEquals(multiSeasonsReferencesList.size(), multiSeasonsReferences.size());
 		for (int i = 0; i < multiSeasonsReferences.size(); i++) {
@@ -79,10 +81,13 @@ public class ReferencesManagerTest extends AbstractTest {
 	@Test
 	public void updateReferences() throws Exception {
 		String fairyTailId = "9480";
+		String titansId = "9302";
 		doReturn(new HttpResponse(RoutinesIO.readFromResource(fairyTailHtml), HttpStatus.OK.value())).when(httpCaller)
 				.call(eq(animediaOnlineTv + FAIRY_TAIL_ROOT_URL), eq(HttpMethod.GET), anyMap());
 		doReturn(new HttpResponse(RoutinesIO.readFromResource(saoHtml), HttpStatus.OK.value())).when(httpCaller)
 				.call(eq(animediaOnlineTv + SAO_ROOT_URL), eq(HttpMethod.GET), anyMap());
+		doReturn(new HttpResponse(RoutinesIO.readFromResource(titansHtml), HttpStatus.OK.value())).when(httpCaller)
+				.call(eq(animediaOnlineTv + TITANS_ROOT_URL), eq(HttpMethod.GET), anyMap());
 		doReturn(new HttpResponse(RoutinesIO.readFromResource(fairyTailDataList1), HttpStatus.OK.value())).when(httpCaller)
 				.call(eq(animediaEpisodesList + fairyTailId + "/" + "1" + animediaEpisodesListPostfix), eq(HttpMethod.GET), anyMap());
 		doReturn(new HttpResponse(RoutinesIO.readFromResource(fairyTailDataList2), HttpStatus.OK.value())).when(httpCaller)
@@ -99,6 +104,8 @@ public class ReferencesManagerTest extends AbstractTest {
 				.call(eq(animediaEpisodesList + SAO_ID + "/" + "3" + animediaEpisodesListPostfix), eq(HttpMethod.GET), anyMap());
 		doReturn(new HttpResponse(RoutinesIO.readFromResource(saoDataList7), HttpStatus.OK.value())).when(httpCaller)
 				.call(eq(animediaEpisodesList + SAO_ID + "/" + "7" + animediaEpisodesListPostfix), eq(HttpMethod.GET), anyMap());
+		doReturn(new HttpResponse(RoutinesIO.readFromResource(titans3ConcretizedAndOngoing), HttpStatus.OK.value())).when(httpCaller)
+				.call(eq(animediaEpisodesList + titansId + "/" + "3" + animediaEpisodesListPostfix), eq(HttpMethod.GET), anyMap());
 		Set<AnimediaMALTitleReferences> multiSeasonsReferencesList = getMultiSeasonsReferencesList(LinkedHashSet.class, false);
 		referencesManager.updateReferences(multiSeasonsReferencesList);
 		List<AnimediaMALTitleReferences> updatedMultiSeasonsReferencesList = new ArrayList<>(multiSeasonsReferencesList);
@@ -118,12 +125,13 @@ public class ReferencesManagerTest extends AbstractTest {
 		Set<UserMALTitleInfo> watchingTitles = getWatchingTitles();
 		Set<AnimediaMALTitleReferences> matchedReferences = referencesManager.getMatchedReferences(multiSeasonsReferencesList, watchingTitles);
 		assertNotNull(matchedReferences);
-		assertEquals(4, matchedReferences.size());
+		assertEquals(5, matchedReferences.size());
 		matchedReferences.forEach(list -> assertEquals("testPoster", list.getPosterUrl()));
 		assertEquals(1, matchedReferences.stream().filter(set -> set.getTitleOnMAL().equals("fairy tail: final series")).count());
 		assertEquals(1, matchedReferences.stream().filter(set -> set.getTitleOnMAL().equals("sword art online: alicization")).count());
 		assertEquals(1, matchedReferences.stream().filter(set -> set.getTitleOnMAL().equals("one punch man: road to hero")).count());
 		assertEquals(1, matchedReferences.stream().filter(set -> set.getTitleOnMAL().equals("one punch man specials")).count());
+		assertEquals(1, matchedReferences.stream().filter(set -> set.getTitleOnMAL().equals("shingeki no kyojin season 3 part 2")).count());
 	}
 
 	@Test
@@ -194,6 +202,7 @@ public class ReferencesManagerTest extends AbstractTest {
 		userMALTitleInfo.add(new UserMALTitleInfo(0, WATCHING.getCode(), 0, "sword art online: alicization", 0, "testPoster", "testUrl"));
 		userMALTitleInfo.add(new UserMALTitleInfo(0, WATCHING.getCode(), 0, "one punch man: road to hero", 0, "testPoster", "testUrl"));
 		userMALTitleInfo.add(new UserMALTitleInfo(0, WATCHING.getCode(), 0, "one punch man specials", 0, "testPoster", "testUrl"));
+		userMALTitleInfo.add(new UserMALTitleInfo(0, WATCHING.getCode(), 0, "shingeki no kyojin season 3 part 2", 0, "testPoster", "testUrl"));
 		return userMALTitleInfo;
 	}
 
@@ -224,6 +233,9 @@ public class ReferencesManagerTest extends AbstractTest {
 		AnimediaMALTitleReferences onePunch7_2 = AnimediaMALTitleReferences.builder().url("anime/vanpanchmen").dataList("7").firstEpisode("7")
 				.titleOnMAL("one punch man: road to hero").minConcretizedEpisodeOnAnimedia("7").maxConcretizedEpisodeOnAnimedia("7")
 				.minConcretizedEpisodeOnMAL("1").maxConcretizedEpisodeOnMAL("1").currentMax("7").build();
+		AnimediaMALTitleReferences titans3ConcretizedAndOngoing = AnimediaMALTitleReferences.builder().url(TITANS_ROOT_URL).dataList("3")
+				.firstEpisode("13").titleOnMAL("shingeki no kyojin season 3 part 2").minConcretizedEpisodeOnAnimedia("13")
+				.maxConcretizedEpisodeOnAnimedia("22").minConcretizedEpisodeOnMAL("1").maxConcretizedEpisodeOnMAL("10").build();
 		if (updated) {
 			fairyTail1.setCurrentMax("175");
 			fairyTail2.setCurrentMax("277");
@@ -257,6 +269,7 @@ public class ReferencesManagerTest extends AbstractTest {
 			sao2.setMaxConcretizedEpisodeOnAnimedia("24");
 			sao3.setMaxConcretizedEpisodeOnAnimedia("24");
 			sao7.setMaxConcretizedEpisodeOnAnimedia("1");
+			titans3ConcretizedAndOngoing.setCurrentMax("13");
 		}
 		refs.add(fairyTail1);
 		refs.add(fairyTail2);
@@ -269,6 +282,7 @@ public class ReferencesManagerTest extends AbstractTest {
 		refs.add(none);
 		refs.add(onePunch7);
 		refs.add(onePunch7_2);
+		refs.add(titans3ConcretizedAndOngoing);
 		return refs;
 	}
 }
