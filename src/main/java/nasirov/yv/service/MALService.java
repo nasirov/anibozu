@@ -33,6 +33,7 @@ import org.springframework.cache.CacheManager;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.util.HtmlUtils;
 
 /**
  * Created by nasirov.yv
@@ -128,6 +129,7 @@ public class MALService {
 		for (Set<UserMALTitleInfo> set : titleJson) {
 			changePosterUrl(set);
 			changeAnimeUrl(set);
+			unescapeHtmlCharactersInTitleName(set);
 			watchingTitles.addAll(set);
 		}
 		Cache userMALCache = cacheManager.getCache(userMALCacheName);
@@ -243,6 +245,10 @@ public class MALService {
 	 */
 	private void changeAnimeUrl(@NotEmpty Set<UserMALTitleInfo> watchingTitles) {
 		watchingTitles.forEach(set -> set.setAnimeUrl(myAnimeListNet + set.getAnimeUrl().substring(1)));
+	}
+
+	private void unescapeHtmlCharactersInTitleName(@NotEmpty Set<UserMALTitleInfo> watchingTitles) {
+		watchingTitles.forEach(title -> title.setTitle(HtmlUtils.htmlUnescape(title.getTitle())));
 	}
 
 	/**

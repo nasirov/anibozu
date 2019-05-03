@@ -26,7 +26,7 @@ public class MALParser {
 
 	private static final String USER_ANIME_LIST_PRIVATE_ACCESS = "Access to this list has been restricted by the owner";
 
-	private static final String NUMBER_OF_WATCHING_TITLES = "Watching</a><span class=\"di-ib fl-r lh10\">(?<numWatchingTitles>\\d*?)</span>";
+	private static final String NUMBER_OF_WATCHING_TITLES = "Watching</a><span class=\"di-ib fl-r lh10\">(?<numWatchingTitles>[\\d,]*?)</span>";
 
 	/**
 	 * Searches for the user anime list
@@ -57,7 +57,7 @@ public class MALParser {
 		Pattern pattern = Pattern.compile(NUMBER_OF_WATCHING_TITLES);
 		Matcher matcher = pattern.matcher(response.getContent());
 		if (matcher.find()) {
-			return matcher.group("numWatchingTitles");
+			return matcher.group("numWatchingTitles").replace(",", "");
 		}
 		return null;
 	}

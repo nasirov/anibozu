@@ -15,7 +15,7 @@ public abstract class AbstractTest {
 
 	protected static final String SAO_ID = "9432";
 
-	protected static final int TEST_ACC_WATCHING_TITLES = 651;
+	protected static final int TEST_ACC_WATCHING_TITLES = 1004;
 
 	@Value("${resources.tempFolder.name}")
 	protected String tempFolderName;
@@ -170,11 +170,14 @@ public abstract class AbstractTest {
 	@Value("classpath:animedia/ingressHtml.txt")
 	protected Resource announcementHtml;
 
-	@Value("classpath:mal/testAccForDevAdditionalJson.json")
-	protected Resource testAccForDevAdditionalJson;
+	@Value("classpath:mal/testAccForDevAdditionalJsonMoreThan300.json")
+	protected Resource testAccForDevAdditionalJsonMoreThan300;
 
-	@Value("classpath:mal/additionalAnimeListJson.json")
-	protected Resource additionalAnimeListJson;
+	@Value("classpath:mal/testAccForDevAdditionalJsonMoreThan600.json")
+	protected Resource testAccForDevAdditionalJsonMoreThan600;
+
+	@Value("classpath:mal/testAccForDevAdditionalJsonMoreThan900.json")
+	protected Resource testAccForDevAdditionalJsonMoreThan900;
 
 	@Value("classpath:mal/testAccForDevProfile.txt")
 	protected Resource testAccForDevProfile;

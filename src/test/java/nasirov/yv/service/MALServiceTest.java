@@ -9,7 +9,6 @@ import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.Mockito.anyMap;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -17,6 +16,7 @@ import static org.mockito.Mockito.verify;
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import nasirov.yv.AbstractTest;
 import nasirov.yv.configuration.AppConfiguration;
@@ -88,46 +88,59 @@ public class MALServiceTest extends AbstractTest {
 
 	@Test
 	public void getWatchingTitles() throws Exception {
+		Map<String, Map<String, String>> params = parametersBuilder.build();
 		Cache userMALCache = cacheManager.getCache(userMALCacheName);
 		Set<UserMALTitleInfo> watchingTitlesFromCache = userMALCache.get(TEST_ACC_FOR_DEV, LinkedHashSet.class);
 		assertNull(watchingTitlesFromCache);
 		String profileUrl = myAnimeListNet + PROFILE + TEST_ACC_FOR_DEV;
-		String firstJsonUrl = myAnimeListNet + ANIME_LIST + TEST_ACC_FOR_DEV + "?" + STATUS + "=" + WATCHING.getCode().toString();
-		String additionalJsonUrl =
+		String firstJsonUrl300Titles = myAnimeListNet + ANIME_LIST + TEST_ACC_FOR_DEV + "?" + STATUS + "=" + WATCHING.getCode().toString();
+		String additionalJsonUrlMoreThan300 =
 				myAnimeListNet + ANIME_LIST + TEST_ACC_FOR_DEV + LOAD_JSON + "?" + "offset=" + MAX_NUMBER_OF_TITLE_IN_HTML + "&" + STATUS + "=" + WATCHING
 						.getCode().toString();
 		String additionalJsonUrlMore600 =
 				myAnimeListNet + ANIME_LIST + TEST_ACC_FOR_DEV + LOAD_JSON + "?" + "offset=" + (MAX_NUMBER_OF_TITLE_IN_HTML * 2) + "&" + STATUS + "="
 						+ WATCHING.getCode().toString();
+		String additionalJsonUrlMore900 =
+				myAnimeListNet + ANIME_LIST + TEST_ACC_FOR_DEV + LOAD_JSON + "?" + "offset=" + (MAX_NUMBER_OF_TITLE_IN_HTML * 3) + "&" + STATUS + "="
+						+ WATCHING.getCode().toString();
 		doReturn(new HttpResponse(RoutinesIO.readFromResource(testAccForDevProfile), HttpStatus.OK.value())).when(httpCaller)
-				.call(eq(profileUrl), eq(HttpMethod.GET), anyMap());
+				.call(eq(profileUrl), eq(HttpMethod.GET), eq(params));
 		doReturn(new HttpResponse(RoutinesIO.readFromResource(testAccForDevWatchingTitles), HttpStatus.OK.value())).when(httpCaller)
-				.call(eq(firstJsonUrl), eq(HttpMethod.GET), anyMap());
-		doReturn(new HttpResponse(RoutinesIO.readFromResource(testAccForDevAdditionalJson), HttpStatus.OK.value())).when(httpCaller)
-				.call(eq(additionalJsonUrl), eq(HttpMethod.GET), anyMap());
-		doReturn(new HttpResponse(RoutinesIO.readFromResource(additionalAnimeListJson), HttpStatus.OK.value())).when(httpCaller)
-				.call(eq(additionalJsonUrlMore600), eq(HttpMethod.GET), anyMap());
+				.call(eq(firstJsonUrl300Titles), eq(HttpMethod.GET), eq(params));
+		doReturn(new HttpResponse(RoutinesIO.readFromResource(testAccForDevAdditionalJsonMoreThan300), HttpStatus.OK.value())).when(httpCaller)
+				.call(eq(additionalJsonUrlMoreThan300), eq(HttpMethod.GET), eq(params));
+		doReturn(new HttpResponse(RoutinesIO.readFromResource(testAccForDevAdditionalJsonMoreThan600), HttpStatus.OK.value())).when(httpCaller)
+				.call(eq(additionalJsonUrlMore600), eq(HttpMethod.GET), eq(params));
+		doReturn(new HttpResponse(RoutinesIO.readFromResource(testAccForDevAdditionalJsonMoreThan900), HttpStatus.OK.value())).when(httpCaller)
+				.call(eq(additionalJsonUrlMore900), eq(HttpMethod.GET), eq(params));
 		Set<UserMALTitleInfo> watchingTitles = malService.getWatchingTitles(TEST_ACC_FOR_DEV);
 		assertNotNull(watchingTitles);
 		assertEquals(TEST_ACC_WATCHING_TITLES, watchingTitles.size());
 		watchingTitlesFromCache = userMALCache.get(TEST_ACC_FOR_DEV, LinkedHashSet.class);
 		assertNotNull(watchingTitlesFromCache);
 		assertEquals(TEST_ACC_WATCHING_TITLES, watchingTitlesFromCache.size());
-		verify(httpCaller, times(4)).call(any(String.class), eq(HttpMethod.GET), anyMap());
+		verify(httpCaller, times(5)).call(any(String.class), eq(HttpMethod.GET), eq(params));
+		verify(httpCaller, times(1)).call(eq(profileUrl), eq(HttpMethod.GET), eq(params));
+		verify(httpCaller, times(1)).call(eq(firstJsonUrl300Titles), eq(HttpMethod.GET), eq(params));
+		verify(httpCaller, times(1)).call(eq(additionalJsonUrlMoreThan300), eq(HttpMethod.GET), eq(params));
+		verify(httpCaller, times(1)).call(eq(additionalJsonUrlMore600), eq(HttpMethod.GET), eq(params));
+		verify(httpCaller, times(1)).call(eq(additionalJsonUrlMore900), eq(HttpMethod.GET), eq(params));
 	}
 
 	@Test(expected = WatchingTitlesNotFoundException.class)
 	public void getWatchingTitlesNotFound() throws Exception {
+		Map<String, Map<String, String>> params = parametersBuilder.build();
 		String profileUrl = myAnimeListNet + PROFILE + TEST_ACC_FOR_DEV;
-		doReturn(new HttpResponse("", HttpStatus.OK.value())).when(httpCaller).call(eq(profileUrl), eq(HttpMethod.GET), anyMap());
+		doReturn(new HttpResponse("", HttpStatus.OK.value())).when(httpCaller).call(eq(profileUrl), eq(HttpMethod.GET), eq(params));
 		malService.getWatchingTitles(TEST_ACC_FOR_DEV);
 	}
 
 	@Test(expected = WatchingTitlesNotFoundException.class)
 	public void getWatchingTitlesEqualsZero() throws Exception {
+		Map<String, Map<String, String>> params = parametersBuilder.build();
 		String profileUrl = myAnimeListNet + PROFILE + TEST_ACC_FOR_DEV;
 		doReturn(new HttpResponse("Watching</a><span class=\"di-ib fl-r lh10\">0</span>", HttpStatus.OK.value())).when(httpCaller)
-				.call(eq(profileUrl), eq(HttpMethod.GET), anyMap());
+				.call(eq(profileUrl), eq(HttpMethod.GET), eq(params));
 		malService.getWatchingTitles(TEST_ACC_FOR_DEV);
 	}
 
