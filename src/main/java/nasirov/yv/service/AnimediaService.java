@@ -383,9 +383,9 @@ public class AnimediaService {
 	private void addSortedAnimeToTempResources(Set<Anime> single, Set<Anime> multi, Set<Anime> announcement) {
 		String prefix = tempFolderName + File.separator;
 		RoutinesIO.mkDir(tempFolderName);
-		RoutinesIO.marshalToResources(prefix + resourceSingleSeasonsAnimeUrls.getFilename(), single);
-		RoutinesIO.marshalToResources(prefix + resourceMultiSeasonsAnimeUrls.getFilename(), multi);
-		RoutinesIO.marshalToResources(prefix + resourceAnnouncementsUrls.getFilename(), announcement);
+		RoutinesIO.marshalToFile(prefix + resourceSingleSeasonsAnimeUrls.getFilename(), single);
+		RoutinesIO.marshalToFile(prefix + resourceMultiSeasonsAnimeUrls.getFilename(), multi);
+		RoutinesIO.marshalToFile(prefix + resourceAnnouncementsUrls.getFilename(), announcement);
 	}
 
 	private void putSortedAnimeToCache(Set<Anime> single, Set<Anime> multi, Set<Anime> announcement) {

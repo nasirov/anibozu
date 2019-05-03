@@ -33,15 +33,6 @@ public class RoutinesIO {
 		WrappedObjectMapper.marshal(new File(pathToFile), value);
 	}
 
-	public static void marshalToResources(@NotNull String pathToFile, @NotNull Object value) {
-		try {
-			File file = ResourceUtils.getFile(pathToFile);
-			WrappedObjectMapper.marshal(file, value);
-		} catch (IOException e) {
-			log.error("ERROR WHILE MARSHALLING TO FILE " + pathToFile, e);
-		}
-	}
-
 	public static <T, C extends Collection> C unmarshalFromFile(@NotNull String pathToFile, @NotNull Class<T> targetClass,
 			@NotNull Class<C> collection) {
 		String content = readFromFile(pathToFile);
@@ -53,31 +44,10 @@ public class RoutinesIO {
 		return WrappedObjectMapper.unmarshal(content, targetClass, collection);
 	}
 
-	public static <T, C extends Collection> C unmarshalFromResource(@NotNull String resourceName, @NotNull Class<T> targetClass,
-			@NotNull Class<C> collection) {
-		String content = readFromResource(resourceName);
-		return WrappedObjectMapper.unmarshal(content, targetClass, collection);
-	}
-
 	public static <T, C extends Collection> C unmarshalFromResource(@NotNull Resource resource, @NotNull Class<T> targetClass,
 			@NotNull Class<C> collection) {
 		String content = readFromResource(resource);
 		return WrappedObjectMapper.unmarshal(content, targetClass, collection);
-	}
-
-	public static <T> T unmarshalFromFile(@NotNull String pathToFile, @NotNull Class<T> targetClass) {
-		String content = readFromFile(pathToFile);
-		return WrappedObjectMapper.unmarshal(content, targetClass);
-	}
-
-	public static <T> T unmarshalFromFile(@NotNull File file, @NotNull Class<T> targetClass) {
-		String content = readFromFile(file);
-		return WrappedObjectMapper.unmarshal(content, targetClass);
-	}
-
-	public static <T> T unmarshalFromResource(@NotNull String resourceName, @NotNull Class<T> targetClass) {
-		String content = readFromResource(resourceName);
-		return WrappedObjectMapper.unmarshal(content, targetClass);
 	}
 
 	public static <T extends CharSequence> void writeToFile(String pathToFile, T value, boolean append) {
@@ -89,19 +59,10 @@ public class RoutinesIO {
 		}
 	}
 
-	public static <T extends CharSequence> void writeToFile(File file, T value, boolean append) {
-		try (BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(file, append))) {
-			bufferedWriter.append(value).append(System.lineSeparator());
-			bufferedWriter.flush();
-		} catch (IOException e) {
-			log.error("ERROR WHILE WRITING TO FILE " + file, e);
-		}
-	}
-
 	@NotNull
 	public static String readFromFile(String pathToFile) {
 		StringBuilder stringBuilder = new StringBuilder();
-		try (BufferedReader bufferedReader = new BufferedReader(new FileReader(new File(pathToFile)))) {
+		try (BufferedReader bufferedReader = new BufferedReader(new FileReader(ResourceUtils.getFile(pathToFile)))) {
 			String s;
 			while ((s = bufferedReader.readLine()) != null) {
 				stringBuilder.append(s).append(System.lineSeparator());
@@ -125,24 +86,6 @@ public class RoutinesIO {
 			log.error("ERROR WHILE READING FROM FILE " + file, e);
 		}
 		return stringBuilder.toString();
-	}
-
-	@NotNull
-	public static String readFromResource(@NotNull String name) {
-		String fromFile = "";
-		try (BufferedInputStream byteArrayInputStream = new BufferedInputStream(ClassLoader.getSystemResourceAsStream(name));
-				ByteArrayOutputStream bufferedOutputStream = new ByteArrayOutputStream()) {
-			int nRead;
-			byte[] data = new byte[1024];
-			while ((nRead = byteArrayInputStream.read(data, 0, data.length)) != -1) {
-				bufferedOutputStream.write(data, 0, nRead);
-				bufferedOutputStream.flush();
-			}
-			fromFile = new String(bufferedOutputStream.toByteArray(), StandardCharsets.UTF_8);
-		} catch (IOException e) {
-			log.error("ERROR WHILE READING FROM RESOURCE " + name, e);
-		}
-		return fromFile;
 	}
 
 	@NotNull
