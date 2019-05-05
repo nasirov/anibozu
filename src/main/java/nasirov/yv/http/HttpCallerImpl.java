@@ -1,7 +1,5 @@
 package nasirov.yv.http;
 
-import static nasirov.yv.enums.RequestParameters.ACCEPT;
-import static nasirov.yv.enums.RequestParameters.COOKIE;
 import static nasirov.yv.enums.RequestParameters.HEADER;
 
 import com.sun.jersey.api.client.Client;
@@ -12,7 +10,6 @@ import java.util.Map;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Stream;
 import javax.validation.constraints.NotNull;
-import javax.ws.rs.core.Cookie;
 import lombok.extern.slf4j.Slf4j;
 import nasirov.yv.response.HttpResponse;
 import org.springframework.http.HttpMethod;
@@ -64,12 +61,6 @@ public class HttpCallerImpl implements HttpCaller {
 		Stream.of(parameters).filter(map -> map.containsKey(HEADER.getDescription())).flatMap(map -> map.get(HEADER.getDescription()).entrySet()
 				.stream())
 				.forEach(map -> requestBuilder.header(map.getKey(), map.getValue()));
-		Stream.of(parameters).filter(map -> map.containsKey(COOKIE.getDescription())).flatMap(map -> map.get(COOKIE.getDescription()).entrySet()
-				.stream())
-				.forEach(map -> requestBuilder.cookie(new Cookie(map.getKey(), map.getValue())));
-		Stream.of(parameters).filter(map -> map.containsKey(ACCEPT.getDescription())).flatMap(map -> map.get(ACCEPT.getDescription()).entrySet()
-				.stream())
-				.forEach(map -> requestBuilder.accept(map.getValue()));
 		return requestBuilder;
 	}
 
@@ -85,9 +76,6 @@ public class HttpCallerImpl implements HttpCaller {
 		switch (method) {
 			case GET:
 				response = requestBuilder.get(ClientResponse.class);
-				break;
-			case POST:
-				response = requestBuilder.post(ClientResponse.class);
 				break;
 			default:
 				throw new UnsupportedOperationException("Method " + method + " is not supported");

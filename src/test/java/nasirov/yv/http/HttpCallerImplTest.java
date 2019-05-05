@@ -249,6 +249,13 @@ public class HttpCallerImplTest extends AbstractTest {
 		assertEquals(TEST_BODY, response.getContent());
 	}
 
+	@Test(expected = UnsupportedOperationException.class)
+	public void notSupportedHttpMethod() {
+		Map<String, Map<String, String>> requestParams = animediaRequestParametersBuilder.build();
+		stubFor(get(urlPathEqualTo(URL)).willReturn(aResponse().withStatus(HttpStatus.OK.value()).withBody(TEST_BODY)));
+		httpCaller.call(HOST + URL, HttpMethod.POST, requestParams);
+	}
+
 	private String getCookieValue(String cookie, String value) {
 		String result = null;
 		Pattern pattern = Pattern.compile("(?<value>__cfduid=.*?);");
