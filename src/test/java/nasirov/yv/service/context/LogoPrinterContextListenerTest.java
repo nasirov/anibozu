@@ -1,7 +1,7 @@
-package nasirov.yv.service;
+package nasirov.yv.service.context;
 
-import static org.junit.Assert.assertEquals;
-import static org.mockito.Mockito.doAnswer;
+import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -12,9 +12,10 @@ import java.io.PrintStream;
 import java.util.Properties;
 import lombok.extern.slf4j.Slf4j;
 import nasirov.yv.AbstractTest;
-import nasirov.yv.service.context.LogoPrinterContextListener;
+import nasirov.yv.service.ApplicationLogoPrinter;
 import nasirov.yv.util.RoutinesIO;
 import org.junit.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.core.io.Resource;
@@ -26,13 +27,11 @@ import org.springframework.util.ResourceUtils;
  * Created by nasirov.yv
  */
 @SpringBootTest(classes = {ApplicationLogoPrinter.class, LogoPrinterContextListener.class})
-@DirtiesContext(classMode = ClassMode.AFTER_CLASS)
+@DirtiesContext(classMode = ClassMode.AFTER_EACH_TEST_METHOD)
 @Slf4j
-public class ApplicationLogoPrinterTest extends AbstractTest {
+public class LogoPrinterContextListenerTest extends AbstractTest {
 
 	private static PrintStream mockPrintStream = mock(PrintStream.class);
-
-	private static StringBuilder logoFromBean = new StringBuilder();
 
 	static {
 		setTestVars();
@@ -41,6 +40,8 @@ public class ApplicationLogoPrinterTest extends AbstractTest {
 	@Value("classpath:${resources.applicationLogo.name}")
 	private Resource resourcesApplicationLogo;
 
+	@Autowired
+	private ApplicationLogoPrinter applicationLogoPrinter;
 
 	private static void setTestVars() {
 		Properties properties = new Properties();
@@ -49,17 +50,15 @@ public class ApplicationLogoPrinterTest extends AbstractTest {
 		} catch (IOException e) {
 			log.error(e.getMessage());
 		}
-		String applicationLogo = RoutinesIO.readFromFile("classpath:" + properties.getProperty("resources.applicationLogo.name"));
+		String appLogo = RoutinesIO.readFromFile("classpath:" + properties.getProperty("resources.applicationLogo.name"));
 		System.setOut(mockPrintStream);
-		doAnswer(x -> {
-			logoFromBean.append((String) x.getArgument(0));
-			return Void.TYPE;
-		}).when(mockPrintStream).println(applicationLogo);
+		doThrow(RuntimeException.class).when(mockPrintStream).println(eq(appLogo));
 	}
-	@Test
-	public void printApplicationLogoTest() throws Exception {
-		String applicationLogo = RoutinesIO.readFromResource(resourcesApplicationLogo);
-		assertEquals(applicationLogo, logoFromBean.toString());
-		verify(mockPrintStream, times(1)).println(applicationLogo);
+
+	@Test(expected = RuntimeException.class)
+	public void onApplicationEventTestException() {
+		String appLogo = RoutinesIO.readFromResource(resourcesApplicationLogo);
+		verify(mockPrintStream, times(1)).println(eq(appLogo));
+		applicationLogoPrinter.printApplicationLogo();
 	}
 }

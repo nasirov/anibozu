@@ -69,7 +69,7 @@ public class RoutinesIOTest extends AbstractTest {
 		String readFromFileStringPath = RoutinesIO.readFromFile(fileName);
 		String readFromTestFile = RoutinesIO.readFromFile(testFile);
 		assertEquals(readFromFileStringPath, readFromTestFile);
-		String finalString = firstString + System.lineSeparator() + secondString + System.lineSeparator();
+		String finalString = firstString + System.lineSeparator() + secondString;
 		assertEquals(finalString, readFromTestFile);
 		assertEquals(finalString, readFromFileStringPath);
 		FileSystemUtils.deleteRecursively(testFile);
@@ -88,9 +88,8 @@ public class RoutinesIOTest extends AbstractTest {
 		String readFromFileStringPath = RoutinesIO.readFromFile(fileName);
 		String readFromTestFile = RoutinesIO.readFromFile(testFile);
 		assertEquals(readFromFileStringPath, readFromTestFile);
-		String finalString = secondString + System.lineSeparator();
-		assertEquals(finalString, readFromTestFile);
-		assertEquals(finalString, readFromFileStringPath);
+		assertEquals(secondString, readFromTestFile);
+		assertEquals(secondString, readFromFileStringPath);
 		FileSystemUtils.deleteRecursively(testFile);
 	}
 
@@ -116,9 +115,8 @@ public class RoutinesIOTest extends AbstractTest {
 		String readFromFileStringPath = RoutinesIO.readFromFile(fileName);
 		String readFromTestFile = RoutinesIO.readFromFile(testFile);
 		assertEquals(readFromFileStringPath, readFromTestFile);
-		String finalString = firstString + System.lineSeparator();
-		assertEquals(finalString, readFromTestFile);
-		assertEquals(finalString, readFromFileStringPath);
+		assertEquals(firstString, readFromTestFile);
+		assertEquals(firstString, readFromFileStringPath);
 		FileSystemUtils.deleteRecursively(testFile);
 		assertFalse(testFile.exists());
 	}

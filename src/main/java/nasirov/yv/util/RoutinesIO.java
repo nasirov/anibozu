@@ -62,12 +62,13 @@ public class RoutinesIO {
 	@NotNull
 	public static String readFromFile(String pathToFile) {
 		StringBuilder stringBuilder = new StringBuilder();
+		String lineSeparator = System.lineSeparator();
 		try (BufferedReader bufferedReader = new BufferedReader(new FileReader(ResourceUtils.getFile(pathToFile)))) {
 			String s;
 			while ((s = bufferedReader.readLine()) != null) {
-				stringBuilder.append(s).append(System.lineSeparator());
+				stringBuilder.append(s).append(lineSeparator);
 			}
-			return stringBuilder.toString();
+			stringBuilder.delete(stringBuilder.lastIndexOf(lineSeparator), stringBuilder.length());
 		} catch (Exception e) {
 			log.error("ERROR WHILE READING FROM FILE " + pathToFile, e);
 		}
@@ -76,12 +77,13 @@ public class RoutinesIO {
 
 	public static String readFromFile(File file) {
 		StringBuilder stringBuilder = new StringBuilder();
+		String lineSeparator = System.lineSeparator();
 		try (BufferedReader bufferedReader = new BufferedReader(new FileReader(file))) {
 			String s;
 			while ((s = bufferedReader.readLine()) != null) {
 				stringBuilder.append(s).append(System.lineSeparator());
 			}
-			return stringBuilder.toString();
+			stringBuilder.delete(stringBuilder.lastIndexOf(lineSeparator), stringBuilder.length());
 		} catch (Exception e) {
 			log.error("ERROR WHILE READING FROM FILE " + file, e);
 		}
