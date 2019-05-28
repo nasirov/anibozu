@@ -197,6 +197,26 @@ public class HttpCallerImplTest extends AbstractTest {
 	}
 
 	@Test
+	public void badGateway() throws IOException {
+		stubFor(get(urlPathEqualTo(URL)).inScenario(REPEAT_REQUEST_SCENARIO).whenScenarioStateIs(STARTED)
+				.willReturn(aResponse().withStatus(HttpStatus.BAD_GATEWAY.value()).withBody(TEST_BODY)).willSetStateTo(REPEAT_REQUEST_STATE));
+		stubFor(get(urlPathEqualTo(URL)).inScenario(REPEAT_REQUEST_SCENARIO).whenScenarioStateIs(REPEAT_REQUEST_STATE)
+				.willReturn(aResponse().withStatus(HttpStatus.OK.value()).withBody(TEST_BODY)));
+		httpCaller.call(HOST + URL, HttpMethod.GET, malRequestParametersBuilder.build());
+		verify(2, getRequestedFor(urlPathEqualTo(URL)));
+	}
+
+	@Test
+	public void internalServerError() throws IOException {
+		stubFor(get(urlPathEqualTo(URL)).inScenario(REPEAT_REQUEST_SCENARIO).whenScenarioStateIs(STARTED)
+				.willReturn(aResponse().withStatus(HttpStatus.INTERNAL_SERVER_ERROR.value()).withBody(TEST_BODY)).willSetStateTo(REPEAT_REQUEST_STATE));
+		stubFor(get(urlPathEqualTo(URL)).inScenario(REPEAT_REQUEST_SCENARIO).whenScenarioStateIs(REPEAT_REQUEST_STATE)
+				.willReturn(aResponse().withStatus(HttpStatus.OK.value()).withBody(TEST_BODY)));
+		httpCaller.call(HOST + URL, HttpMethod.GET, malRequestParametersBuilder.build());
+		verify(2, getRequestedFor(urlPathEqualTo(URL)));
+	}
+
+	@Test
 	public void avoidDDoSProtection() {
 		Map<String, Map<String, String>> requestParams = animediaRequestParametersBuilder.build();
 		stubFor(get(urlPathEqualTo(URL)).inScenario(DDOS_PROTECTION_SCENARIO).whenScenarioStateIs(STARTED)

@@ -20,10 +20,11 @@ public class RepeatRequestFilter extends ClientFilter {
 		ClientHandler clientHandler = getNext();
 		ClientResponse clientResponse = clientHandler.handle(clientRequest);
 		int status = clientResponse.getStatus();
-		if (status == HttpStatus.TOO_MANY_REQUESTS.value() || status == HttpStatus.GATEWAY_TIMEOUT.value() || status == HttpStatus.FOUND.value()) {
+		if (status == HttpStatus.TOO_MANY_REQUESTS.value() || status == HttpStatus.GATEWAY_TIMEOUT.value() || status == HttpStatus.FOUND.value()
+				|| status == HttpStatus.BAD_GATEWAY.value() || status == HttpStatus.INTERNAL_SERVER_ERROR.value()) {
 			for (int i = 0; i < 3; i++) {
 				try {
-					TimeUnit.SECONDS.sleep(4);
+					TimeUnit.SECONDS.sleep(5);
 				} catch (InterruptedException e) {
 					log.error("THREAD WAS INTERRUPTED", e);
 					Thread.currentThread().interrupt();
@@ -31,7 +32,8 @@ public class RepeatRequestFilter extends ClientFilter {
 				log.error("{}\nREPEAT REQUEST", clientResponse.toString());
 				clientResponse = clientHandler.handle(clientRequest);
 				status = clientResponse.getStatus();
-				if (status != HttpStatus.TOO_MANY_REQUESTS.value() && status != HttpStatus.GATEWAY_TIMEOUT.value() && status != HttpStatus.FOUND.value()) {
+				if (status != HttpStatus.TOO_MANY_REQUESTS.value() && status != HttpStatus.GATEWAY_TIMEOUT.value() && status != HttpStatus.FOUND.value()
+						&& status != HttpStatus.BAD_GATEWAY.value() && status != HttpStatus.INTERNAL_SERVER_ERROR.value()) {
 					break;
 				}
 			}
