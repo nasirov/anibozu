@@ -6,6 +6,7 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
+import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import lombok.extern.slf4j.Slf4j;
 import nasirov.yv.exception.JSONNotFoundException;
@@ -103,7 +104,8 @@ public class ResultController {
 
 	@PostMapping(value = "/result")
 	public String checkResult(
-			@Size(min = 2, max = 16, message = "MAL username must be between 2 and 16 characters") @RequestParam(value = "username") String username,
+			@Size(min = 2, max = 16, message = "MAL username must be between 2 and 16 characters") @Pattern(regexp = "^[\\w-]+$", message = "Please enter "
+					+ "a valid username (latin letters, numbers, underscores and dashes only)") @RequestParam(value = "username") String username,
 			Model model) {
 		model.addAttribute(MODEL_ATTRIBUTE_USERNAME, username);
 		Set<UserMALTitleInfo> watchingTitles;
