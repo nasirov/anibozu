@@ -63,10 +63,8 @@ function changeClasses(element, isInputValueValid) {
   }
 }
 function checkMalUsername(username) {
-  var minLength = 2;
-  var maxLength = 16;
   if (username === undefined || username === null) {
     return false;
   }
-  return username.length >= minLength && username.length <= maxLength;
+  return username.match(/^[\w_-]{2,16}$/) !== null;
 }
