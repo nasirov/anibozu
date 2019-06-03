@@ -210,12 +210,6 @@
     "poster": "https://static.animedia.tv/uploads/1448.jpg?h=350&q=100"
   },
   {
-    "title": "тетрадь смерти",
-    "keywords": "death note",
-    "url": "anime/tetrad-smerti",
-    "poster": "https://static.animedia.tv/uploads/Death_note.jpg?h=350&q=100"
-  },
-  {
     "title": "моя геройская академия",
     "keywords": "моя геройская академия my hero academia boku no hero academia",
     "url": "anime/moya-gerojskaya-akademiya",
@@ -2731,7 +2725,7 @@
   },
   {
     "title": "морская невеста",
-    "keywords": "seto no hanayome",
+    "keywords": "",
     "url": "anime/morskaya-nevesta",
     "poster": "https://static.animedia.tv/uploads/morskaya.jpg?h=350&q=100"
   },
@@ -4063,7 +4057,7 @@
   },
   {
     "title": "побежденные королевы",
-    "keywords": "vanquished queens",
+    "keywords": "",
     "url": "anime/pobejdennyie-korolevyi-OVAVanquished-Queens-OVA",
     "poster": "https://static.animedia.tv/uploads/Yov6bEsiqHQ.jpg?h=350&q=100"
   },
@@ -4489,7 +4483,7 @@
   },
   {
     "title": "боевые шинки",
-    "keywords": "busou shinki",
+    "keywords": "",
     "url": "anime/boevyie-shinki",
     "poster": "https://static.animedia.tv/uploads/746.jpg?h=350&q=100"
   },
@@ -4603,7 +4597,7 @@
   },
   {
     "title": "красный сад",
-    "keywords": "red garden",
+    "keywords": "",
     "url": "anime/krasnyiy-sad",
     "poster": "https://static.animedia.tv/uploads/Red_Garden.jpg?h=350&q=100"
   },
@@ -4621,7 +4615,7 @@
   },
   {
     "title": "кэнди-бой",
-    "keywords": "candy boy",
+    "keywords": "",
     "url": "anime/kendi-boy",
     "poster": "https://static.animedia.tv/uploads/963.jpg?h=350&q=100"
   },
