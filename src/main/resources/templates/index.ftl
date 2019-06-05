@@ -19,7 +19,7 @@
           <input type="text" id="name_field" class="nes-input" name="username"
                  placeholder="Enter MAL username..."
                  title="Please enter a valid mal username  between 2 and 16 characters(latin letters, numbers, underscores and dashes only)">
-          <input type="submit" class="nes-btn is-primary" value="Search for new episodes">
+          <button type="submit" class="nes-btn is-primary">Search for new episodes</button>
         </form>
       </div>
     </section>
