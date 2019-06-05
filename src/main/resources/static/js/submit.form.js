@@ -7,45 +7,53 @@ $(document).ready(function () {
     var inputField = $('#name_field');
     var submitButton = $('.nes-btn');
     var userInput = inputField.val();
-    if (checkMalUsername(userInput)) {
-      changeClasses(inputField, true);
-      changeClasses(submitButton, true);
-      addAndRunProgressBar(container);
-    } else {
-      e.preventDefault();
-      e.stopImmediatePropagation();
-      changeClasses(inputField, false);
-      changeClasses(submitButton, false);
-      removeProgressBar(container);
+    if(!isElementHasReadonlyAttr(inputField[0])){
+      if (checkMalUsername(userInput)) {
+        addReadonlyAttr(inputField);
+        changeClasses(inputField, true);
+        changeClasses(submitButton, true);
+        addAndRunProgressBar(container);
+      } else {
+        disableEvents(e);
+        changeClasses(inputField, false);
+        changeClasses(submitButton, false);
+        removeProgressBar(container);
+      }
+    }else {
+      disableEvents(e);
     }
   });
 
 });
 function addAndRunProgressBar(element) {
   var progressBar = '<progress class="nes-progress is-success" value="0" max="100"></progress>';
-  if (element.find(".nes-progress.is-success").length === 0) {
+  if (element.find('.nes-progress.is-success').length === 0) {
     element.append(progressBar);
     setInterval(runProgressBar, 1000);
   }
 }
 function removeProgressBar(element) {
-  var progressBar = ".nes-progress.is-success";
+  var progressBar = '.nes-progress.is-success';
   if (!(element.find(progressBar).length === 0)) {
     element.find(progressBar).remove();
   }
 }
 function runProgressBar() {
-  var progressBar = $(".nes-progress.is-success");
+  var progressBar = $('.nes-progress.is-success');
   var value = progressBar[0].value;
   if (value === 100) {
     value = 0;
   }
   value += 10;
-  progressBar.attr("value", value);
+  progressBar.attr('value', value);
 }
 function changeClasses(element, isInputValueValid) {
   var is_success = 'is-success';
   var is_error = 'is-error';
+  var is_primary = 'is-primary';
+  if (element.hasClass(is_primary)) {
+    element.toggleClass(is_primary);
+  }
   if (isInputValueValid) {
     if (!element.hasClass(is_success)) {
       element.toggleClass(is_success);
@@ -67,4 +75,14 @@ function checkMalUsername(username) {
     return false;
   }
   return username.match(/^[\w_-]{2,16}$/) !== null;
+}
+function addReadonlyAttr(element) {
+  element.attr('readonly','');
+}
+function isElementHasReadonlyAttr(element) {
+  return element.hasAttribute('readonly');
+}
+function disableEvents(element) {
+  element.preventDefault();
+  element.stopImmediatePropagation();
 }
