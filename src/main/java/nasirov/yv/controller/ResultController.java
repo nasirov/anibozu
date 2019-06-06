@@ -208,10 +208,7 @@ public class ResultController {
 		Set<AnimediaTitleSearchInfo> animediaSearchList = animediaSearchListCache.get(animediaSearchListCacheName, LinkedHashSet.class);
 		Set<AnimediaMALTitleReferences> matchedReferences;
 		matchedReferences = referencesManager.getMatchedReferences(referencesManager.getMultiSeasonsReferences(), watchingTitles);
-		long start = System.nanoTime();
 		referencesManager.updateReferences(matchedReferences);
-		long end = System.nanoTime();
-		log.info("ELAPSED TIME FOR UPDATE REFERENCES {}", end - start);
 		matchedReferencesCache.put(username, matchedReferences);
 		Set<AnimediaMALTitleReferences> matchedAnime = matchedAnimeFromCache != null ? matchedAnimeFromCache
 				: seasonAndEpisodeChecker.getMatchedAnime(watchingTitles, matchedReferences, animediaSearchList, username);
