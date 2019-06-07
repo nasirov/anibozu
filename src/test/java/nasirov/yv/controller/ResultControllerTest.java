@@ -16,6 +16,7 @@ import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
@@ -54,8 +55,10 @@ import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
+import org.springframework.validation.BindException;
+import org.springframework.validation.ObjectError;
 import org.springframework.validation.beanvalidation.MethodValidationPostProcessor;
-import org.springframework.web.util.NestedServletException;
 
 /**
  * Created by nasirov.yv
@@ -105,14 +108,25 @@ public class ResultControllerTest extends AbstractTest {
 				.when(notFoundAnimeOnAnimediaRepository).exitsByTitle(anyString());
 	}
 
-	@Test(expected = NestedServletException.class)
-	public void checkResultUsernameLengthLessThen2Chars() throws Exception {
-		mockMvc.perform(post(PATH).param("username", ""));
+	@Test
+	public void checkResultInvalidUsername() throws Exception {
+		String[] invalidUsernameArray = {"", "moreThan16Charssss", "space between ", "@#!sd"};
+		Pattern pattern = Pattern.compile("^[\\w-]{2,16}$");
+		Matcher matcher;
+		for (String invalidUsername : invalidUsernameArray) {
+			matcher = pattern.matcher(invalidUsername);
+			assertFalse(matcher.find());
+			checkBindExceptionInMvcResult(mockMvc.perform(post(PATH).param("username", invalidUsername)).andExpect(status().isBadRequest()).andReturn());
+		}
 	}
 
-	@Test(expected = NestedServletException.class)
-	public void checkResultUsernameLengthMoreThan16Chars() throws Exception {
-		mockMvc.perform(post(PATH).param("username", "moreThan16Chars!!!"));
+	private void checkBindExceptionInMvcResult(MvcResult mvcResult) {
+		String validationErrorMsg = "Please enter a valid mal username between 2 and 16 characters(latin letters, numbers, underscores and dashes only)";
+		assertTrue(mvcResult.getResolvedException() instanceof org.springframework.validation.BindException);
+		BindException resolvedException = (BindException) mvcResult.getResolvedException();
+		List<ObjectError> allErrors = resolvedException.getAllErrors();
+		assertEquals(1, allErrors.size());
+		assertEquals(validationErrorMsg, allErrors.stream().findFirst().get().getDefaultMessage());
 	}
 
 	@Test

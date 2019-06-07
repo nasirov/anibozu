@@ -6,8 +6,7 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
-import javax.validation.constraints.Pattern;
-import javax.validation.constraints.Size;
+import javax.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import nasirov.yv.exception.JSONNotFoundException;
 import nasirov.yv.exception.MALUserAccountNotFoundException;
@@ -16,6 +15,7 @@ import nasirov.yv.exception.WatchingTitlesNotFoundException;
 import nasirov.yv.repository.NotFoundAnimeOnAnimediaRepository;
 import nasirov.yv.serialization.AnimediaMALTitleReferences;
 import nasirov.yv.serialization.AnimediaTitleSearchInfo;
+import nasirov.yv.serialization.MALUser;
 import nasirov.yv.serialization.UserMALTitleInfo;
 import nasirov.yv.service.AnimediaService;
 import nasirov.yv.service.MALService;
@@ -27,15 +27,12 @@ import org.springframework.cache.Cache;
 import org.springframework.cache.CacheManager;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
 /**
  * Created by nasirov.yv
  */
 @Controller
-@Validated
 @Slf4j
 @SuppressWarnings("unchecked")
 public class ResultController {
@@ -103,10 +100,8 @@ public class ResultController {
 	}
 
 	@PostMapping(value = "/result")
-	public String checkResult(
-			@Size(min = 2, max = 16, message = "MAL username must be between 2 and 16 characters") @Pattern(regexp = "^[\\w-]+$", message = "Please enter "
-					+ "a valid username (latin letters, numbers, underscores and dashes only)") @RequestParam(value = "username") String username,
-			Model model) {
+	public String checkResult(@Valid MALUser malUser, Model model) {
+		String username = malUser.getUsername();
 		model.addAttribute(MODEL_ATTRIBUTE_USERNAME, username);
 		Set<UserMALTitleInfo> watchingTitles;
 		String errorMsg;

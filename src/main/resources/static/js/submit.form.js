@@ -4,22 +4,22 @@
 $(document).ready(function () {
   $('#username-submit-form').on('submit', function (e) {
     var container = $('.nes-container.with-title.is-centered');
-    var inputField = $('#name_field');
+    var usernameInputField = $('#username');
     var submitButton = $('.nes-btn');
-    var userInput = inputField.val();
-    if(!isElementHasReadonlyAttr(inputField[0])){
-      if (checkMalUsername(userInput)) {
-        addReadonlyAttr(inputField);
-        changeClasses(inputField, true);
+    var username = usernameInputField.val();
+    if (!isElementHasReadonlyAttr(usernameInputField[0])) {
+      if (checkMalUsername(username)) {
+        addReadonlyAttr(usernameInputField);
+        changeClasses(usernameInputField, true);
         changeClasses(submitButton, true);
         addAndRunProgressBar(container);
       } else {
         disableEvents(e);
-        changeClasses(inputField, false);
+        changeClasses(usernameInputField, false);
         changeClasses(submitButton, false);
         removeProgressBar(container);
       }
-    }else {
+    } else {
       disableEvents(e);
     }
   });
@@ -77,7 +77,7 @@ function checkMalUsername(username) {
   return username.match(/^[\w_-]{2,16}$/) !== null;
 }
 function addReadonlyAttr(element) {
-  element.attr('readonly','');
+  element.attr('readonly', '');
 }
 function isElementHasReadonlyAttr(element) {
   return element.hasAttribute('readonly');
