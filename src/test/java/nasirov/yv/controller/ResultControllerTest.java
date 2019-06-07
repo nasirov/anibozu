@@ -17,6 +17,7 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
@@ -73,6 +74,8 @@ public class ResultControllerTest extends AbstractTest {
 	private static final String USERNAME = "test";
 
 	private static final String PATH = "/result";
+
+	private static final String ERROR_VIEW = "error";
 
 	@MockBean
 	private MALService malService;
@@ -131,37 +134,23 @@ public class ResultControllerTest extends AbstractTest {
 
 	@Test
 	public void checkResultUsernameIsNotFound() throws Exception {
+		String errorMsg = "MAL account " + USERNAME + " is not found";
 		doThrow(new MALUserAccountNotFoundException()).when(malService).getWatchingTitles(eq(USERNAME));
-		MockHttpServletResponse response = mockMvc.perform(post(PATH).param("username", USERNAME)).andReturn().getResponse();
-		assertNotNull(response);
-		String content = response.getContentAsString();
-		assertNotNull(content);
-		assertTrue(content.contains("MAL account " + USERNAME + " is not found"));
-		checkTitleAndHeaderForError(content, USERNAME);
+		checkErrorResult(errorMsg);
 	}
 
 	@Test
 	public void checkResultWatchingTitlesNotFound() throws Exception {
 		String errorMsg = "errorMsg";
 		doThrow(new WatchingTitlesNotFoundException(errorMsg)).when(malService).getWatchingTitles(eq(USERNAME));
-		MockHttpServletResponse response = mockMvc.perform(post(PATH).param("username", USERNAME)).andReturn().getResponse();
-		assertNotNull(response);
-		String content = response.getContentAsString();
-		assertNotNull(content);
-		assertTrue(content.contains(errorMsg));
-		checkTitleAndHeaderForError(content, USERNAME);
+		checkErrorResult(errorMsg);
 	}
 
 	@Test
 	public void checkResultUserAnimeListHasPrivateAccess() throws Exception {
 		String errorMsg = "Anime list " + USERNAME + " has private access!";
 		doThrow(new MALUserAnimeListAccessException()).when(malService).getWatchingTitles(eq(USERNAME));
-		MockHttpServletResponse response = mockMvc.perform(post(PATH).param("username", USERNAME)).andReturn().getResponse();
-		assertNotNull(response);
-		String content = response.getContentAsString();
-		assertNotNull(content);
-		assertTrue(content.contains(errorMsg));
-		checkTitleAndHeaderForError(content, USERNAME);
+		checkErrorResult(errorMsg);
 	}
 
 	@Test
@@ -169,12 +158,7 @@ public class ResultControllerTest extends AbstractTest {
 		String errorMsg =
 				"The application supports only default mal anime list view with wrapped json data! Json anime list is not found for " + USERNAME;
 		doThrow(new JSONNotFoundException()).when(malService).getWatchingTitles(eq(USERNAME));
-		MockHttpServletResponse response = mockMvc.perform(post(PATH).param("username", USERNAME)).andReturn().getResponse();
-		assertNotNull(response);
-		String content = response.getContentAsString();
-		assertNotNull(content);
-		assertTrue(content.contains(errorMsg));
-		checkTitleAndHeaderForError(content, USERNAME);
+		checkErrorResult(errorMsg);
 	}
 
 	@Test
@@ -332,13 +316,18 @@ public class ResultControllerTest extends AbstractTest {
 		assertTrue(matcher.find());
 	}
 
-	private void checkTitleAndHeaderForError(String content, String username) {
-		Pattern pattern = Pattern.compile("<title>Result for " + username + "</title>");
+	private void checkErrorResult(String errorMsg) throws Exception {
+		MvcResult result = mockMvc.perform(post(PATH).param("username", USERNAME)).andExpect(view().name(ERROR_VIEW)).andReturn();
+		MockHttpServletResponse response = result.getResponse();
+		assertNotNull(response);
+		String content = response.getContentAsString();
+		assertNotNull(content);
+		Pattern pattern = Pattern.compile("<title>" + errorMsg + "</title>");
 		Matcher matcher = pattern.matcher(content);
 		assertTrue(matcher.find());
-		pattern = Pattern.compile("<header>\\R\\s*<h1>Result for " + username + "</h1>\\R</header>");
+		pattern = Pattern.compile("<h2>" + errorMsg + "</h2>");
 		matcher = pattern.matcher(content);
-		assertFalse(matcher.find());
+		assertTrue(matcher.find());
 	}
 
 	private Set<AnimediaMALTitleReferences> getMatchedAnime() {

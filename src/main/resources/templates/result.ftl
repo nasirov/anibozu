@@ -54,9 +54,5 @@
 </section>
 </#if>
 
-<#if errorMsg??>
-<h2>${errorMsg}</h2>
-</#if>
-
 </body>
 </html>

@@ -39,7 +39,9 @@ public class ResultController {
 
 	private static final String ERROR_MSG = "errorMsg";
 
-	private static final String RESULT = "result";
+	private static final String RESULT_VIEW = "result";
+
+	private static final String ERROR_VIEW = "error";
 
 	private static final String NOT_SUPPORTED_ANIME_LIST_ERROR_MSG =
 			"The application supports only default mal anime list view with wrapped json " + "data! Json anime " + "list is not found for ";
@@ -222,12 +224,12 @@ public class ResultController {
 		model.addAttribute(MODEL_ATTRIBUTE_NEW_EPISODE_AVAILABLE, newEpisodeAvailable);
 		model.addAttribute(MODEL_ATTRIBUTE_NEW_EPISODE_NOT_AVAILABLE, newEpisodeNotAvailable);
 		model.addAttribute(MODEL_ATTRIBUTE_NOT_FOUND_ON_ANIMEDIA, matchedNotFoundAnimeOnAnimedia);
-		return RESULT;
+		return RESULT_VIEW;
 	}
 
 	private String handleError(String errorMsg, Model model, Exception exception) {
 		log.error(errorMsg, exception);
 		model.addAttribute(ERROR_MSG, errorMsg);
-		return RESULT;
+		return ERROR_VIEW;
 	}
 }
