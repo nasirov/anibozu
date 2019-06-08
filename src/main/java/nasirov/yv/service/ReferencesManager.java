@@ -93,49 +93,41 @@ public class ReferencesManager {
 				continue;
 			}
 			String url = animediaOnlineTv + reference.getUrl();
-			Map<String, Map<String, String>> animeIdSeasonsAndEpisodesMap;
-			if (seasonsAndEpisodesCache.containsKey(url)) {
-				animeIdSeasonsAndEpisodesMap = seasonsAndEpisodesCache.get(url);
-			} else {
+			Map<String, Map<String, String>> animeIdSeasonsAndEpisodesMap = seasonsAndEpisodesCache.get(url);
+			if (animeIdSeasonsAndEpisodesMap == null) {
 				animeIdSeasonsAndEpisodesMap = getTitleHtmlAndPutInCache(url, animediaRequestParameters, seasonsAndEpisodesCache);
 			}
-			if (!animeIdSeasonsAndEpisodesMap.isEmpty()) {
-				for (Map.Entry<String, Map<String, String>> animeIdSeasonsAndEpisodesEntry : animeIdSeasonsAndEpisodesMap.entrySet()) {
-					Map<String, String> seasonsAndEpisodesMap = animeIdSeasonsAndEpisodesEntry.getValue();
-					for (Map.Entry<String, String> seasonsAndEpisodesEntry : seasonsAndEpisodesMap.entrySet()) {
-						String dataList = seasonsAndEpisodesEntry.getKey();
-						if (reference.getDataList().equals(dataList)) {
-							String animeId = animeIdSeasonsAndEpisodesEntry.getKey();
-							HttpResponse resp = httpCaller
-									.call(animediaEpisodesList + animeId + "/" + dataList + animediaEpisodesListPostfix, HttpMethod.GET, animediaRequestParameters);
-							Map<String, List<String>> episodesRange = animediaHTMLParser.getEpisodesRange(resp);
-							if (!episodesRange.isEmpty()) {
-								for (Map.Entry<String, List<String>> range : episodesRange.entrySet()) {
-									List<String> episodesList = range.getValue();
-									String maxEpisodes = range.getKey();
-									String firstEpisodeAndMin = episodesList.get(0);
-									Integer intMaxEpisodes = null;
-									Integer intFirstEpisodeAndMin = null;
-									//если в дата листах суммируют первую серию и последнюю с предыдущего дата листа, то нужна проверка для правильного максимума
-									//например, всего серий ххх, 1 даталист: серии 1 из 100; 2 дата лист: серии 51 из 100
-									if (!maxEpisodes.equalsIgnoreCase("xxx") && !maxEpisodes.equalsIgnoreCase("xx")) {
-										intMaxEpisodes = Integer.parseInt(maxEpisodes);
-										intFirstEpisodeAndMin = Integer.parseInt(firstEpisodeAndMin);
-									}
-									int lastIndex = episodesList.size() - 1;
-									String currentMax = episodesList.get(lastIndex);
-									if (!isTitleConcretizedAndOngoing(reference)) {
-										reference.setFirstEpisode(firstEpisodeAndMin);
-										reference.setMinConcretizedEpisodeOnAnimedia(firstEpisodeAndMin);
-										reference.setMaxConcretizedEpisodeOnAnimedia(
-												intMaxEpisodes != null && intMaxEpisodes < intFirstEpisodeAndMin ? Integer.toString(intFirstEpisodeAndMin + intMaxEpisodes)
-														: maxEpisodes);
-									}
-									reference.setCurrentMax(currentMax);
-								}
-								break;
+			for (Map.Entry<String, Map<String, String>> animeIdSeasonsAndEpisodesEntry : animeIdSeasonsAndEpisodesMap.entrySet()) {
+				for (Map.Entry<String, String> seasonsAndEpisodesEntry : animeIdSeasonsAndEpisodesEntry.getValue().entrySet()) {
+					String dataList = seasonsAndEpisodesEntry.getKey();
+					if (reference.getDataList().equals(dataList)) {
+						String animeId = animeIdSeasonsAndEpisodesEntry.getKey();
+						HttpResponse responseHtmlWithEpisodesInConcretizedDataList = httpCaller
+								.call(animediaEpisodesList + animeId + "/" + dataList + animediaEpisodesListPostfix, HttpMethod.GET, animediaRequestParameters);
+						Map<String, List<String>> episodesRange = animediaHTMLParser.getEpisodesRange(responseHtmlWithEpisodesInConcretizedDataList);
+						for (Map.Entry<String, List<String>> range : episodesRange.entrySet()) {
+							List<String> episodesList = range.getValue();
+							String maxEpisodes = range.getKey();
+							String firstEpisodeAndMin = episodesList.get(0);
+							Integer intMaxEpisodes = null;
+							Integer intFirstEpisodeAndMin = null;
+							//если в дата листах суммируют первую серию и последнюю с предыдущего дата листа, то нужна проверка для правильного максимума
+							//например, всего серий ххх, 1 даталист: серии 1 из 100; 2 дата лист: серии 51 из 100
+							if (!maxEpisodes.equalsIgnoreCase("xxx") && !maxEpisodes.equalsIgnoreCase("xx")) {
+								intMaxEpisodes = Integer.parseInt(maxEpisodes);
+								intFirstEpisodeAndMin = Integer.parseInt(firstEpisodeAndMin);
 							}
+							String currentMax = episodesList.get(episodesList.size() - 1);
+							if (!isTitleConcretizedAndOngoing(reference)) {
+								reference.setFirstEpisode(firstEpisodeAndMin);
+								reference.setMinConcretizedEpisodeOnAnimedia(firstEpisodeAndMin);
+								reference.setMaxConcretizedEpisodeOnAnimedia(
+										intMaxEpisodes != null && intMaxEpisodes < intFirstEpisodeAndMin ? Integer.toString(intFirstEpisodeAndMin + intMaxEpisodes)
+												: maxEpisodes);
+							}
+							reference.setCurrentMax(currentMax);
 						}
+						break;
 					}
 				}
 			}
