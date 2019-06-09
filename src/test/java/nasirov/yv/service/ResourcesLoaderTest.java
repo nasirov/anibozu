@@ -9,7 +9,7 @@ import java.util.LinkedHashSet;
 import java.util.Set;
 import nasirov.yv.AbstractTest;
 import nasirov.yv.configuration.AppConfiguration;
-import nasirov.yv.serialization.AnimediaTitleSearchInfo;
+import nasirov.yv.data.animedia.AnimediaTitleSearchInfo;
 import nasirov.yv.service.context.LoadResourcesContextListener;
 import nasirov.yv.util.RoutinesIO;
 import org.junit.Test;

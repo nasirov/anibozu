@@ -1,8 +1,8 @@
 package nasirov.yv.service;
 
-import static nasirov.yv.enums.AnimeTypeOnAnimedia.ANNOUNCEMENT;
-import static nasirov.yv.enums.AnimeTypeOnAnimedia.MULTISEASONS;
-import static nasirov.yv.enums.AnimeTypeOnAnimedia.SINGLESEASON;
+import static nasirov.yv.data.animedia.AnimeTypeOnAnimedia.ANNOUNCEMENT;
+import static nasirov.yv.data.animedia.AnimeTypeOnAnimedia.MULTISEASONS;
+import static nasirov.yv.data.animedia.AnimeTypeOnAnimedia.SINGLESEASON;
 
 import java.io.File;
 import java.nio.file.NotDirectoryException;
@@ -12,10 +12,10 @@ import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import lombok.extern.slf4j.Slf4j;
-import nasirov.yv.enums.AnimeTypeOnAnimedia;
-import nasirov.yv.serialization.Anime;
-import nasirov.yv.serialization.AnimediaMALTitleReferences;
-import nasirov.yv.serialization.AnimediaTitleSearchInfo;
+import nasirov.yv.data.animedia.AnimeTypeOnAnimedia;
+import nasirov.yv.data.animedia.Anime;
+import nasirov.yv.data.animedia.AnimediaMALTitleReferences;
+import nasirov.yv.data.animedia.AnimediaTitleSearchInfo;
 import nasirov.yv.util.RoutinesIO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;

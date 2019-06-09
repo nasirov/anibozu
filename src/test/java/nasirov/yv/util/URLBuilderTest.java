@@ -9,7 +9,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import nasirov.yv.AbstractTest;
-import nasirov.yv.enums.Constants;
+import nasirov.yv.data.enums.Constants;
 import org.junit.Test;
 
 /**

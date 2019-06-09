@@ -1,6 +1,6 @@
 package nasirov.yv.repository;
 
-import nasirov.yv.serialization.UserMALTitleInfo;
+import nasirov.yv.data.mal.UserMALTitleInfo;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;

@@ -1,6 +1,6 @@
 package nasirov.yv.parser;
 
-import static nasirov.yv.enums.Constants.FIRST_EPISODE;
+import static nasirov.yv.data.enums.Constants.FIRST_EPISODE;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
@@ -10,8 +10,8 @@ import java.util.List;
 import java.util.Map;
 import nasirov.yv.AbstractTest;
 import nasirov.yv.configuration.AppConfiguration;
-import nasirov.yv.response.HttpResponse;
-import nasirov.yv.serialization.AnimediaMALTitleReferences;
+import nasirov.yv.data.response.HttpResponse;
+import nasirov.yv.data.animedia.AnimediaMALTitleReferences;
 import nasirov.yv.util.RoutinesIO;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;

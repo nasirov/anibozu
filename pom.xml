@@ -177,11 +177,9 @@
         </executions>
         <configuration>
           <excludes>
-            <exclude>nasirov/yv/serialization/*</exclude>
-            <exclude>nasirov/yv/response/*</exclude>
-            <exclude>nasirov/yv/enums/*</exclude>
-            <exclude>nasirov/yv/parameter/*</exclude>
-            <exclude>nasirov/yv/exception/*</exclude>
+            <exclude>nasirov/yv/data/**</exclude>
+            <exclude>nasirov/yv/http/parameter/*</exclude>
+            <exclude>nasirov/yv/exception/**</exclude>
             <exclude>nasirov/yv/configuration/*</exclude>
           </excludes>
         </configuration>

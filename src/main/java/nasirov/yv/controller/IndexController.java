@@ -1,6 +1,6 @@
 package nasirov.yv.controller;
 
-import nasirov.yv.serialization.MALUser;
+import nasirov.yv.data.mal.MALUser;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;

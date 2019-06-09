@@ -6,11 +6,11 @@ import java.util.regex.Pattern;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import lombok.extern.slf4j.Slf4j;
-import nasirov.yv.exception.JSONNotFoundException;
-import nasirov.yv.exception.MALUserAccountNotFoundException;
-import nasirov.yv.exception.MALUserAnimeListAccessException;
-import nasirov.yv.response.HttpResponse;
-import nasirov.yv.serialization.UserMALTitleInfo;
+import nasirov.yv.exception.mal.JSONNotFoundException;
+import nasirov.yv.exception.mal.MALUserAccountNotFoundException;
+import nasirov.yv.exception.mal.MALUserAnimeListAccessException;
+import nasirov.yv.data.response.HttpResponse;
+import nasirov.yv.data.mal.UserMALTitleInfo;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 

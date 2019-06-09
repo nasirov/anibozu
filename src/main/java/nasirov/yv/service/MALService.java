@@ -1,6 +1,6 @@
 package nasirov.yv.service;
 
-import static nasirov.yv.enums.MALAnimeStatus.WATCHING;
+import static nasirov.yv.data.mal.MALAnimeStatus.WATCHING;
 
 import java.util.Iterator;
 import java.util.LinkedHashMap;
@@ -12,18 +12,18 @@ import java.util.regex.Pattern;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import lombok.extern.slf4j.Slf4j;
-import nasirov.yv.enums.MALCategories;
-import nasirov.yv.exception.JSONNotFoundException;
-import nasirov.yv.exception.MALUserAccountNotFoundException;
-import nasirov.yv.exception.MALUserAnimeListAccessException;
-import nasirov.yv.exception.WatchingTitlesNotFoundException;
-import nasirov.yv.http.HttpCaller;
-import nasirov.yv.parameter.RequestParametersBuilder;
+import nasirov.yv.data.mal.MALCategories;
+import nasirov.yv.exception.mal.JSONNotFoundException;
+import nasirov.yv.exception.mal.MALUserAccountNotFoundException;
+import nasirov.yv.exception.mal.MALUserAnimeListAccessException;
+import nasirov.yv.exception.mal.WatchingTitlesNotFoundException;
+import nasirov.yv.http.caller.HttpCaller;
+import nasirov.yv.http.parameter.RequestParametersBuilder;
 import nasirov.yv.parser.MALParser;
 import nasirov.yv.parser.WrappedObjectMapper;
-import nasirov.yv.response.HttpResponse;
-import nasirov.yv.serialization.MALSearchResult;
-import nasirov.yv.serialization.UserMALTitleInfo;
+import nasirov.yv.data.response.HttpResponse;
+import nasirov.yv.data.mal.MALSearchResult;
+import nasirov.yv.data.mal.UserMALTitleInfo;
 import nasirov.yv.util.URLBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;

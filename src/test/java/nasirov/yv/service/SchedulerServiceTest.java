@@ -1,8 +1,8 @@
 package nasirov.yv.service;
 
-import static nasirov.yv.enums.AnimeTypeOnAnimedia.ANNOUNCEMENT;
-import static nasirov.yv.enums.AnimeTypeOnAnimedia.MULTISEASONS;
-import static nasirov.yv.enums.AnimeTypeOnAnimedia.SINGLESEASON;
+import static nasirov.yv.data.animedia.AnimeTypeOnAnimedia.ANNOUNCEMENT;
+import static nasirov.yv.data.animedia.AnimeTypeOnAnimedia.MULTISEASONS;
+import static nasirov.yv.data.animedia.AnimeTypeOnAnimedia.SINGLESEASON;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
@@ -24,10 +24,10 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import nasirov.yv.AbstractTest;
 import nasirov.yv.configuration.AppConfiguration;
-import nasirov.yv.enums.AnimeTypeOnAnimedia;
-import nasirov.yv.serialization.Anime;
-import nasirov.yv.serialization.AnimediaMALTitleReferences;
-import nasirov.yv.serialization.AnimediaTitleSearchInfo;
+import nasirov.yv.data.animedia.AnimeTypeOnAnimedia;
+import nasirov.yv.data.animedia.Anime;
+import nasirov.yv.data.animedia.AnimediaMALTitleReferences;
+import nasirov.yv.data.animedia.AnimediaTitleSearchInfo;
 import nasirov.yv.util.RoutinesIO;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;

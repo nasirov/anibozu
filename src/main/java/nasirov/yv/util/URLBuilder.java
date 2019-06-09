@@ -1,6 +1,6 @@
 package nasirov.yv.util;
 
-import static nasirov.yv.enums.Constants.FIRST_EPISODE;
+import static nasirov.yv.data.enums.Constants.FIRST_EPISODE;
 
 import java.nio.charset.StandardCharsets;
 import java.util.Map;

@@ -16,7 +16,7 @@ import java.util.Set;
 import javax.annotation.Nullable;
 import nasirov.yv.AbstractTest;
 import nasirov.yv.parser.WrappedObjectMapper;
-import nasirov.yv.serialization.AnimediaMALTitleReferences;
+import nasirov.yv.data.animedia.AnimediaMALTitleReferences;
 import org.junit.Test;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;

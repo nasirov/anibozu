@@ -1,8 +1,8 @@
 package nasirov.yv.service;
 
-import static nasirov.yv.enums.AnimeTypeOnAnimedia.ANNOUNCEMENT;
-import static nasirov.yv.enums.AnimeTypeOnAnimedia.MULTISEASONS;
-import static nasirov.yv.enums.AnimeTypeOnAnimedia.SINGLESEASON;
+import static nasirov.yv.data.animedia.AnimeTypeOnAnimedia.ANNOUNCEMENT;
+import static nasirov.yv.data.animedia.AnimeTypeOnAnimedia.MULTISEASONS;
+import static nasirov.yv.data.animedia.AnimeTypeOnAnimedia.SINGLESEASON;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -18,15 +18,15 @@ import java.util.regex.Pattern;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import lombok.extern.slf4j.Slf4j;
-import nasirov.yv.enums.AnimeTypeOnAnimedia;
-import nasirov.yv.http.HttpCaller;
-import nasirov.yv.parameter.RequestParametersBuilder;
+import nasirov.yv.data.animedia.AnimeTypeOnAnimedia;
+import nasirov.yv.http.caller.HttpCaller;
+import nasirov.yv.http.parameter.RequestParametersBuilder;
 import nasirov.yv.parser.AnimediaHTMLParser;
 import nasirov.yv.parser.WrappedObjectMapper;
-import nasirov.yv.response.HttpResponse;
-import nasirov.yv.serialization.Anime;
-import nasirov.yv.serialization.AnimediaMALTitleReferences;
-import nasirov.yv.serialization.AnimediaTitleSearchInfo;
+import nasirov.yv.data.response.HttpResponse;
+import nasirov.yv.data.animedia.Anime;
+import nasirov.yv.data.animedia.AnimediaMALTitleReferences;
+import nasirov.yv.data.animedia.AnimediaTitleSearchInfo;
 import nasirov.yv.util.RoutinesIO;
 import nasirov.yv.util.URLBuilder;
 import org.springframework.beans.factory.annotation.Autowired;

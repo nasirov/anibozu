@@ -1,6 +1,6 @@
 package nasirov.yv.parser;
 
-import static nasirov.yv.enums.Constants.FIRST_EPISODE;
+import static nasirov.yv.data.enums.Constants.FIRST_EPISODE;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -12,13 +12,13 @@ import java.util.regex.Pattern;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import lombok.extern.slf4j.Slf4j;
-import nasirov.yv.exception.EpisodesRangeNotFoundException;
-import nasirov.yv.exception.FirstEpisodeInSeasonNotFoundException;
-import nasirov.yv.exception.NewEpisodesListNotFoundException;
-import nasirov.yv.exception.OriginalTitleNotFoundException;
-import nasirov.yv.exception.SeasonsAndEpisodesNotFoundException;
-import nasirov.yv.response.HttpResponse;
-import nasirov.yv.serialization.AnimediaMALTitleReferences;
+import nasirov.yv.exception.animedia.EpisodesRangeNotFoundException;
+import nasirov.yv.exception.animedia.FirstEpisodeInSeasonNotFoundException;
+import nasirov.yv.exception.animedia.NewEpisodesListNotFoundException;
+import nasirov.yv.exception.animedia.OriginalTitleNotFoundException;
+import nasirov.yv.exception.animedia.SeasonsAndEpisodesNotFoundException;
+import nasirov.yv.data.response.HttpResponse;
+import nasirov.yv.data.animedia.AnimediaMALTitleReferences;
 import org.springframework.stereotype.Component;
 
 /**

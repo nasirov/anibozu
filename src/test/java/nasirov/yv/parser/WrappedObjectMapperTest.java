@@ -15,7 +15,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
 import nasirov.yv.AbstractTest;
-import nasirov.yv.serialization.Anime;
+import nasirov.yv.data.animedia.Anime;
 import nasirov.yv.util.RoutinesIO;
 import org.junit.Test;
 import org.springframework.util.FileSystemUtils;

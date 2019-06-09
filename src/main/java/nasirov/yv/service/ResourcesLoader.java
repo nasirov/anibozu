@@ -3,7 +3,7 @@ package nasirov.yv.service;
 import java.util.LinkedHashSet;
 import java.util.Set;
 import lombok.extern.slf4j.Slf4j;
-import nasirov.yv.serialization.AnimediaTitleSearchInfo;
+import nasirov.yv.data.animedia.AnimediaTitleSearchInfo;
 import nasirov.yv.service.annotation.LoadResources;
 import nasirov.yv.util.RoutinesIO;
 import org.springframework.beans.factory.annotation.Autowired;

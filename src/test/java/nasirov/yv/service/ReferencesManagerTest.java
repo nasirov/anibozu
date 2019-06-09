@@ -1,6 +1,6 @@
 package nasirov.yv.service;
 
-import static nasirov.yv.enums.MALAnimeStatus.WATCHING;
+import static nasirov.yv.data.mal.MALAnimeStatus.WATCHING;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
@@ -20,13 +20,13 @@ import java.util.List;
 import java.util.Set;
 import nasirov.yv.AbstractTest;
 import nasirov.yv.configuration.AppConfiguration;
-import nasirov.yv.http.HttpCaller;
-import nasirov.yv.parameter.AnimediaRequestParametersBuilder;
+import nasirov.yv.http.caller.HttpCaller;
+import nasirov.yv.http.parameter.AnimediaRequestParametersBuilder;
 import nasirov.yv.parser.AnimediaHTMLParser;
-import nasirov.yv.response.HttpResponse;
-import nasirov.yv.serialization.Anime;
-import nasirov.yv.serialization.AnimediaMALTitleReferences;
-import nasirov.yv.serialization.UserMALTitleInfo;
+import nasirov.yv.data.response.HttpResponse;
+import nasirov.yv.data.animedia.Anime;
+import nasirov.yv.data.animedia.AnimediaMALTitleReferences;
+import nasirov.yv.data.mal.UserMALTitleInfo;
 import nasirov.yv.util.RoutinesIO;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
