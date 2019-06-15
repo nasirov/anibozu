@@ -12,6 +12,8 @@ $(document).ready(function () {
         addReadonlyAttr(usernameInputField);
         changeClasses(usernameInputField, true);
         changeClasses(submitButton, true);
+        setInnerHtmlValue(submitButton[0], "Searching...");
+        setDisabledAttributeValue(submitButton[0], true);
         addAndRunProgressBar(container);
       } else {
         disableEvents(e);
@@ -85,4 +87,10 @@ function isElementHasReadonlyAttr(element) {
 function disableEvents(element) {
   element.preventDefault();
   element.stopImmediatePropagation();
+}
+function setInnerHtmlValue(element, value) {
+  element.innerHTML = value;
+}
+function setDisabledAttributeValue(element, value) {
+  element.disabled = value;
 }
