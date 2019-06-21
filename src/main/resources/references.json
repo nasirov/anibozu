@@ -5570,5 +5570,47 @@
     "episodeNumberForWatch": null,
     "minConcretizedEpisodeOnMAL": "1",
     "maxConcretizedEpisodeOnMAL": "1"
+  },
+  {
+    "url": "anime/o-moyom-pererozhdenii-v-sliz",
+    "dataList": "1",
+    "firstEpisode": "1",
+    "titleOnMAL": "tensei shitara slime datta ken",
+    "minConcretizedEpisodeOnAnimedia": null,
+    "maxConcretizedEpisodeOnAnimedia": null,
+    "currentMax": null,
+    "posterUrl": null,
+    "finalUrl": null,
+    "episodeNumberForWatch": null,
+    "minConcretizedEpisodeOnMAL": null,
+    "maxConcretizedEpisodeOnMAL": null
+  },
+  {
+    "url": "anime/o-moyom-pererozhdenii-v-sliz",
+    "dataList": "7",
+    "firstEpisode": "1",
+    "titleOnMAL": "tensei shitara slime datta ken: kanwa - veldora nikki",
+    "minConcretizedEpisodeOnAnimedia": null,
+    "maxConcretizedEpisodeOnAnimedia": null,
+    "currentMax": null,
+    "posterUrl": null,
+    "finalUrl": null,
+    "episodeNumberForWatch": null,
+    "minConcretizedEpisodeOnMAL": null,
+    "maxConcretizedEpisodeOnMAL": null
+  },
+  {
+    "url": "anime/vnuk-nurarihena-2",
+    "dataList": "7",
+    "firstEpisode": "1",
+    "titleOnMAL": "nurarihyon no mago recaps",
+    "minConcretizedEpisodeOnAnimedia": null,
+    "maxConcretizedEpisodeOnAnimedia": null,
+    "currentMax": null,
+    "posterUrl": null,
+    "finalUrl": null,
+    "episodeNumberForWatch": null,
+    "minConcretizedEpisodeOnMAL": null,
+    "maxConcretizedEpisodeOnMAL": null
   }
 ]
