@@ -41,7 +41,7 @@ public class AnimediaHTMLParser {
 					+ "href=\"#carousel\\d{1,3}\" data-slide=\"prev\" class=\"media__tabs__series__control "
 					+ "carousel-control prev\"><i class=\"ai ai-prev\"></i></a></div>\\R\\s*<div class=\"media__tabs__series__footer__item "
 					+ "media__tabs__series__footer__item__center\">Серии <span class=\"start-series\"></span>-<span class=\"end-series\"></span> из "
-					+ "(?<numberOfEpisodes>(\\d{1,4}|[xX]{1,3}))(.+)?</div>";
+					+ "(?<numberOfEpisodes>(\\d{1,4}|[xXхХ]{1,3}))(.+)?</div>";
 
 	/**
 	 * For tab id and season
