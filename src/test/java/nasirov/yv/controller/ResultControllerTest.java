@@ -1,5 +1,7 @@
 package nasirov.yv.controller;
 
+import static nasirov.yv.data.enums.Constants.EPISODE_NUMBER_FOR_WATCH_VALUE_IF_EPISODE_IS_NOT_AVAILABLE;
+import static nasirov.yv.data.enums.Constants.FINAL_URL_VALUE_IF_EPISODE_IS_NOT_AVAILABLE;
 import static nasirov.yv.data.mal.MALAnimeStatus.WATCHING;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -27,6 +29,9 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import nasirov.yv.AbstractTest;
 import nasirov.yv.configuration.AppConfiguration;
+import nasirov.yv.data.animedia.AnimediaMALTitleReferences;
+import nasirov.yv.data.animedia.AnimediaTitleSearchInfo;
+import nasirov.yv.data.mal.UserMALTitleInfo;
 import nasirov.yv.exception.mal.JSONNotFoundException;
 import nasirov.yv.exception.mal.MALUserAccountNotFoundException;
 import nasirov.yv.exception.mal.MALUserAnimeListAccessException;
@@ -36,9 +41,6 @@ import nasirov.yv.http.parameter.MALRequestParametersBuilder;
 import nasirov.yv.parser.AnimediaHTMLParser;
 import nasirov.yv.parser.MALParser;
 import nasirov.yv.repository.NotFoundAnimeOnAnimediaRepository;
-import nasirov.yv.data.animedia.AnimediaMALTitleReferences;
-import nasirov.yv.data.animedia.AnimediaTitleSearchInfo;
-import nasirov.yv.data.mal.UserMALTitleInfo;
 import nasirov.yv.service.AnimediaService;
 import nasirov.yv.service.MALService;
 import nasirov.yv.service.ReferencesManager;
@@ -188,7 +190,8 @@ public class ResultControllerTest extends AbstractTest {
 		String sao1CurrentMax = "10";
 		AnimediaMALTitleReferences sao1 = AnimediaMALTitleReferences.builder().url("anime/mastera-mecha-onlayn").dataList("1").firstEpisode("1")
 				.titleOnMAL("sword art online").minConcretizedEpisodeOnAnimedia("1").maxConcretizedEpisodeOnAnimedia("25").currentMax(sao1CurrentMax)
-				.posterUrl("saoPosterUrl").finalUrl("").episodeNumberForWatch("").build();
+				.posterUrl("saoPosterUrl").finalUrl(FINAL_URL_VALUE_IF_EPISODE_IS_NOT_AVAILABLE.getDescription())
+				.episodeNumberForWatch(EPISODE_NUMBER_FOR_WATCH_VALUE_IF_EPISODE_IS_NOT_AVAILABLE.getDescription()).build();
 		AnimediaMALTitleReferences sao3 = AnimediaMALTitleReferences.builder().url("anime/mastera-mecha-onlayn").dataList("3").firstEpisode("1")
 				.titleOnMAL("sword art online: alicization").minConcretizedEpisodeOnAnimedia("1").maxConcretizedEpisodeOnAnimedia("25").currentMax("25")
 				.posterUrl("saoPosterUrl").finalUrl("saoFinalUrl").episodeNumberForWatch("25").build();
@@ -225,7 +228,8 @@ public class ResultControllerTest extends AbstractTest {
 		String sao1CurrentMaxUpdated = "25";
 		AnimediaMALTitleReferences sao1Updated = AnimediaMALTitleReferences.builder().url("anime/mastera-mecha-onlayn").dataList("1").firstEpisode("1")
 				.titleOnMAL("sword art online").minConcretizedEpisodeOnAnimedia("1").maxConcretizedEpisodeOnAnimedia("25").currentMax(sao1CurrentMaxUpdated)
-				.posterUrl("saoPosterUrl").finalUrl("").episodeNumberForWatch("").build();
+				.posterUrl("saoPosterUrl").finalUrl(FINAL_URL_VALUE_IF_EPISODE_IS_NOT_AVAILABLE.getDescription())
+				.episodeNumberForWatch(EPISODE_NUMBER_FOR_WATCH_VALUE_IF_EPISODE_IS_NOT_AVAILABLE.getDescription()).build();
 		List<AnimediaMALTitleReferences> currentlyUpdatedTitlesOnAnimedia = new ArrayList<>();
 		currentlyUpdatedTitlesOnAnimedia.add(sao1Updated);
 		Set<UserMALTitleInfo> watchingTitlesWithUpdatedNumberOfWatchedEpisodes = new LinkedHashSet<>();
@@ -334,7 +338,8 @@ public class ResultControllerTest extends AbstractTest {
 		Set<AnimediaMALTitleReferences> matchedAnime = new LinkedHashSet<>();
 		AnimediaMALTitleReferences sao1 = AnimediaMALTitleReferences.builder().url("anime/mastera-mecha-onlayn").dataList("1").firstEpisode("1")
 				.titleOnMAL("sword art online").minConcretizedEpisodeOnAnimedia("1").maxConcretizedEpisodeOnAnimedia("25").currentMax("25")
-				.posterUrl("saoPosterUrl").finalUrl("").episodeNumberForWatch("").build();
+				.posterUrl("saoPosterUrl").finalUrl(FINAL_URL_VALUE_IF_EPISODE_IS_NOT_AVAILABLE.getDescription())
+				.episodeNumberForWatch(EPISODE_NUMBER_FOR_WATCH_VALUE_IF_EPISODE_IS_NOT_AVAILABLE.getDescription()).build();
 		AnimediaMALTitleReferences fairyTail1 = AnimediaMALTitleReferences.builder().url("anime/skazka-o-hvoste-fei-TV1").dataList("1").firstEpisode("1")
 				.titleOnMAL("fairy tail").minConcretizedEpisodeOnAnimedia("1").maxConcretizedEpisodeOnAnimedia("175").currentMax("175")
 				.posterUrl("ftPosterUrl").finalUrl("ftFinalUrl").episodeNumberForWatch("2").build();

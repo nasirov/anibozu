@@ -1,5 +1,10 @@
 package nasirov.yv.service;
 
+import static nasirov.yv.util.AnimediaUtils.isMaxEpisodesUndefined;
+import static nasirov.yv.util.AnimediaUtils.isTitleConcretizedAndOngoing;
+import static nasirov.yv.util.AnimediaUtils.isTitleNotFoundOnMAL;
+import static nasirov.yv.util.AnimediaUtils.isTitleUpdated;
+
 import java.io.File;
 import java.nio.file.NotDirectoryException;
 import java.util.HashMap;
@@ -10,13 +15,13 @@ import java.util.Set;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import lombok.extern.slf4j.Slf4j;
-import nasirov.yv.http.caller.HttpCaller;
-import nasirov.yv.http.parameter.RequestParametersBuilder;
-import nasirov.yv.parser.AnimediaHTMLParser;
-import nasirov.yv.data.response.HttpResponse;
 import nasirov.yv.data.animedia.Anime;
 import nasirov.yv.data.animedia.AnimediaMALTitleReferences;
 import nasirov.yv.data.mal.UserMALTitleInfo;
+import nasirov.yv.data.response.HttpResponse;
+import nasirov.yv.http.caller.HttpCaller;
+import nasirov.yv.http.parameter.RequestParametersBuilder;
+import nasirov.yv.parser.AnimediaHTMLParser;
 import nasirov.yv.util.RoutinesIO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -32,8 +37,6 @@ import org.springframework.stereotype.Service;
 @Service
 @Slf4j
 public class ReferencesManager {
-
-	private static final String NOT_FOUND_ON_MAL = "none";
 
 	@Value("${urls.online.animedia.tv}")
 	private String animediaOnlineTv;
@@ -87,9 +90,7 @@ public class ReferencesManager {
 		Map<String, Map<String, String>> animediaRequestParameters = requestParametersBuilder.build();
 		Map<String, Map<String, Map<String, String>>> seasonsAndEpisodesCache = new HashMap<>();
 		for (AnimediaMALTitleReferences reference : references) {
-			if ((reference.getMinConcretizedEpisodeOnAnimedia() != null && reference.getMaxConcretizedEpisodeOnAnimedia() != null
-					&& reference.getCurrentMax() != null && reference.getFirstEpisode() != null) || reference.getTitleOnMAL()
-					.equalsIgnoreCase(NOT_FOUND_ON_MAL)) {
+			if (isTitleUpdated(reference) || isTitleNotFoundOnMAL(reference)) {
 				continue;
 			}
 			String url = animediaOnlineTv + reference.getUrl();
@@ -113,7 +114,7 @@ public class ReferencesManager {
 							Integer intFirstEpisodeAndMin = null;
 							//если в дата листах суммируют первую серию и последнюю с предыдущего дата листа, то нужна проверка для правильного максимума
 							//например, всего серий ххх, 1 даталист: серии 1 из 100; 2 дата лист: серии 51 из 100
-							if (!maxEpisodes.equalsIgnoreCase("xxx") && !maxEpisodes.equalsIgnoreCase("xx")) {
+							if (!isMaxEpisodesUndefined(maxEpisodes)) {
 								intMaxEpisodes = Integer.parseInt(maxEpisodes);
 								intFirstEpisodeAndMin = Integer.parseInt(firstEpisodeAndMin);
 							}
@@ -145,6 +146,7 @@ public class ReferencesManager {
 	/**
 	 * Compare multiseasons references and user watching titles and
 	 * Creates container with matched anime
+	 * Set poster url from MAL
 	 *
 	 * @param references the  multiseasons references
 	 * @param watchingTitles the user watching titles
@@ -153,13 +155,11 @@ public class ReferencesManager {
 	public Set<AnimediaMALTitleReferences> getMatchedReferences(@NotEmpty Set<AnimediaMALTitleReferences> references,
 			@NotEmpty Set<UserMALTitleInfo> watchingTitles) {
 		Set<AnimediaMALTitleReferences> tempReferences = new LinkedHashSet<>();
-		if (references != null && watchingTitles != null) {
-			for (UserMALTitleInfo userMALTitleInfo : watchingTitles) {
-				references.stream().filter(set -> set.getTitleOnMAL().equals(userMALTitleInfo.getTitle())).forEach(set -> {
-					set.setPosterUrl(userMALTitleInfo.getPosterUrl());
-					tempReferences.add(new AnimediaMALTitleReferences(set));
-				});
-			}
+		for (UserMALTitleInfo userMALTitleInfo : watchingTitles) {
+			references.stream().filter(set -> set.getTitleOnMAL().equals(userMALTitleInfo.getTitle())).forEach(set -> {
+				set.setPosterUrl(userMALTitleInfo.getPosterUrl());
+				tempReferences.add(new AnimediaMALTitleReferences(set));
+			});
 		}
 		return tempReferences;
 	}
@@ -222,11 +222,5 @@ public class ReferencesManager {
 			}
 		}
 		return fullMatch;
-	}
-
-	private boolean isTitleConcretizedAndOngoing(AnimediaMALTitleReferences reference) {
-		return reference.getMinConcretizedEpisodeOnAnimedia() != null && reference.getMaxConcretizedEpisodeOnAnimedia() != null
-				&& reference.getCurrentMax() == null && reference.getFirstEpisode() != null && reference.getMinConcretizedEpisodeOnMAL() != null
-				&& reference.getMaxConcretizedEpisodeOnMAL() != null;
 	}
 }

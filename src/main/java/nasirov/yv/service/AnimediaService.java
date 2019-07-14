@@ -3,6 +3,7 @@ package nasirov.yv.service;
 import static nasirov.yv.data.animedia.AnimeTypeOnAnimedia.ANNOUNCEMENT;
 import static nasirov.yv.data.animedia.AnimeTypeOnAnimedia.MULTISEASONS;
 import static nasirov.yv.data.animedia.AnimeTypeOnAnimedia.SINGLESEASON;
+import static nasirov.yv.util.AnimediaUtils.isAnnouncement;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -18,15 +19,15 @@ import java.util.regex.Pattern;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import lombok.extern.slf4j.Slf4j;
+import nasirov.yv.data.animedia.Anime;
 import nasirov.yv.data.animedia.AnimeTypeOnAnimedia;
+import nasirov.yv.data.animedia.AnimediaMALTitleReferences;
+import nasirov.yv.data.animedia.AnimediaTitleSearchInfo;
+import nasirov.yv.data.response.HttpResponse;
 import nasirov.yv.http.caller.HttpCaller;
 import nasirov.yv.http.parameter.RequestParametersBuilder;
 import nasirov.yv.parser.AnimediaHTMLParser;
 import nasirov.yv.parser.WrappedObjectMapper;
-import nasirov.yv.data.response.HttpResponse;
-import nasirov.yv.data.animedia.Anime;
-import nasirov.yv.data.animedia.AnimediaMALTitleReferences;
-import nasirov.yv.data.animedia.AnimediaTitleSearchInfo;
 import nasirov.yv.util.RoutinesIO;
 import nasirov.yv.util.URLBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,8 +47,6 @@ import org.springframework.util.ResourceUtils;
 @Slf4j
 @SuppressWarnings("unchecked")
 public class AnimediaService {
-
-	private static final String ANNOUNCEMENT_MARK = "<a href=\"/announcements\" title=\"Аниме онлайн смотреть\">Анонсы</a>";
 
 	@Value("${resources.tempFolder.name}")
 	private String tempFolderName;
@@ -166,8 +165,7 @@ public class AnimediaService {
 			String url = animediaOnlineTv + rootUrl;
 			//get a html page with an anime
 			HttpResponse response = httpCaller.call(url, HttpMethod.GET, animediaRequestParameters);
-			String content = response.getContent();
-			if (content.contains(ANNOUNCEMENT_MARK)) {
+			if (isAnnouncement(response.getContent())) {
 				announcement.add(new Anime(String.valueOf(announcementCount), url, rootUrl));
 				announcementCount++;
 				continue;

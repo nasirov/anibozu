@@ -5682,5 +5682,33 @@
     "episodeNumberForWatch": null,
     "minConcretizedEpisodeOnMAL": null,
     "maxConcretizedEpisodeOnMAL": null
+  },
+  {
+    "url": "anime/dose-lorda-el-melloya-ii",
+    "dataList": "1",
+    "firstEpisode": "1",
+    "titleOnMAL": "lord el-melloi ii sei no jikenbo: rail zeppelin grace note",
+    "minConcretizedEpisodeOnAnimedia": null,
+    "maxConcretizedEpisodeOnAnimedia": null,
+    "currentMax": null,
+    "posterUrl": null,
+    "finalUrl": null,
+    "episodeNumberForWatch": null,
+    "minConcretizedEpisodeOnMAL": null,
+    "maxConcretizedEpisodeOnMAL": null
+  },
+  {
+    "url": "anime/dose-lorda-el-melloya-ii",
+    "dataList": "7",
+    "firstEpisode": "1",
+    "titleOnMAL": "lord el-melloi ii sei no jikenbo: rail zeppelin grace note - hakamori to neko to majutsushi",
+    "minConcretizedEpisodeOnAnimedia": "1",
+    "maxConcretizedEpisodeOnAnimedia": "1",
+    "currentMax": "1",
+    "posterUrl": null,
+    "finalUrl": null,
+    "episodeNumberForWatch": null,
+    "minConcretizedEpisodeOnMAL": "1",
+    "maxConcretizedEpisodeOnMAL": "1"
   }
 ]

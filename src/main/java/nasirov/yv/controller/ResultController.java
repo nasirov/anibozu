@@ -1,5 +1,8 @@
 package nasirov.yv.controller;
 
+import static nasirov.yv.data.enums.Constants.FINAL_URL_VALUE_IF_EPISODE_IS_NOT_AVAILABLE;
+import static nasirov.yv.util.AnimediaUtils.isTitleConcretizedOnMAL;
+
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedHashSet;
@@ -8,15 +11,15 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import javax.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
+import nasirov.yv.data.animedia.AnimediaMALTitleReferences;
+import nasirov.yv.data.animedia.AnimediaTitleSearchInfo;
+import nasirov.yv.data.mal.MALUser;
+import nasirov.yv.data.mal.UserMALTitleInfo;
 import nasirov.yv.exception.mal.JSONNotFoundException;
 import nasirov.yv.exception.mal.MALUserAccountNotFoundException;
 import nasirov.yv.exception.mal.MALUserAnimeListAccessException;
 import nasirov.yv.exception.mal.WatchingTitlesNotFoundException;
 import nasirov.yv.repository.NotFoundAnimeOnAnimediaRepository;
-import nasirov.yv.data.animedia.AnimediaMALTitleReferences;
-import nasirov.yv.data.animedia.AnimediaTitleSearchInfo;
-import nasirov.yv.data.mal.MALUser;
-import nasirov.yv.data.mal.UserMALTitleInfo;
 import nasirov.yv.service.AnimediaService;
 import nasirov.yv.service.MALService;
 import nasirov.yv.service.ReferencesManager;
@@ -162,8 +165,8 @@ public class ResultController {
 		if (!differences.isEmpty()) {
 			for (AnimediaMALTitleReferences currentlyUpdatedTitle : differences) {
 				long count = matchedAnimeFromCache.stream()
-						.filter(set -> set.getUrl().equals(currentlyUpdatedTitle.getUrl()) && set.getDataList().equals(currentlyUpdatedTitle.getDataList())
-								&& set.getMinConcretizedEpisodeOnMAL() == null && set.getMaxConcretizedEpisodeOnMAL() == null).count();
+						.filter(title -> title.getUrl().equals(currentlyUpdatedTitle.getUrl()) && title.getDataList().equals(currentlyUpdatedTitle.getDataList())
+								&& !isTitleConcretizedOnMAL(title)).count();
 				if (count != 0) {
 					referencesManager.updateCurrentMax(matchedAnimeFromCache, currentlyUpdatedTitle);
 					seasonAndEpisodeChecker.updateEpisodeNumberForWatchAndFinalUrl(watchingTitlesFromCache, currentlyUpdatedTitle, matchedAnimeFromCache);
@@ -213,10 +216,10 @@ public class ResultController {
 	}
 
 	private String enrichModel(Set<AnimediaMALTitleReferences> matchedAnime, Set<UserMALTitleInfo> watchingTitles, Model model) {
-		List<AnimediaMALTitleReferences> newEpisodeAvailable = matchedAnime.stream().filter(set -> !set.getFinalUrl().equals(""))
-				.collect(Collectors.toList());
-		List<AnimediaMALTitleReferences> newEpisodeNotAvailable = matchedAnime.stream().filter(set -> set.getFinalUrl().equals(""))
-				.collect(Collectors.toList());
+		List<AnimediaMALTitleReferences> newEpisodeAvailable = matchedAnime.stream()
+				.filter(set -> !set.getFinalUrl().equals(FINAL_URL_VALUE_IF_EPISODE_IS_NOT_AVAILABLE.getDescription())).collect(Collectors.toList());
+		List<AnimediaMALTitleReferences> newEpisodeNotAvailable = matchedAnime.stream()
+				.filter(set -> set.getFinalUrl().equals(FINAL_URL_VALUE_IF_EPISODE_IS_NOT_AVAILABLE.getDescription())).collect(Collectors.toList());
 		Set<UserMALTitleInfo> notFoundAnimeOnAnimedia = new LinkedHashSet<>(notFoundAnimeOnAnimediaRepository.findAll());
 		Set<UserMALTitleInfo> matchedNotFoundAnimeOnAnimedia = new LinkedHashSet<>();
 		watchingTitles.forEach(title -> notFoundAnimeOnAnimedia.stream().filter(set -> set.getTitle().equals(title.getTitle()))

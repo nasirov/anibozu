@@ -1,6 +1,7 @@
 package nasirov.yv.parser;
 
 import static nasirov.yv.data.enums.Constants.FIRST_EPISODE;
+import static nasirov.yv.data.enums.Constants.ZERO_EPISODE;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -12,13 +13,13 @@ import java.util.regex.Pattern;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import lombok.extern.slf4j.Slf4j;
+import nasirov.yv.data.animedia.AnimediaMALTitleReferences;
+import nasirov.yv.data.response.HttpResponse;
 import nasirov.yv.exception.animedia.EpisodesRangeNotFoundException;
 import nasirov.yv.exception.animedia.FirstEpisodeInSeasonNotFoundException;
 import nasirov.yv.exception.animedia.NewEpisodesListNotFoundException;
 import nasirov.yv.exception.animedia.OriginalTitleNotFoundException;
 import nasirov.yv.exception.animedia.SeasonsAndEpisodesNotFoundException;
-import nasirov.yv.data.response.HttpResponse;
-import nasirov.yv.data.animedia.AnimediaMALTitleReferences;
 import org.springframework.stereotype.Component;
 
 /**
@@ -56,14 +57,26 @@ public class AnimediaHTMLParser {
 	private static final String DATA_ENTRY_ID = "<ul role=\"tablist\" class=\"media__tabs__nav nav-tabs\" data-entry_id=\"(?<animeId>\\d+)\".*?";
 
 	/**
-	 * For episodes in data list
+	 * For first episode in data list
 	 */
 	private static final String EPISODE_IN_DATA_LIST = "<span>(?<description>Серия\\.|Cерия|Серия|Серии|серия|серии|ОВА|OVA|ONA|ODA"
 			+ "|ФИЛЬМ|Фильмы|Сп[е|э]шл|СПЕШЛ|Фильм|Трейлер)?\\s?(?<firstEpisodeInSeason>\\d{1,3})?"
 			+ "(-\\d{1,3})?(\\s\\(\\d{1,3}\\))?\\s*?(из)?\\s?(?<maxEpisodes>.{1,3})?</span>";
 
 	/**
-	 * For original title
+	 * For episodes range except trailers in data list
+	 */
+	private static final String EPISODE_IN_DATA_LIST_EXCEPT_TRAILERS = "<span>(?<description>Серия\\.|Cерия|Серия|Серии|серия|серии|ОВА|OVA|ONA|ODA"
+			+ "|ФИЛЬМ|Фильмы|Сп[е|э]шл|СПЕШЛ|Фильм)?\\s?(?<firstEpisodeInSeason>\\d{1,3})?"
+			+ "(-\\d{1,3})?(\\s\\(\\d{1,3}\\))?\\s*?(из)?\\s?(?<maxEpisodes>.{1,3})?</span>";
+
+	/**
+	 * For trailer in data list
+	 */
+	private static final String TRAILER_IN_DATA_LIST = "<span>\\s?(?<description>Трейлер)?\\s?(из)?\\s?(?<maxEpisodes>.{1,3})?</span>";
+
+	/**
+	 * For original title in html page
 	 */
 	private static final String ORIGINAL_TITLE = "<div class=\"media__post__original-title\">(?<originalTitle>[^а-яА-Я\\n]*).+?</div>";
 
@@ -76,7 +89,10 @@ public class AnimediaHTMLParser {
 					+ ".+\"></a>\\R*\\s*<div class=\"widget__new-series__item__info\">\\R*"
 					+ "\\s*<a href=\".+\" title=\".+\" class=\"h4 widget__new-series__item__title\">.+</a>";
 
-	private static final String GET_URL = "href=\"(?<url>/anime/.*?/\\d{1,3}/\\d{1,3})\"";
+	/**
+	 * For url in data list
+	 */
+	private static final String URL_IN_DATA_LIST = "href=\"(?<url>/anime/.*?/\\d{1,3}/\\d{1,3})\"";
 
 	/**
 	 * Searches for the title info
@@ -208,7 +224,7 @@ public class AnimediaHTMLParser {
 	}
 
 	private Map<String, List<String>> searchForEpisodesRange(@NotEmpty String content) throws EpisodesRangeNotFoundException {
-		Pattern pattern = Pattern.compile(EPISODE_IN_DATA_LIST);
+		Pattern pattern = Pattern.compile(EPISODE_IN_DATA_LIST_EXCEPT_TRAILERS);
 		Matcher matcher = pattern.matcher(content);
 		List<String> episodes = new LinkedList<>();
 		Map<String, List<String>> episodesRange = new HashMap<>();
@@ -220,37 +236,44 @@ public class AnimediaHTMLParser {
 			String description = matcher.group("description");
 			String firstEpisodeInSeason = matcher.group("firstEpisodeInSeason");
 			if (firstEpisodeInSeason != null) {
-				if (episodes.contains(firstEpisodeInSeason)) {
-					Integer lasAdded = Integer.parseInt(episodes.get(episodes.size() - 1));
-					lasAdded++;
-					episodes.add(String.valueOf(lasAdded));
-				} else {
-					episodes.add(firstEpisodeInSeason);
-				}
+				checkEpisodeAndAdd(episodes, firstEpisodeInSeason);
 			} else if (description != null) {
-				episodes.add(isDescription(description) ? FIRST_EPISODE.getDescription() : description);
+				checkEpisodeAndAdd(episodes, FIRST_EPISODE.getDescription());
 			}
 		}
-		if (episodes.isEmpty() || maxEpisodes == null) {
+		if (isTrailer(content)) {
+			maxEpisodes = ZERO_EPISODE.getDescription();
+			episodes.add(ZERO_EPISODE.getDescription());
+		} else if (episodes.isEmpty() || maxEpisodes == null) {
 			throw new EpisodesRangeNotFoundException("Episodes range is not found for " + getUrl(content));
 		}
 		episodesRange.put(maxEpisodes, episodes);
 		return episodesRange;
 	}
 
+	private void checkEpisodeAndAdd(List<String> episodes, String episode) {
+		if (episodes.contains(episode)) {
+			Integer lasAdded = Integer.parseInt(episodes.get(episodes.size() - 1));
+			lasAdded++;
+			episodes.add(String.valueOf(lasAdded));
+		} else {
+			episodes.add(episode);
+		}
+	}
+
+	private boolean isTrailer(String content) {
+		Pattern pattern = Pattern.compile(TRAILER_IN_DATA_LIST);
+		Matcher matcher = pattern.matcher(content);
+		return matcher.find();
+	}
+
 	private String getUrl(@NotEmpty String content) {
-		Pattern pattern = Pattern.compile(GET_URL);
+		Pattern pattern = Pattern.compile(URL_IN_DATA_LIST);
 		Matcher matcher = pattern.matcher(content);
 		if (matcher.find()) {
 			return matcher.group("url");
 		}
 		return "url not found";
-	}
-
-	private boolean isDescription(@NotEmpty String description) {
-		Pattern pattern = Pattern.compile("\\D+");
-		Matcher matcher = pattern.matcher(description);
-		return matcher.find();
 	}
 
 	/**

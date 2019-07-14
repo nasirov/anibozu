@@ -1,5 +1,14 @@
 package nasirov.yv.service;
 
+import static nasirov.yv.data.enums.Constants.EPISODE_NUMBER_FOR_WATCH_VALUE_IF_EPISODE_IS_NOT_AVAILABLE;
+import static nasirov.yv.data.enums.Constants.FINAL_URL_VALUE_IF_EPISODE_IS_NOT_AVAILABLE;
+import static nasirov.yv.data.enums.Constants.FIRST_DATA_LIST;
+import static nasirov.yv.data.enums.Constants.FIRST_EPISODE;
+import static nasirov.yv.data.enums.Constants.ZERO_EPISODE;
+import static nasirov.yv.util.AnimediaUtils.isAnnouncement;
+import static nasirov.yv.util.AnimediaUtils.isMaxEpisodesUndefined;
+import static nasirov.yv.util.AnimediaUtils.isTitleConcretizedOnMAL;
+
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashSet;
@@ -10,14 +19,14 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import javax.validation.constraints.NotEmpty;
 import lombok.extern.slf4j.Slf4j;
+import nasirov.yv.data.animedia.AnimediaMALTitleReferences;
+import nasirov.yv.data.animedia.AnimediaTitleSearchInfo;
+import nasirov.yv.data.mal.UserMALTitleInfo;
+import nasirov.yv.data.response.HttpResponse;
 import nasirov.yv.http.caller.HttpCaller;
 import nasirov.yv.http.parameter.RequestParametersBuilder;
 import nasirov.yv.parser.AnimediaHTMLParser;
 import nasirov.yv.repository.NotFoundAnimeOnAnimediaRepository;
-import nasirov.yv.data.response.HttpResponse;
-import nasirov.yv.data.animedia.AnimediaMALTitleReferences;
-import nasirov.yv.data.animedia.AnimediaTitleSearchInfo;
-import nasirov.yv.data.mal.UserMALTitleInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
@@ -92,13 +101,15 @@ public class SeasonAndEpisodeChecker {
 			//Increment to next episode for watch
 			Integer nextNumberOfEpisodeForWatch = userMALTitleInfo.getNumWatchedEpisodes() + 1;
 			if (!matchedMultiSeasonsReferences.isEmpty()) {
+				Set<AnimediaMALTitleReferences> tempReferences = new LinkedHashSet<>();
 				matchedMultiSeasonsReferences.stream().filter(set -> set.getCurrentMax() == null || set.getMinConcretizedEpisodeOnAnimedia() == null
 						|| set.getMaxConcretizedEpisodeOnAnimedia() == null).forEach(ref -> {
-					Set<AnimediaMALTitleReferences> tempReferences = new LinkedHashSet<>();
-					tempReferences.add(ref);
-					referencesManager.updateReferences(tempReferences);
 					ref.setPosterUrl(userMALTitleInfo.getPosterUrl());
+					tempReferences.add(ref);
 				});
+				if (!tempReferences.isEmpty()) {
+					referencesManager.updateReferences(tempReferences);
+				}
 			}
 			switch (matchedMultiSeasonsReferences.size()) {
 				case 0:
@@ -186,23 +197,24 @@ public class SeasonAndEpisodeChecker {
 	private void handleOneMatchedResultInMultiSeasonsReferences(Set<AnimediaMALTitleReferences> matchedMultiSeasonsReferences,
 			UserMALTitleInfo userMALTitleInfo, Set<AnimediaMALTitleReferences> finalMatchedReferences) {
 		String episodeNumber = null;
-		for (AnimediaMALTitleReferences animediaMALTitleReferences : matchedMultiSeasonsReferences) {
+		for (AnimediaMALTitleReferences reference : matchedMultiSeasonsReferences) {
 			Integer episodeNumberForWatch;
-			int firstEpisode = Integer.parseInt(animediaMALTitleReferences.getFirstEpisode());
-			if (animediaMALTitleReferences.getMinConcretizedEpisodeOnMAL() != null && animediaMALTitleReferences.getMaxConcretizedEpisodeOnMAL() != null) {
-				episodeNumberForWatch = getEpisodeNumberForWatch(animediaMALTitleReferences, userMALTitleInfo);
+			int firstEpisode = Integer.parseInt(reference.getFirstEpisode());
+			if (isTitleConcretizedOnMAL(reference)) {
+				episodeNumberForWatch = getEpisodeNumberForWatch(reference, userMALTitleInfo);
 				episodeNumber = String.valueOf(userMALTitleInfo.getNumWatchedEpisodes() + 1);
 			} else {
 				episodeNumberForWatch = firstEpisode + userMALTitleInfo.getNumWatchedEpisodes();
 			}
 			String finalEpisodeNumber = episodeNumber;
-			Map<String, String> nextEpisodeForWatchFinalUrl = getNextEpisodeForWatchAndFinalUrl(animediaMALTitleReferences, episodeNumberForWatch);
+			Map<String, String> nextEpisodeForWatchFinalUrl = getNextEpisodeForWatchAndFinalUrl(reference, episodeNumberForWatch);
 			Stream.of(nextEpisodeForWatchFinalUrl).flatMap(map -> map.entrySet().stream()).forEach(entry -> {
-				animediaMALTitleReferences
-						.setEpisodeNumberForWatch(!entry.getKey().equals("") && finalEpisodeNumber != null ? finalEpisodeNumber : entry.getKey());
-				animediaMALTitleReferences.setFinalUrl(entry.getValue());
+				reference.setEpisodeNumberForWatch(
+						!entry.getKey().equals(EPISODE_NUMBER_FOR_WATCH_VALUE_IF_EPISODE_IS_NOT_AVAILABLE.getDescription()) && finalEpisodeNumber != null
+								? finalEpisodeNumber : entry.getKey());
+				reference.setFinalUrl(entry.getValue());
 			});
-			finalMatchedReferences.add(new AnimediaMALTitleReferences(animediaMALTitleReferences));
+			finalMatchedReferences.add(new AnimediaMALTitleReferences(reference));
 		}
 	}
 
@@ -252,9 +264,7 @@ public class SeasonAndEpisodeChecker {
 		int undefinedMax = 0;
 		for (AnimediaMALTitleReferences animediaMALTitleReferences : matchedMultiSeasonsReferences) {
 			String maxEpisodesInDataListOnAnimedia = animediaMALTitleReferences.getMaxConcretizedEpisodeOnAnimedia();
-			Integer intMax =
-					maxEpisodesInDataListOnAnimedia.equalsIgnoreCase("xx") || maxEpisodesInDataListOnAnimedia.equalsIgnoreCase("xxx") ? undefinedMax
-							: Integer.parseInt(maxEpisodesInDataListOnAnimedia);
+			Integer intMax = isMaxEpisodesUndefined(maxEpisodesInDataListOnAnimedia) ? undefinedMax : Integer.parseInt(maxEpisodesInDataListOnAnimedia);
 			if (nextNumberOfEpisodeForWatch >= Integer.parseInt(animediaMALTitleReferences.getFirstEpisode()) && (nextNumberOfEpisodeForWatch <= intMax
 					|| intMax.equals(undefinedMax))) {
 				Map<String, String> nextEpisodeForWatchFinalUrl = getNextEpisodeForWatchAndFinalUrl(animediaMALTitleReferences, nextNumberOfEpisodeForWatch);
@@ -298,7 +308,9 @@ public class SeasonAndEpisodeChecker {
 		}
 		Map<String, String> nextEpisodeForWatchFinalUrl = getNextEpisodeForWatchAndFinalUrl(animediaMALTitleReferences, nextNumberOfEpisodeForWatch);
 		Stream.of(nextEpisodeForWatchFinalUrl).flatMap(map -> map.entrySet().stream()).forEach(entry -> {
-			animediaMALTitleReferences.setEpisodeNumberForWatch(entry.getKey().equals("") ? entry.getKey() : String.valueOf(nextEpisodeNumber));
+			animediaMALTitleReferences.setEpisodeNumberForWatch(
+					entry.getKey().equals(EPISODE_NUMBER_FOR_WATCH_VALUE_IF_EPISODE_IS_NOT_AVAILABLE.getDescription()) ? entry.getKey()
+							: String.valueOf(nextEpisodeNumber));
 			animediaMALTitleReferences.setFinalUrl(entry.getValue());
 		});
 		finalMatchedReferences.add(new AnimediaMALTitleReferences(animediaMALTitleReferences));
@@ -321,12 +333,18 @@ public class SeasonAndEpisodeChecker {
 		if (matchedOfSingleSeasonAnime != null) {
 			String url = matchedOfSingleSeasonAnime.getUrl();
 			HttpResponse response = httpCaller.call(animediaOnlineTv + url, HttpMethod.GET, animediaRequestParameters);
+			if (isAnnouncement(response.getContent())) {
+				handleAnnouncements(url, userMALTitleInfo.getTitle(), matchedOfSingleSeasonAnime.getPosterUrl(), finalMatchedReferences);
+				return;
+			}
 			Map<String, Map<String, String>> animeIdSeasonsAndEpisodesMap = animediaHTMLParser.getAnimeIdSeasonsAndEpisodesMap(response);
 			for (Map.Entry<String, Map<String, String>> animeIdDataListsAndEpisodes : animeIdSeasonsAndEpisodesMap.entrySet()) {
 				for (Map.Entry<String, String> dataListsAndEpisodes : animeIdDataListsAndEpisodes.getValue().entrySet()) {
 					String dataList = dataListsAndEpisodes.getKey();
 					HttpResponse resp = httpCaller
-							.call(animediaEpisodesList + animeIdDataListsAndEpisodes.getKey() + "/" + dataList + animediaEpisodesListPostfix, HttpMethod.GET, animediaRequestParameters);
+							.call(animediaEpisodesList + animeIdDataListsAndEpisodes.getKey() + "/" + dataList + animediaEpisodesListPostfix,
+									HttpMethod.GET,
+									animediaRequestParameters);
 					Map<String, List<String>> maxEpisodesAndEpisodesRange = animediaHTMLParser.getEpisodesRange(resp);
 					for (Map.Entry<String, List<String>> maxEpisodesAndEpisodesRangeEntry : maxEpisodesAndEpisodesRange.entrySet()) {
 						List<String> episodesRangeFromMinToMax = maxEpisodesAndEpisodesRangeEntry.getValue();
@@ -369,6 +387,18 @@ public class SeasonAndEpisodeChecker {
 		log.error("WATCHING TITLE NAME {} DUPLICATED IN ANIMEDIA SEARCH LIST KEYWORDS. CHECK ANIMEDIA SEARCH LIST RESOURCE!", userMALTitleInfo);
 	}
 
+
+	private void handleAnnouncements(String url, String titleOnMal, String posterUrl, Set<AnimediaMALTitleReferences> finalMatchedReferences) {
+		AnimediaMALTitleReferences temp = AnimediaMALTitleReferences.builder().url(url).dataList(FIRST_DATA_LIST.getDescription())
+				.firstEpisode(FIRST_EPISODE.getDescription()).titleOnMAL(titleOnMal).minConcretizedEpisodeOnAnimedia(ZERO_EPISODE.getDescription())
+				.maxConcretizedEpisodeOnAnimedia(ZERO_EPISODE.getDescription()).currentMax(ZERO_EPISODE.getDescription()).posterUrl(posterUrl)
+				.finalUrl(FINAL_URL_VALUE_IF_EPISODE_IS_NOT_AVAILABLE.getDescription())
+				.episodeNumberForWatch(EPISODE_NUMBER_FOR_WATCH_VALUE_IF_EPISODE_IS_NOT_AVAILABLE.getDescription()).build();
+		finalMatchedReferences.add(temp);
+		String finalUrl = animediaOnlineTv + temp.getUrl();
+		log.info("NEW EPISODE FOR {} IS NOT AVAILABLE BECAUSE IT'S ANNOUNCEMENT", finalUrl);
+	}
+
 	/**
 	 * Updates the matched references (episode number for watch, final url for front)
 	 *
@@ -386,7 +416,8 @@ public class SeasonAndEpisodeChecker {
 			AnimediaMALTitleReferences referenceForUpdate = null;
 			if (references.getTitleOnMAL().equals(userMALTitleInfo.getTitle())) {
 				referenceForUpdate = matchedAnimeFromCache.stream()
-						.filter(set -> set.getTitleOnMAL().equals(references.getTitleOnMAL()) && set.getDataList().equals(references.getDataList())).findFirst()
+						.filter(title -> title.getTitleOnMAL().equals(references.getTitleOnMAL()) && title.getDataList().equals(references.getDataList()))
+						.findFirst()
 						.orElse(null);
 			}
 			if (referenceForUpdate != null) {
@@ -445,7 +476,7 @@ public class SeasonAndEpisodeChecker {
 				}
 				String nextEpisodeForWatchForTitleWithConcretizedEpisodeOnMAL = null;
 				int firstEpisode = Integer.parseInt(reference.getFirstEpisode());
-				if (reference.getMinConcretizedEpisodeOnMAL() != null && reference.getMaxConcretizedEpisodeOnMAL() != null) {
+				if (isTitleConcretizedOnMAL(reference)) {
 					episodeNumberForWatch = getEpisodeNumberForWatch(reference, updatedTitle);
 					nextEpisodeForWatchForTitleWithConcretizedEpisodeOnMAL = String.valueOf(updatedTitle.getNumWatchedEpisodes() + 1);
 				} else {
@@ -454,7 +485,8 @@ public class SeasonAndEpisodeChecker {
 				nextEpisodeForWatchAndFinalUrl = getNextEpisodeForWatchAndFinalUrl(reference, episodeNumberForWatch);
 				for (Map.Entry<String, String> nextEpisodeForWatchFinalUrl : nextEpisodeForWatchAndFinalUrl.entrySet()) {
 					String nextEpisodeNumber = nextEpisodeForWatchFinalUrl.getKey();
-					reference.setEpisodeNumberForWatch(nextEpisodeForWatchForTitleWithConcretizedEpisodeOnMAL != null && !nextEpisodeNumber.equals("")
+					reference.setEpisodeNumberForWatch(nextEpisodeForWatchForTitleWithConcretizedEpisodeOnMAL != null && !nextEpisodeNumber
+							.equals(EPISODE_NUMBER_FOR_WATCH_VALUE_IF_EPISODE_IS_NOT_AVAILABLE.getDescription())
 							? nextEpisodeForWatchForTitleWithConcretizedEpisodeOnMAL : nextEpisodeNumber);
 					reference.setFinalUrl(nextEpisodeForWatchFinalUrl.getValue());
 				}
@@ -483,7 +515,8 @@ public class SeasonAndEpisodeChecker {
 					animediaOnlineTv + animediaMALTitleReferences.getUrl() + "/" + animediaMALTitleReferences.getDataList() + "/" + animediaMALTitleReferences
 							.getFirstEpisode();
 			log.info("NEW EPISODE FOR {} IS NOT AVAILABLE.", finalUrl);
-			nextEpisodeForWatchFinalUrl.put("", "");
+			nextEpisodeForWatchFinalUrl.put(EPISODE_NUMBER_FOR_WATCH_VALUE_IF_EPISODE_IS_NOT_AVAILABLE.getDescription(),
+					FINAL_URL_VALUE_IF_EPISODE_IS_NOT_AVAILABLE.getDescription());
 		}
 		return nextEpisodeForWatchFinalUrl;
 	}

@@ -1,0 +1,91 @@
+<div class="media__tabs__series__list carousel-inner" data-list_id="3">
+    <div class="media__tabs__series__list__item"><a href="/anime/avatar-korolya/3/1" title="Трейлер"><img data-src="//static.animedia.tv/screens/15614502953bec866595ff70b55b0a6812f578ce76f827ae3f_min.jpg?w=153&h=86&fit=crop&q=45" alt="Трейлер"></a><span>Трейлер</span></div>
+</div>
+<div class="clearfix"></div>
+<div class="media__tabs__series__footer">
+    <div class="media__tabs__series__footer__item"><a href="#carousel2" data-slide="prev" class="media__tabs__series__control carousel-control prev"><i class="ai ai-prev"></i></a></div>
+    <div class="media__tabs__series__footer__item media__tabs__series__footer__item__center">Серии <span class="start-series"></span>-<span class="end-series"></span> из 12</div>
+    <div class="media__tabs__series__footer__item"><a href="#carousel2" data-slide="next" class="media__tabs__series__control carousel-control next"><i class="ai ai-next"></i></a></div>
+</div>
+
+
+
+<script>
+    $(document).ready(function () {
+
+        /**
+         * Слайдер серий в табах
+         */
+        var seriesCount = 15,
+                $seriesCarousel = $('.media__tabs__series');
+
+        $seriesCarousel.each(function () {
+            var $carousel = $(this),
+                    $list = $carousel.find('.media__tabs__series__list'),
+                    $active = '';
+
+            while($list.children('div:not(.series-list__wrap)').length) {
+                $list.children('div:not(.series-list__wrap):lt('+seriesCount+')').wrapAll('<div class="series-list__wrap row item">');
+            }
+
+            var $item = $list.find('.series-list__wrap'),
+                    $firstItem = $list.find('.series-list__wrap:first-child'),
+                    $lastItem = $list.find('.series-list__wrap:last-child'),
+                    $control = $carousel.find('.media__tabs__series__control'),
+                    $controlPrev = $carousel.find('.media__tabs__series__control.prev'),
+                    $controlNext = $carousel.find('.media__tabs__series__control.next'),
+                    $startSeries = $carousel.find('.start-series'),
+                    $endSeries = $carousel.find('.end-series'),
+                    firstMax = $firstItem.find('.media__tabs__series__list__item').length;
+
+            $firstItem.addClass('active');
+            $controlPrev.addClass('disabled');
+            $startSeries.html('1');
+            $endSeries.html(firstMax);
+
+            if ($list.find('.media__tabs__series__list__item').length <= 15 ) {$control.hide();}
+
+            var i = 1;
+            var j = 1;
+
+            $control.click(function (e) {
+                var	$active = $list.find('.active'),
+                        firstActive = getItemIndex($active),
+                        lastActive = $item.length;
+
+                $control.removeClass('disabled');
+
+                if ( $(this).hasClass('prev') && firstActive === 1 ) {$controlPrev.addClass('disabled');} else {$controlPrev.removeClass('disabled');}
+                if ( $(this).hasClass('next') && firstActive+2 === lastActive ) {$controlNext.addClass('disabled');} else {$controlNext.removeClass('disabled');}
+
+
+                if ( $(this).hasClass('next') ) {
+                    var firstMin = $list.find('.series-list__wrap:nth-child('+ (i++) +') .media__tabs__series__list__item').length,
+                            lastMin = $list.find('.series-list__wrap:nth-child('+ ((j++)+1) +') .media__tabs__series__list__item').length,
+                            startText = $startSeries.text(),
+                            startText = Number(startText) + firstMin,
+                            endText = $endSeries.text(),
+                            endText =  Number(endText) + lastMin;
+                    $startSeries.html(startText);
+                    $endSeries.html(endText);
+                }
+                if ( $(this).hasClass('prev') ) {
+                    var firstMin = $list.find('.series-list__wrap:nth-child('+ ((i--)-1) +') .media__tabs__series__list__item').length,
+                            lastMin = $list.find('.series-list__wrap:nth-child('+ (j--) +') .media__tabs__series__list__item').length,
+                            startText = $startSeries.text(),
+                            startText = Number(startText) - firstMin,
+                            endText = $endSeries.text(),
+                            endText =  Number(endText) - lastMin;
+                    $startSeries.html(startText);
+                    $endSeries.html(endText);
+                }
+            });
+            getItemIndex = function (item) {
+                var $items = item.parent().children('.item')
+                return $items.index(item || $active)
+            }
+        });
+
+
+    });
+</script>

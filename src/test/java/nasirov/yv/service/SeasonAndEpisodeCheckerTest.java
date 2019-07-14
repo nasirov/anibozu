@@ -1,5 +1,10 @@
 package nasirov.yv.service;
 
+import static nasirov.yv.data.enums.Constants.EPISODE_NUMBER_FOR_WATCH_VALUE_IF_EPISODE_IS_NOT_AVAILABLE;
+import static nasirov.yv.data.enums.Constants.FINAL_URL_VALUE_IF_EPISODE_IS_NOT_AVAILABLE;
+import static nasirov.yv.data.enums.Constants.FIRST_DATA_LIST;
+import static nasirov.yv.data.enums.Constants.FIRST_EPISODE;
+import static nasirov.yv.data.enums.Constants.ZERO_EPISODE;
 import static nasirov.yv.data.mal.MALAnimeStatus.WATCHING;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -19,14 +24,14 @@ import java.util.List;
 import java.util.Set;
 import nasirov.yv.AbstractTest;
 import nasirov.yv.configuration.AppConfiguration;
+import nasirov.yv.data.animedia.AnimediaMALTitleReferences;
+import nasirov.yv.data.animedia.AnimediaTitleSearchInfo;
+import nasirov.yv.data.mal.UserMALTitleInfo;
+import nasirov.yv.data.response.HttpResponse;
 import nasirov.yv.http.caller.HttpCaller;
 import nasirov.yv.http.parameter.AnimediaRequestParametersBuilder;
 import nasirov.yv.parser.AnimediaHTMLParser;
 import nasirov.yv.repository.NotFoundAnimeOnAnimediaRepository;
-import nasirov.yv.data.response.HttpResponse;
-import nasirov.yv.data.animedia.AnimediaMALTitleReferences;
-import nasirov.yv.data.animedia.AnimediaTitleSearchInfo;
-import nasirov.yv.data.mal.UserMALTitleInfo;
 import nasirov.yv.util.RoutinesIO;
 import org.junit.Before;
 import org.junit.Test;
@@ -287,6 +292,42 @@ public class SeasonAndEpisodeCheckerTest extends AbstractTest {
 	}
 
 	@Test
+	public void getMatchedAnimeOngoingOnMALAnnouncementOnAnimedia() {
+		String announcementUrl = "anime/zvyozdy-ansamblya";
+		doReturn(new HttpResponse(RoutinesIO.readFromResource(htmlWithAnnouncement), HttpStatus.OK.value())).when(httpCaller)
+				.call(eq(animediaOnlineTv + announcementUrl), eq(HttpMethod.GET), anyMap());
+		String titleOnMal = "ensemble stars!";
+		Set<AnimediaMALTitleReferences> multiSeasonsReferencesList = new LinkedHashSet<>();
+		Set<UserMALTitleInfo> watchingTitles = new LinkedHashSet<>();
+		UserMALTitleInfo addedTitleInUserCachedPeriod = new UserMALTitleInfo(0,
+				WATCHING.getCode(),
+				0,
+				titleOnMal,
+				0,
+				myAnimeListStaticContentUrl + "titleOnMal",
+				titleOnMal + "AnimeUrl");
+		watchingTitles.add(addedTitleInUserCachedPeriod);
+		Set<AnimediaTitleSearchInfo> animediaSearchList = new LinkedHashSet<>();
+		AnimediaTitleSearchInfo title = new AnimediaTitleSearchInfo("звезды ансамбля", titleOnMal, announcementUrl, "posterUrl");
+		animediaSearchList.add(title);
+		Set<AnimediaMALTitleReferences> matchedAnimeSet = seasonAndEpisodeChecker
+				.getMatchedAnime(watchingTitles, multiSeasonsReferencesList, animediaSearchList, USERNAME);
+		assertEquals(1, matchedAnimeSet.size());
+		AnimediaMALTitleReferences matchedAnime = matchedAnimeSet.stream().findAny().orElse(null);
+		assertEquals(announcementUrl, matchedAnime.getUrl());
+		assertEquals(FIRST_DATA_LIST.getDescription(), matchedAnime.getDataList());
+		assertEquals(titleOnMal, matchedAnime.getTitleOnMAL());
+		assertEquals(FIRST_EPISODE.getDescription(), matchedAnime.getFirstEpisode());
+		assertEquals(ZERO_EPISODE.getDescription(), matchedAnime.getCurrentMax());
+		assertEquals(ZERO_EPISODE.getDescription(), matchedAnime.getMinConcretizedEpisodeOnAnimedia());
+		assertEquals(ZERO_EPISODE.getDescription(), matchedAnime.getMaxConcretizedEpisodeOnAnimedia());
+		assertEquals(FINAL_URL_VALUE_IF_EPISODE_IS_NOT_AVAILABLE.getDescription(), matchedAnime.getFinalUrl());
+		assertEquals(EPISODE_NUMBER_FOR_WATCH_VALUE_IF_EPISODE_IS_NOT_AVAILABLE.getDescription(), matchedAnime.getEpisodeNumberForWatch());
+		assertEquals(null, matchedAnime.getMinConcretizedEpisodeOnMAL());
+		assertEquals(null, matchedAnime.getMaxConcretizedEpisodeOnMAL());
+	}
+
+	@Test
 	public void updateMatchedReferences() throws Exception {
 		Set<AnimediaMALTitleReferences> matchedReferences = getReferences();
 		for (AnimediaMALTitleReferences references : matchedReferences) {
@@ -362,7 +403,9 @@ public class SeasonAndEpisodeCheckerTest extends AbstractTest {
 								.getFirstEpisode().equals(onePiece5.getFirstEpisode()) && ref.getUrl().equals(onePiece5.getUrl()) && ref
 								.getMinConcretizedEpisodeOnAnimedia().equals(onePiece5.getMinConcretizedEpisodeOnAnimedia()) && ref
 								.getMaxConcretizedEpisodeOnAnimedia().equals(onePiece5.getMaxConcretizedEpisodeOnAnimedia()) && ref.getCurrentMax()
-								.equals(onePiece5.getCurrentMax()) && ref.getEpisodeNumberForWatch().equals("") && ref.getFinalUrl().equals("")).count());
+								.equals(onePiece5.getCurrentMax()) && ref.getEpisodeNumberForWatch()
+								.equals(EPISODE_NUMBER_FOR_WATCH_VALUE_IF_EPISODE_IS_NOT_AVAILABLE.getDescription()) && ref.getFinalUrl()
+								.equals(FINAL_URL_VALUE_IF_EPISODE_IS_NOT_AVAILABLE.getDescription())).count());
 		numWatchedEpisodes = 420;
 		multi.setNumWatchedEpisodes(numWatchedEpisodes);
 		episodeNumberForWatch = String.valueOf(numWatchedEpisodes + 1);
@@ -459,8 +502,10 @@ public class SeasonAndEpisodeCheckerTest extends AbstractTest {
 								.getFirstEpisode().equals(tamayura3_4.getFirstEpisode()) && ref.getUrl().equals(tamayura3_4.getUrl()) && ref
 								.getMinConcretizedEpisodeOnAnimedia().equals(tamayura3_4.getMinConcretizedEpisodeOnAnimedia()) && ref
 								.getMaxConcretizedEpisodeOnAnimedia().equals(tamayura3_4.getMaxConcretizedEpisodeOnAnimedia()) && ref.getCurrentMax()
-								.equals(tamayura3_4.getCurrentMax()) && ref.getEpisodeNumberForWatch().equals("") && ref.getFinalUrl().equals("") && ref
-								.getMinConcretizedEpisodeOnMAL().equals(tamayura3_4.getMinConcretizedEpisodeOnMAL()) && ref.getMaxConcretizedEpisodeOnMAL()
+								.equals(tamayura3_4.getCurrentMax()) && ref.getEpisodeNumberForWatch()
+								.equals(EPISODE_NUMBER_FOR_WATCH_VALUE_IF_EPISODE_IS_NOT_AVAILABLE.getDescription()) && ref.getFinalUrl()
+								.equals(FINAL_URL_VALUE_IF_EPISODE_IS_NOT_AVAILABLE.getDescription()) && ref.getMinConcretizedEpisodeOnMAL()
+								.equals(tamayura3_4.getMinConcretizedEpisodeOnMAL()) && ref.getMaxConcretizedEpisodeOnMAL()
 								.equals(tamayura3_4.getMaxConcretizedEpisodeOnMAL())).count());
 	}
 

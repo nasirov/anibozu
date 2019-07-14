@@ -1333,7 +1333,7 @@
   },
   {
     "title": "может, я встречу тебя в подземелье? — меч оратории",
-    "keywords": "dungeon ni deai wo motomeru no wa machigatteiru darou ka",
+    "keywords": "dungeon ni deai wo motomeru no wa machigatteiru darou ka gaiden: sword oratoria",
     "url": "anime/mozhet-ya-vstrechu-tebya-v-podzemele-mech-oratorii",
     "poster": "https://static.animedia.tv/uploads/1489.jpg?h=350&q=100"
   },
@@ -1369,7 +1369,7 @@
   },
   {
     "title": "может, я встречу тебя в подземелье?",
-    "keywords": "dungeon ni deai wo motomeru no wa machigatteiru darou ka gaiden: sword oratoria",
+    "keywords": "dungeon ni deai wo motomeru no wa machigatteiru darou ka",
     "url": "anime/mojet-ya-vstrechu-tebya-v-podzemele",
     "poster": "https://static.animedia.tv/uploads/1260sdf.jpg?h=350&q=100"
   },
@@ -1400,7 +1400,7 @@
   {
     "title": "месть масамунэ!",
     "keywords": "masamune-kun no revenge",
-    "url": "anime/Masamune-kun-no-Revenge",
+    "url": "anime/mest-masamune",
     "poster": "https://static.animedia.tv/uploads/masuma.jpg?h=350&q=100"
   },
   {
@@ -4846,5 +4846,11 @@
     "keywords": "araburu kisetsu no otome-domo yo.",
     "url": "anime/sezon-bespokojnyh-dev",
     "poster": "https://static.animedia.tv/uploads/1.jpg?h=350&q=100"
+  },
+  {
+    "title": "досье лорда эль-меллоя ii",
+    "keywords": "",
+    "url": "anime/dose-lorda-el-melloya-ii",
+    "poster": "https://static.animedia.tv/uploads/ElMellon2.jpg?h=350&q=100"
   }
 ]

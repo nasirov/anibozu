@@ -80,6 +80,12 @@ public abstract class AbstractTest {
 	@Value("${resources.tempSearchTitlesWithInvalidMALTitleName.name}")
 	protected String tempSearchTitlesWithInvalidMALTitleName;
 
+	@Value("classpath:animedia/announcements/dataListWithTrailer.txt")
+	protected Resource dataListWithTrailer;
+
+	@Value("classpath:animedia/announcements/htmlWithAnnouncement.txt")
+	protected Resource htmlWithAnnouncement;
+
 	@Value("classpath:animedia/fairyTail/fairyTailHtml.txt")
 	protected Resource fairyTailHtml;
 

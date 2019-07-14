@@ -1,6 +1,7 @@
 package nasirov.yv.parser;
 
 import static nasirov.yv.data.enums.Constants.FIRST_EPISODE;
+import static nasirov.yv.data.enums.Constants.ZERO_EPISODE;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
@@ -10,8 +11,8 @@ import java.util.List;
 import java.util.Map;
 import nasirov.yv.AbstractTest;
 import nasirov.yv.configuration.AppConfiguration;
-import nasirov.yv.data.response.HttpResponse;
 import nasirov.yv.data.animedia.AnimediaMALTitleReferences;
+import nasirov.yv.data.response.HttpResponse;
 import nasirov.yv.util.RoutinesIO;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -92,16 +93,34 @@ public class AnimediaHTMLParserTest extends AbstractTest {
 	}
 
 	@Test
-	public void testGetEpisodesRange() throws Exception {
+	public void testGetEpisodesRangeNormal() throws Exception {
 		HttpResponse firstDataListHtmlResponse = new HttpResponse(RoutinesIO.readFromResource(saoDataList1), HttpStatus.OK.value());
-		Map<String, List<String>> episodesRangeForFirstDataList = animediaHTMLParser.getEpisodesRange(firstDataListHtmlResponse);
-		checkEpisodesRange(episodesRangeForFirstDataList, "25", "1", 25);
+		Map<String, List<String>> range = animediaHTMLParser.getEpisodesRange(firstDataListHtmlResponse);
+		checkEpisodesRange(range, "25", "1", "25", 25);
+	}
+
+	@Test
+	public void testGetEpisodesRangeOvaWithFirstEpisode() throws Exception {
 		HttpResponse responseWithOVA = new HttpResponse(RoutinesIO.readFromResource(saoDataList7), HttpStatus.OK.value());
-		Map<String, List<String>> ovaRange = animediaHTMLParser.getEpisodesRange(responseWithOVA);
-		checkEpisodesRange(ovaRange, "1", "1", 1);
-		HttpResponse responseWithoutFirstEpisode = new HttpResponse("<span>ОВА из 1</span>", HttpStatus.OK.value());
-		ovaRange = animediaHTMLParser.getEpisodesRange(responseWithoutFirstEpisode);
-		checkEpisodesRange(ovaRange, "1", FIRST_EPISODE.getDescription(), 1);
+		Map<String, List<String>> range = animediaHTMLParser.getEpisodesRange(responseWithOVA);
+		checkEpisodesRange(range, "1", "1", "1", 1);
+	}
+
+	@Test
+	public void testGetEpisodesRangeOvaWithoutFirstEpisode() throws Exception {
+		HttpResponse responseWithoutFirstEpisode = new HttpResponse("<span>ОВА из 2</span>\n<span>ОВА из 2</span>", HttpStatus.OK.value());
+		Map<String, List<String>> range = animediaHTMLParser.getEpisodesRange(responseWithoutFirstEpisode);
+		checkEpisodesRange(range, "2", FIRST_EPISODE.getDescription(), "2", 2);
+		HttpResponse responseWithUndefinedMax = new HttpResponse("<span>Серия 1 из xxx</span>", HttpStatus.OK.value());
+		range = animediaHTMLParser.getEpisodesRange(responseWithUndefinedMax);
+		checkEpisodesRange(range, "1", FIRST_EPISODE.getDescription(), "xxx", 1);
+	}
+
+	@Test
+	public void testGetEpisodesRangeUndefinedMax() throws Exception {
+		HttpResponse responseWithUndefinedMax = new HttpResponse("<span>Серия 1 из xxx</span>", HttpStatus.OK.value());
+		Map<String, List<String>> range = animediaHTMLParser.getEpisodesRange(responseWithUndefinedMax);
+		checkEpisodesRange(range, "1", FIRST_EPISODE.getDescription(), "xxx", 1);
 	}
 
 	@Test(expected = NullPointerException.class)
@@ -118,6 +137,17 @@ public class AnimediaHTMLParserTest extends AbstractTest {
 		episodesRange = animediaHTMLParser.getEpisodesRange(new HttpResponse("", HttpStatus.OK.value()));
 		assertNotNull(episodesRange);
 		assertEquals(0, episodesRange.size());
+	}
+
+	@Test
+	public void testGetEpisodesRangeForTrailer() {
+		HttpResponse dataListWithTrailer1 = new HttpResponse(RoutinesIO.readFromResource(dataListWithTrailer), HttpStatus.OK.value());
+		Map<String, List<String>> episodesRangeForDataListWithTrailer = animediaHTMLParser.getEpisodesRange(dataListWithTrailer1);
+		checkEpisodesRange(episodesRangeForDataListWithTrailer,
+				ZERO_EPISODE.getDescription(),
+				ZERO_EPISODE.getDescription(),
+				ZERO_EPISODE.getDescription(),
+				1);
 	}
 
 	@Test
@@ -164,11 +194,13 @@ public class AnimediaHTMLParserTest extends AbstractTest {
 		assertEquals(0, currentlyUpdatedTitlesList.size());
 	}
 
-	private void checkEpisodesRange(Map<String, List<String>> range, String maxEpisode, String firstEpisode, int rangeSize) {
+	private void checkEpisodesRange(Map<String, List<String>> range, String currentMax, String firstEpisode, String maxConcretizedEpisodeOnAnimedia,
+			int rangeSize) {
 		for (Map.Entry<String, List<String>> listEntry : range.entrySet()) {
 			assertEquals(rangeSize, listEntry.getValue().size());
 			assertEquals(firstEpisode, listEntry.getValue().get(0));
-			assertEquals(maxEpisode, listEntry.getValue().get(rangeSize - 1));
+			assertEquals(currentMax, listEntry.getValue().get(rangeSize - 1));
+			assertEquals(maxConcretizedEpisodeOnAnimedia, listEntry.getKey());
 		}
 	}
 
