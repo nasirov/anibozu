@@ -20,6 +20,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.core.io.Resource;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.annotation.DirtiesContext.ClassMode;
+import org.springframework.test.context.TestPropertySource;
 import org.springframework.util.ResourceUtils;
 
 /**
@@ -28,6 +29,7 @@ import org.springframework.util.ResourceUtils;
 @SpringBootTest(classes = {ApplicationLogoPrinter.class, LogoPrinterContextListener.class})
 @DirtiesContext(classMode = ClassMode.AFTER_CLASS)
 @Slf4j
+@TestPropertySource(locations = "classpath:testSystem.properties")
 public class ApplicationLogoPrinterTest extends AbstractTest {
 
 	private static PrintStream mockPrintStream = mock(PrintStream.class);

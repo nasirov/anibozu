@@ -171,7 +171,7 @@ public class ResultControllerTest extends AbstractTest {
 		doAnswer(invocation -> new ArrayList<>(nofFound)).when(notFoundAnimeOnAnimediaRepository).findAll();
 		doReturn(nofFound).when(malService).getWatchingTitles(eq(USERNAME));
 		doReturn(new ArrayList<>()).when(animediaService).getCurrentlyUpdatedTitles();
-		cacheManager.getCache(animediaSearchListCacheName).put(animediaSearchListCacheName, new LinkedHashSet<>());
+		doReturn(new LinkedHashSet<>()).when(animediaService).getAnimediaSearchListFromGitHub();
 		doReturn(new LinkedHashSet<>()).when(referencesManager).getMultiSeasonsReferences();
 		doReturn(new LinkedHashSet<>()).when(referencesManager).getMatchedReferences(anySet(), anySet());
 		doReturn(getMatchedAnime()).when(seasonAndEpisodeChecker).getMatchedAnime(anySet(), anySet(), anySet(), eq(USERNAME));
@@ -249,14 +249,13 @@ public class ResultControllerTest extends AbstractTest {
 		Cache userMatchedAnimeCache = cacheManager.getCache(userMatchedAnimeCacheName);
 		Cache matchedReferencesCache = cacheManager.getCache(matchedReferencesCacheName);
 		Cache currentlyUpdatedTitlesCache = cacheManager.getCache(currentlyUpdatedTitlesCacheName);
-		Cache animediaSearchListCache = cacheManager.getCache(animediaSearchListCacheName);
 		userMALCache.put(USERNAME, watchingTitlesFromCache);
 		userMatchedAnimeCache.put(USERNAME, matchedAnime);
 		currentlyUpdatedTitlesCache.put(currentlyUpdatedTitlesCacheName, new ArrayList<>());
 		Set<AnimediaMALTitleReferences> matchedTitles = new LinkedHashSet<>();
 		matchedReferencesCache.put(USERNAME, matchedTitles);
-		Set<AnimediaTitleSearchInfo> animediaSearchListCached = new LinkedHashSet<>();
-		animediaSearchListCache.put(animediaSearchListCacheName, animediaSearchListCached);
+		Set<AnimediaTitleSearchInfo> animediaSearchListFromGitHub = new LinkedHashSet<>();
+		doReturn(animediaSearchListFromGitHub).when(animediaService).getAnimediaSearchListFromGitHub();
 		doReturn(new ArrayList<>()).when(animediaService).getCurrentlyUpdatedTitles();
 		doReturn(currentlyUpdatedTitlesOnAnimedia).when(animediaService).checkCurrentlyUpdatedTitles(anyList(), anyList());
 		doReturn(true).when(malService).isWatchingTitlesUpdated(eq(freshWatchingTitles), eq(watchingTitlesFromCache));
@@ -266,10 +265,10 @@ public class ResultControllerTest extends AbstractTest {
 		doReturn(watchingTitlesWithUpdatedNumberOfWatchedEpisodes).when(malService)
 				.getWatchingTitlesWithUpdatedNumberOfWatchedEpisodes(eq(freshWatchingTitles), eq(watchingTitlesFromCache));
 		Set<AnimediaTitleSearchInfo> animediaTitleSearchInfo = new LinkedHashSet<>();
-		doReturn(animediaTitleSearchInfo).when(animediaService).getAnimediaSearchList();
+		doReturn(animediaTitleSearchInfo).when(animediaService).getAnimediaSearchListFromAnimedia();
 		Set<AnimediaMALTitleReferences> allMultiRefs = new LinkedHashSet<>();
 		doReturn(allMultiRefs).when(referencesManager).getMultiSeasonsReferences();
-		doReturn(newReference).when(seasonAndEpisodeChecker).getMatchedAnime(anySet(), eq(allMultiRefs), eq(animediaSearchListCached), eq(USERNAME));
+		doReturn(newReference).when(seasonAndEpisodeChecker).getMatchedAnime(anySet(), eq(allMultiRefs), eq(animediaSearchListFromGitHub), eq(USERNAME));
 		MockHttpServletResponse response = mockMvc.perform(post(PATH).param("username", USERNAME)).andReturn().getResponse();
 		assertNotNull(response);
 		String content = response.getContentAsString();

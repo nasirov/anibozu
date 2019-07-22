@@ -35,9 +35,6 @@ public abstract class AbstractTest {
 	@Value("${resources.tempSingleSeasonTitlesWithCyrillicKeywordsInAnimediaSearchList.name}")
 	protected String tempSingleSeasonTitlesWithCyrillicKeywordsInAnimediaSearchList;
 
-	@Value("${cache.animediaSearchList.name}")
-	protected String animediaSearchListCacheName;
-
 	@Value("${cache.currentlyUpdatedTitles.name}")
 	protected String currentlyUpdatedTitlesCacheName;
 
@@ -48,13 +45,13 @@ public abstract class AbstractTest {
 	protected String userMatchedAnimeCacheName;
 
 	@Value("${urls.online.animedia.anime.list}")
-	protected String animediaAnimeList;
+	protected String animediaAnimeListFromAnimediaUrl;
+
+	@Value("${urls.raw.githubusercontent.com.animediaSearchList}")
+	protected String animediaAnimeListFromGitHubUrl;
 
 	@Value("${cache.userMAL.name}")
 	protected String userMALCacheName;
-
-	@Value("${cache.multiSeasonsReferences.name}")
-	protected String multiSeasonsReferencesCacheName;
 
 	@Value("${urls.myAnimeList.net}")
 	protected String myAnimeListNet;
@@ -70,6 +67,9 @@ public abstract class AbstractTest {
 
 	@Value("${urls.online.animedia.anime.episodes.postfix}")
 	protected String animediaEpisodesListPostfix;
+
+	@Value("${urls.raw.githubusercontent.com.references}")
+	protected String referencesFromGitHubUrl;
 
 	@Value("${cache.matchedReferences.name}")
 	protected String matchedReferencesCacheName;

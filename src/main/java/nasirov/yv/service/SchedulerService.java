@@ -3,6 +3,7 @@ package nasirov.yv.service;
 import static nasirov.yv.data.animedia.AnimeTypeOnAnimedia.ANNOUNCEMENT;
 import static nasirov.yv.data.animedia.AnimeTypeOnAnimedia.MULTISEASONS;
 import static nasirov.yv.data.animedia.AnimeTypeOnAnimedia.SINGLESEASON;
+import static nasirov.yv.data.enums.Constants.NOT_FOUND_ON_MAL;
 
 import java.io.File;
 import java.nio.file.NotDirectoryException;
@@ -12,14 +13,13 @@ import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import lombok.extern.slf4j.Slf4j;
-import nasirov.yv.data.animedia.AnimeTypeOnAnimedia;
 import nasirov.yv.data.animedia.Anime;
+import nasirov.yv.data.animedia.AnimeTypeOnAnimedia;
 import nasirov.yv.data.animedia.AnimediaMALTitleReferences;
 import nasirov.yv.data.animedia.AnimediaTitleSearchInfo;
 import nasirov.yv.util.RoutinesIO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.cache.Cache;
 import org.springframework.cache.CacheManager;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
@@ -31,9 +31,6 @@ import org.springframework.stereotype.Service;
 @Slf4j
 @SuppressWarnings("unchecked")
 public class SchedulerService {
-
-	@Value("${cache.animediaSearchList.name}")
-	private String animediaSearchListCacheName;
 
 	@Value("${resources.tempFolder.name}")
 	private String tempFolderName;
@@ -62,60 +59,61 @@ public class SchedulerService {
 
 	@Scheduled(cron = "${resources.check.cron.expression}")
 	private void checkApplicationResources() {
-		log.info("START OF CHECKING CLASSPATH RESOURCES ...");
-		Cache animediaSearchListCache = cacheManager.getCache(animediaSearchListCacheName);
-		Set<AnimediaTitleSearchInfo> animediaSearchList = animediaSearchListCache.get(animediaSearchListCacheName, LinkedHashSet.class);
-		Set<AnimediaTitleSearchInfo> animediaSearchListFresh = animediaService.getAnimediaSearchList();
-		Map<AnimeTypeOnAnimedia, Set<Anime>> allTypes = checkAnimediaSearchListAndSortedAnime(animediaSearchList, animediaSearchListFresh);
+		log.info("START CHECKING TITLES RESOURCES FROM GITHUB ...");
+		Set<AnimediaTitleSearchInfo> animediaSearchListFromAnimedia = animediaService.getAnimediaSearchListFromAnimedia();
+		Set<AnimediaTitleSearchInfo> animediaSearchListFromGitHub = animediaService.getAnimediaSearchListFromGitHub();
+		Map<AnimeTypeOnAnimedia, Set<Anime>> allTypes = checkAnimediaSearchListAndSortedAnime(animediaSearchListFromAnimedia,
+				animediaSearchListFromGitHub);
 		Set<Anime> multiSeasonsAnime = allTypes.get(MULTISEASONS);
 		Set<Anime> singleSeasonAnime = allTypes.get(SINGLESEASON);
-		checkMultiSeasonsReferences(multiSeasonsAnime);
-		checkSingleSeasonTitles(singleSeasonAnime, animediaSearchList);
-		log.info("END OF CHECKING CLASSPATH RESOURCES.");
+		checkReferences(multiSeasonsAnime);
+		checkSingleSeasonTitles(singleSeasonAnime, animediaSearchListFromGitHub);
+		log.info("END CHECKING TITLES RESOURCES FROM GITHUB.");
 	}
 
-	private Map<AnimeTypeOnAnimedia, Set<Anime>> checkAnimediaSearchListAndSortedAnime(Set<AnimediaTitleSearchInfo> animediaSearchList,
-			Set<AnimediaTitleSearchInfo> animediaSearchListFresh) {
+	private Map<AnimeTypeOnAnimedia, Set<Anime>> checkAnimediaSearchListAndSortedAnime(Set<AnimediaTitleSearchInfo> animediaSearchListFromAnimedia,
+			Set<AnimediaTitleSearchInfo> animediaSearchListFromGitHub) {
 		Map<AnimeTypeOnAnimedia, Set<Anime>> allTypes;
-		boolean animediaSearchListUpToDate = animediaService.isAnimediaSearchListUpToDate(animediaSearchList, animediaSearchListFresh);
-		if (animediaSearchListUpToDate) {
+		boolean isAnimediaSearchListFromGitHubUpToDate = animediaService
+				.isAnimediaSearchListUpToDate(animediaSearchListFromGitHub, animediaSearchListFromAnimedia);
+		if (isAnimediaSearchListFromGitHubUpToDate) {
 			allTypes = animediaService.getAnimeSortedByTypeFromResources();
-			log.info("ANIMEDIA SEARCH LIST IS UP-TO-DATE.");
+			log.info("ANIMEDIA SEARCH LIST FROM GITHUB IS UP-TO-DATE.");
 			if (allTypes.isEmpty()) {
-				log.info("START OF CREATING SORTED ANIME BASED ON ANIMEDIA SEARCH LIST FROM RESOURCES ...");
-				allTypes = animediaService.getAnimeSortedByType(animediaSearchList);
-				log.info("END OF CREATING SORTED ANIME BASED ON ANIMEDIA SEARCH LIST FROM RESOURCES.");
+				log.info("START CREATING SORTED ANIME BASED ON ANIMEDIA SEARCH LIST FROM GITHUB ...");
+				allTypes = animediaService.getAnimeSortedByType(animediaSearchListFromGitHub);
+				log.info("END CREATING SORTED ANIME BASED ON ANIMEDIA SEARCH LIST FROM GITHUB.");
 			}
 		} else {
-			log.info("ANIMEDIA SEARCH LIST ISN'T UP-TO-DATE.");
-			log.info("START OF CREATING SORTED ANIME BASED ON FRESH ANIMEDIA SEARCH LIST ...");
-			allTypes = animediaService.getAnimeSortedByType(animediaSearchListFresh);
-			log.info("END OF CREATING SORTED ANIME BASED ON FRESH ANIMEDIA SEARCH LIST.");
+			log.info("ANIMEDIA SEARCH LIST FROM GITHUB ISN'T UP-TO-DATE.");
+			log.info("START CREATING SORTED ANIME BASED ON ANIMEDIA SEARCH LIST FROM ANIMEDIA...");
+			allTypes = animediaService.getAnimeSortedByType(animediaSearchListFromAnimedia);
+			log.info("END CREATING SORTED ANIME BASED ON ANIMEDIA SEARCH LIST FROM ANIMEDIA.");
 		}
 		Set<Anime> singleSeasonAnime = allTypes.get(SINGLESEASON);
 		Set<Anime> multiSeasonsAnime = allTypes.get(MULTISEASONS);
 		Set<Anime> announcements = allTypes.get(ANNOUNCEMENT);
 		Set<AnimediaTitleSearchInfo> notFoundInTheResources = animediaService
-				.checkSortedAnime(singleSeasonAnime, multiSeasonsAnime, announcements, animediaSearchListFresh);
+				.checkSortedAnime(singleSeasonAnime, multiSeasonsAnime, announcements, animediaSearchListFromAnimedia);
 		if (!notFoundInTheResources.isEmpty()) {
 			log.info("SORTED ANIME AREN'T UP-TO-DATE.");
-			log.info("START OF UPDATING SORTED ANIME ...");
-			allTypes = animediaService.getAnimeSortedByType(animediaSearchList);
-			log.info("END OF UPDATING SORTED ANIME.");
+			log.info("START UPDATING SORTED ANIME ...");
+			allTypes = animediaService.getAnimeSortedByType(animediaSearchListFromAnimedia);
+			log.info("END UPDATING SORTED ANIME.");
 		}
 		return allTypes;
 	}
 
-	private void checkMultiSeasonsReferences(Set<Anime> multiSeasonsAnime) {
+	private void checkReferences(Set<Anime> multiSeasonsAnime) {
 		Set<AnimediaMALTitleReferences> allReferences = referencesManager.getMultiSeasonsReferences();
 		boolean referencesAreFull = referencesManager.isReferencesAreFull(multiSeasonsAnime, allReferences);
 		if (referencesAreFull) {
-			log.info("CLASSPATH MULTISEASONS REFERENCES ARE UP-TO-DATE.");
-			log.info("START OF CHECKING MULTISEASONS REFERENCES TITLE NAME ON MAL ...");
+			log.info("REFERENCES ARE UP-TO-DATE.");
+			log.info("START CHECKING REFERENCES TITLE NAME ON MAL ...");
 			Set<AnimediaMALTitleReferences> referencesWithInvalidMALTitleName = new LinkedHashSet<>();
 			for (AnimediaMALTitleReferences reference : allReferences) {
 				String titleOnMAL = reference.getTitleOnMAL();
-				if (!titleOnMAL.equalsIgnoreCase("none")) {
+				if (!titleOnMAL.equalsIgnoreCase(NOT_FOUND_ON_MAL.getDescription())) {
 					boolean titleExist = malService.isTitleExist(titleOnMAL);
 					if (!titleExist) {
 						log.error("TITLE NAME {} FROM {} DOESN'T EXIST!", titleOnMAL, reference);
@@ -126,7 +124,7 @@ public class SchedulerService {
 			if (!referencesWithInvalidMALTitleName.isEmpty()) {
 				marshalToFileInTheTempFolder(tempReferencesWithInvalidMALTitleName, referencesWithInvalidMALTitleName);
 			}
-			log.info("END OF CHECKING MULTISEASONS REFERENCES TITLE NAME ON MAL.");
+			log.info("END CHECKING REFERENCES TITLE NAME ON MAL.");
 		}
 	}
 
@@ -135,7 +133,7 @@ public class SchedulerService {
 				.isAllSingleSeasonAnimeHasConcretizedMALTitleInKeywordsInAnimediaSearchListFromResources(singleSeasonAnime, animediaSearchList);
 		if (allSingleSeasonTitlesHasConcretizedMALName) {
 			log.info("ALL SINGLESEASON ANIME HAS CONCRETIZED MAL NAMES.");
-			log.info("START OF CHECKING SINGLESEASON TITLE NAME ON MAL ...");
+			log.info("START CHECKING SINGLESEASON TITLE NAME ON MAL ...");
 			Set<AnimediaTitleSearchInfo> tempAllSingleSeasonTitles = new LinkedHashSet<>();
 			Pattern pattern = Pattern.compile("[а-яА-Я]");
 			for (Anime x : singleSeasonAnime) {
@@ -158,7 +156,7 @@ public class SchedulerService {
 			if (!searchTitlesWithInvalidMALTitleName.isEmpty()) {
 				marshalToFileInTheTempFolder(tempSearchTitlesWithInvalidMALTitleName, searchTitlesWithInvalidMALTitleName);
 			}
-			log.info("END OF CHECKING SINGLESEASON TITLE NAME ON MAL.");
+			log.info("END CHECKING SINGLESEASON TITLE NAME ON MAL.");
 		}
 	}
 

@@ -20,19 +20,18 @@ import java.util.List;
 import java.util.Set;
 import nasirov.yv.AbstractTest;
 import nasirov.yv.configuration.AppConfiguration;
-import nasirov.yv.http.caller.HttpCaller;
-import nasirov.yv.http.parameter.AnimediaRequestParametersBuilder;
-import nasirov.yv.parser.AnimediaHTMLParser;
-import nasirov.yv.data.response.HttpResponse;
 import nasirov.yv.data.animedia.Anime;
 import nasirov.yv.data.animedia.AnimediaMALTitleReferences;
 import nasirov.yv.data.mal.UserMALTitleInfo;
+import nasirov.yv.data.response.HttpResponse;
+import nasirov.yv.http.caller.HttpCaller;
+import nasirov.yv.http.parameter.AnimediaRequestParametersBuilder;
+import nasirov.yv.parser.AnimediaHTMLParser;
 import nasirov.yv.util.RoutinesIO;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.cache.Cache;
 import org.springframework.cache.CacheManager;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
@@ -64,7 +63,8 @@ public class ReferencesManagerTest extends AbstractTest {
 
 	@Test
 	public void getMultiSeasonsReferences() throws Exception {
-		ReflectionTestUtils.setField(referencesManager, "referencesResourceJson", referencesForTestResource);
+		doReturn(new HttpResponse(RoutinesIO.readFromResource(referencesForTestResource), HttpStatus.OK.value())).when(httpCaller)
+				.call(eq(referencesFromGitHubUrl), eq(HttpMethod.GET), anyMap());
 		List<AnimediaMALTitleReferences> multiSeasonsReferences = new ArrayList<>(referencesManager.getMultiSeasonsReferences());
 		assertNotNull(multiSeasonsReferences);
 		assertEquals(12, multiSeasonsReferences.size());
@@ -73,9 +73,6 @@ public class ReferencesManagerTest extends AbstractTest {
 		for (int i = 0; i < multiSeasonsReferences.size(); i++) {
 			assertEquals(multiSeasonsReferences.get(i), multiSeasonsReferencesList.get(i));
 		}
-		Cache cache = cacheManager.getCache(multiSeasonsReferencesCacheName);
-		assertNotNull(cache);
-		cache.clear();
 	}
 
 	@Test

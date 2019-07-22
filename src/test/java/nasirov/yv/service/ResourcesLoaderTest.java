@@ -1,24 +1,18 @@
 package nasirov.yv.service;
 
 
-import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
-import java.util.LinkedHashSet;
-import java.util.Set;
 import nasirov.yv.AbstractTest;
 import nasirov.yv.configuration.AppConfiguration;
-import nasirov.yv.data.animedia.AnimediaTitleSearchInfo;
 import nasirov.yv.service.context.LoadResourcesContextListener;
-import nasirov.yv.util.RoutinesIO;
 import org.junit.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.cache.CacheManager;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.annotation.DirtiesContext.ClassMode;
+import org.springframework.test.context.TestPropertySource;
 
 /**
  * Created by nasirov.yv
@@ -26,13 +20,15 @@ import org.springframework.test.annotation.DirtiesContext.ClassMode;
 @SpringBootTest(classes = {ResourcesLoader.class, AppConfiguration.class, LoadResourcesContextListener.class})
 @DirtiesContext(classMode = ClassMode.AFTER_EACH_TEST_METHOD)
 @SuppressWarnings("unchecked")
+@TestPropertySource(locations = "classpath:testSystem.properties")
 public class ResourcesLoaderTest extends AbstractTest {
 
 	@MockBean
 	private ReferencesManager referencesManager;
 
-	@Autowired
-	private CacheManager cacheManager;
+	@MockBean
+	private AnimediaService animediaService;
+
 
 	@Test
 	public void loadMultiSeasonsReferences() throws Exception {
@@ -41,11 +37,8 @@ public class ResourcesLoaderTest extends AbstractTest {
 
 	@Test
 	public void loadAnimediaSearchInfoList() throws Exception {
-		Set<AnimediaTitleSearchInfo> animediaSearchListFromResources = RoutinesIO
-				.unmarshalFromResource(resourceAnimediaSearchList, AnimediaTitleSearchInfo.class, LinkedHashSet.class);
-		Set<AnimediaTitleSearchInfo> animediaSearchListFromCache = cacheManager.getCache(animediaSearchListCacheName)
-				.get(animediaSearchListCacheName, LinkedHashSet.class);
-		assertEquals(animediaSearchListFromResources, animediaSearchListFromCache);
+		verify(animediaService, times(1)).getAnimediaSearchListFromAnimedia();
+		verify(animediaService, times(1)).getAnimediaSearchListFromGitHub();
 	}
 
 }

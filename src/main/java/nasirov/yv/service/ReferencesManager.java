@@ -22,11 +22,11 @@ import nasirov.yv.data.response.HttpResponse;
 import nasirov.yv.http.caller.HttpCaller;
 import nasirov.yv.http.parameter.RequestParametersBuilder;
 import nasirov.yv.parser.AnimediaHTMLParser;
+import nasirov.yv.parser.WrappedObjectMapper;
 import nasirov.yv.util.RoutinesIO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Service;
@@ -46,6 +46,9 @@ public class ReferencesManager {
 
 	@Value("${urls.online.animedia.anime.episodes.postfix}")
 	private String animediaEpisodesListPostfix;
+
+	@Value("${urls.raw.githubusercontent.com.references}")
+	private String referencesFromGitHubUrl;
 
 	@Value("${resources.tempFolder.name}")
 	private String tempFolderName;
@@ -75,9 +78,9 @@ public class ReferencesManager {
 	 *
 	 * @return the references
 	 */
-	@Cacheable(value = "multiSeasonsReferencesCache")
 	public Set<AnimediaMALTitleReferences> getMultiSeasonsReferences() {
-		return RoutinesIO.unmarshalFromResource(referencesResourceJson, AnimediaMALTitleReferences.class, LinkedHashSet.class);
+		HttpResponse response = httpCaller.call(referencesFromGitHubUrl, HttpMethod.GET, requestParametersBuilder.build());
+		return WrappedObjectMapper.unmarshal(response.getContent(), AnimediaMALTitleReferences.class, LinkedHashSet.class);
 	}
 
 	/**

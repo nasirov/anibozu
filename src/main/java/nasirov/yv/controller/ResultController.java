@@ -77,9 +77,6 @@ public class ResultController {
 	@Value("${cache.currentlyUpdatedTitles.name}")
 	private String currentlyUpdatedTitlesCacheName;
 
-	@Value("${cache.animediaSearchList.name}")
-	private String animediaSearchListCacheName;
-
 	private MALService malService;
 
 	private AnimediaService animediaService;
@@ -106,7 +103,7 @@ public class ResultController {
 
 	@PostMapping(value = "/result")
 	public String checkResult(@Valid MALUser malUser, Model model) {
-		String username = malUser.getUsername();
+		String username = malUser.getUsername().toLowerCase();
 		model.addAttribute(MODEL_ATTRIBUTE_USERNAME, username);
 		Set<UserMALTitleInfo> watchingTitles;
 		String errorMsg;
@@ -149,8 +146,7 @@ public class ResultController {
 				.getWatchingTitlesWithUpdatedNumberOfWatchedEpisodes(watchingTitles, watchingTitlesFromCache);
 		if (!watchingTitlesWithUpdatedNumberOfWatchedEpisodes.isEmpty()) {
 			seasonAndEpisodeChecker.updateEpisodeNumberForWatchAndFinalUrl(watchingTitlesWithUpdatedNumberOfWatchedEpisodes,
-					matchedAnimeFromCache,
-					animediaService.getAnimediaSearchList(),
+					matchedAnimeFromCache, animediaService.getAnimediaSearchListFromGitHub(),
 					username);
 		}
 		boolean isWatchingTitlesUpdated = malService.isWatchingTitlesUpdated(watchingTitles, watchingTitlesFromCache);
@@ -177,8 +173,7 @@ public class ResultController {
 
 	private void updateWatchingTitlesAndMatchedReferences(Set<AnimediaMALTitleReferences> matchedAnimeFromCache,
 			Set<UserMALTitleInfo> watchingTitlesFromCache, String username) {
-		Cache animediaSearchListCache = cacheManager.getCache(animediaSearchListCacheName);
-		Set<AnimediaTitleSearchInfo> animediaSearchList = animediaSearchListCache.get(animediaSearchListCacheName, LinkedHashSet.class);
+		Set<AnimediaTitleSearchInfo> animediaSearchList = animediaService.getAnimediaSearchListFromGitHub();
 		Iterator<AnimediaMALTitleReferences> iterator = matchedAnimeFromCache.iterator();
 		while (iterator.hasNext()) {
 			AnimediaMALTitleReferences animediaMALTitleReferences = iterator.next();
@@ -204,10 +199,9 @@ public class ResultController {
 	private String handleNewUser(Cache matchedReferencesCache, String username, Set<UserMALTitleInfo> watchingTitles,
 			Set<AnimediaMALTitleReferences> matchedAnimeFromCache, Model model) {
 		animediaService.getCurrentlyUpdatedTitles();
-		Cache animediaSearchListCache = cacheManager.getCache(animediaSearchListCacheName);
-		Set<AnimediaTitleSearchInfo> animediaSearchList = animediaSearchListCache.get(animediaSearchListCacheName, LinkedHashSet.class);
-		Set<AnimediaMALTitleReferences> matchedReferences;
-		matchedReferences = referencesManager.getMatchedReferences(referencesManager.getMultiSeasonsReferences(), watchingTitles);
+		Set<AnimediaTitleSearchInfo> animediaSearchList = animediaService.getAnimediaSearchListFromGitHub();
+		Set<AnimediaMALTitleReferences> matchedReferences = referencesManager
+				.getMatchedReferences(referencesManager.getMultiSeasonsReferences(), watchingTitles);
 		referencesManager.updateReferences(matchedReferences);
 		matchedReferencesCache.put(username, matchedReferences);
 		Set<AnimediaMALTitleReferences> matchedAnime = matchedAnimeFromCache != null ? matchedAnimeFromCache

@@ -24,8 +24,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import nasirov.yv.AbstractTest;
 import nasirov.yv.configuration.AppConfiguration;
-import nasirov.yv.data.animedia.AnimeTypeOnAnimedia;
 import nasirov.yv.data.animedia.Anime;
+import nasirov.yv.data.animedia.AnimeTypeOnAnimedia;
 import nasirov.yv.data.animedia.AnimediaMALTitleReferences;
 import nasirov.yv.data.animedia.AnimediaTitleSearchInfo;
 import nasirov.yv.util.RoutinesIO;
@@ -33,7 +33,6 @@ import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.cache.Cache;
 import org.springframework.cache.CacheManager;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.test.annotation.DirtiesContext;
@@ -67,21 +66,21 @@ public class SchedulerServiceTest extends AbstractTest {
 	@Test
 	public void testCheckApplicationResourcesAllUpToDateButTitlesNotFoundOnMAL() throws NotDirectoryException {
 		RoutinesIO.removeDir(tempFolderName);
-		Set<AnimediaTitleSearchInfo> animediaSearchListFromResources = getAnimediaSearchListFromResources();
-		Cache animediaSearchListCache = cacheManager.getCache(animediaSearchListCacheName);
-		animediaSearchListCache.put(animediaSearchListCacheName, animediaSearchListFromResources);
-		doReturn(animediaSearchListFromResources).when(animediaService).getAnimediaSearchList();
-		doReturn(true).when(animediaService).isAnimediaSearchListUpToDate(eq(animediaSearchListFromResources), eq(animediaSearchListFromResources));
+		Set<AnimediaTitleSearchInfo> animediaSearchListFromAnimedia = getAnimediaSearchListFromResources();
+		Set<AnimediaTitleSearchInfo> animediaSearchListFromGitHub = getAnimediaSearchListFromResources();
+		doReturn(animediaSearchListFromAnimedia).when(animediaService).getAnimediaSearchListFromAnimedia();
+		doReturn(animediaSearchListFromGitHub).when(animediaService).getAnimediaSearchListFromGitHub();
+		doReturn(true).when(animediaService).isAnimediaSearchListUpToDate(eq(animediaSearchListFromGitHub), eq(animediaSearchListFromAnimedia));
 		Map<AnimeTypeOnAnimedia, Set<Anime>> allTypes = getSortedAnime();
 		Set<Anime> single = allTypes.get(SINGLESEASON);
 		Set<Anime> multi = allTypes.get(MULTISEASONS);
 		Set<Anime> announcements = allTypes.get(ANNOUNCEMENT);
 		doReturn(new HashMap<>()).when(animediaService).getAnimeSortedByTypeFromResources();
-		doReturn(allTypes).when(animediaService).getAnimeSortedByType(eq(animediaSearchListFromResources));
+		doReturn(allTypes).when(animediaService).getAnimeSortedByType(eq(animediaSearchListFromGitHub));
 		Set<AnimediaTitleSearchInfo> notFoundInResources = new LinkedHashSet<>();
 		notFoundInResources.add(new AnimediaTitleSearchInfo());
 		doReturn(notFoundInResources).when(animediaService)
-				.checkSortedAnime(eq(single), eq(multi), eq(announcements), eq(animediaSearchListFromResources));
+				.checkSortedAnime(eq(single), eq(multi), eq(announcements), eq(animediaSearchListFromAnimedia));
 		Set<AnimediaMALTitleReferences> allReferences = getAllReferences();
 		doReturn(allReferences).when(referencesManager).getMultiSeasonsReferences();
 		doReturn(true).when(referencesManager).isReferencesAreFull(eq(multi), eq(allReferences));
@@ -89,19 +88,19 @@ public class SchedulerServiceTest extends AbstractTest {
 				.findFirst().get();
 		doReturn(false).when(malService).isTitleExist(eq(animediaMALTitleReference.getTitleOnMAL()));
 		Pattern pattern = Pattern.compile("[а-яА-Я]");
-		AnimediaTitleSearchInfo animediaTitleSearchInfo = animediaSearchListFromResources.stream().filter(title -> {
+		AnimediaTitleSearchInfo animediaTitleSearchInfo = animediaSearchListFromAnimedia.stream().filter(title -> {
 			Matcher matcher = pattern.matcher(title.getKeywords());
 			return !matcher.find() && !title.getKeywords().equals("");
 		}).findFirst().get();
 		Anime singleTitle = new Anime("1.1", animediaOnlineTv + animediaTitleSearchInfo.getUrl() + "/1/1", animediaTitleSearchInfo.getUrl());
 		single.add(singleTitle);
 		doReturn(true).when(animediaService)
-				.isAllSingleSeasonAnimeHasConcretizedMALTitleInKeywordsInAnimediaSearchListFromResources(eq(single), eq(animediaSearchListFromResources));
+				.isAllSingleSeasonAnimeHasConcretizedMALTitleInKeywordsInAnimediaSearchListFromResources(eq(single), eq(animediaSearchListFromAnimedia));
 		doReturn(false).when(malService).isTitleExist(animediaTitleSearchInfo.getKeywords());
 		String scheduledMethod = Arrays.stream(schedulerService.getClass().getDeclaredMethods())
 				.filter(method -> method.isAnnotationPresent(Scheduled.class)).findFirst().get().getName();
 		ReflectionTestUtils.invokeMethod(schedulerService, scheduledMethod);
-		verify(animediaService, times(2)).getAnimeSortedByType(eq(animediaSearchListFromResources));
+		verify(animediaService, times(2)).getAnimeSortedByType(eq(animediaSearchListFromAnimedia));
 		assertTrue(RoutinesIO.isDirectoryExists(tempFolderName));
 		String prefix = tempFolderName + File.separator;
 		Set<AnimediaMALTitleReferences> referencesWithInvalidMALTitleName = RoutinesIO
@@ -116,27 +115,27 @@ public class SchedulerServiceTest extends AbstractTest {
 	@Test
 	public void testCheckApplicationResourcesAllUpToDateButTitlesNotFoundOnMAL1() throws IOException {
 		RoutinesIO.removeDir(tempFolderName);
-		Set<AnimediaTitleSearchInfo> animediaSearchListFromResources = getAnimediaSearchListFromResources();
-		Cache animediaSearchListCache = cacheManager.getCache(animediaSearchListCacheName);
-		animediaSearchListCache.put(animediaSearchListCacheName, animediaSearchListFromResources);
-		Set<AnimediaTitleSearchInfo> animediaSearchListFresh = new LinkedHashSet<>();
-		doReturn(animediaSearchListFresh).when(animediaService).getAnimediaSearchList();
-		doReturn(false).when(animediaService).isAnimediaSearchListUpToDate(eq(animediaSearchListFromResources), eq(animediaSearchListFresh));
+		Set<AnimediaTitleSearchInfo> animediaSearchListFromGitHub = getAnimediaSearchListFromResources();
+		Set<AnimediaTitleSearchInfo> animediaSearchListFromAnimedia = getAnimediaSearchListFromResources();
+		doReturn(animediaSearchListFromAnimedia).when(animediaService).getAnimediaSearchListFromAnimedia();
+		doReturn(animediaSearchListFromGitHub).when(animediaService).getAnimediaSearchListFromGitHub();
+		doReturn(false).when(animediaService).isAnimediaSearchListUpToDate(eq(animediaSearchListFromGitHub), eq(animediaSearchListFromAnimedia));
 		Map<AnimeTypeOnAnimedia, Set<Anime>> allTypes = getSortedAnime();
 		Set<Anime> single = allTypes.get(SINGLESEASON);
 		Set<Anime> multi = allTypes.get(MULTISEASONS);
 		Set<Anime> announcements = allTypes.get(ANNOUNCEMENT);
-		doReturn(allTypes).when(animediaService).getAnimeSortedByType(eq(animediaSearchListFresh));
-		doReturn(new LinkedHashSet<>()).when(animediaService).checkSortedAnime(eq(single), eq(multi), eq(announcements), eq(animediaSearchListFresh));
+		doReturn(allTypes).when(animediaService).getAnimeSortedByType(eq(animediaSearchListFromAnimedia));
+		doReturn(new LinkedHashSet<>()).when(animediaService)
+				.checkSortedAnime(eq(single), eq(multi), eq(announcements), eq(animediaSearchListFromAnimedia));
 		Pattern pattern = Pattern.compile("[а-яА-Я]");
-		AnimediaTitleSearchInfo animediaTitleSearchInfo = animediaSearchListFromResources.stream().filter(title -> {
+		AnimediaTitleSearchInfo animediaTitleSearchInfo = animediaSearchListFromGitHub.stream().filter(title -> {
 			Matcher matcher = pattern.matcher(title.getKeywords());
 			return !matcher.find() && !title.getKeywords().equals("");
 		}).findFirst().get();
 		Anime singleTitle = new Anime("1.1", animediaOnlineTv + animediaTitleSearchInfo.getUrl() + "/1/1", animediaTitleSearchInfo.getUrl());
 		single.add(singleTitle);
 		doReturn(true).when(animediaService)
-				.isAllSingleSeasonAnimeHasConcretizedMALTitleInKeywordsInAnimediaSearchListFromResources(eq(single), eq(animediaSearchListFromResources));
+				.isAllSingleSeasonAnimeHasConcretizedMALTitleInKeywordsInAnimediaSearchListFromResources(eq(single), eq(animediaSearchListFromGitHub));
 		doReturn(false).when(malService).isTitleExist(animediaTitleSearchInfo.getKeywords());
 		String tempFileName = "test123.txt";
 		File tempFile = new File(tempFileName);
@@ -148,7 +147,7 @@ public class SchedulerServiceTest extends AbstractTest {
 				.filter(method -> method.isAnnotationPresent(Scheduled.class)).findFirst().get().getName();
 		ReflectionTestUtils.invokeMethod(schedulerService, scheduledMethod);
 		assertFalse(RoutinesIO.isDirectoryExists(tempFolderName));
-		verify(animediaService, times(1)).getAnimeSortedByType(eq(animediaSearchListFresh));
+		verify(animediaService, times(1)).getAnimeSortedByType(eq(animediaSearchListFromAnimedia));
 		FileSystemUtils.deleteRecursively(tempFile);
 		assertFalse(tempFile.exists());
 	}

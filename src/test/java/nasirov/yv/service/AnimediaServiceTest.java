@@ -11,6 +11,8 @@ import static org.junit.Assert.assertTrue;
 import static org.mockito.ArgumentMatchers.anyMap;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.doReturn;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 
 import java.io.File;
 import java.io.IOException;
@@ -23,14 +25,14 @@ import java.util.Map;
 import java.util.Set;
 import nasirov.yv.AbstractTest;
 import nasirov.yv.configuration.AppConfiguration;
+import nasirov.yv.data.animedia.Anime;
 import nasirov.yv.data.animedia.AnimeTypeOnAnimedia;
+import nasirov.yv.data.animedia.AnimediaMALTitleReferences;
+import nasirov.yv.data.animedia.AnimediaTitleSearchInfo;
+import nasirov.yv.data.response.HttpResponse;
 import nasirov.yv.http.caller.HttpCaller;
 import nasirov.yv.http.parameter.AnimediaRequestParametersBuilder;
 import nasirov.yv.parser.AnimediaHTMLParser;
-import nasirov.yv.data.response.HttpResponse;
-import nasirov.yv.data.animedia.Anime;
-import nasirov.yv.data.animedia.AnimediaMALTitleReferences;
-import nasirov.yv.data.animedia.AnimediaTitleSearchInfo;
 import nasirov.yv.util.RoutinesIO;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -54,6 +56,9 @@ import org.springframework.util.FileSystemUtils;
 @SuppressWarnings("unchecked")
 public class AnimediaServiceTest extends AbstractTest {
 
+	private static final String POSTER_URL_HIGH_QUALITY_QUERY_PARAMETER = "h=350&q=100";
+
+
 	@MockBean
 	private HttpCaller httpCaller;
 
@@ -64,24 +69,30 @@ public class AnimediaServiceTest extends AbstractTest {
 	private AnimediaService animediaService;
 
 	@Test
-	public void testGetAnimediaSearchList() throws Exception {
-		String posterHighQualityQueryParameters = "h=350&q=100";
+	public void testGetAnimediaSearchListFromAnimedia() throws Exception {
 		doReturn(new HttpResponse(RoutinesIO.readFromResource(animediaSearchListFull), HttpStatus.OK.value())).when(httpCaller)
-				.call(eq(animediaAnimeList), eq(HttpMethod.GET), anyMap());
-		Set<AnimediaTitleSearchInfo> animediaSearchList = animediaService.getAnimediaSearchList();
+				.call(eq(animediaAnimeListFromAnimediaUrl), eq(HttpMethod.GET), anyMap());
+		Set<AnimediaTitleSearchInfo> animediaSearchList = animediaService.getAnimediaSearchListFromAnimedia();
 		int fullSize = 787;
 		assertNotNull(animediaSearchList);
 		assertEquals(fullSize, animediaSearchList.size());
 		assertEquals(fullSize, animediaSearchList.stream().filter(set -> set.getUrl().matches("^anime/.+")).count());
 		assertEquals(fullSize,
 				animediaSearchList.stream()
-						.filter(set -> set.getPosterUrl().matches("https://static\\.animedia\\.tv/uploads/.+\\?" + posterHighQualityQueryParameters)).count());
-		Cache cache = cacheManager.getCache(animediaSearchListCacheName);
-		assertNotNull(cache);
-		Set<AnimediaTitleSearchInfo> animediaSearchListFromCache = cache.get(animediaSearchListCacheName, LinkedHashSet.class);
-		assertNotNull(cache);
-		assertEquals(fullSize, animediaSearchListFromCache.size());
-		cache.clear();
+						.filter(set -> set.getPosterUrl().matches("https://static\\.animedia\\.tv/uploads/.+\\?" + POSTER_URL_HIGH_QUALITY_QUERY_PARAMETER))
+						.count());
+		verify(httpCaller, times(1)).call(eq(animediaAnimeListFromAnimediaUrl), eq(HttpMethod.GET), anyMap());
+	}
+
+	@Test
+	public void testGetAnimediaSearchListFromGitHub() throws Exception {
+		doReturn(new HttpResponse(RoutinesIO.readFromResource(animediaSearchListFull), HttpStatus.OK.value())).when(httpCaller)
+				.call(eq(animediaAnimeListFromGitHubUrl), eq(HttpMethod.GET), anyMap());
+		Set<AnimediaTitleSearchInfo> animediaSearchList = animediaService.getAnimediaSearchListFromGitHub();
+		int fullSize = 787;
+		assertNotNull(animediaSearchList);
+		assertEquals(fullSize, animediaSearchList.size());
+		verify(httpCaller, times(1)).call(eq(animediaAnimeListFromGitHubUrl), eq(HttpMethod.GET), anyMap());
 	}
 
 	@Test
@@ -214,34 +225,23 @@ public class AnimediaServiceTest extends AbstractTest {
 	}
 
 	@Test
-	public void testGetAnimeFromClasspath() throws Exception {
-		ReflectionTestUtils.setField(animediaService, "resourceAnnouncementsUrls", announcementsJson);
-		ReflectionTestUtils.setField(animediaService, "resourceMultiSeasonsAnimeUrls", multiSeasonsAnimeUrls);
-		ReflectionTestUtils.setField(animediaService, "resourceSingleSeasonsAnimeUrls", singleSeasonsAnimeUrls);
+	public void testGetAnimeFromEmptyCache() throws Exception {
+		Cache sortedAnimediaSearchListCache = cacheManager.getCache(sortedAnimediaSearchListCacheName);
+		sortedAnimediaSearchListCache.clear();
 		Map<AnimeTypeOnAnimedia, Set<Anime>> sortedAnime = animediaService.getAnimeSortedByTypeFromResources();
 		assertNotNull(sortedAnime);
-		assertEquals(3, sortedAnime.size());
-		List<Anime> single = new ArrayList<>(sortedAnime.get(SINGLESEASON));
-		List<Anime> multi = new ArrayList<>(sortedAnime.get(MULTISEASONS));
-		List<Anime> announcements = new ArrayList<>(sortedAnime.get(ANNOUNCEMENT));
-		assertEquals(2, single.size());
-		assertEquals(6, multi.size());
-		assertEquals(2, announcements.size());
-		Cache cache = cacheManager.getCache(animediaSearchListCacheName);
-		assertNotNull(cache);
-		cache.clear();
+		assertTrue(sortedAnime.isEmpty());
 	}
 
 	@Test
-	public void testGetAnimeFromTempFolder() throws Exception {
-		ReflectionTestUtils.setField(animediaService, "resourceAnnouncementsUrls", announcementsJson);
-		ReflectionTestUtils.setField(animediaService, "resourceMultiSeasonsAnimeUrls", multiSeasonsAnimeUrls);
-		ReflectionTestUtils.setField(animediaService, "resourceSingleSeasonsAnimeUrls", singleSeasonsAnimeUrls);
-		RoutinesIO.mkDir(tempFolderName);
-		String prefix = tempFolderName + File.separator;
-		RoutinesIO.writeToFile(prefix + announcementsJson.getFilename(), RoutinesIO.readFromResource(announcementsJson), false);
-		RoutinesIO.writeToFile(prefix + multiSeasonsAnimeUrls.getFilename(), RoutinesIO.readFromResource(multiSeasonsAnimeUrls), false);
-		RoutinesIO.writeToFile(prefix + singleSeasonsAnimeUrls.getFilename(), RoutinesIO.readFromResource(singleSeasonsAnimeUrls), false);
+	public void testGetAnimeFromCacheNotEmpty() throws Exception {
+		Cache sortedAnimediaSearchListCache = cacheManager.getCache(sortedAnimediaSearchListCacheName);
+		sortedAnimediaSearchListCache
+				.put(SINGLESEASON.getDescription(), RoutinesIO.unmarshalFromResource(singleSeasonsAnimeUrls, Anime.class, LinkedHashSet.class));
+		sortedAnimediaSearchListCache
+				.put(MULTISEASONS.getDescription(), RoutinesIO.unmarshalFromResource(multiSeasonsAnimeUrls, Anime.class, LinkedHashSet.class));
+		sortedAnimediaSearchListCache
+				.put(ANNOUNCEMENT.getDescription(), RoutinesIO.unmarshalFromResource(announcementsJson, Anime.class, LinkedHashSet.class));
 		Map<AnimeTypeOnAnimedia, Set<Anime>> sortedAnime = animediaService.getAnimeSortedByTypeFromResources();
 		assertNotNull(sortedAnime);
 		assertEquals(3, sortedAnime.size());
@@ -251,10 +251,7 @@ public class AnimediaServiceTest extends AbstractTest {
 		assertEquals(2, single.size());
 		assertEquals(6, multi.size());
 		assertEquals(2, announcements.size());
-		Cache cache = cacheManager.getCache(animediaSearchListCacheName);
-		assertNotNull(cache);
-		cache.clear();
-		RoutinesIO.removeDir(tempFolderName);
+		sortedAnimediaSearchListCache.clear();
 	}
 
 	@Test

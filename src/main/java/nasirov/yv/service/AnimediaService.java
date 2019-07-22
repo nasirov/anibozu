@@ -6,7 +6,7 @@ import static nasirov.yv.data.animedia.AnimeTypeOnAnimedia.SINGLESEASON;
 import static nasirov.yv.util.AnimediaUtils.isAnnouncement;
 
 import java.io.File;
-import java.io.FileNotFoundException;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.NotDirectoryException;
 import java.util.ArrayList;
 import java.util.EnumMap;
@@ -38,7 +38,7 @@ import org.springframework.cache.CacheManager;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Service;
-import org.springframework.util.ResourceUtils;
+import org.springframework.web.util.UriUtils;
 
 /**
  * Created by nasirov.yv
@@ -47,6 +47,10 @@ import org.springframework.util.ResourceUtils;
 @Slf4j
 @SuppressWarnings("unchecked")
 public class AnimediaService {
+
+	private static final String POSTER_URL_LOW_QUALITY_QUERY_PARAMETER = "h=70&q=50";
+
+	private static final String POSTER_URL_HIGH_QUALITY_QUERY_PARAMETER = "h=350&q=100";
 
 	@Value("${resources.tempFolder.name}")
 	private String tempFolderName;
@@ -62,9 +66,6 @@ public class AnimediaService {
 
 	@Value("${resources.tempSingleSeasonTitlesWithCyrillicKeywordsInAnimediaSearchList.name}")
 	private String tempSingleSeasonTitlesWithCyrillicKeywordsInAnimediaSearchList;
-
-	@Value("${cache.animediaSearchList.name}")
-	private String animediaSearchListCacheName;
 
 	@Value("${cache.currentlyUpdatedTitles.name}")
 	private String currentlyUpdatedTitlesCacheName;
@@ -83,6 +84,9 @@ public class AnimediaService {
 
 	@Value("${urls.online.animedia.anime.episodes.postfix}")
 	private String animediaEpisodesListPostfix;
+
+	@Value("${urls.raw.githubusercontent.com.animediaSearchList}")
+	private String animediaSearchListFromGitHubUrl;
 
 	@Value("classpath:${resources.multiSeasonsAnimeUrls.name}")
 	private Resource resourceMultiSeasonsAnimeUrls;
@@ -113,23 +117,29 @@ public class AnimediaService {
 	}
 
 	/**
-	 * Searches for the animedia search list
+	 * Searches for fresh animedia search list from animedia
 	 *
-	 * @return the list of title search info on animedia
+	 * @return the list with title search info on animedia
 	 */
-	public Set<AnimediaTitleSearchInfo> getAnimediaSearchList() {
+	public Set<AnimediaTitleSearchInfo> getAnimediaSearchListFromAnimedia() {
 		HttpResponse animediaResponse = httpCaller.call(animediaAnimeList, HttpMethod.GET, requestParametersBuilder.build());
 		Set<AnimediaTitleSearchInfo> animediaSearchList = WrappedObjectMapper
 				.unmarshal(animediaResponse.getContent(), AnimediaTitleSearchInfo.class, LinkedHashSet.class);
-		String posterLowQualityQueryParameters = "h=70&q=50";
-		String posterHighQualityQueryParameters = "h=350&q=100";
-		animediaSearchList.forEach(set -> {
-			set.setUrl(set.getUrl().replaceAll(animediaOnlineTv, "").replace("[", "%5B").replace("]", "%5D"));
-			set.setPosterUrl(set.getPosterUrl().replace(posterLowQualityQueryParameters, posterHighQualityQueryParameters));
+		animediaSearchList.forEach(title -> {
+			title.setUrl(UriUtils.encodePath(title.getUrl().replaceAll(animediaOnlineTv, ""), StandardCharsets.UTF_8));
+			title.setPosterUrl(title.getPosterUrl().replace(POSTER_URL_LOW_QUALITY_QUERY_PARAMETER, POSTER_URL_HIGH_QUALITY_QUERY_PARAMETER));
 		});
-		Cache animediaSearchListCache = cacheManager.getCache(animediaSearchListCacheName);
-		animediaSearchListCache.putIfAbsent(animediaSearchListCacheName, animediaSearchList);
 		return animediaSearchList;
+	}
+
+	/**
+	 * Searches for fresh animedia search list from github
+	 *
+	 * @return the list with title search info on animedia
+	 */
+	public Set<AnimediaTitleSearchInfo> getAnimediaSearchListFromGitHub() {
+		HttpResponse animediaResponse = httpCaller.call(animediaSearchListFromGitHubUrl, HttpMethod.GET, requestParametersBuilder.build());
+		return WrappedObjectMapper.unmarshal(animediaResponse.getContent(), AnimediaTitleSearchInfo.class, LinkedHashSet.class);
 	}
 
 	/**
@@ -208,28 +218,19 @@ public class AnimediaService {
 	 * @return map with singleseason anime, multiseasons anime and announcements
 	 */
 	public Map<AnimeTypeOnAnimedia, Set<Anime>> getAnimeSortedByTypeFromResources() {
-		Set<Anime> singleSeasonAnime;
-		Set<Anime> multiSeasonsAnime;
-		Set<Anime> announcements;
+		Cache sortedAnimediaSearchListCache = cacheManager.getCache(sortedAnimediaSearchListCacheName);
+		Set<Anime> singleSeasonAnime = sortedAnimediaSearchListCache.get(SINGLESEASON.getDescription(), LinkedHashSet.class);
+		Set<Anime> multiSeasonsAnime = sortedAnimediaSearchListCache.get(MULTISEASONS.getDescription(), LinkedHashSet.class);
+		Set<Anime> announcements = sortedAnimediaSearchListCache.get(ANNOUNCEMENT.getDescription(), LinkedHashSet.class);
 		EnumMap<AnimeTypeOnAnimedia, Set<Anime>> allSeasons = new EnumMap<>(AnimeTypeOnAnimedia.class);
-		if (isUpdatedSortedAnimeResourcesExists(resourceAnnouncementsUrls.getFilename()) && isUpdatedSortedAnimeResourcesExists(
-				resourceMultiSeasonsAnimeUrls.getFilename()) && isUpdatedSortedAnimeResourcesExists(resourceSingleSeasonsAnimeUrls.getFilename())) {
-			log.info("LOADING UPDATED SORTED ANIME FROM THE RESOURCES ...");
-			String prefix = tempFolderName + File.separator;
-			singleSeasonAnime = RoutinesIO.unmarshalFromFile(prefix + resourceSingleSeasonsAnimeUrls.getFilename(), Anime.class, LinkedHashSet.class);
-			multiSeasonsAnime = RoutinesIO.unmarshalFromFile(prefix + resourceMultiSeasonsAnimeUrls.getFilename(), Anime.class, LinkedHashSet.class);
-			announcements = RoutinesIO.unmarshalFromFile(prefix + resourceAnnouncementsUrls.getFilename(), Anime.class, LinkedHashSet.class);
-			handleResults(allSeasons, singleSeasonAnime, multiSeasonsAnime, announcements);
-			log.info("UPDATED SORTED ANIME ARE SUCCESSFULLY LOADED FROM THE RESOURCES.");
-		} else if (resourceAnnouncementsUrls.exists() && resourceMultiSeasonsAnimeUrls.exists() && resourceSingleSeasonsAnimeUrls.exists()) {
-			log.info("LOADING SORTED ANIME FROM THE RESOURCES ...");
-			singleSeasonAnime = RoutinesIO.unmarshalFromResource(resourceSingleSeasonsAnimeUrls, Anime.class, LinkedHashSet.class);
-			multiSeasonsAnime = RoutinesIO.unmarshalFromResource(resourceMultiSeasonsAnimeUrls, Anime.class, LinkedHashSet.class);
-			announcements = RoutinesIO.unmarshalFromResource(resourceAnnouncementsUrls, Anime.class, LinkedHashSet.class);
-			handleResults(allSeasons, singleSeasonAnime, multiSeasonsAnime, announcements);
-			log.info("SORTED ANIME ARE SUCCESSFULLY LOADED FROM THE RESOURCES.");
+		if (singleSeasonAnime != null && multiSeasonsAnime != null && announcements != null) {
+			log.info("LOADING SORTED ANIME FROM CACHE ...");
+			allSeasons.put(SINGLESEASON, singleSeasonAnime);
+			allSeasons.put(MULTISEASONS, multiSeasonsAnime);
+			allSeasons.put(ANNOUNCEMENT, announcements);
+			log.info("SORTED ANIME ARE SUCCESSFULLY LOADED FROM CACHE.");
 		} else {
-			log.warn("SORTED ANIME ARE NOT FOUND IN ANY RESOURCES!");
+			log.info("SORTED ANIME ARE NOT FOUND IN CACHE!");
 			return allSeasons;
 		}
 		return allSeasons;
@@ -391,28 +392,6 @@ public class AnimediaService {
 		sortedAnimediaSearchListCache.put(SINGLESEASON.getDescription(), single);
 		sortedAnimediaSearchListCache.put(MULTISEASONS.getDescription(), multi);
 		sortedAnimediaSearchListCache.put(ANNOUNCEMENT.getDescription(), announcement);
-	}
-
-	private void handleResults(Map<AnimeTypeOnAnimedia, Set<Anime>> allSeasons, Set<Anime> singleSeasonAnime, Set<Anime> multiSeasonsAnime,
-			Set<Anime> announcements) {
-		allSeasons.put(SINGLESEASON, singleSeasonAnime);
-		allSeasons.put(MULTISEASONS, multiSeasonsAnime);
-		allSeasons.put(ANNOUNCEMENT, announcements);
-		Cache sortedAnimediaSearchListCache = cacheManager.getCache(sortedAnimediaSearchListCacheName);
-		sortedAnimediaSearchListCache.put(SINGLESEASON.getDescription(), singleSeasonAnime);
-		sortedAnimediaSearchListCache.put(MULTISEASONS.getDescription(), multiSeasonsAnime);
-		sortedAnimediaSearchListCache.put(ANNOUNCEMENT.getDescription(), announcements);
-	}
-
-	private boolean isUpdatedSortedAnimeResourcesExists(String filename) {
-		String prefix = tempFolderName + File.separator;
-		boolean isExists = false;
-		try {
-			isExists = ResourceUtils.getFile(prefix + filename).exists();
-		} catch (FileNotFoundException e) {
-			log.error("FILE {} IS NOT FOUND!", filename);
-		}
-		return isExists;
 	}
 
 	private void handleSingleSeasonAnime(String url, String dataList, String maxEpisodeInDataList, Set<Anime> single, int singleSeasonCount,
