@@ -20,7 +20,6 @@ import nasirov.yv.data.animedia.AnimediaTitleSearchInfo;
 import nasirov.yv.util.RoutinesIO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.cache.CacheManager;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
@@ -45,15 +44,12 @@ public class SchedulerService {
 
 	private AnimediaService animediaService;
 
-	private CacheManager cacheManager;
-
 	private MALService malService;
 
 	@Autowired
-	public SchedulerService(ReferencesManager referencesManager, AnimediaService animediaService, CacheManager cacheManager, MALService malService) {
+	public SchedulerService(ReferencesManager referencesManager, AnimediaService animediaService, MALService malService) {
 		this.referencesManager = referencesManager;
 		this.animediaService = animediaService;
-		this.cacheManager = cacheManager;
 		this.malService = malService;
 	}
 
