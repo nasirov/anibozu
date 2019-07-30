@@ -1,5 +1,6 @@
 package nasirov.yv.service;
 
+import static nasirov.yv.TestUtils.getEpisodesRange;
 import static nasirov.yv.data.enums.Constants.EPISODE_NUMBER_FOR_WATCH_VALUE_IF_EPISODE_IS_NOT_AVAILABLE;
 import static nasirov.yv.data.enums.Constants.FINAL_URL_VALUE_IF_EPISODE_IS_NOT_AVAILABLE;
 import static nasirov.yv.data.enums.Constants.FIRST_DATA_LIST;
@@ -19,6 +20,7 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
@@ -286,6 +288,8 @@ public class SeasonAndEpisodeCheckerTest extends AbstractTest {
 				"onePieceAnimeUrl");
 		watchingTitles.add(addedTitleInUserCachedPeriod);
 		Set<AnimediaTitleSearchInfo> animediaSearchList = getAnimediaSearchList();
+		doAnswer((x)->{notUpdatedReference.setEpisodesRange(getEpisodesRange("1","10"));return Void.TYPE;}).when(referencesManager).updateReferences
+				(anySet());
 		seasonAndEpisodeChecker.getMatchedAnime(watchingTitles, multiSeasonsReferencesList, animediaSearchList, USERNAME);
 		verify(referencesManager, times(1)).updateReferences(anySet());
 		assertEquals(addedTitleInUserCachedPeriod.getPosterUrl(), notUpdatedReference.getPosterUrl());
@@ -325,6 +329,39 @@ public class SeasonAndEpisodeCheckerTest extends AbstractTest {
 		assertEquals(EPISODE_NUMBER_FOR_WATCH_VALUE_IF_EPISODE_IS_NOT_AVAILABLE.getDescription(), matchedAnime.getEpisodeNumberForWatch());
 		assertEquals(null, matchedAnime.getMinConcretizedEpisodeOnMAL());
 		assertEquals(null, matchedAnime.getMaxConcretizedEpisodeOnMAL());
+	}
+
+	@Test
+	public void getMatchedAnimeJoinedEpisodeIsPresent() {
+		String rootUrl = "anime/someAnime";
+		doReturn(new HttpResponse(RoutinesIO.readFromResource(htmlWithAnnouncement), HttpStatus.OK.value())).when(httpCaller)
+				.call(eq(animediaOnlineTv + rootUrl), eq(HttpMethod.GET), anyMap());
+		String titleOnMal = "some name";
+		Set<AnimediaMALTitleReferences> multiSeasonsReferencesList = new LinkedHashSet<>();
+		AnimediaMALTitleReferences references = AnimediaMALTitleReferences.builder().url(rootUrl).dataList("1").minConcretizedEpisodeOnAnimedia("1")
+				.titleOnMAL(titleOnMal).firstEpisode("1").maxConcretizedEpisodeOnAnimedia("6").currentMax("6").posterUrl("nwm")
+				.episodesRange(Arrays.asList("1","2","3","4-5","6")).build();
+		multiSeasonsReferencesList.add(references);
+		Set<UserMALTitleInfo> watchingTitles = new LinkedHashSet<>();
+		int numOfWatchedEpisodes = 3;
+		UserMALTitleInfo title = new UserMALTitleInfo(0,
+				WATCHING.getCode(),
+				numOfWatchedEpisodes,
+				titleOnMal,
+				0,
+				myAnimeListStaticContentUrl + "titleOnMal",
+				titleOnMal + "AnimeUrl");
+		watchingTitles.add(title);
+		Set<AnimediaMALTitleReferences> matchedAnime = seasonAndEpisodeChecker
+				.getMatchedAnime(watchingTitles, multiSeasonsReferencesList, new LinkedHashSet<>(), USERNAME);
+		assertEquals(String.valueOf(numOfWatchedEpisodes+1), matchedAnime.stream().findFirst().get().getEpisodeNumberForWatch());
+		assertEquals(animediaOnlineTv + rootUrl + "/" + "1/" + String.valueOf(numOfWatchedEpisodes+1), matchedAnime.stream().findFirst().get().getFinalUrl());
+		numOfWatchedEpisodes = 4;
+		title.setNumWatchedEpisodes(numOfWatchedEpisodes);
+		matchedAnime = seasonAndEpisodeChecker
+				.getMatchedAnime(watchingTitles, multiSeasonsReferencesList, new LinkedHashSet<>(), USERNAME);
+		assertEquals(String.valueOf(numOfWatchedEpisodes+1), matchedAnime.stream().findFirst().get().getEpisodeNumberForWatch());
+		assertEquals(animediaOnlineTv + rootUrl + "/" + "1/" + numOfWatchedEpisodes, matchedAnime.stream().findFirst().get().getFinalUrl());
 	}
 
 	@Test
@@ -617,7 +654,7 @@ public class SeasonAndEpisodeCheckerTest extends AbstractTest {
 		UserMALTitleInfo tokyoGhoul = new UserMALTitleInfo(0, WATCHING.getCode(), 0, tokyoGhoulTitle, animeNumEpisodes, posterUrl, "tokyoGhoulAnimeUrl");
 		AnimediaMALTitleReferences tokyoGhoulReference = AnimediaMALTitleReferences.builder().url(tokyoGhoulUrl).titleOnMAL(tokyoGhoulTitle).dataList
 				("1")
-				.firstEpisode("1").minConcretizedEpisodeOnAnimedia("1").maxConcretizedEpisodeOnAnimedia("12").currentMax("12").posterUrl(posterUrl).build();
+				.firstEpisode("1").minConcretizedEpisodeOnAnimedia("1").maxConcretizedEpisodeOnAnimedia("12").currentMax("12").episodesRange(getEpisodesRange("1","12")).posterUrl(posterUrl).build();
 		checkUpdatedMatchedReferences(tokyoGhoul, tokyoGhoulReference);
 	}
 
@@ -630,7 +667,7 @@ public class SeasonAndEpisodeCheckerTest extends AbstractTest {
 		String posterUrl = myAnimeListStaticContentUrl + "fairyTailPosterUrl";
 		UserMALTitleInfo fairyTail = new UserMALTitleInfo(0, WATCHING.getCode(), 0, fairyTailTitle, animeNumEpisodes, posterUrl, "fairyTailAnimeUrl");
 		AnimediaMALTitleReferences fairyTailReference = AnimediaMALTitleReferences.builder().url(fairyTailUrl).titleOnMAL(fairyTailTitle).dataList("2")
-				.firstEpisode("176").minConcretizedEpisodeOnAnimedia("176").maxConcretizedEpisodeOnAnimedia("277").currentMax("277").posterUrl(posterUrl)
+				.firstEpisode("176").minConcretizedEpisodeOnAnimedia("176").maxConcretizedEpisodeOnAnimedia("277").currentMax("277").posterUrl(posterUrl).episodesRange(getEpisodesRange("176","277"))
 				.build();
 		checkUpdatedMatchedReferences(fairyTail, fairyTailReference);
 	}
@@ -902,21 +939,22 @@ public class SeasonAndEpisodeCheckerTest extends AbstractTest {
 		Set<AnimediaMALTitleReferences> references = new LinkedHashSet<>();
 		String onePiecePosterUrl = myAnimeListStaticContentUrl + ONE_PIECE_POSTER_URL;
 		AnimediaMALTitleReferences onePiece1 = AnimediaMALTitleReferences.builder().url(ONE_PIECE_URL).dataList("1").minConcretizedEpisodeOnAnimedia("1")
-				.titleOnMAL(ONE_PIECE_NAME).firstEpisode("1").maxConcretizedEpisodeOnAnimedia("175").currentMax("175").posterUrl(onePiecePosterUrl).build();
+				.titleOnMAL(ONE_PIECE_NAME).firstEpisode("1").maxConcretizedEpisodeOnAnimedia("175").currentMax("175").posterUrl(onePiecePosterUrl)
+				.episodesRange(getEpisodesRange("1","175")).build();
 		AnimediaMALTitleReferences onePiece2 = AnimediaMALTitleReferences.builder().url(ONE_PIECE_URL).dataList("2")
 				.minConcretizedEpisodeOnAnimedia("176").titleOnMAL(ONE_PIECE_NAME).firstEpisode("176").maxConcretizedEpisodeOnAnimedia("351")
-				.currentMax("351").posterUrl(onePiecePosterUrl).build();
+				.currentMax("351").posterUrl(onePiecePosterUrl).episodesRange(getEpisodesRange("176","351")).build();
 		AnimediaMALTitleReferences onePiece3 = AnimediaMALTitleReferences.builder().url(ONE_PIECE_URL).dataList("3")
 				.minConcretizedEpisodeOnAnimedia("352").titleOnMAL(ONE_PIECE_NAME).firstEpisode("352").maxConcretizedEpisodeOnAnimedia("527")
-				.currentMax("527").posterUrl(onePiecePosterUrl).build();
+				.currentMax("527").posterUrl(onePiecePosterUrl).episodesRange(getEpisodesRange("352","527")).build();
 		AnimediaMALTitleReferences onePiece4 = AnimediaMALTitleReferences.builder().url(ONE_PIECE_URL).dataList("4")
 				.minConcretizedEpisodeOnAnimedia("528").titleOnMAL(ONE_PIECE_NAME).firstEpisode("528").maxConcretizedEpisodeOnAnimedia("700")
-				.currentMax("700").posterUrl(onePiecePosterUrl).build();
+				.currentMax("700").posterUrl(onePiecePosterUrl).episodesRange(getEpisodesRange("528","700")).build();
 		AnimediaMALTitleReferences onePiece5 = AnimediaMALTitleReferences.builder().url(ONE_PIECE_URL).dataList("5")
 				.minConcretizedEpisodeOnAnimedia("701").titleOnMAL(ONE_PIECE_NAME).firstEpisode("701").maxConcretizedEpisodeOnAnimedia("xxx")
-				.currentMax("870").posterUrl(onePiecePosterUrl).build();
+				.currentMax("870").posterUrl(onePiecePosterUrl).episodesRange(getEpisodesRange("701","870")).build();
 		AnimediaMALTitleReferences onePunchMan7_7 = AnimediaMALTitleReferences.builder().url(ONE_PUNCH_MAN_URL).dataList("7")
-				.minConcretizedEpisodeOnAnimedia("7").titleOnMAL(ONE_PUNCH_MAN_ROAD_TO_HERO).firstEpisode("7").maxConcretizedEpisodeOnAnimedia("7")
+				.titleOnMAL(ONE_PUNCH_MAN_ROAD_TO_HERO).firstEpisode("7").minConcretizedEpisodeOnAnimedia("7").maxConcretizedEpisodeOnAnimedia("7")
 				.currentMax("7").posterUrl(myAnimeListStaticContentUrl + ONEPUNCHMAN_POSTER_URL).minConcretizedEpisodeOnMAL("1")
 				.maxConcretizedEpisodeOnMAL("1").build();
 		AnimediaMALTitleReferences onePunchManSpecials = AnimediaMALTitleReferences.builder().url(ONE_PUNCH_MAN_URL).dataList("7")
@@ -925,7 +963,7 @@ public class SeasonAndEpisodeCheckerTest extends AbstractTest {
 				.maxConcretizedEpisodeOnMAL("6").build();
 		AnimediaMALTitleReferences sao1 = AnimediaMALTitleReferences.builder().url(SAO_1_URL).dataList("1").minConcretizedEpisodeOnAnimedia("1")
 				.titleOnMAL(SAO_1_TITLE).firstEpisode("1").maxConcretizedEpisodeOnAnimedia("12").currentMax("12")
-				.posterUrl(myAnimeListStaticContentUrl + SAO_1_POSTER_URL).build();
+				.posterUrl(myAnimeListStaticContentUrl + SAO_1_POSTER_URL).episodesRange(getEpisodesRange("1","12")).build();
 		AnimediaMALTitleReferences tamayura1_2 = AnimediaMALTitleReferences.builder().url(TAMAYURA_URL).dataList("2").minConcretizedEpisodeOnAnimedia
 				("1")
 				.titleOnMAL(TAMAYURA).firstEpisode("1").maxConcretizedEpisodeOnAnimedia("1").currentMax("1")

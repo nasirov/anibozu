@@ -146,7 +146,8 @@ public class ResultController {
 				.getWatchingTitlesWithUpdatedNumberOfWatchedEpisodes(watchingTitles, watchingTitlesFromCache);
 		if (!watchingTitlesWithUpdatedNumberOfWatchedEpisodes.isEmpty()) {
 			seasonAndEpisodeChecker.updateEpisodeNumberForWatchAndFinalUrl(watchingTitlesWithUpdatedNumberOfWatchedEpisodes,
-					matchedAnimeFromCache, animediaService.getAnimediaSearchListFromGitHub(),
+					matchedAnimeFromCache,
+					animediaService.getAnimediaSearchListFromGitHub(),
 					username);
 		}
 		boolean isWatchingTitlesUpdated = malService.isWatchingTitlesUpdated(watchingTitles, watchingTitlesFromCache);

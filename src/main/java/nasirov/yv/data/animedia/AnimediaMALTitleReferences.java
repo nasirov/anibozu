@@ -1,5 +1,6 @@
 package nasirov.yv.data.animedia;
 
+import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -77,6 +78,16 @@ public class AnimediaMALTitleReferences {
 	 */
 	private String maxConcretizedEpisodeOnMAL;
 
+	/**
+	 * Episodes range from min to max
+	 * It can contain joined episodes
+	 * In order to create correct episode number for watch, we must check this episodes range for joined episodes
+	 * because if it is joined than episode number in a final url will constant for all joined episodes availability
+	 * For example, 215-216 (https://online.animedia.tv/ajax/episodes/9649/2/undefined)
+	 * Final url for both episodes(1 video) https://online.animedia.tv/anime/one-piece-van-pis-tv/2/215
+	 */
+	private List<String> episodesRange;
+
 	public AnimediaMALTitleReferences(AnimediaMALTitleReferences animediaMALTitleReference) {
 		this.url = animediaMALTitleReference.getUrl();
 		this.dataList = animediaMALTitleReference.getDataList();
@@ -90,5 +101,6 @@ public class AnimediaMALTitleReferences {
 		this.episodeNumberForWatch = animediaMALTitleReference.getEpisodeNumberForWatch();
 		this.minConcretizedEpisodeOnMAL = animediaMALTitleReference.getMinConcretizedEpisodeOnMAL();
 		this.maxConcretizedEpisodeOnMAL = animediaMALTitleReference.getMaxConcretizedEpisodeOnMAL();
+		this.episodesRange = animediaMALTitleReference.getEpisodesRange();
 	}
 }

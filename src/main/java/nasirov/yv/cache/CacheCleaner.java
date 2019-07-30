@@ -32,7 +32,7 @@ public class CacheCleaner {
 		this.cacheManager = cacheManager;
 	}
 
-	@Scheduled(cron = "${cache.cron.expression}")
+//	@Scheduled(cron = "${cache.cron.expression}")
 	public void clearCache() {
 		clearAndLog(cacheManager, userMALCacheName);
 		clearAndLog(cacheManager, userMatchedAnimeCacheName);

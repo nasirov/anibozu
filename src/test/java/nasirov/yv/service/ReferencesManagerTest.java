@@ -1,5 +1,7 @@
 package nasirov.yv.service;
 
+import static nasirov.yv.TestUtils.getEpisodesRange;
+import static nasirov.yv.data.enums.Constants.NOT_FOUND_ON_MAL;
 import static nasirov.yv.data.mal.MALAnimeStatus.WATCHING;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -15,8 +17,11 @@ import static org.mockito.Mockito.verify;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.LinkedHashSet;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import nasirov.yv.AbstractTest;
 import nasirov.yv.configuration.AppConfiguration;
@@ -32,7 +37,6 @@ import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.cache.CacheManager;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.test.annotation.DirtiesContext;
@@ -42,7 +46,8 @@ import org.springframework.util.FileSystemUtils;
 /**
  * Created by nasirov.yv
  */
-@SpringBootTest(classes = {ReferencesManager.class, AnimediaRequestParametersBuilder.class, AnimediaHTMLParser.class, AppConfiguration.class})
+//@SpringBootTest(classes = {ReferencesManager.class, AnimediaRequestParametersBuilder.class, AnimediaHTMLParser.class, AppConfiguration.class})
+@SpringBootTest(classes = {ReferencesManager.class, AnimediaRequestParametersBuilder.class, AppConfiguration.class})
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_CLASS)
 public class ReferencesManagerTest extends AbstractTest {
 
@@ -55,8 +60,8 @@ public class ReferencesManagerTest extends AbstractTest {
 	@MockBean
 	private HttpCaller httpCaller;
 
-	@Autowired
-	private CacheManager cacheManager;
+	@MockBean
+	private AnimediaHTMLParser animediaHTMLParser;
 
 	@Autowired
 	private ReferencesManager referencesManager;
@@ -79,30 +84,91 @@ public class ReferencesManagerTest extends AbstractTest {
 	public void updateReferences() throws Exception {
 		String fairyTailId = "9480";
 		String titansId = "9302";
-		doReturn(new HttpResponse(RoutinesIO.readFromResource(fairyTailHtml), HttpStatus.OK.value())).when(httpCaller)
-				.call(eq(animediaOnlineTv + FAIRY_TAIL_ROOT_URL), eq(HttpMethod.GET), anyMap());
-		doReturn(new HttpResponse(RoutinesIO.readFromResource(saoHtml), HttpStatus.OK.value())).when(httpCaller)
-				.call(eq(animediaOnlineTv + SAO_ROOT_URL), eq(HttpMethod.GET), anyMap());
-		doReturn(new HttpResponse(RoutinesIO.readFromResource(titansHtml), HttpStatus.OK.value())).when(httpCaller)
-				.call(eq(animediaOnlineTv + TITANS_ROOT_URL), eq(HttpMethod.GET), anyMap());
-		doReturn(new HttpResponse(RoutinesIO.readFromResource(fairyTailDataList1), HttpStatus.OK.value())).when(httpCaller)
+		HttpResponse fairyTailResponse = new HttpResponse(RoutinesIO.readFromResource(fairyTailHtml), HttpStatus.OK.value());
+		HttpResponse saoHtmlResponse = new HttpResponse(RoutinesIO.readFromResource(saoHtml), HttpStatus.OK.value());
+		HttpResponse titansHtmlResponse = new HttpResponse(RoutinesIO.readFromResource(titansHtml), HttpStatus.OK.value());
+		HttpResponse fairyTailDataList1Response = new HttpResponse(RoutinesIO.readFromResource(fairyTailDataList1), HttpStatus.OK.value());
+		HttpResponse fairyTailDataList2Response = new HttpResponse(RoutinesIO.readFromResource(fairyTailDataList2), HttpStatus.OK.value());
+		HttpResponse fairyTailDataList3Response = new HttpResponse(RoutinesIO.readFromResource(fairyTailDataList3), HttpStatus.OK.value());
+		HttpResponse fairyTailDataList7Response = new HttpResponse(RoutinesIO.readFromResource(fairyTailDataList7), HttpStatus.OK.value());
+		HttpResponse saoDataList1Response = new HttpResponse(RoutinesIO.readFromResource(saoDataList1), HttpStatus.OK.value());
+		HttpResponse saoDataList2Response = new HttpResponse(RoutinesIO.readFromResource(saoDataList2), HttpStatus.OK.value());
+		HttpResponse saoDataList3Response = new HttpResponse(RoutinesIO.readFromResource(saoDataList3), HttpStatus.OK.value());
+		HttpResponse saoDataList7Response = new HttpResponse(RoutinesIO.readFromResource(saoDataList7), HttpStatus.OK.value());
+		HttpResponse titans3ConcretizedAndOngoingResponse = new HttpResponse(RoutinesIO.readFromResource(titans3ConcretizedAndOngoing),
+				HttpStatus.OK.value());
+		doReturn(fairyTailResponse).when(httpCaller).call(eq(animediaOnlineTv + FAIRY_TAIL_ROOT_URL), eq(HttpMethod.GET), anyMap());
+		doReturn(saoHtmlResponse).when(httpCaller).call(eq(animediaOnlineTv + SAO_ROOT_URL), eq(HttpMethod.GET), anyMap());
+		doReturn(titansHtmlResponse).when(httpCaller).call(eq(animediaOnlineTv + TITANS_ROOT_URL), eq(HttpMethod.GET), anyMap());
+		doReturn(fairyTailDataList1Response).when(httpCaller)
 				.call(eq(animediaEpisodesList + fairyTailId + "/" + "1" + animediaEpisodesListPostfix), eq(HttpMethod.GET), anyMap());
-		doReturn(new HttpResponse(RoutinesIO.readFromResource(fairyTailDataList2), HttpStatus.OK.value())).when(httpCaller)
+		doReturn(fairyTailDataList2Response).when(httpCaller)
 				.call(eq(animediaEpisodesList + fairyTailId + "/" + "2" + animediaEpisodesListPostfix), eq(HttpMethod.GET), anyMap());
-		doReturn(new HttpResponse(RoutinesIO.readFromResource(fairyTailDataList3), HttpStatus.OK.value())).when(httpCaller)
+		doReturn(fairyTailDataList3Response).when(httpCaller)
 				.call(eq(animediaEpisodesList + fairyTailId + "/" + "3" + animediaEpisodesListPostfix), eq(HttpMethod.GET), anyMap());
-		doReturn(new HttpResponse(RoutinesIO.readFromResource(fairyTailDataList7), HttpStatus.OK.value())).when(httpCaller)
+		doReturn(fairyTailDataList7Response).when(httpCaller)
 				.call(eq(animediaEpisodesList + fairyTailId + "/" + "7" + animediaEpisodesListPostfix), eq(HttpMethod.GET), anyMap());
-		doReturn(new HttpResponse(RoutinesIO.readFromResource(saoDataList1), HttpStatus.OK.value())).when(httpCaller)
+		doReturn(saoDataList1Response).when(httpCaller)
 				.call(eq(animediaEpisodesList + SAO_ID + "/" + "1" + animediaEpisodesListPostfix), eq(HttpMethod.GET), anyMap());
-		doReturn(new HttpResponse(RoutinesIO.readFromResource(saoDataList2), HttpStatus.OK.value())).when(httpCaller)
+		doReturn(saoDataList2Response).when(httpCaller)
 				.call(eq(animediaEpisodesList + SAO_ID + "/" + "2" + animediaEpisodesListPostfix), eq(HttpMethod.GET), anyMap());
-		doReturn(new HttpResponse(RoutinesIO.readFromResource(saoDataList3), HttpStatus.OK.value())).when(httpCaller)
+		doReturn(saoDataList3Response).when(httpCaller)
 				.call(eq(animediaEpisodesList + SAO_ID + "/" + "3" + animediaEpisodesListPostfix), eq(HttpMethod.GET), anyMap());
-		doReturn(new HttpResponse(RoutinesIO.readFromResource(saoDataList7), HttpStatus.OK.value())).when(httpCaller)
+		doReturn(saoDataList7Response).when(httpCaller)
 				.call(eq(animediaEpisodesList + SAO_ID + "/" + "7" + animediaEpisodesListPostfix), eq(HttpMethod.GET), anyMap());
-		doReturn(new HttpResponse(RoutinesIO.readFromResource(titans3ConcretizedAndOngoing), HttpStatus.OK.value())).when(httpCaller)
+		doReturn(titans3ConcretizedAndOngoingResponse).when(httpCaller)
 				.call(eq(animediaEpisodesList + titansId + "/" + "3" + animediaEpisodesListPostfix), eq(HttpMethod.GET), anyMap());
+		Map<String, Map<String, String>> fairyTailEpisodesRangeAnimeIdSeasonsAndEpisodes = new HashMap<>();
+		Map<String, Map<String, String>> saoHtmlEpisodesRangeAnimeIdSeasonsAndEpisodes = new HashMap<>();
+		Map<String, Map<String, String>> titansHtmlEpisodesRangeAnimeIdSeasonsAndEpisodes = new HashMap<>();
+		Map<String, String> fairyTailSeasonsAndEpisodes = new HashMap<>();
+		Map<String, String> saoSeasonsAndEpisodes = new HashMap<>();
+		Map<String, String> titansSeasonsAndEpisodes = new HashMap<>();
+		Map<String, List<String>> fairyTailDataList1EpisodesRange = new HashMap<>();
+		Map<String, List<String>> fairyTailDataList2EpisodesRange = new HashMap<>();
+		Map<String, List<String>> fairyTailDataList3EpisodesRange = new HashMap<>();
+		Map<String, List<String>> fairyTailDataList7EpisodesRange = new HashMap<>();
+		Map<String, List<String>> saoDataList1EpisodesRange = new HashMap<>();
+		Map<String, List<String>> saoDataList2EpisodesRange = new HashMap<>();
+		Map<String, List<String>> saoDataList3EpisodesRange = new HashMap<>();
+		Map<String, List<String>> saoDataList7EpisodesRange = new HashMap<>();
+		Map<String, List<String>> titans3ConcretizedAndOngoingEpisodesRange = new HashMap<>();
+		fairyTailSeasonsAndEpisodes.put("1", "175");
+		fairyTailSeasonsAndEpisodes.put("2", "277");
+		fairyTailSeasonsAndEpisodes.put("3", "xxx");
+		fairyTailSeasonsAndEpisodes.put("7", "1");
+		saoSeasonsAndEpisodes.put("1", "25");
+		saoSeasonsAndEpisodes.put("2", "24");
+		saoSeasonsAndEpisodes.put("3", "24");
+		saoSeasonsAndEpisodes.put("7", "4");
+		titansSeasonsAndEpisodes.put("1", "25");
+		titansSeasonsAndEpisodes.put("2", "12");
+		titansSeasonsAndEpisodes.put("3", "22");
+		titansSeasonsAndEpisodes.put("7", "1");
+		fairyTailEpisodesRangeAnimeIdSeasonsAndEpisodes.put(fairyTailId, fairyTailSeasonsAndEpisodes);
+		saoHtmlEpisodesRangeAnimeIdSeasonsAndEpisodes.put(SAO_ID, saoSeasonsAndEpisodes);
+		titansHtmlEpisodesRangeAnimeIdSeasonsAndEpisodes.put(titansId, titansSeasonsAndEpisodes);
+		fairyTailDataList1EpisodesRange.put("175", getEpisodesRange("1", "175"));
+		fairyTailDataList2EpisodesRange.put("277", getEpisodesRange("176", "277"));
+		fairyTailDataList3EpisodesRange.put("xxx", getEpisodesRange("278", "294"));
+		fairyTailDataList7EpisodesRange.put("4", getEpisodesRange("1", "4"));
+		saoDataList1EpisodesRange.put("25", getEpisodesRange("1", "25"));
+		saoDataList2EpisodesRange.put("24", getEpisodesRange("1", "24"));
+		saoDataList3EpisodesRange.put("24", getEpisodesRange("1", "16"));
+		saoDataList7EpisodesRange.put("1", getEpisodesRange("1", "1"));
+		titans3ConcretizedAndOngoingEpisodesRange.put("13", getEpisodesRange("1", "13"));
+		doReturn(fairyTailEpisodesRangeAnimeIdSeasonsAndEpisodes).when(animediaHTMLParser).getAnimeIdSeasonsAndEpisodesMap(eq(fairyTailResponse));
+		doReturn(saoHtmlEpisodesRangeAnimeIdSeasonsAndEpisodes).when(animediaHTMLParser).getAnimeIdSeasonsAndEpisodesMap(eq(saoHtmlResponse));
+		doReturn(titansHtmlEpisodesRangeAnimeIdSeasonsAndEpisodes).when(animediaHTMLParser).getAnimeIdSeasonsAndEpisodesMap(eq(titansHtmlResponse));
+		doReturn(fairyTailDataList1EpisodesRange).when(animediaHTMLParser).getEpisodesRange(eq(fairyTailDataList1Response));
+		doReturn(fairyTailDataList2EpisodesRange).when(animediaHTMLParser).getEpisodesRange(eq(fairyTailDataList2Response));
+		doReturn(fairyTailDataList3EpisodesRange).when(animediaHTMLParser).getEpisodesRange(eq(fairyTailDataList3Response));
+		doReturn(fairyTailDataList7EpisodesRange).when(animediaHTMLParser).getEpisodesRange(eq(fairyTailDataList7Response));
+		doReturn(saoDataList1EpisodesRange).when(animediaHTMLParser).getEpisodesRange(eq(saoDataList1Response));
+		doReturn(saoDataList2EpisodesRange).when(animediaHTMLParser).getEpisodesRange(eq(saoDataList2Response));
+		doReturn(saoDataList3EpisodesRange).when(animediaHTMLParser).getEpisodesRange(eq(saoDataList3Response));
+		doReturn(saoDataList7EpisodesRange).when(animediaHTMLParser).getEpisodesRange(eq(saoDataList7Response));
+		doReturn(titans3ConcretizedAndOngoingEpisodesRange).when(animediaHTMLParser).getEpisodesRange(eq(titans3ConcretizedAndOngoingResponse));
 		Set<AnimediaMALTitleReferences> multiSeasonsReferencesList = getMultiSeasonsReferencesList(LinkedHashSet.class, false);
 		referencesManager.updateReferences(multiSeasonsReferencesList);
 		List<AnimediaMALTitleReferences> updatedMultiSeasonsReferencesList = new ArrayList<>(multiSeasonsReferencesList);
@@ -207,11 +273,11 @@ public class ReferencesManagerTest extends AbstractTest {
 			throws IllegalAccessException, InstantiationException {
 		T refs = collection.newInstance();
 		AnimediaMALTitleReferences fairyTail1 = AnimediaMALTitleReferences.builder().url(FAIRY_TAIL_ROOT_URL).dataList("1").firstEpisode("1")
-				.minConcretizedEpisodeOnAnimedia("1").maxConcretizedEpisodeOnAnimedia("175").currentMax("175").titleOnMAL("fairy tail").build();
+				.titleOnMAL("fairy tail").build();
 		AnimediaMALTitleReferences fairyTail2 = AnimediaMALTitleReferences.builder().url(FAIRY_TAIL_ROOT_URL).dataList("2").firstEpisode("176")
-				.minConcretizedEpisodeOnAnimedia("176").maxConcretizedEpisodeOnAnimedia("277").currentMax("277").titleOnMAL("fairy tail (2014)").build();
+				.titleOnMAL("fairy tail (2014)").build();
 		AnimediaMALTitleReferences fairyTail3 = AnimediaMALTitleReferences.builder().url(FAIRY_TAIL_ROOT_URL).dataList("3").firstEpisode("278")
-				.minConcretizedEpisodeOnAnimedia("278").maxConcretizedEpisodeOnAnimedia("xxx").titleOnMAL("fairy tail: final series").build();
+				.titleOnMAL("fairy tail: final series").build();
 		AnimediaMALTitleReferences fairyTail7 = AnimediaMALTitleReferences.builder().url(FAIRY_TAIL_ROOT_URL).dataList("7").firstEpisode("1")
 				.titleOnMAL("fairy tail ova").build();
 		AnimediaMALTitleReferences sao1 = AnimediaMALTitleReferences.builder().url(SAO_ROOT_URL).dataList("1").firstEpisode("1")
@@ -223,7 +289,7 @@ public class ReferencesManagerTest extends AbstractTest {
 		AnimediaMALTitleReferences sao7 = AnimediaMALTitleReferences.builder().url(SAO_ROOT_URL).dataList("7").firstEpisode("1")
 				.titleOnMAL("sword art online: extra edition").build();
 		AnimediaMALTitleReferences none = AnimediaMALTitleReferences.builder().url("anime/velikiy-uchitel-onidzuka").dataList("1").firstEpisode("1")
-				.titleOnMAL("none").build();
+				.titleOnMAL(NOT_FOUND_ON_MAL.getDescription()).build();
 		AnimediaMALTitleReferences onePunch7 = AnimediaMALTitleReferences.builder().url("anime/vanpanchmen").dataList("7").firstEpisode("1")
 				.titleOnMAL("one punch man specials").minConcretizedEpisodeOnAnimedia("1").maxConcretizedEpisodeOnAnimedia("6")
 				.minConcretizedEpisodeOnMAL("1").maxConcretizedEpisodeOnMAL("6").currentMax("6").build();
@@ -238,34 +304,42 @@ public class ReferencesManagerTest extends AbstractTest {
 			fairyTail2.setCurrentMax("277");
 			fairyTail3.setCurrentMax("294");
 			fairyTail7.setCurrentMax("4");
-			sao1.setCurrentMax("25");
-			sao2.setCurrentMax("24");
-			sao3.setCurrentMax("16");
-			sao7.setCurrentMax("1");
 			fairyTail1.setFirstEpisode("1");
 			fairyTail2.setFirstEpisode("176");
 			fairyTail3.setFirstEpisode("278");
 			fairyTail7.setFirstEpisode("1");
-			sao1.setFirstEpisode("1");
-			sao2.setFirstEpisode("1");
-			sao3.setFirstEpisode("1");
-			sao7.setFirstEpisode("1");
 			fairyTail1.setMinConcretizedEpisodeOnAnimedia("1");
 			fairyTail2.setMinConcretizedEpisodeOnAnimedia("176");
 			fairyTail3.setMinConcretizedEpisodeOnAnimedia("278");
 			fairyTail7.setMinConcretizedEpisodeOnAnimedia("1");
-			sao1.setMinConcretizedEpisodeOnAnimedia("1");
-			sao2.setMinConcretizedEpisodeOnAnimedia("1");
-			sao3.setMinConcretizedEpisodeOnAnimedia("1");
-			sao7.setMinConcretizedEpisodeOnAnimedia("1");
 			fairyTail1.setMaxConcretizedEpisodeOnAnimedia("175");
 			fairyTail2.setMaxConcretizedEpisodeOnAnimedia("277");
 			fairyTail3.setMaxConcretizedEpisodeOnAnimedia("xxx");
 			fairyTail7.setMaxConcretizedEpisodeOnAnimedia("4");
+			fairyTail1.setEpisodesRange(getEpisodesRange("1", "175"));
+			fairyTail2.setEpisodesRange(getEpisodesRange("176", "277"));
+			fairyTail3.setEpisodesRange(getEpisodesRange("278", "294"));
+			fairyTail7.setEpisodesRange(getEpisodesRange("1", "4"));
+			sao1.setCurrentMax("25");
+			sao2.setCurrentMax("24");
+			sao3.setCurrentMax("16");
+			sao7.setCurrentMax("1");
+			sao1.setFirstEpisode("1");
+			sao2.setFirstEpisode("1");
+			sao3.setFirstEpisode("1");
+			sao7.setFirstEpisode("1");
+			sao1.setMinConcretizedEpisodeOnAnimedia("1");
+			sao2.setMinConcretizedEpisodeOnAnimedia("1");
+			sao3.setMinConcretizedEpisodeOnAnimedia("1");
+			sao7.setMinConcretizedEpisodeOnAnimedia("1");
 			sao1.setMaxConcretizedEpisodeOnAnimedia("25");
 			sao2.setMaxConcretizedEpisodeOnAnimedia("24");
 			sao3.setMaxConcretizedEpisodeOnAnimedia("24");
 			sao7.setMaxConcretizedEpisodeOnAnimedia("1");
+			sao1.setEpisodesRange(getEpisodesRange("1", "25"));
+			sao2.setEpisodesRange(getEpisodesRange("1", "24"));
+			sao3.setEpisodesRange(getEpisodesRange("1", "16"));
+			sao7.setEpisodesRange(getEpisodesRange("1", "1"));
 			titans3ConcretizedAndOngoing.setCurrentMax("13");
 		}
 		refs.add(fairyTail1);

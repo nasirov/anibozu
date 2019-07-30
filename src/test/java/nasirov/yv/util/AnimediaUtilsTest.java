@@ -1,5 +1,6 @@
 package nasirov.yv.util;
 
+import static nasirov.yv.TestUtils.getEpisodesRange;
 import static nasirov.yv.data.enums.Constants.NOT_FOUND_ON_MAL;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -37,7 +38,9 @@ public class AnimediaUtilsTest extends AbstractTest {
 		concretizedAndOngoing = references.stream().filter(ref -> ref.getTitleOnMAL().equals("shingeki no kyojin season 3 part 2")).findFirst()
 				.orElse(null);
 		concretizedAndNotOngoing = references.stream().filter(ref -> ref.getTitleOnMAL().equals("one punch man: road to hero")).findFirst().orElse(null);
-		updatedTitle = references.stream().filter(ref -> ref.getTitleOnMAL().equals("fairy tail")).findFirst().orElse(null);
+		updatedTitle =  AnimediaMALTitleReferences.builder().url("anime/url").dataList("1").minConcretizedEpisodeOnAnimedia("1")
+				.titleOnMAL("titleName").firstEpisode("1").maxConcretizedEpisodeOnAnimedia("175").currentMax("175").posterUrl("posterUrl")
+				.episodesRange(getEpisodesRange("1","175")).build();
 		notUpdatedTitle = references.stream().filter(ref -> ref.getTitleOnMAL().equals("fairy tail: final series")).findFirst().orElse(null);
 		notFoundOnMAL = references.stream().filter(ref -> ref.getTitleOnMAL().equals(NOT_FOUND_ON_MAL.getDescription())).findFirst().orElse(null);
 	}

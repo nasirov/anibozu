@@ -5,6 +5,8 @@ import static nasirov.yv.data.enums.Constants.FINAL_URL_VALUE_IF_EPISODE_IS_NOT_
 import static nasirov.yv.data.enums.Constants.FIRST_DATA_LIST;
 import static nasirov.yv.data.enums.Constants.FIRST_EPISODE;
 import static nasirov.yv.data.enums.Constants.ZERO_EPISODE;
+import static nasirov.yv.util.AnimediaUtils.getCorrectCurrentMax;
+import static nasirov.yv.util.AnimediaUtils.getCorrectFirstEpisodeAndMin;
 import static nasirov.yv.util.AnimediaUtils.isAnnouncement;
 import static nasirov.yv.util.AnimediaUtils.isMaxEpisodesUndefined;
 import static nasirov.yv.util.AnimediaUtils.isTitleConcretizedOnMAL;
@@ -41,6 +43,13 @@ import org.springframework.stereotype.Service;
 @Service
 @Slf4j
 public class SeasonAndEpisodeChecker {
+
+	private static final Map<String, String> EPISODE_IS_NOT_AVAILABLE_FINAL_URL_AND_EPISODE_NUMBER_FOR_WATCH = new HashMap<>(1);
+
+	static {
+		EPISODE_IS_NOT_AVAILABLE_FINAL_URL_AND_EPISODE_NUMBER_FOR_WATCH.put(EPISODE_NUMBER_FOR_WATCH_VALUE_IF_EPISODE_IS_NOT_AVAILABLE.getDescription(),
+				FINAL_URL_VALUE_IF_EPISODE_IS_NOT_AVAILABLE.getDescription());
+	}
 
 	@Value("${cache.userMatchedAnime.name}")
 	private String userMatchedAnimeCacheName;
@@ -348,12 +357,17 @@ public class SeasonAndEpisodeChecker {
 					Map<String, List<String>> maxEpisodesAndEpisodesRange = animediaHTMLParser.getEpisodesRange(resp);
 					for (Map.Entry<String, List<String>> maxEpisodesAndEpisodesRangeEntry : maxEpisodesAndEpisodesRange.entrySet()) {
 						List<String> episodesRangeFromMinToMax = maxEpisodesAndEpisodesRangeEntry.getValue();
-						String firstEpisodeAndMin = episodesRangeFromMinToMax.get(0);
+						String firstEpisodeAndMin = String.valueOf(getCorrectFirstEpisodeAndMin(episodesRangeFromMinToMax.get(0)));
+						String currentMax = getCorrectCurrentMax(episodesRangeFromMinToMax.get(episodesRangeFromMinToMax.size() - 1));
+						String maxOnAnimedia = maxEpisodesAndEpisodesRangeEntry.getKey();
 						AnimediaMALTitleReferences temp = AnimediaMALTitleReferences.builder().url(url).dataList(dataList).firstEpisode(firstEpisodeAndMin)
 								.titleOnMAL(userMALTitleInfo.getTitle()).minConcretizedEpisodeOnAnimedia(firstEpisodeAndMin)
-								.maxConcretizedEpisodeOnAnimedia(maxEpisodesAndEpisodesRangeEntry.getKey())
-								.currentMax(episodesRangeFromMinToMax.get(episodesRangeFromMinToMax.size() - 1)).posterUrl(matchedOfSingleSeasonAnime.getPosterUrl())
-								.build();
+								.maxConcretizedEpisodeOnAnimedia(maxEpisodesAndEpisodesRangeEntry.getKey()).currentMax(currentMax)
+								.posterUrl(matchedOfSingleSeasonAnime.getPosterUrl()).episodesRange(episodesRangeFromMinToMax).build();
+						if (!isMaxEpisodesUndefined(currentMax) && !isMaxEpisodesUndefined(maxOnAnimedia) && Integer.parseInt(currentMax) > Integer
+								.parseInt(maxOnAnimedia)) {
+							log.error("CHECK MAX EPISODE FOR {}", temp);
+						}
 						Map<String, String> nextEpisodeForWatchFinalUrl = getNextEpisodeForWatchAndFinalUrl(temp, nextNumberOfEpisodeForWatch);
 						Stream.of(nextEpisodeForWatchFinalUrl).flatMap(map -> map.entrySet().stream()).forEach(entry -> {
 							temp.setFinalUrl(entry.getValue());
@@ -417,8 +431,7 @@ public class SeasonAndEpisodeChecker {
 			if (references.getTitleOnMAL().equals(userMALTitleInfo.getTitle())) {
 				referenceForUpdate = matchedAnimeFromCache.stream()
 						.filter(title -> title.getTitleOnMAL().equals(references.getTitleOnMAL()) && title.getDataList().equals(references.getDataList()))
-						.findFirst()
-						.orElse(null);
+						.findFirst().orElse(null);
 			}
 			if (referenceForUpdate != null) {
 				int firstEpisode = Integer.parseInt(referenceForUpdate.getFirstEpisode());
@@ -495,7 +508,7 @@ public class SeasonAndEpisodeChecker {
 	}
 
 	/**
-	 * Creates next episode for watch and final url for title
+	 * Creates map with next episode for watch and final url for title
 	 *
 	 * @param animediaMALTitleReferences matched title
 	 * @param episodeNumberForWatch next episode for watch
@@ -504,21 +517,66 @@ public class SeasonAndEpisodeChecker {
 	private Map<String, String> getNextEpisodeForWatchAndFinalUrl(AnimediaMALTitleReferences animediaMALTitleReferences,
 			Integer episodeNumberForWatch) {
 		String finalUrl;
-		Map<String, String> nextEpisodeForWatchFinalUrl = new HashMap<>();
+		Map<String, String> nextEpisodeForWatchFinalUrl;
 		if (episodeNumberForWatch <= Integer.parseInt(animediaMALTitleReferences.getCurrentMax())) {
+			nextEpisodeForWatchFinalUrl = new HashMap<>();
+			String episodeNumberForWatchForFront = episodeNumberForWatch.toString();
+			String episodeNumberForWatchForURL = episodeNumberForWatch.toString();
+			if (!isTitleConcretizedOnMAL(animediaMALTitleReferences) && joinedEpisodeIsPresent(episodeNumberForWatchForFront,
+					animediaMALTitleReferences.getEpisodesRange())) {
+				String[] episodeNumberForWatchForURLandFront = getEpisodeNumberForWatchForURLandFrontIfJoinedEpisodeIsPresent(episodeNumberForWatchForFront,
+						animediaMALTitleReferences.getEpisodesRange());
+				episodeNumberForWatchForURL = episodeNumberForWatchForURLandFront[0];
+				episodeNumberForWatchForFront = episodeNumberForWatchForURLandFront[1];
+			}
 			finalUrl =
-					animediaOnlineTv + animediaMALTitleReferences.getUrl() + "/" + animediaMALTitleReferences.getDataList() + "/" + episodeNumberForWatch;
+					animediaOnlineTv + animediaMALTitleReferences.getUrl() + "/" + animediaMALTitleReferences.getDataList() + "/" +
+							episodeNumberForWatchForURL;
 			log.info("NEW EPISODE IS AVAILABLE {} !", finalUrl);
-			nextEpisodeForWatchFinalUrl.put(episodeNumberForWatch.toString(), finalUrl);
+			nextEpisodeForWatchFinalUrl.put(episodeNumberForWatchForFront, finalUrl);
 		} else {
+			nextEpisodeForWatchFinalUrl = EPISODE_IS_NOT_AVAILABLE_FINAL_URL_AND_EPISODE_NUMBER_FOR_WATCH;
 			finalUrl =
 					animediaOnlineTv + animediaMALTitleReferences.getUrl() + "/" + animediaMALTitleReferences.getDataList() + "/" + animediaMALTitleReferences
 							.getFirstEpisode();
 			log.info("NEW EPISODE FOR {} IS NOT AVAILABLE.", finalUrl);
-			nextEpisodeForWatchFinalUrl.put(EPISODE_NUMBER_FOR_WATCH_VALUE_IF_EPISODE_IS_NOT_AVAILABLE.getDescription(),
-					FINAL_URL_VALUE_IF_EPISODE_IS_NOT_AVAILABLE.getDescription());
 		}
 		return nextEpisodeForWatchFinalUrl;
+	}
+
+	/**
+	 * Finds joined episode in episodes range
+	 *
+	 * @param episodeNumberForWatch next episode for watch
+	 * @param episodesRange episodes range from min to max
+	 * @return true if episodeNumberForWatch is contains in joined episode, false in other case
+	 */
+	private boolean joinedEpisodeIsPresent(String episodeNumberForWatch, List<String> episodesRange) {
+		//case if 2 episodes joined
+		//for 2+ need another logic
+		return episodesRange.stream().anyMatch(episode -> episode.matches(episodeNumberForWatch + "-\\d{1,3}") || episode.matches("\\d{1,3}-" + episodeNumberForWatch));
+	}
+
+	/**
+	 * Creates array with episode number for URL and front if joined episode is present
+	 *
+	 * @param episodeNumberForWatch next episode for watch
+	 * @param episodesRange episodes range from min to max
+	 * @return array with [0] - episode number for URL, [1] - episode number for front
+	 */
+	private String[] getEpisodeNumberForWatchForURLandFrontIfJoinedEpisodeIsPresent(String episodeNumberForWatch, List<String> episodesRange) {
+		String[] result = new String[2];
+		//case if 2 episodes joined
+		//for 2+ need another logic
+		String joinedEpisode = episodesRange.stream()
+				.filter(episode -> episode.matches(episodeNumberForWatch + "-\\d{1,3}") || episode.matches("\\d{1,3}-" + episodeNumberForWatch)).findFirst()
+				.orElse(null);
+		if (joinedEpisode != null) {
+			String[] splitedEpisodes = joinedEpisode.split("-");
+			result[0] = splitedEpisodes[0];
+			result[1] = episodeNumberForWatch;
+		}
+		return result;
 	}
 
 }

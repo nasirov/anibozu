@@ -1,5 +1,7 @@
 package nasirov.yv.service;
 
+import static nasirov.yv.util.AnimediaUtils.getCorrectCurrentMax;
+import static nasirov.yv.util.AnimediaUtils.getCorrectFirstEpisodeAndMin;
 import static nasirov.yv.util.AnimediaUtils.isMaxEpisodesUndefined;
 import static nasirov.yv.util.AnimediaUtils.isTitleConcretizedAndOngoing;
 import static nasirov.yv.util.AnimediaUtils.isTitleNotFoundOnMAL;
@@ -112,22 +114,22 @@ public class ReferencesManager {
 						for (Map.Entry<String, List<String>> range : episodesRange.entrySet()) {
 							List<String> episodesList = range.getValue();
 							String maxEpisodes = range.getKey();
-							String firstEpisodeAndMin = episodesList.get(0);
+							//String firstEpisodeAndMin = episodesList.get(0);
 							Integer intMaxEpisodes = null;
-							Integer intFirstEpisodeAndMin = null;
+							Integer intFirstEpisodeAndMin = getCorrectFirstEpisodeAndMin(episodesList.get(0));
+							String currentMax = getCorrectCurrentMax(episodesList.get(episodesList.size() - 1));
 							//если в дата листах суммируют первую серию и последнюю с предыдущего дата листа, то нужна проверка для правильного максимума
 							//например, всего серий ххх, 1 даталист: серии 1 из 100; 2 дата лист: серии 51 из 100
 							if (!isMaxEpisodesUndefined(maxEpisodes)) {
 								intMaxEpisodes = Integer.parseInt(maxEpisodes);
-								intFirstEpisodeAndMin = Integer.parseInt(firstEpisodeAndMin);
 							}
-							String currentMax = episodesList.get(episodesList.size() - 1);
 							if (!isTitleConcretizedAndOngoing(reference)) {
-								reference.setFirstEpisode(firstEpisodeAndMin);
-								reference.setMinConcretizedEpisodeOnAnimedia(firstEpisodeAndMin);
+								reference.setFirstEpisode(intFirstEpisodeAndMin.toString());
+								reference.setMinConcretizedEpisodeOnAnimedia(intFirstEpisodeAndMin.toString());
 								reference.setMaxConcretizedEpisodeOnAnimedia(
 										intMaxEpisodes != null && intMaxEpisodes < intFirstEpisodeAndMin ? Integer.toString(intFirstEpisodeAndMin + intMaxEpisodes)
 												: maxEpisodes);
+								reference.setEpisodesRange(episodesList);
 							}
 							reference.setCurrentMax(currentMax);
 						}
@@ -190,7 +192,7 @@ public class ReferencesManager {
 		matchedAnimeFromCache.stream()
 				.filter(set -> set.getUrl().equals(currentlyUpdatedTitle.getUrl()) && set.getDataList().equals(currentlyUpdatedTitle.getDataList()))
 				.forEach(set -> {
-					set.setCurrentMax(currentlyUpdatedTitle.getCurrentMax());
+					set.setCurrentMax(getCorrectCurrentMax(currentlyUpdatedTitle.getCurrentMax()));
 					currentlyUpdatedTitle.setTitleOnMAL(set.getTitleOnMAL());
 				});
 	}

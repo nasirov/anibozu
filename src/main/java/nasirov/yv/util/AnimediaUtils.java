@@ -47,4 +47,26 @@ public class AnimediaUtils {
 		return reference.getMinConcretizedEpisodeOnMAL() != null && reference.getMaxConcretizedEpisodeOnMAL() != null;
 	}
 
+	public static String getCorrectCurrentMax(String currentMax) {
+		String result;
+		String[] joinedEpisodes = currentMax.split("-");
+		if (joinedEpisodes.length != 0) {
+			result = joinedEpisodes[joinedEpisodes.length - 1];
+		} else {
+			result = currentMax;
+		}
+		return result;
+	}
+
+	public static Integer getCorrectFirstEpisodeAndMin(String firstEpisodeAndMin) {
+		Integer result;
+		String[] joinedEpisodes = firstEpisodeAndMin.split("-");
+		if (joinedEpisodes.length != 0) {
+			result = Integer.parseInt(joinedEpisodes[0]);
+		} else {
+			result = Integer.parseInt(firstEpisodeAndMin);
+		}
+		return result;
+	}
+
 }

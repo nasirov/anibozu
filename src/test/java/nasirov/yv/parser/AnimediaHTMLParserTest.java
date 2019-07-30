@@ -9,6 +9,7 @@ import static org.junit.Assert.assertNull;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Stream;
 import nasirov.yv.AbstractTest;
 import nasirov.yv.configuration.AppConfiguration;
 import nasirov.yv.data.animedia.AnimediaMALTitleReferences;
@@ -148,6 +149,16 @@ public class AnimediaHTMLParserTest extends AbstractTest {
 				ZERO_EPISODE.getDescription(),
 				ZERO_EPISODE.getDescription(),
 				1);
+	}
+
+	@Test
+	public void testGetEpisodesRangeWithJoinedEpisodes() {
+		HttpResponse dataListWithTrailer1 = new HttpResponse(RoutinesIO.readFromResource(onePieceDataList2), HttpStatus.OK.value());
+		Map<String, List<String>> episodesRangeWithJoinedEpisodes = animediaHTMLParser.getEpisodesRange(dataListWithTrailer1);
+		checkEpisodesRange(episodesRangeWithJoinedEpisodes, "351", "176", "175", 171);
+		assertEquals(5,
+				Stream.of(episodesRangeWithJoinedEpisodes).flatMap(x -> x.entrySet().stream()).flatMap(x -> x.getValue().stream())
+						.filter(x -> x.matches("\\d{1,3}-\\d{1,3}")).count());
 	}
 
 	@Test

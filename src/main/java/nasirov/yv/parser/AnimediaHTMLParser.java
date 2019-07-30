@@ -68,7 +68,7 @@ public class AnimediaHTMLParser {
 	 */
 	private static final String EPISODE_IN_DATA_LIST_EXCEPT_TRAILERS = "<span>(?<description>Серия\\.|Cерия|Серия|Серии|серия|серии|ОВА|OVA|ONA|ODA"
 			+ "|ФИЛЬМ|Фильмы|Сп[е|э]шл|СПЕШЛ|Фильм)?\\s?(?<firstEpisodeInSeason>\\d{1,3})?"
-			+ "(-\\d{1,3})?(\\s\\(\\d{1,3}\\))?\\s*?(из)?\\s?(?<maxEpisodes>.{1,3})?</span>";
+			+ "(-(?<joinedEpisode>\\d{1,3}))?(\\s\\(\\d{1,3}\\))?\\s*?(из)?\\s?(?<maxEpisodes>.{1,3})?</span>";
 
 	/**
 	 * For trailer in data list
@@ -134,22 +134,22 @@ public class AnimediaHTMLParser {
 	}
 
 	/**
-	 * Searches for the episodes range in the data list
+	 * Searches for the episodes range in a data list
 	 * request example http://online.animedia.tv/ajax/episodes/9480/3
 	 * 9480 - anime id
 	 * 3 - data list
 	 *
 	 * @param response the animedia response
-	 * @return the map<data list, list<episodes range>>
+	 * @return the map<max episode, list<episodes range>>
 	 */
 	public Map<String, List<String>> getEpisodesRange(@NotNull HttpResponse response) {
-		Map<String, List<String>> firstEpisodeNumber = new HashMap<>();
+		Map<String, List<String>> episodesRange = new HashMap<>();
 		try {
-			firstEpisodeNumber = searchForEpisodesRange(response.getContent());
+			episodesRange = searchForEpisodesRange(response.getContent());
 		} catch (EpisodesRangeNotFoundException e) {
 			log.error(e.getMessage(), e);
 		}
-		return firstEpisodeNumber;
+		return episodesRange;
 	}
 
 	/**
@@ -235,8 +235,13 @@ public class AnimediaHTMLParser {
 			}
 			String description = matcher.group("description");
 			String firstEpisodeInSeason = matcher.group("firstEpisodeInSeason");
+			String joinedEpisode = matcher.group("joinedEpisode");
 			if (firstEpisodeInSeason != null) {
-				checkEpisodeAndAdd(episodes, firstEpisodeInSeason);
+				if (joinedEpisode != null) {
+					episodes.add(firstEpisodeInSeason + "-" + joinedEpisode);
+				} else {
+					checkEpisodeAndAdd(episodes, firstEpisodeInSeason);
+				}
 			} else if (description != null) {
 				checkEpisodeAndAdd(episodes, FIRST_EPISODE.getDescription());
 			}
