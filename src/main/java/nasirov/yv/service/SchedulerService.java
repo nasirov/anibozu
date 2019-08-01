@@ -53,7 +53,7 @@ public class SchedulerService {
 		this.malService = malService;
 	}
 
-	//@Scheduled(cron = "${resources.check.cron.expression}")
+	@Scheduled(cron = "${resources.check.cron.expression}")
 	private void checkApplicationResources() {
 		log.info("START CHECKING TITLES RESOURCES FROM GITHUB ...");
 		Set<AnimediaTitleSearchInfo> animediaSearchListFromAnimedia = animediaService.getAnimediaSearchListFromAnimedia();

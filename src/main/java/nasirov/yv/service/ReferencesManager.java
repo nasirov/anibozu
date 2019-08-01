@@ -14,6 +14,7 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import javax.annotation.PostConstruct;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import lombok.extern.slf4j.Slf4j;
@@ -61,6 +62,8 @@ public class ReferencesManager {
 	@Value("classpath:${resources.rawReference.name}")
 	private Resource referencesResourceJson;
 
+	private Map<String, Map<String, String>> animediaRequestParameters;
+
 	private HttpCaller httpCaller;
 
 	private RequestParametersBuilder requestParametersBuilder;
@@ -75,13 +78,18 @@ public class ReferencesManager {
 		this.animediaHTMLParser = animediaHTMLParser;
 	}
 
+	@PostConstruct
+	public void init() {
+		animediaRequestParameters = requestParametersBuilder.build();
+	}
+
 	/**
 	 * Creates container with the anime references
 	 *
 	 * @return the references
 	 */
 	public Set<AnimediaMALTitleReferences> getMultiSeasonsReferences() {
-		HttpResponse response = httpCaller.call(referencesFromGitHubUrl, HttpMethod.GET, requestParametersBuilder.build());
+		HttpResponse response = httpCaller.call(referencesFromGitHubUrl, HttpMethod.GET, animediaRequestParameters);
 		return WrappedObjectMapper.unmarshal(response.getContent(), AnimediaMALTitleReferences.class, LinkedHashSet.class);
 	}
 
@@ -92,7 +100,6 @@ public class ReferencesManager {
 	 * @param references the references
 	 */
 	public void updateReferences(@NotEmpty Set<AnimediaMALTitleReferences> references) {
-		Map<String, Map<String, String>> animediaRequestParameters = requestParametersBuilder.build();
 		Map<String, Map<String, Map<String, String>>> seasonsAndEpisodesCache = new HashMap<>();
 		for (AnimediaMALTitleReferences reference : references) {
 			if (isTitleUpdated(reference) || isTitleNotFoundOnMAL(reference)) {
@@ -101,7 +108,7 @@ public class ReferencesManager {
 			String url = animediaOnlineTv + reference.getUrl();
 			Map<String, Map<String, String>> animeIdSeasonsAndEpisodesMap = seasonsAndEpisodesCache.get(url);
 			if (animeIdSeasonsAndEpisodesMap == null) {
-				animeIdSeasonsAndEpisodesMap = getTitleHtmlAndPutInCache(url, animediaRequestParameters, seasonsAndEpisodesCache);
+				animeIdSeasonsAndEpisodesMap = getTitleHtmlAndPutInCache(url, seasonsAndEpisodesCache);
 			}
 			for (Map.Entry<String, Map<String, String>> animeIdSeasonsAndEpisodesEntry : animeIdSeasonsAndEpisodesMap.entrySet()) {
 				for (Map.Entry<String, String> seasonsAndEpisodesEntry : animeIdSeasonsAndEpisodesEntry.getValue().entrySet()) {
@@ -114,7 +121,6 @@ public class ReferencesManager {
 						for (Map.Entry<String, List<String>> range : episodesRange.entrySet()) {
 							List<String> episodesList = range.getValue();
 							String maxEpisodes = range.getKey();
-							//String firstEpisodeAndMin = episodesList.get(0);
 							Integer intMaxEpisodes = null;
 							Integer intFirstEpisodeAndMin = getCorrectFirstEpisodeAndMin(episodesList.get(0));
 							String currentMax = getCorrectCurrentMax(episodesList.get(episodesList.size() - 1));
@@ -126,9 +132,9 @@ public class ReferencesManager {
 							if (!isTitleConcretizedAndOngoing(reference)) {
 								reference.setFirstEpisode(intFirstEpisodeAndMin.toString());
 								reference.setMinConcretizedEpisodeOnAnimedia(intFirstEpisodeAndMin.toString());
-								reference.setMaxConcretizedEpisodeOnAnimedia(
-										intMaxEpisodes != null && intMaxEpisodes < intFirstEpisodeAndMin ? Integer.toString(intFirstEpisodeAndMin + intMaxEpisodes)
-												: maxEpisodes);
+								reference.setMaxConcretizedEpisodeOnAnimedia(getCorrectMaxConcretizedEpisodeOnAnimedia(intMaxEpisodes,
+										intFirstEpisodeAndMin,
+										maxEpisodes));
 								reference.setEpisodesRange(episodesList);
 							}
 							reference.setCurrentMax(currentMax);
@@ -140,7 +146,11 @@ public class ReferencesManager {
 		}
 	}
 
-	private Map<String, Map<String, String>> getTitleHtmlAndPutInCache(String url, Map<String, Map<String, String>> animediaRequestParameters,
+	private String getCorrectMaxConcretizedEpisodeOnAnimedia(Integer intMaxEpisodes, Integer intFirstEpisodeAndMin, String maxEpisodes) {
+		return intMaxEpisodes != null && intMaxEpisodes < intFirstEpisodeAndMin ? Integer.toString(intFirstEpisodeAndMin + intMaxEpisodes) : maxEpisodes;
+	}
+
+	private Map<String, Map<String, String>> getTitleHtmlAndPutInCache(String url,
 			Map<String, Map<String, Map<String, String>>> seasonsAndEpisodesCache) {
 		HttpResponse response = httpCaller.call(url, HttpMethod.GET, animediaRequestParameters);
 		Map<String, Map<String, String>> seasonsAndEpisodes = animediaHTMLParser.getAnimeIdSeasonsAndEpisodesMap(response);

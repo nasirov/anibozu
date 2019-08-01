@@ -46,7 +46,6 @@ import org.springframework.util.FileSystemUtils;
 /**
  * Created by nasirov.yv
  */
-//@SpringBootTest(classes = {ReferencesManager.class, AnimediaRequestParametersBuilder.class, AnimediaHTMLParser.class, AppConfiguration.class})
 @SpringBootTest(classes = {ReferencesManager.class, AnimediaRequestParametersBuilder.class, AppConfiguration.class})
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_CLASS)
 public class ReferencesManagerTest extends AbstractTest {

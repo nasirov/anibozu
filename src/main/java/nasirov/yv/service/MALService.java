@@ -9,10 +9,14 @@ import java.util.Map;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import javax.annotation.PostConstruct;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import lombok.extern.slf4j.Slf4j;
 import nasirov.yv.data.mal.MALCategories;
+import nasirov.yv.data.mal.MALSearchResult;
+import nasirov.yv.data.mal.UserMALTitleInfo;
+import nasirov.yv.data.response.HttpResponse;
 import nasirov.yv.exception.mal.JSONNotFoundException;
 import nasirov.yv.exception.mal.MALUserAccountNotFoundException;
 import nasirov.yv.exception.mal.MALUserAnimeListAccessException;
@@ -21,9 +25,6 @@ import nasirov.yv.http.caller.HttpCaller;
 import nasirov.yv.http.parameter.RequestParametersBuilder;
 import nasirov.yv.parser.MALParser;
 import nasirov.yv.parser.WrappedObjectMapper;
-import nasirov.yv.data.response.HttpResponse;
-import nasirov.yv.data.mal.MALSearchResult;
-import nasirov.yv.data.mal.UserMALTitleInfo;
 import nasirov.yv.util.URLBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -73,6 +74,8 @@ public class MALService {
 	@Value("${urls.myAnimeList.net}")
 	private String myAnimeListNet;
 
+	private Map<String, Map<String, String>> malRequestParameters;
+
 	private HttpCaller httpCaller;
 
 	private RequestParametersBuilder requestParametersBuilder;
@@ -90,6 +93,10 @@ public class MALService {
 		this.cacheManager = cacheManager;
 	}
 
+	@PostConstruct
+	public void init() {
+		malRequestParameters = requestParametersBuilder.build();
+	}
 	/**
 	 * Searches for user watching titles
 	 *
@@ -98,7 +105,6 @@ public class MALService {
 	 */
 	public Set<UserMALTitleInfo> getWatchingTitles(@NotEmpty String username)
 			throws MALUserAccountNotFoundException, WatchingTitlesNotFoundException, MALUserAnimeListAccessException, JSONNotFoundException {
-		Map<String, Map<String, String>> malRequestParameters = requestParametersBuilder.build();
 		//get amount of user watching titles
 		Integer numWatchingTitlesInteger = getNumberOfWatchingTitles(username, malRequestParameters);
 		//get html with currently watching titles
@@ -112,14 +118,12 @@ public class MALService {
 		Integer diff;
 		//check for missing titles
 		if (numWatchingTitlesInteger > MAX_NUMBER_OF_TITLES_IN_HTML) {
-			Set<UserMALTitleInfo> firstJson = getAllWatchingTitles(MAX_NUMBER_OF_TITLES_IN_HTML, malRequestParameters, username);
+			Set<UserMALTitleInfo> firstJson = getAllWatchingTitles(MAX_NUMBER_OF_TITLES_IN_HTML, username);
 			titleJson.add(firstJson);
 			diff = numWatchingTitlesInteger - MAX_NUMBER_OF_TITLES_IN_HTML;
 			int nextRequestCount = 2;
 			while (diff > MAX_NUMBER_OF_TITLES_IN_HTML) {
-				Set<UserMALTitleInfo> additionalJson = getAllWatchingTitles((MAX_NUMBER_OF_TITLES_IN_HTML * nextRequestCount),
-						malRequestParameters,
-						username);
+				Set<UserMALTitleInfo> additionalJson = getAllWatchingTitles((MAX_NUMBER_OF_TITLES_IN_HTML * nextRequestCount), username);
 				titleJson.add(additionalJson);
 				nextRequestCount++;
 				diff -= MAX_NUMBER_OF_TITLES_IN_HTML;
@@ -197,9 +201,8 @@ public class MALService {
 
 	public boolean isTitleExist(String titleOnMAL) {
 		QUERY_PARAMS_FOR_TITLE_NAME_CHECK.put("keyword", titleOnMAL);
-		HttpResponse malResponse = httpCaller.call(URLBuilder.build(myAnimeListNet + SEARCH_PREFIX_JSON, QUERY_PARAMS_FOR_TITLE_NAME_CHECK),
-				HttpMethod.GET,
-				requestParametersBuilder.build());
+		HttpResponse malResponse = httpCaller
+				.call(URLBuilder.build(myAnimeListNet + SEARCH_PREFIX_JSON, QUERY_PARAMS_FOR_TITLE_NAME_CHECK), HttpMethod.GET, malRequestParameters);
 		if (malResponse.getStatus() == HttpStatus.OK.value()) {
 			MALSearchResult malSearchResult = WrappedObjectMapper.unmarshal(malResponse.getContent(), MALSearchResult.class);
 			return 1 == malSearchResult.getCategories().stream().filter(categories -> categories.getType().equals(MALCategories.ANIME.getDescription()))
@@ -281,12 +284,10 @@ public class MALService {
 	 * https://myanimelist.net/animelist/username/load.json?offset=numWatchingTitlesInteger&status=1
 	 *
 	 * @param numWatchingTitlesInteger the number of watching titles
-	 * @param malRequestParameters the http params
 	 * @param username the mal username
 	 * @return the set with the user anime titles
 	 */
-	private Set<UserMALTitleInfo> getAllWatchingTitles(@NotEmpty Integer numWatchingTitlesInteger,
-			@NotNull Map<String, Map<String, String>> malRequestParameters, @NotEmpty String username) {
+	private Set<UserMALTitleInfo> getAllWatchingTitles(@NotEmpty Integer numWatchingTitlesInteger, @NotEmpty String username) {
 		Map<String, String> queryParameters = new LinkedHashMap<>();
 		queryParameters.put("offset", numWatchingTitlesInteger.toString());
 		queryParameters.put(STATUS, WATCHING.getCode().toString());

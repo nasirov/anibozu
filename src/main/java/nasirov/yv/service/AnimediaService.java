@@ -16,6 +16,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import javax.annotation.PostConstruct;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import lombok.extern.slf4j.Slf4j;
@@ -97,6 +98,8 @@ public class AnimediaService {
 	@Value("classpath:${resources.announcements.name}")
 	private Resource resourceAnnouncementsUrls;
 
+	private Map<String, Map<String, String>> animediaRequestParameters;
+
 	private HttpCaller httpCaller;
 
 	private RequestParametersBuilder requestParametersBuilder;
@@ -116,13 +119,18 @@ public class AnimediaService {
 		this.cacheManager = cacheManager;
 	}
 
+	@PostConstruct
+	public void init() {
+		animediaRequestParameters = requestParametersBuilder.build();
+	}
+
 	/**
 	 * Searches for fresh animedia search list from animedia
 	 *
 	 * @return the list with title search info on animedia
 	 */
 	public Set<AnimediaTitleSearchInfo> getAnimediaSearchListFromAnimedia() {
-		HttpResponse animediaResponse = httpCaller.call(animediaAnimeList, HttpMethod.GET, requestParametersBuilder.build());
+		HttpResponse animediaResponse = httpCaller.call(animediaAnimeList, HttpMethod.GET, animediaRequestParameters);
 		Set<AnimediaTitleSearchInfo> animediaSearchList = WrappedObjectMapper
 				.unmarshal(animediaResponse.getContent(), AnimediaTitleSearchInfo.class, LinkedHashSet.class);
 		animediaSearchList.forEach(title -> {
@@ -138,7 +146,7 @@ public class AnimediaService {
 	 * @return the list with title search info on animedia
 	 */
 	public Set<AnimediaTitleSearchInfo> getAnimediaSearchListFromGitHub() {
-		HttpResponse animediaResponse = httpCaller.call(animediaSearchListFromGitHubUrl, HttpMethod.GET, requestParametersBuilder.build());
+		HttpResponse animediaResponse = httpCaller.call(animediaSearchListFromGitHubUrl, HttpMethod.GET, animediaRequestParameters);
 		return WrappedObjectMapper.unmarshal(animediaResponse.getContent(), AnimediaTitleSearchInfo.class, LinkedHashSet.class);
 	}
 
@@ -149,7 +157,7 @@ public class AnimediaService {
 	 */
 	public List<AnimediaMALTitleReferences> getCurrentlyUpdatedTitles() {
 		Cache currentlyUpdatedTitlesCache = cacheManager.getCache(currentlyUpdatedTitlesCacheName);
-		HttpResponse animediaResponse = httpCaller.call(animediaOnlineTv, HttpMethod.GET, requestParametersBuilder.build());
+		HttpResponse animediaResponse = httpCaller.call(animediaOnlineTv, HttpMethod.GET, animediaRequestParameters);
 		List<AnimediaMALTitleReferences> currentlyUpdatedTitles = animediaHTMLParser.getCurrentlyUpdatedTitlesList(animediaResponse);
 		currentlyUpdatedTitlesCache.putIfAbsent(currentlyUpdatedTitlesCacheName, currentlyUpdatedTitles);
 		return currentlyUpdatedTitles;
@@ -162,7 +170,6 @@ public class AnimediaService {
 	 * @return list[0] - singleSeason anime, list[1] - multiSeason anime,list[2] - announcements
 	 */
 	public Map<AnimeTypeOnAnimedia, Set<Anime>> getAnimeSortedByType(@NotEmpty Set<AnimediaTitleSearchInfo> animediaSearchListInput) {
-		Map<String, Map<String, String>> animediaRequestParameters = requestParametersBuilder.build();
 		int multiSeasonCount = 1;
 		int singleSeasonCount = 1;
 		int announcementCount = 1;
