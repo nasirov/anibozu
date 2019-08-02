@@ -175,9 +175,9 @@ public class CloudflareDDoSProtectionAvoidingFilter extends ClientFilter {
 	}
 
 	private String getExpressionsSummaryWithDivisionOperation(String unobfuscatedExpression) {
-		String[] splitedByDivisionOperation = unobfuscatedExpression.split("/");
+		String[] splittedByDivisionOperation = unobfuscatedExpression.split("/");
 		StringBuilder expressionsSummaryWithDivisionOperation = new StringBuilder();
-		for (String expressionWithAddition : splitedByDivisionOperation) {
+		for (String expressionWithAddition : splittedByDivisionOperation) {
 			StringBuilder numbersOfExpressionsSummary = new StringBuilder();
 			String[] isolatedExpressionsInBrackets = expressionWithAddition.split("\\)");
 			for (String expression : isolatedExpressionsInBrackets) {

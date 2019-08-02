@@ -575,8 +575,8 @@ public class SeasonAndEpisodeChecker {
 				.filter(episode -> episode.matches(episodeNumberForWatch + "-\\d{1,3}") || episode.matches("\\d{1,3}-" + episodeNumberForWatch)).findFirst()
 				.orElse(null);
 		if (joinedEpisode != null) {
-			String[] splitedEpisodes = joinedEpisode.split("-");
-			result[0] = splitedEpisodes[0];
+			String[] splittedEpisodes = joinedEpisode.split("-");
+			result[0] = splittedEpisodes[0];
 			result[1] = episodeNumberForWatch;
 		}
 		return result;
