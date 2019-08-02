@@ -224,16 +224,15 @@ public class MALService {
 	 */
 	private void changePosterUrl(@NotEmpty Set<UserMALTitleInfo> watchingTitles) {
 		String changedPosterUrl = "";
-		Pattern pattern;
+		Pattern resolutionPattern = Pattern.compile("(/r/\\d{1,3}x\\d{1,3})");
+		Pattern sVariablePattern = Pattern.compile("(\\?s=.+)");
 		Matcher matcher;
 		for (UserMALTitleInfo userMALTitleInfo : watchingTitles) {
-			pattern = Pattern.compile("(/r/\\d{1,3}x\\d{1,3})");
-			matcher = pattern.matcher(userMALTitleInfo.getPosterUrl());
+			matcher = resolutionPattern.matcher(userMALTitleInfo.getPosterUrl());
 			if (matcher.find()) {
 				changedPosterUrl = matcher.replaceAll("");
 			}
-			pattern = Pattern.compile("(\\?s=.+)");
-			matcher = pattern.matcher(changedPosterUrl);
+			matcher = sVariablePattern.matcher(changedPosterUrl);
 			if (matcher.find()) {
 				changedPosterUrl = matcher.replaceAll("");
 			}
