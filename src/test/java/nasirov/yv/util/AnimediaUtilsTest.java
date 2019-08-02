@@ -38,9 +38,10 @@ public class AnimediaUtilsTest extends AbstractTest {
 		concretizedAndOngoing = references.stream().filter(ref -> ref.getTitleOnMAL().equals("shingeki no kyojin season 3 part 2")).findFirst()
 				.orElse(null);
 		concretizedAndNotOngoing = references.stream().filter(ref -> ref.getTitleOnMAL().equals("one punch man: road to hero")).findFirst().orElse(null);
-		updatedTitle =  AnimediaMALTitleReferences.builder().url("anime/url").dataList("1").minConcretizedEpisodeOnAnimedia("1")
-				.titleOnMAL("titleName").firstEpisode("1").maxConcretizedEpisodeOnAnimedia("175").currentMax("175").posterUrl("posterUrl")
-				.episodesRange(getEpisodesRange("1","175")).build();
+		updatedTitle = AnimediaMALTitleReferences.builder().url("anime/url").dataList("1").minConcretizedEpisodeOnAnimedia("1").titleOnMAL("titleName")
+				.firstEpisode("1").maxConcretizedEpisodeOnAnimedia("175").currentMax("175").posterUrl("posterUrl").episodesRange(getEpisodesRange("1",
+						"175"))
+				.build();
 		notUpdatedTitle = references.stream().filter(ref -> ref.getTitleOnMAL().equals("fairy tail: final series")).findFirst().orElse(null);
 		notFoundOnMAL = references.stream().filter(ref -> ref.getTitleOnMAL().equals(NOT_FOUND_ON_MAL.getDescription())).findFirst().orElse(null);
 	}
@@ -91,4 +92,19 @@ public class AnimediaUtilsTest extends AbstractTest {
 		assertNotNull(fromPrivateConstructor);
 	}
 
+	@Test
+	public void getCorrectCurrentMax() {
+		String currentMax = "13";
+		String joinedEpisode = "12-" + currentMax;
+		assertEquals(currentMax, AnimediaUtils.getCorrectCurrentMax(joinedEpisode));
+		assertEquals(currentMax, AnimediaUtils.getCorrectCurrentMax(currentMax));
+	}
+	@Test
+	public void getCorrectFirstEpisodeAndMin() {
+		String secondEpisode = "2";
+		String firstEpisode = "1";
+		String joinedEpisode = firstEpisode + "-" + secondEpisode;
+		assertEquals(Integer.valueOf(firstEpisode), AnimediaUtils.getCorrectFirstEpisodeAndMin(joinedEpisode));
+		assertEquals(Integer.valueOf(firstEpisode), AnimediaUtils.getCorrectFirstEpisodeAndMin(firstEpisode));
+	}
 }
