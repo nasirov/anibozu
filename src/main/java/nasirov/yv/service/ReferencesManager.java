@@ -15,7 +15,9 @@ import java.util.HashMap;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
+import java.util.stream.Stream;
 import javax.annotation.PostConstruct;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
@@ -96,8 +98,7 @@ public class ReferencesManager {
 	}
 
 	/**
-	 * Updates multiseasons anime references
-	 * minConcretizedEpisodeOnAnimedia,maxConcretizedEpisodeOnAnimedia,first episode,current max
+	 * Updates multiseasons anime references minConcretizedEpisodeOnAnimedia,maxConcretizedEpisodeOnAnimedia,first episode,current max
 	 *
 	 * @param references the references
 	 */
@@ -112,27 +113,25 @@ public class ReferencesManager {
 			if (animeIdSeasonsAndEpisodesMap == null) {
 				animeIdSeasonsAndEpisodesMap = getTitleHtmlAndPutInCache(url, seasonsAndEpisodesCache);
 			}
-			for (Map.Entry<String, Map<String, String>> animeIdSeasonsAndEpisodesEntry : animeIdSeasonsAndEpisodesMap.entrySet()) {
-				for (Map.Entry<String, String> seasonsAndEpisodesEntry : animeIdSeasonsAndEpisodesEntry.getValue().entrySet()) {
-					String dataList = seasonsAndEpisodesEntry.getKey();
-					if (reference.getDataList().equals(dataList)) {
-						String animeId = animeIdSeasonsAndEpisodesEntry.getKey();
-						HttpResponse responseHtmlWithEpisodesInConcretizedDataList = httpCaller
-								.call(animediaEpisodesList + animeId + "/" + dataList + animediaEpisodesListPostfix, HttpMethod.GET, animediaRequestParameters);
-						Map<String, List<String>> episodesRange = animediaHTMLParser.getEpisodesRange(responseHtmlWithEpisodesInConcretizedDataList);
-						for (Map.Entry<String, List<String>> range : episodesRange.entrySet()) {
-							List<String> episodesList = range.getValue();
-							String maxEpisodes = range.getKey();
-							if (isTitleConcretizedAndOngoing(reference)) {
-								enrichConcretizedAndOngoingReference(reference, episodesList);
-							} else {
-								enrichRegularReference(reference, maxEpisodes, episodesList);
-							}
-						}
-						break;
+			String animeId = Stream.of(animeIdSeasonsAndEpisodesMap).flatMap(x -> x.entrySet().stream()).findAny().map(Entry::getKey).orElse(null);
+			Stream.of(animeIdSeasonsAndEpisodesMap).flatMap(map -> map.entrySet().stream())
+					.flatMap(animeIdSeasonsAndEpisodesEntry -> animeIdSeasonsAndEpisodesEntry.getValue().entrySet().stream())
+					.filter(seasonsAndEpisodesEntry -> seasonsAndEpisodesEntry.getKey().equals(reference.getDataList())).forEach(x -> {
+				HttpResponse responseHtmlWithEpisodesInConcretizedDataList = httpCaller
+						.call(animediaEpisodesList + animeId + "/" + reference.getDataList() + animediaEpisodesListPostfix,
+								HttpMethod.GET,
+								animediaRequestParameters);
+				Map<String, List<String>> episodesRange = animediaHTMLParser.getEpisodesRange(responseHtmlWithEpisodesInConcretizedDataList);
+				Stream.of(episodesRange).flatMap(episodesRangeMap -> episodesRangeMap.entrySet().stream()).forEach(episodesRangeMapEntry -> {
+					List<String> episodesList = episodesRangeMapEntry.getValue();
+					String maxEpisodes = episodesRangeMapEntry.getKey();
+					if (isTitleConcretizedAndOngoing(reference)) {
+						enrichConcretizedAndOngoingReference(reference, episodesList);
+					} else {
+						enrichRegularReference(reference, maxEpisodes, episodesList);
 					}
-				}
-			}
+				});
+			});
 		}
 	}
 
@@ -147,9 +146,7 @@ public class ReferencesManager {
 		}
 		reference.setFirstEpisode(correctFirstEpisodeAndMin);
 		reference.setMinConcretizedEpisodeOnAnimedia(correctFirstEpisodeAndMin);
-		reference.setMaxConcretizedEpisodeOnAnimedia(getCorrectMaxConcretizedEpisodeOnAnimedia(intMaxEpisodes,
-				correctFirstEpisodeAndMin,
-				maxEpisodes));
+		reference.setMaxConcretizedEpisodeOnAnimedia(getCorrectMaxConcretizedEpisodeOnAnimedia(intMaxEpisodes, correctFirstEpisodeAndMin, maxEpisodes));
 		reference.setEpisodesRange(episodesList);
 		reference.setCurrentMax(correctCurrentMax);
 	}
@@ -173,11 +170,9 @@ public class ReferencesManager {
 	}
 
 	/**
-	 * Compare multiseasons references and user watching titles and
-	 * Creates container with matched anime
-	 * Set poster url from MAL
+	 * Compare multiseasons references and user watching titles and Creates container with matched anime Set poster url from MAL
 	 *
-	 * @param references the  multiseasons references
+	 * @param references     the  multiseasons references
 	 * @param watchingTitles the user watching titles
 	 * @return the matched user references
 	 */
@@ -197,7 +192,7 @@ public class ReferencesManager {
 	 * Compare multi seasons titles from animedia search list with multi seasons references from resources
 	 *
 	 * @param multiSeasonsAnime multi seasons titles from animedia
-	 * @param allReferences all multi seasons references from resources
+	 * @param allReferences     all multi seasons references from resources
 	 * @return true if multi seasons references from resources are full, if false then we must add the new reference to the raw mapping
 	 */
 	public boolean isReferencesAreFull(@NotEmpty Set<Anime> multiSeasonsAnime, @NotEmpty Set<AnimediaMALTitleReferences> allReferences) {
