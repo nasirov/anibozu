@@ -104,7 +104,7 @@ public class AnimediaUtilsTest extends AbstractTest {
 		String secondEpisode = "2";
 		String firstEpisode = "1";
 		String joinedEpisode = firstEpisode + "-" + secondEpisode;
-		assertEquals(Integer.valueOf(firstEpisode), AnimediaUtils.getCorrectFirstEpisodeAndMin(joinedEpisode));
-		assertEquals(Integer.valueOf(firstEpisode), AnimediaUtils.getCorrectFirstEpisodeAndMin(firstEpisode));
+		assertEquals(firstEpisode, AnimediaUtils.getCorrectFirstEpisodeAndMin(joinedEpisode));
+		assertEquals(firstEpisode, AnimediaUtils.getCorrectFirstEpisodeAndMin(firstEpisode));
 	}
 }

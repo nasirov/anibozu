@@ -2,6 +2,8 @@ package nasirov.yv.service;
 
 import static nasirov.yv.util.AnimediaUtils.getCorrectCurrentMax;
 import static nasirov.yv.util.AnimediaUtils.getCorrectFirstEpisodeAndMin;
+import static nasirov.yv.util.AnimediaUtils.getFirstEpisode;
+import static nasirov.yv.util.AnimediaUtils.getLastEpisode;
 import static nasirov.yv.util.AnimediaUtils.isMaxEpisodesUndefined;
 import static nasirov.yv.util.AnimediaUtils.isTitleConcretizedAndOngoing;
 import static nasirov.yv.util.AnimediaUtils.isTitleNotFoundOnMAL;
@@ -121,23 +123,11 @@ public class ReferencesManager {
 						for (Map.Entry<String, List<String>> range : episodesRange.entrySet()) {
 							List<String> episodesList = range.getValue();
 							String maxEpisodes = range.getKey();
-							Integer intMaxEpisodes = null;
-							Integer intFirstEpisodeAndMin = getCorrectFirstEpisodeAndMin(episodesList.get(0));
-							String currentMax = getCorrectCurrentMax(episodesList.get(episodesList.size() - 1));
-							//если в дата листах суммируют первую серию и последнюю с предыдущего дата листа, то нужна проверка для правильного максимума
-							//например, всего серий ххх, 1 даталист: серии 1 из 100; 2 дата лист: серии 51 из 100
-							if (!isMaxEpisodesUndefined(maxEpisodes)) {
-								intMaxEpisodes = Integer.parseInt(maxEpisodes);
+							if (isTitleConcretizedAndOngoing(reference)) {
+								enrichConcretizedAndOngoingReference(reference, episodesList);
+							} else {
+								enrichRegularReference(reference, maxEpisodes, episodesList);
 							}
-							if (!isTitleConcretizedAndOngoing(reference)) {
-								reference.setFirstEpisode(intFirstEpisodeAndMin.toString());
-								reference.setMinConcretizedEpisodeOnAnimedia(intFirstEpisodeAndMin.toString());
-								reference.setMaxConcretizedEpisodeOnAnimedia(getCorrectMaxConcretizedEpisodeOnAnimedia(intMaxEpisodes,
-										intFirstEpisodeAndMin,
-										maxEpisodes));
-								reference.setEpisodesRange(episodesList);
-							}
-							reference.setCurrentMax(currentMax);
 						}
 						break;
 					}
@@ -146,7 +136,31 @@ public class ReferencesManager {
 		}
 	}
 
-	private String getCorrectMaxConcretizedEpisodeOnAnimedia(Integer intMaxEpisodes, Integer intFirstEpisodeAndMin, String maxEpisodes) {
+	private void enrichRegularReference(AnimediaMALTitleReferences reference, String maxEpisodes, List<String> episodesList) {
+		Integer intMaxEpisodes = null;
+		String correctFirstEpisodeAndMin = getCorrectFirstEpisodeAndMin(getFirstEpisode(episodesList));
+		String correctCurrentMax = getCorrectCurrentMax(getLastEpisode(episodesList));
+		//если в дата листах суммируют первую серию и последнюю с предыдущего дата листа, то нужна проверка для правильного максимума
+		//например, всего серий ххх, 1 даталист: серии 1 из 100; 2 дата лист: серии 51 из 100
+		if (!isMaxEpisodesUndefined(maxEpisodes)) {
+			intMaxEpisodes = Integer.parseInt(maxEpisodes);
+		}
+		reference.setFirstEpisode(correctFirstEpisodeAndMin);
+		reference.setMinConcretizedEpisodeOnAnimedia(correctFirstEpisodeAndMin);
+		reference.setMaxConcretizedEpisodeOnAnimedia(getCorrectMaxConcretizedEpisodeOnAnimedia(intMaxEpisodes,
+				correctFirstEpisodeAndMin,
+				maxEpisodes));
+		reference.setEpisodesRange(episodesList);
+		reference.setCurrentMax(correctCurrentMax);
+	}
+
+	private void enrichConcretizedAndOngoingReference(AnimediaMALTitleReferences reference, List<String> episodesList) {
+		String currentMax = getCorrectCurrentMax(getLastEpisode(episodesList));
+		reference.setCurrentMax(currentMax);
+	}
+
+	private String getCorrectMaxConcretizedEpisodeOnAnimedia(Integer intMaxEpisodes, String firstEpisodeAndMin, String maxEpisodes) {
+		int intFirstEpisodeAndMin = Integer.parseInt(firstEpisodeAndMin);
 		return intMaxEpisodes != null && intMaxEpisodes < intFirstEpisodeAndMin ? Integer.toString(intFirstEpisodeAndMin + intMaxEpisodes) : maxEpisodes;
 	}
 

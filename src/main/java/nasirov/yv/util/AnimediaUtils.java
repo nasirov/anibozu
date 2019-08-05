@@ -3,6 +3,7 @@ package nasirov.yv.util;
 import static nasirov.yv.data.enums.Constants.ANNOUNCEMENT_MARK;
 import static nasirov.yv.data.enums.Constants.NOT_FOUND_ON_MAL;
 
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import nasirov.yv.data.animedia.AnimediaMALTitleReferences;
@@ -58,15 +59,25 @@ public class AnimediaUtils {
 		return result;
 	}
 
-	public static Integer getCorrectFirstEpisodeAndMin(String firstEpisodeAndMin) {
-		Integer result;
+	public static String getCorrectFirstEpisodeAndMin(String firstEpisodeAndMin) {
+		String result;
 		String[] joinedEpisodes = firstEpisodeAndMin.split("-");
 		if (joinedEpisodes.length > 1) {
-			result = Integer.parseInt(joinedEpisodes[0]);
+			result = joinedEpisodes[0];
 		} else {
-			result = Integer.parseInt(firstEpisodeAndMin);
+			result = firstEpisodeAndMin;
 		}
 		return result;
+	}
+
+	public static String getFirstEpisode(List<String> episodesList) {
+		int firstIndex = 0;
+		return episodesList.get(firstIndex);
+	}
+
+	public static String getLastEpisode(List<String> episodesList) {
+		int lastIndex = episodesList.size() - 1;
+		return episodesList.get(lastIndex);
 	}
 
 }
