@@ -20,7 +20,7 @@ public class AnimediaUtils {
 	private AnimediaUtils() {
 	}
 
-	public static boolean isMaxEpisodesUndefined(String maxEpisodes) {
+	public static boolean isMaxEpisodeUndefined(String maxEpisodes) {
 		Matcher matcher = MAX_EPISODES_IS_UNDEFINED.matcher(maxEpisodes);
 		return matcher.find();
 	}

@@ -51,10 +51,10 @@ public class AnimediaUtilsTest extends AbstractTest {
 		String[] undefinedPositiveVariants = {"x", "xx", "xxx", "X", "XX", "XXX", "х", "хх", "ххх", "Х", "ХХ", "ХХХ"};
 		String[] undefinedNegativeVariants = {"", "xxxx", " ", "XXXX", "хххх", "ХХХХ"};
 		for (String var : undefinedPositiveVariants) {
-			assertTrue(AnimediaUtils.isMaxEpisodesUndefined(var));
+			assertTrue(AnimediaUtils.isMaxEpisodeUndefined(var));
 		}
 		for (String var : undefinedNegativeVariants) {
-			assertFalse(AnimediaUtils.isMaxEpisodesUndefined(var));
+			assertFalse(AnimediaUtils.isMaxEpisodeUndefined(var));
 		}
 	}
 	@Test

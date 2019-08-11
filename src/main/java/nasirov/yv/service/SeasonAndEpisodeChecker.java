@@ -10,7 +10,7 @@ import static nasirov.yv.util.AnimediaUtils.getCorrectFirstEpisodeAndMin;
 import static nasirov.yv.util.AnimediaUtils.getFirstEpisode;
 import static nasirov.yv.util.AnimediaUtils.getLastEpisode;
 import static nasirov.yv.util.AnimediaUtils.isAnnouncement;
-import static nasirov.yv.util.AnimediaUtils.isMaxEpisodesUndefined;
+import static nasirov.yv.util.AnimediaUtils.isMaxEpisodeUndefined;
 import static nasirov.yv.util.AnimediaUtils.isTitleConcretizedOnMAL;
 
 import java.util.HashMap;
@@ -48,6 +48,8 @@ import org.springframework.stereotype.Service;
 public class SeasonAndEpisodeChecker {
 
 	private static final Map<String, String> EPISODE_IS_NOT_AVAILABLE_FINAL_URL_AND_EPISODE_NUMBER_FOR_WATCH = new HashMap<>(1);
+
+	private static final String JOINED_EPISODE_REGEXP = "\\d{1,3}-\\d{1,3}";
 
 	static {
 		EPISODE_IS_NOT_AVAILABLE_FINAL_URL_AND_EPISODE_NUMBER_FOR_WATCH.put(EPISODE_NUMBER_FOR_WATCH_VALUE_IF_EPISODE_IS_NOT_AVAILABLE.getDescription(),
@@ -261,7 +263,7 @@ public class SeasonAndEpisodeChecker {
 		int undefinedMax = 0;
 		for (AnimediaMALTitleReferences animediaMALTitleReferences : matchedMultiSeasonsReferences) {
 			String maxEpisodesInDataListOnAnimedia = animediaMALTitleReferences.getMaxConcretizedEpisodeOnAnimedia();
-			Integer intMax = isMaxEpisodesUndefined(maxEpisodesInDataListOnAnimedia) ? undefinedMax : Integer.parseInt(maxEpisodesInDataListOnAnimedia);
+			Integer intMax = isMaxEpisodeUndefined(maxEpisodesInDataListOnAnimedia) ? undefinedMax : Integer.parseInt(maxEpisodesInDataListOnAnimedia);
 			if (nextNumberOfEpisodeForWatch >= Integer.parseInt(animediaMALTitleReferences.getFirstEpisode()) && (nextNumberOfEpisodeForWatch <= intMax
 					|| intMax.equals(undefinedMax))) {
 				Map<String, String> nextEpisodeForWatchFinalUrl = getNextEpisodeForWatchAndFinalUrl(animediaMALTitleReferences, nextNumberOfEpisodeForWatch);
@@ -347,7 +349,8 @@ public class SeasonAndEpisodeChecker {
 						String lastEpisode = getLastEpisode(episodesRange);
 						String correctFirstEpisodeAndMin = getCorrectFirstEpisodeAndMin(firstEpisode);
 						String correctCurrentMax = getCorrectCurrentMax(lastEpisode);
-						AnimediaMALTitleReferences temp = AnimediaMALTitleReferences.builder().url(url).dataList(dataList).firstEpisode(correctFirstEpisodeAndMin)
+						AnimediaMALTitleReferences temp = AnimediaMALTitleReferences.builder().url(url).dataList(dataList).firstEpisode
+								(correctFirstEpisodeAndMin)
 								.titleOnMAL(userMALTitleInfo.getTitle()).minConcretizedEpisodeOnAnimedia(correctFirstEpisodeAndMin)
 								.maxConcretizedEpisodeOnAnimedia(maxEpisodesAndEpisodesRangeEntry.getKey()).currentMax(correctCurrentMax)
 								.posterUrl(matchedOfSingleSeasonAnime.getPosterUrl()).episodesRange(episodesRange).build();
@@ -514,18 +517,18 @@ public class SeasonAndEpisodeChecker {
 	 * @param episodeNumberForWatch next episode for watch
 	 * @return correct nextEpisodeForWatch and finalURL if new episode is available or "","" if new episode is not available
 	 */
-	private Map<String, String> getNextEpisodeForWatchAndFinalUrl(AnimediaMALTitleReferences animediaMALTitleReferences,
-			int episodeNumberForWatch) {
+	private Map<String, String> getNextEpisodeForWatchAndFinalUrl(AnimediaMALTitleReferences animediaMALTitleReferences, int episodeNumberForWatch) {
 		String finalUrl;
 		Map<String, String> nextEpisodeForWatchFinalUrl;
 		if (episodeNumberForWatch <= Integer.parseInt(animediaMALTitleReferences.getCurrentMax())) {
 			nextEpisodeForWatchFinalUrl = new HashMap<>();
 			String episodeNumberForWatchForFront = String.valueOf(episodeNumberForWatch);
 			String episodeNumberForWatchForURL = episodeNumberForWatchForFront;
-			if (!isTitleConcretizedOnMAL(animediaMALTitleReferences) && joinedEpisodeIsPresent(episodeNumberForWatchForFront,
-					animediaMALTitleReferences.getEpisodesRange())) {
+			List<String> episodesRange = animediaMALTitleReferences.getEpisodesRange();
+			if (!isTitleConcretizedOnMAL(animediaMALTitleReferences) && isNextEpisodeForWatchInJoinedEpisode(episodeNumberForWatchForFront,
+					episodesRange)) {
 				String[] episodeNumberForWatchForURLandFront = getEpisodeNumberForWatchForURLandFrontIfJoinedEpisodeIsPresent(episodeNumberForWatchForFront,
-						animediaMALTitleReferences.getEpisodesRange());
+						episodesRange);
 				episodeNumberForWatchForURL = episodeNumberForWatchForURLandFront[0];
 				episodeNumberForWatchForFront = episodeNumberForWatchForURLandFront[1];
 			}
@@ -551,11 +554,9 @@ public class SeasonAndEpisodeChecker {
 	 * @param episodesRange episodes range from min to max
 	 * @return true if episodeNumberForWatch is contains in joined episode, false in other case
 	 */
-	private boolean joinedEpisodeIsPresent(String episodeNumberForWatch, List<String> episodesRange) {
-		//case if 2 episodes joined
-		//for 2+ need another logic
-		return episodesRange.stream()
-				.anyMatch(episode -> episode.matches(episodeNumberForWatch + "-\\d{1,3}") || episode.matches("\\d{1,3}-" + episodeNumberForWatch));
+	private boolean isNextEpisodeForWatchInJoinedEpisode(String episodeNumberForWatch, List<String> episodesRange) {
+		return episodesRange.stream().filter(episodes -> episodes.matches(JOINED_EPISODE_REGEXP)).map(episodes -> episodes.split("-"))
+				.anyMatch(episodesArray -> isEpisodeInRange(episodesArray, episodeNumberForWatch));
 	}
 
 	/**
@@ -567,17 +568,19 @@ public class SeasonAndEpisodeChecker {
 	 */
 	private String[] getEpisodeNumberForWatchForURLandFrontIfJoinedEpisodeIsPresent(String episodeNumberForWatch, List<String> episodesRange) {
 		String[] result = new String[2];
-		//case if 2 episodes joined
-		//for 2+ need another logic
-		String joinedEpisode = episodesRange.stream()
-				.filter(episode -> episode.matches(episodeNumberForWatch + "-\\d{1,3}") || episode.matches("\\d{1,3}-" + episodeNumberForWatch)).findFirst()
+		String[] splittedEpisodes = episodesRange.stream().filter(episodes -> episodes.matches(JOINED_EPISODE_REGEXP))
+				.map(episodes -> episodes.split("-")).filter(episodesArray -> isEpisodeInRange(episodesArray, episodeNumberForWatch)).findFirst()
 				.orElse(null);
-		if (joinedEpisode != null) {
-			String[] splittedEpisodes = joinedEpisode.split("-");
+		if (splittedEpisodes != null) {
 			result[0] = splittedEpisodes[0];
 			result[1] = episodeNumberForWatch;
 		}
 		return result;
+	}
+
+	private boolean isEpisodeInRange(String[] episodesArray, String episodeNumberForWatch) {
+		return Integer.parseInt(episodesArray[0]) <= Integer.parseInt(episodeNumberForWatch)
+				&& Integer.parseInt(episodesArray[episodesArray.length - 1]) >= Integer.parseInt(episodeNumberForWatch);
 	}
 
 }

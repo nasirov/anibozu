@@ -4,7 +4,7 @@ import static nasirov.yv.util.AnimediaUtils.getCorrectCurrentMax;
 import static nasirov.yv.util.AnimediaUtils.getCorrectFirstEpisodeAndMin;
 import static nasirov.yv.util.AnimediaUtils.getFirstEpisode;
 import static nasirov.yv.util.AnimediaUtils.getLastEpisode;
-import static nasirov.yv.util.AnimediaUtils.isMaxEpisodesUndefined;
+import static nasirov.yv.util.AnimediaUtils.isMaxEpisodeUndefined;
 import static nasirov.yv.util.AnimediaUtils.isTitleConcretizedAndOngoing;
 import static nasirov.yv.util.AnimediaUtils.isTitleNotFoundOnMAL;
 import static nasirov.yv.util.AnimediaUtils.isTitleUpdated;
@@ -141,7 +141,7 @@ public class ReferencesManager {
 		String correctCurrentMax = getCorrectCurrentMax(getLastEpisode(episodesList));
 		//если в дата листах суммируют первую серию и последнюю с предыдущего дата листа, то нужна проверка для правильного максимума
 		//например, всего серий ххх, 1 даталист: серии 1 из 100; 2 дата лист: серии 51 из 100
-		if (!isMaxEpisodesUndefined(maxEpisodes)) {
+		if (!isMaxEpisodeUndefined(maxEpisodes)) {
 			intMaxEpisodes = Integer.parseInt(maxEpisodes);
 		}
 		reference.setFirstEpisode(correctFirstEpisodeAndMin);
@@ -172,7 +172,7 @@ public class ReferencesManager {
 	/**
 	 * Compare multiseasons references and user watching titles and Creates container with matched anime Set poster url from MAL
 	 *
-	 * @param references     the  multiseasons references
+	 * @param references the  multiseasons references
 	 * @param watchingTitles the user watching titles
 	 * @return the matched user references
 	 */
@@ -192,7 +192,7 @@ public class ReferencesManager {
 	 * Compare multi seasons titles from animedia search list with multi seasons references from resources
 	 *
 	 * @param multiSeasonsAnime multi seasons titles from animedia
-	 * @param allReferences     all multi seasons references from resources
+	 * @param allReferences all multi seasons references from resources
 	 * @return true if multi seasons references from resources are full, if false then we must add the new reference to the raw mapping
 	 */
 	public boolean isReferencesAreFull(@NotEmpty Set<Anime> multiSeasonsAnime, @NotEmpty Set<AnimediaMALTitleReferences> allReferences) {

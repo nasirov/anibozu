@@ -339,8 +339,8 @@ public class SeasonAndEpisodeCheckerTest extends AbstractTest {
 		String titleOnMal = "some name";
 		Set<AnimediaMALTitleReferences> multiSeasonsReferencesList = new LinkedHashSet<>();
 		AnimediaMALTitleReferences references = AnimediaMALTitleReferences.builder().url(rootUrl).dataList("1").minConcretizedEpisodeOnAnimedia("1")
-				.titleOnMAL(titleOnMal).firstEpisode("1").maxConcretizedEpisodeOnAnimedia("6").currentMax("6").posterUrl("nwm")
-				.episodesRange(Arrays.asList("1","2","3","4-5","6")).build();
+				.titleOnMAL(titleOnMal).firstEpisode("1").maxConcretizedEpisodeOnAnimedia("7").currentMax("7").posterUrl("nwm")
+				.episodesRange(Arrays.asList("1-2","3","4-6","7")).build();
 		multiSeasonsReferencesList.add(references);
 		Set<UserMALTitleInfo> watchingTitles = new LinkedHashSet<>();
 		int numOfWatchedEpisodes = 3;
