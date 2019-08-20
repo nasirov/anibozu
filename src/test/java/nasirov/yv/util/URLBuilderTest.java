@@ -2,7 +2,6 @@ package nasirov.yv.util;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
@@ -50,13 +49,16 @@ public class URLBuilderTest extends AbstractTest {
 	}
 
 	@Test
-	public void testConstructor() throws IllegalAccessException, InvocationTargetException, InstantiationException {
+	public void testForbiddenPrivateConstructor() throws IllegalAccessException, InvocationTargetException, InstantiationException {
 		Constructor<?>[] declaredConstructors = URLBuilder.class.getDeclaredConstructors();
 		assertEquals(1, declaredConstructors.length);
 		assertFalse(declaredConstructors[0].isAccessible());
 		declaredConstructors[0].setAccessible(true);
-		URLBuilder fromPrivateConstructor = (URLBuilder) declaredConstructors[0].newInstance();
-		assertNotNull(fromPrivateConstructor);
+		try {
+			declaredConstructors[0].newInstance();
+		} catch (InvocationTargetException e) {
+			assertEquals(UnsupportedOperationException.class, e.getCause().getClass());
+		}
 	}
 
 }

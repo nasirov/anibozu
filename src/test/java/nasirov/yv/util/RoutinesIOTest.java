@@ -204,16 +204,6 @@ public class RoutinesIOTest extends AbstractTest {
 		assertFalse(testDir.exists());
 	}
 
-	@Test
-	public void testConstructor() throws IllegalAccessException, InvocationTargetException, InstantiationException {
-		Constructor<?>[] declaredConstructors = RoutinesIO.class.getDeclaredConstructors();
-		assertEquals(1, declaredConstructors.length);
-		assertFalse(declaredConstructors[0].isAccessible());
-		declaredConstructors[0].setAccessible(true);
-		RoutinesIO fromPrivateConstructor = (RoutinesIO) declaredConstructors[0].newInstance();
-		assertNotNull(fromPrivateConstructor);
-	}
-
 	private File createTestFileFromResourcesTestFile(String fileName) throws IOException {
 		File testFile = new File(fileName);
 		FileSystemUtils.copyRecursively(routinesIOtestResource.getFile(), testFile);
@@ -241,6 +231,19 @@ public class RoutinesIOTest extends AbstractTest {
 		assertEquals(2, unmarshalledFromFile.size());
 		assertEquals(1, unmarshalledFromFile.stream().filter(ref -> ref.equals(onePunch7)).count());
 		assertEquals(1, unmarshalledFromFile.stream().filter(ref -> ref.equals(onePunch7_2)).count());
+	}
+
+	@Test
+	public void testForbiddenPrivateConstructor() throws IllegalAccessException, InvocationTargetException, InstantiationException {
+		Constructor<?>[] declaredConstructors = RoutinesIO.class.getDeclaredConstructors();
+		assertEquals(1, declaredConstructors.length);
+		assertFalse(declaredConstructors[0].isAccessible());
+		declaredConstructors[0].setAccessible(true);
+		try {
+			declaredConstructors[0].newInstance();
+		} catch (InvocationTargetException e) {
+			assertEquals(UnsupportedOperationException.class, e.getCause().getClass());
+		}
 	}
 
 }

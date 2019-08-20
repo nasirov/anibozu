@@ -11,6 +11,7 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.NotDirectoryException;
 import java.util.Collection;
+import lombok.experimental.UtilityClass;
 import lombok.extern.slf4j.Slf4j;
 import nasirov.yv.parser.WrappedObjectMapper;
 import org.apache.tomcat.util.http.fileupload.FileUtils;
@@ -23,10 +24,9 @@ import org.springframework.util.ResourceUtils;
  * Created by nasirov.yv
  */
 @Slf4j
+@UtilityClass
 public class RoutinesIO {
 
-	private RoutinesIO() {
-	}
 
 	public static void marshalToFile(String pathToFile, Object value) {
 		WrappedObjectMapper.marshal(new File(pathToFile), value);

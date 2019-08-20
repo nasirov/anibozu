@@ -6,15 +6,14 @@ import java.nio.charset.StandardCharsets;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import lombok.experimental.UtilityClass;
 import org.springframework.web.util.UriUtils;
 
 /**
  * Created by nasirov.yv
  */
+@UtilityClass
 public class URLBuilder {
-
-	private URLBuilder() {
-	}
 
 	public static String build(String url, String dataList, String firstEpisodeInSeason, String numberOfEpisodesInSeason) {
 		String episode = null;
@@ -27,7 +26,7 @@ public class URLBuilder {
 	}
 
 	public static String build(String url, Map<String, String> queryParams) {
-		return url + (queryParams.isEmpty()? "" : addQueryParametersToURL(queryParams));
+		return url + (queryParams.isEmpty() ? "" : addQueryParametersToURL(queryParams));
 	}
 
 	private static String addQueryParametersToURL(Map<String, String> queryParams) {

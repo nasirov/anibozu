@@ -4,7 +4,6 @@ import static nasirov.yv.TestUtils.getEpisodesRange;
 import static nasirov.yv.data.enums.Constants.NOT_FOUND_ON_MAL;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 import java.lang.reflect.Constructor;
@@ -83,22 +82,13 @@ public class AnimediaUtilsTest extends AbstractTest {
 		assertFalse(AnimediaUtils.isTitleNotFoundOnMAL(concretizedAndNotOngoing));
 	}
 	@Test
-	public void testConstructor() throws IllegalAccessException, InvocationTargetException, InstantiationException {
-		Constructor<?>[] declaredConstructors = AnimediaUtils.class.getDeclaredConstructors();
-		assertEquals(1, declaredConstructors.length);
-		assertFalse(declaredConstructors[0].isAccessible());
-		declaredConstructors[0].setAccessible(true);
-		AnimediaUtils fromPrivateConstructor = (AnimediaUtils) declaredConstructors[0].newInstance();
-		assertNotNull(fromPrivateConstructor);
-	}
-
-	@Test
 	public void getCorrectCurrentMax() {
 		String currentMax = "13";
 		String joinedEpisode = "12-" + currentMax;
 		assertEquals(currentMax, AnimediaUtils.getCorrectCurrentMax(joinedEpisode));
 		assertEquals(currentMax, AnimediaUtils.getCorrectCurrentMax(currentMax));
 	}
+
 	@Test
 	public void getCorrectFirstEpisodeAndMin() {
 		String secondEpisode = "2";
@@ -106,5 +96,17 @@ public class AnimediaUtilsTest extends AbstractTest {
 		String joinedEpisode = firstEpisode + "-" + secondEpisode;
 		assertEquals(firstEpisode, AnimediaUtils.getCorrectFirstEpisodeAndMin(joinedEpisode));
 		assertEquals(firstEpisode, AnimediaUtils.getCorrectFirstEpisodeAndMin(firstEpisode));
+	}
+	@Test
+	public void testForbiddenPrivateConstructor() throws IllegalAccessException, InvocationTargetException, InstantiationException {
+		Constructor<?>[] declaredConstructors = AnimediaUtils.class.getDeclaredConstructors();
+		assertEquals(1, declaredConstructors.length);
+		assertFalse(declaredConstructors[0].isAccessible());
+		declaredConstructors[0].setAccessible(true);
+		try {
+			declaredConstructors[0].newInstance();
+		} catch (InvocationTargetException e) {
+			assertEquals(UnsupportedOperationException.class, e.getCause().getClass());
+		}
 	}
 }

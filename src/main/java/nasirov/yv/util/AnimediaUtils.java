@@ -6,19 +6,18 @@ import static nasirov.yv.data.enums.Constants.NOT_FOUND_ON_MAL;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import lombok.experimental.UtilityClass;
 import nasirov.yv.data.animedia.AnimediaMALTitleReferences;
 
 /**
  * Util operations with Animedia
  * Created by nasirov.yv
  */
+@UtilityClass
 public class AnimediaUtils {
 
 	private static final Pattern MAX_EPISODES_IS_UNDEFINED = Pattern.compile("^[xXхХ]{1,3}$");
 
-
-	private AnimediaUtils() {
-	}
 
 	public static boolean isMaxEpisodeUndefined(String maxEpisodes) {
 		Matcher matcher = MAX_EPISODES_IS_UNDEFINED.matcher(maxEpisodes);
