@@ -176,6 +176,9 @@ public abstract class AbstractTest {
 	@Value("classpath:animedia/ingressHtml.txt")
 	protected Resource announcementHtml;
 
+	@Value("classpath:mal/testAccForDevFirstJson300.json")
+	protected Resource testAccForDevFirstJson300;
+
 	@Value("classpath:mal/testAccForDevAdditionalJsonMoreThan300.json")
 	protected Resource testAccForDevAdditionalJsonMoreThan300;
 

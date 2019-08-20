@@ -20,13 +20,14 @@ import java.util.Map;
 import java.util.Set;
 import nasirov.yv.AbstractTest;
 import nasirov.yv.configuration.AppConfiguration;
+import nasirov.yv.data.mal.UserMALTitleInfo;
+import nasirov.yv.data.response.HttpResponse;
+import nasirov.yv.exception.mal.MALUserAccountNotFoundException;
 import nasirov.yv.exception.mal.WatchingTitlesNotFoundException;
 import nasirov.yv.http.caller.HttpCaller;
 import nasirov.yv.http.parameter.MALRequestParametersBuilder;
 import nasirov.yv.http.parameter.RequestParametersBuilder;
 import nasirov.yv.parser.MALParser;
-import nasirov.yv.data.response.HttpResponse;
-import nasirov.yv.data.mal.UserMALTitleInfo;
 import nasirov.yv.util.RoutinesIO;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -63,6 +64,9 @@ public class MALServiceTest extends AbstractTest {
 	 */
 	private static final Integer MAX_NUMBER_OF_TITLE_IN_HTML = 300;
 
+	private static final Integer INITIAL_OFFSET_FOR_LOAD_JSON = 0;
+
+
 	private static final String CACHED_ANIME_LIST = "cached";
 
 	private static final String NEW_TITLE_IN_ANIME_LIST = "newTitleInAnimeList";
@@ -93,7 +97,9 @@ public class MALServiceTest extends AbstractTest {
 		Set<UserMALTitleInfo> watchingTitlesFromCache = userMALCache.get(TEST_ACC_FOR_DEV, LinkedHashSet.class);
 		assertNull(watchingTitlesFromCache);
 		String profileUrl = myAnimeListNet + PROFILE + TEST_ACC_FOR_DEV;
-		String firstJsonUrl300Titles = myAnimeListNet + ANIME_LIST + TEST_ACC_FOR_DEV + "?" + STATUS + "=" + WATCHING.getCode().toString();
+		String firstJsonUrl300Titles =
+				myAnimeListNet + ANIME_LIST + TEST_ACC_FOR_DEV + LOAD_JSON + "?" + "offset=" + INITIAL_OFFSET_FOR_LOAD_JSON + "&" + STATUS + "=" + WATCHING
+						.getCode().toString();
 		String additionalJsonUrlMoreThan300 =
 				myAnimeListNet + ANIME_LIST + TEST_ACC_FOR_DEV + LOAD_JSON + "?" + "offset=" + MAX_NUMBER_OF_TITLE_IN_HTML + "&" + STATUS + "=" + WATCHING
 						.getCode().toString();
@@ -105,7 +111,7 @@ public class MALServiceTest extends AbstractTest {
 						+ WATCHING.getCode().toString();
 		doReturn(new HttpResponse(RoutinesIO.readFromResource(testAccForDevProfile), HttpStatus.OK.value())).when(httpCaller)
 				.call(eq(profileUrl), eq(HttpMethod.GET), eq(params));
-		doReturn(new HttpResponse(RoutinesIO.readFromResource(testAccForDevWatchingTitles), HttpStatus.OK.value())).when(httpCaller)
+		doReturn(new HttpResponse(RoutinesIO.readFromResource(testAccForDevFirstJson300), HttpStatus.OK.value())).when(httpCaller)
 				.call(eq(firstJsonUrl300Titles), eq(HttpMethod.GET), eq(params));
 		doReturn(new HttpResponse(RoutinesIO.readFromResource(testAccForDevAdditionalJsonMoreThan300), HttpStatus.OK.value())).when(httpCaller)
 				.call(eq(additionalJsonUrlMoreThan300), eq(HttpMethod.GET), eq(params));
@@ -119,8 +125,8 @@ public class MALServiceTest extends AbstractTest {
 		watchingTitlesFromCache = userMALCache.get(TEST_ACC_FOR_DEV, LinkedHashSet.class);
 		assertNotNull(watchingTitlesFromCache);
 		assertEquals(TEST_ACC_WATCHING_TITLES, watchingTitlesFromCache.size());
-		verify(httpCaller, times(5)).call(any(String.class), eq(HttpMethod.GET), eq(params));
-		verify(httpCaller, times(1)).call(eq(profileUrl), eq(HttpMethod.GET), eq(params));
+		verify(httpCaller, times(6)).call(any(String.class), eq(HttpMethod.GET), eq(params));
+		verify(httpCaller, times(2)).call(eq(profileUrl), eq(HttpMethod.GET), eq(params));
 		verify(httpCaller, times(1)).call(eq(firstJsonUrl300Titles), eq(HttpMethod.GET), eq(params));
 		verify(httpCaller, times(1)).call(eq(additionalJsonUrlMoreThan300), eq(HttpMethod.GET), eq(params));
 		verify(httpCaller, times(1)).call(eq(additionalJsonUrlMore600), eq(HttpMethod.GET), eq(params));
@@ -141,6 +147,14 @@ public class MALServiceTest extends AbstractTest {
 		String profileUrl = myAnimeListNet + PROFILE + TEST_ACC_FOR_DEV;
 		doReturn(new HttpResponse("Watching</a><span class=\"di-ib fl-r lh10\">0</span>", HttpStatus.OK.value())).when(httpCaller)
 				.call(eq(profileUrl), eq(HttpMethod.GET), eq(params));
+		malService.getWatchingTitles(TEST_ACC_FOR_DEV);
+	}
+
+	@Test(expected = MALUserAccountNotFoundException.class)
+	public void getWatchingTitlesMALUserAccountNotFound() throws Exception {
+		Map<String, Map<String, String>> params = parametersBuilder.build();
+		String profileUrl = myAnimeListNet + PROFILE + TEST_ACC_FOR_DEV;
+		doReturn(new HttpResponse("", HttpStatus.NOT_FOUND.value())).when(httpCaller).call(eq(profileUrl), eq(HttpMethod.GET), eq(params));
 		malService.getWatchingTitles(TEST_ACC_FOR_DEV);
 	}
 

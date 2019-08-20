@@ -32,9 +32,7 @@ import nasirov.yv.configuration.AppConfiguration;
 import nasirov.yv.data.animedia.AnimediaMALTitleReferences;
 import nasirov.yv.data.animedia.AnimediaTitleSearchInfo;
 import nasirov.yv.data.mal.UserMALTitleInfo;
-import nasirov.yv.exception.mal.JSONNotFoundException;
 import nasirov.yv.exception.mal.MALUserAccountNotFoundException;
-import nasirov.yv.exception.mal.MALUserAnimeListAccessException;
 import nasirov.yv.exception.mal.WatchingTitlesNotFoundException;
 import nasirov.yv.http.parameter.AnimediaRequestParametersBuilder;
 import nasirov.yv.http.parameter.MALRequestParametersBuilder;
@@ -137,7 +135,7 @@ public class ResultControllerTest extends AbstractTest {
 	@Test
 	public void checkResultUsernameIsNotFound() throws Exception {
 		String errorMsg = "MAL account " + USERNAME + " is not found";
-		doThrow(new MALUserAccountNotFoundException()).when(malService).getWatchingTitles(eq(USERNAME));
+		doThrow(new MALUserAccountNotFoundException(errorMsg)).when(malService).getWatchingTitles(eq(USERNAME));
 		checkErrorResult(errorMsg);
 	}
 
@@ -145,21 +143,6 @@ public class ResultControllerTest extends AbstractTest {
 	public void checkResultWatchingTitlesNotFound() throws Exception {
 		String errorMsg = "errorMsg";
 		doThrow(new WatchingTitlesNotFoundException(errorMsg)).when(malService).getWatchingTitles(eq(USERNAME));
-		checkErrorResult(errorMsg);
-	}
-
-	@Test
-	public void checkResultUserAnimeListHasPrivateAccess() throws Exception {
-		String errorMsg = "Anime list " + USERNAME + " has private access!";
-		doThrow(new MALUserAnimeListAccessException()).when(malService).getWatchingTitles(eq(USERNAME));
-		checkErrorResult(errorMsg);
-	}
-
-	@Test
-	public void checkResultJsonAnimeListNotFound() throws Exception {
-		String errorMsg =
-				"The application supports only default mal anime list view with wrapped json data! Json anime list is not found for " + USERNAME;
-		doThrow(new JSONNotFoundException()).when(malService).getWatchingTitles(eq(USERNAME));
 		checkErrorResult(errorMsg);
 	}
 

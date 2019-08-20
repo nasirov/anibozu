@@ -111,7 +111,7 @@ public class SeasonAndEpisodeChecker {
 	 * @param watchingTitles user watching titles
 	 * @param references multi seasons references
 	 * @param animediaSearchList animedia search list
-	 * @param username mal username
+	 * @param username the MAL username
 	 * @return matched user titles(multi seasons and single season)
 	 */
 	public Set<AnimediaMALTitleReferences> getMatchedAnime(@NotEmpty Set<UserMALTitleInfo> watchingTitles,
@@ -458,7 +458,7 @@ public class SeasonAndEpisodeChecker {
 	 * @param updatedWatchingTitles the user watching with updated number of watched episodes
 	 * @param matchedAnimeFromCache the matched user anime from cache
 	 * @param animediaSearchList animedia search list
-	 * @param username mal username
+	 * @param username the MAL username
 	 */
 	public void updateEpisodeNumberForWatchAndFinalUrl(@NotEmpty Set<UserMALTitleInfo> updatedWatchingTitles,
 			@NotEmpty Set<AnimediaMALTitleReferences> matchedAnimeFromCache, @NotEmpty Set<AnimediaTitleSearchInfo> animediaSearchList,

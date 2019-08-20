@@ -11,21 +11,19 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import javax.annotation.PostConstruct;
 import javax.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import nasirov.yv.data.animedia.AnimediaMALTitleReferences;
 import nasirov.yv.data.animedia.AnimediaTitleSearchInfo;
 import nasirov.yv.data.mal.MALUser;
 import nasirov.yv.data.mal.UserMALTitleInfo;
-import nasirov.yv.exception.mal.JSONNotFoundException;
 import nasirov.yv.exception.mal.MALUserAccountNotFoundException;
-import nasirov.yv.exception.mal.MALUserAnimeListAccessException;
 import nasirov.yv.exception.mal.WatchingTitlesNotFoundException;
 import nasirov.yv.repository.NotFoundAnimeOnAnimediaRepository;
 import nasirov.yv.service.AnimediaService;
 import nasirov.yv.service.MALService;
 import nasirov.yv.service.ReferencesManager;
 import nasirov.yv.service.SeasonAndEpisodeChecker;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.Cache;
 import org.springframework.cache.CacheManager;
@@ -39,6 +37,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 @Controller
 @Slf4j
 @SuppressWarnings("unchecked")
+@RequiredArgsConstructor
 public class ResultController {
 
 	private static final String ERROR_MSG = "errorMsg";
@@ -47,17 +46,6 @@ public class ResultController {
 
 	private static final String ERROR_VIEW = "error";
 
-	private static final String NOT_SUPPORTED_ANIME_LIST_ERROR_MSG =
-			"The application supports only default mal anime list view with wrapped json " + "data! Json anime " + "list is not found for ";
-
-	private static final String ANIME_LIST_HAS_PRIVATE_ACCESS_ERROR_MSG_PART_1 = "Anime list ";
-
-	private static final String ANIME_LIST_HAS_PRIVATE_ACCESS_ERROR_MSG_PART_2 = " has private access!";
-
-	private static final String MAL_ACCOUNT_IS_NOT_FOUND_ERROR_MSG_PART_1 = "MAL account ";
-
-	private static final String MAL_ACCOUNT_IS_NOT_FOUND_ERROR_MSG_PART_2 = " is not found";
-
 	private static final String MODEL_ATTRIBUTE_USERNAME = "username";
 
 	private static final String MODEL_ATTRIBUTE_NEW_EPISODE_AVAILABLE = "newEpisodeAvailable";
@@ -65,6 +53,18 @@ public class ResultController {
 	private static final String MODEL_ATTRIBUTE_NEW_EPISODE_NOT_AVAILABLE = "newEpisodeNotAvailable";
 
 	private static final String MODEL_ATTRIBUTE_NOT_FOUND_ON_ANIMEDIA = "matchedNotFoundAnimeOnAnimedia";
+
+	private final MALService malService;
+
+	private final AnimediaService animediaService;
+
+	private final ReferencesManager referencesManager;
+
+	private final SeasonAndEpisodeChecker seasonAndEpisodeChecker;
+
+	private final CacheManager cacheManager;
+
+	private final NotFoundAnimeOnAnimediaRepository notFoundAnimeOnAnimediaRepository;
 
 	@Value("${cache.userMAL.name}")
 	private String userMALCacheName;
@@ -86,30 +86,6 @@ public class ResultController {
 
 	private Cache currentlyUpdatedTitlesCache;
 
-	private MALService malService;
-
-	private AnimediaService animediaService;
-
-	private ReferencesManager referencesManager;
-
-	private SeasonAndEpisodeChecker seasonAndEpisodeChecker;
-
-	private CacheManager cacheManager;
-
-	private NotFoundAnimeOnAnimediaRepository notFoundAnimeOnAnimediaRepository;
-
-	@Autowired
-	public ResultController(MALService malService, AnimediaService animediaService, ReferencesManager referencesManager,
-			SeasonAndEpisodeChecker seasonAndEpisodeChecker, CacheManager cacheManager,
-			NotFoundAnimeOnAnimediaRepository notFoundAnimeOnAnimediaRepository) {
-		this.malService = malService;
-		this.animediaService = animediaService;
-		this.referencesManager = referencesManager;
-		this.seasonAndEpisodeChecker = seasonAndEpisodeChecker;
-		this.cacheManager = cacheManager;
-		this.notFoundAnimeOnAnimediaRepository = notFoundAnimeOnAnimediaRepository;
-	}
-
 	@PostConstruct
 	public void init() {
 		userMALCache = cacheManager.getCache(userMALCacheName);
@@ -123,21 +99,10 @@ public class ResultController {
 		String username = malUser.getUsername().toLowerCase();
 		model.addAttribute(MODEL_ATTRIBUTE_USERNAME, username);
 		Set<UserMALTitleInfo> watchingTitles;
-		String errorMsg;
 		try {
 			watchingTitles = malService.getWatchingTitles(username);
-		} catch (MALUserAccountNotFoundException e) {
-			errorMsg = MAL_ACCOUNT_IS_NOT_FOUND_ERROR_MSG_PART_1 + username + MAL_ACCOUNT_IS_NOT_FOUND_ERROR_MSG_PART_2;
-			return handleError(errorMsg, model, e);
-		} catch (WatchingTitlesNotFoundException e) {
-			errorMsg = e.getMessage();
-			return handleError(errorMsg, model, e);
-		} catch (MALUserAnimeListAccessException e) {
-			errorMsg = ANIME_LIST_HAS_PRIVATE_ACCESS_ERROR_MSG_PART_1 + username + ANIME_LIST_HAS_PRIVATE_ACCESS_ERROR_MSG_PART_2;
-			return handleError(errorMsg, model, e);
-		} catch (JSONNotFoundException e) {
-			errorMsg = NOT_SUPPORTED_ANIME_LIST_ERROR_MSG + username;
-			return handleError(errorMsg, model, e);
+		} catch (MALUserAccountNotFoundException | WatchingTitlesNotFoundException e) {
+			return handleError(e.getMessage(), model, e);
 		}
 		if (isUserCached(username)) {
 			return handleCachedUser(watchingTitles, model, username);
