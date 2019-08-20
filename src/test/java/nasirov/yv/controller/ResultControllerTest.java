@@ -51,7 +51,6 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.cache.Cache;
 import org.springframework.cache.CacheManager;
-import org.springframework.lang.Nullable;
 import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ContextConfiguration;
@@ -268,7 +267,7 @@ public class ResultControllerTest extends AbstractTest {
 		checkFront(content, sao3, onePunchManSpecialsReference, sao1, notFoundAnime, USERNAME);
 	}
 
-	private void checkFront(String content, AnimediaMALTitleReferences available, @Nullable AnimediaMALTitleReferences availableSecond,
+	private void checkFront(String content, AnimediaMALTitleReferences available, AnimediaMALTitleReferences availableSecond,
 			AnimediaMALTitleReferences notAvailable, UserMALTitleInfo notFound, String username) {
 		Pattern pattern = Pattern.compile("<title>Result for " + username + "</title>");
 		Matcher matcher = pattern.matcher(content);

@@ -1,6 +1,5 @@
 package nasirov.yv.cache;
 
-import javax.validation.constraints.NotNull;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -39,7 +38,7 @@ public class CacheCleaner {
 		clearAndLog(cacheManager, matchedReferencesCacheName);
 	}
 
-	private void clearAndLog(@NotNull CacheManager cacheManager, @NotNull String cacheName) {
+	private void clearAndLog(CacheManager cacheManager, String cacheName) {
 		Cache cache = cacheManager.getCache(cacheName);
 		cache.clear();
 		log.info("{} cleared", cacheName);

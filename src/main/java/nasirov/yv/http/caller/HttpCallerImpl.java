@@ -9,12 +9,11 @@ import com.sun.jersey.api.client.filter.GZIPContentEncodingFilter;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Stream;
-import javax.validation.constraints.NotNull;
 import lombok.extern.slf4j.Slf4j;
+import nasirov.yv.data.response.HttpResponse;
 import nasirov.yv.http.filter.BrotliContentEncodingFilter;
 import nasirov.yv.http.filter.CloudflareDDoSProtectionAvoidingFilter;
 import nasirov.yv.http.filter.RepeatRequestFilter;
-import nasirov.yv.data.response.HttpResponse;
 import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Component;
 
@@ -47,7 +46,7 @@ public class HttpCallerImpl implements HttpCaller {
 	 * @return the http response with content and status
 	 */
 	@Override
-	public HttpResponse call(@NotNull String url, @NotNull HttpMethod method, @NotNull Map<String, Map<String, String>> parameters) {
+	public HttpResponse call(String url, HttpMethod method, Map<String, Map<String, String>> parameters) {
 		WebResource webResource = client.resource(url);
 		ClientResponse response = sendRequest(enrichRequest(webResource, parameters), method);
 		return new HttpResponse(response.getEntity(String.class), response.getStatus());

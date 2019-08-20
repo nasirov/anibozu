@@ -2,7 +2,6 @@ package nasirov.yv.parser;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import javax.validation.constraints.NotNull;
 import lombok.extern.slf4j.Slf4j;
 import nasirov.yv.data.response.HttpResponse;
 import org.springframework.stereotype.Component;
@@ -24,7 +23,7 @@ public class MALParser {
 	 * @param response the mal response
 	 * @return the number of watching titles
 	 */
-	public Integer getNumWatchingTitles(@NotNull HttpResponse response) {
+	public Integer getNumWatchingTitles(HttpResponse response) {
 		Integer numberOfWatchingTitles = null;
 		Matcher matcher = NUMBER_OF_WATCHING_TITLES_PATTERN.matcher(response.getContent());
 		if (matcher.find()) {

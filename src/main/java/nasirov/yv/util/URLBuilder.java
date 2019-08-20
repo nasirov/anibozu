@@ -6,8 +6,6 @@ import java.nio.charset.StandardCharsets;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import javax.validation.constraints.NotNull;
-import org.springframework.lang.Nullable;
 import org.springframework.web.util.UriUtils;
 
 /**
@@ -18,7 +16,7 @@ public class URLBuilder {
 	private URLBuilder() {
 	}
 
-	public static String build(String url, String dataList, @Nullable String firstEpisodeInSeason, @Nullable String numberOfEpisodesInSeason) {
+	public static String build(String url, String dataList, String firstEpisodeInSeason, String numberOfEpisodesInSeason) {
 		String episode = null;
 		if (firstEpisodeInSeason != null) {
 			episode = firstEpisodeInSeason;
@@ -28,7 +26,7 @@ public class URLBuilder {
 		return url + "/" + dataList + "/" + episode;
 	}
 
-	public static String build(String url, @NotNull Map<String, String> queryParams) {
+	public static String build(String url, Map<String, String> queryParams) {
 		return url + (queryParams.isEmpty()? "" : addQueryParametersToURL(queryParams));
 	}
 

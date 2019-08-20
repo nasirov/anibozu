@@ -3,7 +3,6 @@ package nasirov.yv.parser;
 import java.io.File;
 import java.io.IOException;
 import java.util.Collection;
-import javax.validation.constraints.NotNull;
 import lombok.extern.slf4j.Slf4j;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.map.type.CollectionType;
@@ -19,7 +18,7 @@ public class WrappedObjectMapper {
 	private WrappedObjectMapper() {
 	}
 
-	public static <T, C extends Collection> C unmarshal(@NotNull String content, @NotNull Class<T> targetClass, @NotNull Class<C> collection) {
+	public static <T, C extends Collection> C unmarshal(String content, Class<T> targetClass, Class<C> collection) {
 		CollectionType collectionType = objectMapper.getTypeFactory().constructCollectionType(collection, targetClass);
 		C value = null;
 		try {
@@ -30,7 +29,7 @@ public class WrappedObjectMapper {
 		return value;
 	}
 
-	public static <T> T unmarshal(@NotNull String content, @NotNull Class<T> targetClass) {
+	public static <T> T unmarshal(String content, Class<T> targetClass) {
 		T value = null;
 		try {
 			value = objectMapper.readValue(content, targetClass);
@@ -40,7 +39,7 @@ public class WrappedObjectMapper {
 		return value;
 	}
 
-	public static <T extends File, C> void marshal(@NotNull T objectValue, @NotNull C content) {
+	public static <T extends File, C> void marshal(T objectValue, C content) {
 		try {
 			objectMapper.writeValue(objectValue, content);
 		} catch (IOException e) {

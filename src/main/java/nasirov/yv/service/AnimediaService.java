@@ -17,8 +17,6 @@ import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.annotation.PostConstruct;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
 import lombok.extern.slf4j.Slf4j;
 import nasirov.yv.data.animedia.Anime;
 import nasirov.yv.data.animedia.AnimeTypeOnAnimedia;
@@ -169,7 +167,7 @@ public class AnimediaService {
 	 * @param animediaSearchListInput the anime info for search on animedia
 	 * @return list[0] - singleSeason anime, list[1] - multiSeason anime,list[2] - announcements
 	 */
-	public Map<AnimeTypeOnAnimedia, Set<Anime>> getAnimeSortedByType(@NotEmpty Set<AnimediaTitleSearchInfo> animediaSearchListInput) {
+	public Map<AnimeTypeOnAnimedia, Set<Anime>> getAnimeSortedByType(Set<AnimediaTitleSearchInfo> animediaSearchListInput) {
 		int multiSeasonCount = 1;
 		int singleSeasonCount = 1;
 		int announcementCount = 1;
@@ -252,8 +250,8 @@ public class AnimediaService {
 	 * @param animediaSearchList animedia search list
 	 * @return set of not found titles from animedia search list
 	 */
-	public Set<AnimediaTitleSearchInfo> checkSortedAnime(@NotNull Set<Anime> singleSeasonAnime, @NotNull Set<Anime> multiSeasonsAnime,
-			@NotNull Set<Anime> announcements, @NotNull Set<AnimediaTitleSearchInfo> animediaSearchList) {
+	public Set<AnimediaTitleSearchInfo> checkSortedAnime(Set<Anime> singleSeasonAnime, Set<Anime> multiSeasonsAnime, Set<Anime> announcements,
+			Set<AnimediaTitleSearchInfo> animediaSearchList) {
 		Set<AnimediaTitleSearchInfo> notFound = new LinkedHashSet<>();
 		for (AnimediaTitleSearchInfo animediaTitleSearchInfo : animediaSearchList) {
 			long singleCount = singleSeasonAnime.stream().filter(set -> set.getRootUrl().equals(animediaTitleSearchInfo.getUrl())).count();
@@ -275,8 +273,8 @@ public class AnimediaService {
 	 * @param fromCache updated titles from cache
 	 * @return list of differences between fresh and cached
 	 */
-	public List<AnimediaMALTitleReferences> checkCurrentlyUpdatedTitles(@NotNull List<AnimediaMALTitleReferences> fresh,
-			@NotNull List<AnimediaMALTitleReferences> fromCache) {
+	public List<AnimediaMALTitleReferences> checkCurrentlyUpdatedTitles(List<AnimediaMALTitleReferences> fresh,
+			List<AnimediaMALTitleReferences> fromCache) {
 		List<AnimediaMALTitleReferences> list = new ArrayList<>();
 		if (!fromCache.isEmpty() && !fresh.isEmpty()) {
 			AnimediaMALTitleReferences animediaMALTitleReferencesFromCache = fromCache.get(0);

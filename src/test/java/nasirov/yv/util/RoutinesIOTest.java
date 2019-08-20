@@ -13,10 +13,9 @@ import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
-import javax.annotation.Nullable;
 import nasirov.yv.AbstractTest;
-import nasirov.yv.parser.WrappedObjectMapper;
 import nasirov.yv.data.animedia.AnimediaMALTitleReferences;
+import nasirov.yv.parser.WrappedObjectMapper;
 import org.junit.Test;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
@@ -221,7 +220,7 @@ public class RoutinesIOTest extends AbstractTest {
 		return testFile;
 	}
 
-	private void unmarshalFromDifferentSources(@Nullable String fileName, @Nullable File testFile, @Nullable Resource testResource) {
+	private void unmarshalFromDifferentSources(String fileName, File testFile, Resource testResource) {
 		Set<AnimediaMALTitleReferences> unmarshalledFromFile = null;
 		if (fileName != null) {
 			unmarshalledFromFile = RoutinesIO.unmarshalFromFile(fileName, AnimediaMALTitleReferences.class, LinkedHashSet.class);

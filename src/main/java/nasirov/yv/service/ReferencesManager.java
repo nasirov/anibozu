@@ -19,8 +19,6 @@ import java.util.Map.Entry;
 import java.util.Set;
 import java.util.stream.Stream;
 import javax.annotation.PostConstruct;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
 import lombok.extern.slf4j.Slf4j;
 import nasirov.yv.data.animedia.Anime;
 import nasirov.yv.data.animedia.AnimediaMALTitleReferences;
@@ -102,7 +100,7 @@ public class ReferencesManager {
 	 *
 	 * @param references the references
 	 */
-	public void updateReferences(@NotEmpty Set<AnimediaMALTitleReferences> references) {
+	public void updateReferences(Set<AnimediaMALTitleReferences> references) {
 		Map<String, Map<String, Map<String, String>>> seasonsAndEpisodesCache = new HashMap<>();
 		for (AnimediaMALTitleReferences reference : references) {
 			if (isTitleUpdated(reference) || isTitleNotFoundOnMAL(reference)) {
@@ -176,8 +174,7 @@ public class ReferencesManager {
 	 * @param watchingTitles the user watching titles
 	 * @return the matched user references
 	 */
-	public Set<AnimediaMALTitleReferences> getMatchedReferences(@NotEmpty Set<AnimediaMALTitleReferences> references,
-			@NotEmpty Set<UserMALTitleInfo> watchingTitles) {
+	public Set<AnimediaMALTitleReferences> getMatchedReferences(Set<AnimediaMALTitleReferences> references, Set<UserMALTitleInfo> watchingTitles) {
 		Set<AnimediaMALTitleReferences> tempReferences = new LinkedHashSet<>();
 		for (UserMALTitleInfo userMALTitleInfo : watchingTitles) {
 			references.stream().filter(set -> set.getTitleOnMAL().equals(userMALTitleInfo.getTitle())).forEach(set -> {
@@ -195,7 +192,7 @@ public class ReferencesManager {
 	 * @param allReferences all multi seasons references from resources
 	 * @return true if multi seasons references from resources are full, if false then we must add the new reference to the raw mapping
 	 */
-	public boolean isReferencesAreFull(@NotEmpty Set<Anime> multiSeasonsAnime, @NotEmpty Set<AnimediaMALTitleReferences> allReferences) {
+	public boolean isReferencesAreFull(Set<Anime> multiSeasonsAnime, Set<AnimediaMALTitleReferences> allReferences) {
 		Map<String, String> readFromRaw = convertReferencesSetToMap(allReferences);
 		return compareMaps(multiSeasonsAnime, readFromRaw);
 	}
@@ -206,8 +203,7 @@ public class ReferencesManager {
 	 * @param matchedAnimeFromCache the matched user anime from cache
 	 * @param currentlyUpdatedTitle the currently updated title on animedia
 	 */
-	public void updateCurrentMax(@NotEmpty Set<AnimediaMALTitleReferences> matchedAnimeFromCache,
-			@NotNull AnimediaMALTitleReferences currentlyUpdatedTitle) {
+	public void updateCurrentMax(Set<AnimediaMALTitleReferences> matchedAnimeFromCache, AnimediaMALTitleReferences currentlyUpdatedTitle) {
 		matchedAnimeFromCache.stream()
 				.filter(set -> set.getUrl().equals(currentlyUpdatedTitle.getUrl()) && set.getDataList().equals(currentlyUpdatedTitle.getDataList()))
 				.forEach(set -> {
@@ -216,14 +212,14 @@ public class ReferencesManager {
 				});
 	}
 
-	private Map<String, String> convertReferencesSetToMap(@NotEmpty Set<AnimediaMALTitleReferences> allReferences) {
+	private Map<String, String> convertReferencesSetToMap(Set<AnimediaMALTitleReferences> allReferences) {
 		Map<String, String> urlTitle = new HashMap<>();
 		allReferences
 				.forEach(set -> urlTitle.put(animediaOnlineTv + set.getUrl() + "/" + set.getDataList() + "/" + set.getFirstEpisode(), set.getTitleOnMAL()));
 		return urlTitle;
 	}
 
-	private boolean compareMaps(@NotEmpty Set<Anime> multi, @NotEmpty Map<String, String> raw) {
+	private boolean compareMaps(Set<Anime> multi, Map<String, String> raw) {
 		boolean fullMatch = true;
 		Set<Anime> missingReferences = new LinkedHashSet<>();
 		for (Anime anime : multi) {

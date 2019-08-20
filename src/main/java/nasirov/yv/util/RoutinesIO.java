@@ -11,7 +11,6 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.NotDirectoryException;
 import java.util.Collection;
-import javax.validation.constraints.NotNull;
 import lombok.extern.slf4j.Slf4j;
 import nasirov.yv.parser.WrappedObjectMapper;
 import org.apache.tomcat.util.http.fileupload.FileUtils;
@@ -29,23 +28,21 @@ public class RoutinesIO {
 	private RoutinesIO() {
 	}
 
-	public static void marshalToFile(@NotNull String pathToFile, @NotNull Object value) {
+	public static void marshalToFile(String pathToFile, Object value) {
 		WrappedObjectMapper.marshal(new File(pathToFile), value);
 	}
 
-	public static <T, C extends Collection> C unmarshalFromFile(@NotNull String pathToFile, @NotNull Class<T> targetClass,
-			@NotNull Class<C> collection) {
+	public static <T, C extends Collection> C unmarshalFromFile(String pathToFile, Class<T> targetClass, Class<C> collection) {
 		String content = readFromFile(pathToFile);
 		return WrappedObjectMapper.unmarshal(content, targetClass, collection);
 	}
 
-	public static <T, C extends Collection> C unmarshalFromFile(@NotNull File file, @NotNull Class<T> targetClass, @NotNull Class<C> collection) {
+	public static <T, C extends Collection> C unmarshalFromFile(File file, Class<T> targetClass, Class<C> collection) {
 		String content = readFromFile(file);
 		return WrappedObjectMapper.unmarshal(content, targetClass, collection);
 	}
 
-	public static <T, C extends Collection> C unmarshalFromResource(@NotNull Resource resource, @NotNull Class<T> targetClass,
-			@NotNull Class<C> collection) {
+	public static <T, C extends Collection> C unmarshalFromResource(Resource resource, Class<T> targetClass, Class<C> collection) {
 		String content = readFromResource(resource);
 		return WrappedObjectMapper.unmarshal(content, targetClass, collection);
 	}
@@ -59,7 +56,7 @@ public class RoutinesIO {
 		}
 	}
 
-	@NotNull
+
 	public static String readFromFile(String pathToFile) {
 		StringBuilder stringBuilder = new StringBuilder();
 		String lineSeparator = System.lineSeparator();
@@ -90,7 +87,7 @@ public class RoutinesIO {
 		return stringBuilder.toString();
 	}
 
-	@NotNull
+
 	public static String readFromResource(Resource resource) {
 		String fromFile = "";
 		try (BufferedInputStream byteArrayInputStream = new BufferedInputStream(resource.getInputStream());

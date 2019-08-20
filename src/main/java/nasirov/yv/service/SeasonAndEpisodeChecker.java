@@ -22,7 +22,6 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import javax.annotation.PostConstruct;
-import javax.validation.constraints.NotEmpty;
 import lombok.extern.slf4j.Slf4j;
 import nasirov.yv.data.animedia.AnimediaMALTitleReferences;
 import nasirov.yv.data.animedia.AnimediaTitleSearchInfo;
@@ -114,8 +113,8 @@ public class SeasonAndEpisodeChecker {
 	 * @param username the MAL username
 	 * @return matched user titles(multi seasons and single season)
 	 */
-	public Set<AnimediaMALTitleReferences> getMatchedAnime(@NotEmpty Set<UserMALTitleInfo> watchingTitles,
-			@NotEmpty Set<AnimediaMALTitleReferences> references, @NotEmpty Set<AnimediaTitleSearchInfo> animediaSearchList, @NotEmpty String username) {
+	public Set<AnimediaMALTitleReferences> getMatchedAnime(Set<UserMALTitleInfo> watchingTitles, Set<AnimediaMALTitleReferences> references,
+			Set<AnimediaTitleSearchInfo> animediaSearchList, String username) {
 		log.info("RESULT FOR {}:", username);
 		Set<AnimediaMALTitleReferences> finalMatchedReferences = new LinkedHashSet<>();
 		for (UserMALTitleInfo userMALTitleInfo : watchingTitles) {
@@ -423,8 +422,8 @@ public class SeasonAndEpisodeChecker {
 	 * @param references the currently updated title on animedia
 	 * @param matchedAnimeFromCache the matched user anime from cache
 	 */
-	public void updateEpisodeNumberForWatchAndFinalUrl(@NotEmpty Set<UserMALTitleInfo> watchingTitles, @NotEmpty AnimediaMALTitleReferences references,
-			@NotEmpty Set<AnimediaMALTitleReferences> matchedAnimeFromCache) {
+	public void updateEpisodeNumberForWatchAndFinalUrl(Set<UserMALTitleInfo> watchingTitles, AnimediaMALTitleReferences references,
+			Set<AnimediaMALTitleReferences> matchedAnimeFromCache) {
 		log.info("UPDATING MATCHED REFERENCES...");
 		for (UserMALTitleInfo userMALTitleInfo : watchingTitles) {
 			//Increment to next episode for watch
@@ -460,9 +459,8 @@ public class SeasonAndEpisodeChecker {
 	 * @param animediaSearchList animedia search list
 	 * @param username the MAL username
 	 */
-	public void updateEpisodeNumberForWatchAndFinalUrl(@NotEmpty Set<UserMALTitleInfo> updatedWatchingTitles,
-			@NotEmpty Set<AnimediaMALTitleReferences> matchedAnimeFromCache, @NotEmpty Set<AnimediaTitleSearchInfo> animediaSearchList,
-			@NotEmpty String username) {
+	public void updateEpisodeNumberForWatchAndFinalUrl(Set<UserMALTitleInfo> updatedWatchingTitles,
+			Set<AnimediaMALTitleReferences> matchedAnimeFromCache, Set<AnimediaTitleSearchInfo> animediaSearchList, String username) {
 		Integer episodeNumberForWatch;
 		Map<String, String> nextEpisodeForWatchAndFinalUrl;
 		Set<AnimediaMALTitleReferences> allMultiSeasonsReferences = referencesManager.getMultiSeasonsReferences();
