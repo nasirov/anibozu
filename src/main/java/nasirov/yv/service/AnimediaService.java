@@ -5,9 +5,7 @@ import static nasirov.yv.data.animedia.AnimeTypeOnAnimedia.MULTISEASONS;
 import static nasirov.yv.data.animedia.AnimeTypeOnAnimedia.SINGLESEASON;
 import static nasirov.yv.util.AnimediaUtils.isAnnouncement;
 
-import java.io.File;
 import java.nio.charset.StandardCharsets;
-import java.nio.file.NotDirectoryException;
 import java.util.ArrayList;
 import java.util.EnumMap;
 import java.util.LinkedHashSet;
@@ -329,24 +327,14 @@ public class AnimediaService {
 				log.warn("NEW TITLE AVAILABLE IN ANIMEDIA SEARCH LIST {} ! PLEASE, ADD IT TO THE RESOURCES!", freshTitle);
 			}
 		}
-		if (!newTitlesInSearchList.isEmpty() || !removedTitlesFromSearchList.isEmpty() || !duplicates.isEmpty()) {
-			String prefix = tempFolderName + File.separator;
-			try {
-				if (!RoutinesIO.isDirectoryExists(tempFolderName)) {
-					RoutinesIO.mkDir(tempFolderName);
-				}
-				if (!newTitlesInSearchList.isEmpty()) {
-					RoutinesIO.marshalToFile(prefix + tempNewTitlesInAnimediaSearchList, newTitlesInSearchList);
-				}
-				if (!removedTitlesFromSearchList.isEmpty()) {
-					RoutinesIO.marshalToFile(prefix + tempRemovedTitlesFromAnimediaSearchList, removedTitlesFromSearchList);
-				}
-				if (!duplicates.isEmpty()) {
-					RoutinesIO.marshalToFile(prefix + tempDuplicatedUrlsInAnimediaSearchList, duplicates);
-				}
-			} catch (NotDirectoryException e) {
-				log.error(e.getMessage());
-			}
+		if (!newTitlesInSearchList.isEmpty()) {
+			RoutinesIO.marshalToFileInTheFolder(tempFolderName, tempNewTitlesInAnimediaSearchList, newTitlesInSearchList);
+		}
+		if (!removedTitlesFromSearchList.isEmpty()) {
+			RoutinesIO.marshalToFileInTheFolder(tempFolderName, tempRemovedTitlesFromAnimediaSearchList, removedTitlesFromSearchList);
+		}
+		if (!duplicates.isEmpty()) {
+			RoutinesIO.marshalToFileInTheFolder(tempFolderName, tempDuplicatedUrlsInAnimediaSearchList, duplicates);
 		}
 		return fullMatch;
 	}
@@ -370,26 +358,16 @@ public class AnimediaService {
 			}).forEach(matched::add);
 		}
 		if (!matched.isEmpty()) {
-			try {
-				if (!RoutinesIO.isDirectoryExists(tempFolderName)) {
-					RoutinesIO.mkDir(tempFolderName);
-				}
-				String prefix = tempFolderName + File.separator;
-				log.warn("CONCRETIZE THIS TITLES FROM ANIMEDIA SEARCH LIST {}", matched);
-				RoutinesIO.marshalToFile(prefix + tempSingleSeasonTitlesWithCyrillicKeywordsInAnimediaSearchList, matched);
-			} catch (NotDirectoryException e) {
-				log.error(e.getMessage());
-			}
+			RoutinesIO.marshalToFileInTheFolder(tempFolderName, tempSingleSeasonTitlesWithCyrillicKeywordsInAnimediaSearchList, matched);
+			log.warn("CONCRETIZE THIS TITLES FROM ANIMEDIA SEARCH LIST {}", matched);
 		}
 		return matched.isEmpty();
 	}
 
 	private void addSortedAnimeToTempResources(Set<Anime> single, Set<Anime> multi, Set<Anime> announcement) {
-		String prefix = tempFolderName + File.separator;
-		RoutinesIO.mkDir(tempFolderName);
-		RoutinesIO.marshalToFile(prefix + resourceSingleSeasonsAnimeUrls.getFilename(), single);
-		RoutinesIO.marshalToFile(prefix + resourceMultiSeasonsAnimeUrls.getFilename(), multi);
-		RoutinesIO.marshalToFile(prefix + resourceAnnouncementsUrls.getFilename(), announcement);
+		RoutinesIO.marshalToFileInTheFolder(tempFolderName, resourceSingleSeasonsAnimeUrls.getFilename(), single);
+		RoutinesIO.marshalToFileInTheFolder(tempFolderName, resourceMultiSeasonsAnimeUrls.getFilename(), multi);
+		RoutinesIO.marshalToFileInTheFolder(tempFolderName, resourceAnnouncementsUrls.getFilename(), announcement);
 	}
 
 	private void putSortedAnimeToCache(Set<Anime> single, Set<Anime> multi, Set<Anime> announcement) {

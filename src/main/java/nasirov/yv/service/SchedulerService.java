@@ -4,9 +4,8 @@ import static nasirov.yv.data.animedia.AnimeTypeOnAnimedia.ANNOUNCEMENT;
 import static nasirov.yv.data.animedia.AnimeTypeOnAnimedia.MULTISEASONS;
 import static nasirov.yv.data.animedia.AnimeTypeOnAnimedia.SINGLESEASON;
 import static nasirov.yv.data.enums.Constants.NOT_FOUND_ON_MAL;
+import static nasirov.yv.util.RoutinesIO.marshalToFileInTheFolder;
 
-import java.io.File;
-import java.nio.file.NotDirectoryException;
 import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Set;
@@ -18,7 +17,6 @@ import nasirov.yv.data.animedia.Anime;
 import nasirov.yv.data.animedia.AnimeTypeOnAnimedia;
 import nasirov.yv.data.animedia.AnimediaMALTitleReferences;
 import nasirov.yv.data.animedia.AnimediaTitleSearchInfo;
-import nasirov.yv.util.RoutinesIO;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
@@ -112,7 +110,7 @@ public class SchedulerService {
 				}
 			}
 			if (!referencesWithInvalidMALTitleName.isEmpty()) {
-				marshalToFileInTheTempFolder(tempReferencesWithInvalidMALTitleName, referencesWithInvalidMALTitleName);
+				marshalToFileInTheFolder(tempFolderName, tempReferencesWithInvalidMALTitleName, referencesWithInvalidMALTitleName);
 			}
 			log.info("END CHECKING REFERENCES TITLE NAME ON MAL.");
 		}
@@ -144,21 +142,9 @@ public class SchedulerService {
 				}
 			}
 			if (!searchTitlesWithInvalidMALTitleName.isEmpty()) {
-				marshalToFileInTheTempFolder(tempSearchTitlesWithInvalidMALTitleName, searchTitlesWithInvalidMALTitleName);
+				marshalToFileInTheFolder(tempFolderName, tempSearchTitlesWithInvalidMALTitleName, searchTitlesWithInvalidMALTitleName);
 			}
 			log.info("END CHECKING SINGLESEASON TITLE NAME ON MAL.");
-		}
-	}
-
-	private void marshalToFileInTheTempFolder(String fileName, Object content) {
-		try {
-			if (!RoutinesIO.isDirectoryExists(tempFolderName)) {
-				RoutinesIO.mkDir(tempFolderName);
-			}
-			String prefix = tempFolderName + File.separator;
-			RoutinesIO.marshalToFile(prefix + fileName, content);
-		} catch (NotDirectoryException e) {
-			log.error("CHECK system.properties VARIABLE resources.tempfolder.name! {} IS NOT A DIRECTORY!", tempFolderName);
 		}
 	}
 }

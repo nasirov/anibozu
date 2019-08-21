@@ -202,7 +202,4 @@ public abstract class AbstractTest {
 
 	@Value("classpath:routinesIOtestFile.json")
 	protected Resource routinesIOtestResource;
-
-	@Value("classpath:${resources.animediaSearchList.name}")
-	protected Resource resourceAnimediaSearchList;
 }

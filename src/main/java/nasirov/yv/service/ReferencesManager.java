@@ -9,8 +9,6 @@ import static nasirov.yv.util.AnimediaUtils.isTitleConcretizedAndOngoing;
 import static nasirov.yv.util.AnimediaUtils.isTitleNotFoundOnMAL;
 import static nasirov.yv.util.AnimediaUtils.isTitleUpdated;
 
-import java.io.File;
-import java.nio.file.NotDirectoryException;
 import java.util.HashMap;
 import java.util.LinkedHashSet;
 import java.util.List;
@@ -32,7 +30,6 @@ import nasirov.yv.util.RoutinesIO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.core.io.Resource;
 import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Service;
 
@@ -60,9 +57,6 @@ public class ReferencesManager {
 
 	@Value("${resources.tempRawReferences.name}")
 	private String tempRawReferencesName;
-
-	@Value("classpath:${resources.rawReference.name}")
-	private Resource referencesResourceJson;
 
 	private Map<String, Map<String, String>> animediaRequestParameters;
 
@@ -230,16 +224,7 @@ public class ReferencesManager {
 			}
 		}
 		if (!missingReferences.isEmpty()) {
-			try {
-				if (!RoutinesIO.isDirectoryExists(tempFolderName)) {
-					RoutinesIO.mkDir(tempFolderName);
-				}
-				String prefix = tempFolderName + File.separator;
-				RoutinesIO.marshalToFile(prefix + tempRawReferencesName, missingReferences);
-				log.warn("NOT FOUND IN THE RAW REFERENCES {} PLEASE, ADD MISSING REFERENCE TO THE RESOURCES!", missingReferences.toString());
-			} catch (NotDirectoryException e) {
-				log.error("CHECK system.properties VARIABLE resources.tempfolder.name! {} IS NOT A DIRECTORY!", tempFolderName);
-			}
+			RoutinesIO.marshalToFileInTheFolder(tempFolderName, tempRawReferencesName, missingReferences);
 		}
 		return fullMatch;
 	}

@@ -125,4 +125,16 @@ public class RoutinesIO {
 	public static boolean removeDir(String dirPath) {
 		return FileSystemUtils.deleteRecursively(new File(dirPath));
 	}
+
+	public static void marshalToFileInTheFolder(String folderName, String fileName, Object content) {
+		try {
+			if (!isDirectoryExists(folderName)) {
+				mkDir(folderName);
+			}
+			String prefix = folderName + File.separator;
+			marshalToFile(prefix + fileName, content);
+		} catch (NotDirectoryException e) {
+			log.error("{} IS NOT A DIRECTORY!", folderName);
+		}
+	}
 }
