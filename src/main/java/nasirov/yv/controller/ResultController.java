@@ -40,11 +40,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 @RequiredArgsConstructor
 public class ResultController {
 
-	private static final String ERROR_MSG = "errorMsg";
-
 	private static final String RESULT_VIEW = "result";
 
 	private static final String ERROR_VIEW = "error";
+
+	private static final String MODEL_ATTRIBUTE_ERROR_MSG = "errorMsg";
 
 	private static final String MODEL_ATTRIBUTE_USERNAME = "username";
 
@@ -72,9 +72,6 @@ public class ResultController {
 	@Value("${cache.userMatchedAnime.name}")
 	private String userMatchedAnimeCacheName;
 
-	@Value("${cache.matchedReferences.name}")
-	private String matchedReferencesCacheName;
-
 	@Value("${cache.currentlyUpdatedTitles.name}")
 	private String currentlyUpdatedTitlesCacheName;
 
@@ -82,15 +79,12 @@ public class ResultController {
 
 	private Cache userMatchedAnimeCache;
 
-	private Cache matchedReferencesCache;
-
 	private Cache currentlyUpdatedTitlesCache;
 
 	@PostConstruct
 	public void init() {
 		userMALCache = cacheManager.getCache(userMALCacheName);
 		userMatchedAnimeCache = cacheManager.getCache(userMatchedAnimeCacheName);
-		matchedReferencesCache = cacheManager.getCache(matchedReferencesCacheName);
 		currentlyUpdatedTitlesCache = cacheManager.getCache(currentlyUpdatedTitlesCacheName);
 	}
 
@@ -104,17 +98,17 @@ public class ResultController {
 		} catch (MALUserAccountNotFoundException | WatchingTitlesNotFoundException e) {
 			return handleError(e.getMessage(), model, e);
 		}
-		if (isUserCached(username)) {
-			return handleCachedUser(watchingTitles, model, username);
+		Set<UserMALTitleInfo> watchingTitlesFromCache = userMALCache.get(username, LinkedHashSet.class);
+		Set<AnimediaMALTitleReferences> matchedAnimeFromCache = userMatchedAnimeCache.get(username, LinkedHashSet.class);
+		List<AnimediaMALTitleReferences> currentlyUpdatedTitlesFromCache = currentlyUpdatedTitlesCache.get(currentlyUpdatedTitlesCacheName, ArrayList.class);
+		if (isUserCached(watchingTitlesFromCache, matchedAnimeFromCache, currentlyUpdatedTitlesFromCache)) {
+			return handleCachedUser(watchingTitlesFromCache, matchedAnimeFromCache, currentlyUpdatedTitlesFromCache, watchingTitles, model, username);
 		}
 		return handleNewUser(username, watchingTitles, model);
 	}
 
-	private String handleCachedUser(Set<UserMALTitleInfo> watchingTitles, Model model, String username) {
-		Set<UserMALTitleInfo> watchingTitlesFromCache = userMALCache.get(username, LinkedHashSet.class);
-		Set<AnimediaMALTitleReferences> matchedAnimeFromCache = userMatchedAnimeCache.get(username, LinkedHashSet.class);
-		List<AnimediaMALTitleReferences> currentlyUpdatedTitlesFromCache = currentlyUpdatedTitlesCache
-				.get(currentlyUpdatedTitlesCacheName, ArrayList.class);
+	private String handleCachedUser(Set<UserMALTitleInfo> watchingTitlesFromCache, Set<AnimediaMALTitleReferences> matchedAnimeFromCache,
+			List<AnimediaMALTitleReferences> currentlyUpdatedTitlesFromCache, Set<UserMALTitleInfo> watchingTitles, Model model, String username) {
 		List<AnimediaMALTitleReferences> differences = animediaService
 				.checkCurrentlyUpdatedTitles(animediaService.getCurrentlyUpdatedTitles(), currentlyUpdatedTitlesFromCache);
 		updateCurrentMaxEpisodeNumberForWatchAndFinalUrl(differences, matchedAnimeFromCache, watchingTitlesFromCache);
@@ -140,7 +134,6 @@ public class ResultController {
 		Set<AnimediaMALTitleReferences> matchedReferences = referencesManager
 				.getMatchedReferences(referencesManager.getMultiSeasonsReferences(), watchingTitles);
 		referencesManager.updateReferences(matchedReferences);
-		matchedReferencesCache.put(username, matchedReferences);
 		Set<AnimediaMALTitleReferences> matchedAnime = matchedAnimeFromCache != null ? matchedAnimeFromCache
 				: seasonAndEpisodeChecker.getMatchedAnime(watchingTitles, matchedReferences, animediaSearchList, username);
 		return enrichModel(matchedAnime, watchingTitles, model);
@@ -163,7 +156,7 @@ public class ResultController {
 
 	private String handleError(String errorMsg, Model model, Exception exception) {
 		log.error(errorMsg, exception);
-		model.addAttribute(ERROR_MSG, errorMsg);
+		model.addAttribute(MODEL_ATTRIBUTE_ERROR_MSG, errorMsg);
 		return ERROR_VIEW;
 	}
 
@@ -207,11 +200,8 @@ public class ResultController {
 		}
 	}
 
-	private boolean isUserCached(String username) {
-		Set<UserMALTitleInfo> watchingTitlesFromCache = userMALCache.get(username, LinkedHashSet.class);
-		Set<AnimediaMALTitleReferences> matchedAnimeFromCache = userMatchedAnimeCache.get(username, LinkedHashSet.class);
-		List<AnimediaMALTitleReferences> currentlyUpdatedTitlesFromCache = currentlyUpdatedTitlesCache
-				.get(currentlyUpdatedTitlesCacheName, ArrayList.class);
+	private boolean isUserCached(Set<UserMALTitleInfo> watchingTitlesFromCache, Set<AnimediaMALTitleReferences> matchedAnimeFromCache,
+			List<AnimediaMALTitleReferences> currentlyUpdatedTitlesFromCache) {
 		return watchingTitlesFromCache != null && matchedAnimeFromCache != null && currentlyUpdatedTitlesFromCache != null;
 	}
 }

@@ -27,9 +27,6 @@ public class AppConfiguration {
 	@Value("${cache.userMatchedAnime.name}")
 	private String userMatchedAnimeCacheName;
 
-	@Value("${cache.matchedReferences.name}")
-	private String matchedReferencesCacheName;
-
 	@Value("${cache.currentlyUpdatedTitles.name}")
 	private String currentlyUpdatedTitlesCacheName;
 
@@ -44,9 +41,6 @@ public class AppConfiguration {
 	 * userMatchedAnimeCache-for user matched anime (single,multi) (after matchedReferencesCacheName)
 	 * {@link nasirov.yv.service.SeasonAndEpisodeChecker#getMatchedAnime}
 	 * <p>
-	 * matchedReferencesCache-for updated user matched references(only multi) (before userMatchedAnimeCacheName)
-	 * {@link nasirov.yv.controller.ResultController#handleNewUser}
-	 * <p>
 	 * currentlyUpdatedTitlesCache-for currently updated titles on animedia
 	 * {@link nasirov.yv.service.AnimediaService#getCurrentlyUpdatedTitles}
 	 * <p>
@@ -59,7 +53,7 @@ public class AppConfiguration {
 		cacheManager.setCaches(Arrays.asList(new ConcurrentMapCache(sortedAnimediaSearchListCacheName),
 				new ConcurrentMapCache(userMALCacheName),
 				new ConcurrentMapCache(userMatchedAnimeCacheName),
-				new ConcurrentMapCache(matchedReferencesCacheName), new ConcurrentMapCache(currentlyUpdatedTitlesCacheName)));
+				new ConcurrentMapCache(currentlyUpdatedTitlesCacheName)));
 		return cacheManager;
 	}
 }

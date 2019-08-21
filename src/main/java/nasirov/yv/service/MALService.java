@@ -121,25 +121,42 @@ public class MALService {
 	 * @throws MALUserAccountNotFoundException if username doesn't exist
 	 */
 	public Set<UserMALTitleInfo> getWatchingTitles(String username) throws WatchingTitlesNotFoundException, MALUserAccountNotFoundException {
-		checkUsernameForExistence(username);
-		int numWatchingTitles = getNumberOfWatchingTitles(username);
-		Set<UserMALTitleInfo> resultWatchingTitles = new LinkedHashSet<>(numWatchingTitles);
-		List<UserMALTitleInfo> tempWatchingTitles = new ArrayList<>(numWatchingTitles);
-		//1-300 titles
-		tempWatchingTitles.addAll(getJsonTitlesAndUnmarshal(INITIAL_OFFSET_FOR_LOAD_JSON, username));
-		int requestCount = 1;
-		//300+ titles
-		while (numWatchingTitles > MAX_OFFSET_FOR_LOAD_JSON) {
-			tempWatchingTitles.addAll(getJsonTitlesAndUnmarshal((MAX_OFFSET_FOR_LOAD_JSON * requestCount), username));
-			requestCount++;
-			numWatchingTitles -= MAX_OFFSET_FOR_LOAD_JSON;
+		HttpResponse malResponseWithUserProfile = httpCaller.call(myAnimeListNet + PROFILE + username, HttpMethod.GET, malRequestParameters);
+		if (!isUserExist(malResponseWithUserProfile)) {
+			throw new MALUserAccountNotFoundException(MAL_ACCOUNT_IS_NOT_FOUND_ERROR_MSG_PART_1 + username + MAL_ACCOUNT_IS_NOT_FOUND_ERROR_MSG_PART_2);
 		}
-		tempWatchingTitles.forEach(title -> {
-			changePosterUrl(title);
-			changeAnimeUrl(title);
-			changeTitleName(title);
-			resultWatchingTitles.add(title);
-		});
+		Integer numberOfUserWatchingTitles = malParser.getNumWatchingTitles(malResponseWithUserProfile);
+		if (numberOfUserWatchingTitles == null) {
+			throw new WatchingTitlesNotFoundException("Watching titles number is not found for " + username + " !");
+		}
+		if (numberOfUserWatchingTitles.equals(0)) {
+			throw new WatchingTitlesNotFoundException("Not found watching titles for " + username + " !");
+		}
+		Set<UserMALTitleInfo> resultWatchingTitles = new LinkedHashSet<>(numberOfUserWatchingTitles);
+		int performedRequestCount = 0;
+		//performedRequestCount == 0 -> first request for titles 1 - 300 https://myanimelist.net/animelist/username/load.json?offset=0&status=1
+		//performedRequestCount == 1 -> second request for titles 301 - 600 https://myanimelist.net/animelist/username/load.json?offset=300&status=1
+		//etc
+		do {
+			int actualOffset;
+			int offsetStep;
+			if (performedRequestCount == 0) {
+				actualOffset = INITIAL_OFFSET_FOR_LOAD_JSON;
+				offsetStep = INITIAL_OFFSET_FOR_LOAD_JSON;
+			} else {
+				actualOffset = MAX_OFFSET_FOR_LOAD_JSON * performedRequestCount;
+				offsetStep = MAX_OFFSET_FOR_LOAD_JSON;
+			}
+			List<UserMALTitleInfo> tempWatchingTitles = getJsonTitlesAndUnmarshal(actualOffset, username);
+			tempWatchingTitles.forEach(title -> {
+				changePosterUrl(title);
+				changeAnimeUrl(title);
+				changeTitleName(title);
+				resultWatchingTitles.add(title);
+			});
+			numberOfUserWatchingTitles -= offsetStep;
+			performedRequestCount++;
+		} while (numberOfUserWatchingTitles > MAX_OFFSET_FOR_LOAD_JSON);
 		userMALCache.putIfAbsent(username, resultWatchingTitles);
 		return resultWatchingTitles;
 	}
@@ -258,25 +275,6 @@ public class MALService {
 	}
 
 	/**
-	 * Searches for number of watching titles
-	 *
-	 * @param username the MAL username
-	 * @return the number of watching titles
-	 * @throws WatchingTitlesNotFoundException if number of watching titles is not found or == 0
-	 */
-	private int getNumberOfWatchingTitles(String username) throws WatchingTitlesNotFoundException {
-		Integer numWatchingTitles = malParser
-				.getNumWatchingTitles(httpCaller.call(myAnimeListNet + PROFILE + username, HttpMethod.GET, malRequestParameters));
-		if (numWatchingTitles == null) {
-			throw new WatchingTitlesNotFoundException("Watching titles number is not found for " + username + " !");
-		}
-		if (numWatchingTitles.equals(0)) {
-			throw new WatchingTitlesNotFoundException("Not found watching titles for " + username + " !");
-		}
-		return numWatchingTitles;
-	}
-
-	/**
 	 * Searches for additional json anime list and unmarshal https://myanimelist.net/animelist/username/load .json?offset=currentOffset&status=1
 	 *
 	 * @param currentOffset the number of watching titles
@@ -294,13 +292,10 @@ public class MALService {
 	/**
 	 * Checks username for existence
 	 *
-	 * @param username the MAL username
-	 * @throws MALUserAccountNotFoundException if MAL response status == 404
+	 * @param malProfileResponse the MAL response
+	 * @return true if MAL profile response status != 404, else false
 	 */
-	private void checkUsernameForExistence(String username) throws MALUserAccountNotFoundException {
-		HttpResponse response = httpCaller.call(myAnimeListNet + PROFILE + username, HttpMethod.GET, malRequestParameters);
-		if (response.getStatus().equals(HttpStatus.NOT_FOUND.value())) {
-			throw new MALUserAccountNotFoundException(MAL_ACCOUNT_IS_NOT_FOUND_ERROR_MSG_PART_1 + username + MAL_ACCOUNT_IS_NOT_FOUND_ERROR_MSG_PART_2);
-		}
+	private boolean isUserExist(HttpResponse malProfileResponse) {
+		return !malProfileResponse.getStatus().equals(HttpStatus.NOT_FOUND.value());
 	}
 }

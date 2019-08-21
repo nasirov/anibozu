@@ -1,8 +1,8 @@
 package nasirov.yv.service;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import nasirov.yv.service.annotation.LoadResources;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 /**
@@ -11,17 +11,12 @@ import org.springframework.stereotype.Service;
 @Service
 @LoadResources
 @Slf4j
+@RequiredArgsConstructor
 public class ResourcesLoader {
 
-	private ReferencesManager referencesManager;
+	private final ReferencesManager referencesManager;
 
-	private AnimediaService animediaService;
-
-	@Autowired
-	public ResourcesLoader(ReferencesManager referencesManager, AnimediaService animediaService) {
-		this.referencesManager = referencesManager;
-		this.animediaService = animediaService;
-	}
+	private final AnimediaService animediaService;
 
 	@LoadResources
 	public void loadMultiSeasonsReferences() {

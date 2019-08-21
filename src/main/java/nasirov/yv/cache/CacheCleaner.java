@@ -1,7 +1,7 @@
 package nasirov.yv.cache;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.Cache;
 import org.springframework.cache.CacheManager;
@@ -13,6 +13,7 @@ import org.springframework.stereotype.Component;
  */
 @Component
 @Slf4j
+@RequiredArgsConstructor
 public class CacheCleaner {
 
 	@Value("${cache.userMAL.name}")
@@ -21,21 +22,12 @@ public class CacheCleaner {
 	@Value("${cache.userMatchedAnime.name}")
 	private String userMatchedAnimeCacheName;
 
-	@Value("${cache.matchedReferences.name}")
-	private String matchedReferencesCacheName;
-
-	private CacheManager cacheManager;
-
-	@Autowired
-	public CacheCleaner(CacheManager cacheManager) {
-		this.cacheManager = cacheManager;
-	}
+	private final CacheManager cacheManager;
 
 	@Scheduled(cron = "${cache.cron.expression}")
 	public void clearCache() {
 		clearAndLog(cacheManager, userMALCacheName);
 		clearAndLog(cacheManager, userMatchedAnimeCacheName);
-		clearAndLog(cacheManager, matchedReferencesCacheName);
 	}
 
 	private void clearAndLog(CacheManager cacheManager, String cacheName) {

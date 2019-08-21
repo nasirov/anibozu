@@ -71,9 +71,6 @@ public abstract class AbstractTest {
 	@Value("${urls.raw.githubusercontent.com.references}")
 	protected String referencesFromGitHubUrl;
 
-	@Value("${cache.matchedReferences.name}")
-	protected String matchedReferencesCacheName;
-
 	@Value("${resources.tempReferencesWithInvalidMALTitleName.name}")
 	protected String tempReferencesWithInvalidMALTitleName;
 

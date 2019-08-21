@@ -229,13 +229,11 @@ public class ResultControllerTest extends AbstractTest {
 		newReference.add(onePunchManSpecialsReference);
 		Cache userMALCache = cacheManager.getCache(userMALCacheName);
 		Cache userMatchedAnimeCache = cacheManager.getCache(userMatchedAnimeCacheName);
-		Cache matchedReferencesCache = cacheManager.getCache(matchedReferencesCacheName);
 		Cache currentlyUpdatedTitlesCache = cacheManager.getCache(currentlyUpdatedTitlesCacheName);
 		userMALCache.put(USERNAME, watchingTitlesFromCache);
 		userMatchedAnimeCache.put(USERNAME, matchedAnime);
 		currentlyUpdatedTitlesCache.put(currentlyUpdatedTitlesCacheName, new ArrayList<>());
 		Set<AnimediaMALTitleReferences> matchedTitles = new LinkedHashSet<>();
-		matchedReferencesCache.put(USERNAME, matchedTitles);
 		Set<AnimediaTitleSearchInfo> animediaSearchListFromGitHub = new LinkedHashSet<>();
 		doReturn(animediaSearchListFromGitHub).when(animediaService).getAnimediaSearchListFromGitHub();
 		doReturn(new ArrayList<>()).when(animediaService).getCurrentlyUpdatedTitles();

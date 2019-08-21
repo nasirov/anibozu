@@ -125,8 +125,8 @@ public class MALServiceTest extends AbstractTest {
 		watchingTitlesFromCache = userMALCache.get(TEST_ACC_FOR_DEV, LinkedHashSet.class);
 		assertNotNull(watchingTitlesFromCache);
 		assertEquals(TEST_ACC_WATCHING_TITLES, watchingTitlesFromCache.size());
-		verify(httpCaller, times(6)).call(any(String.class), eq(HttpMethod.GET), eq(params));
-		verify(httpCaller, times(2)).call(eq(profileUrl), eq(HttpMethod.GET), eq(params));
+		verify(httpCaller, times(5)).call(any(String.class), eq(HttpMethod.GET), eq(params));
+		verify(httpCaller, times(1)).call(eq(profileUrl), eq(HttpMethod.GET), eq(params));
 		verify(httpCaller, times(1)).call(eq(firstJsonUrl300Titles), eq(HttpMethod.GET), eq(params));
 		verify(httpCaller, times(1)).call(eq(additionalJsonUrlMoreThan300), eq(HttpMethod.GET), eq(params));
 		verify(httpCaller, times(1)).call(eq(additionalJsonUrlMore600), eq(HttpMethod.GET), eq(params));

@@ -12,13 +12,13 @@ import java.util.Map;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import nasirov.yv.data.animedia.Anime;
 import nasirov.yv.data.animedia.AnimeTypeOnAnimedia;
 import nasirov.yv.data.animedia.AnimediaMALTitleReferences;
 import nasirov.yv.data.animedia.AnimediaTitleSearchInfo;
 import nasirov.yv.util.RoutinesIO;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
@@ -29,6 +29,7 @@ import org.springframework.stereotype.Service;
 @Service
 @Slf4j
 @SuppressWarnings("unchecked")
+@RequiredArgsConstructor
 public class SchedulerService {
 
 	@Value("${resources.tempFolder.name}")
@@ -40,18 +41,11 @@ public class SchedulerService {
 	@Value("${resources.tempSearchTitlesWithInvalidMALTitleName.name}")
 	private String tempSearchTitlesWithInvalidMALTitleName;
 
-	private ReferencesManager referencesManager;
+	private final ReferencesManager referencesManager;
 
-	private AnimediaService animediaService;
+	private final AnimediaService animediaService;
 
-	private MALService malService;
-
-	@Autowired
-	public SchedulerService(ReferencesManager referencesManager, AnimediaService animediaService, MALService malService) {
-		this.referencesManager = referencesManager;
-		this.animediaService = animediaService;
-		this.malService = malService;
-	}
+	private final MALService malService;
 
 	@Scheduled(cron = "${resources.check.cron.expression}")
 	private void checkApplicationResources() {
