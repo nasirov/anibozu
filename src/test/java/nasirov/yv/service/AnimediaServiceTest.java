@@ -256,10 +256,9 @@ public class AnimediaServiceTest extends AbstractTest {
 
 	@Test
 	public void testGetAnimeResourcesAreNull() throws Exception {
-		ClassPathResource classPathResource = new ClassPathResource("resourcesNotFound");
-		ReflectionTestUtils.setField(animediaService, "resourceAnnouncementsUrls", classPathResource);
-		ReflectionTestUtils.setField(animediaService, "resourceMultiSeasonsAnimeUrls", classPathResource);
-		ReflectionTestUtils.setField(animediaService, "resourceSingleSeasonsAnimeUrls", classPathResource);
+		ReflectionTestUtils.setField(animediaService, "announcementsUrls", null);
+		ReflectionTestUtils.setField(animediaService, "multiSeasonsAnimeUrls", null);
+		ReflectionTestUtils.setField(animediaService, "singleSeasonsAnimeUrls", null);
 		ReflectionTestUtils.setField(animediaService, "tempFolderName", "classpath:notFound");
 		Map<AnimeTypeOnAnimedia, Set<Anime>> sortedAnime = animediaService.getAnimeSortedByTypeFromResources();
 		assertNotNull(sortedAnime);

@@ -20,7 +20,7 @@ import org.springframework.stereotype.Component;
 public class LogoPrinterContextListener implements ApplicationListener<ContextRefreshedEvent> {
 
 	@Value("${service.applicationLogoPrinter.enabled}")
-	private Boolean isApplicationLogoPrinterEnabled;
+	private boolean isApplicationLogoPrinterEnabled;
 
 	private ConfigurableListableBeanFactory factory;
 

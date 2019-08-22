@@ -20,7 +20,7 @@ import org.springframework.stereotype.Component;
 public class LoadResourcesContextListener implements ApplicationListener<ContextRefreshedEvent> {
 
 	@Value("${service.resourcesLoader.enabled}")
-	private Boolean isResourcesLoaderEnabled;
+	private boolean isResourcesLoaderEnabled;
 
 	private ConfigurableListableBeanFactory beanFactory;
 

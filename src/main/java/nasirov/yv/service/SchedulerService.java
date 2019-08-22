@@ -4,7 +4,6 @@ import static nasirov.yv.data.animedia.AnimeTypeOnAnimedia.ANNOUNCEMENT;
 import static nasirov.yv.data.animedia.AnimeTypeOnAnimedia.MULTISEASONS;
 import static nasirov.yv.data.animedia.AnimeTypeOnAnimedia.SINGLESEASON;
 import static nasirov.yv.data.enums.Constants.NOT_FOUND_ON_MAL;
-import static nasirov.yv.util.RoutinesIO.marshalToFileInTheFolder;
 
 import java.util.LinkedHashSet;
 import java.util.Map;
@@ -17,6 +16,7 @@ import nasirov.yv.data.animedia.Anime;
 import nasirov.yv.data.animedia.AnimeTypeOnAnimedia;
 import nasirov.yv.data.animedia.AnimediaMALTitleReferences;
 import nasirov.yv.data.animedia.AnimediaTitleSearchInfo;
+import nasirov.yv.util.RoutinesIO;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
@@ -110,7 +110,7 @@ public class SchedulerService {
 				}
 			}
 			if (!referencesWithInvalidMALTitleName.isEmpty()) {
-				marshalToFileInTheFolder(tempFolderName, tempReferencesWithInvalidMALTitleName, referencesWithInvalidMALTitleName);
+				RoutinesIO.marshalToFileInTheFolder(tempFolderName, tempReferencesWithInvalidMALTitleName, referencesWithInvalidMALTitleName);
 			}
 			log.info("END CHECKING REFERENCES TITLE NAME ON MAL.");
 		}
@@ -142,7 +142,7 @@ public class SchedulerService {
 				}
 			}
 			if (!searchTitlesWithInvalidMALTitleName.isEmpty()) {
-				marshalToFileInTheFolder(tempFolderName, tempSearchTitlesWithInvalidMALTitleName, searchTitlesWithInvalidMALTitleName);
+				RoutinesIO.marshalToFileInTheFolder(tempFolderName, tempSearchTitlesWithInvalidMALTitleName, searchTitlesWithInvalidMALTitleName);
 			}
 			log.info("END CHECKING SINGLESEASON TITLE NAME ON MAL.");
 		}
