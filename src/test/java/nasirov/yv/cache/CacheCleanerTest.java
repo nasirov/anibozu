@@ -5,9 +5,10 @@ import static org.junit.Assert.assertNull;
 
 import java.util.LinkedHashSet;
 import nasirov.yv.AbstractTest;
-import nasirov.yv.configuration.AppConfiguration;
+import nasirov.yv.configuration.CacheConfiguration;
 import nasirov.yv.data.animedia.AnimediaMALTitleReferences;
 import nasirov.yv.data.mal.UserMALTitleInfo;
+import nasirov.yv.service.scheduler.CacheCleaner;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -19,7 +20,7 @@ import org.springframework.test.annotation.DirtiesContext.ClassMode;
 /**
  * Created by nasirov.yv
  */
-@SpringBootTest(classes = {CacheCleaner.class, AppConfiguration.class})
+@SpringBootTest(classes = {CacheCleaner.class, CacheConfiguration.class})
 @DirtiesContext(classMode = ClassMode.AFTER_CLASS)
 public class CacheCleanerTest extends AbstractTest {
 

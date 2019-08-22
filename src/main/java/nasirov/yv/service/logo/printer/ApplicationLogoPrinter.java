@@ -1,22 +1,20 @@
-package nasirov.yv.service;
+package nasirov.yv.service.logo.printer;
 
-import nasirov.yv.service.annotation.PrintApplicationLogo;
 import nasirov.yv.util.RoutinesIO;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.event.ContextRefreshedEvent;
+import org.springframework.context.event.EventListener;
 import org.springframework.core.io.Resource;
-import org.springframework.stereotype.Service;
 
 /**
  * Created by nasirov.yv
  */
-@Service
-@PrintApplicationLogo
 public class ApplicationLogoPrinter {
 
 	@Value("classpath:${resources.applicationLogo.name}")
 	private Resource resourcesApplicationLogo;
 
-	@PrintApplicationLogo
+	@EventListener(classes = ContextRefreshedEvent.class)
 	public void printApplicationLogo() {
 		String logo = RoutinesIO.readFromResource(resourcesApplicationLogo);
 		System.out.println(logo);

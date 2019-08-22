@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Stream;
 import nasirov.yv.AbstractTest;
-import nasirov.yv.configuration.AppConfiguration;
+import nasirov.yv.configuration.CacheConfiguration;
 import nasirov.yv.data.animedia.AnimediaMALTitleReferences;
 import nasirov.yv.data.response.HttpResponse;
 import nasirov.yv.util.RoutinesIO;
@@ -24,7 +24,7 @@ import org.springframework.test.annotation.DirtiesContext;
 /**
  * Created by nasirov.yv
  */
-@SpringBootTest(classes = {AppConfiguration.class, AnimediaHTMLParser.class})
+@SpringBootTest(classes = {CacheConfiguration.class, AnimediaHTMLParser.class})
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_CLASS)
 public class AnimediaHTMLParserTest extends AbstractTest {
 

@@ -8,15 +8,13 @@ import org.springframework.cache.concurrent.ConcurrentMapCache;
 import org.springframework.cache.support.SimpleCacheManager;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.PropertySource;
 
 /**
  * Created by nasirov.yv
  */
 @Configuration
-@PropertySource(value = "classpath:system.properties")
 @EnableCaching
-public class AppConfiguration {
+public class CacheConfiguration {
 
 	@Value("${cache.userMAL.name}")
 	private String userMALCacheName;

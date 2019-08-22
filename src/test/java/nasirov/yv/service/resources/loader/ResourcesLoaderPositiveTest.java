@@ -1,12 +1,13 @@
-package nasirov.yv.service;
+package nasirov.yv.service.resources.loader;
 
 
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
 import nasirov.yv.AbstractTest;
-import nasirov.yv.configuration.AppConfiguration;
-import nasirov.yv.service.context.LoadResourcesContextListener;
+import nasirov.yv.configuration.CacheConfiguration;
+import nasirov.yv.service.AnimediaService;
+import nasirov.yv.service.ReferencesManager;
 import org.junit.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -17,26 +18,21 @@ import org.springframework.test.context.TestPropertySource;
 /**
  * Created by nasirov.yv
  */
-@SpringBootTest(classes = {ResourcesLoader.class, AppConfiguration.class, LoadResourcesContextListener.class})
+@SpringBootTest(classes = {ResourcesLoaderConfiguration.class, CacheConfiguration.class})
 @DirtiesContext(classMode = ClassMode.AFTER_EACH_TEST_METHOD)
 @SuppressWarnings("unchecked")
-@TestPropertySource(locations = "classpath:testSystem.properties")
-public class ResourcesLoaderTest extends AbstractTest {
+@TestPropertySource(properties = "service.resourcesLoader.enabled=true")
+public class ResourcesLoaderPositiveTest extends AbstractTest {
 
 	@MockBean
-	private ReferencesManager referencesManager;
+	protected ReferencesManager referencesManager;
 
 	@MockBean
-	private AnimediaService animediaService;
-
+	protected AnimediaService animediaService;
 
 	@Test
-	public void loadMultiSeasonsReferences() throws Exception {
+	public void loadMultiSeasonsReferencesEnabled() throws Exception {
 		verify(referencesManager, times(1)).getMultiSeasonsReferences();
-	}
-
-	@Test
-	public void loadAnimediaSearchInfoList() throws Exception {
 		verify(animediaService, times(1)).getAnimediaSearchListFromAnimedia();
 		verify(animediaService, times(1)).getAnimediaSearchListFromGitHub();
 	}

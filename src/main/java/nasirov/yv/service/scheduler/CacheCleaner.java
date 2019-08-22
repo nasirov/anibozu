@@ -1,4 +1,4 @@
-package nasirov.yv.cache;
+package nasirov.yv.service.scheduler;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -6,12 +6,12 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.Cache;
 import org.springframework.cache.CacheManager;
 import org.springframework.scheduling.annotation.Scheduled;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 /**
  * Created by nasirov.yv
  */
-@Component
+@Service
 @Slf4j
 @RequiredArgsConstructor
 public class CacheCleaner {

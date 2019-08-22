@@ -19,12 +19,11 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.LinkedHashSet;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import nasirov.yv.AbstractTest;
-import nasirov.yv.configuration.AppConfiguration;
+import nasirov.yv.configuration.CacheConfiguration;
 import nasirov.yv.data.animedia.Anime;
 import nasirov.yv.data.animedia.AnimediaMALTitleReferences;
 import nasirov.yv.data.mal.UserMALTitleInfo;
@@ -46,7 +45,7 @@ import org.springframework.util.FileSystemUtils;
 /**
  * Created by nasirov.yv
  */
-@SpringBootTest(classes = {ReferencesManager.class, AnimediaRequestParametersBuilder.class, AppConfiguration.class})
+@SpringBootTest(classes = {ReferencesManager.class, AnimediaRequestParametersBuilder.class, CacheConfiguration.class})
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_CLASS)
 public class ReferencesManagerTest extends AbstractTest {
 

@@ -19,7 +19,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import nasirov.yv.AbstractTest;
-import nasirov.yv.configuration.AppConfiguration;
+import nasirov.yv.configuration.CacheConfiguration;
 import nasirov.yv.data.mal.UserMALTitleInfo;
 import nasirov.yv.data.response.HttpResponse;
 import nasirov.yv.exception.mal.MALUserAccountNotFoundException;
@@ -43,7 +43,7 @@ import org.springframework.test.annotation.DirtiesContext;
 /**
  * Created by nasirov.yv
  */
-@SpringBootTest(classes = {MALService.class, MALParser.class, CacheManager.class, AppConfiguration.class, MALRequestParametersBuilder.class})
+@SpringBootTest(classes = {MALService.class, MALParser.class, CacheManager.class, CacheConfiguration.class, MALRequestParametersBuilder.class})
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_CLASS)
 public class MALServiceTest extends AbstractTest {
 

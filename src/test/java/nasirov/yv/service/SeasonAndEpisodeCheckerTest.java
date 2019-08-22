@@ -25,7 +25,7 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 import nasirov.yv.AbstractTest;
-import nasirov.yv.configuration.AppConfiguration;
+import nasirov.yv.configuration.CacheConfiguration;
 import nasirov.yv.data.animedia.AnimediaMALTitleReferences;
 import nasirov.yv.data.animedia.AnimediaTitleSearchInfo;
 import nasirov.yv.data.mal.UserMALTitleInfo;
@@ -47,7 +47,7 @@ import org.springframework.test.annotation.DirtiesContext;
 /**
  * Created by nasirov.yv
  */
-@SpringBootTest(classes = {AppConfiguration.class, SeasonAndEpisodeChecker.class, AnimediaRequestParametersBuilder.class, AnimediaHTMLParser.class})
+@SpringBootTest(classes = {CacheConfiguration.class, SeasonAndEpisodeChecker.class, AnimediaRequestParametersBuilder.class, AnimediaHTMLParser.class})
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_CLASS)
 public class SeasonAndEpisodeCheckerTest extends AbstractTest {
 

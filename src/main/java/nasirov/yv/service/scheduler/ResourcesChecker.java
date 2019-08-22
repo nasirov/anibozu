@@ -1,4 +1,4 @@
-package nasirov.yv.service;
+package nasirov.yv.service.scheduler;
 
 import static nasirov.yv.data.animedia.AnimeTypeOnAnimedia.ANNOUNCEMENT;
 import static nasirov.yv.data.animedia.AnimeTypeOnAnimedia.MULTISEASONS;
@@ -16,6 +16,9 @@ import nasirov.yv.data.animedia.Anime;
 import nasirov.yv.data.animedia.AnimeTypeOnAnimedia;
 import nasirov.yv.data.animedia.AnimediaMALTitleReferences;
 import nasirov.yv.data.animedia.AnimediaTitleSearchInfo;
+import nasirov.yv.service.AnimediaService;
+import nasirov.yv.service.MALService;
+import nasirov.yv.service.ReferencesManager;
 import nasirov.yv.util.RoutinesIO;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -28,7 +31,7 @@ import org.springframework.stereotype.Service;
 @Slf4j
 @SuppressWarnings("unchecked")
 @RequiredArgsConstructor
-public class SchedulerService {
+public class ResourcesChecker {
 
 	@Value("${resources.tempFolder.name}")
 	private String tempFolderName;

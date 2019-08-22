@@ -23,11 +23,12 @@ import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import nasirov.yv.AbstractTest;
-import nasirov.yv.configuration.AppConfiguration;
+import nasirov.yv.configuration.CacheConfiguration;
 import nasirov.yv.data.animedia.Anime;
 import nasirov.yv.data.animedia.AnimeTypeOnAnimedia;
 import nasirov.yv.data.animedia.AnimediaMALTitleReferences;
 import nasirov.yv.data.animedia.AnimediaTitleSearchInfo;
+import nasirov.yv.service.scheduler.ResourcesChecker;
 import nasirov.yv.util.RoutinesIO;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,10 +44,10 @@ import org.springframework.util.FileSystemUtils;
 /**
  * Created by nasirov.yv
  */
-@SpringBootTest(classes = {AppConfiguration.class, SchedulerService.class})
+@SpringBootTest(classes = {CacheConfiguration.class, ResourcesChecker.class})
 @DirtiesContext(classMode = ClassMode.AFTER_EACH_TEST_METHOD)
 @SuppressWarnings("unchecked")
-public class SchedulerServiceTest extends AbstractTest {
+public class ResourcesCheckerTest extends AbstractTest {
 
 	@MockBean
 	private AnimediaService animediaService;
@@ -61,7 +62,7 @@ public class SchedulerServiceTest extends AbstractTest {
 	private CacheManager cacheManager;
 
 	@Autowired
-	private SchedulerService schedulerService;
+	private ResourcesChecker resourcesChecker;
 
 	@Test
 	public void testCheckApplicationResourcesAllUpToDateButTitlesNotFoundOnMAL() throws NotDirectoryException {
@@ -97,9 +98,9 @@ public class SchedulerServiceTest extends AbstractTest {
 		doReturn(true).when(animediaService)
 				.isAllSingleSeasonAnimeHasConcretizedMALTitleInKeywordsInAnimediaSearchListFromResources(eq(single), eq(animediaSearchListFromAnimedia));
 		doReturn(false).when(malService).isTitleExist(animediaTitleSearchInfo.getKeywords());
-		String scheduledMethod = Arrays.stream(schedulerService.getClass().getDeclaredMethods())
+		String scheduledMethod = Arrays.stream(resourcesChecker.getClass().getDeclaredMethods())
 				.filter(method -> method.isAnnotationPresent(Scheduled.class)).findFirst().get().getName();
-		ReflectionTestUtils.invokeMethod(schedulerService, scheduledMethod);
+		ReflectionTestUtils.invokeMethod(resourcesChecker, scheduledMethod);
 		verify(animediaService, times(2)).getAnimeSortedByType(eq(animediaSearchListFromAnimedia));
 		assertTrue(RoutinesIO.isDirectoryExists(tempFolderName));
 		String prefix = tempFolderName + File.separator;
@@ -142,10 +143,10 @@ public class SchedulerServiceTest extends AbstractTest {
 		tempFile.createNewFile();
 		assertTrue(tempFile.exists());
 		assertFalse(tempFile.isDirectory());
-		ReflectionTestUtils.setField(schedulerService, "tempFolderName", tempFileName);
-		String scheduledMethod = Arrays.stream(schedulerService.getClass().getDeclaredMethods())
+		ReflectionTestUtils.setField(resourcesChecker, "tempFolderName", tempFileName);
+		String scheduledMethod = Arrays.stream(resourcesChecker.getClass().getDeclaredMethods())
 				.filter(method -> method.isAnnotationPresent(Scheduled.class)).findFirst().get().getName();
-		ReflectionTestUtils.invokeMethod(schedulerService, scheduledMethod);
+		ReflectionTestUtils.invokeMethod(resourcesChecker, scheduledMethod);
 		assertFalse(RoutinesIO.isDirectoryExists(tempFolderName));
 		verify(animediaService, times(1)).getAnimeSortedByType(eq(animediaSearchListFromAnimedia));
 		FileSystemUtils.deleteRecursively(tempFile);

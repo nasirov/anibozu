@@ -28,7 +28,7 @@ import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import nasirov.yv.AbstractTest;
-import nasirov.yv.configuration.AppConfiguration;
+import nasirov.yv.configuration.CacheConfiguration;
 import nasirov.yv.data.animedia.AnimediaMALTitleReferences;
 import nasirov.yv.data.animedia.AnimediaTitleSearchInfo;
 import nasirov.yv.data.mal.UserMALTitleInfo;
@@ -63,7 +63,7 @@ import org.springframework.validation.beanvalidation.MethodValidationPostProcess
 /**
  * Created by nasirov.yv
  */
-@ContextConfiguration(classes = {ResultController.class, AnimediaHTMLParser.class, MALParser.class, CacheManager.class, AppConfiguration.class,
+@ContextConfiguration(classes = {ResultController.class, AnimediaHTMLParser.class, MALParser.class, CacheManager.class, CacheConfiguration.class,
 		URLBuilder.class, MALRequestParametersBuilder.class, AnimediaRequestParametersBuilder.class, MethodValidationPostProcessor.class,
 		ResourceUrlAdvice.class})
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
