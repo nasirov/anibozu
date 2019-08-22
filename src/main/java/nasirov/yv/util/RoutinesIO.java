@@ -116,7 +116,7 @@ public class RoutinesIO {
 	public static boolean isDirectoryExists(String dirPath) throws NotDirectoryException {
 		File dir = new File(dirPath);
 		boolean isExists = dir.exists();
-		if (isExists && !dir.isDirectory()) {
+		if (dir.exists() && !dir.isDirectory()) {
 			throw new NotDirectoryException(dirPath + " is not a directory!");
 		}
 		return isExists;
@@ -134,7 +134,7 @@ public class RoutinesIO {
 			String prefix = folderName + File.separator;
 			marshalToFile(prefix + fileName, content);
 		} catch (NotDirectoryException e) {
-			log.error("{} IS NOT A DIRECTORY!", folderName);
+			log.error("Exception while marshal file {} to dir {}", fileName, folderName, e);
 		}
 	}
 }

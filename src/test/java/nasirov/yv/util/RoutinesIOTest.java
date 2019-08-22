@@ -9,6 +9,7 @@ import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
+import java.nio.file.NotDirectoryException;
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.List;
@@ -136,17 +137,7 @@ public class RoutinesIOTest extends AbstractTest {
 	public void readFromResource() throws Exception {
 		Set<AnimediaMALTitleReferences> unmarshalledFromFile = WrappedObjectMapper
 				.unmarshal(RoutinesIO.readFromResource(routinesIOtestResource), AnimediaMALTitleReferences.class, LinkedHashSet.class);
-		assertNotNull(unmarshalledFromFile);
-		assertFalse(unmarshalledFromFile.isEmpty());
-		AnimediaMALTitleReferences onePunch7 = AnimediaMALTitleReferences.builder().url("anime/vanpanchmen").dataList("7").firstEpisode("1")
-				.titleOnMAL("one punch man specials").minConcretizedEpisodeOnAnimedia("1").maxConcretizedEpisodeOnAnimedia("6")
-				.minConcretizedEpisodeOnMAL("1").maxConcretizedEpisodeOnMAL("6").currentMax("6").build();
-		AnimediaMALTitleReferences onePunch7_2 = AnimediaMALTitleReferences.builder().url("anime/vanpanchmen").dataList("7").firstEpisode("7")
-				.titleOnMAL("one punch man: road to hero").minConcretizedEpisodeOnAnimedia("7").maxConcretizedEpisodeOnAnimedia("7")
-				.minConcretizedEpisodeOnMAL("1").maxConcretizedEpisodeOnMAL("1").currentMax("7").build();
-		assertEquals(2, unmarshalledFromFile.size());
-		assertEquals(1, unmarshalledFromFile.stream().filter(ref -> ref.equals(onePunch7)).count());
-		assertEquals(1, unmarshalledFromFile.stream().filter(ref -> ref.equals(onePunch7_2)).count());
+		checkTestContent(unmarshalledFromFile);
 	}
 
 	@Test
@@ -244,6 +235,57 @@ public class RoutinesIOTest extends AbstractTest {
 		} catch (InvocationTargetException e) {
 			assertEquals(UnsupportedOperationException.class, e.getCause().getClass());
 		}
+	}
+
+	@Test
+	public void testMarshalToFileInTheFolderOk() {
+		List<AnimediaMALTitleReferences> testContent = getTestContent();
+		String testFilename = routinesIOtestResource.getFilename();
+		RoutinesIO.marshalToFileInTheFolder(tempFolderName, testFilename, testContent);
+		File testDir = new File(tempFolderName);
+		File testFileInTestDir = new File(testDir, testFilename);
+		Set<AnimediaMALTitleReferences> unmarshalledFromFile = WrappedObjectMapper
+				.unmarshal(RoutinesIO.readFromFile(testFileInTestDir), AnimediaMALTitleReferences.class, LinkedHashSet.class);
+		checkTestContent(unmarshalledFromFile);
+		FileSystemUtils.deleteRecursively(testDir);
+	}
+
+	@Test
+	public void testMarshalToFileInTheFolderInvalidDir() throws IOException {
+		String fileName = "test123.txt";
+		File fileNotDir = new File(fileName);
+		assertTrue(fileNotDir.createNewFile());
+		List<AnimediaMALTitleReferences> testContent = getTestContent();
+		String testFilename = routinesIOtestResource.getFilename();
+		RoutinesIO.marshalToFileInTheFolder(fileName, testFilename, testContent);
+		assertFalse(fileNotDir.isDirectory());
+		FileSystemUtils.deleteRecursively(fileNotDir);
+	}
+
+	private void checkTestContent(Set<AnimediaMALTitleReferences> unmarshalledFromFile) {
+		List<AnimediaMALTitleReferences> contentFromTestFile = getTestContent();
+		AnimediaMALTitleReferences onePunch7 = contentFromTestFile.stream().filter(title -> title.getTitleOnMAL().equals("one punch man specials"))
+				.findAny().get();
+		AnimediaMALTitleReferences onePunch7_2 = contentFromTestFile.stream()
+				.filter(title -> title.getTitleOnMAL().equals("one punch man: road to " + "hero")).findAny().get();
+		assertNotNull(unmarshalledFromFile);
+		assertFalse(unmarshalledFromFile.isEmpty());
+		assertEquals(2, unmarshalledFromFile.size());
+		assertEquals(1, unmarshalledFromFile.stream().filter(ref -> ref.equals(onePunch7)).count());
+		assertEquals(1, unmarshalledFromFile.stream().filter(ref -> ref.equals(onePunch7_2)).count());
+	}
+
+	private List<AnimediaMALTitleReferences> getTestContent() {
+		ArrayList<AnimediaMALTitleReferences> result = new ArrayList<>();
+		AnimediaMALTitleReferences onePunch7 = AnimediaMALTitleReferences.builder().url("anime/vanpanchmen").dataList("7").firstEpisode("1")
+				.titleOnMAL("one punch man specials").minConcretizedEpisodeOnAnimedia("1").maxConcretizedEpisodeOnAnimedia("6")
+				.minConcretizedEpisodeOnMAL("1").maxConcretizedEpisodeOnMAL("6").currentMax("6").build();
+		AnimediaMALTitleReferences onePunch7_2 = AnimediaMALTitleReferences.builder().url("anime/vanpanchmen").dataList("7").firstEpisode("7")
+				.titleOnMAL("one punch man: road to hero").minConcretizedEpisodeOnAnimedia("7").maxConcretizedEpisodeOnAnimedia("7")
+				.minConcretizedEpisodeOnMAL("1").maxConcretizedEpisodeOnMAL("1").currentMax("7").build();
+		result.add(onePunch7);
+		result.add(onePunch7_2);
+		return result;
 	}
 
 }
