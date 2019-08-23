@@ -1,7 +1,6 @@
 package nasirov.yv.service;
 
 import static nasirov.yv.TestUtils.getEpisodesRange;
-import static nasirov.yv.data.enums.Constants.NOT_FOUND_ON_MAL;
 import static nasirov.yv.data.mal.MALAnimeStatus.WATCHING;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -26,6 +25,7 @@ import nasirov.yv.AbstractTest;
 import nasirov.yv.configuration.CacheConfiguration;
 import nasirov.yv.data.animedia.Anime;
 import nasirov.yv.data.animedia.AnimediaMALTitleReferences;
+import nasirov.yv.data.constants.BaseConstants;
 import nasirov.yv.data.mal.UserMALTitleInfo;
 import nasirov.yv.data.response.HttpResponse;
 import nasirov.yv.http.caller.HttpCaller;
@@ -34,13 +34,13 @@ import nasirov.yv.parser.AnimediaHTMLParser;
 import nasirov.yv.util.RoutinesIO;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.core.io.Resource;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.test.annotation.DirtiesContext;
-import org.springframework.test.util.ReflectionTestUtils;
-import org.springframework.util.FileSystemUtils;
 
 /**
  * Created by nasirov.yv
@@ -48,6 +48,30 @@ import org.springframework.util.FileSystemUtils;
 @SpringBootTest(classes = {ReferencesManager.class, AnimediaRequestParametersBuilder.class, CacheConfiguration.class})
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_CLASS)
 public class ReferencesManagerTest extends AbstractTest {
+
+	@Value("classpath:animedia/fairyTail/fairyTailHtml.txt")
+	private Resource fairyTailHtml;
+
+	@Value("classpath:animedia/fairyTail/fairyTail1.txt")
+	private Resource fairyTailDataList1;
+
+	@Value("classpath:animedia/fairyTail/fairyTail2.txt")
+	private Resource fairyTailDataList2;
+
+	@Value("classpath:animedia/fairyTail/fairyTail3.txt")
+	private Resource fairyTailDataList3;
+
+	@Value("classpath:animedia/fairyTail/fairyTail7.txt")
+	private Resource fairyTailDataList7;
+
+	@Value("classpath:animedia/titans/titans3ConcretizedAndOngoing.txt")
+	private Resource titans3ConcretizedAndOngoing;
+
+	@Value("classpath:animedia/titans/titansHtml.txt")
+	private Resource titansHtml;
+
+	@Value("classpath:referencesForTest.json")
+	private Resource referencesForTestResource;
 
 	private static final String FAIRY_TAIL_ROOT_URL = "anime/skazka-o-hvoste-fei-TV1";
 
@@ -67,7 +91,7 @@ public class ReferencesManagerTest extends AbstractTest {
 	@Test
 	public void getMultiSeasonsReferences() throws Exception {
 		doReturn(new HttpResponse(RoutinesIO.readFromResource(referencesForTestResource), HttpStatus.OK.value())).when(httpCaller)
-				.call(eq(referencesFromGitHubUrl), eq(HttpMethod.GET), anyMap());
+				.call(eq(urlsNames.getGitHubUrls().getRawGithubusercontentComReferences()), eq(HttpMethod.GET), anyMap());
 		List<AnimediaMALTitleReferences> multiSeasonsReferences = new ArrayList<>(referencesManager.getMultiSeasonsReferences());
 		assertNotNull(multiSeasonsReferences);
 		assertEquals(12, multiSeasonsReferences.size());
@@ -219,17 +243,18 @@ public class ReferencesManagerTest extends AbstractTest {
 		assertFalse(compareResult);
 		assertTrue(RoutinesIO.isDirectoryExists(tempFolderName));
 		String prefix = tempFolderName + File.separator;
-		assertTrue(RoutinesIO.unmarshalFromFile(prefix + tempRawReferencesName, Anime.class, ArrayList.class).get(0).equals(missingReference));
+		assertTrue(RoutinesIO.unmarshalFromFile(prefix + resourcesNames.getTempRawReferences(), Anime.class, ArrayList.class).get(0)
+				.equals(missingReference));
 		RoutinesIO.removeDir(tempFolderName);
-		String tempFileName = "test.txt";
-		File tempFile = new File(tempFileName);
-		tempFile.createNewFile();
-		assertTrue(tempFile.exists());
-		assertFalse(tempFile.isDirectory());
-		ReflectionTestUtils.setField(referencesManager, "tempFolderName", tempFileName);
+//		String tempFileName = "test.txt";
+//		File tempFile = new File(tempFileName);
+//		tempFile.createNewFile();
+//		assertTrue(tempFile.exists());
+//		assertFalse(tempFile.isDirectory());
+//		ReflectionTestUtils.setField(referencesManager, "tempFolderName", tempFileName);
 		referencesManager.isReferencesAreFull(multiSeasonsFromSearch, multiSeasonsReferencesList);
-		FileSystemUtils.deleteRecursively(tempFile);
-		assertFalse(tempFile.exists());
+//		FileSystemUtils.deleteRecursively(tempFile);
+//		assertFalse(tempFile.exists());
 	}
 
 	@Test
@@ -287,7 +312,7 @@ public class ReferencesManagerTest extends AbstractTest {
 		AnimediaMALTitleReferences sao7 = AnimediaMALTitleReferences.builder().url(SAO_ROOT_URL).dataList("7").firstEpisode("1")
 				.titleOnMAL("sword art online: extra edition").build();
 		AnimediaMALTitleReferences none = AnimediaMALTitleReferences.builder().url("anime/velikiy-uchitel-onidzuka").dataList("1").firstEpisode("1")
-				.titleOnMAL(NOT_FOUND_ON_MAL.getDescription()).build();
+				.titleOnMAL(BaseConstants.NOT_FOUND_ON_MAL).build();
 		AnimediaMALTitleReferences onePunch7 = AnimediaMALTitleReferences.builder().url("anime/vanpanchmen").dataList("7").firstEpisode("1")
 				.titleOnMAL("one punch man specials").minConcretizedEpisodeOnAnimedia("1").maxConcretizedEpisodeOnAnimedia("6")
 				.minConcretizedEpisodeOnMAL("1").maxConcretizedEpisodeOnMAL("6").currentMax("6").build();

@@ -7,16 +7,15 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.LinkedHashMap;
 import java.util.Map;
-import nasirov.yv.AbstractTest;
-import nasirov.yv.data.enums.Constants;
+import nasirov.yv.data.constants.BaseConstants;
 import org.junit.Test;
 
 /**
  * Created by nasirov.yv
  */
-public class URLBuilderTest extends AbstractTest {
+public class URLBuilderTest {
 
-	private String url = animediaOnlineTv + "anime/smth";
+	private String url = "https://online.animedia.tv/" + "anime/smth";
 
 
 	@Test
@@ -30,7 +29,7 @@ public class URLBuilderTest extends AbstractTest {
 		resultUrl = URLBuilder.build(url, dataList, null, numberOfEpisodesInSeasonRange);
 		assertEquals(url + "/" + dataList + "/" + numberOfEpisodesInSeasonRange.split("-")[0], resultUrl);
 		resultUrl = URLBuilder.build(url, dataList, null, numberOfEpisodesInSeasonNotNumber);
-		assertEquals(url + "/" + dataList + "/" + Constants.FIRST_EPISODE.getDescription(), resultUrl);
+		assertEquals(url + "/" + dataList + "/" + BaseConstants.FIRST_EPISODE, resultUrl);
 	}
 	@Test
 	public void buildWithQueries() throws Exception {

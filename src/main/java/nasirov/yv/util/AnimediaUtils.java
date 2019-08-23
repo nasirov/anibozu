@@ -1,13 +1,11 @@
 package nasirov.yv.util;
 
-import static nasirov.yv.data.enums.Constants.ANNOUNCEMENT_MARK;
-import static nasirov.yv.data.enums.Constants.NOT_FOUND_ON_MAL;
-
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import lombok.experimental.UtilityClass;
 import nasirov.yv.data.animedia.AnimediaMALTitleReferences;
+import nasirov.yv.data.constants.BaseConstants;
 
 /**
  * Util operations with Animedia
@@ -25,7 +23,7 @@ public class AnimediaUtils {
 	}
 
 	public static boolean isAnnouncement(String html) {
-		return html.contains(ANNOUNCEMENT_MARK.getDescription());
+		return html.contains(BaseConstants.ANNOUNCEMENT_MARK);
 	}
 
 	public static boolean isTitleConcretizedAndOngoing(AnimediaMALTitleReferences reference) {
@@ -40,7 +38,7 @@ public class AnimediaUtils {
 	}
 
 	public static boolean isTitleNotFoundOnMAL(AnimediaMALTitleReferences reference) {
-		return reference.getTitleOnMAL().equalsIgnoreCase(NOT_FOUND_ON_MAL.getDescription());
+		return reference.getTitleOnMAL().equalsIgnoreCase(BaseConstants.NOT_FOUND_ON_MAL);
 	}
 
 	public static boolean isTitleConcretizedOnMAL(AnimediaMALTitleReferences reference) {

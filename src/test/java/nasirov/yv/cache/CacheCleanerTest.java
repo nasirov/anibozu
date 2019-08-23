@@ -7,6 +7,7 @@ import java.util.LinkedHashSet;
 import nasirov.yv.AbstractTest;
 import nasirov.yv.configuration.CacheConfiguration;
 import nasirov.yv.data.animedia.AnimediaMALTitleReferences;
+import nasirov.yv.data.constants.CacheNamesConstants;
 import nasirov.yv.data.mal.UserMALTitleInfo;
 import nasirov.yv.service.scheduler.CacheCleaner;
 import org.junit.Test;
@@ -33,8 +34,8 @@ public class CacheCleanerTest extends AbstractTest {
 
 	@Test
 	public void clearCache() throws Exception {
-		Cache userMALCache = cacheManager.getCache(userMALCacheName);
-		Cache userMatchedAnimeCache = cacheManager.getCache(userMatchedAnimeCacheName);
+		Cache userMALCache = cacheManager.getCache(CacheNamesConstants.USER_MAL_CACHE);
+		Cache userMatchedAnimeCache = cacheManager.getCache(CacheNamesConstants.USER_MATCHED_ANIME_CACHE);
 		String username = "test";
 		userMALCache.put(username, new LinkedHashSet<UserMALTitleInfo>());
 		userMatchedAnimeCache.put(username, new LinkedHashSet<AnimediaMALTitleReferences>());

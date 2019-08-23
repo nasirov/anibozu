@@ -11,7 +11,7 @@ import org.springframework.test.context.TestPropertySource;
 /**
  * Created by nasirov.yv
  */
-@TestPropertySource(properties = "service.applicationLogoPrinter.enabled=false")
+@TestPropertySource(properties = "application.services.applicationLogoPrinter-enabled=false")
 public class ApplicationLogoPrinterNegativeTest extends AbstractApplicationLogoPrinterTest {
 
 	@Test

@@ -30,6 +30,7 @@ import nasirov.yv.data.animedia.AnimediaMALTitleReferences;
 import nasirov.yv.data.animedia.AnimediaTitleSearchInfo;
 import nasirov.yv.service.scheduler.ResourcesChecker;
 import nasirov.yv.util.RoutinesIO;
+import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -39,7 +40,6 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.annotation.DirtiesContext.ClassMode;
 import org.springframework.test.util.ReflectionTestUtils;
-import org.springframework.util.FileSystemUtils;
 
 /**
  * Created by nasirov.yv
@@ -64,18 +64,36 @@ public class ResourcesCheckerTest extends AbstractTest {
 	@Autowired
 	private ResourcesChecker resourcesChecker;
 
+	private Set<AnimediaTitleSearchInfo> animediaSearchListFromAnimedia;
+
+	private Set<AnimediaTitleSearchInfo> animediaSearchListFromGitHub;
+
+	private Map<AnimeTypeOnAnimedia, Set<Anime>> allTypes;
+
+	private Set<Anime> single;
+
+	private Set<Anime> multi;
+
+	private Set<Anime> announcements;
+
+
+	@Before
+	public void setUp() {
+		super.setUp();
+		animediaSearchListFromAnimedia = getAnimediaSearchListFromResources();
+		animediaSearchListFromGitHub = getAnimediaSearchListFromResources();
+		doReturn(animediaSearchListFromAnimedia).when(animediaService).getAnimediaSearchListFromAnimedia();
+		doReturn(animediaSearchListFromGitHub).when(animediaService).getAnimediaSearchListFromGitHub();
+		allTypes = getSortedAnime();
+		single = allTypes.get(SINGLESEASON);
+		multi = allTypes.get(MULTISEASONS);
+		announcements = allTypes.get(ANNOUNCEMENT);
+	}
+
 	@Test
 	public void testCheckApplicationResourcesAllUpToDateButTitlesNotFoundOnMAL() throws NotDirectoryException {
 		RoutinesIO.removeDir(tempFolderName);
-		Set<AnimediaTitleSearchInfo> animediaSearchListFromAnimedia = getAnimediaSearchListFromResources();
-		Set<AnimediaTitleSearchInfo> animediaSearchListFromGitHub = getAnimediaSearchListFromResources();
-		doReturn(animediaSearchListFromAnimedia).when(animediaService).getAnimediaSearchListFromAnimedia();
-		doReturn(animediaSearchListFromGitHub).when(animediaService).getAnimediaSearchListFromGitHub();
 		doReturn(true).when(animediaService).isAnimediaSearchListUpToDate(eq(animediaSearchListFromGitHub), eq(animediaSearchListFromAnimedia));
-		Map<AnimeTypeOnAnimedia, Set<Anime>> allTypes = getSortedAnime();
-		Set<Anime> single = allTypes.get(SINGLESEASON);
-		Set<Anime> multi = allTypes.get(MULTISEASONS);
-		Set<Anime> announcements = allTypes.get(ANNOUNCEMENT);
 		doReturn(new HashMap<>()).when(animediaService).getAnimeSortedByTypeFromResources();
 		doReturn(allTypes).when(animediaService).getAnimeSortedByType(eq(animediaSearchListFromGitHub));
 		Set<AnimediaTitleSearchInfo> notFoundInResources = new LinkedHashSet<>();
@@ -105,26 +123,19 @@ public class ResourcesCheckerTest extends AbstractTest {
 		assertTrue(RoutinesIO.isDirectoryExists(tempFolderName));
 		String prefix = tempFolderName + File.separator;
 		Set<AnimediaMALTitleReferences> referencesWithInvalidMALTitleName = RoutinesIO
-				.unmarshalFromFile(prefix + tempReferencesWithInvalidMALTitleName, AnimediaMALTitleReferences.class, LinkedHashSet.class);
+				.unmarshalFromFile(prefix + resourcesNames.getTempReferencesWithInvalidMALTitleName(), AnimediaMALTitleReferences.class,
+						LinkedHashSet.class);
 		Set<AnimediaTitleSearchInfo> searchTitlesWithInvalidMALTitleName = RoutinesIO
-				.unmarshalFromFile(prefix + tempSearchTitlesWithInvalidMALTitleName, AnimediaTitleSearchInfo.class, LinkedHashSet.class);
+				.unmarshalFromFile(prefix + resourcesNames.getTempSearchTitlesWithInvalidMALTitleName(), AnimediaTitleSearchInfo.class, LinkedHashSet.class);
 		assertEquals(1, referencesWithInvalidMALTitleName.stream().filter(ref -> ref.equals(animediaMALTitleReference)).count());
 		assertEquals(1, searchTitlesWithInvalidMALTitleName.stream().filter(title -> title.equals(animediaTitleSearchInfo)).count());
 		RoutinesIO.removeDir(tempFolderName);
 	}
 
 	@Test
-	public void testCheckApplicationResourcesAllUpToDateButTitlesNotFoundOnMAL1() throws IOException {
+	public void testCheckApplicationResourcesAnimediaSearchListFromGitHubIsNotUpToDateAndTitlesNotFoundOnMAL() throws IOException {
 		RoutinesIO.removeDir(tempFolderName);
-		Set<AnimediaTitleSearchInfo> animediaSearchListFromGitHub = getAnimediaSearchListFromResources();
-		Set<AnimediaTitleSearchInfo> animediaSearchListFromAnimedia = getAnimediaSearchListFromResources();
-		doReturn(animediaSearchListFromAnimedia).when(animediaService).getAnimediaSearchListFromAnimedia();
-		doReturn(animediaSearchListFromGitHub).when(animediaService).getAnimediaSearchListFromGitHub();
 		doReturn(false).when(animediaService).isAnimediaSearchListUpToDate(eq(animediaSearchListFromGitHub), eq(animediaSearchListFromAnimedia));
-		Map<AnimeTypeOnAnimedia, Set<Anime>> allTypes = getSortedAnime();
-		Set<Anime> single = allTypes.get(SINGLESEASON);
-		Set<Anime> multi = allTypes.get(MULTISEASONS);
-		Set<Anime> announcements = allTypes.get(ANNOUNCEMENT);
 		doReturn(allTypes).when(animediaService).getAnimeSortedByType(eq(animediaSearchListFromAnimedia));
 		doReturn(new LinkedHashSet<>()).when(animediaService)
 				.checkSortedAnime(eq(single), eq(multi), eq(announcements), eq(animediaSearchListFromAnimedia));
@@ -138,19 +149,11 @@ public class ResourcesCheckerTest extends AbstractTest {
 		doReturn(true).when(animediaService)
 				.isAllSingleSeasonAnimeHasConcretizedMALTitleInKeywordsInAnimediaSearchListFromResources(eq(single), eq(animediaSearchListFromGitHub));
 		doReturn(false).when(malService).isTitleExist(animediaTitleSearchInfo.getKeywords());
-		String tempFileName = "test123.txt";
-		File tempFile = new File(tempFileName);
-		tempFile.createNewFile();
-		assertTrue(tempFile.exists());
-		assertFalse(tempFile.isDirectory());
-		ReflectionTestUtils.setField(resourcesChecker, "tempFolderName", tempFileName);
 		String scheduledMethod = Arrays.stream(resourcesChecker.getClass().getDeclaredMethods())
 				.filter(method -> method.isAnnotationPresent(Scheduled.class)).findFirst().get().getName();
 		ReflectionTestUtils.invokeMethod(resourcesChecker, scheduledMethod);
-		assertFalse(RoutinesIO.isDirectoryExists(tempFolderName));
 		verify(animediaService, times(1)).getAnimeSortedByType(eq(animediaSearchListFromAnimedia));
-		FileSystemUtils.deleteRecursively(tempFile);
-		assertFalse(tempFile.exists());
+		RoutinesIO.removeDir(tempFolderName);
 	}
 
 	private Set<AnimediaTitleSearchInfo> getAnimediaSearchListFromResources() {

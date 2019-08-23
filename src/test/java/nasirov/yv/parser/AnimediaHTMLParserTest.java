@@ -1,7 +1,5 @@
 package nasirov.yv.parser;
 
-import static nasirov.yv.data.enums.Constants.FIRST_EPISODE;
-import static nasirov.yv.data.enums.Constants.ZERO_EPISODE;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
@@ -13,11 +11,14 @@ import java.util.stream.Stream;
 import nasirov.yv.AbstractTest;
 import nasirov.yv.configuration.CacheConfiguration;
 import nasirov.yv.data.animedia.AnimediaMALTitleReferences;
+import nasirov.yv.data.constants.BaseConstants;
 import nasirov.yv.data.response.HttpResponse;
 import nasirov.yv.util.RoutinesIO;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.core.io.Resource;
 import org.springframework.http.HttpStatus;
 import org.springframework.test.annotation.DirtiesContext;
 
@@ -27,6 +28,12 @@ import org.springframework.test.annotation.DirtiesContext;
 @SpringBootTest(classes = {CacheConfiguration.class, AnimediaHTMLParser.class})
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_CLASS)
 public class AnimediaHTMLParserTest extends AbstractTest {
+
+	@Value("classpath:animedia/onePiece/onePiece2.txt")
+	private Resource onePieceDataList2;
+
+	@Value("classpath:animedia/announcements/dataListWithTrailer.txt")
+	private Resource dataListWithTrailer;
 
 	@Autowired
 	private AnimediaHTMLParser animediaHTMLParser;
@@ -80,7 +87,7 @@ public class AnimediaHTMLParserTest extends AbstractTest {
 		assertEquals("1", firstEpisodeInSeasonOva);
 		HttpResponse responseWithoutFirstEpisode = new HttpResponse("<span>ОВА из 1</span>", HttpStatus.OK.value());
 		firstEpisodeInSeasonOva = animediaHTMLParser.getFirstEpisodeInSeason(responseWithoutFirstEpisode);
-		assertEquals(FIRST_EPISODE.getDescription(), firstEpisodeInSeasonOva);
+		assertEquals(BaseConstants.FIRST_EPISODE, firstEpisodeInSeasonOva);
 	}
 
 	@Test(expected = NullPointerException.class)
@@ -111,17 +118,17 @@ public class AnimediaHTMLParserTest extends AbstractTest {
 	public void testGetEpisodesRangeOvaWithoutFirstEpisode() throws Exception {
 		HttpResponse responseWithoutFirstEpisode = new HttpResponse("<span>ОВА из 2</span>\n<span>ОВА из 2</span>", HttpStatus.OK.value());
 		Map<String, List<String>> range = animediaHTMLParser.getEpisodesRange(responseWithoutFirstEpisode);
-		checkEpisodesRange(range, "2", FIRST_EPISODE.getDescription(), "2", 2);
+		checkEpisodesRange(range, "2", BaseConstants.FIRST_EPISODE, "2", 2);
 		HttpResponse responseWithUndefinedMax = new HttpResponse("<span>Серия 1 из xxx</span>", HttpStatus.OK.value());
 		range = animediaHTMLParser.getEpisodesRange(responseWithUndefinedMax);
-		checkEpisodesRange(range, "1", FIRST_EPISODE.getDescription(), "xxx", 1);
+		checkEpisodesRange(range, "1", BaseConstants.FIRST_EPISODE, "xxx", 1);
 	}
 
 	@Test
 	public void testGetEpisodesRangeUndefinedMax() throws Exception {
 		HttpResponse responseWithUndefinedMax = new HttpResponse("<span>Серия 1 из xxx</span>", HttpStatus.OK.value());
 		Map<String, List<String>> range = animediaHTMLParser.getEpisodesRange(responseWithUndefinedMax);
-		checkEpisodesRange(range, "1", FIRST_EPISODE.getDescription(), "xxx", 1);
+		checkEpisodesRange(range, "1", BaseConstants.FIRST_EPISODE, "xxx", 1);
 	}
 
 	@Test(expected = NullPointerException.class)
@@ -144,10 +151,7 @@ public class AnimediaHTMLParserTest extends AbstractTest {
 	public void testGetEpisodesRangeForTrailer() {
 		HttpResponse dataListWithTrailer1 = new HttpResponse(RoutinesIO.readFromResource(dataListWithTrailer), HttpStatus.OK.value());
 		Map<String, List<String>> episodesRangeForDataListWithTrailer = animediaHTMLParser.getEpisodesRange(dataListWithTrailer1);
-		checkEpisodesRange(episodesRangeForDataListWithTrailer,
-				ZERO_EPISODE.getDescription(),
-				ZERO_EPISODE.getDescription(),
-				ZERO_EPISODE.getDescription(),
+		checkEpisodesRange(episodesRangeForDataListWithTrailer, BaseConstants.ZERO_EPISODE, BaseConstants.ZERO_EPISODE, BaseConstants.ZERO_EPISODE,
 				1);
 	}
 

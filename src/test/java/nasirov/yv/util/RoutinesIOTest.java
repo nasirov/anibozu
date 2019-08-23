@@ -9,23 +9,29 @@ import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
-import java.nio.file.NotDirectoryException;
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
-import nasirov.yv.AbstractTest;
 import nasirov.yv.data.animedia.AnimediaMALTitleReferences;
 import nasirov.yv.parser.WrappedObjectMapper;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
+import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.util.FileSystemUtils;
 
 /**
  * Created by nasirov.yv
  */
-public class RoutinesIOTest extends AbstractTest {
+
+@RunWith(SpringRunner.class)
+public class RoutinesIOTest {
+
+	@Value("classpath:routinesIOtestFile.json")
+	private Resource routinesIOtestResource;
 
 	@Test
 	public void marshalToFile() throws Exception {
@@ -239,6 +245,7 @@ public class RoutinesIOTest extends AbstractTest {
 
 	@Test
 	public void testMarshalToFileInTheFolderOk() {
+		String tempFolderName = "temp";
 		List<AnimediaMALTitleReferences> testContent = getTestContent();
 		String testFilename = routinesIOtestResource.getFilename();
 		RoutinesIO.marshalToFileInTheFolder(tempFolderName, testFilename, testContent);

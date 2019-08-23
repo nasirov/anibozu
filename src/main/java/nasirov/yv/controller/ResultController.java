@@ -1,6 +1,5 @@
 package nasirov.yv.controller;
 
-import static nasirov.yv.data.enums.Constants.FINAL_URL_VALUE_IF_EPISODE_IS_NOT_AVAILABLE;
 import static nasirov.yv.util.AnimediaUtils.isTitleConcretizedOnMAL;
 
 import java.util.ArrayList;
@@ -15,6 +14,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import nasirov.yv.data.animedia.AnimediaMALTitleReferences;
 import nasirov.yv.data.animedia.AnimediaTitleSearchInfo;
+import nasirov.yv.data.constants.BaseConstants;
+import nasirov.yv.data.constants.CacheNamesConstants;
 import nasirov.yv.data.mal.MALUser;
 import nasirov.yv.data.mal.UserMALTitleInfo;
 import nasirov.yv.exception.mal.MALUserAccountNotFoundException;
@@ -24,7 +25,6 @@ import nasirov.yv.service.AnimediaService;
 import nasirov.yv.service.MALService;
 import nasirov.yv.service.ReferencesManager;
 import nasirov.yv.service.SeasonAndEpisodeChecker;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.Cache;
 import org.springframework.cache.CacheManager;
 import org.springframework.stereotype.Controller;
@@ -66,15 +66,6 @@ public class ResultController {
 
 	private final NotFoundAnimeOnAnimediaRepository notFoundAnimeOnAnimediaRepository;
 
-	@Value("${cache.userMAL.name}")
-	private String userMALCacheName;
-
-	@Value("${cache.userMatchedAnime.name}")
-	private String userMatchedAnimeCacheName;
-
-	@Value("${cache.currentlyUpdatedTitles.name}")
-	private String currentlyUpdatedTitlesCacheName;
-
 	private Cache userMALCache;
 
 	private Cache userMatchedAnimeCache;
@@ -83,9 +74,9 @@ public class ResultController {
 
 	@PostConstruct
 	public void init() {
-		userMALCache = cacheManager.getCache(userMALCacheName);
-		userMatchedAnimeCache = cacheManager.getCache(userMatchedAnimeCacheName);
-		currentlyUpdatedTitlesCache = cacheManager.getCache(currentlyUpdatedTitlesCacheName);
+		userMALCache = cacheManager.getCache(CacheNamesConstants.USER_MAL_CACHE);
+		userMatchedAnimeCache = cacheManager.getCache(CacheNamesConstants.USER_MATCHED_ANIME_CACHE);
+		currentlyUpdatedTitlesCache = cacheManager.getCache(CacheNamesConstants.CURRENTLY_UPDATED_TITLES_CACHE);
 	}
 
 	@PostMapping(value = "/result")
@@ -100,7 +91,8 @@ public class ResultController {
 		}
 		Set<UserMALTitleInfo> watchingTitlesFromCache = userMALCache.get(username, LinkedHashSet.class);
 		Set<AnimediaMALTitleReferences> matchedAnimeFromCache = userMatchedAnimeCache.get(username, LinkedHashSet.class);
-		List<AnimediaMALTitleReferences> currentlyUpdatedTitlesFromCache = currentlyUpdatedTitlesCache.get(currentlyUpdatedTitlesCacheName, ArrayList.class);
+		List<AnimediaMALTitleReferences> currentlyUpdatedTitlesFromCache = currentlyUpdatedTitlesCache
+				.get(CacheNamesConstants.CURRENTLY_UPDATED_TITLES_CACHE, ArrayList.class);
 		if (isUserCached(watchingTitlesFromCache, matchedAnimeFromCache, currentlyUpdatedTitlesFromCache)) {
 			return handleCachedUser(watchingTitlesFromCache, matchedAnimeFromCache, currentlyUpdatedTitlesFromCache, watchingTitles, model, username);
 		}
@@ -141,9 +133,9 @@ public class ResultController {
 
 	private String enrichModel(Set<AnimediaMALTitleReferences> matchedAnime, Set<UserMALTitleInfo> watchingTitles, Model model) {
 		List<AnimediaMALTitleReferences> newEpisodeAvailable = matchedAnime.stream()
-				.filter(set -> !set.getFinalUrl().equals(FINAL_URL_VALUE_IF_EPISODE_IS_NOT_AVAILABLE.getDescription())).collect(Collectors.toList());
+				.filter(set -> !set.getFinalUrl().equals(BaseConstants.FINAL_URL_VALUE_IF_EPISODE_IS_NOT_AVAILABLE)).collect(Collectors.toList());
 		List<AnimediaMALTitleReferences> newEpisodeNotAvailable = matchedAnime.stream()
-				.filter(set -> set.getFinalUrl().equals(FINAL_URL_VALUE_IF_EPISODE_IS_NOT_AVAILABLE.getDescription())).collect(Collectors.toList());
+				.filter(set -> set.getFinalUrl().equals(BaseConstants.FINAL_URL_VALUE_IF_EPISODE_IS_NOT_AVAILABLE)).collect(Collectors.toList());
 		Set<UserMALTitleInfo> notFoundAnimeOnAnimedia = new LinkedHashSet<>(notFoundAnimeOnAnimediaRepository.findAll());
 		Set<UserMALTitleInfo> matchedNotFoundAnimeOnAnimedia = new LinkedHashSet<>();
 		watchingTitles.forEach(title -> notFoundAnimeOnAnimedia.stream().filter(set -> set.getTitle().equals(title.getTitle()))

@@ -21,14 +21,14 @@ import org.springframework.test.context.TestPropertySource;
 @SpringBootTest(classes = {ResourcesLoaderConfiguration.class, CacheConfiguration.class})
 @DirtiesContext(classMode = ClassMode.AFTER_EACH_TEST_METHOD)
 @SuppressWarnings("unchecked")
-@TestPropertySource(properties = "service.resourcesLoader.enabled=true")
+@TestPropertySource(properties = "application.services.resourcesLoader-enabled=true")
 public class ResourcesLoaderPositiveTest extends AbstractTest {
 
 	@MockBean
-	protected ReferencesManager referencesManager;
+	private ReferencesManager referencesManager;
 
 	@MockBean
-	protected AnimediaService animediaService;
+	private AnimediaService animediaService;
 
 	@Test
 	public void loadMultiSeasonsReferencesEnabled() throws Exception {

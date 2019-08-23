@@ -2,7 +2,7 @@ package nasirov.yv.service.scheduler;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
+import nasirov.yv.data.constants.CacheNamesConstants;
 import org.springframework.cache.Cache;
 import org.springframework.cache.CacheManager;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -16,18 +16,12 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class CacheCleaner {
 
-	@Value("${cache.userMAL.name}")
-	private String userMALCacheName;
-
-	@Value("${cache.userMatchedAnime.name}")
-	private String userMatchedAnimeCacheName;
-
 	private final CacheManager cacheManager;
 
-	@Scheduled(cron = "${cache.cron.expression}")
+	@Scheduled(cron = "${application.cron.cache-cron-expression}")
 	public void clearCache() {
-		clearAndLog(cacheManager, userMALCacheName);
-		clearAndLog(cacheManager, userMatchedAnimeCacheName);
+		clearAndLog(cacheManager, CacheNamesConstants.USER_MAL_CACHE);
+		clearAndLog(cacheManager, CacheNamesConstants.USER_MATCHED_ANIME_CACHE);
 	}
 
 	private void clearAndLog(CacheManager cacheManager, String cacheName) {

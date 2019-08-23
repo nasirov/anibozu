@@ -1,12 +1,11 @@
 package nasirov.yv.util;
 
-import static nasirov.yv.data.enums.Constants.FIRST_EPISODE;
-
 import java.nio.charset.StandardCharsets;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import lombok.experimental.UtilityClass;
+import nasirov.yv.data.constants.BaseConstants;
 import org.springframework.web.util.UriUtils;
 
 /**
@@ -52,6 +51,6 @@ public class URLBuilder {
 			String[] range = episode.split("-");
 			return range[0];
 		}
-		return FIRST_EPISODE.getDescription();
+		return BaseConstants.FIRST_EPISODE;
 	}
 }

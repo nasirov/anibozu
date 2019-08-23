@@ -1,7 +1,6 @@
 package nasirov.yv.util;
 
 import static nasirov.yv.TestUtils.getEpisodesRange;
-import static nasirov.yv.data.enums.Constants.NOT_FOUND_ON_MAL;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
@@ -10,15 +9,30 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.LinkedHashSet;
 import java.util.Set;
-import nasirov.yv.AbstractTest;
 import nasirov.yv.data.animedia.AnimediaMALTitleReferences;
+import nasirov.yv.data.constants.BaseConstants;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.Resource;
+import org.springframework.test.context.junit4.SpringRunner;
 
 /**
  * Created by nasirov.yv
  */
-public class AnimediaUtilsTest extends AbstractTest {
+
+@RunWith(SpringRunner.class)
+public class AnimediaUtilsTest {
+
+	@Value("classpath:referencesForTest.json")
+	private Resource referencesForTestResource;
+
+	@Value("classpath:animedia/announcements/htmlWithAnnouncement.txt")
+	private Resource htmlWithAnnouncement;
+
+	@Value("classpath:animedia/sao/saoHtml.txt")
+	private Resource saoHtml;
 
 	private AnimediaMALTitleReferences concretizedAndOngoing;
 
@@ -42,7 +56,7 @@ public class AnimediaUtilsTest extends AbstractTest {
 						"175"))
 				.build();
 		notUpdatedTitle = references.stream().filter(ref -> ref.getTitleOnMAL().equals("fairy tail: final series")).findFirst().orElse(null);
-		notFoundOnMAL = references.stream().filter(ref -> ref.getTitleOnMAL().equals(NOT_FOUND_ON_MAL.getDescription())).findFirst().orElse(null);
+		notFoundOnMAL = references.stream().filter(ref -> ref.getTitleOnMAL().equals(BaseConstants.NOT_FOUND_ON_MAL)).findFirst().orElse(null);
 	}
 
 	@Test

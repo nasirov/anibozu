@@ -13,7 +13,7 @@ import org.springframework.context.annotation.Configuration;
 public class ResourcesLoaderConfiguration {
 
 	@Bean("resourcesLoader")
-	@ConditionalOnProperty(name = "service.resourcesLoader.enabled", havingValue = "true")
+	@ConditionalOnProperty(name = "application.services.resourcesLoader-enabled", havingValue = "true")
 	public ResourcesLoader getResourcesLoader(ReferencesManager referencesManager, AnimediaService animediaService) {
 		return new ResourcesLoader(referencesManager, animediaService);
 	}

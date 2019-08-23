@@ -13,9 +13,11 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.annotation.PostConstruct;
 import lombok.extern.slf4j.Slf4j;
+import nasirov.yv.data.constants.CacheNamesConstants;
 import nasirov.yv.data.mal.MALCategories;
 import nasirov.yv.data.mal.MALSearchResult;
 import nasirov.yv.data.mal.UserMALTitleInfo;
+import nasirov.yv.data.properties.UrlsNames;
 import nasirov.yv.data.response.HttpResponse;
 import nasirov.yv.exception.mal.MALUserAccountNotFoundException;
 import nasirov.yv.exception.mal.WatchingTitlesNotFoundException;
@@ -26,7 +28,6 @@ import nasirov.yv.parser.WrappedObjectMapper;
 import nasirov.yv.util.URLBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.Cache;
 import org.springframework.cache.CacheManager;
 import org.springframework.http.HttpMethod;
@@ -79,10 +80,6 @@ public class MALService {
 		QUERY_PARAMS_FOR_TITLE_NAME_CHECK.put("v", "1");
 	}
 
-	@Value("${cache.userMAL.name}")
-	private String userMALCacheName;
-
-	@Value("${urls.myAnimeList.net}")
 	private String myAnimeListNet;
 
 	private Map<String, Map<String, String>> malRequestParameters;
@@ -97,19 +94,23 @@ public class MALService {
 
 	private CacheManager cacheManager;
 
+	private UrlsNames urlsNames;
+
 	@Autowired
 	public MALService(HttpCaller httpCaller, @Qualifier(value = "malRequestParametersBuilder") RequestParametersBuilder requestParametersBuilder,
-			MALParser malParser, CacheManager cacheManager) {
+			MALParser malParser, CacheManager cacheManager, UrlsNames urlsNames) {
 		this.httpCaller = httpCaller;
 		this.requestParametersBuilder = requestParametersBuilder;
 		this.malParser = malParser;
 		this.cacheManager = cacheManager;
+		this.urlsNames = urlsNames;
 	}
 
 	@PostConstruct
 	public void init() {
 		malRequestParameters = requestParametersBuilder.build();
-		userMALCache = cacheManager.getCache(userMALCacheName);
+		userMALCache = cacheManager.getCache(CacheNamesConstants.USER_MAL_CACHE);
+		myAnimeListNet = urlsNames.getMalUrls().getMyAnimeListNet();
 	}
 
 	/**

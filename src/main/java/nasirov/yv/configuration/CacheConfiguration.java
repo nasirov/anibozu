@@ -1,7 +1,7 @@
 package nasirov.yv.configuration;
 
 import java.util.Arrays;
-import org.springframework.beans.factory.annotation.Value;
+import nasirov.yv.data.constants.CacheNamesConstants;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.cache.concurrent.ConcurrentMapCache;
@@ -15,19 +15,6 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 @EnableCaching
 public class CacheConfiguration {
-
-	@Value("${cache.userMAL.name}")
-	private String userMALCacheName;
-
-	@Value("${cache.sortedAnimediaSearchList.name}")
-	private String sortedAnimediaSearchListCacheName;
-
-	@Value("${cache.userMatchedAnime.name}")
-	private String userMatchedAnimeCacheName;
-
-	@Value("${cache.currentlyUpdatedTitles.name}")
-	private String currentlyUpdatedTitlesCacheName;
-
 
 	/**
 	 * sortedAnimediaSearchListCache-for sorted animedia titles(multi,single,announcements)
@@ -48,10 +35,10 @@ public class CacheConfiguration {
 	@Bean("cacheManager")
 	public CacheManager cacheManager() {
 		SimpleCacheManager cacheManager = new SimpleCacheManager();
-		cacheManager.setCaches(Arrays.asList(new ConcurrentMapCache(sortedAnimediaSearchListCacheName),
-				new ConcurrentMapCache(userMALCacheName),
-				new ConcurrentMapCache(userMatchedAnimeCacheName),
-				new ConcurrentMapCache(currentlyUpdatedTitlesCacheName)));
+		cacheManager.setCaches(Arrays.asList(new ConcurrentMapCache(CacheNamesConstants.SORTED_ANIMEDIA_SEARCH_LIST_CACHE),
+				new ConcurrentMapCache(CacheNamesConstants.USER_MAL_CACHE),
+				new ConcurrentMapCache(CacheNamesConstants.USER_MATCHED_ANIME_CACHE),
+				new ConcurrentMapCache(CacheNamesConstants.CURRENTLY_UPDATED_TITLES_CACHE)));
 		return cacheManager;
 	}
 }

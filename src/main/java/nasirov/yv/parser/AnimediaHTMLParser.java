@@ -1,8 +1,5 @@
 package nasirov.yv.parser;
 
-import static nasirov.yv.data.enums.Constants.FIRST_EPISODE;
-import static nasirov.yv.data.enums.Constants.ZERO_EPISODE;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -12,6 +9,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import lombok.extern.slf4j.Slf4j;
 import nasirov.yv.data.animedia.AnimediaMALTitleReferences;
+import nasirov.yv.data.constants.BaseConstants;
 import nasirov.yv.data.response.HttpResponse;
 import nasirov.yv.exception.animedia.EpisodesRangeNotFoundException;
 import nasirov.yv.exception.animedia.FirstEpisodeInSeasonNotFoundException;
@@ -233,7 +231,7 @@ public class AnimediaHTMLParser {
 			String description = matcher.group("description");
 			String firstEpisodeInSeason = matcher.group("firstEpisodeInSeason");
 			if (firstEpisodeInSeason == null && description != null) {
-				return FIRST_EPISODE.getDescription();
+				return BaseConstants.FIRST_EPISODE;
 			}
 			return firstEpisodeInSeason;
 		}
@@ -259,12 +257,12 @@ public class AnimediaHTMLParser {
 					checkEpisodeAndAdd(episodes, firstEpisodeInSeason);
 				}
 			} else if (description != null) {
-				checkEpisodeAndAdd(episodes, FIRST_EPISODE.getDescription());
+				checkEpisodeAndAdd(episodes, BaseConstants.FIRST_EPISODE);
 			}
 		}
 		if (isTrailer(content)) {
-			maxEpisodes = ZERO_EPISODE.getDescription();
-			episodes.add(ZERO_EPISODE.getDescription());
+			maxEpisodes = BaseConstants.ZERO_EPISODE;
+			episodes.add(BaseConstants.ZERO_EPISODE);
 		} else if (episodes.isEmpty() || maxEpisodes == null) {
 			throw new EpisodesRangeNotFoundException("Episodes range is not found for " + getUrl(content));
 		}

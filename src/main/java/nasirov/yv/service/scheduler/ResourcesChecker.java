@@ -3,7 +3,6 @@ package nasirov.yv.service.scheduler;
 import static nasirov.yv.data.animedia.AnimeTypeOnAnimedia.ANNOUNCEMENT;
 import static nasirov.yv.data.animedia.AnimeTypeOnAnimedia.MULTISEASONS;
 import static nasirov.yv.data.animedia.AnimeTypeOnAnimedia.SINGLESEASON;
-import static nasirov.yv.data.enums.Constants.NOT_FOUND_ON_MAL;
 
 import java.util.LinkedHashSet;
 import java.util.Map;
@@ -16,11 +15,12 @@ import nasirov.yv.data.animedia.Anime;
 import nasirov.yv.data.animedia.AnimeTypeOnAnimedia;
 import nasirov.yv.data.animedia.AnimediaMALTitleReferences;
 import nasirov.yv.data.animedia.AnimediaTitleSearchInfo;
+import nasirov.yv.data.constants.BaseConstants;
+import nasirov.yv.data.properties.ResourcesNames;
 import nasirov.yv.service.AnimediaService;
 import nasirov.yv.service.MALService;
 import nasirov.yv.service.ReferencesManager;
 import nasirov.yv.util.RoutinesIO;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
@@ -35,22 +35,15 @@ public class ResourcesChecker {
 
 	private static final Pattern CYRILLIC_CHARACTERS_PATTERN = Pattern.compile("[а-яА-Я]");
 
-	@Value("${resources.tempFolder.name}")
-	private String tempFolderName;
-
-	@Value("${resources.tempReferencesWithInvalidMALTitleName.name}")
-	private String tempReferencesWithInvalidMALTitleName;
-
-	@Value("${resources.tempSearchTitlesWithInvalidMALTitleName.name}")
-	private String tempSearchTitlesWithInvalidMALTitleName;
-
 	private final ReferencesManager referencesManager;
 
 	private final AnimediaService animediaService;
 
 	private final MALService malService;
 
-	@Scheduled(cron = "${resources.check.cron.expression}")
+	private final ResourcesNames resourcesNames;
+
+	@Scheduled(cron = "${application.cron.resources-check-cron-expression}")
 	private void checkApplicationResources() {
 		log.info("START CHECKING TITLES RESOURCES FROM GITHUB ...");
 		Set<AnimediaTitleSearchInfo> animediaSearchListFromAnimedia = animediaService.getAnimediaSearchListFromAnimedia();
@@ -106,7 +99,7 @@ public class ResourcesChecker {
 			Set<AnimediaMALTitleReferences> referencesWithInvalidMALTitleName = new LinkedHashSet<>();
 			for (AnimediaMALTitleReferences reference : allReferences) {
 				String titleOnMAL = reference.getTitleOnMAL();
-				if (!titleOnMAL.equalsIgnoreCase(NOT_FOUND_ON_MAL.getDescription())) {
+				if (!titleOnMAL.equalsIgnoreCase(BaseConstants.NOT_FOUND_ON_MAL)) {
 					boolean titleExist = malService.isTitleExist(titleOnMAL);
 					if (!titleExist) {
 						log.error("TITLE NAME {} FROM {} DOESN'T EXIST!", titleOnMAL, reference);
@@ -115,7 +108,9 @@ public class ResourcesChecker {
 				}
 			}
 			if (!referencesWithInvalidMALTitleName.isEmpty()) {
-				RoutinesIO.marshalToFileInTheFolder(tempFolderName, tempReferencesWithInvalidMALTitleName, referencesWithInvalidMALTitleName);
+				RoutinesIO.marshalToFileInTheFolder(resourcesNames.getTempFolder(),
+						resourcesNames.getTempReferencesWithInvalidMALTitleName(),
+						referencesWithInvalidMALTitleName);
 			}
 			log.info("END CHECKING REFERENCES TITLE NAME ON MAL.");
 		}
@@ -146,7 +141,9 @@ public class ResourcesChecker {
 				}
 			}
 			if (!searchTitlesWithInvalidMALTitleName.isEmpty()) {
-				RoutinesIO.marshalToFileInTheFolder(tempFolderName, tempSearchTitlesWithInvalidMALTitleName, searchTitlesWithInvalidMALTitleName);
+				RoutinesIO.marshalToFileInTheFolder(resourcesNames.getTempFolder(),
+						resourcesNames.getTempSearchTitlesWithInvalidMALTitleName(),
+						searchTitlesWithInvalidMALTitleName);
 			}
 			log.info("END CHECKING SINGLESEASON TITLE NAME ON MAL.");
 		}

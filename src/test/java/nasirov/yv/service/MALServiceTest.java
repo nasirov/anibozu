@@ -20,6 +20,7 @@ import java.util.Map;
 import java.util.Set;
 import nasirov.yv.AbstractTest;
 import nasirov.yv.configuration.CacheConfiguration;
+import nasirov.yv.data.constants.CacheNamesConstants;
 import nasirov.yv.data.mal.UserMALTitleInfo;
 import nasirov.yv.data.response.HttpResponse;
 import nasirov.yv.exception.mal.MALUserAccountNotFoundException;
@@ -29,13 +30,16 @@ import nasirov.yv.http.parameter.MALRequestParametersBuilder;
 import nasirov.yv.http.parameter.RequestParametersBuilder;
 import nasirov.yv.parser.MALParser;
 import nasirov.yv.util.RoutinesIO;
+import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.cache.Cache;
 import org.springframework.cache.CacheManager;
+import org.springframework.core.io.Resource;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.test.annotation.DirtiesContext;
@@ -46,6 +50,24 @@ import org.springframework.test.annotation.DirtiesContext;
 @SpringBootTest(classes = {MALService.class, MALParser.class, CacheManager.class, CacheConfiguration.class, MALRequestParametersBuilder.class})
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_CLASS)
 public class MALServiceTest extends AbstractTest {
+
+	@Value("classpath:mal/testAccForDevFirstJson300.json")
+	private Resource testAccForDevFirstJson300;
+
+	@Value("classpath:mal/testAccForDevAdditionalJsonMoreThan300.json")
+	private Resource testAccForDevAdditionalJsonMoreThan300;
+
+	@Value("classpath:mal/testAccForDevAdditionalJsonMoreThan600.json")
+	private Resource testAccForDevAdditionalJsonMoreThan600;
+
+	@Value("classpath:mal/testAccForDevAdditionalJsonMoreThan900.json")
+	private Resource testAccForDevAdditionalJsonMoreThan900;
+
+	@Value("classpath:mal/searchTitleFairyTail.json")
+	private Resource searchTitleFairyTail;
+
+	@Value("classpath:mal/searchTitleNotFound.json")
+	private Resource searchTitleNotFound;
 
 	private static final String LOAD_JSON = "/load.json";
 
@@ -77,6 +99,14 @@ public class MALServiceTest extends AbstractTest {
 
 	private static final String NUMBER_OF_WATCHED_EPISODES_DECREASED = "numberOfWatchedEpisodesDecreased";
 
+	private String myAnimeListNet;
+
+	@Before
+	public void init() {
+		super.setUp();
+		myAnimeListNet = urlsNames.getMalUrls().getMyAnimeListNet();
+	}
+
 	@MockBean
 	private HttpCaller httpCaller;
 
@@ -93,7 +123,7 @@ public class MALServiceTest extends AbstractTest {
 	@Test
 	public void getWatchingTitles() throws Exception {
 		Map<String, Map<String, String>> params = parametersBuilder.build();
-		Cache userMALCache = cacheManager.getCache(userMALCacheName);
+		Cache userMALCache = cacheManager.getCache(CacheNamesConstants.USER_MAL_CACHE);
 		Set<UserMALTitleInfo> watchingTitlesFromCache = userMALCache.get(TEST_ACC_FOR_DEV, LinkedHashSet.class);
 		assertNull(watchingTitlesFromCache);
 		String profileUrl = myAnimeListNet + PROFILE + TEST_ACC_FOR_DEV;

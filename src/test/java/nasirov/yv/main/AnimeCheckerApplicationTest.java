@@ -6,10 +6,12 @@ import java.util.stream.Stream;
 import nasirov.yv.AbstractTest;
 import nasirov.yv.AnimeCheckerApplication;
 import org.junit.Test;
+import org.springframework.boot.test.context.SpringBootTest;
 
 /**
  * Created by nasirov.yv
  */
+@SpringBootTest
 public class AnimeCheckerApplicationTest extends AbstractTest {
 
 	@Test

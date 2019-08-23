@@ -6,7 +6,7 @@ import static org.mockito.Mockito.verify;
 import org.junit.Test;
 import org.springframework.test.context.TestPropertySource;
 
-@TestPropertySource(properties = "service.resourcesLoader.enabled=false")
+@TestPropertySource(properties = "application.services.resourcesLoader-enabled=false")
 public class ResourcesLoaderNegativeTest extends BaseResourcesLoaderTest {
 
 	@Test

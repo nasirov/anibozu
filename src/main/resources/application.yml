@@ -1,0 +1,32 @@
+application:
+  resources:
+    multiSeasonsAnimeUrls: multiSeasonsAnimeUrls.json
+    singleSeasonsAnimeUrls: singleSeasonsAnimeUrls.json
+    announcementsUrls: announcements.json
+    applicationLogo: anime-checker-logo.txt
+    tempFolder: temp
+    tempRawReferences: tempRawReferences.json
+    tempNewTitlesInAnimediaSearchList: newTitles.json
+    tempRemovedTitlesFromAnimediaSearchList: removedTitles.json
+    tempDuplicatedUrlsInAnimediaSearchList: titlesWithEqualsUrls.json
+    tempSingleSeasonTitlesWithCyrillicKeywordsInAnimediaSearchList: singleSeasonTitlesWithCyrillicKeywords.json
+    tempReferencesWithInvalidMALTitleName: referencesWithInvalidMALTitleName.json
+    tempSearchTitlesWithInvalidMALTitleName: searchTitlesWithInvalidMALTitleName.json
+  urls:
+    animedia-urls:
+      online-animedia-tv: https://online.animedia.tv/
+      online-animedia-anime-list: https://online.animedia.tv/ajax/anime_list/
+      online-animedia-anime-episodes-list: https://online.animedia.tv/ajax/episodes/
+      online-animedia-anime-episodes-postfix: /undefined
+    mal-urls:
+      myAnimeList-net: https://myanimelist.net/
+      cdn-myAnimeList-net: https://cdn.myanimelist.net/
+    github-urls:
+      raw-githubusercontent-com-animediaSearchList: https://raw.githubusercontent.com/nasirov/anime-checker-resources/master/animediaSearchList.json
+      raw-githubusercontent-com-references: https://raw.githubusercontent.com/nasirov/anime-checker-resources/master/references.json
+  services:
+    resourcesLoader-enabled: false
+    applicationLogoPrinter-enabled: true
+  cron:
+    cache-cron-expression: 0 0/30 * * * ?
+    resources-check-cron-expression: 0 0/30 * * * ?

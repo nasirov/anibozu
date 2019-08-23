@@ -21,6 +21,8 @@ import lombok.extern.slf4j.Slf4j;
 import nasirov.yv.data.animedia.Anime;
 import nasirov.yv.data.animedia.AnimediaMALTitleReferences;
 import nasirov.yv.data.mal.UserMALTitleInfo;
+import nasirov.yv.data.properties.ResourcesNames;
+import nasirov.yv.data.properties.UrlsNames;
 import nasirov.yv.data.response.HttpResponse;
 import nasirov.yv.http.caller.HttpCaller;
 import nasirov.yv.http.parameter.RequestParametersBuilder;
@@ -29,7 +31,6 @@ import nasirov.yv.parser.WrappedObjectMapper;
 import nasirov.yv.util.RoutinesIO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Service;
 
@@ -40,24 +41,6 @@ import org.springframework.stereotype.Service;
 @Slf4j
 public class ReferencesManager {
 
-	@Value("${urls.online.animedia.tv}")
-	private String animediaOnlineTv;
-
-	@Value("${urls.online.animedia.anime.episodes.list}")
-	private String animediaEpisodesList;
-
-	@Value("${urls.online.animedia.anime.episodes.postfix}")
-	private String animediaEpisodesListPostfix;
-
-	@Value("${urls.raw.githubusercontent.com.references}")
-	private String referencesFromGitHubUrl;
-
-	@Value("${resources.tempFolder.name}")
-	private String tempFolderName;
-
-	@Value("${resources.tempRawReferences.name}")
-	private String tempRawReferencesName;
-
 	private Map<String, Map<String, String>> animediaRequestParameters;
 
 	private HttpCaller httpCaller;
@@ -66,12 +49,18 @@ public class ReferencesManager {
 
 	private AnimediaHTMLParser animediaHTMLParser;
 
+	private UrlsNames urlsNames;
+
+	private ResourcesNames resourcesNames;
+
 	@Autowired
 	public ReferencesManager(HttpCaller httpCaller, @Qualifier("animediaRequestParametersBuilder") RequestParametersBuilder requestParametersBuilder,
-			AnimediaHTMLParser animediaHTMLParser) {
+			AnimediaHTMLParser animediaHTMLParser, UrlsNames urlsNames, ResourcesNames resourcesNames) {
 		this.httpCaller = httpCaller;
 		this.requestParametersBuilder = requestParametersBuilder;
 		this.animediaHTMLParser = animediaHTMLParser;
+		this.urlsNames = urlsNames;
+		this.resourcesNames = resourcesNames;
 	}
 
 	@PostConstruct
@@ -85,7 +74,8 @@ public class ReferencesManager {
 	 * @return the references
 	 */
 	public Set<AnimediaMALTitleReferences> getMultiSeasonsReferences() {
-		HttpResponse response = httpCaller.call(referencesFromGitHubUrl, HttpMethod.GET, animediaRequestParameters);
+		HttpResponse response = httpCaller
+				.call(urlsNames.getGitHubUrls().getRawGithubusercontentComReferences(), HttpMethod.GET, animediaRequestParameters);
 		return WrappedObjectMapper.unmarshal(response.getContent(), AnimediaMALTitleReferences.class, LinkedHashSet.class);
 	}
 
@@ -100,7 +90,7 @@ public class ReferencesManager {
 			if (isTitleUpdated(reference) || isTitleNotFoundOnMAL(reference)) {
 				continue;
 			}
-			String url = animediaOnlineTv + reference.getUrl();
+			String url = urlsNames.getAnimediaUrls().getOnlineAnimediaTv() + reference.getUrl();
 			Map<String, Map<String, String>> animeIdSeasonsAndEpisodesMap = seasonsAndEpisodesCache.get(url);
 			if (animeIdSeasonsAndEpisodesMap == null) {
 				animeIdSeasonsAndEpisodesMap = getTitleHtmlAndPutInCache(url, seasonsAndEpisodesCache);
@@ -109,8 +99,9 @@ public class ReferencesManager {
 			Stream.of(animeIdSeasonsAndEpisodesMap).flatMap(map -> map.entrySet().stream())
 					.flatMap(animeIdSeasonsAndEpisodesEntry -> animeIdSeasonsAndEpisodesEntry.getValue().entrySet().stream())
 					.filter(seasonsAndEpisodesEntry -> seasonsAndEpisodesEntry.getKey().equals(reference.getDataList())).forEach(x -> {
-				HttpResponse responseHtmlWithEpisodesInConcretizedDataList = httpCaller
-						.call(animediaEpisodesList + animeId + "/" + reference.getDataList() + animediaEpisodesListPostfix,
+				HttpResponse responseHtmlWithEpisodesInConcretizedDataList = httpCaller.call(
+						urlsNames.getAnimediaUrls().getOnlineAnimediaAnimeEpisodesList() + animeId + "/" + reference.getDataList() + urlsNames.getAnimediaUrls()
+								.getOnlineAnimediaAnimeEpisodesPostfix(),
 								HttpMethod.GET,
 								animediaRequestParameters);
 				Map<String, List<String>> episodesRange = animediaHTMLParser.getEpisodesRange(responseHtmlWithEpisodesInConcretizedDataList);
@@ -208,8 +199,9 @@ public class ReferencesManager {
 
 	private Map<String, String> convertReferencesSetToMap(Set<AnimediaMALTitleReferences> allReferences) {
 		Map<String, String> urlTitle = new HashMap<>();
-		allReferences
-				.forEach(set -> urlTitle.put(animediaOnlineTv + set.getUrl() + "/" + set.getDataList() + "/" + set.getFirstEpisode(), set.getTitleOnMAL()));
+		allReferences.forEach(set -> urlTitle
+				.put(urlsNames.getAnimediaUrls().getOnlineAnimediaTv() + set.getUrl() + "/" + set.getDataList() + "/" + set.getFirstEpisode(),
+						set.getTitleOnMAL()));
 		return urlTitle;
 	}
 
@@ -224,7 +216,7 @@ public class ReferencesManager {
 			}
 		}
 		if (!missingReferences.isEmpty()) {
-			RoutinesIO.marshalToFileInTheFolder(tempFolderName, tempRawReferencesName, missingReferences);
+			RoutinesIO.marshalToFileInTheFolder(resourcesNames.getTempFolder(), resourcesNames.getTempRawReferences(), missingReferences);
 		}
 		return fullMatch;
 	}

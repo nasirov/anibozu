@@ -1,11 +1,6 @@
 package nasirov.yv.service;
 
 import static nasirov.yv.TestUtils.getEpisodesRange;
-import static nasirov.yv.data.enums.Constants.EPISODE_NUMBER_FOR_WATCH_VALUE_IF_EPISODE_IS_NOT_AVAILABLE;
-import static nasirov.yv.data.enums.Constants.FINAL_URL_VALUE_IF_EPISODE_IS_NOT_AVAILABLE;
-import static nasirov.yv.data.enums.Constants.FIRST_DATA_LIST;
-import static nasirov.yv.data.enums.Constants.FIRST_EPISODE;
-import static nasirov.yv.data.enums.Constants.ZERO_EPISODE;
 import static nasirov.yv.data.mal.MALAnimeStatus.WATCHING;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -28,6 +23,7 @@ import nasirov.yv.AbstractTest;
 import nasirov.yv.configuration.CacheConfiguration;
 import nasirov.yv.data.animedia.AnimediaMALTitleReferences;
 import nasirov.yv.data.animedia.AnimediaTitleSearchInfo;
+import nasirov.yv.data.constants.BaseConstants;
 import nasirov.yv.data.mal.UserMALTitleInfo;
 import nasirov.yv.data.response.HttpResponse;
 import nasirov.yv.http.caller.HttpCaller;
@@ -38,8 +34,10 @@ import nasirov.yv.util.RoutinesIO;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.core.io.Resource;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.test.annotation.DirtiesContext;
@@ -50,6 +48,21 @@ import org.springframework.test.annotation.DirtiesContext;
 @SpringBootTest(classes = {CacheConfiguration.class, SeasonAndEpisodeChecker.class, AnimediaRequestParametersBuilder.class, AnimediaHTMLParser.class})
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_CLASS)
 public class SeasonAndEpisodeCheckerTest extends AbstractTest {
+
+	@Value("classpath:animedia/search/animediaSearchListSeveralTitlesMatchedForKeywords.json")
+	private Resource animediaSearchListSeveralTitlesMatchedForKeywords;
+
+	@Value("classpath:animedia/singleSeason/blackClover1.txt")
+	private Resource blackCloverDataList1;
+
+	@Value("classpath:animedia/singleSeason/anotherHtml.txt")
+	private Resource anotherHtml;
+
+	@Value("classpath:animedia/singleSeason/another1.txt")
+	private Resource anotherDataList1;
+
+	@Value("classpath:animedia/announcements/htmlWithAnnouncement.txt")
+	private Resource htmlWithAnnouncement;
 
 	private static final String ONE_PIECE_URL = "anime/one-piece-van-pis-tv";
 
@@ -120,6 +133,7 @@ public class SeasonAndEpisodeCheckerTest extends AbstractTest {
 
 	@Before
 	public void setUp() {
+		super.setUp();
 		notFoundOnAnimediaRepoMock = new ArrayList<>();
 		doAnswer(answer -> {
 			notFoundOnAnimediaRepoMock.add(answer.getArgument(0));
@@ -319,14 +333,14 @@ public class SeasonAndEpisodeCheckerTest extends AbstractTest {
 		assertEquals(1, matchedAnimeSet.size());
 		AnimediaMALTitleReferences matchedAnime = matchedAnimeSet.stream().findAny().orElse(null);
 		assertEquals(announcementUrl, matchedAnime.getUrl());
-		assertEquals(FIRST_DATA_LIST.getDescription(), matchedAnime.getDataList());
+		assertEquals(BaseConstants.FIRST_DATA_LIST, matchedAnime.getDataList());
 		assertEquals(titleOnMal, matchedAnime.getTitleOnMAL());
-		assertEquals(FIRST_EPISODE.getDescription(), matchedAnime.getFirstEpisode());
-		assertEquals(ZERO_EPISODE.getDescription(), matchedAnime.getCurrentMax());
-		assertEquals(ZERO_EPISODE.getDescription(), matchedAnime.getMinConcretizedEpisodeOnAnimedia());
-		assertEquals(ZERO_EPISODE.getDescription(), matchedAnime.getMaxConcretizedEpisodeOnAnimedia());
-		assertEquals(FINAL_URL_VALUE_IF_EPISODE_IS_NOT_AVAILABLE.getDescription(), matchedAnime.getFinalUrl());
-		assertEquals(EPISODE_NUMBER_FOR_WATCH_VALUE_IF_EPISODE_IS_NOT_AVAILABLE.getDescription(), matchedAnime.getEpisodeNumberForWatch());
+		assertEquals(BaseConstants.FIRST_EPISODE, matchedAnime.getFirstEpisode());
+		assertEquals(BaseConstants.ZERO_EPISODE, matchedAnime.getCurrentMax());
+		assertEquals(BaseConstants.ZERO_EPISODE, matchedAnime.getMinConcretizedEpisodeOnAnimedia());
+		assertEquals(BaseConstants.ZERO_EPISODE, matchedAnime.getMaxConcretizedEpisodeOnAnimedia());
+		assertEquals(BaseConstants.FINAL_URL_VALUE_IF_EPISODE_IS_NOT_AVAILABLE, matchedAnime.getFinalUrl());
+		assertEquals(BaseConstants.EPISODE_NUMBER_FOR_WATCH_VALUE_IF_EPISODE_IS_NOT_AVAILABLE, matchedAnime.getEpisodeNumberForWatch());
 		assertEquals(null, matchedAnime.getMinConcretizedEpisodeOnMAL());
 		assertEquals(null, matchedAnime.getMaxConcretizedEpisodeOnMAL());
 	}
@@ -441,8 +455,8 @@ public class SeasonAndEpisodeCheckerTest extends AbstractTest {
 								.getMinConcretizedEpisodeOnAnimedia().equals(onePiece5.getMinConcretizedEpisodeOnAnimedia()) && ref
 								.getMaxConcretizedEpisodeOnAnimedia().equals(onePiece5.getMaxConcretizedEpisodeOnAnimedia()) && ref.getCurrentMax()
 								.equals(onePiece5.getCurrentMax()) && ref.getEpisodeNumberForWatch()
-								.equals(EPISODE_NUMBER_FOR_WATCH_VALUE_IF_EPISODE_IS_NOT_AVAILABLE.getDescription()) && ref.getFinalUrl()
-								.equals(FINAL_URL_VALUE_IF_EPISODE_IS_NOT_AVAILABLE.getDescription())).count());
+								.equals(BaseConstants.EPISODE_NUMBER_FOR_WATCH_VALUE_IF_EPISODE_IS_NOT_AVAILABLE) && ref.getFinalUrl()
+								.equals(BaseConstants.FINAL_URL_VALUE_IF_EPISODE_IS_NOT_AVAILABLE)).count());
 		numWatchedEpisodes = 420;
 		multi.setNumWatchedEpisodes(numWatchedEpisodes);
 		episodeNumberForWatch = String.valueOf(numWatchedEpisodes + 1);
@@ -540,8 +554,8 @@ public class SeasonAndEpisodeCheckerTest extends AbstractTest {
 								.getMinConcretizedEpisodeOnAnimedia().equals(tamayura3_4.getMinConcretizedEpisodeOnAnimedia()) && ref
 								.getMaxConcretizedEpisodeOnAnimedia().equals(tamayura3_4.getMaxConcretizedEpisodeOnAnimedia()) && ref.getCurrentMax()
 								.equals(tamayura3_4.getCurrentMax()) && ref.getEpisodeNumberForWatch()
-								.equals(EPISODE_NUMBER_FOR_WATCH_VALUE_IF_EPISODE_IS_NOT_AVAILABLE.getDescription()) && ref.getFinalUrl()
-								.equals(FINAL_URL_VALUE_IF_EPISODE_IS_NOT_AVAILABLE.getDescription()) && ref.getMinConcretizedEpisodeOnMAL()
+								.equals(BaseConstants.EPISODE_NUMBER_FOR_WATCH_VALUE_IF_EPISODE_IS_NOT_AVAILABLE) && ref.getFinalUrl()
+								.equals(BaseConstants.FINAL_URL_VALUE_IF_EPISODE_IS_NOT_AVAILABLE) && ref.getMinConcretizedEpisodeOnMAL()
 								.equals(tamayura3_4.getMinConcretizedEpisodeOnMAL()) && ref.getMaxConcretizedEpisodeOnMAL()
 								.equals(tamayura3_4.getMaxConcretizedEpisodeOnMAL())).count());
 	}

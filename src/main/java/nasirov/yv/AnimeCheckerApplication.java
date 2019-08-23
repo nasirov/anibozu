@@ -8,7 +8,7 @@ import org.springframework.context.annotation.PropertySource;
  * Created by nasirov.yv
  */
 @SpringBootApplication
-@PropertySource("classpath:system.properties")
+@PropertySource("classpath:application.yml")
 public class AnimeCheckerApplication {
 
 	public static void main(String[] args) {
