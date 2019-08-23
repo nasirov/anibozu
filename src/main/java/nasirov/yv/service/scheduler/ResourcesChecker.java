@@ -33,6 +33,8 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class ResourcesChecker {
 
+	private static final Pattern CYRILLIC_CHARACTERS_PATTERN = Pattern.compile("[а-яА-Я]");
+
 	@Value("${resources.tempFolder.name}")
 	private String tempFolderName;
 
@@ -126,10 +128,9 @@ public class ResourcesChecker {
 			log.info("ALL SINGLESEASON ANIME HAS CONCRETIZED MAL NAMES.");
 			log.info("START CHECKING SINGLESEASON TITLE NAME ON MAL ...");
 			Set<AnimediaTitleSearchInfo> tempAllSingleSeasonTitles = new LinkedHashSet<>();
-			Pattern pattern = Pattern.compile("[а-яА-Я]");
 			for (Anime x : singleSeasonAnime) {
 				animediaSearchList.stream().filter(title -> {
-					Matcher matcher = pattern.matcher(title.getKeywords());
+					Matcher matcher = CYRILLIC_CHARACTERS_PATTERN.matcher(title.getKeywords());
 					return title.getUrl().equals(x.getRootUrl()) && !matcher.find() && !title.getKeywords().equals("");
 				}).forEach(tempAllSingleSeasonTitles::add);
 			}

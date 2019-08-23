@@ -15,6 +15,8 @@ import org.springframework.web.util.UriUtils;
 @UtilityClass
 public class URLBuilder {
 
+	private static final Pattern EPISODES_RANGE_PATTERN = Pattern.compile("(\\d{1,3}-(\\d{1,3}|[xXхХ]{1,3}))");
+
 	public static String build(String url, String dataList, String firstEpisodeInSeason, String numberOfEpisodesInSeason) {
 		String episode = null;
 		if (firstEpisodeInSeason != null) {
@@ -45,8 +47,7 @@ public class URLBuilder {
 	}
 
 	private static String episodeChecker(String episode) {
-		Pattern pattern = Pattern.compile("(\\d{1,3}-(\\d{1,3}|[xX]{1,3}))");
-		Matcher matcher = pattern.matcher(episode);
+		Matcher matcher = EPISODES_RANGE_PATTERN.matcher(episode);
 		if (matcher.find()) {
 			String[] range = episode.split("-");
 			return range[0];

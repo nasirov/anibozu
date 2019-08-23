@@ -92,6 +92,28 @@ public class AnimediaHTMLParser {
 	 */
 	private static final String URL_IN_DATA_LIST = "href=\"(?<url>/anime/.*?/\\d{1,3}/\\d{1,3})\"";
 
+	private static final String DATALIST_EPISODES_RANGE = "(\\d{1,3}-(\\d{1,3}|[xXхХ]{1,3}))";
+
+	private static final Pattern NEW_SERIES_INFO_PATTERN = Pattern.compile(NEW_SERIES_INFO);
+
+	private static final Pattern ORIGINAL_TITLE_PATTERN = Pattern.compile(ORIGINAL_TITLE);
+
+	private static final Pattern EPISODE_IN_DATA_LIST_PATTERN = Pattern.compile(EPISODE_IN_DATA_LIST);
+
+	private static final Pattern EPISODE_IN_DATA_LIST_EXCEPT_TRAILERS_PATTERN = Pattern.compile(EPISODE_IN_DATA_LIST_EXCEPT_TRAILERS);
+
+	private static final Pattern TRAILER_IN_DATA_LIST_PATTERN = Pattern.compile(TRAILER_IN_DATA_LIST);
+
+	private static final Pattern URL_IN_DATA_LIST_PATTERN = Pattern.compile(URL_IN_DATA_LIST);
+
+	private static final Pattern TAB_AND_SEASONS_PATTERN = Pattern.compile(TAB_AND_SEASONS);
+
+	private static final Pattern TAB_AND_EPISODES_PATTERN = Pattern.compile(TAB_AND_EPISODES);
+
+	private static final Pattern DATA_ENTRY_ID_PATTERN = Pattern.compile(DATA_ENTRY_ID);
+
+	private static final Pattern DATALIST_EPISODES_RANGE_PATTERN = Pattern.compile(DATALIST_EPISODES_RANGE);
+
 	/**
 	 * Searches for the title info
 	 * anime id - an entry id in the animedia database
@@ -183,8 +205,7 @@ public class AnimediaHTMLParser {
 	}
 
 	private List<AnimediaMALTitleReferences> searchForCurrentlyUpdatedTitles(String content) throws NewEpisodesListNotFoundException {
-		Pattern pattern = Pattern.compile(NEW_SERIES_INFO);
-		Matcher matcher = pattern.matcher(content);
+		Matcher matcher = NEW_SERIES_INFO_PATTERN.matcher(content);
 		List<AnimediaMALTitleReferences> newSeriesList = new ArrayList<>();
 		while (matcher.find()) {
 			String dataList = matcher.group("dataList");
@@ -199,8 +220,7 @@ public class AnimediaHTMLParser {
 	}
 
 	private String searchForOriginalTitle(String content) throws OriginalTitleNotFoundException {
-		Pattern pattern = Pattern.compile(ORIGINAL_TITLE);
-		Matcher matcher = pattern.matcher(content);
+		Matcher matcher = ORIGINAL_TITLE_PATTERN.matcher(content);
 		if (matcher.find()) {
 			return matcher.group("originalTitle");
 		}
@@ -208,8 +228,7 @@ public class AnimediaHTMLParser {
 	}
 
 	private String searchForFirstEpisodeInSeason(String content) throws FirstEpisodeInSeasonNotFoundException {
-		Pattern pattern = Pattern.compile(EPISODE_IN_DATA_LIST);
-		Matcher matcher = pattern.matcher(content);
+		Matcher matcher = EPISODE_IN_DATA_LIST_PATTERN.matcher(content);
 		if (matcher.find()) {
 			String description = matcher.group("description");
 			String firstEpisodeInSeason = matcher.group("firstEpisodeInSeason");
@@ -222,8 +241,7 @@ public class AnimediaHTMLParser {
 	}
 
 	private Map<String, List<String>> searchForEpisodesRange(String content) throws EpisodesRangeNotFoundException {
-		Pattern pattern = Pattern.compile(EPISODE_IN_DATA_LIST_EXCEPT_TRAILERS);
-		Matcher matcher = pattern.matcher(content);
+		Matcher matcher = EPISODE_IN_DATA_LIST_EXCEPT_TRAILERS_PATTERN.matcher(content);
 		List<String> episodes = new LinkedList<>();
 		Map<String, List<String>> episodesRange = new HashMap<>();
 		String maxEpisodes = null;
@@ -265,14 +283,12 @@ public class AnimediaHTMLParser {
 	}
 
 	private boolean isTrailer(String content) {
-		Pattern pattern = Pattern.compile(TRAILER_IN_DATA_LIST);
-		Matcher matcher = pattern.matcher(content);
+		Matcher matcher = TRAILER_IN_DATA_LIST_PATTERN.matcher(content);
 		return matcher.find();
 	}
 
 	private String getUrl(String content) {
-		Pattern pattern = Pattern.compile(URL_IN_DATA_LIST);
-		Matcher matcher = pattern.matcher(content);
+		Matcher matcher = URL_IN_DATA_LIST_PATTERN.matcher(content);
 		if (matcher.find()) {
 			return matcher.group("url");
 		}
@@ -294,15 +310,13 @@ public class AnimediaHTMLParser {
 		Map<String, String> tabsAndDataList = new HashMap<>();
 		Map<String, String> seasonsAndEpisodes = new HashMap<>();
 		Map<String, Map<String, String>> animeIdSeasonsAndEpisodes = new HashMap<>();
-		Pattern pattern = Pattern.compile(TAB_AND_SEASONS);
-		Matcher matcher = pattern.matcher(content);
+		Matcher matcher = TAB_AND_SEASONS_PATTERN.matcher(content);
 		String numberOfTab;
 		while (matcher.find()) {
 			numberOfTab = matcher.group("numberOfTab");
 			tabsAndSeasons.put(numberOfTab, matcher.group("season"));
 		}
-		pattern = Pattern.compile(TAB_AND_EPISODES);
-		matcher = pattern.matcher(content);
+		matcher = TAB_AND_EPISODES_PATTERN.matcher(content);
 		while (matcher.find()) {
 			numberOfTab = matcher.group("numberOfTab");
 			tabsAndDataList.put(numberOfTab, matcher.group("dataList"));
@@ -319,8 +333,7 @@ public class AnimediaHTMLParser {
 		if (seasonsAndEpisodes.isEmpty()) {
 			throw new SeasonsAndEpisodesNotFoundException("Seasons And Episodes not found for " + searchForOriginalTitle(content));
 		}
-		pattern = Pattern.compile(DATA_ENTRY_ID);
-		matcher = pattern.matcher(content);
+		matcher = DATA_ENTRY_ID_PATTERN.matcher(content);
 		if (matcher.find()) {
 			animeIdSeasonsAndEpisodes.put(matcher.group("animeId"), seasonsAndEpisodes);
 		}
@@ -335,8 +348,7 @@ public class AnimediaHTMLParser {
 	 * @return true if the description contain the range
 	 */
 	private boolean checkSeason(String season) {
-		Pattern pattern = Pattern.compile("(\\d{1,3}-(\\d{1,3}|[xX]{1,3}))");
-		Matcher matcher = pattern.matcher(season);
+		Matcher matcher = DATALIST_EPISODES_RANGE_PATTERN.matcher(season);
 		return matcher.find();
 	}
 }

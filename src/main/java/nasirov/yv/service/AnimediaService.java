@@ -49,6 +49,8 @@ public class AnimediaService {
 
 	private static final String POSTER_URL_HIGH_QUALITY_QUERY_PARAMETER = "h=350&q=100";
 
+	private static final Pattern CYRILLIC_CHARACTERS_PATTERN = Pattern.compile("[а-яА-Я]");
+
 	@Value("${resources.tempFolder.name}")
 	private String tempFolderName;
 
@@ -352,11 +354,10 @@ public class AnimediaService {
 	 */
 	public boolean isAllSingleSeasonAnimeHasConcretizedMALTitleInKeywordsInAnimediaSearchListFromResources(Set<Anime> singleSeasonAnime,
 			Set<AnimediaTitleSearchInfo> animediaSearchListFromResources) {
-		Pattern pattern = Pattern.compile("[а-яА-Я]");
 		Set<AnimediaTitleSearchInfo> matched = new LinkedHashSet<>();
 		for (Anime x : singleSeasonAnime) {
 			animediaSearchListFromResources.stream().filter(y -> {
-				Matcher matcher = pattern.matcher(y.getKeywords());
+				Matcher matcher = CYRILLIC_CHARACTERS_PATTERN.matcher(y.getKeywords());
 				return y.getUrl().equals(x.getRootUrl()) && matcher.find();
 			}).forEach(matched::add);
 		}

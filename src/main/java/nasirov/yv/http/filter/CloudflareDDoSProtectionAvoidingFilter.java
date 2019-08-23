@@ -44,6 +44,20 @@ public class CloudflareDDoSProtectionAvoidingFilter extends ClientFilter {
 
 	private static final String ADDITIONAL_EXPRESSION_REGEX = "(?<operation>[+\\-*/]+)=(?<expressionWithNumberSeed>.*?);";
 
+	private static final String HOST_REGEX = "(?<host>https?://.*?/).+";
+
+	private static final Pattern SEED_REGEX_PATTERN = Pattern.compile(SEED_REGEX);
+
+	private static final Pattern HOST_REGEX_PATTERN = Pattern.compile(HOST_REGEX);
+
+	private static final Pattern FIRST_OPTION_OF_NUMBER_ONE_PATTERN = Pattern.compile("(!\\+\\[])");
+
+	private static final Pattern SECOND_OPTION_OF_NUMBER_ONE_PATTERN = Pattern.compile("(!!\\[])");
+
+	private static final Pattern FIRST_OPTION_OF_NUMBER_ZERO_PATTERN = Pattern.compile("(\\[])");
+
+	private static final Pattern CHALLENGE_FORM_REGEX_PATTERN = Pattern.compile(CHALLENGE_FORM_REGEX);
+
 	@Override
 	public ClientResponse handle(ClientRequest clientRequest) throws ClientHandlerException {
 		ClientHandler clientHandler = getNext();
@@ -96,15 +110,14 @@ public class CloudflareDDoSProtectionAvoidingFilter extends ClientFilter {
 
 	private String getVerificationUrl(String content, String url) {
 		String finalUrl;
-		Pattern pattern = Pattern.compile(SEED_REGEX);
-		Matcher matcher = pattern.matcher(content);
+		Matcher matcher = SEED_REGEX_PATTERN.matcher(content);
 		if (matcher.find()) {
 			String arrayName = matcher.group("arrayName");
 			String stringSeed = matcher.group("stringSeed");
 			String numberSeedExpression = matcher.group("numberSeedExpression");
 			Double seedSumDouble = Double.parseDouble(getSum(numberSeedExpression));
-			pattern = Pattern.compile(arrayName + "\\." + stringSeed + ADDITIONAL_EXPRESSION_REGEX);
-			matcher = pattern.matcher(content);
+			Pattern additionalExpressionRegexPattern = Pattern.compile(arrayName + "\\." + stringSeed + ADDITIONAL_EXPRESSION_REGEX);
+			matcher = additionalExpressionRegexPattern.matcher(content);
 			while (matcher.find()) {
 				String operation = matcher.group("operation");
 				String expressionWithNumberSeed = matcher.group("expressionWithNumberSeed");
@@ -126,8 +139,7 @@ public class CloudflareDDoSProtectionAvoidingFilter extends ClientFilter {
 				}
 			}
 			String host = "";
-			pattern = Pattern.compile("(?<host>https?://.*?/).+");
-			matcher = pattern.matcher(url);
+			matcher = HOST_REGEX_PATTERN.matcher(url);
 			if (matcher.find()) {
 				host = matcher.group("host");
 			}
@@ -156,18 +168,15 @@ public class CloudflareDDoSProtectionAvoidingFilter extends ClientFilter {
 
 	private String replaceObfuscatedValuesWithNumbers(String expression) {
 		String result = "";
-		Pattern pattern = Pattern.compile("(!\\+\\[])");
-		Matcher matcher = pattern.matcher(expression);
+		Matcher matcher = FIRST_OPTION_OF_NUMBER_ONE_PATTERN.matcher(expression);
 		if (matcher.find()) {
 			result = matcher.replaceAll("1");
 		}
-		pattern = Pattern.compile("(!!\\[])");
-		matcher = pattern.matcher(result);
+		matcher = SECOND_OPTION_OF_NUMBER_ONE_PATTERN.matcher(result);
 		if (matcher.find()) {
 			result = matcher.replaceAll("1");
 		}
-		pattern = Pattern.compile("(\\[])");
-		matcher = pattern.matcher(result);
+		matcher = FIRST_OPTION_OF_NUMBER_ZERO_PATTERN.matcher(result);
 		if (matcher.find()) {
 			result = matcher.replaceAll("0");
 		}
@@ -210,8 +219,7 @@ public class CloudflareDDoSProtectionAvoidingFilter extends ClientFilter {
 
 	private Map<String, String> getQueriesForUrl(String content) {
 		Map<String, String> queries = new LinkedHashMap<>();
-		Pattern pattern = Pattern.compile(CHALLENGE_FORM_REGEX);
-		Matcher matcher = pattern.matcher(content);
+		Matcher matcher = CHALLENGE_FORM_REGEX_PATTERN.matcher(content);
 		if (matcher.find()) {
 			queries.put("url", matcher.group("url"));
 			queries.put("s", matcher.group("sValue"));
