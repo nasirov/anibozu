@@ -9,6 +9,8 @@ import java.util.Map;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import javax.annotation.PostConstruct;
+import javax.validation.constraints.NotBlank;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import nasirov.yv.data.animedia.Anime;
@@ -42,6 +44,13 @@ public class ResourcesChecker {
 	private final MALService malService;
 
 	private final ResourcesNames resourcesNames;
+
+	private String tempFolder;
+
+	@PostConstruct
+	public void init() {
+		tempFolder = resourcesNames.getTempFolder();
+	}
 
 	@Scheduled(cron = "${application.cron.resources-check-cron-expression}")
 	private void checkApplicationResources() {
@@ -108,7 +117,7 @@ public class ResourcesChecker {
 				}
 			}
 			if (!referencesWithInvalidMALTitleName.isEmpty()) {
-				RoutinesIO.marshalToFileInTheFolder(resourcesNames.getTempFolder(),
+				RoutinesIO.marshalToFileInTheFolder(tempFolder,
 						resourcesNames.getTempReferencesWithInvalidMALTitleName(),
 						referencesWithInvalidMALTitleName);
 			}
@@ -141,7 +150,7 @@ public class ResourcesChecker {
 				}
 			}
 			if (!searchTitlesWithInvalidMALTitleName.isEmpty()) {
-				RoutinesIO.marshalToFileInTheFolder(resourcesNames.getTempFolder(),
+				RoutinesIO.marshalToFileInTheFolder(tempFolder,
 						resourcesNames.getTempSearchTitlesWithInvalidMALTitleName(),
 						searchTitlesWithInvalidMALTitleName);
 			}
