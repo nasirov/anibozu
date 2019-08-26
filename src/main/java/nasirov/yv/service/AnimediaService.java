@@ -16,6 +16,7 @@ import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.annotation.PostConstruct;
+import javax.validation.constraints.NotBlank;
 import lombok.extern.slf4j.Slf4j;
 import nasirov.yv.data.animedia.Anime;
 import nasirov.yv.data.animedia.AnimeTypeOnAnimedia;
@@ -59,6 +60,8 @@ public class AnimediaService {
 
 	private Cache sortedAnimediaSearchListCache;
 
+	private String tempFolder;
+
 	private HttpCaller httpCaller;
 
 	private RequestParametersBuilder requestParametersBuilder;
@@ -88,6 +91,7 @@ public class AnimediaService {
 		animediaRequestParameters = requestParametersBuilder.build();
 		currentlyUpdatedTitlesCache = cacheManager.getCache(CacheNamesConstants.CURRENTLY_UPDATED_TITLES_CACHE);
 		sortedAnimediaSearchListCache = cacheManager.getCache(CacheNamesConstants.SORTED_ANIMEDIA_SEARCH_LIST_CACHE);
+		tempFolder = resourcesNames.getTempFolder();
 	}
 
 	/**
@@ -333,9 +337,9 @@ public class AnimediaService {
 	}
 
 	private void addSortedAnimeToTempResources(Set<Anime> single, Set<Anime> multi, Set<Anime> announcement) {
-		RoutinesIO.marshalToFileInTheFolder(resourcesNames.getTempFolder(), resourcesNames.getSingleSeasonsAnimeUrls(), single);
-		RoutinesIO.marshalToFileInTheFolder(resourcesNames.getTempFolder(), resourcesNames.getMultiSeasonsAnimeUrls(), multi);
-		RoutinesIO.marshalToFileInTheFolder(resourcesNames.getTempFolder(), resourcesNames.getAnnouncementsUrls(), announcement);
+		RoutinesIO.marshalToFileInTheFolder(tempFolder, resourcesNames.getSingleSeasonsAnimeUrls(), single);
+		RoutinesIO.marshalToFileInTheFolder(tempFolder, resourcesNames.getMultiSeasonsAnimeUrls(), multi);
+		RoutinesIO.marshalToFileInTheFolder(tempFolder, resourcesNames.getAnnouncementsUrls(), announcement);
 	}
 
 	private void putSortedAnimeToCache(Set<Anime> single, Set<Anime> multi, Set<Anime> announcement) {
@@ -361,6 +365,6 @@ public class AnimediaService {
 	}
 
 	private void marshallToTempFolder(String tempFileName, Collection<?> content) {
-		RoutinesIO.marshalToFileInTheFolder(resourcesNames.getTempFolder(), tempFileName, content);
+		RoutinesIO.marshalToFileInTheFolder(tempFolder, tempFileName, content);
 	}
 }
