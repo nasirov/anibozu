@@ -304,6 +304,8 @@ public class SeasonAndEpisodeChecker {
 	 */
 	private void handleOneMatchedResultInAnimediaSearchList(Set<AnimediaTitleSearchInfo> animediaSearchList, UserMALTitleInfo userMALTitleInfo,
 			Set<AnimediaMALTitleReferences> finalMatchedReferences) {
+		String onlineAnimediaAnimeEpisodesList = urlsNames.getAnimediaUrls().getOnlineAnimediaAnimeEpisodesList();
+		String onlineAnimediaAnimeEpisodesPostfix = urlsNames.getAnimediaUrls().getOnlineAnimediaAnimeEpisodesPostfix();
 		//Increment to next episode for watch
 		int nextNumberOfEpisodeForWatch = userMALTitleInfo.getNumWatchedEpisodes() + 1;
 		AnimediaTitleSearchInfo matchedOfSingleSeasonAnime = animediaSearchList.stream()
@@ -319,9 +321,10 @@ public class SeasonAndEpisodeChecker {
 			for (Map.Entry<String, Map<String, String>> animeIdDataListsAndEpisodes : animeIdSeasonsAndEpisodesMap.entrySet()) {
 				for (Map.Entry<String, String> dataListsAndEpisodes : animeIdDataListsAndEpisodes.getValue().entrySet()) {
 					String dataList = dataListsAndEpisodes.getKey();
-					HttpResponse resp = httpCaller.call(
-							urlsNames.getAnimediaUrls().getOnlineAnimediaAnimeEpisodesList() + animeIdDataListsAndEpisodes.getKey() + "/" + dataList + urlsNames
-									.getAnimediaUrls().getOnlineAnimediaAnimeEpisodesPostfix(), HttpMethod.GET, animediaRequestParameters);
+					HttpResponse resp = httpCaller
+							.call(onlineAnimediaAnimeEpisodesList + animeIdDataListsAndEpisodes.getKey() + "/" + dataList + onlineAnimediaAnimeEpisodesPostfix,
+									HttpMethod.GET,
+									animediaRequestParameters);
 					Map<String, List<String>> maxEpisodesAndEpisodesRange = animediaHTMLParser.getEpisodesRange(resp);
 					for (Map.Entry<String, List<String>> maxEpisodesAndEpisodesRangeEntry : maxEpisodesAndEpisodesRange.entrySet()) {
 						List<String> episodesRange = maxEpisodesAndEpisodesRangeEntry.getValue();

@@ -85,12 +85,15 @@ public class ReferencesManager {
 	 * @param references the references
 	 */
 	public void updateReferences(Set<AnimediaMALTitleReferences> references) {
+		String onlineAnimediaTv = urlsNames.getAnimediaUrls().getOnlineAnimediaTv();
+		String onlineAnimediaAnimeEpisodesList = urlsNames.getAnimediaUrls().getOnlineAnimediaAnimeEpisodesList();
+		String onlineAnimediaAnimeEpisodesPostfix = urlsNames.getAnimediaUrls().getOnlineAnimediaAnimeEpisodesPostfix();
 		Map<String, Map<String, Map<String, String>>> seasonsAndEpisodesCache = new HashMap<>();
 		for (AnimediaMALTitleReferences reference : references) {
 			if (isTitleUpdated(reference) || isTitleNotFoundOnMAL(reference)) {
 				continue;
 			}
-			String url = urlsNames.getAnimediaUrls().getOnlineAnimediaTv() + reference.getUrl();
+			String url = onlineAnimediaTv + reference.getUrl();
 			Map<String, Map<String, String>> animeIdSeasonsAndEpisodesMap = seasonsAndEpisodesCache.get(url);
 			if (animeIdSeasonsAndEpisodesMap == null) {
 				animeIdSeasonsAndEpisodesMap = getTitleHtmlAndPutInCache(url, seasonsAndEpisodesCache);
@@ -100,8 +103,7 @@ public class ReferencesManager {
 					.flatMap(animeIdSeasonsAndEpisodesEntry -> animeIdSeasonsAndEpisodesEntry.getValue().entrySet().stream())
 					.filter(seasonsAndEpisodesEntry -> seasonsAndEpisodesEntry.getKey().equals(reference.getDataList())).forEach(x -> {
 				HttpResponse responseHtmlWithEpisodesInConcretizedDataList = httpCaller.call(
-						urlsNames.getAnimediaUrls().getOnlineAnimediaAnimeEpisodesList() + animeId + "/" + reference.getDataList() + urlsNames.getAnimediaUrls()
-								.getOnlineAnimediaAnimeEpisodesPostfix(),
+						onlineAnimediaAnimeEpisodesList + animeId + "/" + reference.getDataList() + onlineAnimediaAnimeEpisodesPostfix,
 								HttpMethod.GET,
 								animediaRequestParameters);
 				Map<String, List<String>> episodesRange = animediaHTMLParser.getEpisodesRange(responseHtmlWithEpisodesInConcretizedDataList);
@@ -199,8 +201,9 @@ public class ReferencesManager {
 
 	private Map<String, String> convertReferencesSetToMap(Set<AnimediaMALTitleReferences> allReferences) {
 		Map<String, String> urlTitle = new HashMap<>();
+		String onlineAnimediaTv = urlsNames.getAnimediaUrls().getOnlineAnimediaTv();
 		allReferences.forEach(set -> urlTitle
-				.put(urlsNames.getAnimediaUrls().getOnlineAnimediaTv() + set.getUrl() + "/" + set.getDataList() + "/" + set.getFirstEpisode(),
+				.put(onlineAnimediaTv + set.getUrl() + "/" + set.getDataList() + "/" + set.getFirstEpisode(),
 						set.getTitleOnMAL()));
 		return urlTitle;
 	}
