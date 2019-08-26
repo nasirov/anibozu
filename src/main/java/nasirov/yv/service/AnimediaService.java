@@ -16,7 +16,6 @@ import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.annotation.PostConstruct;
-import javax.validation.constraints.NotBlank;
 import lombok.extern.slf4j.Slf4j;
 import nasirov.yv.data.animedia.Anime;
 import nasirov.yv.data.animedia.AnimeTypeOnAnimedia;
@@ -249,24 +248,21 @@ public class AnimediaService {
 	 */
 	public List<AnimediaMALTitleReferences> checkCurrentlyUpdatedTitles(List<AnimediaMALTitleReferences> fresh,
 			List<AnimediaMALTitleReferences> fromCache) {
-		List<AnimediaMALTitleReferences> list = new ArrayList<>();
-		if (!fromCache.isEmpty() && !fresh.isEmpty()) {
-			AnimediaMALTitleReferences animediaMALTitleReferencesFromCache = fromCache.get(0);
-			if (fresh.size() != fromCache.size() || !fresh.get(0).equals(animediaMALTitleReferencesFromCache)) {
-				for (AnimediaMALTitleReferences temp : fresh) {
-					if (temp.equals(animediaMALTitleReferencesFromCache)) {
-						break;
-					}
-					list.add(temp);
+		List<AnimediaMALTitleReferences> differences = new ArrayList<>();
+		if (fromCache.isEmpty() || fresh.isEmpty()) {
+			return differences;
+		} else {
+			AnimediaMALTitleReferences firstCurrentlyUpdatedTitleFromCache = fromCache.get(0);
+			for (AnimediaMALTitleReferences freshCurrentlyUpdatedTitle : fresh) {
+				if (firstCurrentlyUpdatedTitleFromCache.equals(freshCurrentlyUpdatedTitle)) {
+					break;
+				} else {
+					differences.add(freshCurrentlyUpdatedTitle);
 				}
 			}
-		} else if (fromCache.isEmpty() && !fresh.isEmpty()) {
-			list.addAll(fresh);
-		} else if (!fromCache.isEmpty() && fresh.isEmpty()) {
-			return list;
+			currentlyUpdatedTitlesCache.put(CacheNamesConstants.CURRENTLY_UPDATED_TITLES_CACHE, differences);
+			return differences;
 		}
-		currentlyUpdatedTitlesCache.put(CacheNamesConstants.CURRENTLY_UPDATED_TITLES_CACHE, list);
-		return list;
 	}
 
 	/**

@@ -26,6 +26,8 @@ import org.springframework.stereotype.Component;
 @Slf4j
 public class AnimediaHTMLParser {
 
+	private static final int NUMBER_OF_CURRENTLY_UPDATED_TITLES = 10;
+
 	/**
 	 * For tab id and episodes number
 	 */
@@ -211,7 +213,7 @@ public class AnimediaHTMLParser {
 			newSeriesList.add(AnimediaMALTitleReferences.builder().url(matcher.group("root")).dataList(dataList != null ? dataList : "")
 					.currentMax(currentMax != null ? currentMax : "").build());
 		}
-		if (newSeriesList.isEmpty()) {
+		if (newSeriesList.size() != NUMBER_OF_CURRENTLY_UPDATED_TITLES) {
 			throw new NewEpisodesListNotFoundException("New episodes not found!");
 		}
 		return newSeriesList;

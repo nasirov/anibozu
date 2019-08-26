@@ -196,11 +196,6 @@ public class AnimediaHTMLParserTest extends AbstractTest {
 		}
 	}
 
-	@Test(expected = NullPointerException.class)
-	public void testGetCurrentlyUpdatedTitlesListHttpResponseIsNull() throws Exception {
-		assertNull(animediaHTMLParser.getCurrentlyUpdatedTitlesList(null));
-	}
-
 	@Test
 	public void testGetCurrentlyUpdatedTitlesListIsNotFound() throws Exception {
 		List<AnimediaMALTitleReferences> currentlyUpdatedTitlesList = animediaHTMLParser

@@ -36,7 +36,7 @@ public abstract class AbstractTest {
 	@Value("classpath:animedia/sao/sao7.txt")
 	protected Resource saoDataList7;
 
-	@Value("classpath:animedia/search/pageWithCurrentlyAddedEpisodes.txt")
+	@Value("classpath:animedia/search/pageWithCurrentlyAdded10Episodes.txt")
 	protected Resource pageWithCurrentlyAddedEpisodes;
 
 	@Value("classpath:animedia/singleSeason/blackCloverHtml.txt")
