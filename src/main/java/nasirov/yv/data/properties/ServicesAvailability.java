@@ -1,6 +1,6 @@
 package nasirov.yv.data.properties;
 
-import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
@@ -12,18 +12,10 @@ import org.springframework.validation.annotation.Validated;
 @Data
 public class ServicesAvailability {
 
-	@NotBlank
-	private String resourcesLoaderEnabled;
+	@NotNull
+	private Boolean resourcesLoaderEnabled;
 
-	@NotBlank
-	private String applicationLogoPrinterEnabled;
-
-	public boolean getResourcesLoaderEnabled() {
-		return Boolean.parseBoolean(this.resourcesLoaderEnabled);
-	}
-
-	public boolean getApplicationLogoPrinterEnabled() {
-		return Boolean.parseBoolean(this.applicationLogoPrinterEnabled);
-	}
+	@NotNull
+	private Boolean applicationLogoPrinterEnabled;
 
 }
