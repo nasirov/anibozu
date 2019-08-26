@@ -62,6 +62,8 @@ public class AnimediaService {
 
 	private String tempFolder;
 
+	private String onlineAnimediaTv;
+
 	private HttpCaller httpCaller;
 
 	private RequestParametersBuilder requestParametersBuilder;
@@ -92,6 +94,7 @@ public class AnimediaService {
 		currentlyUpdatedTitlesCache = cacheManager.getCache(CacheNamesConstants.CURRENTLY_UPDATED_TITLES_CACHE);
 		sortedAnimediaSearchListCache = cacheManager.getCache(CacheNamesConstants.SORTED_ANIMEDIA_SEARCH_LIST_CACHE);
 		tempFolder = resourcesNames.getTempFolder();
+		onlineAnimediaTv = urlsNames.getAnimediaUrls().getOnlineAnimediaTv();
 	}
 
 	/**
@@ -105,7 +108,7 @@ public class AnimediaService {
 		Set<AnimediaTitleSearchInfo> animediaSearchList = WrappedObjectMapper
 				.unmarshal(animediaResponse.getContent(), AnimediaTitleSearchInfo.class, LinkedHashSet.class);
 		animediaSearchList.forEach(title -> {
-			title.setUrl(UriUtils.encodePath(title.getUrl().replaceAll(urlsNames.getAnimediaUrls().getOnlineAnimediaTv(), ""), StandardCharsets.UTF_8));
+			title.setUrl(UriUtils.encodePath(title.getUrl().replaceAll(onlineAnimediaTv, ""), StandardCharsets.UTF_8));
 			title.setPosterUrl(title.getPosterUrl().replace(POSTER_URL_LOW_QUALITY_QUERY_PARAMETER, POSTER_URL_HIGH_QUALITY_QUERY_PARAMETER));
 		});
 		return animediaSearchList;
@@ -128,7 +131,7 @@ public class AnimediaService {
 	 * @return list of currently updated titles
 	 */
 	public List<AnimediaMALTitleReferences> getCurrentlyUpdatedTitles() {
-		HttpResponse animediaResponse = httpCaller.call(urlsNames.getAnimediaUrls().getOnlineAnimediaTv(), HttpMethod.GET, animediaRequestParameters);
+		HttpResponse animediaResponse = httpCaller.call(onlineAnimediaTv, HttpMethod.GET, animediaRequestParameters);
 		List<AnimediaMALTitleReferences> currentlyUpdatedTitles = animediaHTMLParser.getCurrentlyUpdatedTitlesList(animediaResponse);
 		currentlyUpdatedTitlesCache.putIfAbsent(CacheNamesConstants.CURRENTLY_UPDATED_TITLES_CACHE, currentlyUpdatedTitles);
 		return currentlyUpdatedTitles;
@@ -150,7 +153,7 @@ public class AnimediaService {
 		EnumMap<AnimeTypeOnAnimedia, Set<Anime>> allSeasons = new EnumMap<>(AnimeTypeOnAnimedia.class);
 		for (AnimediaTitleSearchInfo animediaSearchList : animediaSearchListInput) {
 			String rootUrl = animediaSearchList.getUrl();
-			String url = urlsNames.getAnimediaUrls().getOnlineAnimediaTv() + rootUrl;
+			String url = onlineAnimediaTv + rootUrl;
 			//get a html page with an anime
 			HttpResponse response = httpCaller.call(url, HttpMethod.GET, animediaRequestParameters);
 			if (isAnnouncement(response.getContent())) {
@@ -230,7 +233,7 @@ public class AnimediaService {
 			long multiCount = multiSeasonsAnime.stream().filter(set -> set.getRootUrl().equals(animediaTitleSearchInfo.getUrl())).count();
 			long announcementCount = announcements.stream().filter(set -> set.getRootUrl().equals(animediaTitleSearchInfo.getUrl())).count();
 			if (singleCount == 0 && multiCount == 0 && announcementCount == 0) {
-				log.warn("NOT FOUND IN ANY SORTED ANIME LISTS {}", urlsNames.getAnimediaUrls().getOnlineAnimediaTv() + animediaTitleSearchInfo.getUrl());
+				log.warn("NOT FOUND IN ANY SORTED ANIME LISTS {}", onlineAnimediaTv + animediaTitleSearchInfo.getUrl());
 				notFound.add(animediaTitleSearchInfo);
 			}
 		}
