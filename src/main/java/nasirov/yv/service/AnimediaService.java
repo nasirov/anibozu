@@ -9,12 +9,15 @@ import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.EnumMap;
+import java.util.HashMap;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Stream;
 import javax.annotation.PostConstruct;
 import lombok.extern.slf4j.Slf4j;
 import nasirov.yv.data.animedia.Anime;
@@ -152,32 +155,24 @@ public class AnimediaService {
 		EnumMap<AnimeTypeOnAnimedia, Set<Anime>> allSeasons = new EnumMap<>(AnimeTypeOnAnimedia.class);
 		for (AnimediaTitleSearchInfo animediaSearchList : animediaSearchListInput) {
 			String rootUrl = animediaSearchList.getUrl();
-			String url = onlineAnimediaTv + rootUrl;
-			//get a html page with an anime
-			HttpResponse response = httpCaller.call(url, HttpMethod.GET, animediaRequestParameters);
-			if (isAnnouncement(response.getContent())) {
-				announcement.add(new Anime(String.valueOf(announcementCount), url, rootUrl));
+			String fullUrl = onlineAnimediaTv + rootUrl;
+			HttpResponse animediaResponseWithAnimeHtml = httpCaller.call(fullUrl, HttpMethod.GET, animediaRequestParameters);
+			if (isAnnouncement(animediaResponseWithAnimeHtml.getContent())) {
+				announcement.add(new Anime(String.valueOf(announcementCount), fullUrl, rootUrl));
 				announcementCount++;
-				continue;
-			}
-			Map<String, Map<String, String>> animeIdSeasonsAndEpisodesMap = animediaHTMLParser.getAnimeIdSeasonsAndEpisodesMap(response);
-			for (Map.Entry<String, Map<String, String>> animeIdSeasonsAndEpisodesEntry : animeIdSeasonsAndEpisodesMap.entrySet()) {
-				int dataListCount = 1;
-				Map<String, String> seasonsAndEpisodesMap = animeIdSeasonsAndEpisodesEntry.getValue();
-				for (Map.Entry<String, String> seasonsAndEpisodesEntry : seasonsAndEpisodesMap.entrySet()) {
-					String dataList = seasonsAndEpisodesEntry.getKey();
-					if (seasonsAndEpisodesMap.size() > 1) {
-						String animeId = animeIdSeasonsAndEpisodesEntry.getKey();
-						handleMultiSeasonsAnime(animeId, dataList, multiSeasonCount, dataListCount, multi, url, rootUrl);
-						dataListCount++;
-					} else {
-						String maxEpisodeInDataList = seasonsAndEpisodesEntry.getValue();
-						handleSingleSeasonAnime(url, dataList, maxEpisodeInDataList, single, singleSeasonCount, rootUrl);
-						singleSeasonCount++;
-					}
-				}
-				if (seasonsAndEpisodesMap.size() > 1) {
+			} else {
+				Map<String, Map<String, String>> animeIdDataListsAndMaxEpisodesMap = animediaHTMLParser
+						.getAnimeIdSeasonsAndEpisodesMap(animediaResponseWithAnimeHtml);
+				String animeId = Stream.of(animeIdDataListsAndMaxEpisodesMap).flatMap(map -> map.entrySet().stream()).map(Entry::getKey).findFirst()
+						.orElse(null);
+				Map<String, String> dataListsAndMaxEpisodes = Stream.of(animeIdDataListsAndMaxEpisodesMap).flatMap(map -> map.entrySet().stream())
+						.map(Entry::getValue).findFirst().orElseGet(HashMap::new);
+				if (dataListsAndMaxEpisodes.size() > 1) {
+					handleMultiSeasonsAnime(dataListsAndMaxEpisodes, animeId, multiSeasonCount, multi, fullUrl, rootUrl);
 					multiSeasonCount++;
+				} else {
+					handleSingleSeasonAnime(dataListsAndMaxEpisodes, fullUrl, single, singleSeasonCount, rootUrl);
+					singleSeasonCount++;
 				}
 			}
 		}
@@ -347,20 +342,28 @@ public class AnimediaService {
 		sortedAnimediaSearchListCache.put(ANNOUNCEMENT.getDescription(), announcement);
 	}
 
-	private void handleSingleSeasonAnime(String url, String dataList, String maxEpisodeInDataList, Set<Anime> single, int singleSeasonCount,
+	private void handleSingleSeasonAnime(Map<String, String> seasonsAndEpisodesMap, String url, Set<Anime> single, int singleSeasonCount,
 			String rootUrl) {
+		String dataList = Stream.of(seasonsAndEpisodesMap).flatMap(map -> map.entrySet().stream()).map(Entry::getKey).findFirst().orElse(null);
+		String maxEpisodeInDataList = Stream.of(seasonsAndEpisodesMap).flatMap(map -> map.entrySet().stream()).map(Entry::getValue).findFirst()
+				.orElse(null);
 		String targetUrl = URLBuilder.build(url, dataList, null, maxEpisodeInDataList);
 		single.add(new Anime(String.valueOf(singleSeasonCount), targetUrl, rootUrl));
 	}
 
-	private void handleMultiSeasonsAnime(String animeId, String dataList, int multiSeasonCount, int dataListCount, Set<Anime> multi, String url,
+	private void handleMultiSeasonsAnime(Map<String, String> seasonsAndEpisodesMap, String animeId, int multiSeasonCount, Set<Anime> multi, String url,
 			String rootUrl) {
-		HttpResponse resp = httpCaller.call(
-				urlsNames.getAnimediaUrls().getOnlineAnimediaAnimeEpisodesList() + animeId + "/" + dataList + urlsNames.getAnimediaUrls()
-						.getOnlineAnimediaAnimeEpisodesPostfix(), HttpMethod.GET, animediaRequestParameters);
-		String count = multiSeasonCount + "." + dataListCount;
-		String targetUrl = URLBuilder.build(url, dataList, animediaHTMLParser.getFirstEpisodeInSeason(resp), null);
-		multi.add(new Anime(count, targetUrl, rootUrl));
+		int dataListCount = 1;
+		for (Entry<String, String> seasonsAndEpisodesMapEntry : seasonsAndEpisodesMap.entrySet()) {
+			String dataList = seasonsAndEpisodesMapEntry.getKey();
+			HttpResponse resp = httpCaller.call(
+					urlsNames.getAnimediaUrls().getOnlineAnimediaAnimeEpisodesList() + animeId + "/" + dataList + urlsNames.getAnimediaUrls()
+							.getOnlineAnimediaAnimeEpisodesPostfix(), HttpMethod.GET, animediaRequestParameters);
+			String count = multiSeasonCount + "." + dataListCount;
+			String targetUrl = URLBuilder.build(url, dataList, animediaHTMLParser.getFirstEpisodeInSeason(resp), null);
+			multi.add(new Anime(count, targetUrl, rootUrl));
+			dataListCount++;
+		}
 	}
 
 	private void marshallToTempFolder(String tempFileName, Collection<?> content) {
