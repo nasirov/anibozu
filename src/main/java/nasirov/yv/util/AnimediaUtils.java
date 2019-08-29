@@ -1,8 +1,12 @@
 package nasirov.yv.util;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Stream;
 import lombok.experimental.UtilityClass;
 import nasirov.yv.data.animedia.AnimediaMALTitleReferences;
 import nasirov.yv.data.constants.BaseConstants;
@@ -75,6 +79,16 @@ public class AnimediaUtils {
 	public static String getLastEpisode(List<String> episodesList) {
 		int lastIndex = episodesList.size() - 1;
 		return episodesList.get(lastIndex);
+	}
+
+	public static String getAnimeId(Map<String, Map<String, String>> animeIdDataListsAndMaxEpisodesMap) {
+		return Stream.of(animeIdDataListsAndMaxEpisodesMap).flatMap(map -> map.entrySet().stream()).map(Entry::getKey).findFirst()
+				.orElse(null);
+	}
+
+	public static Map<String, String> getDataListsAndMaxEpisodesMap(Map<String, Map<String, String>> animeIdDataListsAndMaxEpisodesMap) {
+		return Stream.of(animeIdDataListsAndMaxEpisodesMap).flatMap(map -> map.entrySet().stream())
+				.map(Entry::getValue).findFirst().orElseGet(HashMap::new);
 	}
 
 }

@@ -179,9 +179,9 @@ public class ReferencesManagerTest extends AbstractTest {
 		saoDataList3EpisodesRange.put("24", getEpisodesRange("1", "16"));
 		saoDataList7EpisodesRange.put("1", getEpisodesRange("1", "1"));
 		titans3ConcretizedAndOngoingEpisodesRange.put("13", getEpisodesRange("1", "13"));
-		doReturn(fairyTailEpisodesRangeAnimeIdSeasonsAndEpisodes).when(animediaHTMLParser).getAnimeIdSeasonsAndEpisodesMap(eq(fairyTailResponse));
-		doReturn(saoHtmlEpisodesRangeAnimeIdSeasonsAndEpisodes).when(animediaHTMLParser).getAnimeIdSeasonsAndEpisodesMap(eq(saoHtmlResponse));
-		doReturn(titansHtmlEpisodesRangeAnimeIdSeasonsAndEpisodes).when(animediaHTMLParser).getAnimeIdSeasonsAndEpisodesMap(eq(titansHtmlResponse));
+		doReturn(fairyTailEpisodesRangeAnimeIdSeasonsAndEpisodes).when(animediaHTMLParser).getAnimeIdDataListsAndMaxEpisodesMap(eq(fairyTailResponse));
+		doReturn(saoHtmlEpisodesRangeAnimeIdSeasonsAndEpisodes).when(animediaHTMLParser).getAnimeIdDataListsAndMaxEpisodesMap(eq(saoHtmlResponse));
+		doReturn(titansHtmlEpisodesRangeAnimeIdSeasonsAndEpisodes).when(animediaHTMLParser).getAnimeIdDataListsAndMaxEpisodesMap(eq(titansHtmlResponse));
 		doReturn(fairyTailDataList1EpisodesRange).when(animediaHTMLParser).getEpisodesRange(eq(fairyTailDataList1Response));
 		doReturn(fairyTailDataList2EpisodesRange).when(animediaHTMLParser).getEpisodesRange(eq(fairyTailDataList2Response));
 		doReturn(fairyTailDataList3EpisodesRange).when(animediaHTMLParser).getEpisodesRange(eq(fairyTailDataList3Response));

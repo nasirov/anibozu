@@ -124,10 +124,10 @@ public class AnimediaHTMLParser {
 	 * @param response the animedia response
 	 * @return the map <anime id,map<data list, number of episodes>
 	 */
-	public Map<String, Map<String, String>> getAnimeIdSeasonsAndEpisodesMap(HttpResponse response) {
+	public Map<String, Map<String, String>> getAnimeIdDataListsAndMaxEpisodesMap(HttpResponse response) {
 		Map<String, Map<String, String>> animeIdSeasonsAndEpisodes = new HashMap<>();
 		try {
-			animeIdSeasonsAndEpisodes = searchForSeasonsAndEpisodes(response.getContent());
+			animeIdSeasonsAndEpisodes = searchForDataListsAndMaxEpisodes(response.getContent());
 		} catch (SeasonsAndEpisodesNotFoundException | OriginalTitleNotFoundException e) {
 			log.error(e.getMessage(), e);
 		}
@@ -303,7 +303,7 @@ public class AnimediaHTMLParser {
 	 * @return the map <anime id <data list, episodes>>
 	 * @throws SeasonsAndEpisodesNotFoundException, if the mappings are not matched
 	 */
-	private Map<String, Map<String, String>> searchForSeasonsAndEpisodes(String content)
+	private Map<String, Map<String, String>> searchForDataListsAndMaxEpisodes(String content)
 			throws SeasonsAndEpisodesNotFoundException, OriginalTitleNotFoundException {
 		Map<String, String> tabsAndSeasons = new HashMap<>();
 		Map<String, String> tabsAndEpisodes = new HashMap<>();

@@ -7,7 +7,9 @@ import static org.junit.Assert.assertTrue;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
+import java.util.HashMap;
 import java.util.LinkedHashSet;
+import java.util.Map;
 import java.util.Set;
 import nasirov.yv.data.animedia.AnimediaMALTitleReferences;
 import nasirov.yv.data.constants.BaseConstants;
@@ -44,6 +46,16 @@ public class AnimediaUtilsTest {
 
 	private AnimediaMALTitleReferences notFoundOnMAL;
 
+	private static final String ANIME_ID = "1234";
+	private static final String DATA_LIST = "1";
+	private static final String MAX_EPISODES = "12";
+
+	private Map<String, Map<String, String>> animeIdDataListsAndMaxEpisodesMapForTest;
+
+	private Map<String, String> dataListsAndMaxEpisodesMapForTest;
+
+
+
 	@Before
 	public void setUp() {
 		Set<AnimediaMALTitleReferences> references = RoutinesIO
@@ -57,6 +69,10 @@ public class AnimediaUtilsTest {
 				.build();
 		notUpdatedTitle = references.stream().filter(ref -> ref.getTitleOnMAL().equals("fairy tail: final series")).findFirst().orElse(null);
 		notFoundOnMAL = references.stream().filter(ref -> ref.getTitleOnMAL().equals(BaseConstants.NOT_FOUND_ON_MAL)).findFirst().orElse(null);
+		animeIdDataListsAndMaxEpisodesMapForTest = new HashMap<>();
+		dataListsAndMaxEpisodesMapForTest = new HashMap<>();
+		dataListsAndMaxEpisodesMapForTest.put(DATA_LIST, MAX_EPISODES);
+		animeIdDataListsAndMaxEpisodesMapForTest.put(ANIME_ID, dataListsAndMaxEpisodesMapForTest);
 	}
 
 	@Test
@@ -122,5 +138,18 @@ public class AnimediaUtilsTest {
 		} catch (InvocationTargetException e) {
 			assertEquals(UnsupportedOperationException.class, e.getCause().getClass());
 		}
+	}
+
+	@Test
+	public void testGetAnimeId() {
+		String animeId = AnimediaUtils.getAnimeId(animeIdDataListsAndMaxEpisodesMapForTest);
+		assertEquals(ANIME_ID, animeId);
+	}
+
+	@Test
+	public void testGetDataListsAndMaxEpisodesMap() {
+		Map<String, String> dataListsAndMaxEpisodesMap = AnimediaUtils.getDataListsAndMaxEpisodesMap(animeIdDataListsAndMaxEpisodesMapForTest);
+		assertEquals(animeIdDataListsAndMaxEpisodesMapForTest.size(),dataListsAndMaxEpisodesMap.size());
+		assertEquals(dataListsAndMaxEpisodesMapForTest, dataListsAndMaxEpisodesMap);
 	}
 }

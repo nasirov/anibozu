@@ -41,7 +41,7 @@ public class AnimediaHTMLParserTest extends AbstractTest {
 	@Test
 	public void testGetAnimeIdSeasonsAndEpisodesMap() throws Exception {
 		HttpResponse multiSeasonsHtmlResponse = new HttpResponse(RoutinesIO.readFromResource(saoHtml), HttpStatus.OK.value());
-		Map<String, Map<String, String>> animeIdSeasonsAndEpisodesMap = animediaHTMLParser.getAnimeIdSeasonsAndEpisodesMap(multiSeasonsHtmlResponse);
+		Map<String, Map<String, String>> animeIdSeasonsAndEpisodesMap = animediaHTMLParser.getAnimeIdDataListsAndMaxEpisodesMap(multiSeasonsHtmlResponse);
 		assertNotNull(animeIdSeasonsAndEpisodesMap);
 		List<String> dataLists = new ArrayList<>();
 		List<String> maxEpisode = new ArrayList<>();
@@ -66,13 +66,13 @@ public class AnimediaHTMLParserTest extends AbstractTest {
 
 	@Test(expected = NullPointerException.class)
 	public void testGetAnimeIdSeasonsAndEpisodesMapHttpResponseIsNull() throws Exception {
-		assertNotNull(animediaHTMLParser.getAnimeIdSeasonsAndEpisodesMap(null));
+		assertNotNull(animediaHTMLParser.getAnimeIdDataListsAndMaxEpisodesMap(null));
 	}
 
 	@Test
 	public void testGetAnimeIdSeasonsAndEpisodesMapSeasonsAndEpisodesNotFound() throws Exception {
 		Map<String, Map<String, String>> animeIdSeasonsAndEpisodesMap = animediaHTMLParser
-				.getAnimeIdSeasonsAndEpisodesMap(new HttpResponse("<div class=\"media__post__original-title\"> test title </div>", HttpStatus.OK.value()));
+				.getAnimeIdDataListsAndMaxEpisodesMap(new HttpResponse("<div class=\"media__post__original-title\"> test title </div>", HttpStatus.OK.value()));
 		assertNotNull(animeIdSeasonsAndEpisodesMap);
 		assertEquals(0, animeIdSeasonsAndEpisodesMap.size());
 	}

@@ -32,6 +32,7 @@ import nasirov.yv.http.caller.HttpCaller;
 import nasirov.yv.http.parameter.RequestParametersBuilder;
 import nasirov.yv.parser.AnimediaHTMLParser;
 import nasirov.yv.parser.WrappedObjectMapper;
+import nasirov.yv.util.AnimediaUtils;
 import nasirov.yv.util.RoutinesIO;
 import nasirov.yv.util.URLBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -162,11 +163,9 @@ public class AnimediaService {
 				announcementCount++;
 			} else {
 				Map<String, Map<String, String>> animeIdDataListsAndMaxEpisodesMap = animediaHTMLParser
-						.getAnimeIdSeasonsAndEpisodesMap(animediaResponseWithAnimeHtml);
-				String animeId = Stream.of(animeIdDataListsAndMaxEpisodesMap).flatMap(map -> map.entrySet().stream()).map(Entry::getKey).findFirst()
-						.orElse(null);
-				Map<String, String> dataListsAndMaxEpisodes = Stream.of(animeIdDataListsAndMaxEpisodesMap).flatMap(map -> map.entrySet().stream())
-						.map(Entry::getValue).findFirst().orElseGet(HashMap::new);
+						.getAnimeIdDataListsAndMaxEpisodesMap(animediaResponseWithAnimeHtml);
+				String animeId = AnimediaUtils.getAnimeId(animeIdDataListsAndMaxEpisodesMap);
+				Map<String, String> dataListsAndMaxEpisodes = AnimediaUtils.getDataListsAndMaxEpisodesMap(animeIdDataListsAndMaxEpisodesMap);
 				if (dataListsAndMaxEpisodes.size() > 1) {
 					handleMultiSeasonsAnime(dataListsAndMaxEpisodes, animeId, multiSeasonCount, multi, fullUrl, rootUrl);
 					multiSeasonCount++;
@@ -351,11 +350,11 @@ public class AnimediaService {
 		single.add(new Anime(String.valueOf(singleSeasonCount), targetUrl, rootUrl));
 	}
 
-	private void handleMultiSeasonsAnime(Map<String, String> seasonsAndEpisodesMap, String animeId, int multiSeasonCount, Set<Anime> multi, String url,
+	private void handleMultiSeasonsAnime(Map<String, String> dataListsAndMaxEpisodesMap, String animeId, int multiSeasonCount, Set<Anime> multi, String url,
 			String rootUrl) {
 		int dataListCount = 1;
-		for (Entry<String, String> seasonsAndEpisodesMapEntry : seasonsAndEpisodesMap.entrySet()) {
-			String dataList = seasonsAndEpisodesMapEntry.getKey();
+		for (Entry<String, String> dataListsAndMaxEpisodesEpisodesMapEntry : dataListsAndMaxEpisodesMap.entrySet()) {
+			String dataList = dataListsAndMaxEpisodesEpisodesMapEntry.getKey();
 			HttpResponse resp = httpCaller.call(
 					urlsNames.getAnimediaUrls().getOnlineAnimediaAnimeEpisodesList() + animeId + "/" + dataList + urlsNames.getAnimediaUrls()
 							.getOnlineAnimediaAnimeEpisodesPostfix(), HttpMethod.GET, animediaRequestParameters);

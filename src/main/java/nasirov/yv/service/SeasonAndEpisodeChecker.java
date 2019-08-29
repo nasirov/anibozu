@@ -29,6 +29,7 @@ import nasirov.yv.http.caller.HttpCaller;
 import nasirov.yv.http.parameter.RequestParametersBuilder;
 import nasirov.yv.parser.AnimediaHTMLParser;
 import nasirov.yv.repository.NotFoundAnimeOnAnimediaRepository;
+import nasirov.yv.util.AnimediaUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.cache.Cache;
@@ -317,35 +318,35 @@ public class SeasonAndEpisodeChecker {
 				handleAnnouncements(url, userMALTitleInfo.getTitle(), matchedOfSingleSeasonAnime.getPosterUrl(), finalMatchedReferences);
 				return;
 			}
-			Map<String, Map<String, String>> animeIdSeasonsAndEpisodesMap = animediaHTMLParser.getAnimeIdSeasonsAndEpisodesMap(response);
-			for (Map.Entry<String, Map<String, String>> animeIdDataListsAndEpisodes : animeIdSeasonsAndEpisodesMap.entrySet()) {
-				for (Map.Entry<String, String> dataListsAndEpisodes : animeIdDataListsAndEpisodes.getValue().entrySet()) {
-					String dataList = dataListsAndEpisodes.getKey();
-					HttpResponse resp = httpCaller
-							.call(onlineAnimediaAnimeEpisodesList + animeIdDataListsAndEpisodes.getKey() + "/" + dataList + onlineAnimediaAnimeEpisodesPostfix,
-									HttpMethod.GET,
-									animediaRequestParameters);
-					Map<String, List<String>> maxEpisodesAndEpisodesRange = animediaHTMLParser.getEpisodesRange(resp);
-					for (Map.Entry<String, List<String>> maxEpisodesAndEpisodesRangeEntry : maxEpisodesAndEpisodesRange.entrySet()) {
-						List<String> episodesRange = maxEpisodesAndEpisodesRangeEntry.getValue();
-						String firstEpisode = getFirstEpisode(episodesRange);
-						String lastEpisode = getLastEpisode(episodesRange);
-						String correctFirstEpisodeAndMin = getCorrectFirstEpisodeAndMin(firstEpisode);
-						String correctCurrentMax = getCorrectCurrentMax(lastEpisode);
-						AnimediaMALTitleReferences temp =
-								AnimediaMALTitleReferences.builder().url(url).dataList(dataList).firstEpisode(correctFirstEpisodeAndMin)
-								.titleOnMAL(userMALTitleInfo.getTitle()).minConcretizedEpisodeOnAnimedia(correctFirstEpisodeAndMin)
-								.maxConcretizedEpisodeOnAnimedia(maxEpisodesAndEpisodesRangeEntry.getKey()).currentMax(correctCurrentMax)
-								.posterUrl(matchedOfSingleSeasonAnime.getPosterUrl()).episodesRange(episodesRange).build();
-						Map<String, String> nextEpisodeForWatchFinalUrl = getNextEpisodeForWatchAndFinalUrl(temp, nextNumberOfEpisodeForWatch);
-						Stream.of(nextEpisodeForWatchFinalUrl).flatMap(map -> map.entrySet().stream()).forEach(entry -> {
-							temp.setFinalUrl(entry.getValue());
-							temp.setEpisodeNumberForWatch(entry.getKey());
-							finalMatchedReferences.add(temp);
-						});
-					}
+			Map<String, Map<String, String>> animeIdDataListsAndMaxEpisodesMap = animediaHTMLParser.getAnimeIdDataListsAndMaxEpisodesMap(response);
+			String animeId = AnimediaUtils.getAnimeId(animeIdDataListsAndMaxEpisodesMap);
+			Map<String, String> dataListsAndMaxEpisodesMap = AnimediaUtils.getDataListsAndMaxEpisodesMap(animeIdDataListsAndMaxEpisodesMap);
+			Stream.of(dataListsAndMaxEpisodesMap).flatMap(map -> map.entrySet().stream()).forEach(dataListsAndMaxEpisodesMapEntry -> {
+				String dataList = dataListsAndMaxEpisodesMapEntry.getKey();
+				HttpResponse resp = httpCaller
+						.call(onlineAnimediaAnimeEpisodesList + animeId + "/" + dataList + onlineAnimediaAnimeEpisodesPostfix,
+								HttpMethod.GET,
+								animediaRequestParameters);
+				Map<String, List<String>> maxEpisodesAndEpisodesRange = animediaHTMLParser.getEpisodesRange(resp);
+				for (Map.Entry<String, List<String>> maxEpisodesAndEpisodesRangeEntry : maxEpisodesAndEpisodesRange.entrySet()) {
+					List<String> episodesRange = maxEpisodesAndEpisodesRangeEntry.getValue();
+					String firstEpisode = getFirstEpisode(episodesRange);
+					String lastEpisode = getLastEpisode(episodesRange);
+					String correctFirstEpisodeAndMin = getCorrectFirstEpisodeAndMin(firstEpisode);
+					String correctCurrentMax = getCorrectCurrentMax(lastEpisode);
+					AnimediaMALTitleReferences temp =
+							AnimediaMALTitleReferences.builder().url(url).dataList(dataList).firstEpisode(correctFirstEpisodeAndMin)
+									.titleOnMAL(userMALTitleInfo.getTitle()).minConcretizedEpisodeOnAnimedia(correctFirstEpisodeAndMin)
+									.maxConcretizedEpisodeOnAnimedia(maxEpisodesAndEpisodesRangeEntry.getKey()).currentMax(correctCurrentMax)
+									.posterUrl(matchedOfSingleSeasonAnime.getPosterUrl()).episodesRange(episodesRange).build();
+					Map<String, String> nextEpisodeForWatchFinalUrl = getNextEpisodeForWatchAndFinalUrl(temp, nextNumberOfEpisodeForWatch);
+					Stream.of(nextEpisodeForWatchFinalUrl).flatMap(map -> map.entrySet().stream()).forEach(entry -> {
+						temp.setFinalUrl(entry.getValue());
+						temp.setEpisodeNumberForWatch(entry.getKey());
+						finalMatchedReferences.add(temp);
+					});
 				}
-			}
+			});
 		}
 	}
 

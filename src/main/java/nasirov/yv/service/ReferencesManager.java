@@ -28,6 +28,7 @@ import nasirov.yv.http.caller.HttpCaller;
 import nasirov.yv.http.parameter.RequestParametersBuilder;
 import nasirov.yv.parser.AnimediaHTMLParser;
 import nasirov.yv.parser.WrappedObjectMapper;
+import nasirov.yv.util.AnimediaUtils;
 import nasirov.yv.util.RoutinesIO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -94,29 +95,30 @@ public class ReferencesManager {
 				continue;
 			}
 			String url = onlineAnimediaTv + reference.getUrl();
-			Map<String, Map<String, String>> animeIdSeasonsAndEpisodesMap = seasonsAndEpisodesCache.get(url);
-			if (animeIdSeasonsAndEpisodesMap == null) {
-				animeIdSeasonsAndEpisodesMap = getTitleHtmlAndPutInCache(url, seasonsAndEpisodesCache);
+			Map<String, Map<String, String>> animeIdDataListsAndMaxEpisodesMap = seasonsAndEpisodesCache.get(url);
+			if (animeIdDataListsAndMaxEpisodesMap == null) {
+				animeIdDataListsAndMaxEpisodesMap = getTitleHtmlAndPutInCache(url, seasonsAndEpisodesCache);
 			}
-			String animeId = Stream.of(animeIdSeasonsAndEpisodesMap).flatMap(x -> x.entrySet().stream()).findAny().map(Entry::getKey).orElse(null);
-			Stream.of(animeIdSeasonsAndEpisodesMap).flatMap(map -> map.entrySet().stream())
-					.flatMap(animeIdSeasonsAndEpisodesEntry -> animeIdSeasonsAndEpisodesEntry.getValue().entrySet().stream())
-					.filter(seasonsAndEpisodesEntry -> seasonsAndEpisodesEntry.getKey().equals(reference.getDataList())).forEach(x -> {
-				HttpResponse responseHtmlWithEpisodesInConcretizedDataList = httpCaller.call(
-						onlineAnimediaAnimeEpisodesList + animeId + "/" + reference.getDataList() + onlineAnimediaAnimeEpisodesPostfix,
-								HttpMethod.GET,
-								animediaRequestParameters);
-				Map<String, List<String>> episodesRange = animediaHTMLParser.getEpisodesRange(responseHtmlWithEpisodesInConcretizedDataList);
-				Stream.of(episodesRange).flatMap(episodesRangeMap -> episodesRangeMap.entrySet().stream()).forEach(episodesRangeMapEntry -> {
-					List<String> episodesList = episodesRangeMapEntry.getValue();
-					String maxEpisodes = episodesRangeMapEntry.getKey();
-					if (isTitleConcretizedAndOngoing(reference)) {
-						enrichConcretizedAndOngoingReference(reference, episodesList);
-					} else {
-						enrichRegularReference(reference, maxEpisodes, episodesList);
-					}
-				});
-			});
+			String animeId = AnimediaUtils.getAnimeId(animeIdDataListsAndMaxEpisodesMap);
+			Map<String, String> dataListsAndMaxEpisodesMap = AnimediaUtils.getDataListsAndMaxEpisodesMap(animeIdDataListsAndMaxEpisodesMap);
+			Stream.of(dataListsAndMaxEpisodesMap).flatMap(map -> map.entrySet().stream())
+					.filter(dataListsAndMaxEpisodesMapEntry -> dataListsAndMaxEpisodesMapEntry.getKey().equals(reference.getDataList()))
+					.forEach(x -> {
+						HttpResponse responseHtmlWithEpisodesInConcretizedDataList = httpCaller
+								.call(onlineAnimediaAnimeEpisodesList + animeId + "/" + reference.getDataList() + onlineAnimediaAnimeEpisodesPostfix,
+										HttpMethod.GET,
+										animediaRequestParameters);
+						Map<String, List<String>> episodesRange = animediaHTMLParser.getEpisodesRange(responseHtmlWithEpisodesInConcretizedDataList);
+						Stream.of(episodesRange).flatMap(episodesRangeMap -> episodesRangeMap.entrySet().stream()).forEach(episodesRangeMapEntry -> {
+							List<String> episodesList = episodesRangeMapEntry.getValue();
+							String maxEpisodes = episodesRangeMapEntry.getKey();
+							if (isTitleConcretizedAndOngoing(reference)) {
+								enrichConcretizedAndOngoingReference(reference, episodesList);
+							} else {
+								enrichRegularReference(reference, maxEpisodes, episodesList);
+							}
+						});
+					});
 		}
 	}
 
@@ -149,9 +151,9 @@ public class ReferencesManager {
 	private Map<String, Map<String, String>> getTitleHtmlAndPutInCache(String url,
 			Map<String, Map<String, Map<String, String>>> seasonsAndEpisodesCache) {
 		HttpResponse response = httpCaller.call(url, HttpMethod.GET, animediaRequestParameters);
-		Map<String, Map<String, String>> seasonsAndEpisodes = animediaHTMLParser.getAnimeIdSeasonsAndEpisodesMap(response);
-		seasonsAndEpisodesCache.put(url, seasonsAndEpisodes);
-		return seasonsAndEpisodes;
+		Map<String, Map<String, String>> animeIdDataListsAndMaxEpisodesMap = animediaHTMLParser.getAnimeIdDataListsAndMaxEpisodesMap(response);
+		seasonsAndEpisodesCache.put(url, animeIdDataListsAndMaxEpisodesMap);
+		return animeIdDataListsAndMaxEpisodesMap;
 	}
 
 	/**
