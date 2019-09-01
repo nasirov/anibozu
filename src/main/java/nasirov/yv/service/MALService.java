@@ -40,7 +40,7 @@ import org.springframework.web.util.HtmlUtils;
  */
 @Service
 @Slf4j
-public class MALService {
+public class MALService implements MALServiceI {
 
 	private static final String LOAD_JSON = "/load.json";
 
@@ -121,6 +121,7 @@ public class MALService {
 	 * @throws WatchingTitlesNotFoundException if number of watching titles is not found or == 0
 	 * @throws MALUserAccountNotFoundException if username doesn't exist
 	 */
+	@Override
 	public Set<UserMALTitleInfo> getWatchingTitles(String username) throws WatchingTitlesNotFoundException, MALUserAccountNotFoundException {
 		HttpResponse malResponseWithUserProfile = httpCaller.call(myAnimeListNet + PROFILE + username, HttpMethod.GET, malRequestParameters);
 		if (!isUserExist(malResponseWithUserProfile)) {
@@ -170,6 +171,7 @@ public class MALService {
 	 * @param watchingTitlesFromCache cached watching titles
 	 * @return true if user anime list updated
 	 */
+	@Override
 	public boolean isWatchingTitlesUpdated(Set<UserMALTitleInfo> watchingTitlesNew, Set<UserMALTitleInfo> watchingTitlesFromCache) {
 		boolean isWatchingTitlesUpdated = false;
 		for (UserMALTitleInfo userMALTitleInfoNew : watchingTitlesNew) {
@@ -204,6 +206,7 @@ public class MALService {
 	 * @param watchingTitlesFromCache cached mal user title info
 	 * @return collection with watching titles which number of watched episodes was updated
 	 */
+	@Override
 	public Set<UserMALTitleInfo> getWatchingTitlesWithUpdatedNumberOfWatchedEpisodes(Set<UserMALTitleInfo> watchingTitlesNew,
 			Set<UserMALTitleInfo> watchingTitlesFromCache) {
 		Set<UserMALTitleInfo> result = new LinkedHashSet<>();
@@ -224,6 +227,7 @@ public class MALService {
 	 * @param titleOnMAL the MAL title name
 	 * @return true if MAL response contain one anime title with equals titleOnMAL, else false
 	 */
+	@Override
 	public boolean isTitleExist(String titleOnMAL) {
 		QUERY_PARAMS_FOR_TITLE_NAME_CHECK.put("keyword", titleOnMAL);
 		HttpResponse malResponse = httpCaller

@@ -114,7 +114,7 @@ public class MALServiceTest extends AbstractTest {
 	private CacheManager cacheManager;
 
 	@Autowired
-	private MALService malService;
+	private MALServiceI malService;
 
 	@Autowired
 	@Qualifier("malRequestParametersBuilder")

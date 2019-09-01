@@ -4,13 +4,9 @@ package nasirov.yv.service.resources.loader;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
-import nasirov.yv.AbstractTest;
 import nasirov.yv.configuration.CacheConfiguration;
-import nasirov.yv.service.AnimediaService;
-import nasirov.yv.service.ReferencesManager;
 import org.junit.Test;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.annotation.DirtiesContext.ClassMode;
 import org.springframework.test.context.TestPropertySource;
@@ -22,13 +18,7 @@ import org.springframework.test.context.TestPropertySource;
 @DirtiesContext(classMode = ClassMode.AFTER_EACH_TEST_METHOD)
 @SuppressWarnings("unchecked")
 @TestPropertySource(properties = "application.services.resourcesLoader-enabled=true")
-public class ResourcesLoaderPositiveTest extends AbstractTest {
-
-	@MockBean
-	private ReferencesManager referencesManager;
-
-	@MockBean
-	private AnimediaService animediaService;
+public class ResourcesLoaderPositiveTest extends BaseResourcesLoaderTest {
 
 	@Test
 	public void loadMultiSeasonsReferencesEnabled() throws Exception {

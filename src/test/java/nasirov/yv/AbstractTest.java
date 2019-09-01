@@ -21,6 +21,12 @@ public abstract class AbstractTest {
 
 	protected static final int TEST_ACC_WATCHING_TITLES = 1004;
 
+	protected static final String FAIRY_TAIL_ROOT_URL = "anime/skazka-o-hvoste-fei-TV1";
+
+	protected static final String SAO_ROOT_URL = "anime/mastera-mecha-onlayn";
+
+	protected static final String TITANS_ROOT_URL = "anime/vtorjenie-gigantov";
+
 	@Value("classpath:animedia/sao/saoHtml.txt")
 	protected Resource saoHtml;
 

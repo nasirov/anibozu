@@ -45,7 +45,8 @@ import org.springframework.test.annotation.DirtiesContext;
 /**
  * Created by nasirov.yv
  */
-@SpringBootTest(classes = {CacheConfiguration.class, SeasonAndEpisodeChecker.class, AnimediaRequestParametersBuilder.class, AnimediaHTMLParser.class})
+@SpringBootTest(classes = {CacheConfiguration.class, SeasonsAndEpisodesService.class, AnimediaRequestParametersBuilder.class,
+		AnimediaHTMLParser.class})
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_CLASS)
 public class SeasonAndEpisodeCheckerTest extends AbstractTest {
 
@@ -124,12 +125,12 @@ public class SeasonAndEpisodeCheckerTest extends AbstractTest {
 	private NotFoundAnimeOnAnimediaRepository notFoundAnimeOnAnimediaRepository;
 
 	@MockBean
-	private ReferencesManager referencesManager;
+	private ReferencesServiceI referencesManager;
 
 	private List<UserMALTitleInfo> notFoundOnAnimediaRepoMock;
 
 	@Autowired
-	private SeasonAndEpisodeChecker seasonAndEpisodeChecker;
+	private SeasonsAndEpisodesServiceI seasonAndEpisodeChecker;
 
 	@Before
 	public void setUp() {

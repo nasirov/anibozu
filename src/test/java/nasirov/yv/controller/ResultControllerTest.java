@@ -39,10 +39,10 @@ import nasirov.yv.http.parameter.MALRequestParametersBuilder;
 import nasirov.yv.parser.AnimediaHTMLParser;
 import nasirov.yv.parser.MALParser;
 import nasirov.yv.repository.NotFoundAnimeOnAnimediaRepository;
-import nasirov.yv.service.AnimediaService;
-import nasirov.yv.service.MALService;
-import nasirov.yv.service.ReferencesManager;
-import nasirov.yv.service.SeasonAndEpisodeChecker;
+import nasirov.yv.service.AnimediaServiceI;
+import nasirov.yv.service.MALServiceI;
+import nasirov.yv.service.ReferencesServiceI;
+import nasirov.yv.service.SeasonsAndEpisodesServiceI;
 import nasirov.yv.util.URLBuilder;
 import org.junit.Before;
 import org.junit.Test;
@@ -77,16 +77,16 @@ public class ResultControllerTest extends AbstractTest {
 	private static final String ERROR_VIEW = "error";
 
 	@MockBean
-	private MALService malService;
+	private MALServiceI malService;
 
 	@MockBean
-	private AnimediaService animediaService;
+	private AnimediaServiceI animediaService;
 
 	@MockBean
-	private ReferencesManager referencesManager;
+	private ReferencesServiceI referencesManager;
 
 	@MockBean
-	private SeasonAndEpisodeChecker seasonAndEpisodeChecker;
+	private SeasonsAndEpisodesServiceI seasonAndEpisodeChecker;
 
 	@Autowired
 	private CacheManager cacheManager;

@@ -4,7 +4,6 @@ import static nasirov.yv.data.animedia.AnimeTypeOnAnimedia.ANNOUNCEMENT;
 import static nasirov.yv.data.animedia.AnimeTypeOnAnimedia.MULTISEASONS;
 import static nasirov.yv.data.animedia.AnimeTypeOnAnimedia.SINGLESEASON;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.doReturn;
@@ -28,14 +27,13 @@ import nasirov.yv.data.animedia.Anime;
 import nasirov.yv.data.animedia.AnimeTypeOnAnimedia;
 import nasirov.yv.data.animedia.AnimediaMALTitleReferences;
 import nasirov.yv.data.animedia.AnimediaTitleSearchInfo;
-import nasirov.yv.service.scheduler.ResourcesChecker;
+import nasirov.yv.service.scheduler.ResourcesCheckerService;
 import nasirov.yv.util.RoutinesIO;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.cache.CacheManager;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.annotation.DirtiesContext.ClassMode;
@@ -44,25 +42,25 @@ import org.springframework.test.util.ReflectionTestUtils;
 /**
  * Created by nasirov.yv
  */
-@SpringBootTest(classes = {CacheConfiguration.class, ResourcesChecker.class})
+@SpringBootTest(classes = {CacheConfiguration.class, ResourcesCheckerService.class})
 @DirtiesContext(classMode = ClassMode.AFTER_EACH_TEST_METHOD)
 @SuppressWarnings("unchecked")
-public class ResourcesCheckerTest extends AbstractTest {
+public class ResourcesCheckerServiceTest extends AbstractTest {
 
 	@MockBean
-	private AnimediaService animediaService;
+	private AnimediaServiceI animediaService;
 
 	@MockBean
-	private MALService malService;
+	private ResourcesServiceI resourcesService;
 
 	@MockBean
-	private ReferencesManager referencesManager;
+	private MALServiceI malService;
+
+	@MockBean
+	private ReferencesServiceI referencesManager;
 
 	@Autowired
-	private CacheManager cacheManager;
-
-	@Autowired
-	private ResourcesChecker resourcesChecker;
+	private ResourcesCheckerService resourcesCheckerService;
 
 	private Set<AnimediaTitleSearchInfo> animediaSearchListFromAnimedia;
 
@@ -73,8 +71,6 @@ public class ResourcesCheckerTest extends AbstractTest {
 	private Set<Anime> single;
 
 	private Set<Anime> multi;
-
-	private Set<Anime> announcements;
 
 
 	@Before
@@ -87,22 +83,21 @@ public class ResourcesCheckerTest extends AbstractTest {
 		allTypes = getSortedAnime();
 		single = allTypes.get(SINGLESEASON);
 		multi = allTypes.get(MULTISEASONS);
-		announcements = allTypes.get(ANNOUNCEMENT);
 	}
 
 	@Test
 	public void testCheckApplicationResourcesAllUpToDateButTitlesNotFoundOnMAL() throws NotDirectoryException {
 		RoutinesIO.removeDir(tempFolderName);
-		doReturn(true).when(animediaService).isAnimediaSearchListUpToDate(eq(animediaSearchListFromGitHub), eq(animediaSearchListFromAnimedia));
-		doReturn(new HashMap<>()).when(animediaService).getAnimeSortedByTypeFromResources();
-		doReturn(allTypes).when(animediaService).getAnimeSortedByType(eq(animediaSearchListFromGitHub));
+		doReturn(true).when(resourcesService)
+				.isAnimediaSearchListFromGitHubUpToDate(eq(animediaSearchListFromGitHub), eq(animediaSearchListFromAnimedia));
+		doReturn(new HashMap<>()).when(resourcesService).getAnimeSortedByTypeFromCache();
+		doReturn(allTypes).when(resourcesService).getAnimeSortedByType(eq(animediaSearchListFromGitHub));
 		Set<AnimediaTitleSearchInfo> notFoundInResources = new LinkedHashSet<>();
 		notFoundInResources.add(new AnimediaTitleSearchInfo());
-		doReturn(notFoundInResources).when(animediaService)
-				.checkSortedAnime(eq(single), eq(multi), eq(announcements), eq(animediaSearchListFromAnimedia));
+		doReturn(notFoundInResources).when(resourcesService).checkSortedAnime(eq(allTypes), eq(animediaSearchListFromAnimedia));
 		Set<AnimediaMALTitleReferences> allReferences = getAllReferences();
 		doReturn(allReferences).when(referencesManager).getMultiSeasonsReferences();
-		doReturn(true).when(referencesManager).isReferencesAreFull(eq(multi), eq(allReferences));
+		doReturn(true).when(resourcesService).isReferencesAreFull(eq(multi), eq(allReferences));
 		AnimediaMALTitleReferences animediaMALTitleReference = allReferences.stream().filter(ref -> !ref.getTitleOnMAL().equalsIgnoreCase("none"))
 				.findFirst().get();
 		doReturn(false).when(malService).isTitleExist(eq(animediaMALTitleReference.getTitleOnMAL()));
@@ -113,13 +108,12 @@ public class ResourcesCheckerTest extends AbstractTest {
 		}).findFirst().get();
 		Anime singleTitle = new Anime("1.1", animediaOnlineTv + animediaTitleSearchInfo.getUrl() + "/1/1", animediaTitleSearchInfo.getUrl());
 		single.add(singleTitle);
-		doReturn(true).when(animediaService)
-				.isAllSingleSeasonAnimeHasConcretizedMALTitleInKeywordsInAnimediaSearchListFromResources(eq(single), eq(animediaSearchListFromAnimedia));
+		doReturn(true).when(resourcesService).isAllSingleSeasonAnimeHasConcretizedMALTitleName(eq(single), eq(animediaSearchListFromAnimedia));
 		doReturn(false).when(malService).isTitleExist(animediaTitleSearchInfo.getKeywords());
-		String scheduledMethod = Arrays.stream(resourcesChecker.getClass().getDeclaredMethods())
+		String scheduledMethod = Arrays.stream(resourcesCheckerService.getClass().getDeclaredMethods())
 				.filter(method -> method.isAnnotationPresent(Scheduled.class)).findFirst().get().getName();
-		ReflectionTestUtils.invokeMethod(resourcesChecker, scheduledMethod);
-		verify(animediaService, times(2)).getAnimeSortedByType(eq(animediaSearchListFromAnimedia));
+		ReflectionTestUtils.invokeMethod(resourcesCheckerService, scheduledMethod);
+		verify(resourcesService, times(2)).getAnimeSortedByType(eq(animediaSearchListFromAnimedia));
 		assertTrue(RoutinesIO.isDirectoryExists(tempFolderName));
 		String prefix = tempFolderName + File.separator;
 		Set<AnimediaMALTitleReferences> referencesWithInvalidMALTitleName = RoutinesIO
@@ -135,10 +129,10 @@ public class ResourcesCheckerTest extends AbstractTest {
 	@Test
 	public void testCheckApplicationResourcesAnimediaSearchListFromGitHubIsNotUpToDateAndTitlesNotFoundOnMAL() throws IOException {
 		RoutinesIO.removeDir(tempFolderName);
-		doReturn(false).when(animediaService).isAnimediaSearchListUpToDate(eq(animediaSearchListFromGitHub), eq(animediaSearchListFromAnimedia));
-		doReturn(allTypes).when(animediaService).getAnimeSortedByType(eq(animediaSearchListFromAnimedia));
-		doReturn(new LinkedHashSet<>()).when(animediaService)
-				.checkSortedAnime(eq(single), eq(multi), eq(announcements), eq(animediaSearchListFromAnimedia));
+		doReturn(false).when(resourcesService)
+				.isAnimediaSearchListFromGitHubUpToDate(eq(animediaSearchListFromGitHub), eq(animediaSearchListFromAnimedia));
+		doReturn(allTypes).when(resourcesService).getAnimeSortedByType(eq(animediaSearchListFromAnimedia));
+		doReturn(new LinkedHashSet<>()).when(resourcesService).checkSortedAnime(eq(allTypes), eq(animediaSearchListFromAnimedia));
 		Pattern pattern = Pattern.compile("[а-яА-Я]");
 		AnimediaTitleSearchInfo animediaTitleSearchInfo = animediaSearchListFromGitHub.stream().filter(title -> {
 			Matcher matcher = pattern.matcher(title.getKeywords());
@@ -146,13 +140,12 @@ public class ResourcesCheckerTest extends AbstractTest {
 		}).findFirst().get();
 		Anime singleTitle = new Anime("1.1", animediaOnlineTv + animediaTitleSearchInfo.getUrl() + "/1/1", animediaTitleSearchInfo.getUrl());
 		single.add(singleTitle);
-		doReturn(true).when(animediaService)
-				.isAllSingleSeasonAnimeHasConcretizedMALTitleInKeywordsInAnimediaSearchListFromResources(eq(single), eq(animediaSearchListFromGitHub));
+		doReturn(true).when(resourcesService).isAllSingleSeasonAnimeHasConcretizedMALTitleName(eq(single), eq(animediaSearchListFromGitHub));
 		doReturn(false).when(malService).isTitleExist(animediaTitleSearchInfo.getKeywords());
-		String scheduledMethod = Arrays.stream(resourcesChecker.getClass().getDeclaredMethods())
+		String scheduledMethod = Arrays.stream(resourcesCheckerService.getClass().getDeclaredMethods())
 				.filter(method -> method.isAnnotationPresent(Scheduled.class)).findFirst().get().getName();
-		ReflectionTestUtils.invokeMethod(resourcesChecker, scheduledMethod);
-		verify(animediaService, times(1)).getAnimeSortedByType(eq(animediaSearchListFromAnimedia));
+		ReflectionTestUtils.invokeMethod(resourcesCheckerService, scheduledMethod);
+		verify(resourcesService, times(1)).getAnimeSortedByType(eq(animediaSearchListFromAnimedia));
 		RoutinesIO.removeDir(tempFolderName);
 	}
 

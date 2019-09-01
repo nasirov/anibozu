@@ -1,8 +1,8 @@
 package nasirov.yv.service.resources.loader;
 
 import nasirov.yv.AbstractTest;
-import nasirov.yv.service.AnimediaService;
-import nasirov.yv.service.ReferencesManager;
+import nasirov.yv.service.AnimediaServiceI;
+import nasirov.yv.service.ReferencesServiceI;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.annotation.DirtiesContext;
@@ -16,9 +16,9 @@ import org.springframework.test.annotation.DirtiesContext.ClassMode;
 public abstract class BaseResourcesLoaderTest extends AbstractTest {
 
 	@MockBean
-	protected ReferencesManager referencesManager;
+	protected ReferencesServiceI referencesManager;
 
 	@MockBean
-	protected AnimediaService animediaService;
+	protected AnimediaServiceI animediaService;
 
 }

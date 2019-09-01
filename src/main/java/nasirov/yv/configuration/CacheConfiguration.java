@@ -18,13 +18,14 @@ public class CacheConfiguration {
 
 	/**
 	 * sortedAnimediaSearchListCache-for sorted animedia titles(multi,single,announcements)
-	 * {@link nasirov.yv.service.AnimediaService#getAnimeSortedByType ,nasirov.yv.service.AnimediaService#getAnimeSortedByTypeFromResources}
+	 * {@link nasirov.yv.service.ResourcesService#getAnimeSortedByType}
+	 * {@link nasirov.yv.service.ResourcesService#getAnimeSortedByTypeFromCache()}
 	 * <p>
 	 * userMALCache-for user watching titles(username-watching titles)
 	 * {@link nasirov.yv.service.MALService#getWatchingTitles}
 	 * <p>
 	 * userMatchedAnimeCache-for user matched anime (single,multi) (after matchedReferencesCacheName)
-	 * {@link nasirov.yv.service.SeasonAndEpisodeChecker#getMatchedAnime}
+	 * {@link nasirov.yv.service.SeasonsAndEpisodesService#getMatchedAnime}
 	 * <p>
 	 * currentlyUpdatedTitlesCache-for currently updated titles on animedia
 	 * {@link nasirov.yv.service.AnimediaService#getCurrentlyUpdatedTitles}

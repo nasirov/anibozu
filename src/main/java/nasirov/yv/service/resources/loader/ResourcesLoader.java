@@ -1,8 +1,8 @@
 package nasirov.yv.service.resources.loader;
 
 import lombok.RequiredArgsConstructor;
-import nasirov.yv.service.AnimediaService;
-import nasirov.yv.service.ReferencesManager;
+import nasirov.yv.service.AnimediaServiceI;
+import nasirov.yv.service.ReferencesServiceI;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.context.event.EventListener;
 
@@ -12,9 +12,9 @@ import org.springframework.context.event.EventListener;
 @RequiredArgsConstructor
 public class ResourcesLoader {
 
-	private final ReferencesManager referencesManager;
+	private final ReferencesServiceI referencesManager;
 
-	private final AnimediaService animediaService;
+	private final AnimediaServiceI animediaService;
 
 	@EventListener(ContextRefreshedEvent.class)
 	public void loadAll() {

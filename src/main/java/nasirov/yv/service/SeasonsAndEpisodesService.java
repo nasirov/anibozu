@@ -42,7 +42,7 @@ import org.springframework.stereotype.Service;
  */
 @Service
 @Slf4j
-public class SeasonAndEpisodeChecker {
+public class SeasonsAndEpisodesService implements SeasonsAndEpisodesServiceI {
 
 	private static final Map<String, String> EPISODE_IS_NOT_AVAILABLE_FINAL_URL_AND_EPISODE_NUMBER_FOR_WATCH = new HashMap<>(1);
 
@@ -69,14 +69,14 @@ public class SeasonAndEpisodeChecker {
 
 	private CacheManager cacheManager;
 
-	private ReferencesManager referencesManager;
+	private ReferencesServiceI referencesManager;
 
 	private UrlsNames urlsNames;
 
 	@Autowired
-	public SeasonAndEpisodeChecker(HttpCaller httpCaller,
+	public SeasonsAndEpisodesService(HttpCaller httpCaller,
 			@Qualifier("animediaRequestParametersBuilder") RequestParametersBuilder requestParametersBuilder, AnimediaHTMLParser animediaHTMLParser,
-			NotFoundAnimeOnAnimediaRepository notFoundAnimeOnAnimediaRepository, CacheManager cacheManager, ReferencesManager referencesManager,
+			NotFoundAnimeOnAnimediaRepository notFoundAnimeOnAnimediaRepository, CacheManager cacheManager, ReferencesServiceI referencesManager,
 			UrlsNames urlsNames) {
 		this.httpCaller = httpCaller;
 		this.requestParametersBuilder = requestParametersBuilder;
@@ -103,6 +103,7 @@ public class SeasonAndEpisodeChecker {
 	 * @param username           the MAL username
 	 * @return matched user titles(multi seasons and single season)
 	 */
+	@Override
 	public Set<AnimediaMALTitleReferences> getMatchedAnime(Set<UserMALTitleInfo> watchingTitles, Set<AnimediaMALTitleReferences> references,
 			Set<AnimediaTitleSearchInfo> animediaSearchList, String username) {
 		log.info("RESULT FOR {}:", username);
@@ -407,6 +408,7 @@ public class SeasonAndEpisodeChecker {
 	 * @param references            the currently updated title on animedia
 	 * @param matchedAnimeFromCache the matched user anime from cache
 	 */
+	@Override
 	public void updateEpisodeNumberForWatchAndFinalUrl(Set<UserMALTitleInfo> watchingTitles, AnimediaMALTitleReferences references,
 			Set<AnimediaMALTitleReferences> matchedAnimeFromCache) {
 		log.info("UPDATING MATCHED REFERENCES...");
@@ -444,6 +446,7 @@ public class SeasonAndEpisodeChecker {
 	 * @param animediaSearchList    animedia search list
 	 * @param username              the MAL username
 	 */
+	@Override
 	public void updateEpisodeNumberForWatchAndFinalUrl(Set<UserMALTitleInfo> updatedWatchingTitles,
 			Set<AnimediaMALTitleReferences> matchedAnimeFromCache, Set<AnimediaTitleSearchInfo> animediaSearchList, String username) {
 		Integer episodeNumberForWatch;

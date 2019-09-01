@@ -21,10 +21,10 @@ import nasirov.yv.data.mal.UserMALTitleInfo;
 import nasirov.yv.exception.mal.MALUserAccountNotFoundException;
 import nasirov.yv.exception.mal.WatchingTitlesNotFoundException;
 import nasirov.yv.repository.NotFoundAnimeOnAnimediaRepository;
-import nasirov.yv.service.AnimediaService;
-import nasirov.yv.service.MALService;
-import nasirov.yv.service.ReferencesManager;
-import nasirov.yv.service.SeasonAndEpisodeChecker;
+import nasirov.yv.service.AnimediaServiceI;
+import nasirov.yv.service.MALServiceI;
+import nasirov.yv.service.ReferencesServiceI;
+import nasirov.yv.service.SeasonsAndEpisodesServiceI;
 import org.springframework.cache.Cache;
 import org.springframework.cache.CacheManager;
 import org.springframework.stereotype.Controller;
@@ -54,13 +54,13 @@ public class ResultController {
 
 	private static final String MODEL_ATTRIBUTE_NOT_FOUND_ON_ANIMEDIA = "matchedNotFoundAnimeOnAnimedia";
 
-	private final MALService malService;
+	private final MALServiceI malService;
 
-	private final AnimediaService animediaService;
+	private final AnimediaServiceI animediaService;
 
-	private final ReferencesManager referencesManager;
+	private final ReferencesServiceI referencesManager;
 
-	private final SeasonAndEpisodeChecker seasonAndEpisodeChecker;
+	private final SeasonsAndEpisodesServiceI seasonAndEpisodeChecker;
 
 	private final CacheManager cacheManager;
 

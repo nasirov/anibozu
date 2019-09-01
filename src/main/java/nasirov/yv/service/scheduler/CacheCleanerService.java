@@ -14,7 +14,7 @@ import org.springframework.stereotype.Service;
 @Service
 @Slf4j
 @RequiredArgsConstructor
-public class CacheCleaner {
+public class CacheCleanerService {
 
 	private final CacheManager cacheManager;
 

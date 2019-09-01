@@ -133,6 +133,7 @@ public class RoutinesIO {
 			}
 			String prefix = folderName + File.separator;
 			marshalToFile(prefix + fileName, content);
+			log.info("Successfully marshaled {} to {}", fileName, folderName);
 		} catch (NotDirectoryException e) {
 			log.error("Exception while marshal file {} to dir {}", fileName, folderName, e);
 		}

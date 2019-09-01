@@ -9,7 +9,7 @@ import nasirov.yv.configuration.CacheConfiguration;
 import nasirov.yv.data.animedia.AnimediaMALTitleReferences;
 import nasirov.yv.data.constants.CacheNamesConstants;
 import nasirov.yv.data.mal.UserMALTitleInfo;
-import nasirov.yv.service.scheduler.CacheCleaner;
+import nasirov.yv.service.scheduler.CacheCleanerService;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -21,12 +21,12 @@ import org.springframework.test.annotation.DirtiesContext.ClassMode;
 /**
  * Created by nasirov.yv
  */
-@SpringBootTest(classes = {CacheCleaner.class, CacheConfiguration.class})
+@SpringBootTest(classes = {CacheCleanerService.class, CacheConfiguration.class})
 @DirtiesContext(classMode = ClassMode.AFTER_CLASS)
-public class CacheCleanerTest extends AbstractTest {
+public class CacheCleanerServiceTest extends AbstractTest {
 
 	@Autowired
-	private CacheCleaner cacheCleaner;
+	private CacheCleanerService cacheCleanerService;
 
 	@Autowired
 	private CacheManager cacheManager;
@@ -41,7 +41,7 @@ public class CacheCleanerTest extends AbstractTest {
 		userMatchedAnimeCache.put(username, new LinkedHashSet<AnimediaMALTitleReferences>());
 		assertNotNull(userMALCache.get(username, LinkedHashSet.class));
 		assertNotNull(userMatchedAnimeCache.get(username, LinkedHashSet.class));
-		cacheCleaner.clearCache();
+		cacheCleanerService.clearCache();
 		assertNull(userMALCache.get(username, LinkedHashSet.class));
 		assertNull(userMatchedAnimeCache.get(username, LinkedHashSet.class));
 	}

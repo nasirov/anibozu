@@ -13,15 +13,12 @@ import java.util.HashMap;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Set;
 import java.util.stream.Stream;
 import javax.annotation.PostConstruct;
 import lombok.extern.slf4j.Slf4j;
-import nasirov.yv.data.animedia.Anime;
 import nasirov.yv.data.animedia.AnimediaMALTitleReferences;
 import nasirov.yv.data.mal.UserMALTitleInfo;
-import nasirov.yv.data.properties.ResourcesNames;
 import nasirov.yv.data.properties.UrlsNames;
 import nasirov.yv.data.response.HttpResponse;
 import nasirov.yv.http.caller.HttpCaller;
@@ -29,7 +26,6 @@ import nasirov.yv.http.parameter.RequestParametersBuilder;
 import nasirov.yv.parser.AnimediaHTMLParser;
 import nasirov.yv.parser.WrappedObjectMapper;
 import nasirov.yv.util.AnimediaUtils;
-import nasirov.yv.util.RoutinesIO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpMethod;
@@ -40,7 +36,7 @@ import org.springframework.stereotype.Service;
  */
 @Service
 @Slf4j
-public class ReferencesManager {
+public class ReferencesService implements ReferencesServiceI {
 
 	private Map<String, Map<String, String>> animediaRequestParameters;
 
@@ -52,16 +48,13 @@ public class ReferencesManager {
 
 	private UrlsNames urlsNames;
 
-	private ResourcesNames resourcesNames;
-
 	@Autowired
-	public ReferencesManager(HttpCaller httpCaller, @Qualifier("animediaRequestParametersBuilder") RequestParametersBuilder requestParametersBuilder,
-			AnimediaHTMLParser animediaHTMLParser, UrlsNames urlsNames, ResourcesNames resourcesNames) {
+	public ReferencesService(HttpCaller httpCaller, @Qualifier("animediaRequestParametersBuilder") RequestParametersBuilder requestParametersBuilder,
+			AnimediaHTMLParser animediaHTMLParser, UrlsNames urlsNames) {
 		this.httpCaller = httpCaller;
 		this.requestParametersBuilder = requestParametersBuilder;
 		this.animediaHTMLParser = animediaHTMLParser;
 		this.urlsNames = urlsNames;
-		this.resourcesNames = resourcesNames;
 	}
 
 	@PostConstruct
@@ -74,6 +67,7 @@ public class ReferencesManager {
 	 *
 	 * @return the references
 	 */
+	@Override
 	public Set<AnimediaMALTitleReferences> getMultiSeasonsReferences() {
 		HttpResponse response = httpCaller
 				.call(urlsNames.getGitHubUrls().getRawGithubusercontentComReferences(), HttpMethod.GET, animediaRequestParameters);
@@ -85,6 +79,7 @@ public class ReferencesManager {
 	 *
 	 * @param references the references
 	 */
+	@Override
 	public void updateReferences(Set<AnimediaMALTitleReferences> references) {
 		String onlineAnimediaTv = urlsNames.getAnimediaUrls().getOnlineAnimediaTv();
 		String onlineAnimediaAnimeEpisodesList = urlsNames.getAnimediaUrls().getOnlineAnimediaAnimeEpisodesList();
@@ -163,6 +158,7 @@ public class ReferencesManager {
 	 * @param watchingTitles the user watching titles
 	 * @return the matched user references
 	 */
+	@Override
 	public Set<AnimediaMALTitleReferences> getMatchedReferences(Set<AnimediaMALTitleReferences> references, Set<UserMALTitleInfo> watchingTitles) {
 		Set<AnimediaMALTitleReferences> tempReferences = new LinkedHashSet<>();
 		for (UserMALTitleInfo userMALTitleInfo : watchingTitles) {
@@ -175,23 +171,12 @@ public class ReferencesManager {
 	}
 
 	/**
-	 * Compare multi seasons titles from animedia search list with multi seasons references from resources
-	 *
-	 * @param multiSeasonsAnime multi seasons titles from animedia
-	 * @param allReferences all multi seasons references from resources
-	 * @return true if multi seasons references from resources are full, if false then we must add the new reference to the raw mapping
-	 */
-	public boolean isReferencesAreFull(Set<Anime> multiSeasonsAnime, Set<AnimediaMALTitleReferences> allReferences) {
-		Map<String, String> readFromRaw = convertReferencesSetToMap(allReferences);
-		return compareMaps(multiSeasonsAnime, readFromRaw);
-	}
-
-	/**
 	 * Updates currentMax matched reference and set titleOnMal for currentlyUpdatedTitle
 	 *
 	 * @param matchedAnimeFromCache the matched user anime from cache
 	 * @param currentlyUpdatedTitle the currently updated title on animedia
 	 */
+	@Override
 	public void updateCurrentMax(Set<AnimediaMALTitleReferences> matchedAnimeFromCache, AnimediaMALTitleReferences currentlyUpdatedTitle) {
 		matchedAnimeFromCache.stream()
 				.filter(set -> set.getUrl().equals(currentlyUpdatedTitle.getUrl()) && set.getDataList().equals(currentlyUpdatedTitle.getDataList()))
@@ -201,28 +186,4 @@ public class ReferencesManager {
 				});
 	}
 
-	private Map<String, String> convertReferencesSetToMap(Set<AnimediaMALTitleReferences> allReferences) {
-		Map<String, String> urlTitle = new HashMap<>();
-		String onlineAnimediaTv = urlsNames.getAnimediaUrls().getOnlineAnimediaTv();
-		allReferences.forEach(set -> urlTitle
-				.put(onlineAnimediaTv + set.getUrl() + "/" + set.getDataList() + "/" + set.getFirstEpisode(),
-						set.getTitleOnMAL()));
-		return urlTitle;
-	}
-
-	private boolean compareMaps(Set<Anime> multi, Map<String, String> raw) {
-		boolean fullMatch = true;
-		Set<Anime> missingReferences = new LinkedHashSet<>();
-		for (Anime anime : multi) {
-			String fullUrl = anime.getFullUrl();
-			if (!raw.containsKey(fullUrl)) {
-				fullMatch = false;
-				missingReferences.add(anime);
-			}
-		}
-		if (!missingReferences.isEmpty()) {
-			RoutinesIO.marshalToFileInTheFolder(resourcesNames.getTempFolder(), resourcesNames.getTempRawReferences(), missingReferences);
-		}
-		return fullMatch;
-	}
 }
