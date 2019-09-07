@@ -64,7 +64,7 @@ public class AnimediaHTMLParser {
 	/**
 	 * For episodes range except trailers in data list
 	 */
-	private static final String EPISODE_IN_DATA_LIST_EXCEPT_TRAILERS = "<span>(?<description>Серия\\.|Cерия|Серия|Серии|серия|серии|ОВА|OVA|ONA|ODA"
+	private static final String EPISODE_IN_DATA_LIST_EXCEPT_TRAILERS = "<span>\\s?(?<description>Серия\\.|Cерия|Серия|Серии|серия|серии|ОВА|OVA|ONA|ODA"
 			+ "|ФИЛЬМ|Фильмы|Сп[е|э]шл|СПЕШЛ|Фильм)?\\s?(?<firstEpisodeInSeason>\\d{1,3})?"
 			+ "(-(?<joinedEpisode>\\d{1,3}))?(\\s\\(\\d{1,3}\\))?\\s*?(из)?\\s?(?<maxEpisodes>.{1,3})?</span>";
 
