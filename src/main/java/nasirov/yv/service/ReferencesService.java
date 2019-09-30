@@ -117,40 +117,6 @@ public class ReferencesService implements ReferencesServiceI {
 		}
 	}
 
-	private void enrichRegularReference(AnimediaMALTitleReferences reference, String maxEpisodes, List<String> episodesList) {
-		Integer intMaxEpisodes = null;
-		String correctFirstEpisodeAndMin = getCorrectFirstEpisodeAndMin(getFirstEpisode(episodesList));
-		String correctCurrentMax = getCorrectCurrentMax(getLastEpisode(episodesList));
-		//если в дата листах суммируют первую серию и последнюю с предыдущего дата листа, то нужна проверка для правильного максимума
-		//например, всего серий ххх, 1 даталист: серии 1 из 100; 2 дата лист: серии 51 из 100
-		if (!isMaxEpisodeUndefined(maxEpisodes)) {
-			intMaxEpisodes = Integer.parseInt(maxEpisodes);
-		}
-		reference.setFirstEpisode(correctFirstEpisodeAndMin);
-		reference.setMinConcretizedEpisodeOnAnimedia(correctFirstEpisodeAndMin);
-		reference.setMaxConcretizedEpisodeOnAnimedia(getCorrectMaxConcretizedEpisodeOnAnimedia(intMaxEpisodes, correctFirstEpisodeAndMin, maxEpisodes));
-		reference.setEpisodesRange(episodesList);
-		reference.setCurrentMax(correctCurrentMax);
-	}
-
-	private void enrichConcretizedAndOngoingReference(AnimediaMALTitleReferences reference, List<String> episodesList) {
-		String currentMax = getCorrectCurrentMax(getLastEpisode(episodesList));
-		reference.setCurrentMax(currentMax);
-	}
-
-	private String getCorrectMaxConcretizedEpisodeOnAnimedia(Integer intMaxEpisodes, String firstEpisodeAndMin, String maxEpisodes) {
-		int intFirstEpisodeAndMin = Integer.parseInt(firstEpisodeAndMin);
-		return intMaxEpisodes != null && intMaxEpisodes < intFirstEpisodeAndMin ? Integer.toString(intFirstEpisodeAndMin + intMaxEpisodes) : maxEpisodes;
-	}
-
-	private Map<String, Map<String, String>> getTitleHtmlAndPutInCache(String url,
-			Map<String, Map<String, Map<String, String>>> seasonsAndEpisodesCache) {
-		HttpResponse response = httpCaller.call(url, HttpMethod.GET, animediaRequestParameters);
-		Map<String, Map<String, String>> animeIdDataListsAndMaxEpisodesMap = animediaHTMLParser.getAnimeIdDataListsAndMaxEpisodesMap(response);
-		seasonsAndEpisodesCache.put(url, animeIdDataListsAndMaxEpisodesMap);
-		return animeIdDataListsAndMaxEpisodesMap;
-	}
-
 	/**
 	 * Compare multiseasons references and user watching titles and Creates container with matched anime Set poster url from MAL
 	 *
@@ -184,6 +150,40 @@ public class ReferencesService implements ReferencesServiceI {
 					set.setCurrentMax(getCorrectCurrentMax(currentlyUpdatedTitle.getCurrentMax()));
 					currentlyUpdatedTitle.setTitleOnMAL(set.getTitleOnMAL());
 				});
+	}
+
+	private void enrichRegularReference(AnimediaMALTitleReferences reference, String maxEpisodes, List<String> episodesList) {
+		Integer intMaxEpisodes = null;
+		String correctFirstEpisodeAndMin = getCorrectFirstEpisodeAndMin(getFirstEpisode(episodesList));
+		String correctCurrentMax = getCorrectCurrentMax(getLastEpisode(episodesList));
+		//если в дата листах суммируют первую серию и последнюю с предыдущего дата листа, то нужна проверка для правильного максимума
+		//например, всего серий ххх, 1 даталист: серии 1 из 100; 2 дата лист: серии 51 из 100
+		if (!isMaxEpisodeUndefined(maxEpisodes)) {
+			intMaxEpisodes = Integer.parseInt(maxEpisodes);
+		}
+		reference.setFirstEpisode(correctFirstEpisodeAndMin);
+		reference.setMinConcretizedEpisodeOnAnimedia(correctFirstEpisodeAndMin);
+		reference.setMaxConcretizedEpisodeOnAnimedia(getCorrectMaxConcretizedEpisodeOnAnimedia(intMaxEpisodes, correctFirstEpisodeAndMin, maxEpisodes));
+		reference.setEpisodesRange(episodesList);
+		reference.setCurrentMax(correctCurrentMax);
+	}
+
+	private void enrichConcretizedAndOngoingReference(AnimediaMALTitleReferences reference, List<String> episodesList) {
+		String currentMax = getCorrectCurrentMax(getLastEpisode(episodesList));
+		reference.setCurrentMax(currentMax);
+	}
+
+	private String getCorrectMaxConcretizedEpisodeOnAnimedia(Integer intMaxEpisodes, String firstEpisodeAndMin, String maxEpisodes) {
+		int intFirstEpisodeAndMin = Integer.parseInt(firstEpisodeAndMin);
+		return intMaxEpisodes != null && intMaxEpisodes < intFirstEpisodeAndMin ? Integer.toString(intFirstEpisodeAndMin + intMaxEpisodes) : maxEpisodes;
+	}
+
+	private Map<String, Map<String, String>> getTitleHtmlAndPutInCache(String url,
+			Map<String, Map<String, Map<String, String>>> seasonsAndEpisodesCache) {
+		HttpResponse response = httpCaller.call(url, HttpMethod.GET, animediaRequestParameters);
+		Map<String, Map<String, String>> animeIdDataListsAndMaxEpisodesMap = animediaHTMLParser.getAnimeIdDataListsAndMaxEpisodesMap(response);
+		seasonsAndEpisodesCache.put(url, animeIdDataListsAndMaxEpisodesMap);
+		return animeIdDataListsAndMaxEpisodesMap;
 	}
 
 }
