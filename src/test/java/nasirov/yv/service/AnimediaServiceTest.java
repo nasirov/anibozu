@@ -134,8 +134,8 @@ public class AnimediaServiceTest extends AbstractTest {
 		Cache cache = cacheManager.getCache(CacheNamesConstants.CURRENTLY_UPDATED_TITLES_CACHE);
 		assertNotNull(cache);
 		currentlyUpdatedTitles = cache.get(CacheNamesConstants.CURRENTLY_UPDATED_TITLES_CACHE, ArrayList.class);
-		assertEquals(1, currentlyUpdatedTitles.size());
-		assertEquals(animediaMALTitleReferencesFresh.get(0), currentlyUpdatedTitles.get(0));
+		assertEquals(animediaMALTitleReferencesFresh.size(), currentlyUpdatedTitles.size());
+		assertEquals(animediaMALTitleReferencesFresh, currentlyUpdatedTitles);
 		cache.clear();
 	}
 

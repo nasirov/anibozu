@@ -142,7 +142,7 @@ public class AnimediaService implements AnimediaServiceI {
 					differences.add(freshCurrentlyUpdatedTitle);
 				}
 			}
-			currentlyUpdatedTitlesCache.put(CacheNamesConstants.CURRENTLY_UPDATED_TITLES_CACHE, differences);
+			currentlyUpdatedTitlesCache.put(CacheNamesConstants.CURRENTLY_UPDATED_TITLES_CACHE, fresh);
 			return differences;
 		}
 	}

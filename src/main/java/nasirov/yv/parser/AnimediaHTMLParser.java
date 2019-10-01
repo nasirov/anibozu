@@ -82,8 +82,8 @@ public class AnimediaHTMLParser {
 	 * For currently updated titles
 	 */
 	private static final String NEW_SERIES_INFO =
-			"\\s*<div class=\"widget__new-series__item widget__item\">\\R*\\s*<a href=\"(?<fullUrl>(?<root>/anime/.+)/(?<dataList>\\d{1,3})/"
-					+ "(?<currentMax>\\d{1,3}))\" title=\".+\" class=\"widget__new-series__item__thumb\"><img data-src=\".+\" alt=\".+\" title=\""
+			"\\s*<div class=\"widget__new-series__item widget__item\">\\R*\\s*<a href=\"(?<fullUrl>(?<root>/anime/.*?)(?<dataListAndCurrentMax>/(?<dataList>\\d{1,3})/"
+					+ "(?<currentMax>\\d{1,3}))?)\" title=\".+\" class=\"widget__new-series__item__thumb\"><img data-src=\".+\" alt=\".+\" title=\""
 					+ ".+\"></a>\\R*\\s*<div class=\"widget__new-series__item__info\">\\R*"
 					+ "\\s*<a href=\".+\" title=\".+\" class=\"h4 widget__new-series__item__title\">.+</a>";
 
@@ -208,10 +208,18 @@ public class AnimediaHTMLParser {
 		Matcher matcher = NEW_SERIES_INFO_PATTERN.matcher(content);
 		List<AnimediaMALTitleReferences> newSeriesList = new ArrayList<>();
 		while (matcher.find()) {
-			String dataList = matcher.group("dataList");
-			String currentMax = matcher.group("currentMax");
-			newSeriesList.add(AnimediaMALTitleReferences.builder().url(matcher.group("root")).dataList(dataList != null ? dataList : "")
-					.currentMax(currentMax != null ? currentMax : "").build());
+			String dataListAndCurrentMax = matcher.group("dataListAndCurrentMax");
+			String dataList;
+			String currentMax;
+			if (dataListAndCurrentMax != null) {
+				dataList = matcher.group("dataList");
+				currentMax = matcher.group("currentMax");
+			} else {
+				dataList = "";
+				currentMax = "";
+			}
+			newSeriesList.add(AnimediaMALTitleReferences.builder().url(matcher.group("root")).dataList(dataList)
+					.currentMax(currentMax).build());
 		}
 		if (newSeriesList.size() != NUMBER_OF_CURRENTLY_UPDATED_TITLES) {
 			throw new NewEpisodesListNotFoundException("New episodes not found!");
