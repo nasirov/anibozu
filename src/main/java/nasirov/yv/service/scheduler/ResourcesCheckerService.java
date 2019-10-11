@@ -118,6 +118,8 @@ public class ResourcesCheckerService {
 						referencesWithInvalidMALTitleName);
 			}
 			log.info("END CHECKING REFERENCES TITLE NAME ON MAL.");
+		} else {
+			log.info("REFERENCES AREN'T UP-TO-DATE. CHECK {}", resourcesNames.getTempRawReferences());
 		}
 	}
 
