@@ -8,7 +8,7 @@ services:
   - docker
 
 language: java
-jdk: oraclejdk8
+jdk: openjdk8
 
 script: mvn clean install
 
