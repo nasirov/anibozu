@@ -178,9 +178,9 @@
         <configuration>
           <excludes>
             <exclude>**/data/**</exclude>
-            <exclude>**/parameter/*</exclude>
+            <exclude>**/parameter/**</exclude>
             <exclude>**/exception/**</exclude>
-            <exclude>**/configuration/*</exclude>
+            <exclude>**/configuration/**</exclude>
             <exclude>**/AnimeCheckerApplication</exclude>
           </excludes>
         </configuration>
