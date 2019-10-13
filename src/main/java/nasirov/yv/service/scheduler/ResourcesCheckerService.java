@@ -81,17 +81,17 @@ public class ResourcesCheckerService {
 				log.info("END CREATING SORTED ANIME BASED ON ANIMEDIA SEARCH LIST FROM GITHUB.");
 			}
 		} else {
-			log.info("ANIMEDIA SEARCH LIST FROM GITHUB ISN'T UP-TO-DATE.");
-			log.info("START CREATING SORTED ANIME BASED ON ANIMEDIA SEARCH LIST FROM ANIMEDIA...");
+			log.warn("ANIMEDIA SEARCH LIST FROM GITHUB ISN'T UP-TO-DATE.");
+			log.warn("START CREATING SORTED ANIME BASED ON ANIMEDIA SEARCH LIST FROM ANIMEDIA...");
 			allTypes = resourcesService.getAnimeSortedByType(animediaSearchListFromAnimedia);
-			log.info("END CREATING SORTED ANIME BASED ON ANIMEDIA SEARCH LIST FROM ANIMEDIA.");
+			log.warn("END CREATING SORTED ANIME BASED ON ANIMEDIA SEARCH LIST FROM ANIMEDIA.");
 		}
 		Set<AnimediaTitleSearchInfo> notFoundInTheResources = resourcesService.checkSortedAnime(allTypes, animediaSearchListFromAnimedia);
 		if (!notFoundInTheResources.isEmpty()) {
-			log.info("SORTED ANIME AREN'T UP-TO-DATE.");
-			log.info("START UPDATING SORTED ANIME ...");
+			log.warn("SORTED ANIME AREN'T UP-TO-DATE.");
+			log.warn("START UPDATING SORTED ANIME ...");
 			allTypes = resourcesService.getAnimeSortedByType(animediaSearchListFromAnimedia);
-			log.info("END UPDATING SORTED ANIME.");
+			log.warn("END UPDATING SORTED ANIME.");
 		}
 		return allTypes;
 	}
@@ -119,7 +119,7 @@ public class ResourcesCheckerService {
 			}
 			log.info("END CHECKING REFERENCES TITLE NAME ON MAL.");
 		} else {
-			log.info("REFERENCES AREN'T UP-TO-DATE. CHECK {}", resourcesNames.getTempRawReferences());
+			log.warn("REFERENCES AREN'T UP-TO-DATE. CHECK {}", resourcesNames.getTempRawReferences());
 		}
 	}
 
