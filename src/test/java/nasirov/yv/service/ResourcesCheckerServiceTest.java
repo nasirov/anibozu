@@ -26,6 +26,7 @@ import nasirov.yv.data.animedia.Anime;
 import nasirov.yv.data.animedia.AnimeTypeOnAnimedia;
 import nasirov.yv.data.animedia.AnimediaMALTitleReferences;
 import nasirov.yv.data.animedia.AnimediaTitleSearchInfo;
+import nasirov.yv.data.constants.BaseConstants;
 import nasirov.yv.service.scheduler.ResourcesCheckerService;
 import nasirov.yv.util.RoutinesIO;
 import org.junit.Before;
@@ -92,8 +93,8 @@ public class ResourcesCheckerServiceTest extends AbstractTest {
 		Set<AnimediaMALTitleReferences> allReferences = getAllReferences();
 		doReturn(allReferences).when(referencesManager).getMultiSeasonsReferences();
 		doReturn(true).when(resourcesService).isReferencesAreFull(eq(multi), eq(allReferences));
-		AnimediaMALTitleReferences animediaMALTitleReference = allReferences.stream().filter(ref -> !ref.getTitleOnMAL().equalsIgnoreCase("none"))
-				.findFirst().get();
+		AnimediaMALTitleReferences animediaMALTitleReference = allReferences.stream()
+				.filter(ref -> !ref.getTitleOnMAL().equalsIgnoreCase(BaseConstants.NOT_FOUND_ON_MAL)).findFirst().get();
 		doReturn(false).when(malService).isTitleExist(eq(animediaMALTitleReference.getTitleOnMAL()));
 		Pattern pattern = Pattern.compile("[а-яА-Я]");
 		AnimediaTitleSearchInfo animediaTitleSearchInfo = animediaSearchListFromAnimedia.stream().filter(title -> {
@@ -168,7 +169,8 @@ public class ResourcesCheckerServiceTest extends AbstractTest {
 		AnimediaMALTitleReferences fairyTail1 = AnimediaMALTitleReferences.builder().url("anime/skazka-o-hvoste-fei-TV1").dataList("1").firstEpisode("1")
 				.minConcretizedEpisodeOnAnimedia("1").maxConcretizedEpisodeOnAnimedia("175").currentMax("175").titleOnMAL("fairy tail").build();
 		AnimediaMALTitleReferences titleWithNoneTitleName = AnimediaMALTitleReferences.builder().url("anime/something").dataList("1").firstEpisode("1")
-				.minConcretizedEpisodeOnAnimedia("1").maxConcretizedEpisodeOnAnimedia("12").currentMax("12").titleOnMAL("none").build();
+				.minConcretizedEpisodeOnAnimedia("1").maxConcretizedEpisodeOnAnimedia("12").currentMax("12").titleOnMAL(BaseConstants.NOT_FOUND_ON_MAL)
+				.build();
 		allReferences.add(fairyTail1);
 		allReferences.add(titleWithNoneTitleName);
 		return allReferences;
