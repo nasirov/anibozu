@@ -94,7 +94,7 @@ public class ResourcesCheckerServiceTest extends AbstractTest {
 		doReturn(allReferences).when(referencesManager).getMultiSeasonsReferences();
 		doReturn(true).when(resourcesService).isReferencesAreFull(eq(multi), eq(allReferences));
 		AnimediaMALTitleReferences animediaMALTitleReference = allReferences.stream()
-				.filter(ref -> !ref.getTitleOnMAL().equalsIgnoreCase(BaseConstants.NOT_FOUND_ON_MAL)).findFirst().get();
+				.filter(ref -> !ref.getTitleOnMAL().equals(BaseConstants.NOT_FOUND_ON_MAL)).findFirst().get();
 		doReturn(false).when(malService).isTitleExist(eq(animediaMALTitleReference.getTitleOnMAL()));
 		Pattern pattern = Pattern.compile("[а-яА-Я]");
 		AnimediaTitleSearchInfo animediaTitleSearchInfo = animediaSearchListFromAnimedia.stream().filter(title -> {

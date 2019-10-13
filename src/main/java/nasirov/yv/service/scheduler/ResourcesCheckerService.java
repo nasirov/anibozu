@@ -105,7 +105,7 @@ public class ResourcesCheckerService {
 			Set<AnimediaMALTitleReferences> referencesWithInvalidMALTitleName = new LinkedHashSet<>();
 			for (AnimediaMALTitleReferences reference : allReferences) {
 				String titleOnMAL = reference.getTitleOnMAL();
-				if (!titleOnMAL.equalsIgnoreCase(BaseConstants.NOT_FOUND_ON_MAL)) {
+				if (!titleOnMAL.equals(BaseConstants.NOT_FOUND_ON_MAL)) {
 					boolean titleExist = malService.isTitleExist(titleOnMAL);
 					if (!titleExist) {
 						log.error("TITLE NAME {} FROM {} DOESN'T EXIST!", titleOnMAL, reference);

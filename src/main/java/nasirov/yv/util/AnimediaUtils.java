@@ -42,7 +42,7 @@ public class AnimediaUtils {
 	}
 
 	public static boolean isTitleNotFoundOnMAL(AnimediaMALTitleReferences reference) {
-		return reference.getTitleOnMAL().equalsIgnoreCase(BaseConstants.NOT_FOUND_ON_MAL);
+		return reference.getTitleOnMAL().equals(BaseConstants.NOT_FOUND_ON_MAL);
 	}
 
 	public static boolean isTitleConcretizedOnMAL(AnimediaMALTitleReferences reference) {
