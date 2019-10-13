@@ -25,17 +25,17 @@ import org.springframework.util.FileSystemUtils;
 public class WrappedObjectMapperTest {
 
 	@Test
-	public void unmarshalCollectionNullValue() throws Exception {
+	public void unmarshalCollectionNullValue() {
 		assertNull(WrappedObjectMapper.unmarshal("", String.class, List.class));
 	}
 
 	@Test
-	public void unmarshalNullValue() throws Exception {
+	public void unmarshalNullValue() {
 		assertNull(WrappedObjectMapper.unmarshal("", String.class));
 	}
 
 	@Test
-	public void unmarshalCollection() throws Exception {
+	public void unmarshalCollection() {
 		List<Anime> unmarshal = WrappedObjectMapper.unmarshal(getCollectionJson(), Anime.class, ArrayList.class);
 		assertNotNull(unmarshal);
 		assertFalse(unmarshal.isEmpty());
@@ -51,7 +51,7 @@ public class WrappedObjectMapperTest {
 	}
 
 	@Test
-	public void unmarshalSingleElement() throws Exception {
+	public void unmarshalSingleElement() {
 		Anime singleElement = WrappedObjectMapper.unmarshal(getSingleElementJson(), Anime.class);
 		assertNotNull(singleElement);
 		assertEquals("1", singleElement.getId());

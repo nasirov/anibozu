@@ -9,22 +9,19 @@ import nasirov.yv.data.response.HttpResponse;
 import nasirov.yv.util.RoutinesIO;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpStatus;
-import org.springframework.test.annotation.DirtiesContext;
 
 /**
  * Created by nasirov.yv
  */
-@SpringBootTest(classes = {MALParser.class})
-@DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_CLASS)
+
 public class MALParserTest extends AbstractTest {
 
 	@Autowired
 	private MALParser malParser;
 
 	@Test
-	public void getNumWatchingTitles() throws Exception {
+	public void getNumWatchingTitles() {
 		Integer numWatchingTitlesString = malParser
 				.getNumWatchingTitles(new HttpResponse(RoutinesIO.readFromResource(testAccForDevProfile), HttpStatus.OK.value()));
 		assertNotNull(numWatchingTitlesString);
@@ -32,7 +29,7 @@ public class MALParserTest extends AbstractTest {
 	}
 
 	@Test
-	public void getNumWatchingTitlesWatchingTitlesNotFound() throws Exception {
+	public void getNumWatchingTitlesWatchingTitlesNotFound() {
 		Integer numWatchingTitles = malParser.getNumWatchingTitles(new HttpResponse("", HttpStatus.OK.value()));
 		assertNull(numWatchingTitles);
 	}

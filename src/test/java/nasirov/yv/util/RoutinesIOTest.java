@@ -34,7 +34,7 @@ public class RoutinesIOTest {
 	private Resource routinesIOtestResource;
 
 	@Test
-	public void marshalToFile() throws Exception {
+	public void marshalToFile() {
 		String fileName = "test123.txt";
 		File testFile = new File(fileName);
 		assertFalse(testFile.exists());
@@ -59,11 +59,11 @@ public class RoutinesIOTest {
 	}
 
 	@Test
-	public void unmarshalFromResource() throws Exception {
+	public void unmarshalFromResource() {
 		unmarshalFromDifferentSources(null, null, routinesIOtestResource);
 	}
 	@Test
-	public void writeToFileAppendTrue() throws Exception {
+	public void writeToFileAppendTrue() {
 		String fileName = "test123.txt";
 		File testFile = new File(fileName);
 		assertFalse(testFile.exists());
@@ -82,7 +82,7 @@ public class RoutinesIOTest {
 	}
 
 	@Test
-	public void writeToFileAppendFalse() throws Exception {
+	public void writeToFileAppendFalse() {
 		String fileName = "test123.txt";
 		File testFile = new File(fileName);
 		assertFalse(testFile.exists());
@@ -100,7 +100,7 @@ public class RoutinesIOTest {
 	}
 
 	@Test
-	public void writeToFileException() throws Exception {
+	public void writeToFileException() {
 		String dirName = "test123";
 		File testDir = new File(dirName);
 		assertTrue(testDir.mkdir());
@@ -112,7 +112,7 @@ public class RoutinesIOTest {
 	}
 
 	@Test
-	public void readFromFile() throws Exception {
+	public void readFromFile() {
 		String fileName = "test123.txt";
 		File testFile = new File(fileName);
 		assertFalse(testFile.exists());
@@ -128,7 +128,7 @@ public class RoutinesIOTest {
 	}
 
 	@Test
-	public void readFromFileException() throws Exception {
+	public void readFromFileException() {
 		String fileName = "test123";
 		File testDir = new File(fileName);
 		assertTrue(testDir.mkdir());
@@ -140,14 +140,14 @@ public class RoutinesIOTest {
 	}
 
 	@Test
-	public void readFromResource() throws Exception {
+	public void readFromResource() {
 		Set<AnimediaMALTitleReferences> unmarshalledFromFile = WrappedObjectMapper
 				.unmarshal(RoutinesIO.readFromResource(routinesIOtestResource), AnimediaMALTitleReferences.class, LinkedHashSet.class);
 		checkTestContent(unmarshalledFromFile);
 	}
 
 	@Test
-	public void readFromResourceException() throws Exception {
+	public void readFromResourceException() {
 		ClassPathResource resourcesNotFound = new ClassPathResource("resourcesNotFound");
 		assertFalse(resourcesNotFound.exists());
 		RoutinesIO.unmarshalFromResource(resourcesNotFound, AnimediaMALTitleReferences.class, LinkedHashSet.class);
@@ -166,7 +166,7 @@ public class RoutinesIOTest {
 	}
 
 	@Test
-	public void mkDir() throws Exception {
+	public void mkDir() {
 		String dirName = "test123";
 		File testDir = new File(dirName);
 		assertFalse(testDir.exists());
@@ -190,7 +190,7 @@ public class RoutinesIOTest {
 		assertFalse(testDir.exists());
 	}
 	@Test
-	public void removeDir() throws Exception {
+	public void removeDir() {
 		String dirName = "test123";
 		File testDir = new File(dirName);
 		assertFalse(testDir.exists());
@@ -231,7 +231,7 @@ public class RoutinesIOTest {
 	}
 
 	@Test
-	public void testForbiddenPrivateConstructor() throws IllegalAccessException, InvocationTargetException, InstantiationException {
+	public void testForbiddenPrivateConstructor() throws ReflectiveOperationException {
 		Constructor<?>[] declaredConstructors = RoutinesIO.class.getDeclaredConstructors();
 		assertEquals(1, declaredConstructors.length);
 		assertFalse(declaredConstructors[0].isAccessible());

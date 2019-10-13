@@ -24,7 +24,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import nasirov.yv.AbstractTest;
-import nasirov.yv.configuration.CacheConfiguration;
 import nasirov.yv.data.animedia.Anime;
 import nasirov.yv.data.animedia.AnimeTypeOnAnimedia;
 import nasirov.yv.data.animedia.AnimediaMALTitleReferences;
@@ -32,14 +31,10 @@ import nasirov.yv.data.animedia.AnimediaTitleSearchInfo;
 import nasirov.yv.data.constants.CacheNamesConstants;
 import nasirov.yv.data.response.HttpResponse;
 import nasirov.yv.http.caller.HttpCaller;
-import nasirov.yv.http.parameter.AnimediaRequestParametersBuilder;
-import nasirov.yv.http.parameter.RequestParametersBuilder;
-import nasirov.yv.parser.AnimediaHTMLParser;
 import nasirov.yv.util.RoutinesIO;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.cache.Cache;
 import org.springframework.cache.CacheManager;
@@ -50,8 +45,7 @@ import org.springframework.http.HttpStatus;
 /**
  * Created by nasirov.yv
  */
-@SuppressWarnings("unchecked")
-@SpringBootTest(classes = {ResourcesService.class, AnimediaRequestParametersBuilder.class,AnimediaHTMLParser.class, CacheManager.class, CacheConfiguration.class})
+
 public class ResourcesServiceTest extends AbstractTest {
 
 	@Value("classpath:animedia/search/singleSeasonsAnimeUrls.json")
@@ -132,7 +126,7 @@ public class ResourcesServiceTest extends AbstractTest {
 	}
 
 	@Test
-	public void testGetAnimeFromEmptyCache() throws Exception {
+	public void testGetAnimeFromEmptyCache() {
 		Cache sortedAnimediaSearchListCache = cacheManager.getCache(CacheNamesConstants.SORTED_ANIMEDIA_SEARCH_LIST_CACHE);
 		sortedAnimediaSearchListCache.clear();
 		Map<AnimeTypeOnAnimedia, Set<Anime>> sortedAnime = resourcesService.getAnimeSortedByTypeFromCache();
@@ -140,7 +134,7 @@ public class ResourcesServiceTest extends AbstractTest {
 		assertTrue(sortedAnime.isEmpty());
 	}
 	@Test
-	public void testGetAnimeFromCacheNotEmpty() throws Exception {
+	public void testGetAnimeFromCacheNotEmpty() {
 		Cache sortedAnimediaSearchListCache = cacheManager.getCache(CacheNamesConstants.SORTED_ANIMEDIA_SEARCH_LIST_CACHE);
 		sortedAnimediaSearchListCache
 				.put(SINGLESEASON.getDescription(), RoutinesIO.unmarshalFromResource(singleSeasonsAnimeUrls, Anime.class, LinkedHashSet.class));
@@ -160,7 +154,7 @@ public class ResourcesServiceTest extends AbstractTest {
 		sortedAnimediaSearchListCache.clear();
 	}
 	@Test
-	public void testCheckAnime() throws Exception {
+	public void testCheckAnime() {
 		Set<Anime> single = RoutinesIO.unmarshalFromResource(singleSeasonsAnimeUrls, Anime.class, LinkedHashSet.class);
 		Set<Anime> multi = RoutinesIO.unmarshalFromResource(multiSeasonsAnimeUrls, Anime.class, LinkedHashSet.class);
 		Set<Anime> announcement = RoutinesIO.unmarshalFromResource(announcementsJson, Anime.class, LinkedHashSet.class);

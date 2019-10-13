@@ -7,12 +7,14 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.core.io.Resource;
 import org.springframework.test.context.junit4.SpringRunner;
 
 /**
  * Created by nasirov.yv
  */
+@SpringBootTest
 @RunWith(SpringRunner.class)
 @EnableConfigurationProperties({ResourcesNames.class, UrlsNames.class})
 public abstract class AbstractTest {

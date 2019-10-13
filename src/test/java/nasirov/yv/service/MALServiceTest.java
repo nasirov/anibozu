@@ -19,36 +19,31 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import nasirov.yv.AbstractTest;
-import nasirov.yv.configuration.CacheConfiguration;
 import nasirov.yv.data.constants.CacheNamesConstants;
 import nasirov.yv.data.mal.UserMALTitleInfo;
 import nasirov.yv.data.response.HttpResponse;
 import nasirov.yv.exception.mal.MALUserAccountNotFoundException;
 import nasirov.yv.exception.mal.WatchingTitlesNotFoundException;
 import nasirov.yv.http.caller.HttpCaller;
-import nasirov.yv.http.parameter.MALRequestParametersBuilder;
 import nasirov.yv.http.parameter.RequestParametersBuilder;
-import nasirov.yv.parser.MALParser;
 import nasirov.yv.util.RoutinesIO;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.cache.Cache;
 import org.springframework.cache.CacheManager;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
-import org.springframework.test.annotation.DirtiesContext;
 
 /**
  * Created by nasirov.yv
  */
-@SpringBootTest(classes = {MALService.class, MALParser.class, CacheManager.class, CacheConfiguration.class, MALRequestParametersBuilder.class})
-@DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_CLASS)
+
+
 public class MALServiceTest extends AbstractTest {
 
 	@Value("classpath:mal/testAccForDevFirstJson300.json")
@@ -189,24 +184,24 @@ public class MALServiceTest extends AbstractTest {
 	}
 
 	@Test
-	public void isWatchingTitlesUpdatedEquals() throws Exception {
+	public void isWatchingTitlesUpdatedEquals() {
 		Set<UserMALTitleInfo> cached = new LinkedHashSet<>(getWatchingTitlesForTest(CACHED_ANIME_LIST));
 		assertFalse(malService.isWatchingTitlesUpdated(cached, cached));
 		assertEquals(cached, new LinkedHashSet<>(getWatchingTitlesForTest(CACHED_ANIME_LIST)));
 	}
 
 	@Test
-	public void isWatchingTitlesUpdatedNumberOfWatchedEpisodesIncreased() throws Exception {
+	public void isWatchingTitlesUpdatedNumberOfWatchedEpisodesIncreased() {
 		checkTitlesWithUpdatedNumberOfWatchedEpisodes(NUMBER_OF_WATCHED_EPISODES_INCREASED);
 	}
 
 	@Test
-	public void isWatchingTitlesUpdatedNumberOfWatchedEpisodesDecreased() throws Exception {
+	public void isWatchingTitlesUpdatedNumberOfWatchedEpisodesDecreased() {
 		checkTitlesWithUpdatedNumberOfWatchedEpisodes(NUMBER_OF_WATCHED_EPISODES_DECREASED);
 	}
 
 	@Test
-	public void isWatchingTitlesUpdatedNewTitleInAnimeList() throws Exception {
+	public void isWatchingTitlesUpdatedNewTitleInAnimeList() {
 		Set<UserMALTitleInfo> cached = new LinkedHashSet<>(getWatchingTitlesForTest(CACHED_ANIME_LIST));
 		Set<UserMALTitleInfo> animeListWithNewTitle = new LinkedHashSet<>(getWatchingTitlesForTest(NEW_TITLE_IN_ANIME_LIST));
 		assertNotEquals(cached, animeListWithNewTitle);
@@ -219,7 +214,7 @@ public class MALServiceTest extends AbstractTest {
 	}
 
 	@Test
-	public void isWatchingTitlesUpdatedTitleRemovedFromAnimeList() throws Exception {
+	public void isWatchingTitlesUpdatedTitleRemovedFromAnimeList() {
 		List<UserMALTitleInfo> cachedList = getWatchingTitlesForTest(CACHED_ANIME_LIST);
 		Set<UserMALTitleInfo> cached = new LinkedHashSet<>(cachedList);
 		Set<UserMALTitleInfo> animeListWithRemovedTitle = new LinkedHashSet<>(getWatchingTitlesForTest(TITLE_REMOVED_FROM_ANIME_LIST));

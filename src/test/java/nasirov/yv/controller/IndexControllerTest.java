@@ -10,18 +10,15 @@ import java.util.List;
 import nasirov.yv.AbstractTest;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.http.HttpHeaders;
-import org.springframework.test.annotation.DirtiesContext;
-import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 
 /**
  * Created by nasirov.yv
  */
-@ContextConfiguration(classes = {IndexController.class, IndexFilter.class, ResourceUrlAdvice.class})
-@WebMvcTest(IndexController.class)
-@DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_CLASS)
+
+@AutoConfigureMockMvc
 public class IndexControllerTest extends AbstractTest {
 
 	private static final String INDEX = "index";

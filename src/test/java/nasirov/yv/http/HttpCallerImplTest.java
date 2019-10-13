@@ -29,12 +29,9 @@ import java.util.regex.Pattern;
 import java.util.stream.Stream;
 import java.util.zip.GZIPOutputStream;
 import nasirov.yv.AbstractTest;
-import nasirov.yv.http.caller.HttpCaller;
-import nasirov.yv.http.caller.HttpCallerImpl;
-import nasirov.yv.http.parameter.AnimediaRequestParametersBuilder;
-import nasirov.yv.http.parameter.MALRequestParametersBuilder;
-import nasirov.yv.http.parameter.RequestParametersBuilder;
 import nasirov.yv.data.response.HttpResponse;
+import nasirov.yv.http.caller.HttpCaller;
+import nasirov.yv.http.parameter.RequestParametersBuilder;
 import nasirov.yv.util.RoutinesIO;
 import org.junit.Rule;
 import org.junit.Test;
@@ -43,7 +40,6 @@ import org.meteogroup.jbrotli.libloader.BrotliLibraryLoader;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -52,7 +48,7 @@ import org.springframework.http.HttpStatus;
 /**
  * Created by nasirov.yv
  */
-@SpringBootTest(classes = {HttpCallerImpl.class, AnimediaRequestParametersBuilder.class, MALRequestParametersBuilder.class})
+
 public class HttpCallerImplTest extends AbstractTest {
 
 	private static final String BROTLI = "br";

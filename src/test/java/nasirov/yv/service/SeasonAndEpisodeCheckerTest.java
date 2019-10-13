@@ -20,34 +20,27 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 import nasirov.yv.AbstractTest;
-import nasirov.yv.configuration.CacheConfiguration;
 import nasirov.yv.data.animedia.AnimediaMALTitleReferences;
 import nasirov.yv.data.animedia.AnimediaTitleSearchInfo;
 import nasirov.yv.data.constants.BaseConstants;
 import nasirov.yv.data.mal.UserMALTitleInfo;
 import nasirov.yv.data.response.HttpResponse;
 import nasirov.yv.http.caller.HttpCaller;
-import nasirov.yv.http.parameter.AnimediaRequestParametersBuilder;
-import nasirov.yv.parser.AnimediaHTMLParser;
 import nasirov.yv.repository.NotFoundAnimeOnAnimediaRepository;
 import nasirov.yv.util.RoutinesIO;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
-import org.springframework.test.annotation.DirtiesContext;
 
 /**
  * Created by nasirov.yv
  */
-@SpringBootTest(classes = {CacheConfiguration.class, SeasonsAndEpisodesService.class, AnimediaRequestParametersBuilder.class,
-		AnimediaHTMLParser.class})
-@DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_CLASS)
+
 public class SeasonAndEpisodeCheckerTest extends AbstractTest {
 
 	@Value("classpath:animedia/search/animediaSearchListSeveralTitlesMatchedForKeywords.json")
@@ -153,7 +146,7 @@ public class SeasonAndEpisodeCheckerTest extends AbstractTest {
 	}
 
 	@Test
-	public void getMatchedAnimeNewEpisodesAvailable() throws Exception {
+	public void getMatchedAnimeNewEpisodesAvailable() {
 		Integer blackCloverNumWatchingEpisodes = 0;
 		Integer onePieceNumWatchingEpisodes = 0;
 		Integer anotherNumWatchingEpisodes = 0;
@@ -172,7 +165,7 @@ public class SeasonAndEpisodeCheckerTest extends AbstractTest {
 	}
 
 	@Test
-	public void getMatchedAnimeNewEpisodesNotAvailable() throws Exception {
+	public void getMatchedAnimeNewEpisodesNotAvailable() {
 		Integer blackCloverNumWatchingEpisodes = 69;
 		Integer onePieceNumWatchingEpisodes = 870;
 		Integer anotherNumWatchingEpisodes = 12;
@@ -380,7 +373,7 @@ public class SeasonAndEpisodeCheckerTest extends AbstractTest {
 	}
 
 	@Test
-	public void updateMatchedReferences() throws Exception {
+	public void updateMatchedReferences() {
 		Set<AnimediaMALTitleReferences> matchedReferences = getReferences();
 		for (AnimediaMALTitleReferences references : matchedReferences) {
 			if (references.getMinConcretizedEpisodeOnMAL() != null && references.getMaxConcretizedEpisodeOnMAL() != null) {

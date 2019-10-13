@@ -26,7 +26,6 @@ import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import nasirov.yv.AbstractTest;
-import nasirov.yv.configuration.CacheConfiguration;
 import nasirov.yv.data.animedia.AnimediaMALTitleReferences;
 import nasirov.yv.data.animedia.AnimediaTitleSearchInfo;
 import nasirov.yv.data.constants.BaseConstants;
@@ -34,40 +33,30 @@ import nasirov.yv.data.constants.CacheNamesConstants;
 import nasirov.yv.data.mal.UserMALTitleInfo;
 import nasirov.yv.exception.mal.MALUserAccountNotFoundException;
 import nasirov.yv.exception.mal.WatchingTitlesNotFoundException;
-import nasirov.yv.http.parameter.AnimediaRequestParametersBuilder;
-import nasirov.yv.http.parameter.MALRequestParametersBuilder;
-import nasirov.yv.parser.AnimediaHTMLParser;
-import nasirov.yv.parser.MALParser;
 import nasirov.yv.repository.NotFoundAnimeOnAnimediaRepository;
 import nasirov.yv.service.AnimediaServiceI;
 import nasirov.yv.service.MALServiceI;
 import nasirov.yv.service.ReferencesServiceI;
 import nasirov.yv.service.SeasonsAndEpisodesServiceI;
-import nasirov.yv.util.URLBuilder;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.cache.Cache;
 import org.springframework.cache.CacheManager;
 import org.springframework.mock.web.MockHttpServletResponse;
-import org.springframework.test.annotation.DirtiesContext;
-import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.validation.BindException;
 import org.springframework.validation.ObjectError;
-import org.springframework.validation.beanvalidation.MethodValidationPostProcessor;
 
 /**
  * Created by nasirov.yv
  */
-@ContextConfiguration(classes = {ResultController.class, AnimediaHTMLParser.class, MALParser.class, CacheManager.class, CacheConfiguration.class,
-		URLBuilder.class, MALRequestParametersBuilder.class, AnimediaRequestParametersBuilder.class, MethodValidationPostProcessor.class,
-		ResourceUrlAdvice.class})
-@DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
-@WebMvcTest(ResultController.class)
+
+@AutoConfigureMockMvc
 public class ResultControllerTest extends AbstractTest {
 
 	private static final String USERNAME = "test";
@@ -99,6 +88,12 @@ public class ResultControllerTest extends AbstractTest {
 
 	private List<UserMALTitleInfo> repoMock;
 
+	private Cache userMALCache;
+
+	private Cache userMatchedAnimeCache;
+
+	private Cache currentlyUpdatedTitlesCache;
+
 	@Before
 	public void setUp() {
 		super.setUp();
@@ -107,8 +102,18 @@ public class ResultControllerTest extends AbstractTest {
 			repoMock.add(answer.getArgument(0));
 			return (answer.getArgument(0));
 		}).when(notFoundAnimeOnAnimediaRepository).saveAndFlush(any(UserMALTitleInfo.class));
-		doAnswer(answer -> repoMock.stream().filter(list -> String.valueOf(list.getTitle()).equals(answer.getArgument(0))).count() > 0)
+		doAnswer(answer -> repoMock.stream().anyMatch(list -> String.valueOf(list.getTitle()).equals(answer.getArgument(0))))
 				.when(notFoundAnimeOnAnimediaRepository).exitsByTitle(anyString());
+		userMALCache = cacheManager.getCache(CacheNamesConstants.USER_MAL_CACHE);
+		userMatchedAnimeCache = cacheManager.getCache(CacheNamesConstants.USER_MATCHED_ANIME_CACHE);
+		currentlyUpdatedTitlesCache = cacheManager.getCache(CacheNamesConstants.CURRENTLY_UPDATED_TITLES_CACHE);
+	}
+
+	@After
+	public void tearDown() {
+		userMALCache.clear();
+		userMatchedAnimeCache.clear();
+		currentlyUpdatedTitlesCache.clear();
 	}
 
 	@Test
@@ -228,9 +233,6 @@ public class ResultControllerTest extends AbstractTest {
 				.maxConcretizedEpisodeOnMAL("6").episodeNumberForWatch("1").finalUrl("onePunchManSpecials").build();
 		Set<AnimediaMALTitleReferences> newReference = new LinkedHashSet<>();
 		newReference.add(onePunchManSpecialsReference);
-		Cache userMALCache = cacheManager.getCache(CacheNamesConstants.USER_MAL_CACHE);
-		Cache userMatchedAnimeCache = cacheManager.getCache(CacheNamesConstants.USER_MATCHED_ANIME_CACHE);
-		Cache currentlyUpdatedTitlesCache = cacheManager.getCache(CacheNamesConstants.CURRENTLY_UPDATED_TITLES_CACHE);
 		userMALCache.put(USERNAME, watchingTitlesFromCache);
 		userMatchedAnimeCache.put(USERNAME, matchedAnime);
 		currentlyUpdatedTitlesCache.put(CacheNamesConstants.CURRENTLY_UPDATED_TITLES_CACHE, new ArrayList<>());

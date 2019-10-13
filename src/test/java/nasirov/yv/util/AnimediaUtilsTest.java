@@ -27,6 +27,12 @@ import org.springframework.test.context.junit4.SpringRunner;
 @RunWith(SpringRunner.class)
 public class AnimediaUtilsTest {
 
+	private static final String ANIME_ID = "1234";
+
+	private static final String DATA_LIST = "1";
+
+	private static final String MAX_EPISODES = "12";
+
 	@Value("classpath:referencesForTest.json")
 	private Resource referencesForTestResource;
 
@@ -46,14 +52,9 @@ public class AnimediaUtilsTest {
 
 	private AnimediaMALTitleReferences notFoundOnMAL;
 
-	private static final String ANIME_ID = "1234";
-	private static final String DATA_LIST = "1";
-	private static final String MAX_EPISODES = "12";
-
 	private Map<String, Map<String, String>> animeIdDataListsAndMaxEpisodesMapForTest;
 
 	private Map<String, String> dataListsAndMaxEpisodesMapForTest;
-
 
 
 	@Before
@@ -76,7 +77,7 @@ public class AnimediaUtilsTest {
 	}
 
 	@Test
-	public void isMaxEpisodesUndefined() throws Exception {
+	public void isMaxEpisodesUndefined() {
 		String[] undefinedPositiveVariants = {"x", "xx", "xxx", "X", "XX", "XXX", "х", "хх", "ххх", "Х", "ХХ", "ХХХ"};
 		String[] undefinedNegativeVariants = {"", "xxxx", " ", "XXXX", "хххх", "ХХХХ"};
 		for (String var : undefinedPositiveVariants) {
@@ -87,27 +88,27 @@ public class AnimediaUtilsTest {
 		}
 	}
 	@Test
-	public void isAnnouncement() throws Exception {
+	public void isAnnouncement() {
 		assertTrue(AnimediaUtils.isAnnouncement(RoutinesIO.readFromResource(htmlWithAnnouncement)));
 		assertFalse(AnimediaUtils.isAnnouncement(RoutinesIO.readFromResource(saoHtml)));
 	}
 	@Test
-	public void isTitleConcretizedAndOngoing() throws Exception {
+	public void isTitleConcretizedAndOngoing() {
 		assertTrue(AnimediaUtils.isTitleConcretizedAndOngoing(concretizedAndOngoing));
 		assertFalse(AnimediaUtils.isTitleConcretizedAndOngoing(concretizedAndNotOngoing));
 	}
 	@Test
-	public void isTitleConcretizedOnMAL() throws Exception {
+	public void isTitleConcretizedOnMAL() {
 		assertTrue(AnimediaUtils.isTitleConcretizedOnMAL(concretizedAndOngoing));
 		assertTrue(AnimediaUtils.isTitleConcretizedOnMAL(concretizedAndNotOngoing));
 	}
 	@Test
-	public void isTitleUpdated() throws Exception {
+	public void isTitleUpdated() {
 		assertTrue(AnimediaUtils.isTitleUpdated(updatedTitle));
 		assertFalse(AnimediaUtils.isTitleUpdated(notUpdatedTitle));
 	}
 	@Test
-	public void isTitleNotFoundOnMAL() throws Exception {
+	public void isTitleNotFoundOnMAL() {
 		assertTrue(AnimediaUtils.isTitleNotFoundOnMAL(notFoundOnMAL));
 		assertFalse(AnimediaUtils.isTitleNotFoundOnMAL(concretizedAndNotOngoing));
 	}
@@ -128,7 +129,7 @@ public class AnimediaUtilsTest {
 		assertEquals(firstEpisode, AnimediaUtils.getCorrectFirstEpisodeAndMin(firstEpisode));
 	}
 	@Test
-	public void testForbiddenPrivateConstructor() throws IllegalAccessException, InvocationTargetException, InstantiationException {
+	public void testForbiddenPrivateConstructor() throws ReflectiveOperationException {
 		Constructor<?>[] declaredConstructors = AnimediaUtils.class.getDeclaredConstructors();
 		assertEquals(1, declaredConstructors.length);
 		assertFalse(declaredConstructors[0].isAccessible());
@@ -149,7 +150,7 @@ public class AnimediaUtilsTest {
 	@Test
 	public void testGetDataListsAndMaxEpisodesMap() {
 		Map<String, String> dataListsAndMaxEpisodesMap = AnimediaUtils.getDataListsAndMaxEpisodesMap(animeIdDataListsAndMaxEpisodesMapForTest);
-		assertEquals(animeIdDataListsAndMaxEpisodesMapForTest.size(),dataListsAndMaxEpisodesMap.size());
+		assertEquals(animeIdDataListsAndMaxEpisodesMapForTest.size(), dataListsAndMaxEpisodesMap.size());
 		assertEquals(dataListsAndMaxEpisodesMapForTest, dataListsAndMaxEpisodesMap);
 	}
 }

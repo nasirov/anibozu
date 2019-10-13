@@ -19,7 +19,7 @@ public class URLBuilderTest {
 
 
 	@Test
-	public void build() throws Exception {
+	public void build() {
 		String dataList = "1";
 		String firstEpisodeInSeason = "1";
 		String numberOfEpisodesInSeasonRange = "1-12";
@@ -32,7 +32,7 @@ public class URLBuilderTest {
 		assertEquals(url + "/" + dataList + "/" + BaseConstants.FIRST_EPISODE, resultUrl);
 	}
 	@Test
-	public void buildWithQueries() throws Exception {
+	public void buildWithQueries() {
 		Map<String, String> queries = new LinkedHashMap<>();
 		String firstParamKey = "firstParamKey";
 		String firstParamValue = "firstParamValue";
@@ -48,7 +48,7 @@ public class URLBuilderTest {
 	}
 
 	@Test
-	public void testForbiddenPrivateConstructor() throws IllegalAccessException, InvocationTargetException, InstantiationException {
+	public void testForbiddenPrivateConstructor() throws ReflectiveOperationException {
 		Constructor<?>[] declaredConstructors = URLBuilder.class.getDeclaredConstructors();
 		assertEquals(1, declaredConstructors.length);
 		assertFalse(declaredConstructors[0].isAccessible());

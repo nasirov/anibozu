@@ -5,24 +5,21 @@ import static org.junit.Assert.assertNull;
 
 import java.util.LinkedHashSet;
 import nasirov.yv.AbstractTest;
-import nasirov.yv.configuration.CacheConfiguration;
 import nasirov.yv.data.animedia.AnimediaMALTitleReferences;
 import nasirov.yv.data.constants.CacheNamesConstants;
 import nasirov.yv.data.mal.UserMALTitleInfo;
 import nasirov.yv.service.scheduler.CacheCleanerService;
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.cache.Cache;
 import org.springframework.cache.CacheManager;
-import org.springframework.test.annotation.DirtiesContext;
-import org.springframework.test.annotation.DirtiesContext.ClassMode;
 
 /**
  * Created by nasirov.yv
  */
-@SpringBootTest(classes = {CacheCleanerService.class, CacheConfiguration.class})
-@DirtiesContext(classMode = ClassMode.AFTER_CLASS)
+
 public class CacheCleanerServiceTest extends AbstractTest {
 
 	@Autowired
@@ -31,11 +28,26 @@ public class CacheCleanerServiceTest extends AbstractTest {
 	@Autowired
 	private CacheManager cacheManager;
 
+	private Cache userMALCache;
+
+	private Cache userMatchedAnimeCache;
+
+	@Override
+	@Before
+	public void setUp() {
+		super.setUp();
+		userMALCache = cacheManager.getCache(CacheNamesConstants.USER_MAL_CACHE);
+		userMatchedAnimeCache = cacheManager.getCache(CacheNamesConstants.USER_MATCHED_ANIME_CACHE);
+		clearCache();
+	}
+
+	@After
+	public void tearDown() {
+		clearCache();
+	}
 
 	@Test
-	public void clearCache() throws Exception {
-		Cache userMALCache = cacheManager.getCache(CacheNamesConstants.USER_MAL_CACHE);
-		Cache userMatchedAnimeCache = cacheManager.getCache(CacheNamesConstants.USER_MATCHED_ANIME_CACHE);
+	public void clearCacheTestOk() {
 		String username = "test";
 		userMALCache.put(username, new LinkedHashSet<UserMALTitleInfo>());
 		userMatchedAnimeCache.put(username, new LinkedHashSet<AnimediaMALTitleReferences>());
@@ -44,6 +56,11 @@ public class CacheCleanerServiceTest extends AbstractTest {
 		cacheCleanerService.clearCache();
 		assertNull(userMALCache.get(username, LinkedHashSet.class));
 		assertNull(userMatchedAnimeCache.get(username, LinkedHashSet.class));
+	}
+
+	private void clearCache() {
+		userMALCache.clear();
+		userMatchedAnimeCache.clear();
 	}
 
 }

@@ -177,10 +177,11 @@
         </executions>
         <configuration>
           <excludes>
-            <exclude>nasirov/yv/data/**</exclude>
-            <exclude>nasirov/yv/http/parameter/*</exclude>
-            <exclude>nasirov/yv/exception/**</exclude>
-            <exclude>nasirov/yv/configuration/*</exclude>
+            <exclude>**/data/**</exclude>
+            <exclude>**/parameter/*</exclude>
+            <exclude>**/exception/**</exclude>
+            <exclude>**/configuration/*</exclude>
+            <exclude>**/AnimeCheckerApplication</exclude>
           </excludes>
         </configuration>
       </plugin>

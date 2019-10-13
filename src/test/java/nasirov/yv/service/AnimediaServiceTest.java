@@ -13,34 +13,26 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import nasirov.yv.AbstractTest;
-import nasirov.yv.configuration.CacheConfiguration;
 import nasirov.yv.data.animedia.AnimediaMALTitleReferences;
 import nasirov.yv.data.animedia.AnimediaTitleSearchInfo;
 import nasirov.yv.data.constants.CacheNamesConstants;
 import nasirov.yv.data.response.HttpResponse;
 import nasirov.yv.http.caller.HttpCaller;
-import nasirov.yv.http.parameter.AnimediaRequestParametersBuilder;
-import nasirov.yv.parser.AnimediaHTMLParser;
 import nasirov.yv.util.RoutinesIO;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.cache.Cache;
 import org.springframework.cache.CacheManager;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
-import org.springframework.test.annotation.DirtiesContext;
 
 /**
  * Created by nasirov.yv
  */
-@SpringBootTest(classes = {AnimediaService.class, AnimediaHTMLParser.class, CacheManager.class, CacheConfiguration.class,
-		AnimediaRequestParametersBuilder.class})
-@DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
-@SuppressWarnings("unchecked")
+
 public class AnimediaServiceTest extends AbstractTest {
 
 	private static final String POSTER_URL_HIGH_QUALITY_QUERY_PARAMETER = "h=350&q=100";
@@ -73,7 +65,7 @@ public class AnimediaServiceTest extends AbstractTest {
 	private AnimediaServiceI animediaService;
 
 	@Test
-	public void testGetAnimediaSearchListFromAnimedia() throws Exception {
+	public void testGetAnimediaSearchListFromAnimedia() {
 		doReturn(new HttpResponse(RoutinesIO.readFromResource(animediaSearchListFull), HttpStatus.OK.value())).when(httpCaller)
 				.call(eq(urlsNames.getAnimediaUrls().getOnlineAnimediaAnimeList()), eq(HttpMethod.GET), anyMap());
 		Set<AnimediaTitleSearchInfo> animediaSearchList = animediaService.getAnimediaSearchListFromAnimedia();
@@ -89,7 +81,7 @@ public class AnimediaServiceTest extends AbstractTest {
 	}
 
 	@Test
-	public void testGetAnimediaSearchListFromGitHub() throws Exception {
+	public void testGetAnimediaSearchListFromGitHub() {
 		doReturn(new HttpResponse(RoutinesIO.readFromResource(animediaSearchListFull), HttpStatus.OK.value())).when(httpCaller)
 				.call(eq(urlsNames.getGitHubUrls().getRawGithubusercontentComAnimediaSearchList()), eq(HttpMethod.GET), anyMap());
 		Set<AnimediaTitleSearchInfo> animediaSearchList = animediaService.getAnimediaSearchListFromGitHub();
@@ -100,7 +92,7 @@ public class AnimediaServiceTest extends AbstractTest {
 	}
 
 	@Test
-	public void testGetCurrentlyUpdatedTitles() throws Exception {
+	public void testGetCurrentlyUpdatedTitles() {
 		Cache cache = cacheManager.getCache(CacheNamesConstants.CURRENTLY_UPDATED_TITLES_CACHE);
 		assertNotNull(cache);
 		List<AnimediaMALTitleReferences> animediaMALTitleReferencesFromCache = cache
@@ -119,7 +111,7 @@ public class AnimediaServiceTest extends AbstractTest {
 	}
 
 	@Test
-	public void testCheckCurrentlyUpdatedTitlesDifferentValues() throws Exception {
+	public void testCheckCurrentlyUpdatedTitlesDifferentValues() {
 		doReturn(new HttpResponse(RoutinesIO.readFromResource(pageWithCurrentlyAddedEpisodes), HttpStatus.OK.value())).when(httpCaller)
 				.call(eq(animediaOnlineTv), eq(HttpMethod.GET), anyMap());
 		List<AnimediaMALTitleReferences> currentlyUpdatedTitles = animediaService.getCurrentlyUpdatedTitles();

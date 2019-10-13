@@ -9,7 +9,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Stream;
 import nasirov.yv.AbstractTest;
-import nasirov.yv.configuration.CacheConfiguration;
 import nasirov.yv.data.animedia.AnimediaMALTitleReferences;
 import nasirov.yv.data.constants.BaseConstants;
 import nasirov.yv.data.response.HttpResponse;
@@ -17,16 +16,13 @@ import nasirov.yv.util.RoutinesIO;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpStatus;
-import org.springframework.test.annotation.DirtiesContext;
 
 /**
  * Created by nasirov.yv
  */
-@SpringBootTest(classes = {CacheConfiguration.class, AnimediaHTMLParser.class})
-@DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_CLASS)
+
 public class AnimediaHTMLParserTest extends AbstractTest {
 
 	@Value("classpath:animedia/onePiece/onePiece2.txt")
@@ -39,7 +35,7 @@ public class AnimediaHTMLParserTest extends AbstractTest {
 	private AnimediaHTMLParser animediaHTMLParser;
 
 	@Test
-	public void testGetAnimeIdSeasonsAndEpisodesMap() throws Exception {
+	public void testGetAnimeIdSeasonsAndEpisodesMap() {
 		HttpResponse multiSeasonsHtmlResponse = new HttpResponse(RoutinesIO.readFromResource(saoHtml), HttpStatus.OK.value());
 		Map<String, Map<String, String>> animeIdSeasonsAndEpisodesMap = animediaHTMLParser.getAnimeIdDataListsAndMaxEpisodesMap(multiSeasonsHtmlResponse);
 		assertNotNull(animeIdSeasonsAndEpisodesMap);
@@ -65,12 +61,12 @@ public class AnimediaHTMLParserTest extends AbstractTest {
 	}
 
 	@Test(expected = NullPointerException.class)
-	public void testGetAnimeIdSeasonsAndEpisodesMapHttpResponseIsNull() throws Exception {
+	public void testGetAnimeIdSeasonsAndEpisodesMapHttpResponseIsNull() {
 		assertNotNull(animediaHTMLParser.getAnimeIdDataListsAndMaxEpisodesMap(null));
 	}
 
 	@Test
-	public void testGetAnimeIdSeasonsAndEpisodesMapSeasonsAndEpisodesNotFound() throws Exception {
+	public void testGetAnimeIdSeasonsAndEpisodesMapSeasonsAndEpisodesNotFound() {
 		Map<String, Map<String, String>> animeIdSeasonsAndEpisodesMap = animediaHTMLParser
 				.getAnimeIdDataListsAndMaxEpisodesMap(new HttpResponse("<div class=\"media__post__original-title\"> test title </div>", HttpStatus.OK.value()));
 		assertNotNull(animeIdSeasonsAndEpisodesMap);
@@ -78,7 +74,7 @@ public class AnimediaHTMLParserTest extends AbstractTest {
 	}
 
 	@Test
-	public void testGetFirstEpisodeInSeason() throws Exception {
+	public void testGetFirstEpisodeInSeason() {
 		HttpResponse firstDataListHtmlResponse = new HttpResponse(RoutinesIO.readFromResource(saoDataList1), HttpStatus.OK.value());
 		String firstEpisodeInSeason = animediaHTMLParser.getFirstEpisodeInSeason(firstDataListHtmlResponse);
 		assertEquals("1", firstEpisodeInSeason);
@@ -91,31 +87,31 @@ public class AnimediaHTMLParserTest extends AbstractTest {
 	}
 
 	@Test(expected = NullPointerException.class)
-	public void testGetFirstEpisodeInSeasonHttpResponseIsNull() throws Exception {
+	public void testGetFirstEpisodeInSeasonHttpResponseIsNull() {
 		assertNull(animediaHTMLParser.getFirstEpisodeInSeason(null));
 	}
 
 	@Test
-	public void testGetFirstEpisodeInSeasonFirstEpisodeNotFound() throws Exception {
+	public void testGetFirstEpisodeInSeasonFirstEpisodeNotFound() {
 		assertNull(animediaHTMLParser.getFirstEpisodeInSeason(new HttpResponse("", HttpStatus.OK.value())));
 	}
 
 	@Test
-	public void testGetEpisodesRangeNormal() throws Exception {
+	public void testGetEpisodesRangeNormal() {
 		HttpResponse firstDataListHtmlResponse = new HttpResponse(RoutinesIO.readFromResource(saoDataList1), HttpStatus.OK.value());
 		Map<String, List<String>> range = animediaHTMLParser.getEpisodesRange(firstDataListHtmlResponse);
 		checkEpisodesRange(range, "25", "1", "25", 25);
 	}
 
 	@Test
-	public void testGetEpisodesRangeOvaWithFirstEpisode() throws Exception {
+	public void testGetEpisodesRangeOvaWithFirstEpisode() {
 		HttpResponse responseWithOVA = new HttpResponse(RoutinesIO.readFromResource(saoDataList7), HttpStatus.OK.value());
 		Map<String, List<String>> range = animediaHTMLParser.getEpisodesRange(responseWithOVA);
 		checkEpisodesRange(range, "1", "1", "1", 1);
 	}
 
 	@Test
-	public void testGetEpisodesRangeOvaWithoutFirstEpisode() throws Exception {
+	public void testGetEpisodesRangeOvaWithoutFirstEpisode() {
 		HttpResponse responseWithoutFirstEpisode = new HttpResponse("<span>ОВА из 2</span>\n<span>ОВА из 2</span>", HttpStatus.OK.value());
 		Map<String, List<String>> range = animediaHTMLParser.getEpisodesRange(responseWithoutFirstEpisode);
 		checkEpisodesRange(range, "2", BaseConstants.FIRST_EPISODE, "2", 2);
@@ -125,19 +121,19 @@ public class AnimediaHTMLParserTest extends AbstractTest {
 	}
 
 	@Test
-	public void testGetEpisodesRangeUndefinedMax() throws Exception {
+	public void testGetEpisodesRangeUndefinedMax() {
 		HttpResponse responseWithUndefinedMax = new HttpResponse("<span>Серия 1 из xxx</span>", HttpStatus.OK.value());
 		Map<String, List<String>> range = animediaHTMLParser.getEpisodesRange(responseWithUndefinedMax);
 		checkEpisodesRange(range, "1", BaseConstants.FIRST_EPISODE, "xxx", 1);
 	}
 
 	@Test(expected = NullPointerException.class)
-	public void testGetEpisodesRangeHttpResponseIsNull() throws Exception {
+	public void testGetEpisodesRangeHttpResponseIsNull() {
 		assertNull(animediaHTMLParser.getEpisodesRange(null));
 	}
 
 	@Test
-	public void testGetEpisodesRangeRangeIsNotFound() throws Exception {
+	public void testGetEpisodesRangeRangeIsNotFound() {
 		Map<String, List<String>> episodesRange = animediaHTMLParser
 				.getEpisodesRange(new HttpResponse("<a href=\"/anime/mastera-mecha-onlayn/1/1\" title=\"Серия", HttpStatus.OK.value()));
 		assertNotNull(episodesRange);
@@ -166,24 +162,24 @@ public class AnimediaHTMLParserTest extends AbstractTest {
 	}
 
 	@Test
-	public void testGetOriginalTitle() throws Exception {
+	public void testGetOriginalTitle() {
 		HttpResponse html = new HttpResponse(RoutinesIO.readFromResource(saoHtml), HttpStatus.OK.value());
 		String originalTitle = animediaHTMLParser.getOriginalTitle(html);
 		assertEquals("Sword Art Online", originalTitle);
 	}
 
 	@Test(expected = NullPointerException.class)
-	public void testGetOriginalTitleHttpResponseIsNull() throws Exception {
+	public void testGetOriginalTitleHttpResponseIsNull() {
 		assertNull(animediaHTMLParser.getOriginalTitle(null));
 	}
 
 	@Test
-	public void testGetOriginalTitleOriginalTitleIsNotFound() throws Exception {
+	public void testGetOriginalTitleOriginalTitleIsNotFound() {
 		assertNull(animediaHTMLParser.getOriginalTitle(new HttpResponse("", HttpStatus.OK.value())));
 	}
 
 	@Test
-	public void testGetCurrentlyUpdatedTitlesList() throws Exception {
+	public void testGetCurrentlyUpdatedTitlesList() {
 		HttpResponse html = new HttpResponse(RoutinesIO.readFromResource(pageWithCurrentlyAddedEpisodes), HttpStatus.OK.value());
 		List<AnimediaMALTitleReferences> currentlyUpdatedTitlesList = animediaHTMLParser.getCurrentlyUpdatedTitlesList(html);
 		assertNotNull(currentlyUpdatedTitlesList);
@@ -197,7 +193,7 @@ public class AnimediaHTMLParserTest extends AbstractTest {
 	}
 
 	@Test
-	public void testGetCurrentlyUpdatedTitlesListIsNotFound() throws Exception {
+	public void testGetCurrentlyUpdatedTitlesListIsNotFound() {
 		List<AnimediaMALTitleReferences> currentlyUpdatedTitlesList = animediaHTMLParser
 				.getCurrentlyUpdatedTitlesList(new HttpResponse("", HttpStatus.OK.value()));
 		assertNotNull(currentlyUpdatedTitlesList);
@@ -216,22 +212,23 @@ public class AnimediaHTMLParserTest extends AbstractTest {
 
 	private List<AnimediaMALTitleReferences> getCurrentlyAddedEpisodesListForCheck() {
 		List<AnimediaMALTitleReferences> currentlyUpdatedTitlesList = new ArrayList<>();
-		currentlyUpdatedTitlesList.add(AnimediaMALTitleReferences.builder().url("/anime/pyat-nevest").dataList("1").currentMax("3").build());
+		currentlyUpdatedTitlesList.add(AnimediaMALTitleReferences.builder().url("/anime/darovannyj").dataList("1").currentMax("9").build());
+		currentlyUpdatedTitlesList.add(AnimediaMALTitleReferences.builder().url("/anime/bem").dataList("1").currentMax("7").build());
 		currentlyUpdatedTitlesList
-				.add(AnimediaMALTitleReferences.builder().url("/anime/domashnij-pitomec-inogda-sidyaschij-na-moej-golove").dataList("1").currentMax("3")
-						.build());
+				.add(AnimediaMALTitleReferences.builder().url("/anime/dose-lorda-el-melloya-ii").dataList("1").currentMax("10").build());
 		currentlyUpdatedTitlesList
-				.add(AnimediaMALTitleReferences.builder().url("/anime/yarost-bahamuta-druzya-iz-manarii").dataList("1").currentMax("2").build());
-		currentlyUpdatedTitlesList.add(AnimediaMALTitleReferences.builder().url("/anime/chyornyj-klever").dataList("1").currentMax("68").build());
-		currentlyUpdatedTitlesList.add(AnimediaMALTitleReferences.builder().url("/anime/mastera-mecha-onlayn").dataList("3").currentMax("16").build());
-		currentlyUpdatedTitlesList.add(AnimediaMALTitleReferences.builder().url("/anime/domekano").dataList("1").currentMax("3").build());
+				.add(AnimediaMALTitleReferences.builder().url("/anime/otvergnutyj-svyaschennyj-zver").dataList("1").currentMax("11").build());
 		currentlyUpdatedTitlesList
-				.add(AnimediaMALTitleReferences.builder().url("/anime/o-moyom-pererozhdenii-v-sliz").dataList("1").currentMax("17").build());
+				.add(AnimediaMALTitleReferences.builder().url("/anime/klinok-rassekayuschij-demonov").dataList("1").currentMax("23").build());
 		currentlyUpdatedTitlesList
-				.add(AnimediaMALTitleReferences.builder().url("/anime/boruto-novoe-pokolenie-naruto").dataList("1").currentMax("91").build());
+				.add(AnimediaMALTitleReferences.builder().url("/anime/molodaya-nevesta-gospodina-nobunagi").dataList("").currentMax("").build());
 		currentlyUpdatedTitlesList
-				.add(AnimediaMALTitleReferences.builder().url("/anime/mob-psiho-100-mob-psycho-100").dataList("2").currentMax("4").build());
-		currentlyUpdatedTitlesList.add(AnimediaMALTitleReferences.builder().url("/anime/one-piece-van-pis-tv").dataList("5").currentMax("870").build());
+				.add(AnimediaMALTitleReferences.builder().url("/anime/arifureta-silnejshij-remeslennik-v-mire").dataList("1").currentMax("9").build());
+		currentlyUpdatedTitlesList
+				.add(AnimediaMALTitleReferences.builder().url("/anime/skazka-o-hvoste-fei-TV1").dataList("3").currentMax("325").build());
+		currentlyUpdatedTitlesList.add(AnimediaMALTitleReferences.builder().url("/anime/one-piece-van-pis-tv").dataList("5").currentMax("901").build());
+		currentlyUpdatedTitlesList
+				.add(AnimediaMALTitleReferences.builder().url("/anime/mag-obmanschik-iz-drugogo-mira").dataList("1").currentMax("9").build());
 		return currentlyUpdatedTitlesList;
 	}
 }
