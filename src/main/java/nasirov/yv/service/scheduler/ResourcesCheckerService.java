@@ -4,6 +4,7 @@ import static nasirov.yv.data.animedia.AnimeTypeOnAnimedia.MULTISEASONS;
 import static nasirov.yv.data.animedia.AnimeTypeOnAnimedia.SINGLESEASON;
 
 import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.regex.Matcher;
@@ -16,7 +17,9 @@ import nasirov.yv.data.animedia.AnimeTypeOnAnimedia;
 import nasirov.yv.data.animedia.AnimediaMALTitleReferences;
 import nasirov.yv.data.animedia.AnimediaTitleSearchInfo;
 import nasirov.yv.data.constants.BaseConstants;
+import nasirov.yv.data.mal.UserMALTitleInfo;
 import nasirov.yv.data.properties.ResourcesNames;
+import nasirov.yv.repository.NotFoundAnimeOnAnimediaRepository;
 import nasirov.yv.service.AnimediaServiceI;
 import nasirov.yv.service.MALServiceI;
 import nasirov.yv.service.ReferencesServiceI;
@@ -46,6 +49,8 @@ public class ResourcesCheckerService {
 
 	private final ResourcesNames resourcesNames;
 
+	private final NotFoundAnimeOnAnimediaRepository notFoundAnimeOnAnimediaRepository;
+
 	private String tempFolder;
 
 	@PostConstruct
@@ -62,8 +67,10 @@ public class ResourcesCheckerService {
 				animediaSearchListFromGitHub);
 		Set<Anime> multiSeasonsAnime = allTypes.get(MULTISEASONS);
 		Set<Anime> singleSeasonAnime = allTypes.get(SINGLESEASON);
-		checkReferences(multiSeasonsAnime);
+		Set<AnimediaMALTitleReferences> allReferences = referencesManager.getMultiSeasonsReferences();
+		checkReferences(multiSeasonsAnime, allReferences);
 		checkSingleSeasonTitles(singleSeasonAnime, animediaSearchListFromGitHub);
+		checkNotFoundTitlesOnAnimedia(allReferences, animediaSearchListFromGitHub);
 		log.info("END CHECKING TITLES RESOURCES FROM GITHUB.");
 	}
 
@@ -96,8 +103,7 @@ public class ResourcesCheckerService {
 		return allTypes;
 	}
 
-	private void checkReferences(Set<Anime> multiSeasonsAnime) {
-		Set<AnimediaMALTitleReferences> allReferences = referencesManager.getMultiSeasonsReferences();
+	private void checkReferences(Set<Anime> multiSeasonsAnime, Set<AnimediaMALTitleReferences> allReferences) {
 		boolean referencesAreFull = resourcesService.isReferencesAreFull(multiSeasonsAnime, allReferences);
 		if (referencesAreFull) {
 			log.info("REFERENCES ARE UP-TO-DATE.");
@@ -152,6 +158,18 @@ public class ResourcesCheckerService {
 						.marshalToFileInTheFolder(tempFolder, resourcesNames.getTempSearchTitlesWithInvalidMALTitleName(), searchTitlesWithInvalidMALTitleName);
 			}
 			log.info("END CHECKING SINGLESEASON TITLE NAME ON MAL.");
+		}
+	}
+
+	private void checkNotFoundTitlesOnAnimedia(Set<AnimediaMALTitleReferences> allReferences,
+			Set<AnimediaTitleSearchInfo> animediaSearchListFromGitHub) {
+		List<UserMALTitleInfo> notFoundAnimeOnAnimedia = notFoundAnimeOnAnimediaRepository.findAll();
+		for (UserMALTitleInfo notFoundTitle : notFoundAnimeOnAnimedia) {
+			if (allReferences.stream().anyMatch(ref -> ref.getTitleOnMAL().equals(notFoundTitle.getTitle())) || animediaSearchListFromGitHub.stream()
+					.anyMatch(searchTitle -> searchTitle.getKeywords().equals(notFoundTitle.getTitle()))) {
+				log.info("{} HAS REMOVED FROM NotFoundAnimeOnAnimediaRepository", notFoundTitle.getTitle());
+				notFoundAnimeOnAnimediaRepository.delete(notFoundTitle);
+			}
 		}
 	}
 }

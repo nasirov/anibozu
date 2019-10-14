@@ -3,6 +3,7 @@ package nasirov.yv.service;
 import static nasirov.yv.data.animedia.AnimeTypeOnAnimedia.ANNOUNCEMENT;
 import static nasirov.yv.data.animedia.AnimeTypeOnAnimedia.MULTISEASONS;
 import static nasirov.yv.data.animedia.AnimeTypeOnAnimedia.SINGLESEASON;
+import static nasirov.yv.data.mal.MALAnimeStatus.WATCHING;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.ArgumentMatchers.eq;
@@ -11,7 +12,6 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
 import java.io.File;
-import java.io.IOException;
 import java.nio.file.NotDirectoryException;
 import java.util.Arrays;
 import java.util.EnumMap;
@@ -27,12 +27,16 @@ import nasirov.yv.data.animedia.AnimeTypeOnAnimedia;
 import nasirov.yv.data.animedia.AnimediaMALTitleReferences;
 import nasirov.yv.data.animedia.AnimediaTitleSearchInfo;
 import nasirov.yv.data.constants.BaseConstants;
+import nasirov.yv.data.mal.UserMALTitleInfo;
+import nasirov.yv.repository.NotFoundAnimeOnAnimediaRepository;
 import nasirov.yv.service.scheduler.ResourcesCheckerService;
 import nasirov.yv.util.RoutinesIO;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.boot.test.mock.mockito.SpyBean;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.test.util.ReflectionTestUtils;
 
@@ -53,6 +57,9 @@ public class ResourcesCheckerServiceTest extends AbstractTest {
 
 	@MockBean
 	private ReferencesServiceI referencesManager;
+
+	@Autowired
+	private NotFoundAnimeOnAnimediaRepository notFoundAnimeOnAnimediaRepository;
 
 	@Autowired
 	private ResourcesCheckerService resourcesCheckerService;
@@ -78,11 +85,20 @@ public class ResourcesCheckerServiceTest extends AbstractTest {
 		allTypes = getSortedAnime();
 		single = allTypes.get(SINGLESEASON);
 		multi = allTypes.get(MULTISEASONS);
+		notFoundAnimeOnAnimediaRepository.saveAndFlush(new UserMALTitleInfo(0, WATCHING.getCode(), 0,
+				"black clover", 0, "testPoster", "testUrl"));
+		notFoundAnimeOnAnimediaRepository.saveAndFlush(new UserMALTitleInfo(0, WATCHING.getCode(), 0,
+				"fairy tail", 0, "testPoster", "testUrl"));
+		RoutinesIO.removeDir(tempFolderName);
+	}
+
+	@After
+	public void tearDown() {
+		RoutinesIO.removeDir(tempFolderName);
 	}
 
 	@Test
 	public void testCheckApplicationResourcesAllUpToDateButTitlesNotFoundOnMAL() throws NotDirectoryException {
-		RoutinesIO.removeDir(tempFolderName);
 		doReturn(true).when(resourcesService)
 				.isAnimediaSearchListFromGitHubUpToDate(eq(animediaSearchListFromGitHub), eq(animediaSearchListFromAnimedia));
 		doReturn(new HashMap<>()).when(resourcesService).getAnimeSortedByTypeFromCache();
@@ -118,16 +134,15 @@ public class ResourcesCheckerServiceTest extends AbstractTest {
 				.unmarshalFromFile(prefix + resourcesNames.getTempSearchTitlesWithInvalidMALTitleName(), AnimediaTitleSearchInfo.class, LinkedHashSet.class);
 		assertEquals(1, referencesWithInvalidMALTitleName.stream().filter(ref -> ref.equals(animediaMALTitleReference)).count());
 		assertEquals(1, searchTitlesWithInvalidMALTitleName.stream().filter(title -> title.equals(animediaTitleSearchInfo)).count());
-		RoutinesIO.removeDir(tempFolderName);
 	}
 
 	@Test
-	public void testCheckApplicationResourcesAnimediaSearchListFromGitHubIsNotUpToDateAndTitlesNotFoundOnMAL() throws IOException {
-		RoutinesIO.removeDir(tempFolderName);
+	public void testCheckApplicationResourcesAnimediaSearchListFromGitHubIsNotUpToDateAndTitlesNotFoundOnMAL() {
 		doReturn(false).when(resourcesService)
 				.isAnimediaSearchListFromGitHubUpToDate(eq(animediaSearchListFromGitHub), eq(animediaSearchListFromAnimedia));
 		doReturn(allTypes).when(resourcesService).getAnimeSortedByType(eq(animediaSearchListFromAnimedia));
 		doReturn(new LinkedHashSet<>()).when(resourcesService).checkSortedAnime(eq(allTypes), eq(animediaSearchListFromAnimedia));
+		doReturn(getAllReferences()).when(referencesManager).getMultiSeasonsReferences();
 		Pattern pattern = Pattern.compile("[а-яА-Я]");
 		AnimediaTitleSearchInfo animediaTitleSearchInfo = animediaSearchListFromGitHub.stream().filter(title -> {
 			Matcher matcher = pattern.matcher(title.getKeywords());
@@ -139,9 +154,10 @@ public class ResourcesCheckerServiceTest extends AbstractTest {
 		doReturn(false).when(malService).isTitleExist(animediaTitleSearchInfo.getKeywords());
 		String scheduledMethod = Arrays.stream(resourcesCheckerService.getClass().getDeclaredMethods())
 				.filter(method -> method.isAnnotationPresent(Scheduled.class)).findFirst().get().getName();
+		assertEquals(2, notFoundAnimeOnAnimediaRepository.findAll().size());
 		ReflectionTestUtils.invokeMethod(resourcesCheckerService, scheduledMethod);
 		verify(resourcesService, times(1)).getAnimeSortedByType(eq(animediaSearchListFromAnimedia));
-		RoutinesIO.removeDir(tempFolderName);
+		assertTrue(notFoundAnimeOnAnimediaRepository.findAll().isEmpty());
 	}
 
 	private Set<AnimediaTitleSearchInfo> getAnimediaSearchListFromResources() {
