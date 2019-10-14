@@ -26,13 +26,13 @@ application:
       raw-githubusercontent-com-references: https://raw.githubusercontent.com/nasirov/anime-checker-resources/master/references.json
   services:
     resourcesLoader-enabled: false
-    applicationLogoPrinter-enabled: true
+    applicationLogoPrinter-enabled: false
   cron:
     cache-cron-expression: 0 0/30 * * * ?
     resources-check-cron-expression: 0 0/30 * * * ?
   http:
-    connect-timeout: 5000
-    read-timeout: 5000
+    connect-timeout: 2000
+    read-timeout: 2000
     max-attempts: 3
-    max-wait-time: 5
+    max-wait-time: 1
     follow-redirects: false

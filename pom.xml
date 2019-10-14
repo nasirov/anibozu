@@ -181,6 +181,8 @@
             <exclude>**/parameter/**</exclude>
             <exclude>**/exception/**</exclude>
             <exclude>**/configuration/**</exclude>
+            <exclude>**/client/**</exclude>
+            <exclude>**/properties/**</exclude>
             <exclude>**/AnimeCheckerApplication</exclude>
           </excludes>
         </configuration>

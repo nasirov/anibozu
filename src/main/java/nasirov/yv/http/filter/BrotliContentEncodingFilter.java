@@ -4,17 +4,19 @@ import com.sun.jersey.api.client.ClientHandlerException;
 import com.sun.jersey.api.client.ClientRequest;
 import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.filter.ClientFilter;
-import java.io.IOException;
 import java.io.InputStream;
 import javax.ws.rs.core.MultivaluedMap;
+import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.brotli.dec.BrotliInputStream;
 import org.springframework.http.HttpHeaders;
+import org.springframework.stereotype.Component;
 
 /**
  * Created by nasirov.yv
  */
 @Slf4j
+@Component
 public class BrotliContentEncodingFilter extends ClientFilter {
 
 	private static final String BROTLI_HEADER = "br";
@@ -27,21 +29,14 @@ public class BrotliContentEncodingFilter extends ClientFilter {
 			String encoding = headers.getFirst(HttpHeaders.CONTENT_ENCODING);
 			if (BROTLI_HEADER.equals(encoding)) {
 				headers.remove(HttpHeaders.CONTENT_ENCODING);
-				InputStream entityStream = response.getEntityInputStream();
-				try {
-					response.setEntityInputStream(new BrotliInputStream(entityStream));
-				} catch (IOException e) {
-					if (entityStream != null) {
-						try {
-							entityStream.close();
-						} catch (IOException e2) {
-							log.error("EXCEPTION WHILE CLOSING ENTITY INPUT STREAM!", e2);
-						}
-					}
-					throw new ClientHandlerException(e);
-				}
+				setBrotliInputStream(response, response.getEntityInputStream());
 			}
 		}
 		return response;
+	}
+
+	@SneakyThrows
+	private void setBrotliInputStream(ClientResponse response, InputStream entityStream) {
+		response.setEntityInputStream(new BrotliInputStream(entityStream));
 	}
 }

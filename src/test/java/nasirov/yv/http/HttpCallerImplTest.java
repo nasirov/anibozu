@@ -30,9 +30,13 @@ import java.util.stream.Stream;
 import java.util.zip.GZIPOutputStream;
 import nasirov.yv.AbstractTest;
 import nasirov.yv.data.response.HttpResponse;
+import nasirov.yv.exception.cloudflare.CookieNotFoundException;
+import nasirov.yv.exception.cloudflare.SeedNotFoundException;
 import nasirov.yv.http.caller.HttpCaller;
 import nasirov.yv.http.parameter.RequestParametersBuilder;
 import nasirov.yv.util.RoutinesIO;
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.meteogroup.jbrotli.BrotliStreamCompressor;
@@ -116,14 +120,30 @@ public class HttpCallerImplTest extends AbstractTest {
 	@Qualifier("animediaRequestParametersBuilder")
 	private RequestParametersBuilder malRequestParametersBuilder;
 
+	private Map<String, Map<String, String>> requestParams;
+
+	@Override
+	@Before
+	public void setUp() {
+		super.setUp();
+		requestParams = animediaRequestParametersBuilder.build();
+	}
+
+	@After
+	public void tearDown() {
+		wireMockRule.resetAll();
+	}
+
 	@Test
 	public void brotliResponseOK() {
-		Map<String, Map<String, String>> requestParams = animediaRequestParametersBuilder.build();
 		byte[] testBodyBytes = TEST_BODY.getBytes(StandardCharsets.UTF_8);
 		BrotliStreamCompressor brotliStreamCompressor = new BrotliStreamCompressor();
 		byte[] brotliCompressedArray = brotliStreamCompressor.compressArray(testBodyBytes, true);
 		stubFor(get(urlPathEqualTo(URL))
-				.willReturn(aResponse().withStatus(HttpStatus.OK.value()).withHeader(HttpHeaders.CONTENT_ENCODING, BROTLI).withBody(brotliCompressedArray)));
+				.willReturn(aResponse()
+						.withStatus(HttpStatus.OK.value())
+						.withHeader(HttpHeaders.CONTENT_ENCODING, BROTLI)
+						.withBody(brotliCompressedArray)));
 		HttpResponse response = httpCaller.call(HOST + URL, HttpMethod.GET, requestParams);
 		assertEquals(HttpStatus.OK.value(), response.getStatus().intValue());
 		assertEquals(TEST_BODY, response.getContent());
@@ -133,20 +153,21 @@ public class HttpCallerImplTest extends AbstractTest {
 	@Test(expected = ClientHandlerException.class)
 	public void notBrotliResponse() {
 		stubFor(get(urlPathEqualTo(URL))
-				.willReturn(aResponse().withStatus(HttpStatus.OK.value()).withHeader(HttpHeaders.CONTENT_ENCODING, BROTLI).withBody(TEST_BODY)));
+				.willReturn(aResponse()
+						.withStatus(HttpStatus.OK.value())
+						.withHeader(HttpHeaders.CONTENT_ENCODING, BROTLI)
+						.withBody(TEST_BODY)));
 		httpCaller.call(HOST + URL, HttpMethod.GET, animediaRequestParametersBuilder.build());
 	}
 
 	@Test
 	public void gzipResponseOK() throws IOException {
-		Map<String, Map<String, String>> requestParams = malRequestParametersBuilder.build();
 		ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
 		try (GZIPOutputStream gzipOutputStream = new GZIPOutputStream(byteArrayOutputStream)) {
 			gzipOutputStream.write(TEST_BODY.getBytes());
 			gzipOutputStream.flush();
 		}
-		stubFor(get(urlPathEqualTo(URL)).willReturn(aResponse().withStatus(HttpStatus.OK.value()).withHeader(HttpHeaders.CONTENT_ENCODING, GZIP)
-				.withBody(byteArrayOutputStream.toByteArray())));
+		stubGzip(byteArrayOutputStream.toByteArray());
 		HttpResponse response = httpCaller.call(HOST + URL, HttpMethod.GET, requestParams);
 		assertEquals(HttpStatus.OK.value(), response.getStatus().intValue());
 		assertEquals(TEST_BODY, response.getContent());
@@ -154,10 +175,8 @@ public class HttpCallerImplTest extends AbstractTest {
 	}
 
 	@Test(expected = ClientHandlerException.class)
-	public void notGZIPResponse() throws IOException {
-		Map<String, Map<String, String>> requestParams = malRequestParametersBuilder.build();
-		stubFor(get(urlPathEqualTo(URL))
-				.willReturn(aResponse().withStatus(HttpStatus.OK.value()).withHeader(HttpHeaders.CONTENT_ENCODING, GZIP).withBody(TEST_BODY)));
+	public void notGZIPResponse() {
+		stubGzip(TEST_BODY.getBytes());
 		HttpResponse response = httpCaller.call(HOST + URL, HttpMethod.GET, requestParams);
 		assertEquals(HttpStatus.OK.value(), response.getStatus().intValue());
 		assertEquals(TEST_BODY, response.getContent());
@@ -165,112 +184,121 @@ public class HttpCallerImplTest extends AbstractTest {
 	}
 
 	@Test
-	public void tooManyRequests() throws IOException {
-		stubFor(get(urlPathEqualTo(URL)).inScenario(REPEAT_REQUEST_SCENARIO).whenScenarioStateIs(STARTED)
-				.willReturn(aResponse().withStatus(HttpStatus.TOO_MANY_REQUESTS.value()).withBody(TEST_BODY)).willSetStateTo(REPEAT_REQUEST_STATE));
-		stubFor(get(urlPathEqualTo(URL)).inScenario(REPEAT_REQUEST_SCENARIO).whenScenarioStateIs(REPEAT_REQUEST_STATE)
-				.willReturn(aResponse().withStatus(HttpStatus.OK.value()).withBody(TEST_BODY)));
+	public void tooManyRequests() {
+		stubRepeatRequest(HttpStatus.TOO_MANY_REQUESTS);
 		httpCaller.call(HOST + URL, HttpMethod.GET, malRequestParametersBuilder.build());
 		verify(2, getRequestedFor(urlPathEqualTo(URL)));
 	}
 
 	@Test
-	public void gatewayTimeout() throws IOException {
-		stubFor(get(urlPathEqualTo(URL)).inScenario(REPEAT_REQUEST_SCENARIO).whenScenarioStateIs(STARTED)
-				.willReturn(aResponse().withStatus(HttpStatus.GATEWAY_TIMEOUT.value()).withBody(TEST_BODY)).willSetStateTo(REPEAT_REQUEST_STATE));
-		stubFor(get(urlPathEqualTo(URL)).inScenario(REPEAT_REQUEST_SCENARIO).whenScenarioStateIs(REPEAT_REQUEST_STATE)
-				.willReturn(aResponse().withStatus(HttpStatus.OK.value()).withBody(TEST_BODY)));
+	public void gatewayTimeout() {
+		stubRepeatRequest(HttpStatus.GATEWAY_TIMEOUT);
 		httpCaller.call(HOST + URL, HttpMethod.GET, malRequestParametersBuilder.build());
 		verify(2, getRequestedFor(urlPathEqualTo(URL)));
 	}
 
 	@Test
-	public void statusFound() throws IOException {
-		stubFor(get(urlPathEqualTo(URL)).inScenario(REPEAT_REQUEST_SCENARIO).whenScenarioStateIs(STARTED)
-				.willReturn(aResponse().withStatus(HttpStatus.FOUND.value()).withBody(TEST_BODY)).willSetStateTo(REPEAT_REQUEST_STATE));
-		stubFor(get(urlPathEqualTo(URL)).inScenario(REPEAT_REQUEST_SCENARIO).whenScenarioStateIs(REPEAT_REQUEST_STATE)
-				.willReturn(aResponse().withStatus(HttpStatus.OK.value()).withBody(TEST_BODY)));
+	public void statusFound() {
+		stubRepeatRequest(HttpStatus.FOUND);
 		httpCaller.call(HOST + URL, HttpMethod.GET, malRequestParametersBuilder.build());
 		verify(2, getRequestedFor(urlPathEqualTo(URL)));
 	}
 
 	@Test
-	public void badGateway() throws IOException {
-		stubFor(get(urlPathEqualTo(URL)).inScenario(REPEAT_REQUEST_SCENARIO).whenScenarioStateIs(STARTED)
-				.willReturn(aResponse().withStatus(HttpStatus.BAD_GATEWAY.value()).withBody(TEST_BODY)).willSetStateTo(REPEAT_REQUEST_STATE));
-		stubFor(get(urlPathEqualTo(URL)).inScenario(REPEAT_REQUEST_SCENARIO).whenScenarioStateIs(REPEAT_REQUEST_STATE)
-				.willReturn(aResponse().withStatus(HttpStatus.OK.value()).withBody(TEST_BODY)));
+	public void badGateway() {
+		stubRepeatRequest(HttpStatus.BAD_GATEWAY);
 		httpCaller.call(HOST + URL, HttpMethod.GET, malRequestParametersBuilder.build());
 		verify(2, getRequestedFor(urlPathEqualTo(URL)));
 	}
 
 	@Test
-	public void internalServerError() throws IOException {
-		stubFor(get(urlPathEqualTo(URL)).inScenario(REPEAT_REQUEST_SCENARIO).whenScenarioStateIs(STARTED)
-				.willReturn(aResponse().withStatus(HttpStatus.INTERNAL_SERVER_ERROR.value()).withBody(TEST_BODY)).willSetStateTo(REPEAT_REQUEST_STATE));
-		stubFor(get(urlPathEqualTo(URL)).inScenario(REPEAT_REQUEST_SCENARIO).whenScenarioStateIs(REPEAT_REQUEST_STATE)
-				.willReturn(aResponse().withStatus(HttpStatus.OK.value()).withBody(TEST_BODY)));
+	public void internalServerError() {
+		stubRepeatRequest(HttpStatus.INTERNAL_SERVER_ERROR);
 		httpCaller.call(HOST + URL, HttpMethod.GET, malRequestParametersBuilder.build());
 		verify(2, getRequestedFor(urlPathEqualTo(URL)));
 	}
 
 	@Test
 	public void avoidDDoSProtection() {
-		Map<String, Map<String, String>> requestParams = animediaRequestParametersBuilder.build();
-		stubFor(get(urlPathEqualTo(URL)).inScenario(DDOS_PROTECTION_SCENARIO).whenScenarioStateIs(STARTED)
-				.willReturn(aResponse().withStatus(HttpStatus.SERVICE_UNAVAILABLE.value())
+		stubFor(get(urlPathEqualTo(URL))
+				.inScenario(DDOS_PROTECTION_SCENARIO)
+				.whenScenarioStateIs(STARTED)
+				.willReturn(aResponse()
+						.withStatus(HttpStatus.SERVICE_UNAVAILABLE.value())
 						.withHeader(HttpHeaders.SET_COOKIE, CFDUID_COOKIE_VALUE_FROM_FIRST_RESPONSE)
-						.withBody(RoutinesIO.readFromResource(htmlWithObfuscatedJsCode))).willSetStateTo(VERIFICATION_REQUEST_STATE));
-		stubFor(get(urlEqualTo(VERIFICATION_URL)).inScenario(DDOS_PROTECTION_SCENARIO).whenScenarioStateIs(VERIFICATION_REQUEST_STATE)
+						.withBody(RoutinesIO.readFromResource(htmlWithObfuscatedJsCode)))
+				.willSetStateTo(VERIFICATION_REQUEST_STATE));
+		stubFor(get(urlEqualTo(VERIFICATION_URL))
+				.inScenario(DDOS_PROTECTION_SCENARIO)
+				.whenScenarioStateIs(VERIFICATION_REQUEST_STATE)
 				.withHeader(HttpHeaders.COOKIE, equalTo(getCookieValue(CF_COOKIE, CFDUID_COOKIE_VALUE_FROM_FIRST_RESPONSE)))
-				.willReturn(aResponse().withStatus(HttpStatus.FOUND.value()).withHeader(HttpHeaders.SET_COOKIE, CFDUID_COOKIE_VALUE_FROM_SECOND_RESPONSE)
-						.withHeader(HttpHeaders.SET_COOKIE, CF_CLEARANCE_COOKIE_VALUE).withHeader(HttpHeaders.LOCATION, HOST + URL).withBody("302 Found"))
+				.willReturn(aResponse().withStatus(HttpStatus.FOUND.value())
+						.withHeader(HttpHeaders.SET_COOKIE, CFDUID_COOKIE_VALUE_FROM_SECOND_RESPONSE)
+						.withHeader(HttpHeaders.SET_COOKIE, CF_CLEARANCE_COOKIE_VALUE)
+						.withHeader(HttpHeaders.LOCATION, HOST + URL).withBody("302 Found"))
 				.willSetStateTo(REDIRECTION_REQUEST_STATE));
-		stubFor(get(urlPathEqualTo(URL)).inScenario(DDOS_PROTECTION_SCENARIO).whenScenarioStateIs(REDIRECTION_REQUEST_STATE)
+		stubFor(get(urlPathEqualTo(URL))
+				.inScenario(DDOS_PROTECTION_SCENARIO)
+				.whenScenarioStateIs(REDIRECTION_REQUEST_STATE)
 				.withHeader(HttpHeaders.COOKIE,
 						equalTo(
-								getCookieValue(CF_COOKIE, CFDUID_COOKIE_VALUE_FROM_FIRST_RESPONSE) + "; " + getCookieValue(CF_CLEARANCE, CF_CLEARANCE_COOKIE_VALUE)))
-				.willReturn(aResponse().withStatus(HttpStatus.OK.value()).withBody(TEST_BODY)));
+								getCookieValue(CF_COOKIE, CFDUID_COOKIE_VALUE_FROM_FIRST_RESPONSE) + "; " +
+										getCookieValue(CF_CLEARANCE, CF_CLEARANCE_COOKIE_VALUE)))
+				.willReturn(aResponse()
+						.withStatus(HttpStatus.OK.value())
+						.withBody(TEST_BODY)));
 		HttpResponse response = httpCaller.call(HOST + URL, HttpMethod.GET, requestParams);
 		assertEquals(HttpStatus.OK.value(), response.getStatus().intValue());
 		assertEquals(TEST_BODY, response.getContent());
 		checkHeaders(getAllServeEvents(), getHttpHeadersList(requestParams));
 	}
 
-	@Test(expected = ClientHandlerException.class)
+	@Test(expected = SeedNotFoundException.class)
 	public void avoidDDoSProtectionSeedNotFound() {
-		Map<String, Map<String, String>> requestParams = animediaRequestParametersBuilder.build();
-		stubFor(get(urlPathEqualTo(URL)).willReturn(aResponse().withStatus(HttpStatus.SERVICE_UNAVAILABLE.value()).withBody(DDOS_PROTECTION)));
+		stubFor(get(urlPathEqualTo(URL))
+				.willReturn(aResponse()
+						.withStatus(HttpStatus.SERVICE_UNAVAILABLE.value())
+						.withBody(DDOS_PROTECTION)));
 		httpCaller.call(HOST + URL, HttpMethod.GET, requestParams);
 	}
 
-	@Test(expected = ClientHandlerException.class)
-	public void avoidDDoSProtectionRequiredCfduidCookieNoAvailable() {
-		Map<String, Map<String, String>> requestParams = animediaRequestParametersBuilder.build();
+	@Test(expected = CookieNotFoundException.class)
+	public void avoidDDoSProtectionRequiredCfduidCookieNotAvailable() {
 		String cfduidCookieValueFromFirstResponse = "";
-		stubFor(get(urlPathEqualTo(URL)).willReturn(aResponse().withStatus(HttpStatus.SERVICE_UNAVAILABLE.value())
-				.withHeader(HttpHeaders.SET_COOKIE, cfduidCookieValueFromFirstResponse).withBody(RoutinesIO.readFromResource(htmlWithObfuscatedJsCode))));
+		stubFor(get(urlPathEqualTo(URL))
+				.willReturn(aResponse()
+						.withStatus(HttpStatus.SERVICE_UNAVAILABLE.value())
+				.withHeader(HttpHeaders.SET_COOKIE, cfduidCookieValueFromFirstResponse)
+						.withBody(RoutinesIO.readFromResource(htmlWithObfuscatedJsCode))));
 		httpCaller.call(HOST + URL, HttpMethod.GET, requestParams);
 	}
 
-	@Test(expected = ClientHandlerException.class)
-	public void avoidDDoSProtectionRequiredCfClearanceCookieNoAvailable() {
-		Map<String, Map<String, String>> requestParams = animediaRequestParametersBuilder.build();
-		stubFor(get(urlPathEqualTo(URL)).inScenario(DDOS_PROTECTION_SCENARIO).whenScenarioStateIs(STARTED)
-				.willReturn(aResponse().withStatus(HttpStatus.SERVICE_UNAVAILABLE.value())
+	@Test(expected = CookieNotFoundException.class)
+	public void avoidDDoSProtectionRequiredCfClearanceCookieNotAvailable() {
+		stubFor(get(urlPathEqualTo(URL))
+				.inScenario(DDOS_PROTECTION_SCENARIO)
+				.whenScenarioStateIs(STARTED)
+				.willReturn(aResponse()
+						.withStatus(HttpStatus.SERVICE_UNAVAILABLE.value())
 						.withHeader(HttpHeaders.SET_COOKIE, CFDUID_COOKIE_VALUE_FROM_FIRST_RESPONSE)
-						.withBody(RoutinesIO.readFromResource(htmlWithObfuscatedJsCode))).willSetStateTo(VERIFICATION_REQUEST_STATE));
-		stubFor(get(urlEqualTo(VERIFICATION_URL)).inScenario(DDOS_PROTECTION_SCENARIO).whenScenarioStateIs(VERIFICATION_REQUEST_STATE)
+						.withBody(RoutinesIO.readFromResource(htmlWithObfuscatedJsCode)))
+				.willSetStateTo(VERIFICATION_REQUEST_STATE));
+		stubFor(get(urlEqualTo(VERIFICATION_URL))
+				.inScenario(DDOS_PROTECTION_SCENARIO)
+				.whenScenarioStateIs(VERIFICATION_REQUEST_STATE)
 				.withHeader(HttpHeaders.COOKIE, equalTo(getCookieValue(CF_COOKIE, CFDUID_COOKIE_VALUE_FROM_FIRST_RESPONSE)))
-				.willReturn(aResponse().withStatus(HttpStatus.FOUND.value()).withHeader(HttpHeaders.SET_COOKIE, CFDUID_COOKIE_VALUE_FROM_SECOND_RESPONSE)
-						.withHeader(HttpHeaders.SET_COOKIE, "").withHeader(HttpHeaders.LOCATION, HOST + URL).withBody("302 Found"))
+				.willReturn(aResponse()
+						.withStatus(HttpStatus.FOUND.value())
+						.withHeader(HttpHeaders.SET_COOKIE, CFDUID_COOKIE_VALUE_FROM_SECOND_RESPONSE)
+						.withHeader(HttpHeaders.SET_COOKIE, "")
+						.withHeader(HttpHeaders.LOCATION, HOST + URL)
+						.withBody("302 Found"))
 				.willSetStateTo(REDIRECTION_REQUEST_STATE));
 		httpCaller.call(HOST + URL, HttpMethod.GET, requestParams);
 	}
 
 	@Test
 	public void avoidDDoSProtectionServiceUnavailableNotDDoSProtection() {
-		Map<String, Map<String, String>> requestParams = animediaRequestParametersBuilder.build();
 		stubFor(get(urlPathEqualTo(URL)).willReturn(aResponse().withStatus(HttpStatus.SERVICE_UNAVAILABLE.value()).withBody(TEST_BODY)));
 		HttpResponse response = httpCaller.call(HOST + URL, HttpMethod.GET, requestParams);
 		assertEquals(HttpStatus.SERVICE_UNAVAILABLE.value(), response.getStatus().intValue());
@@ -279,9 +307,35 @@ public class HttpCallerImplTest extends AbstractTest {
 
 	@Test(expected = UnsupportedOperationException.class)
 	public void notSupportedHttpMethod() {
-		Map<String, Map<String, String>> requestParams = animediaRequestParametersBuilder.build();
-		stubFor(get(urlPathEqualTo(URL)).willReturn(aResponse().withStatus(HttpStatus.OK.value()).withBody(TEST_BODY)));
+		stubFor(get(urlPathEqualTo(URL))
+				.willReturn(aResponse()
+						.withStatus(HttpStatus.OK.value())
+						.withBody(TEST_BODY)));
 		httpCaller.call(HOST + URL, HttpMethod.POST, requestParams);
+	}
+
+	private void stubGzip(byte[] body) {
+		stubFor(get(urlPathEqualTo(URL))
+				.willReturn(aResponse()
+						.withStatus(HttpStatus.OK.value())
+						.withHeader(HttpHeaders.CONTENT_ENCODING, GZIP)
+						.withBody(body)));
+	}
+
+	private void stubRepeatRequest(HttpStatus responseStatus) {
+		stubFor(get(urlPathEqualTo(URL))
+				.inScenario(REPEAT_REQUEST_SCENARIO)
+				.whenScenarioStateIs(STARTED)
+				.willReturn(aResponse()
+						.withStatus(responseStatus.value())
+						.withBody(TEST_BODY))
+				.willSetStateTo(REPEAT_REQUEST_STATE));
+		stubFor(get(urlPathEqualTo(URL))
+				.inScenario(REPEAT_REQUEST_SCENARIO)
+				.whenScenarioStateIs(REPEAT_REQUEST_STATE)
+				.willReturn(aResponse()
+						.withStatus(HttpStatus.OK.value())
+						.withBody(TEST_BODY)));
 	}
 
 	private String getCookieValue(String cookie, String value) {

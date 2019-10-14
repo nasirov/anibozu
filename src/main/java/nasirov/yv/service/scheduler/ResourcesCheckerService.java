@@ -139,7 +139,7 @@ public class ResourcesCheckerService {
 			Set<AnimediaTitleSearchInfo> searchTitlesWithInvalidMALTitleName = new LinkedHashSet<>();
 			for (AnimediaTitleSearchInfo title : tempAllSingleSeasonTitles) {
 				String titleOnMAL = title.getKeywords();
-				if (!titleOnMAL.equals("")) {
+				if (!titleOnMAL.equals("") && !titleOnMAL.equals(BaseConstants.NOT_FOUND_ON_MAL)) {
 					boolean titleExist = malService.isTitleExist(titleOnMAL);
 					if (!titleExist) {
 						log.error("TITLE NAME {} FROM {} DOESN'T EXIST!", titleOnMAL, title);

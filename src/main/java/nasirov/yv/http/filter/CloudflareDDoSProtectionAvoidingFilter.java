@@ -7,7 +7,6 @@ import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.filter.ClientFilter;
 import java.io.ByteArrayInputStream;
 import java.net.URI;
-import java.net.URISyntaxException;
 import java.nio.charset.StandardCharsets;
 import java.text.NumberFormat;
 import java.util.LinkedHashMap;
@@ -16,16 +15,21 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.ws.rs.core.Cookie;
 import javax.ws.rs.core.MultivaluedMap;
+import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
+import nasirov.yv.exception.cloudflare.CookieNotFoundException;
+import nasirov.yv.exception.cloudflare.SeedNotFoundException;
 import nasirov.yv.util.URLBuilder;
 import org.glassfish.jersey.message.internal.CookiesParser;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.stereotype.Component;
 
 /**
  * Created by nasirov.yv
  */
 @Slf4j
+@Component
 public class CloudflareDDoSProtectionAvoidingFilter extends ClientFilter {
 
 	private static final String DDOS_PROTECTION = "DDoS protection by Cloudflare";
@@ -67,21 +71,13 @@ public class CloudflareDDoSProtectionAvoidingFilter extends ClientFilter {
 			if (content.contains(DDOS_PROTECTION)) {
 				String url = clientRequest.getURI().toString();
 				String verificationUrl = getVerificationUrl(content, url);
-				try {
-					clientRequest.setURI(new URI(verificationUrl));
-				} catch (URISyntaxException e) {
-					log.error("INVALID URL {}", verificationUrl);
-				}
+				setNewURI(clientRequest, verificationUrl);
 				setCookie(clientResponse, clientRequest, CF_COOKIE);
 				setReferer(clientRequest, url);
 				clientResponse = clientHandler.handle(clientRequest);
 				if (clientResponse.getStatus() == HttpStatus.FOUND.value()) {
 					String location = clientResponse.getHeaders().getFirst(HttpHeaders.LOCATION);
-					try {
-						clientRequest.setURI(new URI(location));
-					} catch (URISyntaxException e) {
-						log.error("INVALID URL {} ", location);
-					}
+					setNewURI(clientRequest, location);
 					setCookie(clientResponse, clientRequest, CF_CLEARANCE);
 					clientResponse = clientHandler.handle(clientRequest);
 				}
@@ -92,10 +88,15 @@ public class CloudflareDDoSProtectionAvoidingFilter extends ClientFilter {
 		return clientResponse;
 	}
 
+	@SneakyThrows
+	private void setNewURI(ClientRequest clientRequest, String url) {
+		clientRequest.setURI(new URI(url));
+	}
+
 	private void setCookie(ClientResponse response, ClientRequest request, String cookieName) {
 		MultivaluedMap<String, String> headers = response.getHeaders();
 		String cookieHeader = headers.get(HttpHeaders.SET_COOKIE).stream().filter(cookie -> cookie.contains(cookieName)).findFirst()
-				.orElseThrow(() -> new ClientHandlerException((cookieName + " not available!")));
+				.orElseThrow(() -> new CookieNotFoundException((cookieName + " not available!")));
 		Cookie cookie = CookiesParser.parseCookie(cookieHeader);
 		String oldCookie = (String) request.getHeaders().getFirst(HttpHeaders.COOKIE);
 		String newCookie = cookie.getName() + "=" + cookie.getValue();
@@ -131,9 +132,6 @@ public class CloudflareDDoSProtectionAvoidingFilter extends ClientFilter {
 					case "*":
 						seedSumDouble *= Double.parseDouble(getSum(expressionWithNumberSeed));
 						break;
-					case "/":
-						seedSumDouble /= Double.parseDouble(getSum(expressionWithNumberSeed));
-						break;
 					default:
 						break;
 				}
@@ -154,7 +152,7 @@ public class CloudflareDDoSProtectionAvoidingFilter extends ClientFilter {
 			queriesForUrl.remove("url");
 			finalUrl = URLBuilder.build(host + urlPath, queriesForUrl);
 		} else {
-			throw new ClientHandlerException(
+			throw new SeedNotFoundException(
 					"Cloudflare DDoS Protection Seed Is Not Found! Check response and Regex!\nResponse from " + url + " :\n" + content);
 		}
 		return finalUrl;
