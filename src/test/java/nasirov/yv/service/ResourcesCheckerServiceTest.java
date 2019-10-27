@@ -36,7 +36,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.boot.test.mock.mockito.SpyBean;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.test.util.ReflectionTestUtils;
 
@@ -85,10 +84,8 @@ public class ResourcesCheckerServiceTest extends AbstractTest {
 		allTypes = getSortedAnime();
 		single = allTypes.get(SINGLESEASON);
 		multi = allTypes.get(MULTISEASONS);
-		notFoundAnimeOnAnimediaRepository.saveAndFlush(new UserMALTitleInfo(0, WATCHING.getCode(), 0,
-				"black clover", 0, "testPoster", "testUrl"));
-		notFoundAnimeOnAnimediaRepository.saveAndFlush(new UserMALTitleInfo(0, WATCHING.getCode(), 0,
-				"fairy tail", 0, "testPoster", "testUrl"));
+		notFoundAnimeOnAnimediaRepository.saveAndFlush(new UserMALTitleInfo(0, WATCHING.getCode(), 0, "black clover", 0, "testPoster", "testUrl"));
+		notFoundAnimeOnAnimediaRepository.saveAndFlush(new UserMALTitleInfo(0, WATCHING.getCode(), 0, "fairy tail", 0, "testPoster", "testUrl"));
 		RoutinesIO.removeDir(tempFolderName);
 	}
 
@@ -154,7 +151,6 @@ public class ResourcesCheckerServiceTest extends AbstractTest {
 		doReturn(false).when(malService).isTitleExist(animediaTitleSearchInfo.getKeywords());
 		String scheduledMethod = Arrays.stream(resourcesCheckerService.getClass().getDeclaredMethods())
 				.filter(method -> method.isAnnotationPresent(Scheduled.class)).findFirst().get().getName();
-		assertEquals(2, notFoundAnimeOnAnimediaRepository.findAll().size());
 		ReflectionTestUtils.invokeMethod(resourcesCheckerService, scheduledMethod);
 		verify(resourcesService, times(1)).getAnimeSortedByType(eq(animediaSearchListFromAnimedia));
 		assertTrue(notFoundAnimeOnAnimediaRepository.findAll().isEmpty());

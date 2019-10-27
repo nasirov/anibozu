@@ -10,6 +10,8 @@ import nasirov.yv.data.properties.ResourcesNames;
 import nasirov.yv.util.RoutinesIO;
 import org.junit.Before;
 import org.junit.Test;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.test.util.ReflectionTestUtils;
 
 /**
  * Created by nasirov.yv
@@ -28,7 +30,8 @@ public class ApplicationLogoPrinterTest {
 	public void setUp() {
 		ResourcesNames resourcesNames = mock(ResourcesNames.class);
 		doReturn(APPLICATION_LOGO_FILENAME).when(resourcesNames).getApplicationLogo();
-		applicationLogoPrinter = new ApplicationLogoPrinter(resourcesNames);
+		applicationLogoPrinter = new ApplicationLogoPrinter();
+		ReflectionTestUtils.setField(applicationLogoPrinter, "applicationLogoResource", new ClassPathResource(APPLICATION_LOGO_FILENAME));
 	}
 
 	@Test

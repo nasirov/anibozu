@@ -36,3 +36,5 @@ application:
     max-attempts: 3
     max-wait-time: 5
     follow-redirects: false
+server:
+  port: ${PORT}

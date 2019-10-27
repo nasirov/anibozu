@@ -17,9 +17,7 @@ cache:
     - $HOME/.m2
 
 after_success:
-  - docker login -u $DOCKER_USER -p $DOCKER_PASS
-  - mvn dockerfile:build
-  - mvn dockerfile:push
+  - sh ./travis/heroku-deploy.sh
   - mvn coveralls:report
   - mvn sonar:sonar -Dsonar.host.url=$SONAR_HOST_URL -Dsonar.projectKey=$SONAR_PROJECTKEY -Dsonar.organization=$SONAR_ORGANIZATION -Dsonar.login=$SONAR_LOGIN
 
