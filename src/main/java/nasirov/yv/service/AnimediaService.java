@@ -1,11 +1,18 @@
 package nasirov.yv.service;
 
+import static java.nio.charset.StandardCharsets.UTF_8;
+import static nasirov.yv.data.constants.CacheNamesConstants.CURRENTLY_UPDATED_TITLES_CACHE;
+import static nasirov.yv.parser.WrappedObjectMapper.unmarshal;
+import static org.springframework.http.HttpMethod.GET;
+import static org.springframework.web.util.UriUtils.encodePath;
+
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Stream;
 import javax.annotation.PostConstruct;
 import lombok.extern.slf4j.Slf4j;
 import nasirov.yv.data.animedia.AnimediaMALTitleReferences;
@@ -73,7 +80,7 @@ public class AnimediaService implements AnimediaServiceI {
 	@PostConstruct
 	public void init() {
 		animediaRequestParameters = requestParametersBuilder.build();
-		currentlyUpdatedTitlesCache = cacheManager.getCache(CacheNamesConstants.CURRENTLY_UPDATED_TITLES_CACHE);
+		currentlyUpdatedTitlesCache = cacheManager.getCache(CURRENTLY_UPDATED_TITLES_CACHE);
 		onlineAnimediaTv = urlsNames.getAnimediaUrls().getOnlineAnimediaTv();
 		animediaSearchListFromGitHubFullUrl = urlsNames.getGitHubUrls().getRawGithubusercontentComAnimediaSearchList();
 		animediaSearchListFromAnimediaFullUrl = urlsNames.getAnimediaUrls().getOnlineAnimediaAnimeList();
@@ -86,11 +93,10 @@ public class AnimediaService implements AnimediaServiceI {
 	 */
 	@Override
 	public Set<AnimediaTitleSearchInfo> getAnimediaSearchListFromAnimedia() {
-		HttpResponse animediaResponse = httpCaller.call(animediaSearchListFromAnimediaFullUrl, HttpMethod.GET, animediaRequestParameters);
-		Set<AnimediaTitleSearchInfo> animediaSearchList = WrappedObjectMapper
-				.unmarshal(animediaResponse.getContent(), AnimediaTitleSearchInfo.class, LinkedHashSet.class);
+		HttpResponse animediaResponse = httpCaller.call(animediaSearchListFromAnimediaFullUrl, GET, animediaRequestParameters);
+		Set<AnimediaTitleSearchInfo> animediaSearchList = unmarshal(animediaResponse.getContent(), AnimediaTitleSearchInfo.class, LinkedHashSet.class);
 		animediaSearchList.forEach(title -> {
-			title.setUrl(UriUtils.encodePath(title.getUrl().replaceAll(onlineAnimediaTv, ""), StandardCharsets.UTF_8));
+			title.setUrl(encodePath(title.getUrl().replaceAll(onlineAnimediaTv, ""), UTF_8));
 			title.setPosterUrl(title.getPosterUrl().replace(POSTER_URL_LOW_QUALITY_QUERY_PARAMETER, POSTER_URL_HIGH_QUALITY_QUERY_PARAMETER));
 		});
 		return animediaSearchList;
@@ -103,8 +109,8 @@ public class AnimediaService implements AnimediaServiceI {
 	 */
 	@Override
 	public Set<AnimediaTitleSearchInfo> getAnimediaSearchListFromGitHub() {
-		HttpResponse animediaResponse = httpCaller.call(animediaSearchListFromGitHubFullUrl, HttpMethod.GET, animediaRequestParameters);
-		return WrappedObjectMapper.unmarshal(animediaResponse.getContent(), AnimediaTitleSearchInfo.class, LinkedHashSet.class);
+		HttpResponse animediaResponse = httpCaller.call(animediaSearchListFromGitHubFullUrl, GET, animediaRequestParameters);
+		return unmarshal(animediaResponse.getContent(), AnimediaTitleSearchInfo.class, LinkedHashSet.class);
 	}
 
 	/**
@@ -114,9 +120,9 @@ public class AnimediaService implements AnimediaServiceI {
 	 */
 	@Override
 	public List<AnimediaMALTitleReferences> getCurrentlyUpdatedTitles() {
-		HttpResponse animediaResponse = httpCaller.call(onlineAnimediaTv, HttpMethod.GET, animediaRequestParameters);
+		HttpResponse animediaResponse = httpCaller.call(onlineAnimediaTv, GET, animediaRequestParameters);
 		List<AnimediaMALTitleReferences> currentlyUpdatedTitles = animediaHTMLParser.getCurrentlyUpdatedTitlesList(animediaResponse);
-		currentlyUpdatedTitlesCache.putIfAbsent(CacheNamesConstants.CURRENTLY_UPDATED_TITLES_CACHE, currentlyUpdatedTitles);
+		currentlyUpdatedTitlesCache.putIfAbsent(CURRENTLY_UPDATED_TITLES_CACHE, currentlyUpdatedTitles);
 		return currentlyUpdatedTitles;
 	}
 
@@ -142,7 +148,7 @@ public class AnimediaService implements AnimediaServiceI {
 					differences.add(freshCurrentlyUpdatedTitle);
 				}
 			}
-			currentlyUpdatedTitlesCache.put(CacheNamesConstants.CURRENTLY_UPDATED_TITLES_CACHE, fresh);
+			currentlyUpdatedTitlesCache.put(CURRENTLY_UPDATED_TITLES_CACHE, fresh);
 			return differences;
 		}
 	}
