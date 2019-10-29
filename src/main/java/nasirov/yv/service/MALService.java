@@ -1,9 +1,11 @@
 package nasirov.yv.service;
 
 import static nasirov.yv.data.mal.MALAnimeStatus.WATCHING;
+import static nasirov.yv.parser.WrappedObjectMapper.unmarshal;
+import static nasirov.yv.util.URLBuilder.build;
+import static org.springframework.http.HttpMethod.GET;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 import java.util.List;
@@ -11,6 +13,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 import javax.annotation.PostConstruct;
 import lombok.extern.slf4j.Slf4j;
 import nasirov.yv.data.constants.CacheNamesConstants;
@@ -24,7 +27,6 @@ import nasirov.yv.exception.mal.WatchingTitlesNotFoundException;
 import nasirov.yv.http.caller.HttpCaller;
 import nasirov.yv.http.parameter.RequestParametersBuilder;
 import nasirov.yv.parser.MALParser;
-import nasirov.yv.parser.WrappedObjectMapper;
 import nasirov.yv.util.URLBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -75,7 +77,9 @@ public class MALService implements MALServiceI {
 
 	static {
 		QUERY_PARAMS_FOR_LOAD_JSON.put(OFFSET_PARAMETER, INITIAL_OFFSET_FOR_LOAD_JSON.toString());
-		QUERY_PARAMS_FOR_LOAD_JSON.put(STATUS_PARAMETER, WATCHING.getCode().toString());
+		QUERY_PARAMS_FOR_LOAD_JSON.put(STATUS_PARAMETER,
+				WATCHING.getCode()
+						.toString());
 		QUERY_PARAMS_FOR_TITLE_NAME_CHECK.put("type", "all");
 		QUERY_PARAMS_FOR_TITLE_NAME_CHECK.put("v", "1");
 	}
@@ -110,7 +114,8 @@ public class MALService implements MALServiceI {
 	public void init() {
 		malRequestParameters = requestParametersBuilder.build();
 		userMALCache = cacheManager.getCache(CacheNamesConstants.USER_MAL_CACHE);
-		myAnimeListNet = urlsNames.getMalUrls().getMyAnimeListNet();
+		myAnimeListNet = urlsNames.getMalUrls()
+				.getMyAnimeListNet();
 	}
 
 	/**
@@ -123,7 +128,7 @@ public class MALService implements MALServiceI {
 	 */
 	@Override
 	public Set<UserMALTitleInfo> getWatchingTitles(String username) throws WatchingTitlesNotFoundException, MALUserAccountNotFoundException {
-		HttpResponse malResponseWithUserProfile = httpCaller.call(myAnimeListNet + PROFILE + username, HttpMethod.GET, malRequestParameters);
+		HttpResponse malResponseWithUserProfile = httpCaller.call(myAnimeListNet + PROFILE + username, GET, malRequestParameters);
 		if (!isUserExist(malResponseWithUserProfile)) {
 			throw new MALUserAccountNotFoundException(MAL_ACCOUNT_IS_NOT_FOUND_ERROR_MSG_PART_1 + username + MAL_ACCOUNT_IS_NOT_FOUND_ERROR_MSG_PART_2);
 		}
@@ -173,30 +178,10 @@ public class MALService implements MALServiceI {
 	 */
 	@Override
 	public boolean isWatchingTitlesUpdated(Set<UserMALTitleInfo> watchingTitlesNew, Set<UserMALTitleInfo> watchingTitlesFromCache) {
-		boolean isWatchingTitlesUpdated = false;
-		for (UserMALTitleInfo userMALTitleInfoNew : watchingTitlesNew) {
-			Integer numWatchedEpisodesNew = userMALTitleInfoNew.getNumWatchedEpisodes();
-			UserMALTitleInfo userMALTitleInfoFromCache = watchingTitlesFromCache.stream()
-					.filter(set -> set.getTitle().equalsIgnoreCase(userMALTitleInfoNew.getTitle())).findFirst().orElse(null);
-			if (userMALTitleInfoFromCache == null) {
-				isWatchingTitlesUpdated = true;
-				watchingTitlesFromCache.add(userMALTitleInfoNew);
-			} else if (!userMALTitleInfoFromCache.getNumWatchedEpisodes().equals(numWatchedEpisodesNew)) {
-				isWatchingTitlesUpdated = true;
-				userMALTitleInfoFromCache.setNumWatchedEpisodes(numWatchedEpisodesNew);
-			}
-		}
-		Iterator<UserMALTitleInfo> iterator = watchingTitlesFromCache.iterator();
-		while (iterator.hasNext()) {
-			UserMALTitleInfo userMALTitleInfoFromCache = iterator.next();
-			UserMALTitleInfo userMALTitleInfoNew = watchingTitlesNew.stream()
-					.filter(set -> set.getTitle().equalsIgnoreCase(userMALTitleInfoFromCache.getTitle())).findFirst().orElse(null);
-			if (userMALTitleInfoNew == null) {
-				isWatchingTitlesUpdated = true;
-				iterator.remove();
-			}
-		}
-		return isWatchingTitlesUpdated;
+		boolean isSomeTitleHasUpdatedNumOfWatchedEpisodes = updateNumOfWatchedEpisodesForCachedTitles(watchingTitlesNew, watchingTitlesFromCache);
+		boolean isNewWatchingTitlesPresents = addNewWatchingTitlesToCached(watchingTitlesNew, watchingTitlesFromCache);
+		boolean isSomeCachedTitleRemoved = pruneCachedWatchingTitles(watchingTitlesNew, watchingTitlesFromCache);
+		return isSomeTitleHasUpdatedNumOfWatchedEpisodes || isNewWatchingTitlesPresents || isSomeCachedTitleRemoved;
 	}
 
 	/**
@@ -213,8 +198,12 @@ public class MALService implements MALServiceI {
 		for (UserMALTitleInfo userMALTitleInfoNew : watchingTitlesNew) {
 			Integer numWatchedEpisodesNew = userMALTitleInfoNew.getNumWatchedEpisodes();
 			UserMALTitleInfo userMALTitleInfoFromCache = watchingTitlesFromCache.stream()
-					.filter(set -> set.getTitle().equalsIgnoreCase(userMALTitleInfoNew.getTitle())).findFirst().orElse(null);
-			if (userMALTitleInfoFromCache != null && !userMALTitleInfoFromCache.getNumWatchedEpisodes().equals(numWatchedEpisodesNew)) {
+					.filter(set -> set.getTitle()
+							.equalsIgnoreCase(userMALTitleInfoNew.getTitle()))
+					.findFirst()
+					.orElse(null);
+			if (userMALTitleInfoFromCache != null && !userMALTitleInfoFromCache.getNumWatchedEpisodes()
+					.equals(numWatchedEpisodesNew)) {
 				result.add(userMALTitleInfoNew);
 			}
 		}
@@ -230,12 +219,21 @@ public class MALService implements MALServiceI {
 	@Override
 	public boolean isTitleExist(String titleOnMAL) {
 		QUERY_PARAMS_FOR_TITLE_NAME_CHECK.put("keyword", titleOnMAL);
-		HttpResponse malResponse = httpCaller
-				.call(URLBuilder.build(myAnimeListNet + SEARCH_PREFIX_JSON, QUERY_PARAMS_FOR_TITLE_NAME_CHECK), HttpMethod.GET, malRequestParameters);
+		HttpResponse malResponse = httpCaller.call(build(myAnimeListNet + SEARCH_PREFIX_JSON, QUERY_PARAMS_FOR_TITLE_NAME_CHECK),
+				GET,
+				malRequestParameters);
 		if (malResponse.getStatus() == HttpStatus.OK.value()) {
-			MALSearchResult malSearchResult = WrappedObjectMapper.unmarshal(malResponse.getContent(), MALSearchResult.class);
-			return 1 == malSearchResult.getCategories().stream().filter(categories -> categories.getType().equals(MALCategories.ANIME.getDescription()))
-					.flatMap(categories -> categories.getItems().stream()).filter(title -> title.getName().equalsIgnoreCase(titleOnMAL) && title.getType().equals(MALCategories.ANIME.getDescription())).count();
+			MALSearchResult malSearchResult = unmarshal(malResponse.getContent(), MALSearchResult.class);
+			return 1 == malSearchResult.getCategories()
+					.stream()
+					.filter(categories -> categories.getType()
+							.equals(MALCategories.ANIME.getDescription()))
+					.flatMap(categories -> categories.getItems()
+							.stream())
+					.filter(title -> title.getName()
+							.equalsIgnoreCase(titleOnMAL) && title.getType()
+							.equals(MALCategories.ANIME.getDescription()))
+					.count();
 		}
 		return false;
 	}
@@ -288,10 +286,10 @@ public class MALService implements MALServiceI {
 	 */
 	private List<UserMALTitleInfo> getJsonTitlesAndUnmarshal(Integer currentOffset, String username) {
 		QUERY_PARAMS_FOR_LOAD_JSON.put(OFFSET_PARAMETER, currentOffset.toString());
-		HttpResponse response = httpCaller
-				.call(URLBuilder.build(myAnimeListNet + ANIME_LIST + username + LOAD_JSON, QUERY_PARAMS_FOR_LOAD_JSON), HttpMethod.GET,
-						malRequestParameters);
-		return WrappedObjectMapper.unmarshal(response.getContent(), UserMALTitleInfo.class, ArrayList.class);
+		HttpResponse response = httpCaller.call(build(myAnimeListNet + ANIME_LIST + username + LOAD_JSON, QUERY_PARAMS_FOR_LOAD_JSON),
+				GET,
+				malRequestParameters);
+		return unmarshal(response.getContent(), UserMALTitleInfo.class, ArrayList.class);
 	}
 
 	/**
@@ -302,5 +300,38 @@ public class MALService implements MALServiceI {
 	 */
 	private boolean isUserExist(HttpResponse malProfileResponse) {
 		return !malProfileResponse.getStatus().equals(HttpStatus.NOT_FOUND.value());
+	}
+
+	private boolean updateNumOfWatchedEpisodesForCachedTitles(Set<UserMALTitleInfo> watchingTitlesNew, Set<UserMALTitleInfo> watchingTitlesFromCache) {
+		boolean isSomeTitleHasUpdatedNumOfWatchedEpisodes = false;
+		for (UserMALTitleInfo userMALTitleInfoNew : watchingTitlesNew) {
+			Integer numWatchedEpisodesNew = userMALTitleInfoNew.getNumWatchedEpisodes();
+			UserMALTitleInfo userMALTitleInfoFromCache = watchingTitlesFromCache.stream()
+					.filter(set -> set.getTitle()
+							.equalsIgnoreCase(userMALTitleInfoNew.getTitle()))
+					.findFirst()
+					.orElse(null);
+			if (userMALTitleInfoFromCache != null && !userMALTitleInfoFromCache.getNumWatchedEpisodes()
+					.equals(numWatchedEpisodesNew)) {
+				userMALTitleInfoFromCache.setNumWatchedEpisodes(numWatchedEpisodesNew);
+				isSomeTitleHasUpdatedNumOfWatchedEpisodes = true;
+			}
+		}
+		return isSomeTitleHasUpdatedNumOfWatchedEpisodes;
+	}
+
+	private boolean addNewWatchingTitlesToCached(Set<UserMALTitleInfo> watchingTitlesNew, Set<UserMALTitleInfo> watchingTitlesFromCache) {
+		Set<UserMALTitleInfo> newWatchingTitles = watchingTitlesNew.stream()
+				.filter(x -> watchingTitlesFromCache.stream()
+						.noneMatch(set -> set.getTitle()
+								.equalsIgnoreCase(x.getTitle())))
+				.collect(Collectors.toSet());
+		return watchingTitlesFromCache.addAll(newWatchingTitles);
+	}
+
+	private boolean pruneCachedWatchingTitles(Set<UserMALTitleInfo> watchingTitlesNew, Set<UserMALTitleInfo> watchingTitlesFromCache) {
+		return watchingTitlesFromCache.removeIf(x -> watchingTitlesNew.stream()
+				.noneMatch(set -> set.getTitle()
+						.equalsIgnoreCase(x.getTitle())));
 	}
 }
