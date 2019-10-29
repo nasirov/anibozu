@@ -1,5 +1,6 @@
 package nasirov.yv.service;
 
+import static nasirov.yv.parser.WrappedObjectMapper.unmarshal;
 import static nasirov.yv.util.AnimediaUtils.getCorrectCurrentMax;
 import static nasirov.yv.util.AnimediaUtils.getCorrectFirstEpisodeAndMin;
 import static nasirov.yv.util.AnimediaUtils.getFirstEpisode;
@@ -8,6 +9,7 @@ import static nasirov.yv.util.AnimediaUtils.isMaxEpisodeUndefined;
 import static nasirov.yv.util.AnimediaUtils.isTitleConcretizedAndOngoing;
 import static nasirov.yv.util.AnimediaUtils.isTitleNotFoundOnMAL;
 import static nasirov.yv.util.AnimediaUtils.isTitleUpdated;
+import static org.springframework.http.HttpMethod.GET;
 
 import java.util.HashMap;
 import java.util.LinkedHashSet;
@@ -24,11 +26,9 @@ import nasirov.yv.data.response.HttpResponse;
 import nasirov.yv.http.caller.HttpCaller;
 import nasirov.yv.http.parameter.RequestParametersBuilder;
 import nasirov.yv.parser.AnimediaHTMLParser;
-import nasirov.yv.parser.WrappedObjectMapper;
 import nasirov.yv.util.AnimediaUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Service;
 
 /**
@@ -69,9 +69,9 @@ public class ReferencesService implements ReferencesServiceI {
 	 */
 	@Override
 	public Set<AnimediaMALTitleReferences> getMultiSeasonsReferences() {
-		HttpResponse response = httpCaller
-				.call(urlsNames.getGitHubUrls().getRawGithubusercontentComReferences(), HttpMethod.GET, animediaRequestParameters);
-		return WrappedObjectMapper.unmarshal(response.getContent(), AnimediaMALTitleReferences.class, LinkedHashSet.class);
+		HttpResponse response = httpCaller.call(urlsNames.getGitHubUrls()
+				.getRawGithubusercontentComReferences(), GET, animediaRequestParameters);
+		return unmarshal(response.getContent(), AnimediaMALTitleReferences.class, LinkedHashSet.class);
 	}
 
 	/**
@@ -81,9 +81,12 @@ public class ReferencesService implements ReferencesServiceI {
 	 */
 	@Override
 	public void updateReferences(Set<AnimediaMALTitleReferences> references) {
-		String onlineAnimediaTv = urlsNames.getAnimediaUrls().getOnlineAnimediaTv();
-		String onlineAnimediaAnimeEpisodesList = urlsNames.getAnimediaUrls().getOnlineAnimediaAnimeEpisodesList();
-		String onlineAnimediaAnimeEpisodesPostfix = urlsNames.getAnimediaUrls().getOnlineAnimediaAnimeEpisodesPostfix();
+		String onlineAnimediaTv = urlsNames.getAnimediaUrls()
+				.getOnlineAnimediaTv();
+		String onlineAnimediaAnimeEpisodesList = urlsNames.getAnimediaUrls()
+				.getOnlineAnimediaAnimeEpisodesList();
+		String onlineAnimediaAnimeEpisodesPostfix = urlsNames.getAnimediaUrls()
+				.getOnlineAnimediaAnimeEpisodesPostfix();
 		Map<String, Map<String, Map<String, String>>> seasonsAndEpisodesCache = new HashMap<>();
 		for (AnimediaMALTitleReferences reference : references) {
 			if (isTitleUpdated(reference) || isTitleNotFoundOnMAL(reference)) {
@@ -96,23 +99,29 @@ public class ReferencesService implements ReferencesServiceI {
 			}
 			String animeId = AnimediaUtils.getAnimeId(animeIdDataListsAndMaxEpisodesMap);
 			Map<String, String> dataListsAndMaxEpisodesMap = AnimediaUtils.getDataListsAndMaxEpisodesMap(animeIdDataListsAndMaxEpisodesMap);
-			Stream.of(dataListsAndMaxEpisodesMap).flatMap(map -> map.entrySet().stream())
-					.filter(dataListsAndMaxEpisodesMapEntry -> dataListsAndMaxEpisodesMapEntry.getKey().equals(reference.getDataList()))
+			Stream.of(dataListsAndMaxEpisodesMap)
+					.flatMap(map -> map.entrySet()
+							.stream())
+					.filter(dataListsAndMaxEpisodesMapEntry -> dataListsAndMaxEpisodesMapEntry.getKey()
+							.equals(reference.getDataList()))
 					.forEach(x -> {
-						HttpResponse responseHtmlWithEpisodesInConcretizedDataList = httpCaller
-								.call(onlineAnimediaAnimeEpisodesList + animeId + "/" + reference.getDataList() + onlineAnimediaAnimeEpisodesPostfix,
-										HttpMethod.GET,
-										animediaRequestParameters);
+						HttpResponse responseHtmlWithEpisodesInConcretizedDataList = httpCaller.call(
+								onlineAnimediaAnimeEpisodesList + animeId + "/" + reference.getDataList() + onlineAnimediaAnimeEpisodesPostfix,
+								GET,
+								animediaRequestParameters);
 						Map<String, List<String>> episodesRange = animediaHTMLParser.getEpisodesRange(responseHtmlWithEpisodesInConcretizedDataList);
-						Stream.of(episodesRange).flatMap(episodesRangeMap -> episodesRangeMap.entrySet().stream()).forEach(episodesRangeMapEntry -> {
-							List<String> episodesList = episodesRangeMapEntry.getValue();
-							String maxEpisodes = episodesRangeMapEntry.getKey();
-							if (isTitleConcretizedAndOngoing(reference)) {
-								enrichConcretizedAndOngoingReference(reference, episodesList);
-							} else {
-								enrichRegularReference(reference, maxEpisodes, episodesList);
-							}
-						});
+						Stream.of(episodesRange)
+								.flatMap(episodesRangeMap -> episodesRangeMap.entrySet()
+										.stream())
+								.forEach(episodesRangeMapEntry -> {
+									List<String> episodesList = episodesRangeMapEntry.getValue();
+									String maxEpisodes = episodesRangeMapEntry.getKey();
+									if (isTitleConcretizedAndOngoing(reference)) {
+										enrichConcretizedAndOngoingReference(reference, episodesList);
+									} else {
+										enrichRegularReference(reference, maxEpisodes, episodesList);
+									}
+								});
 					});
 		}
 	}
@@ -120,7 +129,7 @@ public class ReferencesService implements ReferencesServiceI {
 	/**
 	 * Compare multiseasons references and user watching titles and Creates container with matched anime Set poster url from MAL
 	 *
-	 * @param references the  multiseasons references
+	 * @param references     the  multiseasons references
 	 * @param watchingTitles the user watching titles
 	 * @return the matched user references
 	 */
@@ -128,10 +137,13 @@ public class ReferencesService implements ReferencesServiceI {
 	public Set<AnimediaMALTitleReferences> getMatchedReferences(Set<AnimediaMALTitleReferences> references, Set<UserMALTitleInfo> watchingTitles) {
 		Set<AnimediaMALTitleReferences> tempReferences = new LinkedHashSet<>();
 		for (UserMALTitleInfo userMALTitleInfo : watchingTitles) {
-			references.stream().filter(set -> set.getTitleOnMAL().equals(userMALTitleInfo.getTitle())).forEach(set -> {
-				set.setPosterUrl(userMALTitleInfo.getPosterUrl());
-				tempReferences.add(new AnimediaMALTitleReferences(set));
-			});
+			references.stream()
+					.filter(set -> set.getTitleOnMAL()
+							.equals(userMALTitleInfo.getTitle()))
+					.forEach(set -> {
+						set.setPosterUrl(userMALTitleInfo.getPosterUrl());
+						tempReferences.add(new AnimediaMALTitleReferences(set));
+					});
 		}
 		return tempReferences;
 	}
@@ -145,7 +157,9 @@ public class ReferencesService implements ReferencesServiceI {
 	@Override
 	public void updateCurrentMax(Set<AnimediaMALTitleReferences> matchedAnimeFromCache, AnimediaMALTitleReferences currentlyUpdatedTitle) {
 		matchedAnimeFromCache.stream()
-				.filter(set -> set.getUrl().equals(currentlyUpdatedTitle.getUrl()) && set.getDataList().equals(currentlyUpdatedTitle.getDataList()))
+				.filter(set -> set.getUrl()
+						.equals(currentlyUpdatedTitle.getUrl()) && set.getDataList()
+						.equals(currentlyUpdatedTitle.getDataList()))
 				.forEach(set -> {
 					set.setCurrentMax(getCorrectCurrentMax(currentlyUpdatedTitle.getCurrentMax()));
 					currentlyUpdatedTitle.setTitleOnMAL(set.getTitleOnMAL());
@@ -180,7 +194,7 @@ public class ReferencesService implements ReferencesServiceI {
 
 	private Map<String, Map<String, String>> getTitleHtmlAndPutInCache(String url,
 			Map<String, Map<String, Map<String, String>>> seasonsAndEpisodesCache) {
-		HttpResponse response = httpCaller.call(url, HttpMethod.GET, animediaRequestParameters);
+		HttpResponse response = httpCaller.call(url, GET, animediaRequestParameters);
 		Map<String, Map<String, String>> animeIdDataListsAndMaxEpisodesMap = animediaHTMLParser.getAnimeIdDataListsAndMaxEpisodesMap(response);
 		seasonsAndEpisodesCache.put(url, animeIdDataListsAndMaxEpisodesMap);
 		return animeIdDataListsAndMaxEpisodesMap;
