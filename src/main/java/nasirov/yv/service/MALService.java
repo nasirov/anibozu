@@ -27,12 +27,10 @@ import nasirov.yv.exception.mal.WatchingTitlesNotFoundException;
 import nasirov.yv.http.caller.HttpCaller;
 import nasirov.yv.http.parameter.RequestParametersBuilder;
 import nasirov.yv.parser.MALParser;
-import nasirov.yv.util.URLBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.cache.Cache;
 import org.springframework.cache.CacheManager;
-import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.util.HtmlUtils;
@@ -77,9 +75,7 @@ public class MALService implements MALServiceI {
 
 	static {
 		QUERY_PARAMS_FOR_LOAD_JSON.put(OFFSET_PARAMETER, INITIAL_OFFSET_FOR_LOAD_JSON.toString());
-		QUERY_PARAMS_FOR_LOAD_JSON.put(STATUS_PARAMETER,
-				WATCHING.getCode()
-						.toString());
+		QUERY_PARAMS_FOR_LOAD_JSON.put(STATUS_PARAMETER, WATCHING.getCode().toString());
 		QUERY_PARAMS_FOR_TITLE_NAME_CHECK.put("type", "all");
 		QUERY_PARAMS_FOR_TITLE_NAME_CHECK.put("v", "1");
 	}
@@ -114,8 +110,7 @@ public class MALService implements MALServiceI {
 	public void init() {
 		malRequestParameters = requestParametersBuilder.build();
 		userMALCache = cacheManager.getCache(CacheNamesConstants.USER_MAL_CACHE);
-		myAnimeListNet = urlsNames.getMalUrls()
-				.getMyAnimeListNet();
+		myAnimeListNet = urlsNames.getMalUrls().getMyAnimeListNet();
 	}
 
 	/**
@@ -129,16 +124,9 @@ public class MALService implements MALServiceI {
 	@Override
 	public Set<UserMALTitleInfo> getWatchingTitles(String username) throws WatchingTitlesNotFoundException, MALUserAccountNotFoundException {
 		HttpResponse malResponseWithUserProfile = httpCaller.call(myAnimeListNet + PROFILE + username, GET, malRequestParameters);
-		if (!isUserExist(malResponseWithUserProfile)) {
-			throw new MALUserAccountNotFoundException(MAL_ACCOUNT_IS_NOT_FOUND_ERROR_MSG_PART_1 + username + MAL_ACCOUNT_IS_NOT_FOUND_ERROR_MSG_PART_2);
-		}
+		validateUserAccountExistence(malResponseWithUserProfile, username);
 		Integer numberOfUserWatchingTitles = malParser.getNumWatchingTitles(malResponseWithUserProfile);
-		if (numberOfUserWatchingTitles == null) {
-			throw new WatchingTitlesNotFoundException("Watching titles number is not found for " + username + " !");
-		}
-		if (numberOfUserWatchingTitles.equals(0)) {
-			throw new WatchingTitlesNotFoundException("Not found watching titles for " + username + " !");
-		}
+		validateNumberOfUserWatchingTitles(numberOfUserWatchingTitles, username);
 		Set<UserMALTitleInfo> resultWatchingTitles = new LinkedHashSet<>(numberOfUserWatchingTitles);
 		int performedRequestCount = 0;
 		//performedRequestCount == 0 -> first request for titles 1 - 300 https://myanimelist.net/animelist/username/load.json?offset=0&status=1
@@ -293,13 +281,32 @@ public class MALService implements MALServiceI {
 	}
 
 	/**
-	 * Checks username for existence
+	 * Checks a response status from MAL
 	 *
-	 * @param malProfileResponse the MAL response
-	 * @return true if MAL profile response status != 404, else false
+	 * @param malResponseWithUserProfile a MAL response with an user profile
+	 * @param username                   the MAL username
+	 * @throws MALUserAccountNotFoundException if a response status == 404
 	 */
-	private boolean isUserExist(HttpResponse malProfileResponse) {
-		return !malProfileResponse.getStatus().equals(HttpStatus.NOT_FOUND.value());
+	private void validateUserAccountExistence(HttpResponse malResponseWithUserProfile, String username) throws MALUserAccountNotFoundException {
+		if (malResponseWithUserProfile.getStatus().equals(HttpStatus.NOT_FOUND.value())) {
+			throw new MALUserAccountNotFoundException(MAL_ACCOUNT_IS_NOT_FOUND_ERROR_MSG_PART_1 + username + MAL_ACCOUNT_IS_NOT_FOUND_ERROR_MSG_PART_2);
+		}
+	}
+
+	/**
+	 * Checks a number of user watching titles
+	 *
+	 * @param numberOfUserWatchingTitles a number of user watching titles
+	 * @param username                   the MAL username
+	 * @throws WatchingTitlesNotFoundException if the number == null or 0
+	 */
+	private void validateNumberOfUserWatchingTitles(Integer numberOfUserWatchingTitles, String username) throws WatchingTitlesNotFoundException {
+		if (numberOfUserWatchingTitles == null) {
+			throw new WatchingTitlesNotFoundException("Watching titles number is not found for " + username + " !");
+		}
+		if (numberOfUserWatchingTitles.equals(0)) {
+			throw new WatchingTitlesNotFoundException("Not found watching titles for " + username + " !");
+		}
 	}
 
 	private boolean updateNumOfWatchedEpisodesForCachedTitles(Set<UserMALTitleInfo> watchingTitlesNew, Set<UserMALTitleInfo> watchingTitlesFromCache) {
