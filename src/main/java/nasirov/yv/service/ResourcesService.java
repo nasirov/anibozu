@@ -1,5 +1,6 @@
 package nasirov.yv.service;
 
+import static nasirov.yv.data.animedia.AnimeTypeOnAnimedia.ALL_TYPES;
 import static nasirov.yv.data.animedia.AnimeTypeOnAnimedia.ANNOUNCEMENT;
 import static nasirov.yv.data.animedia.AnimeTypeOnAnimedia.MULTISEASONS;
 import static nasirov.yv.data.animedia.AnimeTypeOnAnimedia.SINGLESEASON;
@@ -40,6 +41,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.cache.Cache;
 import org.springframework.cache.CacheManager;
+import org.springframework.cache.annotation.CachePut;
 import org.springframework.stereotype.Service;
 
 /**
@@ -101,6 +103,7 @@ public class ResourcesService implements ResourcesServiceI {
 	 * @return map with sets of single, multi and announcements
 	 */
 	@Override
+	@CachePut(value = "sortedAnimediaSearchListCache", key = "'allTypes'", condition = "#root.caches[0].get('allTypes') == null")
 	public Map<AnimeTypeOnAnimedia, Set<Anime>> getAnimeSortedByType(Set<AnimediaTitleSearchInfo> animediaSearchListInput) {
 		int multiSeasonCount = 1;
 		int singleSeasonCount = 1;
@@ -134,7 +137,6 @@ public class ResourcesService implements ResourcesServiceI {
 		allSeasons.put(MULTISEASONS, multi);
 		allSeasons.put(ANNOUNCEMENT, announcement);
 		marshalSortedAnimeToTempResources(single, multi, announcement);
-		putSortedAnimeToCache(single, multi, announcement);
 		return allSeasons;
 	}
 
@@ -145,20 +147,14 @@ public class ResourcesService implements ResourcesServiceI {
 	 */
 	@Override
 	public Map<AnimeTypeOnAnimedia, Set<Anime>> getAnimeSortedByTypeFromCache() {
-		Set<Anime> singleSeasonAnime = sortedAnimediaSearchListCache.get(SINGLESEASON.getDescription(), LinkedHashSet.class);
-		Set<Anime> multiSeasonsAnime = sortedAnimediaSearchListCache.get(MULTISEASONS.getDescription(), LinkedHashSet.class);
-		Set<Anime> announcements = sortedAnimediaSearchListCache.get(ANNOUNCEMENT.getDescription(), LinkedHashSet.class);
-		EnumMap<AnimeTypeOnAnimedia, Set<Anime>> allSeasons = new EnumMap<>(AnimeTypeOnAnimedia.class);
-		if (singleSeasonAnime != null && multiSeasonsAnime != null && announcements != null) {
-			allSeasons.put(SINGLESEASON, singleSeasonAnime);
-			allSeasons.put(MULTISEASONS, multiSeasonsAnime);
-			allSeasons.put(ANNOUNCEMENT, announcements);
-			log.info("SORTED ANIME ARE SUCCESSFULLY LOADED FROM CACHE.");
-		} else {
+		Map<AnimeTypeOnAnimedia, Set<Anime>> allTypes = sortedAnimediaSearchListCache.get(ALL_TYPES.getDescription(), EnumMap.class);
+		if (allTypes == null) {
 			log.info("SORTED ANIME ARE NOT FOUND IN CACHE!");
-			return allSeasons;
+			allTypes = new HashMap<>();
+		} else {
+			log.info("SORTED ANIME ARE SUCCESSFULLY LOADED FROM CACHE.");
 		}
-		return allSeasons;
+		return allTypes;
 	}
 
 	/**
@@ -333,12 +329,6 @@ public class ResourcesService implements ResourcesServiceI {
 			multi.add(new Anime(count, targetUrl, rootUrl));
 			dataListCount++;
 		}
-	}
-
-	private void putSortedAnimeToCache(Set<Anime> single, Set<Anime> multi, Set<Anime> announcement) {
-		sortedAnimediaSearchListCache.put(SINGLESEASON.getDescription(), single);
-		sortedAnimediaSearchListCache.put(MULTISEASONS.getDescription(), multi);
-		sortedAnimediaSearchListCache.put(ANNOUNCEMENT.getDescription(), announcement);
 	}
 
 	private void marshalSortedAnimeToTempResources(Set<Anime> single, Set<Anime> multi, Set<Anime> announcement) {

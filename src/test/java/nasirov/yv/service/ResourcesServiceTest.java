@@ -1,6 +1,7 @@
 package nasirov.yv.service;
 
 import static nasirov.yv.TestUtils.getMultiSeasonsReferencesList;
+import static nasirov.yv.data.animedia.AnimeTypeOnAnimedia.ALL_TYPES;
 import static nasirov.yv.data.animedia.AnimeTypeOnAnimedia.ANNOUNCEMENT;
 import static nasirov.yv.data.animedia.AnimeTypeOnAnimedia.MULTISEASONS;
 import static nasirov.yv.data.animedia.AnimeTypeOnAnimedia.SINGLESEASON;
@@ -104,9 +105,10 @@ public class ResourcesServiceTest extends AbstractTest {
 		List<Anime> announcements = new ArrayList<>(sortedAnime.get(ANNOUNCEMENT));
 		compareResults(single, multi, announcements, singleSeasonAnime, multiSeasonsAnime, announcement);
 		Cache sortedAnimediaSearchListCache = cacheManager.getCache(CacheNamesConstants.SORTED_ANIMEDIA_SEARCH_LIST_CACHE);
-		List<Anime> singleFromCache = new ArrayList<>(sortedAnimediaSearchListCache.get(SINGLESEASON.getDescription(), LinkedHashSet.class));
-		List<Anime> multiFromCache = new ArrayList<>(sortedAnimediaSearchListCache.get(MULTISEASONS.getDescription(), LinkedHashSet.class));
-		List<Anime> announcementsFromCache = new ArrayList<>(sortedAnimediaSearchListCache.get(ANNOUNCEMENT.getDescription(), LinkedHashSet.class));
+		Map<AnimeTypeOnAnimedia, Set<Anime>> allTypes = sortedAnimediaSearchListCache.get(ALL_TYPES.getDescription(), EnumMap.class);
+		List<Anime> singleFromCache = new ArrayList<>(allTypes.get(SINGLESEASON));
+		List<Anime> multiFromCache = new ArrayList<>(allTypes.get(MULTISEASONS));
+		List<Anime> announcementsFromCache = new ArrayList<>(allTypes.get(ANNOUNCEMENT));
 		compareResults(singleFromCache, multiFromCache, announcementsFromCache, singleSeasonAnime, multiSeasonsAnime, announcement);
 		String prefix = tempFolderName + File.separator;
 		assertTrue(RoutinesIO.isDirectoryExists(tempFolderName));
@@ -136,12 +138,11 @@ public class ResourcesServiceTest extends AbstractTest {
 	@Test
 	public void testGetAnimeFromCacheNotEmpty() {
 		Cache sortedAnimediaSearchListCache = cacheManager.getCache(CacheNamesConstants.SORTED_ANIMEDIA_SEARCH_LIST_CACHE);
-		sortedAnimediaSearchListCache
-				.put(SINGLESEASON.getDescription(), RoutinesIO.unmarshalFromResource(singleSeasonsAnimeUrls, Anime.class, LinkedHashSet.class));
-		sortedAnimediaSearchListCache
-				.put(MULTISEASONS.getDescription(), RoutinesIO.unmarshalFromResource(multiSeasonsAnimeUrls, Anime.class, LinkedHashSet.class));
-		sortedAnimediaSearchListCache
-				.put(ANNOUNCEMENT.getDescription(), RoutinesIO.unmarshalFromResource(announcementsJson, Anime.class, LinkedHashSet.class));
+		EnumMap<AnimeTypeOnAnimedia, Set<Anime>> allSeasons = new EnumMap<>(AnimeTypeOnAnimedia.class);
+		allSeasons.put(SINGLESEASON, RoutinesIO.unmarshalFromResource(singleSeasonsAnimeUrls, Anime.class, LinkedHashSet.class));
+		allSeasons.put(MULTISEASONS, RoutinesIO.unmarshalFromResource(multiSeasonsAnimeUrls, Anime.class, LinkedHashSet.class));
+		allSeasons.put(ANNOUNCEMENT, RoutinesIO.unmarshalFromResource(announcementsJson, Anime.class, LinkedHashSet.class));
+		sortedAnimediaSearchListCache.put(ALL_TYPES.getDescription(), allSeasons);
 		Map<AnimeTypeOnAnimedia, Set<Anime>> sortedAnime = resourcesService.getAnimeSortedByTypeFromCache();
 		assertNotNull(sortedAnime);
 		assertEquals(3, sortedAnime.size());

@@ -16,7 +16,6 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import javax.annotation.PostConstruct;
 import lombok.extern.slf4j.Slf4j;
-import nasirov.yv.data.constants.CacheNamesConstants;
 import nasirov.yv.data.mal.MALCategories;
 import nasirov.yv.data.mal.MALSearchResult;
 import nasirov.yv.data.mal.UserMALTitleInfo;
@@ -29,8 +28,7 @@ import nasirov.yv.http.parameter.RequestParametersBuilder;
 import nasirov.yv.parser.MALParser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.cache.Cache;
-import org.springframework.cache.CacheManager;
+import org.springframework.cache.annotation.CachePut;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.util.HtmlUtils;
@@ -84,32 +82,26 @@ public class MALService implements MALServiceI {
 
 	private Map<String, Map<String, String>> malRequestParameters;
 
-	private Cache userMALCache;
-
 	private HttpCaller httpCaller;
 
 	private RequestParametersBuilder requestParametersBuilder;
 
 	private MALParser malParser;
 
-	private CacheManager cacheManager;
-
 	private UrlsNames urlsNames;
 
 	@Autowired
 	public MALService(HttpCaller httpCaller, @Qualifier(value = "malRequestParametersBuilder") RequestParametersBuilder requestParametersBuilder,
-			MALParser malParser, CacheManager cacheManager, UrlsNames urlsNames) {
+			MALParser malParser, UrlsNames urlsNames) {
 		this.httpCaller = httpCaller;
 		this.requestParametersBuilder = requestParametersBuilder;
 		this.malParser = malParser;
-		this.cacheManager = cacheManager;
 		this.urlsNames = urlsNames;
 	}
 
 	@PostConstruct
 	public void init() {
 		malRequestParameters = requestParametersBuilder.build();
-		userMALCache = cacheManager.getCache(CacheNamesConstants.USER_MAL_CACHE);
 		myAnimeListNet = urlsNames.getMalUrls().getMyAnimeListNet();
 	}
 
@@ -122,6 +114,7 @@ public class MALService implements MALServiceI {
 	 * @throws MALUserAccountNotFoundException if username doesn't exist
 	 */
 	@Override
+	@CachePut(value = "userMALCache", key = "#username", condition = "#root.caches[0].get(#username) == null")
 	public Set<UserMALTitleInfo> getWatchingTitles(String username) throws WatchingTitlesNotFoundException, MALUserAccountNotFoundException {
 		HttpResponse malResponseWithUserProfile = httpCaller.call(myAnimeListNet + PROFILE + username, GET, malRequestParameters);
 		validateUserAccountExistence(malResponseWithUserProfile, username);
@@ -152,7 +145,6 @@ public class MALService implements MALServiceI {
 			numberOfUserWatchingTitles -= offsetStep;
 			performedRequestCount++;
 		} while (numberOfUserWatchingTitles > MAX_OFFSET_FOR_LOAD_JSON);
-		userMALCache.putIfAbsent(username, resultWatchingTitles);
 		return resultWatchingTitles;
 	}
 

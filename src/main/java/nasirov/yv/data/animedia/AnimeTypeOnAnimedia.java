@@ -4,7 +4,7 @@ package nasirov.yv.data.animedia;
  * Created by nasirov.yv
  */
 public enum AnimeTypeOnAnimedia {
-	MULTISEASONS("multi"), SINGLESEASON("single"), ANNOUNCEMENT("announcement");
+	MULTISEASONS("multi"), SINGLESEASON("single"), ANNOUNCEMENT("announcement"), ALL_TYPES("allTypes");
 
 	private String description;
 

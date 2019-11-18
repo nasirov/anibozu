@@ -26,8 +26,6 @@ import javax.annotation.PostConstruct;
 import lombok.extern.slf4j.Slf4j;
 import nasirov.yv.data.animedia.AnimediaMALTitleReferences;
 import nasirov.yv.data.animedia.AnimediaTitleSearchInfo;
-import nasirov.yv.data.constants.BaseConstants;
-import nasirov.yv.data.constants.CacheNamesConstants;
 import nasirov.yv.data.mal.UserMALTitleInfo;
 import nasirov.yv.data.properties.UrlsNames;
 import nasirov.yv.data.response.HttpResponse;
@@ -38,9 +36,7 @@ import nasirov.yv.repository.NotFoundAnimeOnAnimediaRepository;
 import nasirov.yv.util.AnimediaUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.cache.Cache;
-import org.springframework.cache.CacheManager;
-import org.springframework.http.HttpMethod;
+import org.springframework.cache.annotation.CachePut;
 import org.springframework.stereotype.Service;
 
 /**
@@ -63,8 +59,6 @@ public class SeasonsAndEpisodesService implements SeasonsAndEpisodesServiceI {
 
 	private Map<String, Map<String, String>> animediaRequestParameters;
 
-	private Cache userMatchedAnimeCache;
-
 	private HttpCaller httpCaller;
 
 	private RequestParametersBuilder requestParametersBuilder;
@@ -73,8 +67,6 @@ public class SeasonsAndEpisodesService implements SeasonsAndEpisodesServiceI {
 
 	private NotFoundAnimeOnAnimediaRepository notFoundAnimeOnAnimediaRepository;
 
-	private CacheManager cacheManager;
-
 	private ReferencesServiceI referencesManager;
 
 	private UrlsNames urlsNames;
@@ -82,13 +74,12 @@ public class SeasonsAndEpisodesService implements SeasonsAndEpisodesServiceI {
 	@Autowired
 	public SeasonsAndEpisodesService(HttpCaller httpCaller,
 			@Qualifier("animediaRequestParametersBuilder") RequestParametersBuilder requestParametersBuilder, AnimediaHTMLParser animediaHTMLParser,
-			NotFoundAnimeOnAnimediaRepository notFoundAnimeOnAnimediaRepository, CacheManager cacheManager, ReferencesServiceI referencesManager,
+			NotFoundAnimeOnAnimediaRepository notFoundAnimeOnAnimediaRepository, ReferencesServiceI referencesManager,
 			UrlsNames urlsNames) {
 		this.httpCaller = httpCaller;
 		this.requestParametersBuilder = requestParametersBuilder;
 		this.animediaHTMLParser = animediaHTMLParser;
 		this.notFoundAnimeOnAnimediaRepository = notFoundAnimeOnAnimediaRepository;
-		this.cacheManager = cacheManager;
 		this.referencesManager = referencesManager;
 		this.urlsNames = urlsNames;
 	}
@@ -96,7 +87,6 @@ public class SeasonsAndEpisodesService implements SeasonsAndEpisodesServiceI {
 	@PostConstruct
 	public void init() {
 		animediaRequestParameters = requestParametersBuilder.build();
-		userMatchedAnimeCache = cacheManager.getCache(CacheNamesConstants.USER_MATCHED_ANIME_CACHE);
 		animediaOnlineTv = urlsNames.getAnimediaUrls()
 				.getOnlineAnimediaTv();
 	}
@@ -111,6 +101,7 @@ public class SeasonsAndEpisodesService implements SeasonsAndEpisodesServiceI {
 	 * @return matched user titles(multi seasons and single season)
 	 */
 	@Override
+	@CachePut(value = "userMatchedAnimeCache", key = "#username", condition = "#root.caches[0].get(#username) == null")
 	public Set<AnimediaMALTitleReferences> getMatchedAnime(Set<UserMALTitleInfo> watchingTitles, Set<AnimediaMALTitleReferences> references,
 			Set<AnimediaTitleSearchInfo> animediaSearchList, String username) {
 		log.info("RESULT FOR {}:", username);
@@ -142,7 +133,6 @@ public class SeasonsAndEpisodesService implements SeasonsAndEpisodesServiceI {
 			}
 		}
 		setMALPosterUrl(finalMatchedReferences, watchingTitles);
-		userMatchedAnimeCache.putIfAbsent(username, finalMatchedReferences);
 		return finalMatchedReferences;
 	}
 
