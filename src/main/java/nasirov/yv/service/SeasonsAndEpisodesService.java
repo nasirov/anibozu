@@ -23,6 +23,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import javax.annotation.PostConstruct;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import nasirov.yv.data.animedia.AnimediaMALTitleReferences;
 import nasirov.yv.data.animedia.AnimediaTitleSearchInfo;
@@ -34,8 +35,6 @@ import nasirov.yv.http.parameter.RequestParametersBuilder;
 import nasirov.yv.parser.AnimediaHTMLParser;
 import nasirov.yv.repository.NotFoundAnimeOnAnimediaRepository;
 import nasirov.yv.util.AnimediaUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.stereotype.Service;
 
@@ -44,6 +43,7 @@ import org.springframework.stereotype.Service;
  */
 @Service
 @Slf4j
+@RequiredArgsConstructor
 public class SeasonsAndEpisodesService implements SeasonsAndEpisodesServiceI {
 
 	private static final Map<String, String> EPISODE_IS_NOT_AVAILABLE_FINAL_URL_AND_EPISODE_NUMBER_FOR_WATCH = new HashMap<>(1);
@@ -55,38 +55,25 @@ public class SeasonsAndEpisodesService implements SeasonsAndEpisodesServiceI {
 				FINAL_URL_VALUE_IF_EPISODE_IS_NOT_AVAILABLE);
 	}
 
+	private final HttpCaller httpCaller;
+
+	private final RequestParametersBuilder animediaRequestParametersBuilder;
+
+	private final AnimediaHTMLParser animediaHTMLParser;
+
+	private final NotFoundAnimeOnAnimediaRepository notFoundAnimeOnAnimediaRepository;
+
+	private final ReferencesServiceI referencesManager;
+
+	private final UrlsNames urlsNames;
+
 	private String animediaOnlineTv;
 
 	private Map<String, Map<String, String>> animediaRequestParameters;
 
-	private HttpCaller httpCaller;
-
-	private RequestParametersBuilder requestParametersBuilder;
-
-	private AnimediaHTMLParser animediaHTMLParser;
-
-	private NotFoundAnimeOnAnimediaRepository notFoundAnimeOnAnimediaRepository;
-
-	private ReferencesServiceI referencesManager;
-
-	private UrlsNames urlsNames;
-
-	@Autowired
-	public SeasonsAndEpisodesService(HttpCaller httpCaller,
-			@Qualifier("animediaRequestParametersBuilder") RequestParametersBuilder requestParametersBuilder, AnimediaHTMLParser animediaHTMLParser,
-			NotFoundAnimeOnAnimediaRepository notFoundAnimeOnAnimediaRepository, ReferencesServiceI referencesManager,
-			UrlsNames urlsNames) {
-		this.httpCaller = httpCaller;
-		this.requestParametersBuilder = requestParametersBuilder;
-		this.animediaHTMLParser = animediaHTMLParser;
-		this.notFoundAnimeOnAnimediaRepository = notFoundAnimeOnAnimediaRepository;
-		this.referencesManager = referencesManager;
-		this.urlsNames = urlsNames;
-	}
-
 	@PostConstruct
 	public void init() {
-		animediaRequestParameters = requestParametersBuilder.build();
+		animediaRequestParameters = animediaRequestParametersBuilder.build();
 		animediaOnlineTv = urlsNames.getAnimediaUrls()
 				.getOnlineAnimediaTv();
 	}

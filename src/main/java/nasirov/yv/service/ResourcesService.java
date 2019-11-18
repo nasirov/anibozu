@@ -25,6 +25,7 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import javax.annotation.PostConstruct;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import nasirov.yv.data.animedia.Anime;
 import nasirov.yv.data.animedia.AnimeTypeOnAnimedia;
@@ -49,10 +50,22 @@ import org.springframework.stereotype.Service;
  */
 @Service
 @Slf4j
-@SuppressWarnings("unchecked")
+@RequiredArgsConstructor
 public class ResourcesService implements ResourcesServiceI {
 
 	private static final Pattern CYRILLIC_CHARACTERS_PATTERN = Pattern.compile("[а-яА-Я]");
+
+	private final HttpCaller httpCaller;
+
+	private final RequestParametersBuilder animediaRequestParametersBuilder;
+
+	private final AnimediaHTMLParser animediaHTMLParser;
+
+	private final CacheManager cacheManager;
+
+	private final UrlsNames urlsNames;
+
+	private final ResourcesNames resourcesNames;
 
 	private Map<String, Map<String, String>> animediaRequestParameters;
 
@@ -62,34 +75,9 @@ public class ResourcesService implements ResourcesServiceI {
 
 	private String onlineAnimediaTv;
 
-	private HttpCaller httpCaller;
-
-	private RequestParametersBuilder requestParametersBuilder;
-
-	private AnimediaHTMLParser animediaHTMLParser;
-
-	private CacheManager cacheManager;
-
-	private UrlsNames urlsNames;
-
-	private ResourcesNames resourcesNames;
-
-	@Autowired
-	public ResourcesService(HttpCaller httpCaller,
-			@Qualifier(value = "animediaRequestParametersBuilder") RequestParametersBuilder requestParametersBuilder,
-			AnimediaHTMLParser animediaHTMLParser,
-			CacheManager cacheManager, UrlsNames urlsNames, ResourcesNames resourcesNames) {
-		this.httpCaller = httpCaller;
-		this.requestParametersBuilder = requestParametersBuilder;
-		this.animediaHTMLParser = animediaHTMLParser;
-		this.cacheManager = cacheManager;
-		this.urlsNames = urlsNames;
-		this.resourcesNames = resourcesNames;
-	}
-
 	@PostConstruct
 	public void init() {
-		animediaRequestParameters = requestParametersBuilder.build();
+		animediaRequestParameters = animediaRequestParametersBuilder.build();
 		sortedAnimediaSearchListCache = cacheManager.getCache(CacheNamesConstants.SORTED_ANIMEDIA_SEARCH_LIST_CACHE);
 		tempFolder = resourcesNames.getTempFolder();
 		onlineAnimediaTv = urlsNames.getAnimediaUrls()

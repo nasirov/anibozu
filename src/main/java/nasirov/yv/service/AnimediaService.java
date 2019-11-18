@@ -6,43 +6,46 @@ import static nasirov.yv.parser.WrappedObjectMapper.unmarshal;
 import static org.springframework.http.HttpMethod.GET;
 import static org.springframework.web.util.UriUtils.encodePath;
 
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.stream.Stream;
 import javax.annotation.PostConstruct;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import nasirov.yv.data.animedia.AnimediaMALTitleReferences;
 import nasirov.yv.data.animedia.AnimediaTitleSearchInfo;
-import nasirov.yv.data.constants.CacheNamesConstants;
 import nasirov.yv.data.properties.UrlsNames;
 import nasirov.yv.data.response.HttpResponse;
 import nasirov.yv.http.caller.HttpCaller;
 import nasirov.yv.http.parameter.RequestParametersBuilder;
 import nasirov.yv.parser.AnimediaHTMLParser;
-import nasirov.yv.parser.WrappedObjectMapper;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.cache.Cache;
 import org.springframework.cache.CacheManager;
-import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Service;
-import org.springframework.web.util.UriUtils;
 
 /**
  * Created by nasirov.yv
  */
 @Service
 @Slf4j
-@SuppressWarnings("unchecked")
+@RequiredArgsConstructor
 public class AnimediaService implements AnimediaServiceI {
 
 	private static final String POSTER_URL_LOW_QUALITY_QUERY_PARAMETER = "h=70&q=50";
 
 	private static final String POSTER_URL_HIGH_QUALITY_QUERY_PARAMETER = "h=350&q=100";
+
+	private final HttpCaller httpCaller;
+
+	private final RequestParametersBuilder animediaRequestParametersBuilder;
+
+	private final AnimediaHTMLParser animediaHTMLParser;
+
+	private final CacheManager cacheManager;
+
+	private final UrlsNames urlsNames;
 
 	private Map<String, Map<String, String>> animediaRequestParameters;
 
@@ -54,32 +57,9 @@ public class AnimediaService implements AnimediaServiceI {
 
 	private String animediaSearchListFromAnimediaFullUrl;
 
-	private HttpCaller httpCaller;
-
-	private RequestParametersBuilder requestParametersBuilder;
-
-	private AnimediaHTMLParser animediaHTMLParser;
-
-	private CacheManager cacheManager;
-
-	private UrlsNames urlsNames;
-
-
-	@Autowired
-	public AnimediaService(HttpCaller httpCaller,
-			@Qualifier(value = "animediaRequestParametersBuilder") RequestParametersBuilder requestParametersBuilder, AnimediaHTMLParser
-			animediaHTMLParser,
-			CacheManager cacheManager, UrlsNames urlsNames) {
-		this.httpCaller = httpCaller;
-		this.requestParametersBuilder = requestParametersBuilder;
-		this.animediaHTMLParser = animediaHTMLParser;
-		this.cacheManager = cacheManager;
-		this.urlsNames = urlsNames;
-	}
-
 	@PostConstruct
 	public void init() {
-		animediaRequestParameters = requestParametersBuilder.build();
+		animediaRequestParameters = animediaRequestParametersBuilder.build();
 		currentlyUpdatedTitlesCache = cacheManager.getCache(CURRENTLY_UPDATED_TITLES_CACHE);
 		onlineAnimediaTv = urlsNames.getAnimediaUrls().getOnlineAnimediaTv();
 		animediaSearchListFromGitHubFullUrl = urlsNames.getGitHubUrls().getRawGithubusercontentComAnimediaSearchList();

@@ -15,6 +15,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import javax.annotation.PostConstruct;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import nasirov.yv.data.mal.MALCategories;
 import nasirov.yv.data.mal.MALSearchResult;
@@ -26,8 +27,6 @@ import nasirov.yv.exception.mal.WatchingTitlesNotFoundException;
 import nasirov.yv.http.caller.HttpCaller;
 import nasirov.yv.http.parameter.RequestParametersBuilder;
 import nasirov.yv.parser.MALParser;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -38,6 +37,7 @@ import org.springframework.web.util.HtmlUtils;
  */
 @Service
 @Slf4j
+@RequiredArgsConstructor
 public class MALService implements MALServiceI {
 
 	private static final String LOAD_JSON = "/load.json";
@@ -78,30 +78,21 @@ public class MALService implements MALServiceI {
 		QUERY_PARAMS_FOR_TITLE_NAME_CHECK.put("v", "1");
 	}
 
+	private final HttpCaller httpCaller;
+
+	private final RequestParametersBuilder malRequestParametersBuilder;
+
+	private final MALParser malParser;
+
+	private final UrlsNames urlsNames;
+
 	private String myAnimeListNet;
 
 	private Map<String, Map<String, String>> malRequestParameters;
 
-	private HttpCaller httpCaller;
-
-	private RequestParametersBuilder requestParametersBuilder;
-
-	private MALParser malParser;
-
-	private UrlsNames urlsNames;
-
-	@Autowired
-	public MALService(HttpCaller httpCaller, @Qualifier(value = "malRequestParametersBuilder") RequestParametersBuilder requestParametersBuilder,
-			MALParser malParser, UrlsNames urlsNames) {
-		this.httpCaller = httpCaller;
-		this.requestParametersBuilder = requestParametersBuilder;
-		this.malParser = malParser;
-		this.urlsNames = urlsNames;
-	}
-
 	@PostConstruct
 	public void init() {
-		malRequestParameters = requestParametersBuilder.build();
+		malRequestParameters = malRequestParametersBuilder.build();
 		myAnimeListNet = urlsNames.getMalUrls().getMyAnimeListNet();
 	}
 

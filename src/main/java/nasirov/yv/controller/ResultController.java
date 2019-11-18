@@ -38,7 +38,6 @@ import org.springframework.web.bind.annotation.PostMapping;
  */
 @Controller
 @Slf4j
-@SuppressWarnings("unchecked")
 @RequiredArgsConstructor
 public class ResultController {
 

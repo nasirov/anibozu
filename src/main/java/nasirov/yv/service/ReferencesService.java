@@ -18,6 +18,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Stream;
 import javax.annotation.PostConstruct;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import nasirov.yv.data.animedia.AnimediaMALTitleReferences;
 import nasirov.yv.data.mal.UserMALTitleInfo;
@@ -27,8 +28,6 @@ import nasirov.yv.http.caller.HttpCaller;
 import nasirov.yv.http.parameter.RequestParametersBuilder;
 import nasirov.yv.parser.AnimediaHTMLParser;
 import nasirov.yv.util.AnimediaUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 /**
@@ -36,30 +35,22 @@ import org.springframework.stereotype.Service;
  */
 @Service
 @Slf4j
+@RequiredArgsConstructor
 public class ReferencesService implements ReferencesServiceI {
+
+	private final HttpCaller httpCaller;
+
+	private final RequestParametersBuilder animediaRequestParametersBuilder;
+
+	private final AnimediaHTMLParser animediaHTMLParser;
+
+	private final UrlsNames urlsNames;
 
 	private Map<String, Map<String, String>> animediaRequestParameters;
 
-	private HttpCaller httpCaller;
-
-	private RequestParametersBuilder requestParametersBuilder;
-
-	private AnimediaHTMLParser animediaHTMLParser;
-
-	private UrlsNames urlsNames;
-
-	@Autowired
-	public ReferencesService(HttpCaller httpCaller, @Qualifier("animediaRequestParametersBuilder") RequestParametersBuilder requestParametersBuilder,
-			AnimediaHTMLParser animediaHTMLParser, UrlsNames urlsNames) {
-		this.httpCaller = httpCaller;
-		this.requestParametersBuilder = requestParametersBuilder;
-		this.animediaHTMLParser = animediaHTMLParser;
-		this.urlsNames = urlsNames;
-	}
-
 	@PostConstruct
 	public void init() {
-		animediaRequestParameters = requestParametersBuilder.build();
+		animediaRequestParameters = animediaRequestParametersBuilder.build();
 	}
 
 	/**
