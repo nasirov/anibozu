@@ -173,7 +173,7 @@ public class ResultController {
 		return ERROR_VIEW;
 	}
 
-	//don't work with currently finished releases because dataList and currentMax are absent on currently added episodes page
+	//doesn't work with currently finished releases because a dataList and a currentMax are absents on a currently added episodes page
 	private void updateCurrentMaxEpisodeNumberForWatchAndFinalUrl(List<AnimediaMALTitleReferences> differences,
 			Set<AnimediaMALTitleReferences> matchedAnimeFromCache, Set<UserMALTitleInfo> watchingTitlesFromCache) {
 		for (AnimediaMALTitleReferences currentlyUpdatedTitle : differences) {
