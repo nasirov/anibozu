@@ -1,5 +1,7 @@
 package nasirov.yv.service;
 
+import static java.util.Collections.max;
+import static java.util.Comparator.comparing;
 import static nasirov.yv.data.constants.BaseConstants.EPISODE_NUMBER_FOR_WATCH_VALUE_IF_EPISODE_IS_NOT_AVAILABLE;
 import static nasirov.yv.data.constants.BaseConstants.FINAL_URL_VALUE_IF_EPISODE_IS_NOT_AVAILABLE;
 import static nasirov.yv.data.constants.BaseConstants.FIRST_DATA_LIST;
@@ -282,10 +284,7 @@ public class SeasonsAndEpisodesService implements SeasonsAndEpisodesServiceI {
 					.get();
 			nextNumberOfEpisodeForWatch = getEpisodeNumberForWatchForConcretizedReferences(animediaMALTitleReferences, userMALTitleInfo);
 		} else {
-			animediaMALTitleReferences = matchedMultiSeasonsReferences.stream()
-					.min((x, y) -> -x.getMinConcretizedEpisodeOnMAL()
-							.compareTo(y.getMinConcretizedEpisodeOnMAL()))
-					.get();
+			animediaMALTitleReferences = max(matchedMultiSeasonsReferences, comparing(AnimediaMALTitleReferences::getMinConcretizedEpisodeOnMAL));
 			nextNumberOfEpisodeForWatch = getEpisodeNumberForWatchForConcretizedReferences(animediaMALTitleReferences, userMALTitleInfo);
 		}
 		Map<String, String> nextEpisodeForWatchFinalUrl = getNextEpisodeForWatchAndFinalUrl(animediaMALTitleReferences, nextNumberOfEpisodeForWatch);

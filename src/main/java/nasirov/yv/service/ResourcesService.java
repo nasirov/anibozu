@@ -38,8 +38,6 @@ import nasirov.yv.data.response.HttpResponse;
 import nasirov.yv.http.caller.HttpCaller;
 import nasirov.yv.http.parameter.RequestParametersBuilder;
 import nasirov.yv.parser.AnimediaHTMLParser;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.cache.Cache;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.CachePut;
@@ -138,7 +136,7 @@ public class ResourcesService implements ResourcesServiceI {
 		Map<AnimeTypeOnAnimedia, Set<Anime>> allTypes = sortedAnimediaSearchListCache.get(ALL_TYPES.getDescription(), EnumMap.class);
 		if (allTypes == null) {
 			log.info("SORTED ANIME ARE NOT FOUND IN CACHE!");
-			allTypes = new HashMap<>();
+			allTypes = new EnumMap<>(AnimeTypeOnAnimedia.class);
 		} else {
 			log.info("SORTED ANIME ARE SUCCESSFULLY LOADED FROM CACHE.");
 		}
