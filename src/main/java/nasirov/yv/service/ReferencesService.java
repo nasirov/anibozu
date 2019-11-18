@@ -1,5 +1,6 @@
 package nasirov.yv.service;
 
+import static java.util.Optional.ofNullable;
 import static nasirov.yv.parser.WrappedObjectMapper.unmarshal;
 import static nasirov.yv.util.AnimediaUtils.getCorrectCurrentMax;
 import static nasirov.yv.util.AnimediaUtils.getCorrectFirstEpisodeAndMin;
@@ -84,10 +85,8 @@ public class ReferencesService implements ReferencesServiceI {
 				continue;
 			}
 			String url = onlineAnimediaTv + reference.getUrl();
-			Map<String, Map<String, String>> animeIdDataListsAndMaxEpisodesMap = seasonsAndEpisodesCache.get(url);
-			if (animeIdDataListsAndMaxEpisodesMap == null) {
-				animeIdDataListsAndMaxEpisodesMap = getTitleHtmlAndPutInCache(url, seasonsAndEpisodesCache);
-			}
+			Map<String, Map<String, String>> animeIdDataListsAndMaxEpisodesMap = ofNullable(seasonsAndEpisodesCache.get(url))
+					.orElseGet(() -> getTitleHtmlAndPutInCache(url, seasonsAndEpisodesCache));
 			String animeId = AnimediaUtils.getAnimeId(animeIdDataListsAndMaxEpisodesMap);
 			Map<String, String> dataListsAndMaxEpisodesMap = AnimediaUtils.getDataListsAndMaxEpisodesMap(animeIdDataListsAndMaxEpisodesMap);
 			Stream.of(dataListsAndMaxEpisodesMap)
