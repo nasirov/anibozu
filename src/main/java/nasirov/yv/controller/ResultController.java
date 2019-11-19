@@ -190,12 +190,11 @@ public class ResultController {
 	private void pruneMatchedAnime(Set<AnimediaMALTitleReferences> matchedAnimeFromCache,
 			Set<UserMALTitleInfo> watchingTitlesFromCache) {
 		matchedAnimeFromCache
-				.removeIf(m -> watchingTitlesFromCache.stream()
-				.noneMatch(w -> w.getTitle().equals(m.getTitleOnMAL())));
+				.removeIf(m -> watchingTitlesFromCache.stream().noneMatch(w -> w.getTitle().equals(m.getTitleOnMAL())));
 	}
 
-	private void addNewMatchedAnime(Set<AnimediaMALTitleReferences> matchedAnimeFromCache,
-			Set<UserMALTitleInfo> watchingTitlesFromCache, String username) {
+	private void addNewMatchedAnime(Set<AnimediaMALTitleReferences> matchedAnimeFromCache, Set<UserMALTitleInfo> watchingTitlesFromCache,
+			String username) {
 		Set<AnimediaMALTitleReferences> newMatchedAnime = watchingTitlesFromCache.stream()
 				.filter(x -> matchedAnimeFromCache
 						.stream()
@@ -209,8 +208,10 @@ public class ResultController {
 	private Set<AnimediaMALTitleReferences> getNewMatchedAnime(UserMALTitleInfo userMALTitleInfo, String username) {
 		Set<UserMALTitleInfo> tempWatchingTitles = new LinkedHashSet<>();
 		tempWatchingTitles.add(userMALTitleInfo);
-		return seasonAndEpisodeChecker.getMatchedAnime(tempWatchingTitles,
-				referencesManager.getMultiSeasonsReferences(),
+		Set<AnimediaMALTitleReferences> newMatchedReferences = referencesManager
+				.getMatchedReferences(referencesManager.getMultiSeasonsReferences(), tempWatchingTitles);
+		referencesManager.updateReferences(newMatchedReferences);
+		return seasonAndEpisodeChecker.getMatchedAnime(tempWatchingTitles, newMatchedReferences,
 				animediaService.getAnimediaSearchListFromGitHub(),
 				username);
 	}

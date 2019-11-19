@@ -99,9 +99,6 @@ public class SeasonsAndEpisodesService implements SeasonsAndEpisodesServiceI {
 					.filter(set -> set.getTitleOnMAL()
 							.equals(userMALTitleInfo.getTitle()))
 					.collect(Collectors.toSet());
-			if (!matchedMultiSeasonsReferences.isEmpty()) {
-				updateNewMatchedReferences(matchedMultiSeasonsReferences, userMALTitleInfo);
-			}
 			switch (matchedMultiSeasonsReferences.size()) {
 				case 0:
 					handleSingleSeasonTitle(animediaSearchList, userMALTitleInfo, finalMatchedReferences);
@@ -380,18 +377,6 @@ public class SeasonsAndEpisodesService implements SeasonsAndEpisodesServiceI {
 				.count() > 1;
 	}
 
-	private void updateNewMatchedReferences(Set<AnimediaMALTitleReferences> matchedMultiSeasonsReferences, UserMALTitleInfo userMALTitleInfo) {
-		Set<AnimediaMALTitleReferences> tempReferences = matchedMultiSeasonsReferences.stream()
-				.filter(ref -> ref.getCurrentMax() == null
-						|| ref.getMinConcretizedEpisodeOnAnimedia() == null
-						|| ref.getMaxConcretizedEpisodeOnAnimedia() == null)
-				.map(ref-> setPosterUrlFromUserMALTitleInfo(ref,userMALTitleInfo))
-				.collect(Collectors.toSet());
-		if (!tempReferences.isEmpty()) {
-			referencesManager.updateReferences(tempReferences);
-		}
-	}
-
 	/**
 	 * Updates the matched references (episode number for watch, final url for front)
 	 *
@@ -543,11 +528,6 @@ public class SeasonsAndEpisodesService implements SeasonsAndEpisodesServiceI {
 	private boolean isEpisodeInRange(String[] episodesArray, String episodeNumberForWatch) {
 		return Integer.parseInt(episodesArray[0]) <= Integer.parseInt(episodeNumberForWatch)
 				&& Integer.parseInt(episodesArray[episodesArray.length - 1]) >= Integer.parseInt(episodeNumberForWatch);
-	}
-
-	private AnimediaMALTitleReferences setPosterUrlFromUserMALTitleInfo(AnimediaMALTitleReferences reference, UserMALTitleInfo userMALTitleInfo) {
-		reference.setPosterUrl(userMALTitleInfo.getPosterUrl());
-		return reference;
 	}
 
 	private void enrichReference(AnimediaMALTitleReferences reference, UserMALTitleInfo userMALTitleInfo) {

@@ -7,6 +7,7 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.ArgumentMatchers.argThat;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.anyList;
 import static org.mockito.Mockito.anySet;
@@ -236,7 +237,6 @@ public class ResultControllerTest extends AbstractTest {
 		userMALCache.put(USERNAME, watchingTitlesFromCache);
 		userMatchedAnimeCache.put(USERNAME, matchedAnime);
 		currentlyUpdatedTitlesCache.put(CacheNamesConstants.CURRENTLY_UPDATED_TITLES_CACHE, new ArrayList<>());
-		Set<AnimediaMALTitleReferences> matchedTitles = new LinkedHashSet<>();
 		Set<AnimediaTitleSearchInfo> animediaSearchListFromGitHub = new LinkedHashSet<>();
 		doReturn(animediaSearchListFromGitHub).when(animediaService).getAnimediaSearchListFromGitHub();
 		doReturn(new ArrayList<>()).when(animediaService).getCurrentlyUpdatedTitles();
@@ -251,7 +251,12 @@ public class ResultControllerTest extends AbstractTest {
 		doReturn(animediaTitleSearchInfo).when(animediaService).getAnimediaSearchListFromAnimedia();
 		Set<AnimediaMALTitleReferences> allMultiRefs = new LinkedHashSet<>();
 		doReturn(allMultiRefs).when(referencesManager).getMultiSeasonsReferences();
-		doReturn(newReference).when(seasonAndEpisodeChecker).getMatchedAnime(anySet(), eq(allMultiRefs), eq(animediaSearchListFromGitHub), eq(USERNAME));
+		doReturn(newReference).when(referencesManager)
+				.getMatchedReferences(eq(allMultiRefs), argThat(x -> x.size() == 1 && x.contains(onePunchManSpecials)));
+		doReturn(newReference).when(seasonAndEpisodeChecker).getMatchedAnime(argThat(x -> x.size() == 1 && x.contains(onePunchManSpecials)),
+				eq(newReference),
+				eq(animediaSearchListFromGitHub),
+				eq(USERNAME));
 		MockHttpServletResponse response = mockMvc.perform(post(PATH).param("username", USERNAME)).andReturn().getResponse();
 		assertNotNull(response);
 		String content = response.getContentAsString();
@@ -259,12 +264,17 @@ public class ResultControllerTest extends AbstractTest {
 		assertEquals(3, matchedAnime.size());
 		assertEquals(0, matchedAnime.stream().filter(set -> set.getTitleOnMAL().equals(fairyTail1.getTitleOnMAL())).count());
 		verify(referencesManager, times(1)).updateCurrentMax(eq(matchedAnime), eq(sao1Updated));
+		verify(referencesManager, times(1)).getMatchedReferences(eq(allMultiRefs), argThat(x -> x.size() == 1 && x.contains(onePunchManSpecials)));
+		verify(referencesManager, times(1)).updateReferences(eq(newReference));
 		verify(seasonAndEpisodeChecker, times(1)).updateEpisodeNumberForWatchAndFinalUrl(eq(watchingTitlesFromCache), eq(sao1Updated), eq(matchedAnime));
 		verify(seasonAndEpisodeChecker, times(1)).updateEpisodeNumberForWatchAndFinalUrl(eq(watchingTitlesWithUpdatedNumberOfWatchedEpisodes),
 				eq(matchedAnime),
 				eq(animediaTitleSearchInfo),
 				eq(USERNAME));
-		verify(seasonAndEpisodeChecker, times(1)).getMatchedAnime(anySet(), anySet(), anySet(), eq(USERNAME));
+		verify(seasonAndEpisodeChecker, times(1)).getMatchedAnime(argThat(x -> x.size() == 1 && x.contains(onePunchManSpecials)),
+				eq(newReference),
+				eq(animediaSearchListFromGitHub),
+				eq(USERNAME));
 		checkFront(content, sao3, onePunchManSpecialsReference, sao1, notFoundAnime, USERNAME);
 	}
 

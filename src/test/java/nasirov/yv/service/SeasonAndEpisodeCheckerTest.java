@@ -4,6 +4,7 @@ import static nasirov.yv.TestUtils.getEpisodesRange;
 import static nasirov.yv.data.mal.MALAnimeStatus.WATCHING;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyMap;
 import static org.mockito.ArgumentMatchers.anySet;
@@ -281,29 +282,6 @@ public class SeasonAndEpisodeCheckerTest extends AbstractTest {
 	}
 
 	@Test
-	public void getMatchedAnimeUpdateMultiseasonsReferences() {
-		Set<AnimediaMALTitleReferences> multiSeasonsReferencesList = new LinkedHashSet<>();
-		AnimediaMALTitleReferences notUpdatedReference = AnimediaMALTitleReferences.builder().url(ONE_PIECE_URL).dataList("1").firstEpisode("1")
-				.titleOnMAL(ONE_PIECE_NAME).currentMax("10").build();
-		multiSeasonsReferencesList.add(notUpdatedReference);
-		Set<UserMALTitleInfo> watchingTitles = new LinkedHashSet<>();
-		UserMALTitleInfo addedTitleInUserCachedPeriod = new UserMALTitleInfo(0,
-				WATCHING.getCode(),
-				0,
-				ONE_PIECE_NAME,
-				0,
-				myAnimeListStaticContentUrl + ONE_PIECE_POSTER_URL,
-				"onePieceAnimeUrl");
-		watchingTitles.add(addedTitleInUserCachedPeriod);
-		Set<AnimediaTitleSearchInfo> animediaSearchList = getAnimediaSearchList();
-		doAnswer((x)->{notUpdatedReference.setEpisodesRange(getEpisodesRange("1","10"));return Void.TYPE;}).when(referencesManager).updateReferences
-				(anySet());
-		seasonAndEpisodeChecker.getMatchedAnime(watchingTitles, multiSeasonsReferencesList, animediaSearchList, USERNAME);
-		verify(referencesManager, times(1)).updateReferences(anySet());
-		assertEquals(addedTitleInUserCachedPeriod.getPosterUrl(), notUpdatedReference.getPosterUrl());
-	}
-
-	@Test
 	public void getMatchedAnimeOngoingOnMALAnnouncementOnAnimedia() {
 		String announcementUrl = "anime/zvyozdy-ansamblya";
 		doReturn(new HttpResponse(RoutinesIO.readFromResource(htmlWithAnnouncement), HttpStatus.OK.value())).when(httpCaller)
@@ -335,8 +313,8 @@ public class SeasonAndEpisodeCheckerTest extends AbstractTest {
 		assertEquals(BaseConstants.ZERO_EPISODE, matchedAnime.getMaxConcretizedEpisodeOnAnimedia());
 		assertEquals(BaseConstants.FINAL_URL_VALUE_IF_EPISODE_IS_NOT_AVAILABLE, matchedAnime.getFinalUrl());
 		assertEquals(BaseConstants.EPISODE_NUMBER_FOR_WATCH_VALUE_IF_EPISODE_IS_NOT_AVAILABLE, matchedAnime.getEpisodeNumberForWatch());
-		assertEquals(null, matchedAnime.getMinConcretizedEpisodeOnMAL());
-		assertEquals(null, matchedAnime.getMaxConcretizedEpisodeOnMAL());
+		assertNull(matchedAnime.getMinConcretizedEpisodeOnMAL());
+		assertNull(matchedAnime.getMaxConcretizedEpisodeOnMAL());
 	}
 
 	@Test
