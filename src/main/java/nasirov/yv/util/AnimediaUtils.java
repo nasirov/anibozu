@@ -91,4 +91,24 @@ public class AnimediaUtils {
 				.map(Entry::getValue).findFirst().orElseGet(HashMap::new);
 	}
 
+	public static String getDataList(Map<String, String> dataListsAndMaxEpisodesMap) {
+		return dataListsAndMaxEpisodesMap.keySet()
+				.stream()
+				.findFirst()
+				.get();
+	}
+
+	public static List<String> getEpisodesRange(Map<String, List<String>> maxEpisodesAndEpisodesRange) {
+		return maxEpisodesAndEpisodesRange.values()
+				.stream()
+				.findFirst()
+				.get();
+	}
+
+	public static String getMaxEpisode(Map<String, List<String>> maxEpisodesAndEpisodesRange) {
+		return maxEpisodesAndEpisodesRange.keySet()
+				.stream()
+				.findFirst()
+				.get();
+	}
 }

@@ -9,10 +9,13 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import nasirov.yv.data.animedia.AnimediaMALTitleReferences;
 import nasirov.yv.data.constants.BaseConstants;
+import org.assertj.core.util.Lists;
+import org.assertj.core.util.Maps;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -59,17 +62,40 @@ public class AnimediaUtilsTest {
 
 	@Before
 	public void setUp() {
-		Set<AnimediaMALTitleReferences> references = RoutinesIO
-				.unmarshalFromResource(referencesForTestResource, AnimediaMALTitleReferences.class, LinkedHashSet.class);
-		concretizedAndOngoing = references.stream().filter(ref -> ref.getTitleOnMAL().equals("shingeki no kyojin season 3 part 2")).findFirst()
+		Set<AnimediaMALTitleReferences> references = RoutinesIO.unmarshalFromResource(referencesForTestResource,
+				AnimediaMALTitleReferences.class,
+				LinkedHashSet.class);
+		concretizedAndOngoing = references.stream()
+				.filter(ref -> ref.getTitleOnMAL()
+						.equals("shingeki no kyojin season 3 part 2"))
+				.findFirst()
 				.orElse(null);
-		concretizedAndNotOngoing = references.stream().filter(ref -> ref.getTitleOnMAL().equals("one punch man: road to hero")).findFirst().orElse(null);
-		updatedTitle = AnimediaMALTitleReferences.builder().url("anime/url").dataList("1").minConcretizedEpisodeOnAnimedia("1").titleOnMAL("titleName")
-				.firstEpisode("1").maxConcretizedEpisodeOnAnimedia("175").currentMax("175").posterUrl("posterUrl").episodesRange(getEpisodesRange("1",
-						"175"))
+		concretizedAndNotOngoing = references.stream()
+				.filter(ref -> ref.getTitleOnMAL()
+						.equals("one punch man: road to hero"))
+				.findFirst()
+				.orElse(null);
+		updatedTitle = AnimediaMALTitleReferences.builder()
+				.url("anime/url")
+				.dataList("1")
+				.minConcretizedEpisodeOnAnimedia("1")
+				.titleOnMAL("titleName")
+				.firstEpisode("1")
+				.maxConcretizedEpisodeOnAnimedia("175")
+				.currentMax("175")
+				.posterUrl("posterUrl")
+				.episodesRange(getEpisodesRange("1", "175"))
 				.build();
-		notUpdatedTitle = references.stream().filter(ref -> ref.getTitleOnMAL().equals("fairy tail: final series")).findFirst().orElse(null);
-		notFoundOnMAL = references.stream().filter(ref -> ref.getTitleOnMAL().equals(BaseConstants.NOT_FOUND_ON_MAL)).findFirst().orElse(null);
+		notUpdatedTitle = references.stream()
+				.filter(ref -> ref.getTitleOnMAL()
+						.equals("fairy tail: final series"))
+				.findFirst()
+				.orElse(null);
+		notFoundOnMAL = references.stream()
+				.filter(ref -> ref.getTitleOnMAL()
+						.equals(BaseConstants.NOT_FOUND_ON_MAL))
+				.findFirst()
+				.orElse(null);
 		animeIdDataListsAndMaxEpisodesMapForTest = new HashMap<>();
 		dataListsAndMaxEpisodesMapForTest = new HashMap<>();
 		dataListsAndMaxEpisodesMapForTest.put(DATA_LIST, MAX_EPISODES);
@@ -137,7 +163,9 @@ public class AnimediaUtilsTest {
 		try {
 			declaredConstructors[0].newInstance();
 		} catch (InvocationTargetException e) {
-			assertEquals(UnsupportedOperationException.class, e.getCause().getClass());
+			assertEquals(UnsupportedOperationException.class,
+					e.getCause()
+							.getClass());
 		}
 	}
 
@@ -152,5 +180,26 @@ public class AnimediaUtilsTest {
 		Map<String, String> dataListsAndMaxEpisodesMap = AnimediaUtils.getDataListsAndMaxEpisodesMap(animeIdDataListsAndMaxEpisodesMapForTest);
 		assertEquals(animeIdDataListsAndMaxEpisodesMapForTest.size(), dataListsAndMaxEpisodesMap.size());
 		assertEquals(dataListsAndMaxEpisodesMapForTest, dataListsAndMaxEpisodesMap);
+	}
+
+	@Test
+	public void testGetDataList() {
+		String dataList = "1";
+		Map<String, String> dataListsAndMaxEpisodesMap = Maps.newHashMap(dataList, "25");
+		assertEquals(dataList, AnimediaUtils.getDataList(dataListsAndMaxEpisodesMap));
+	}
+
+	@Test
+	public void testGetEpisodesRange() {
+		List<String> episodesRange = Lists.newArrayList("1", "2");
+		Map<String, List<String>> maxEpisodesAndEpisodesRange = Maps.newHashMap("2", episodesRange);
+		assertEquals(episodesRange, AnimediaUtils.getEpisodesRange(maxEpisodesAndEpisodesRange));
+	}
+
+	@Test
+	public void testGetMaxEpisode() {
+		String maxEpisode = "2";
+		Map<String, List<String>> maxEpisodesAndEpisodesRange = Maps.newHashMap(maxEpisode, Lists.newArrayList("1", "2"));
+		assertEquals(maxEpisode, AnimediaUtils.getMaxEpisode(maxEpisodesAndEpisodesRange));
 	}
 }

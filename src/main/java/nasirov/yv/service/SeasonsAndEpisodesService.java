@@ -1,5 +1,7 @@
 package nasirov.yv.service;
 
+import static com.google.common.collect.Iterables.get;
+import static com.google.common.collect.Sets.newHashSet;
 import static java.util.Collections.max;
 import static java.util.Comparator.comparing;
 import static nasirov.yv.data.constants.BaseConstants.EPISODE_NUMBER_FOR_WATCH_VALUE_IF_EPISODE_IS_NOT_AVAILABLE;
@@ -9,20 +11,22 @@ import static nasirov.yv.data.constants.BaseConstants.FIRST_EPISODE;
 import static nasirov.yv.data.constants.BaseConstants.ZERO_EPISODE;
 import static nasirov.yv.util.AnimediaUtils.getCorrectCurrentMax;
 import static nasirov.yv.util.AnimediaUtils.getCorrectFirstEpisodeAndMin;
+import static nasirov.yv.util.AnimediaUtils.getDataList;
+import static nasirov.yv.util.AnimediaUtils.getEpisodesRange;
 import static nasirov.yv.util.AnimediaUtils.getFirstEpisode;
 import static nasirov.yv.util.AnimediaUtils.getLastEpisode;
+import static nasirov.yv.util.AnimediaUtils.getMaxEpisode;
 import static nasirov.yv.util.AnimediaUtils.isAnnouncement;
 import static nasirov.yv.util.AnimediaUtils.isMaxEpisodeUndefined;
 import static nasirov.yv.util.AnimediaUtils.isTitleConcretizedOnMAL;
 import static org.springframework.http.HttpMethod.GET;
 
 import java.util.HashMap;
-import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 import javax.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -50,6 +54,8 @@ public class SeasonsAndEpisodesService implements SeasonsAndEpisodesServiceI {
 	private static final Map<String, String> EPISODE_IS_NOT_AVAILABLE_FINAL_URL_AND_EPISODE_NUMBER_FOR_WATCH = new HashMap<>(1);
 
 	private static final String JOINED_EPISODE_REGEXP = "\\d{1,3}-\\d{1,3}";
+
+	private static final int UNDEFINED_MAX = 0;
 
 	static {
 		EPISODE_IS_NOT_AVAILABLE_FINAL_URL_AND_EPISODE_NUMBER_FOR_WATCH.put(EPISODE_NUMBER_FOR_WATCH_VALUE_IF_EPISODE_IS_NOT_AVAILABLE,
@@ -93,88 +99,194 @@ public class SeasonsAndEpisodesService implements SeasonsAndEpisodesServiceI {
 	public Set<AnimediaMALTitleReferences> getMatchedAnime(Set<UserMALTitleInfo> watchingTitles, Set<AnimediaMALTitleReferences> references,
 			Set<AnimediaTitleSearchInfo> animediaSearchList, String username) {
 		log.info("RESULT FOR {}:", username);
-		Set<AnimediaMALTitleReferences> finalMatchedReferences = new LinkedHashSet<>();
-		for (UserMALTitleInfo userMALTitleInfo : watchingTitles) {
-			Set<AnimediaMALTitleReferences> matchedMultiSeasonsReferences = references.stream()
-					.filter(set -> set.getTitleOnMAL()
-							.equals(userMALTitleInfo.getTitle()))
-					.collect(Collectors.toSet());
-			switch (matchedMultiSeasonsReferences.size()) {
-				case 0:
-					handleSingleSeasonTitle(animediaSearchList, userMALTitleInfo, finalMatchedReferences);
-					break;
-				case 1:
-					handleOneMatchedResultInMultiSeasonsReferences(matchedMultiSeasonsReferences, userMALTitleInfo, finalMatchedReferences);
-					break;
-				default:
-					if (isMatchedReferencesOnSameDataList(matchedMultiSeasonsReferences)) {
-						handleMoreThanOneMatchedResultInMultiSeasonsReferencesOnSameDataList(matchedMultiSeasonsReferences,
-								finalMatchedReferences,
-								userMALTitleInfo);
-					} else {
-						handleMoreThanOneMatchedResultInMultiSeasonsReferences(matchedMultiSeasonsReferences, finalMatchedReferences, userMALTitleInfo);
-					}
-					break;
-			}
-		}
-		setMALPosterUrl(finalMatchedReferences, watchingTitles);
-		return finalMatchedReferences;
+		return watchingTitles.stream()
+				.map(userMALTitleInfo -> findMatchedAnime(references, animediaSearchList, userMALTitleInfo))
+				.filter(Objects::nonNull)
+				.map(ref -> setMALPosterUrl(ref, watchingTitles))
+				.collect(Collectors.toSet());
 	}
 
-	/**
-	 * Sets poster url from mal for final user matched references
-	 *
-	 * @param finalMatchedReferences the container for user matched references
-	 * @param watchingTitles         user watching titles
-	 */
-	private void setMALPosterUrl(Set<AnimediaMALTitleReferences> finalMatchedReferences, Set<UserMALTitleInfo> watchingTitles) {
-		for (UserMALTitleInfo title : watchingTitles) {
-			finalMatchedReferences.stream()
-					.filter(matched -> matched.getTitleOnMAL()
-							.equals(title.getTitle()))
-					.forEach(matched -> matched.setPosterUrl(title.getPosterUrl()));
+	private AnimediaMALTitleReferences findMatchedAnime(Set<AnimediaMALTitleReferences> references, Set<AnimediaTitleSearchInfo> animediaSearchList,
+			UserMALTitleInfo userMALTitleInfo) {
+		AnimediaMALTitleReferences result;
+		Set<AnimediaMALTitleReferences> matchedMultiSeasonsReferences = getMatchedReferences(references, userMALTitleInfo);
+		if (matchedMultiSeasonsReferences.isEmpty()) {
+			result = handleSingleSeasonTitle(animediaSearchList, userMALTitleInfo);
+		} else {
+			result = handleMultiSeasonsReferences(matchedMultiSeasonsReferences, userMALTitleInfo);
 		}
+		return result;
 	}
 
-	/**
-	 * Handles single season titles from animedia search list
-	 *
-	 * @param animediaSearchList     animedia search list
-	 * @param userMALTitleInfo       user watching title
-	 * @param finalMatchedReferences the container for user matched references
-	 */
-	private void handleSingleSeasonTitle(Set<AnimediaTitleSearchInfo> animediaSearchList, UserMALTitleInfo userMALTitleInfo,
-			Set<AnimediaMALTitleReferences> finalMatchedReferences) {
-		int matchedCountOfSingleSeasonAnime = (int) animediaSearchList.stream()
-				.filter(list -> list.getKeywords()
-						.equals(userMALTitleInfo.getTitle()))
-				.count();
-		switch (matchedCountOfSingleSeasonAnime) {
+	private AnimediaMALTitleReferences handleSingleSeasonTitle(Set<AnimediaTitleSearchInfo> animediaSearchList, UserMALTitleInfo userMALTitleInfo) {
+		AnimediaMALTitleReferences result = null;
+		List<AnimediaTitleSearchInfo> matchedSingleSeasonAnime = getMatchedSingleSeasonAnime(animediaSearchList, userMALTitleInfo);
+		switch (matchedSingleSeasonAnime.size()) {
 			case 0:
 				handleZeroMatchedResultInAnimediaSearchList(userMALTitleInfo);
 				break;
 			case 1:
-				handleOneMatchedResultInAnimediaSearchList(animediaSearchList, userMALTitleInfo, finalMatchedReferences);
+				result = handleOneMatchedResultInAnimediaSearchList(get(matchedSingleSeasonAnime, 0), userMALTitleInfo);
 				break;
 			default:
 				handleMoreThanOneMatchedResultInAnimediaSearchList(userMALTitleInfo);
 				break;
 		}
+		return result;
+	}
+
+	private AnimediaMALTitleReferences handleMultiSeasonsReferences(Set<AnimediaMALTitleReferences> matchedMultiSeasonsReferences,
+			UserMALTitleInfo userMALTitleInfo) {
+		AnimediaMALTitleReferences result;
+		if (matchedMultiSeasonsReferences.size() == 1) {
+			result = handleOneMatchedResultInMultiSeasonsReferences(matchedMultiSeasonsReferences, userMALTitleInfo);
+		} else {
+			if (isMatchedReferencesOnSameDataList(matchedMultiSeasonsReferences)) {
+				result = handleMoreThanOneMatchedResultInMultiSeasonsReferencesOnSameDataList(matchedMultiSeasonsReferences, userMALTitleInfo);
+			} else {
+				result = handleMoreThanOneMatchedResultInMultiSeasonsReferences(matchedMultiSeasonsReferences, userMALTitleInfo);
+			}
+		}
+		return result;
+	}
+
+	private void handleZeroMatchedResultInAnimediaSearchList(UserMALTitleInfo userMALTitleInfo) {
+		log.info("ANIME {}({}) IS NOT FOUND ON ANIMEDIA!", userMALTitleInfo.getTitle(), userMALTitleInfo.getAnimeUrl());
+		if (!notFoundAnimeOnAnimediaRepository.exitsByTitle(userMALTitleInfo.getTitle())) {
+			notFoundAnimeOnAnimediaRepository.saveAndFlush(userMALTitleInfo);
+		}
+	}
+
+	private AnimediaMALTitleReferences handleOneMatchedResultInAnimediaSearchList(AnimediaTitleSearchInfo matchedOfSingleSeasonAnime,
+			UserMALTitleInfo userMALTitleInfo) {
+		String url = matchedOfSingleSeasonAnime.getUrl();
+		HttpResponse response = httpCaller.call(animediaOnlineTv + url, GET, animediaRequestParameters);
+		if (isAnnouncement(response.getContent())) {
+			return handleAnnouncements(url, userMALTitleInfo.getTitle(), matchedOfSingleSeasonAnime.getPosterUrl());
+		}
+		Map<String, Map<String, String>> animeIdDataListsAndMaxEpisodesMap = animediaHTMLParser.getAnimeIdDataListsAndMaxEpisodesMap(response);
+		String animeId = AnimediaUtils.getAnimeId(animeIdDataListsAndMaxEpisodesMap);
+		Map<String, String> dataListsAndMaxEpisodesMap = AnimediaUtils.getDataListsAndMaxEpisodesMap(animeIdDataListsAndMaxEpisodesMap);
+		String dataList = getDataList(dataListsAndMaxEpisodesMap);
+		HttpResponse resp = httpCaller.call(urlsNames.getAnimediaUrls()
+				.getOnlineAnimediaAnimeEpisodesList() + animeId + "/" + dataList + urlsNames.getAnimediaUrls()
+				.getOnlineAnimediaAnimeEpisodesPostfix(), GET, animediaRequestParameters);
+		Map<String, List<String>> maxEpisodesAndEpisodesRange = animediaHTMLParser.getEpisodesRange(resp);
+		List<String> episodesRange = getEpisodesRange(maxEpisodesAndEpisodesRange);
+		String correctFirstEpisodeAndMin = getCorrectFirstEpisodeAndMin(getFirstEpisode(episodesRange));
+		String correctCurrentMax = getCorrectCurrentMax(getLastEpisode(episodesRange));
+		AnimediaMALTitleReferences temp = AnimediaMALTitleReferences.builder()
+				.url(url)
+				.dataList(dataList)
+				.firstEpisode(correctFirstEpisodeAndMin)
+				.titleOnMAL(userMALTitleInfo.getTitle())
+				.currentMax(correctCurrentMax)
+				.minConcretizedEpisodeOnAnimedia(correctFirstEpisodeAndMin)
+				.maxConcretizedEpisodeOnAnimedia(getMaxEpisode(maxEpisodesAndEpisodesRange))
+				.posterUrl(matchedOfSingleSeasonAnime.getPosterUrl())
+				.episodesRange(episodesRange)
+				.build();
+		return enrichReference(temp, getEpisodeNumberForWatch(userMALTitleInfo));
+	}
+
+	private void handleMoreThanOneMatchedResultInAnimediaSearchList(UserMALTitleInfo userMALTitleInfo) {
+		log.error("WATCHING TITLE NAME {} DUPLICATED IN ANIMEDIA SEARCH LIST KEYWORDS. CHECK ANIMEDIA SEARCH LIST RESOURCE!", userMALTitleInfo);
+	}
+
+	private AnimediaMALTitleReferences handleOneMatchedResultInMultiSeasonsReferences(Set<AnimediaMALTitleReferences> matchedMultiSeasonsReferences,
+			UserMALTitleInfo userMALTitleInfo) {
+		return matchedMultiSeasonsReferences.stream()
+				.map(x -> enrichReference(x, userMALTitleInfo))
+				.map(AnimediaMALTitleReferences::new)
+				.findFirst()
+				.orElse(null);
 	}
 
 	/**
-	 * Handles one matched result in the multi seasons references
+	 * Handles more than one matched result in the multi seasons references it happens when data list contain several titles for example, 1-2
+	 * https://online.animedia.tv/anime/tamayura/2/1 Tamayura  1-1 3-4 https://online.animedia.tv/anime/tamayura/2/2 Tamayura  2-2
 	 *
-	 * @param matchedMultiSeasonsReferences the matched multi seasons reference
-	 * @param userMALTitleInfo              the user title info
-	 * @param finalMatchedReferences        the container for user matched references
+	 * @param matchedMultiSeasonsReferences the references with equals titles and data lists
+	 * @param userMALTitleInfo              user watching title
 	 */
-	private void handleOneMatchedResultInMultiSeasonsReferences(Set<AnimediaMALTitleReferences> matchedMultiSeasonsReferences,
-			UserMALTitleInfo userMALTitleInfo, Set<AnimediaMALTitleReferences> finalMatchedReferences) {
-		for (AnimediaMALTitleReferences reference : matchedMultiSeasonsReferences) {
-			enrichReference(reference, userMALTitleInfo);
-			finalMatchedReferences.add(new AnimediaMALTitleReferences(reference));
+	private AnimediaMALTitleReferences handleMoreThanOneMatchedResultInMultiSeasonsReferencesOnSameDataList(
+			Set<AnimediaMALTitleReferences> matchedMultiSeasonsReferences, UserMALTitleInfo userMALTitleInfo) {
+		int nextNumberOfEpisodeForWatch;
+		AnimediaMALTitleReferences animediaMALTitleReferences;
+		int nextEpisodeNumber = getEpisodeNumberForWatch(userMALTitleInfo);
+		List<AnimediaMALTitleReferences> matched = matchedMultiSeasonsReferences.stream()
+				.filter(ref -> nextEpisodeNumber >= Integer.parseInt(ref.getMinConcretizedEpisodeOnMAL()))
+				.collect(Collectors.toList());
+		if (matched.size() == 1) {
+			animediaMALTitleReferences = get(matched, 0);
+			nextNumberOfEpisodeForWatch = getEpisodeNumberForWatchForConcretizedReferences(animediaMALTitleReferences, userMALTitleInfo);
+		} else {
+			animediaMALTitleReferences = max(matchedMultiSeasonsReferences, comparing(AnimediaMALTitleReferences::getMinConcretizedEpisodeOnMAL));
+			nextNumberOfEpisodeForWatch = getEpisodeNumberForWatchForConcretizedReferences(animediaMALTitleReferences, userMALTitleInfo);
 		}
+		Map<String, String> nextEpisodeForWatchFinalUrl = getNextEpisodeForWatchAndFinalUrl(animediaMALTitleReferences, nextNumberOfEpisodeForWatch);
+		String numberForWatch = extractEpisodeNumberForWatch(nextEpisodeForWatchFinalUrl);
+		animediaMALTitleReferences.setEpisodeNumberForWatch(
+				numberForWatch.equals(EPISODE_NUMBER_FOR_WATCH_VALUE_IF_EPISODE_IS_NOT_AVAILABLE) ? numberForWatch : String.valueOf(nextEpisodeNumber));
+		animediaMALTitleReferences.setFinalUrl(extractFinalUrl(nextEpisodeForWatchFinalUrl));
+		return new AnimediaMALTitleReferences(animediaMALTitleReferences);
+	}
+
+	/**
+	 * Handles more than one matched result in the multi seasons references it happens when one season separated on several tabs for example,
+	 * http://online.animedia.tv/anime/one-piece-van-pis-tv/
+	 *
+	 * @param matchedMultiSeasonsReferences the matched multi seasons references
+	 */
+	private AnimediaMALTitleReferences handleMoreThanOneMatchedResultInMultiSeasonsReferences(
+			Set<AnimediaMALTitleReferences> matchedMultiSeasonsReferences, UserMALTitleInfo userMALTitleInfo) {
+		int nextNumberOfEpisodeForWatch = getEpisodeNumberForWatch(userMALTitleInfo);
+		return matchedMultiSeasonsReferences.stream()
+				.filter(ref -> isNextNumberOfEpisodeForWatchInReferenceEpisodesRange(nextNumberOfEpisodeForWatch, ref))
+				.map(ref -> enrichReference(ref, nextNumberOfEpisodeForWatch))
+				.findFirst()
+				.orElse(null);
+	}
+
+	private AnimediaMALTitleReferences handleAnnouncements(String url, String titleOnMal, String posterUrl) {
+		AnimediaMALTitleReferences result = AnimediaMALTitleReferences.builder()
+				.url(url)
+				.dataList(FIRST_DATA_LIST)
+				.firstEpisode(FIRST_EPISODE)
+				.titleOnMAL(titleOnMal)
+				.minConcretizedEpisodeOnAnimedia(ZERO_EPISODE)
+				.maxConcretizedEpisodeOnAnimedia(ZERO_EPISODE)
+				.currentMax(ZERO_EPISODE)
+				.posterUrl(posterUrl)
+				.finalUrl(FINAL_URL_VALUE_IF_EPISODE_IS_NOT_AVAILABLE)
+				.episodeNumberForWatch(EPISODE_NUMBER_FOR_WATCH_VALUE_IF_EPISODE_IS_NOT_AVAILABLE)
+				.build();
+		String finalUrl = animediaOnlineTv + result.getUrl();
+		log.info("NEW EPISODE FOR {} IS NOT AVAILABLE BECAUSE IT'S ANNOUNCEMENT", finalUrl);
+		return result;
+	}
+	private AnimediaMALTitleReferences setMALPosterUrl(AnimediaMALTitleReferences finalMatchedReference, Set<UserMALTitleInfo> watchingTitles) {
+		watchingTitles.stream()
+				.filter(x -> x.getTitle()
+						.equals(finalMatchedReference.getTitleOnMAL()))
+				.findFirst()
+				.ifPresent(x -> finalMatchedReference.setPosterUrl(x.getPosterUrl()));
+		return finalMatchedReference;
+	}
+
+	private Set<AnimediaMALTitleReferences> getMatchedReferences(Set<AnimediaMALTitleReferences> allReferences, UserMALTitleInfo userMALTitleInfo) {
+		return allReferences.stream()
+				.filter(set -> set.getTitleOnMAL()
+						.equals(userMALTitleInfo.getTitle()))
+				.collect(Collectors.toSet());
+	}
+
+	private List<AnimediaTitleSearchInfo> getMatchedSingleSeasonAnime(Set<AnimediaTitleSearchInfo> animediaSearchList,
+			UserMALTitleInfo userMALTitleInfo) {
+		return animediaSearchList.stream()
+				.filter(list -> list.getKeywords()
+						.equals(userMALTitleInfo.getTitle()))
+				.collect(Collectors.toList());
 	}
 
 	/**
@@ -188,7 +300,7 @@ public class SeasonsAndEpisodesService implements SeasonsAndEpisodesServiceI {
 	private int getEpisodeNumberForWatchForConcretizedReferences(AnimediaMALTitleReferences animediaMALTitleReferences,
 			UserMALTitleInfo userMALTitleInfo) {
 		int episodeNumberForWatch;
-		int nextEpisodeNumber = userMALTitleInfo.getNumWatchedEpisodes() + 1;
+		int nextEpisodeNumber = getEpisodeNumberForWatch(userMALTitleInfo);
 		int intMinConcretizedEpisodeOnMAL = Integer.parseInt(animediaMALTitleReferences.getMinConcretizedEpisodeOnMAL());
 		int intMaxConcretizedEpisodeOnMAL = Integer.parseInt(animediaMALTitleReferences.getMaxConcretizedEpisodeOnMAL());
 		int min = Integer.parseInt(animediaMALTitleReferences.getMinConcretizedEpisodeOnAnimedia());
@@ -207,165 +319,6 @@ public class SeasonsAndEpisodesService implements SeasonsAndEpisodesServiceI {
 		return episodeNumberForWatch;
 	}
 
-	/**
-	 * Handles more than one matched result in the multi seasons references it happens when one season separated on several tabs for example,
-	 * http://online.animedia.tv/anime/one-piece-van-pis-tv/
-	 *
-	 * @param matchedMultiSeasonsReferences the matched multi seasons references
-	 * @param finalMatchedReferences        the container for user matched references
-	 */
-	private void handleMoreThanOneMatchedResultInMultiSeasonsReferences(Set<AnimediaMALTitleReferences> matchedMultiSeasonsReferences,
-			Set<AnimediaMALTitleReferences> finalMatchedReferences, UserMALTitleInfo userMALTitleInfo) {
-		//Increment to next episode for watch
-		int nextNumberOfEpisodeForWatch = userMALTitleInfo.getNumWatchedEpisodes() + 1;
-		int undefinedMax = 0;
-		for (AnimediaMALTitleReferences animediaMALTitleReferences : matchedMultiSeasonsReferences) {
-			String maxEpisodesInDataListOnAnimedia = animediaMALTitleReferences.getMaxConcretizedEpisodeOnAnimedia();
-			Integer intMax = isMaxEpisodeUndefined(maxEpisodesInDataListOnAnimedia) ? undefinedMax : Integer.parseInt(maxEpisodesInDataListOnAnimedia);
-			if (nextNumberOfEpisodeForWatch >= Integer.parseInt(animediaMALTitleReferences.getFirstEpisode()) && (nextNumberOfEpisodeForWatch <= intMax
-					|| intMax.equals(undefinedMax))) {
-				enrichReference(animediaMALTitleReferences, nextNumberOfEpisodeForWatch);
-				finalMatchedReferences.add(new AnimediaMALTitleReferences(animediaMALTitleReferences));
-				break;
-			}
-		}
-	}
-
-	/**
-	 * Handles more than one matched result in the multi seasons references it happens when data list contain several titles for example, 1-2
-	 * https://online.animedia.tv/anime/tamayura/2/1 Tamayura  1-1 3-4 https://online.animedia.tv/anime/tamayura/2/2 Tamayura  2-2
-	 *
-	 * @param matchedMultiSeasonsReferences the references with equals titles and data lists
-	 * @param finalMatchedReferences        the container for user matched references
-	 * @param userMALTitleInfo              user watching title
-	 */
-	private void handleMoreThanOneMatchedResultInMultiSeasonsReferencesOnSameDataList(Set<AnimediaMALTitleReferences> matchedMultiSeasonsReferences,
-			Set<AnimediaMALTitleReferences> finalMatchedReferences, UserMALTitleInfo userMALTitleInfo) {
-		int nextNumberOfEpisodeForWatch;
-		AnimediaMALTitleReferences animediaMALTitleReferences;
-		int nextEpisodeNumber = userMALTitleInfo.getNumWatchedEpisodes() + 1;
-		long matched = matchedMultiSeasonsReferences.stream()
-				.filter(ref -> nextEpisodeNumber >= Integer.parseInt(ref.getMinConcretizedEpisodeOnMAL()))
-				.count();
-		if (matched == 1) {
-			animediaMALTitleReferences = matchedMultiSeasonsReferences.stream()
-					.filter(ref -> nextEpisodeNumber >= Integer.parseInt(ref.getMinConcretizedEpisodeOnMAL()))
-					.findFirst()
-					.get();
-			nextNumberOfEpisodeForWatch = getEpisodeNumberForWatchForConcretizedReferences(animediaMALTitleReferences, userMALTitleInfo);
-		} else {
-			animediaMALTitleReferences = max(matchedMultiSeasonsReferences, comparing(AnimediaMALTitleReferences::getMinConcretizedEpisodeOnMAL));
-			nextNumberOfEpisodeForWatch = getEpisodeNumberForWatchForConcretizedReferences(animediaMALTitleReferences, userMALTitleInfo);
-		}
-		Map<String, String> nextEpisodeForWatchFinalUrl = getNextEpisodeForWatchAndFinalUrl(animediaMALTitleReferences, nextNumberOfEpisodeForWatch);
-		String numberForWatch = extractEpisodeNumberForWatch(nextEpisodeForWatchFinalUrl);
-		animediaMALTitleReferences.setEpisodeNumberForWatch(
-				numberForWatch.equals(EPISODE_NUMBER_FOR_WATCH_VALUE_IF_EPISODE_IS_NOT_AVAILABLE) ? numberForWatch : String.valueOf(nextEpisodeNumber));
-		animediaMALTitleReferences.setFinalUrl(extractFinalUrl(nextEpisodeForWatchFinalUrl));
-		finalMatchedReferences.add(new AnimediaMALTitleReferences(animediaMALTitleReferences));
-	}
-
-	/**
-	 * Handles one matched result in the animedia search list
-	 *
-	 * @param animediaSearchList     the animedia search list
-	 * @param userMALTitleInfo       the user title info
-	 * @param finalMatchedReferences the container for user matched references
-	 */
-	private void handleOneMatchedResultInAnimediaSearchList(Set<AnimediaTitleSearchInfo> animediaSearchList, UserMALTitleInfo userMALTitleInfo,
-			Set<AnimediaMALTitleReferences> finalMatchedReferences) {
-		String onlineAnimediaAnimeEpisodesList = urlsNames.getAnimediaUrls()
-				.getOnlineAnimediaAnimeEpisodesList();
-		String onlineAnimediaAnimeEpisodesPostfix = urlsNames.getAnimediaUrls()
-				.getOnlineAnimediaAnimeEpisodesPostfix();
-		//Increment to next episode for watch
-		int nextNumberOfEpisodeForWatch = userMALTitleInfo.getNumWatchedEpisodes() + 1;
-		AnimediaTitleSearchInfo matchedOfSingleSeasonAnime = animediaSearchList.stream()
-				.filter(list -> list.getKeywords()
-						.equals(userMALTitleInfo.getTitle()))
-				.findFirst()
-				.orElse(null);
-		if (matchedOfSingleSeasonAnime != null) {
-			String url = matchedOfSingleSeasonAnime.getUrl();
-			HttpResponse response = httpCaller.call(animediaOnlineTv + url, GET, animediaRequestParameters);
-			if (isAnnouncement(response.getContent())) {
-				handleAnnouncements(url, userMALTitleInfo.getTitle(), matchedOfSingleSeasonAnime.getPosterUrl(), finalMatchedReferences);
-				return;
-			}
-			Map<String, Map<String, String>> animeIdDataListsAndMaxEpisodesMap = animediaHTMLParser.getAnimeIdDataListsAndMaxEpisodesMap(response);
-			String animeId = AnimediaUtils.getAnimeId(animeIdDataListsAndMaxEpisodesMap);
-			Map<String, String> dataListsAndMaxEpisodesMap = AnimediaUtils.getDataListsAndMaxEpisodesMap(animeIdDataListsAndMaxEpisodesMap);
-			Stream.of(dataListsAndMaxEpisodesMap)
-					.flatMap(map -> map.entrySet()
-							.stream())
-					.forEach(dataListsAndMaxEpisodesMapEntry -> {
-						String dataList = dataListsAndMaxEpisodesMapEntry.getKey();
-						HttpResponse resp = httpCaller.call(onlineAnimediaAnimeEpisodesList + animeId + "/" + dataList + onlineAnimediaAnimeEpisodesPostfix,
-								GET,
-								animediaRequestParameters);
-						Map<String, List<String>> maxEpisodesAndEpisodesRange = animediaHTMLParser.getEpisodesRange(resp);
-						for (Map.Entry<String, List<String>> maxEpisodesAndEpisodesRangeEntry : maxEpisodesAndEpisodesRange.entrySet()) {
-							List<String> episodesRange = maxEpisodesAndEpisodesRangeEntry.getValue();
-							String firstEpisode = getFirstEpisode(episodesRange);
-							String lastEpisode = getLastEpisode(episodesRange);
-							String correctFirstEpisodeAndMin = getCorrectFirstEpisodeAndMin(firstEpisode);
-							String correctCurrentMax = getCorrectCurrentMax(lastEpisode);
-							AnimediaMALTitleReferences temp = AnimediaMALTitleReferences.builder()
-									.url(url)
-									.dataList(dataList)
-									.firstEpisode(correctFirstEpisodeAndMin)
-									.titleOnMAL(userMALTitleInfo.getTitle())
-									.minConcretizedEpisodeOnAnimedia(correctFirstEpisodeAndMin)
-									.maxConcretizedEpisodeOnAnimedia(maxEpisodesAndEpisodesRangeEntry.getKey())
-									.currentMax(correctCurrentMax)
-									.posterUrl(matchedOfSingleSeasonAnime.getPosterUrl())
-									.episodesRange(episodesRange)
-									.build();
-							enrichReference(temp, nextNumberOfEpisodeForWatch);
-							finalMatchedReferences.add(temp);
-						}
-					});
-		}
-	}
-
-	/**
-	 * Handles zero matched result in the animedia search list
-	 *
-	 * @param userMALTitleInfo the user title info
-	 */
-	private void handleZeroMatchedResultInAnimediaSearchList(UserMALTitleInfo userMALTitleInfo) {
-		log.info("ANIME {}({}) IS NOT FOUND ON ANIMEDIA!", userMALTitleInfo.getTitle(), userMALTitleInfo.getAnimeUrl());
-		if (!notFoundAnimeOnAnimediaRepository.exitsByTitle(userMALTitleInfo.getTitle())) {
-			notFoundAnimeOnAnimediaRepository.saveAndFlush(userMALTitleInfo);
-		}
-	}
-
-	/**
-	 * Handles more than one matched result in the animedia search list
-	 *
-	 * @param userMALTitleInfo the user title info
-	 */
-	private void handleMoreThanOneMatchedResultInAnimediaSearchList(UserMALTitleInfo userMALTitleInfo) {
-		log.error("WATCHING TITLE NAME {} DUPLICATED IN ANIMEDIA SEARCH LIST KEYWORDS. CHECK ANIMEDIA SEARCH LIST RESOURCE!", userMALTitleInfo);
-	}
-
-	private void handleAnnouncements(String url, String titleOnMal, String posterUrl, Set<AnimediaMALTitleReferences> finalMatchedReferences) {
-		AnimediaMALTitleReferences temp = AnimediaMALTitleReferences.builder()
-				.url(url)
-				.dataList(FIRST_DATA_LIST)
-				.firstEpisode(FIRST_EPISODE)
-				.titleOnMAL(titleOnMal)
-				.minConcretizedEpisodeOnAnimedia(ZERO_EPISODE)
-				.maxConcretizedEpisodeOnAnimedia(ZERO_EPISODE)
-				.currentMax(ZERO_EPISODE)
-				.posterUrl(posterUrl)
-				.finalUrl(FINAL_URL_VALUE_IF_EPISODE_IS_NOT_AVAILABLE)
-				.episodeNumberForWatch(EPISODE_NUMBER_FOR_WATCH_VALUE_IF_EPISODE_IS_NOT_AVAILABLE)
-				.build();
-		finalMatchedReferences.add(temp);
-		String finalUrl = animediaOnlineTv + temp.getUrl();
-		log.info("NEW EPISODE FOR {} IS NOT AVAILABLE BECAUSE IT'S ANNOUNCEMENT", finalUrl);
-	}
 
 	private boolean isMatchedReferencesOnSameDataList(Set<AnimediaMALTitleReferences> matchedMultiSeasonsReferences) {
 		return matchedMultiSeasonsReferences.stream()
@@ -377,40 +330,40 @@ public class SeasonsAndEpisodesService implements SeasonsAndEpisodesServiceI {
 				.count() > 1;
 	}
 
+	private int getEpisodeNumberForWatch(UserMALTitleInfo userMALTitleInfo) {
+		return userMALTitleInfo.getNumWatchedEpisodes() + 1;
+	}
+
 	/**
-	 * Updates the matched references (episode number for watch, final url for front)
+	 * Updates the matched reference (episode number for watch, final url for front)
 	 *
-	 * @param watchingTitles        the user watching titles
-	 * @param references            the currently updated title on animedia
-	 * @param matchedAnimeFromCache the matched user anime from cache
+	 * @param watchingTitles                 the user watching titles
+	 * @param currentlyUpdatedTitleOnAniedia the currently updated title on animedia
+	 * @param matchedAnimeFromCache          the matched user anime from cache
 	 */
 	@Override
-	public void updateEpisodeNumberForWatchAndFinalUrl(Set<UserMALTitleInfo> watchingTitles, AnimediaMALTitleReferences references,
+	public void updateEpisodeNumberForWatchAndFinalUrl(Set<UserMALTitleInfo> watchingTitles, AnimediaMALTitleReferences currentlyUpdatedTitleOnAniedia,
 			Set<AnimediaMALTitleReferences> matchedAnimeFromCache) {
 		log.info("UPDATING MATCHED REFERENCES...");
-		for (UserMALTitleInfo userMALTitleInfo : watchingTitles) {
-			//Increment to next episode for watch
-			int episodeNumberForWatch;
-			AnimediaMALTitleReferences referenceForUpdate = null;
-			if (references.getTitleOnMAL()
-					.equals(userMALTitleInfo.getTitle())) {
-				referenceForUpdate = matchedAnimeFromCache.stream()
-						.filter(title -> title.getTitleOnMAL()
-								.equals(references.getTitleOnMAL()) && title.getDataList()
-								.equals(references.getDataList()))
-						.findFirst()
-						.orElse(null);
-			}
-			if (referenceForUpdate != null) {
-				int firstEpisode = Integer.parseInt(referenceForUpdate.getFirstEpisode());
-				if (firstEpisode == 0 || firstEpisode == 1) {
-					episodeNumberForWatch = firstEpisode + userMALTitleInfo.getNumWatchedEpisodes();
-				} else {
-					episodeNumberForWatch = userMALTitleInfo.getNumWatchedEpisodes() + 1;
-				}
-				enrichReference(referenceForUpdate, episodeNumberForWatch);
-			}
-		}
+		watchingTitles.stream()
+				.filter(x -> currentlyUpdatedTitleOnAniedia.getTitleOnMAL()
+						.equals(x.getTitle()))
+				.forEach(x -> findAndUpdateReference(matchedAnimeFromCache, currentlyUpdatedTitleOnAniedia, x));
+	}
+
+	private void findAndUpdateReference(Set<AnimediaMALTitleReferences> matchedAnimeFromCache,
+			AnimediaMALTitleReferences currentlyUpdatedTitleOnAniedia, UserMALTitleInfo userMALTitleInfo) {
+		matchedAnimeFromCache.stream()
+				.filter(title -> title.getTitleOnMAL()
+						.equals(currentlyUpdatedTitleOnAniedia.getTitleOnMAL()) && title.getDataList()
+						.equals(currentlyUpdatedTitleOnAniedia.getDataList()))
+				.findFirst()
+				.ifPresent(x -> enrichReference(x, getEpisodeNumberForWatch(x, userMALTitleInfo)));
+	}
+
+	private int getEpisodeNumberForWatch(AnimediaMALTitleReferences referenceForUpdate, UserMALTitleInfo userMALTitleInfo) {
+		int firstEpisode = Integer.parseInt(referenceForUpdate.getFirstEpisode());
+		return firstEpisode == 0 ? userMALTitleInfo.getNumWatchedEpisodes() : getEpisodeNumberForWatch(userMALTitleInfo);
 	}
 
 	/**
@@ -426,31 +379,35 @@ public class SeasonsAndEpisodesService implements SeasonsAndEpisodesServiceI {
 			Set<AnimediaMALTitleReferences> matchedAnimeFromCache, Set<AnimediaTitleSearchInfo> animediaSearchList, String username) {
 		Set<AnimediaMALTitleReferences> allMultiSeasonsReferences = referencesManager.getMultiSeasonsReferences();
 		log.info("UPDATING MATCHED REFERENCES...");
-		for (UserMALTitleInfo updatedTitle : updatedWatchingTitles) {
-			AnimediaMALTitleReferences reference = matchedAnimeFromCache.stream()
-					.filter(ref -> ref.getTitleOnMAL()
-							.equals(updatedTitle.getTitle()))
-					.findFirst()
-					.orElse(null);
-			if (reference != null) {
-				long countOfMatchedMultiSeasonsReferencesWithEqualsTitleName = allMultiSeasonsReferences.stream()
-						.filter(ref -> ref.getTitleOnMAL()
-								.equals(updatedTitle.getTitle()))
-						.count();
-				if (countOfMatchedMultiSeasonsReferencesWithEqualsTitleName > 1) {
-					Set<UserMALTitleInfo> tempWatchingTitles = new LinkedHashSet<>();
-					tempWatchingTitles.add(updatedTitle);
-					Set<AnimediaMALTitleReferences> tempReferences = allMultiSeasonsReferences.stream()
-							.filter(ref -> ref.getTitleOnMAL()
-									.equals(updatedTitle.getTitle()))
-							.collect(Collectors.toSet());
-					Set<AnimediaMALTitleReferences> tempMatchedAnime = getMatchedAnime(tempWatchingTitles, tempReferences, animediaSearchList, username);
-					matchedAnimeFromCache.removeIf(ref -> ref.equals(reference));
-					matchedAnimeFromCache.add(tempMatchedAnime.stream().findFirst().get());
-					continue;
-				}
-				enrichReference(reference, updatedTitle);
-			}
+		updatedWatchingTitles.forEach(updatedTitle -> findAndUpdateReference(matchedAnimeFromCache,
+				updatedTitle,
+				allMultiSeasonsReferences,
+				animediaSearchList,
+				username));
+	}
+
+	private void findAndUpdateReference(Set<AnimediaMALTitleReferences> matchedAnimeFromCache, UserMALTitleInfo updatedTitle,
+			Set<AnimediaMALTitleReferences> allMultiSeasonsReferences, Set<AnimediaTitleSearchInfo> animediaSearchList, String username) {
+		matchedAnimeFromCache.stream()
+				.filter(ref -> ref.getTitleOnMAL()
+						.equals(updatedTitle.getTitle()))
+				.findFirst()
+				.ifPresent(ref -> updateReference(allMultiSeasonsReferences, updatedTitle, ref, matchedAnimeFromCache, animediaSearchList, username));
+	}
+
+	private void updateReference(Set<AnimediaMALTitleReferences> allMultiSeasonsReferences, UserMALTitleInfo updatedTitle,
+			AnimediaMALTitleReferences reference, Set<AnimediaMALTitleReferences> matchedAnimeFromCache, Set<AnimediaTitleSearchInfo> animediaSearchList,
+			String username) {
+		Set<AnimediaMALTitleReferences> tempReferences = allMultiSeasonsReferences.stream()
+				.filter(ref -> ref.getTitleOnMAL()
+						.equals(updatedTitle.getTitle()))
+				.collect(Collectors.toSet());
+		if (tempReferences.size() > 1) {
+			Set<AnimediaMALTitleReferences> tempMatchedAnime = getMatchedAnime(newHashSet(updatedTitle), tempReferences, animediaSearchList, username);
+			matchedAnimeFromCache.removeIf(ref -> ref.equals(reference));
+			matchedAnimeFromCache.addAll(tempMatchedAnime);
+		} else {
+			enrichReference(reference, updatedTitle);
 		}
 	}
 
@@ -530,35 +487,50 @@ public class SeasonsAndEpisodesService implements SeasonsAndEpisodesServiceI {
 				&& Integer.parseInt(episodesArray[episodesArray.length - 1]) >= Integer.parseInt(episodeNumberForWatch);
 	}
 
-	private void enrichReference(AnimediaMALTitleReferences reference, UserMALTitleInfo userMALTitleInfo) {
+	private AnimediaMALTitleReferences enrichReference(AnimediaMALTitleReferences reference, UserMALTitleInfo userMALTitleInfo) {
 		String nextEpisodeForWatchForTitleWithConcretizedEpisodeOnMAL = null;
 		int episodeNumberForWatch;
 		int firstEpisode = Integer.parseInt(reference.getFirstEpisode());
 		if (isTitleConcretizedOnMAL(reference)) {
 			episodeNumberForWatch = getEpisodeNumberForWatchForConcretizedReferences(reference, userMALTitleInfo);
-			nextEpisodeForWatchForTitleWithConcretizedEpisodeOnMAL = String.valueOf(userMALTitleInfo.getNumWatchedEpisodes() + 1);
+			nextEpisodeForWatchForTitleWithConcretizedEpisodeOnMAL = String.valueOf(getEpisodeNumberForWatch(userMALTitleInfo));
 		} else {
 			episodeNumberForWatch = firstEpisode + userMALTitleInfo.getNumWatchedEpisodes();
 		}
 		Map<String, String> nextEpisodeForWatchAndFinalUrl = getNextEpisodeForWatchAndFinalUrl(reference, episodeNumberForWatch);
 		String nextEpisodeNumber = extractEpisodeNumberForWatch(nextEpisodeForWatchAndFinalUrl);
-		reference.setEpisodeNumberForWatch(nextEpisodeForWatchForTitleWithConcretizedEpisodeOnMAL != null && !nextEpisodeNumber
-				.equals(EPISODE_NUMBER_FOR_WATCH_VALUE_IF_EPISODE_IS_NOT_AVAILABLE) ? nextEpisodeForWatchForTitleWithConcretizedEpisodeOnMAL
-				: nextEpisodeNumber);
+		reference.setEpisodeNumberForWatch(nextEpisodeForWatchForTitleWithConcretizedEpisodeOnMAL != null && !nextEpisodeNumber.equals(
+				EPISODE_NUMBER_FOR_WATCH_VALUE_IF_EPISODE_IS_NOT_AVAILABLE) ? nextEpisodeForWatchForTitleWithConcretizedEpisodeOnMAL : nextEpisodeNumber);
 		reference.setFinalUrl(extractFinalUrl(nextEpisodeForWatchAndFinalUrl));
+		return reference;
 	}
 
-	private void enrichReference(AnimediaMALTitleReferences reference, int nextNumberOfEpisodeForWatch) {
+	private AnimediaMALTitleReferences enrichReference(AnimediaMALTitleReferences reference, int nextNumberOfEpisodeForWatch) {
 		Map<String, String> nextEpisodeForWatchFinalUrl = getNextEpisodeForWatchAndFinalUrl(reference, nextNumberOfEpisodeForWatch);
 		reference.setEpisodeNumberForWatch(extractEpisodeNumberForWatch(nextEpisodeForWatchFinalUrl));
 		reference.setFinalUrl(extractFinalUrl(nextEpisodeForWatchFinalUrl));
+		return reference;
 	}
 
 	private String extractEpisodeNumberForWatch(Map<String, String> nextEpisodeForWatchAndFinalUrl) {
-		return nextEpisodeForWatchAndFinalUrl.keySet().stream().findFirst().get();
+		return nextEpisodeForWatchAndFinalUrl.keySet()
+				.stream()
+				.findFirst()
+				.get();
 	}
 
 	private String extractFinalUrl(Map<String, String> nextEpisodeForWatchAndFinalUrl) {
-		return nextEpisodeForWatchAndFinalUrl.values().stream().findFirst().get();
+		return nextEpisodeForWatchAndFinalUrl.values()
+				.stream()
+				.findFirst()
+				.get();
+	}
+
+	private boolean isNextNumberOfEpisodeForWatchInReferenceEpisodesRange(int nextNumberOfEpisodeForWatch,
+			AnimediaMALTitleReferences animediaMALTitleReferences) {
+		String maxEpisodesInDataListOnAnimedia = animediaMALTitleReferences.getMaxConcretizedEpisodeOnAnimedia();
+		int intMax = isMaxEpisodeUndefined(maxEpisodesInDataListOnAnimedia) ? UNDEFINED_MAX : Integer.parseInt(maxEpisodesInDataListOnAnimedia);
+		return nextNumberOfEpisodeForWatch >= Integer.parseInt(animediaMALTitleReferences.getFirstEpisode()) && (nextNumberOfEpisodeForWatch <= intMax
+				|| intMax == UNDEFINED_MAX);
 	}
 }
