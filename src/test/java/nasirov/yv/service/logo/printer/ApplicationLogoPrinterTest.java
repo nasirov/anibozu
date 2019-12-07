@@ -5,8 +5,11 @@ import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.mock;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.PrintStream;
 import nasirov.yv.data.properties.ResourcesNames;
+import nasirov.yv.parser.WrappedObjectMapper;
+import nasirov.yv.parser.WrappedObjectMapperI;
 import nasirov.yv.util.RoutinesIO;
 import org.junit.Before;
 import org.junit.Test;
@@ -26,11 +29,15 @@ public class ApplicationLogoPrinterTest {
 
 	private String applicationLogo;
 
+	private RoutinesIO routinesIO;
+
 	@Before
 	public void setUp() {
 		ResourcesNames resourcesNames = mock(ResourcesNames.class);
 		doReturn(APPLICATION_LOGO_FILENAME).when(resourcesNames).getApplicationLogo();
-		applicationLogoPrinter = new ApplicationLogoPrinter();
+		WrappedObjectMapperI wrappedObjectMapperI = new WrappedObjectMapper(new ObjectMapper());
+		routinesIO = new RoutinesIO(wrappedObjectMapperI);
+		applicationLogoPrinter = new ApplicationLogoPrinter(routinesIO);
 		ReflectionTestUtils.setField(applicationLogoPrinter, "applicationLogoResource", new ClassPathResource(APPLICATION_LOGO_FILENAME));
 	}
 
@@ -44,7 +51,7 @@ public class ApplicationLogoPrinterTest {
 	private void mockPrintStream() {
 		PrintStream mockPrintStream = mock(PrintStream.class);
 		logoFromBean = new StringBuilder();
-		applicationLogo = RoutinesIO.readFromFile("classpath:" + APPLICATION_LOGO_FILENAME);
+		applicationLogo = routinesIO.readFromFile("classpath:" + APPLICATION_LOGO_FILENAME);
 		System.setOut(mockPrintStream);
 		doAnswer(x -> {
 			logoFromBean.append((String) x.getArgument(0));

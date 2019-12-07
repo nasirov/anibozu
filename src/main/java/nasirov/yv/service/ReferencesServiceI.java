@@ -15,5 +15,5 @@ public interface ReferencesServiceI {
 
 	Set<AnimediaMALTitleReferences> getMatchedReferences(Set<AnimediaMALTitleReferences> references, Set<UserMALTitleInfo> watchingTitles);
 
-	void updateCurrentMax(Set<AnimediaMALTitleReferences> matchedAnimeFromCache, AnimediaMALTitleReferences currentlyUpdatedTitle);
+	void updateCurrentMaxAndEpisodesRange(Set<AnimediaMALTitleReferences> matchedAnimeFromCache, AnimediaMALTitleReferences currentlyUpdatedTitle);
 }

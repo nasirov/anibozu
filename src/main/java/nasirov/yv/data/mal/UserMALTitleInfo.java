@@ -1,5 +1,7 @@
 package nasirov.yv.data.mal;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -7,13 +9,9 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
-import org.codehaus.jackson.annotate.JsonIgnoreProperties;
-import org.codehaus.jackson.annotate.JsonProperty;
 
 /**
- * MAL User Anime List Info
- * animelist/USERNAME
- * Created by nasirov.yv
+ * MAL User Anime List Info animelist/USERNAME Created by nasirov.yv
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
 @Entity
@@ -30,6 +28,7 @@ public class UserMALTitleInfo {
 	/**
 	 * Anime Status
 	 */
+	@JsonProperty(value = "status")
 	private Integer status;
 
 	/**

@@ -10,7 +10,6 @@ import java.util.regex.Pattern;
 import lombok.extern.slf4j.Slf4j;
 import nasirov.yv.data.animedia.AnimediaMALTitleReferences;
 import nasirov.yv.data.constants.BaseConstants;
-import nasirov.yv.data.response.HttpResponse;
 import nasirov.yv.exception.animedia.EpisodesRangeNotFoundException;
 import nasirov.yv.exception.animedia.FirstEpisodeInSeasonNotFoundException;
 import nasirov.yv.exception.animedia.NewEpisodesListNotFoundException;
@@ -19,8 +18,7 @@ import nasirov.yv.exception.animedia.SeasonsAndEpisodesNotFoundException;
 import org.springframework.stereotype.Component;
 
 /**
- * Html parser
- * Created by nasirov.yv
+ * Html parser Created by nasirov.yv
  */
 @Component
 @Slf4j
@@ -64,7 +62,8 @@ public class AnimediaHTMLParser {
 	/**
 	 * For episodes range except trailers in data list
 	 */
-	private static final String EPISODE_IN_DATA_LIST_EXCEPT_TRAILERS = "<span>\\s?(?<description>Серия\\.|Cерия|Серия|Серии|серия|серии|ОВА|OVA|ONA|ODA"
+	private static final String EPISODE_IN_DATA_LIST_EXCEPT_TRAILERS =
+			"<span>\\s?(?<description>Серия\\" + ".|Cерия|Серия|Серии|серия|серии|ОВА|OVA|ONA|ODA"
 			+ "|ФИЛЬМ|Фильмы|Сп[е|э]шл|СПЕШЛ|Фильм)?\\s?(?<firstEpisodeInSeason>\\d{1,3})?"
 			+ "(-(?<joinedEpisode>\\d{1,3}))?(\\s\\(\\d{1,3}\\))?\\s*?(из)?\\s?(?<maxEpisodes>.{1,3})?</span>";
 
@@ -82,7 +81,8 @@ public class AnimediaHTMLParser {
 	 * For currently updated titles
 	 */
 	private static final String NEW_SERIES_INFO =
-			"\\s*<div class=\"widget__new-series__item widget__item\">\\R*\\s*<a href=\"(?<fullUrl>(?<root>/anime/.*?)(?<dataListAndCurrentMax>/(?<dataList>\\d{1,3})/"
+			"\\s*<div class=\"widget__new-series__item widget__item\">\\R*\\s*<a href=\"(?<fullUrl>(?<root>/anime/.*?)(?<dataListAndCurrentMax>/"
+					+ "(?<dataList>\\d{1,3})/"
 					+ "(?<currentMax>\\d{1,3}))?)\" title=\".+\" class=\"widget__new-series__item__thumb\"><img data-src=\".+\" alt=\".+\" title=\""
 					+ ".+\"></a>\\R*\\s*<div class=\"widget__new-series__item__info\">\\R*"
 					+ "\\s*<a href=\".+\" title=\".+\" class=\"h4 widget__new-series__item__title\">.+</a>";
@@ -115,19 +115,16 @@ public class AnimediaHTMLParser {
 	private static final Pattern DATALIST_EPISODES_RANGE_PATTERN = Pattern.compile(DATALIST_EPISODES_RANGE);
 
 	/**
-	 * Searches for the title info
-	 * anime id - an entry id in the animedia database
-	 * data list - sub entry with anime episodes(it may be full season,part of season,ova,etc.)
-	 * each tab on page contain one data list
-	 * tab - view, data list - model(in terms mvc)
+	 * Searches for the title info anime id - an entry id in the animedia database data list - sub entry with anime episodes(it may be full season,part
+	 * of season,ova,etc.) each tab on page contain one data list tab - view, data list - model(in terms mvc)
 	 *
 	 * @param response the animedia response
 	 * @return the map <anime id,map<data list, number of episodes>
 	 */
-	public Map<String, Map<String, String>> getAnimeIdDataListsAndMaxEpisodesMap(HttpResponse response) {
+	public Map<String, Map<String, String>> getAnimeIdDataListsAndMaxEpisodesMap(String response) {
 		Map<String, Map<String, String>> animeIdSeasonsAndEpisodes = new HashMap<>();
 		try {
-			animeIdSeasonsAndEpisodes = searchForDataListsAndMaxEpisodes(response.getContent());
+			animeIdSeasonsAndEpisodes = searchForDataListsAndMaxEpisodes(response);
 		} catch (SeasonsAndEpisodesNotFoundException | OriginalTitleNotFoundException e) {
 			log.error(e.getMessage(), e);
 		}
@@ -135,18 +132,15 @@ public class AnimediaHTMLParser {
 	}
 
 	/**
-	 * Searches for the first episode in the data list
-	 * request example http://online.animedia.tv/ajax/episodes/9480/3
-	 * 9480 - anime id
-	 * 3 - data list
+	 * Searches for the first episode in the data list request example http://online.animedia.tv/ajax/episodes/9480/3 9480 - anime id 3 - data list
 	 *
 	 * @param response the animedia response
 	 * @return the first episode
 	 */
-	public String getFirstEpisodeInSeason(HttpResponse response) {
+	public String getFirstEpisodeInSeason(String response) {
 		String firstEpisodeNumber = null;
 		try {
-			firstEpisodeNumber = searchForFirstEpisodeInSeason(response.getContent());
+			firstEpisodeNumber = searchForFirstEpisodeInSeason(response);
 		} catch (FirstEpisodeInSeasonNotFoundException e) {
 			log.error(e.getMessage(), e);
 		}
@@ -154,18 +148,15 @@ public class AnimediaHTMLParser {
 	}
 
 	/**
-	 * Searches for the episodes range in a data list
-	 * request example http://online.animedia.tv/ajax/episodes/9480/3
-	 * 9480 - anime id
-	 * 3 - data list
+	 * Searches for the episodes range in a data list request example http://online.animedia.tv/ajax/episodes/9480/3 9480 - anime id 3 - data list
 	 *
 	 * @param response the animedia response
 	 * @return the map<max episode, list<episodes range>>
 	 */
-	public Map<String, List<String>> getEpisodesRange(HttpResponse response) {
+	public Map<String, List<String>> getEpisodesRange(String response) {
 		Map<String, List<String>> episodesRange = new HashMap<>();
 		try {
-			episodesRange = searchForEpisodesRange(response.getContent());
+			episodesRange = searchForEpisodesRange(response);
 		} catch (EpisodesRangeNotFoundException e) {
 			log.error(e.getMessage(), e);
 		}
@@ -178,10 +169,10 @@ public class AnimediaHTMLParser {
 	 * @param response the animedia response
 	 * @return the title name
 	 */
-	public String getOriginalTitle(HttpResponse response) {
+	public String getOriginalTitle(String response) {
 		String originalTitle = null;
 		try {
-			originalTitle = searchForOriginalTitle(response.getContent());
+			originalTitle = searchForOriginalTitle(response);
 		} catch (OriginalTitleNotFoundException e) {
 			log.error(e.getMessage(), e);
 		}
@@ -191,13 +182,13 @@ public class AnimediaHTMLParser {
 	/**
 	 * Searches for the currently updated titles on animedia
 	 *
-	 * @param response the animedia response
+	 * @param content animedia main page
 	 * @return list of the currently updated titles
 	 */
-	public List<AnimediaMALTitleReferences> getCurrentlyUpdatedTitlesList(HttpResponse response) {
+	public List<AnimediaMALTitleReferences> getCurrentlyUpdatedTitlesList(String content) {
 		List<AnimediaMALTitleReferences> newSeriesList = new ArrayList<>();
 		try {
-			newSeriesList = searchForCurrentlyUpdatedTitles(response.getContent());
+			newSeriesList = searchForCurrentlyUpdatedTitles(content);
 		} catch (NewEpisodesListNotFoundException e) {
 			log.error(e.getMessage(), e);
 		}
@@ -218,8 +209,11 @@ public class AnimediaHTMLParser {
 				dataList = "";
 				currentMax = "";
 			}
-			newSeriesList.add(AnimediaMALTitleReferences.builder().url(matcher.group("root")).dataList(dataList)
-					.currentMax(currentMax).build());
+			newSeriesList.add(AnimediaMALTitleReferences.builder()
+					.url(matcher.group("root"))
+					.dataList(dataList)
+					.currentMax(currentMax)
+					.build());
 		}
 		if (newSeriesList.size() != NUMBER_OF_CURRENTLY_UPDATED_TITLES) {
 			throw new NewEpisodesListNotFoundException("New episodes not found!");
@@ -304,8 +298,7 @@ public class AnimediaHTMLParser {
 	}
 
 	/**
-	 * Searches for the mappings: a tab on page - a season, a tab on page - an episodes
-	 * then merge if tabs are matched
+	 * Searches for the mappings: a tab on page - a season, a tab on page - an episodes then merge if tabs are matched
 	 *
 	 * @param content the html page
 	 * @return the map <anime id <data list, episodes>>
@@ -332,9 +325,10 @@ public class AnimediaHTMLParser {
 		}
 		for (Map.Entry<String, String> seasonTab : tabsAndSeasons.entrySet()) {
 			for (Map.Entry<String, String> episodeTab : tabsAndEpisodes.entrySet()) {
-				if (seasonTab.getKey().equals(episodeTab.getKey())) {
-					seasonsAndEpisodes
-							.put(tabsAndDataList.get(seasonTab.getKey()), checkSeason(seasonTab.getValue()) ? seasonTab.getValue() : episodeTab.getValue());
+				if (seasonTab.getKey()
+						.equals(episodeTab.getKey())) {
+					seasonsAndEpisodes.put(tabsAndDataList.get(seasonTab.getKey()),
+							checkSeason(seasonTab.getValue()) ? seasonTab.getValue() : episodeTab.getValue());
 				}
 			}
 		}
@@ -349,8 +343,7 @@ public class AnimediaHTMLParser {
 	}
 
 	/**
-	 * Checks the season description for the range
-	 * For example, 1-700 or 701-xxx
+	 * Checks the season description for the range For example, 1-700 or 701-xxx
 	 *
 	 * @param season the season description
 	 * @return true if the description contain the range

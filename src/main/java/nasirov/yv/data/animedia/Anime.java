@@ -1,9 +1,9 @@
 package nasirov.yv.data.animedia;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
 /**
  * Created by nasirov.yv

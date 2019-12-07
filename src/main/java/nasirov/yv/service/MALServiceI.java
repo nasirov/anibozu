@@ -3,6 +3,7 @@ package nasirov.yv.service;
 import java.util.Set;
 import nasirov.yv.data.mal.UserMALTitleInfo;
 import nasirov.yv.exception.mal.MALUserAccountNotFoundException;
+import nasirov.yv.exception.mal.MALUserAnimeListAccessException;
 import nasirov.yv.exception.mal.WatchingTitlesNotFoundException;
 
 /**
@@ -10,7 +11,8 @@ import nasirov.yv.exception.mal.WatchingTitlesNotFoundException;
  */
 public interface MALServiceI {
 
-	Set<UserMALTitleInfo> getWatchingTitles(String username) throws WatchingTitlesNotFoundException, MALUserAccountNotFoundException;
+	Set<UserMALTitleInfo> getWatchingTitles(String username)
+			throws WatchingTitlesNotFoundException, MALUserAccountNotFoundException, MALUserAnimeListAccessException;
 
 	Set<UserMALTitleInfo> getWatchingTitlesWithUpdatedNumberOfWatchedEpisodes(Set<UserMALTitleInfo> watchingTitlesNew,
 			Set<UserMALTitleInfo> watchingTitlesFromCache);

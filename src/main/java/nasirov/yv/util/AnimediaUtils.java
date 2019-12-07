@@ -1,5 +1,7 @@
 package nasirov.yv.util;
 
+import static nasirov.yv.data.constants.BaseConstants.NOT_FOUND_ON_MAL;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -9,11 +11,11 @@ import java.util.regex.Pattern;
 import java.util.stream.Stream;
 import lombok.experimental.UtilityClass;
 import nasirov.yv.data.animedia.AnimediaMALTitleReferences;
+import nasirov.yv.data.animedia.AnimediaTitleSearchInfo;
 import nasirov.yv.data.constants.BaseConstants;
 
 /**
- * Util operations with Animedia
- * Created by nasirov.yv
+ * Util operations with Animedia Created by nasirov.yv
  */
 @UtilityClass
 public class AnimediaUtils {
@@ -42,7 +44,13 @@ public class AnimediaUtils {
 	}
 
 	public static boolean isTitleNotFoundOnMAL(AnimediaMALTitleReferences reference) {
-		return reference.getTitleOnMAL().equals(BaseConstants.NOT_FOUND_ON_MAL);
+		return reference.getTitleOnMAL()
+				.equals(NOT_FOUND_ON_MAL);
+	}
+
+	public static boolean isTitleNotFoundOnMAL(AnimediaTitleSearchInfo animediaTitleSearchInfo) {
+		return animediaTitleSearchInfo.getKeywords()
+				.equals(NOT_FOUND_ON_MAL);
 	}
 
 	public static boolean isTitleConcretizedOnMAL(AnimediaMALTitleReferences reference) {
@@ -82,33 +90,41 @@ public class AnimediaUtils {
 	}
 
 	public static String getAnimeId(Map<String, Map<String, String>> animeIdDataListsAndMaxEpisodesMap) {
-		return Stream.of(animeIdDataListsAndMaxEpisodesMap).flatMap(map -> map.entrySet().stream()).map(Entry::getKey).findFirst()
+		return Stream.of(animeIdDataListsAndMaxEpisodesMap)
+				.flatMap(map -> map.entrySet()
+						.stream())
+				.map(Entry::getKey)
+				.findFirst()
 				.orElse(null);
 	}
 
 	public static Map<String, String> getDataListsAndMaxEpisodesMap(Map<String, Map<String, String>> animeIdDataListsAndMaxEpisodesMap) {
-		return Stream.of(animeIdDataListsAndMaxEpisodesMap).flatMap(map -> map.entrySet().stream())
-				.map(Entry::getValue).findFirst().orElseGet(HashMap::new);
+		return Stream.of(animeIdDataListsAndMaxEpisodesMap)
+				.flatMap(map -> map.entrySet()
+						.stream())
+				.map(Entry::getValue)
+				.findFirst()
+				.orElseGet(HashMap::new);
 	}
 
 	public static String getDataList(Map<String, String> dataListsAndMaxEpisodesMap) {
 		return dataListsAndMaxEpisodesMap.keySet()
 				.stream()
 				.findFirst()
-				.get();
+				.orElse(null);
 	}
 
 	public static List<String> getEpisodesRange(Map<String, List<String>> maxEpisodesAndEpisodesRange) {
 		return maxEpisodesAndEpisodesRange.values()
 				.stream()
 				.findFirst()
-				.get();
+				.orElse(null);
 	}
 
 	public static String getMaxEpisode(Map<String, List<String>> maxEpisodesAndEpisodesRange) {
 		return maxEpisodesAndEpisodesRange.keySet()
 				.stream()
 				.findFirst()
-				.get();
+				.orElse(null);
 	}
 }

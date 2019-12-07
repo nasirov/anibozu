@@ -23,23 +23,11 @@ public class UrlsNames {
 	@NotNull
 	private MALUrls malUrls;
 
-	@NotNull
-	private GitHubUrls gitHubUrls;
-
 	@Data
 	public static class AnimediaUrls {
 
 		@NotBlank
 		private String onlineAnimediaTv;
-
-		@NotBlank
-		private String onlineAnimediaAnimeList;
-
-		@NotBlank
-		private String onlineAnimediaAnimeEpisodesList;
-
-		@NotBlank
-		private String onlineAnimediaAnimeEpisodesPostfix;
 	}
 
 	@Data
@@ -50,15 +38,5 @@ public class UrlsNames {
 
 		@NotBlank
 		private String cdnMyAnimeListNet;
-	}
-
-	@Data
-	public static class GitHubUrls {
-
-		@NotBlank
-		private String rawGithubusercontentComAnimediaSearchList;
-
-		@NotBlank
-		private String rawGithubusercontentComReferences;
 	}
 }

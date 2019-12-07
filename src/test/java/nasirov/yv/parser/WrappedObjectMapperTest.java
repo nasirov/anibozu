@@ -3,15 +3,14 @@ package nasirov.yv.parser;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.exc.MismatchedInputException;
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
-import java.io.IOException;
-import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
 import nasirov.yv.data.animedia.Anime;
@@ -24,19 +23,23 @@ import org.springframework.util.FileSystemUtils;
  */
 public class WrappedObjectMapperTest {
 
-	@Test
+	private final WrappedObjectMapperI wrappedObjectMapperI = new WrappedObjectMapper(new ObjectMapper());
+
+	private final RoutinesIO routinesIO = new RoutinesIO(wrappedObjectMapperI);
+
+	@Test(expected = MismatchedInputException.class)
 	public void unmarshalCollectionNullValue() {
-		assertNull(WrappedObjectMapper.unmarshal("", String.class, List.class));
+		wrappedObjectMapperI.unmarshal("", String.class, List.class);
 	}
 
-	@Test
+	@Test(expected = MismatchedInputException.class)
 	public void unmarshalNullValue() {
-		assertNull(WrappedObjectMapper.unmarshal("", String.class));
+		wrappedObjectMapperI.unmarshal("", String.class);
 	}
 
 	@Test
 	public void unmarshalCollection() {
-		List<Anime> unmarshal = WrappedObjectMapper.unmarshal(getCollectionJson(), Anime.class, ArrayList.class);
+		List<Anime> unmarshal = wrappedObjectMapperI.unmarshal(getCollectionJson(), Anime.class, ArrayList.class);
 		assertNotNull(unmarshal);
 		assertFalse(unmarshal.isEmpty());
 		assertEquals(2, unmarshal.size());
@@ -52,7 +55,7 @@ public class WrappedObjectMapperTest {
 
 	@Test
 	public void unmarshalSingleElement() {
-		Anime singleElement = WrappedObjectMapper.unmarshal(getSingleElementJson(), Anime.class);
+		Anime singleElement = wrappedObjectMapperI.unmarshal(getSingleElementJson(), Anime.class);
 		assertNotNull(singleElement);
 		assertEquals("1", singleElement.getId());
 		assertEquals("https://online.animedia.tv/anime/pyat-nevest/1/1", singleElement.getFullUrl());
@@ -61,16 +64,16 @@ public class WrappedObjectMapperTest {
 
 	@Test(expected = NullPointerException.class)
 	public void marshalNPE() {
-		WrappedObjectMapper.marshal(null, null);
+		wrappedObjectMapperI.marshal(null, null);
 	}
 
-	@Test
-	public void marshalException() throws IOException {
-		RoutinesIO.removeDir("temp");
+	@Test(expected = FileNotFoundException.class)
+	public void marshalException() {
+		routinesIO.removeDir("temp");
 		File tempDir = new File("temp" + File.separator + "test.txt");
 		assertFalse(tempDir.exists());
 		Anime forMarshal = new Anime("1", "https://online.animedia.tv/anime/pyat-nevest/1/1", "anime/pyat-nevest");
-		WrappedObjectMapper.marshal(tempDir, forMarshal);
+		wrappedObjectMapperI.marshal(tempDir, forMarshal);
 		assertFalse(tempDir.exists());
 	}
 
@@ -79,7 +82,7 @@ public class WrappedObjectMapperTest {
 		File tempFile = new File("test.txt");
 		assertFalse(tempFile.exists());
 		Anime forMarshal = new Anime("1", "https://online.animedia.tv/anime/pyat-nevest/1/1", "anime/pyat-nevest");
-		WrappedObjectMapper.marshal(tempFile, forMarshal);
+		wrappedObjectMapperI.marshal(tempFile, forMarshal);
 		assertTrue(tempFile.exists());
 		StringBuilder stringBuilder = new StringBuilder();
 		try (BufferedReader bufferedReader = new BufferedReader(new FileReader(tempFile))) {
@@ -91,16 +94,6 @@ public class WrappedObjectMapperTest {
 		FileSystemUtils.deleteRecursively(tempFile);
 		assertEquals(getSingleElementJson(), stringBuilder.toString());
 		assertFalse(tempFile.exists());
-	}
-
-	@Test
-	public void testConstructor() throws IllegalAccessException, InvocationTargetException, InstantiationException {
-		Constructor<?>[] declaredConstructors = WrappedObjectMapper.class.getDeclaredConstructors();
-		assertEquals(1, declaredConstructors.length);
-		assertFalse(declaredConstructors[0].isAccessible());
-		declaredConstructors[0].setAccessible(true);
-		WrappedObjectMapper fromPrivateConstructor = (WrappedObjectMapper) declaredConstructors[0].newInstance();
-		assertNotNull(fromPrivateConstructor);
 	}
 
 	private String getCollectionJson() {

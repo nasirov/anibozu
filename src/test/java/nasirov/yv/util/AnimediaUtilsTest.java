@@ -1,6 +1,6 @@
 package nasirov.yv.util;
 
-import static nasirov.yv.TestUtils.getEpisodesRange;
+import static nasirov.yv.utils.TestUtils.getEpisodesRange;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
@@ -12,23 +12,22 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import nasirov.yv.AbstractTest;
 import nasirov.yv.data.animedia.AnimediaMALTitleReferences;
 import nasirov.yv.data.constants.BaseConstants;
 import org.assertj.core.util.Lists;
 import org.assertj.core.util.Maps;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
-import org.springframework.test.context.junit4.SpringRunner;
 
 /**
  * Created by nasirov.yv
  */
 
-@RunWith(SpringRunner.class)
-public class AnimediaUtilsTest {
+
+public class AnimediaUtilsTest extends AbstractTest {
 
 	private static final String ANIME_ID = "1234";
 
@@ -36,14 +35,8 @@ public class AnimediaUtilsTest {
 
 	private static final String MAX_EPISODES = "12";
 
-	@Value("classpath:referencesForTest.json")
+	@Value("classpath:__files/github/referencesForTest.json")
 	private Resource referencesForTestResource;
-
-	@Value("classpath:animedia/announcements/htmlWithAnnouncement.txt")
-	private Resource htmlWithAnnouncement;
-
-	@Value("classpath:animedia/sao/saoHtml.txt")
-	private Resource saoHtml;
 
 	private AnimediaMALTitleReferences concretizedAndOngoing;
 
@@ -62,7 +55,7 @@ public class AnimediaUtilsTest {
 
 	@Before
 	public void setUp() {
-		Set<AnimediaMALTitleReferences> references = RoutinesIO.unmarshalFromResource(referencesForTestResource,
+		Set<AnimediaMALTitleReferences> references = routinesIO.unmarshalFromResource(referencesForTestResource,
 				AnimediaMALTitleReferences.class,
 				LinkedHashSet.class);
 		concretizedAndOngoing = references.stream()
@@ -115,8 +108,8 @@ public class AnimediaUtilsTest {
 	}
 	@Test
 	public void isAnnouncement() {
-		assertTrue(AnimediaUtils.isAnnouncement(RoutinesIO.readFromResource(htmlWithAnnouncement)));
-		assertFalse(AnimediaUtils.isAnnouncement(RoutinesIO.readFromResource(saoHtml)));
+		assertTrue(AnimediaUtils.isAnnouncement(routinesIO.readFromResource(htmlWithAnnouncement)));
+		assertFalse(AnimediaUtils.isAnnouncement(routinesIO.readFromResource(saoHtml)));
 	}
 	@Test
 	public void isTitleConcretizedAndOngoing() {

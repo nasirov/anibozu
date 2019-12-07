@@ -1,31 +1,32 @@
 package nasirov.yv.service.resources.loader;
 
-import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
 import nasirov.yv.service.AnimediaServiceI;
 import nasirov.yv.service.ReferencesServiceI;
-import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.MockitoJUnitRunner;
 
 /**
  * Created by nasirov.yv
  */
+
+@RunWith(MockitoJUnitRunner.class)
 public class ResourcesLoaderTest {
 
-	private ResourcesLoaderI resourcesLoader;
-
+	@Mock
 	private ReferencesServiceI referencesManager;
 
+	@Mock
 	private AnimediaServiceI animediaService;
 
-	@Before
-	public void setUp() {
-		referencesManager = mock(ReferencesServiceI.class);
-		animediaService = mock(AnimediaServiceI.class);
-		resourcesLoader = new ResourcesLoader(referencesManager, animediaService);
-	}
+	@InjectMocks
+	private ResourcesLoader resourcesLoader;
+
 
 	@Test
 	public void loadMultiSeasonsReferencesEnabled() {

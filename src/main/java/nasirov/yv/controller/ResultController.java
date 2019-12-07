@@ -20,6 +20,7 @@ import nasirov.yv.data.constants.CacheNamesConstants;
 import nasirov.yv.data.mal.MALUser;
 import nasirov.yv.data.mal.UserMALTitleInfo;
 import nasirov.yv.exception.mal.MALUserAccountNotFoundException;
+import nasirov.yv.exception.mal.MALUserAnimeListAccessException;
 import nasirov.yv.exception.mal.WatchingTitlesNotFoundException;
 import nasirov.yv.repository.NotFoundAnimeOnAnimediaRepository;
 import nasirov.yv.service.AnimediaServiceI;
@@ -86,7 +87,7 @@ public class ResultController {
 		Set<UserMALTitleInfo> watchingTitles;
 		try {
 			watchingTitles = malService.getWatchingTitles(username);
-		} catch (MALUserAccountNotFoundException | WatchingTitlesNotFoundException e) {
+		} catch (MALUserAccountNotFoundException | WatchingTitlesNotFoundException | MALUserAnimeListAccessException e) {
 			return handleError(e.getMessage(), model, e);
 		}
 		Set<UserMALTitleInfo> watchingTitlesFromCache = userMALCache.get(username, LinkedHashSet.class);
@@ -181,7 +182,7 @@ public class ResultController {
 							&& title.getDataList().equals(currentlyUpdatedTitle.getDataList())
 							&& !isTitleConcretizedOnMAL(title));
 			if (isCachedMatchedAnimeNeedUpdate) {
-				referencesManager.updateCurrentMax(matchedAnimeFromCache, currentlyUpdatedTitle);
+				referencesManager.updateCurrentMaxAndEpisodesRange(matchedAnimeFromCache, currentlyUpdatedTitle);
 				seasonAndEpisodeChecker.updateEpisodeNumberForWatchAndFinalUrl(watchingTitlesFromCache, currentlyUpdatedTitle, matchedAnimeFromCache);
 			}
 		}

@@ -2,6 +2,7 @@ package nasirov.yv.service.scheduler;
 
 import static nasirov.yv.data.animedia.AnimeTypeOnAnimedia.MULTISEASONS;
 import static nasirov.yv.data.animedia.AnimeTypeOnAnimedia.SINGLESEASON;
+import static nasirov.yv.util.AnimediaUtils.isTitleNotFoundOnMAL;
 
 import java.util.LinkedHashSet;
 import java.util.List;
@@ -16,7 +17,6 @@ import nasirov.yv.data.animedia.Anime;
 import nasirov.yv.data.animedia.AnimeTypeOnAnimedia;
 import nasirov.yv.data.animedia.AnimediaMALTitleReferences;
 import nasirov.yv.data.animedia.AnimediaTitleSearchInfo;
-import nasirov.yv.data.constants.BaseConstants;
 import nasirov.yv.data.mal.UserMALTitleInfo;
 import nasirov.yv.data.properties.ResourcesNames;
 import nasirov.yv.repository.NotFoundAnimeOnAnimediaRepository;
@@ -25,6 +25,7 @@ import nasirov.yv.service.MALServiceI;
 import nasirov.yv.service.ReferencesServiceI;
 import nasirov.yv.service.ResourcesServiceI;
 import nasirov.yv.util.RoutinesIO;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
@@ -49,6 +50,8 @@ public class ResourcesCheckerService {
 	private final ResourcesNames resourcesNames;
 
 	private final NotFoundAnimeOnAnimediaRepository notFoundAnimeOnAnimediaRepository;
+
+	private final RoutinesIO routinesIO;
 
 	private String tempFolder;
 
@@ -110,7 +113,7 @@ public class ResourcesCheckerService {
 			Set<AnimediaMALTitleReferences> referencesWithInvalidMALTitleName = new LinkedHashSet<>();
 			for (AnimediaMALTitleReferences reference : allReferences) {
 				String titleOnMAL = reference.getTitleOnMAL();
-				if (!titleOnMAL.equals(BaseConstants.NOT_FOUND_ON_MAL)) {
+				if (!isTitleNotFoundOnMAL(reference)) {
 					boolean titleExist = malService.isTitleExist(titleOnMAL);
 					if (!titleExist) {
 						log.error("TITLE NAME {} FROM {} DOESN'T EXIST!", titleOnMAL, reference);
@@ -119,7 +122,7 @@ public class ResourcesCheckerService {
 				}
 			}
 			if (!referencesWithInvalidMALTitleName.isEmpty()) {
-				RoutinesIO.marshalToFileInTheFolder(tempFolder, resourcesNames.getTempReferencesWithInvalidMALTitleName(),
+				routinesIO.marshalToFileInTheFolder(tempFolder, resourcesNames.getTempReferencesWithInvalidMALTitleName(),
 						referencesWithInvalidMALTitleName);
 			}
 			log.info("END CHECKING REFERENCES TITLE NAME ON MAL.");
@@ -144,7 +147,7 @@ public class ResourcesCheckerService {
 			Set<AnimediaTitleSearchInfo> searchTitlesWithInvalidMALTitleName = new LinkedHashSet<>();
 			for (AnimediaTitleSearchInfo title : tempAllSingleSeasonTitles) {
 				String titleOnMAL = title.getKeywords();
-				if (!titleOnMAL.equals("") && !titleOnMAL.equals(BaseConstants.NOT_FOUND_ON_MAL)) {
+				if (StringUtils.isNotBlank(titleOnMAL) && !isTitleNotFoundOnMAL(title)) {
 					boolean titleExist = malService.isTitleExist(titleOnMAL);
 					if (!titleExist) {
 						log.error("TITLE NAME {} FROM {} DOESN'T EXIST!", titleOnMAL, title);
@@ -153,7 +156,7 @@ public class ResourcesCheckerService {
 				}
 			}
 			if (!searchTitlesWithInvalidMALTitleName.isEmpty()) {
-				RoutinesIO
+				routinesIO
 						.marshalToFileInTheFolder(tempFolder, resourcesNames.getTempSearchTitlesWithInvalidMALTitleName(), searchTitlesWithInvalidMALTitleName);
 			}
 			log.info("END CHECKING SINGLESEASON TITLE NAME ON MAL.");

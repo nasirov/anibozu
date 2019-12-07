@@ -15,24 +15,45 @@ application:
   urls:
     animedia-urls:
       online-animedia-tv: https://online.animedia.tv/
-      online-animedia-anime-list: https://online.animedia.tv/ajax/anime_list/
-      online-animedia-anime-episodes-list: https://online.animedia.tv/ajax/episodes/
-      online-animedia-anime-episodes-postfix: /undefined
     mal-urls:
       myAnimeList-net: https://myanimelist.net/
       cdn-myAnimeList-net: https://cdn.myanimelist.net/
-    github-urls:
-      raw-githubusercontent-com-animediaSearchList: https://raw.githubusercontent.com/nasirov/anime-checker-resources/master/animediaSearchList.json
-      raw-githubusercontent-com-references: https://raw.githubusercontent.com/nasirov/anime-checker-resources/master/references.json
   services:
     resourcesLoader-enabled: false
-    applicationLogoPrinter-enabled: false
+    applicationLogoPrinter-enabled: true
   cron:
     cache-cron-expression: 0 0/30 * * * ?
     resources-check-cron-expression: 0 0/30 * * * ?
-  http:
-    connect-timeout: 2000
-    read-timeout: 2000
-    max-attempts: 3
-    max-wait-time: 1
-    follow-redirects: false
+
+
+animedia-feign-client:
+  ribbon:
+    listOfServers: localhost:${wiremock.server.port}
+
+mal-feign-client:
+  ribbon:
+    listOfServers: localhost:${wiremock.server.port}
+
+github-feign-client:
+  ribbon:
+    listOfServers: localhost:${wiremock.server.port}
+
+ribbon:
+  eureka:
+    enabled: false
+  ConnectTimeout: 20000
+  ReadTimeout: 20000
+  MaxAutoRetries: 2
+  retryableStatusCodes: 429, 504
+
+feign:
+  hystrix:
+    enabled: true
+
+hystrix:
+  command:
+    default:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 20000

@@ -1,43 +1,29 @@
 package nasirov.yv.service;
 
 import static nasirov.yv.data.mal.MALAnimeStatus.WATCHING;
+import static nasirov.yv.utils.TestConstants.APPLICATION_JSON_CHARSET_UTF_8;
+import static nasirov.yv.utils.TestConstants.TEST_ACC_WATCHING_TITLES;
+import static nasirov.yv.utils.TestConstants.TEXT_HTML_CHARSET_UTF_8;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.Mockito.doReturn;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
+import static org.springframework.http.HttpStatus.BAD_REQUEST;
+import static org.springframework.http.HttpStatus.NOT_FOUND;
+import static org.springframework.http.HttpStatus.OK;
 
+import com.google.common.collect.Sets;
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 import nasirov.yv.AbstractTest;
-import nasirov.yv.data.constants.CacheNamesConstants;
 import nasirov.yv.data.mal.UserMALTitleInfo;
-import nasirov.yv.data.response.HttpResponse;
 import nasirov.yv.exception.mal.MALUserAccountNotFoundException;
+import nasirov.yv.exception.mal.MALUserAnimeListAccessException;
 import nasirov.yv.exception.mal.WatchingTitlesNotFoundException;
-import nasirov.yv.http.caller.HttpCaller;
-import nasirov.yv.http.parameter.RequestParametersBuilder;
-import nasirov.yv.util.RoutinesIO;
-import org.junit.Before;
 import org.junit.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.cache.Cache;
-import org.springframework.cache.CacheManager;
-import org.springframework.core.io.Resource;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.HttpStatus;
 
 /**
  * Created by nasirov.yv
@@ -46,43 +32,7 @@ import org.springframework.http.HttpStatus;
 
 public class MALServiceTest extends AbstractTest {
 
-	@Value("classpath:mal/testAccForDevFirstJson300.json")
-	private Resource testAccForDevFirstJson300;
-
-	@Value("classpath:mal/testAccForDevAdditionalJsonMoreThan300.json")
-	private Resource testAccForDevAdditionalJsonMoreThan300;
-
-	@Value("classpath:mal/testAccForDevAdditionalJsonMoreThan600.json")
-	private Resource testAccForDevAdditionalJsonMoreThan600;
-
-	@Value("classpath:mal/testAccForDevAdditionalJsonMoreThan900.json")
-	private Resource testAccForDevAdditionalJsonMoreThan900;
-
-	@Value("classpath:mal/searchTitleFairyTail.json")
-	private Resource searchTitleFairyTail;
-
-	@Value("classpath:mal/searchTitleNotFound.json")
-	private Resource searchTitleNotFound;
-
-	private static final String LOAD_JSON = "/load.json";
-
-	private static final String SEARCH_PREFIX_JSON = "search/prefix.json";
-
-	private static final String PROFILE = "profile/";
-
-	private static final String ANIME_LIST = "animelist/";
-
-	private static final String STATUS = "status";
-
-	private static final String TEST_ACC_FOR_DEV = "testAccForDev";
-
-	/**
-	 * Max number of rows on html page
-	 */
-	private static final Integer MAX_NUMBER_OF_TITLE_IN_HTML = 300;
-
-	private static final Integer INITIAL_OFFSET_FOR_LOAD_JSON = 0;
-
+	private static final String TEST_ACC_FOR_DEV = "testaccfordev";
 
 	private static final String CACHED_ANIME_LIST = "cached";
 
@@ -94,92 +44,42 @@ public class MALServiceTest extends AbstractTest {
 
 	private static final String NUMBER_OF_WATCHED_EPISODES_DECREASED = "numberOfWatchedEpisodesDecreased";
 
-	private String myAnimeListNet;
-
-	@Before
-	public void init() {
-		super.setUp();
-		myAnimeListNet = urlsNames.getMalUrls().getMyAnimeListNet();
-	}
-
-	@MockBean
-	private HttpCaller httpCaller;
-
-	@Autowired
-	private CacheManager cacheManager;
-
-	@Autowired
-	private MALServiceI malService;
-
-	@Autowired
-	@Qualifier("malRequestParametersBuilder")
-	private RequestParametersBuilder parametersBuilder;
-
 	@Test
 	public void getWatchingTitles() throws Exception {
-		Map<String, Map<String, String>> params = parametersBuilder.build();
-		Cache userMALCache = cacheManager.getCache(CacheNamesConstants.USER_MAL_CACHE);
-		Set<UserMALTitleInfo> watchingTitlesFromCache = userMALCache.get(TEST_ACC_FOR_DEV, LinkedHashSet.class);
-		assertNull(watchingTitlesFromCache);
-		String profileUrl = myAnimeListNet + PROFILE + TEST_ACC_FOR_DEV;
-		String firstJsonUrl300Titles =
-				myAnimeListNet + ANIME_LIST + TEST_ACC_FOR_DEV + LOAD_JSON + "?" + "offset=" + INITIAL_OFFSET_FOR_LOAD_JSON + "&" + STATUS + "=" + WATCHING
-						.getCode().toString();
-		String additionalJsonUrlMoreThan300 =
-				myAnimeListNet + ANIME_LIST + TEST_ACC_FOR_DEV + LOAD_JSON + "?" + "offset=" + MAX_NUMBER_OF_TITLE_IN_HTML + "&" + STATUS + "=" + WATCHING
-						.getCode().toString();
-		String additionalJsonUrlMore600 =
-				myAnimeListNet + ANIME_LIST + TEST_ACC_FOR_DEV + LOAD_JSON + "?" + "offset=" + (MAX_NUMBER_OF_TITLE_IN_HTML * 2) + "&" + STATUS + "="
-						+ WATCHING.getCode().toString();
-		String additionalJsonUrlMore900 =
-				myAnimeListNet + ANIME_LIST + TEST_ACC_FOR_DEV + LOAD_JSON + "?" + "offset=" + (MAX_NUMBER_OF_TITLE_IN_HTML * 3) + "&" + STATUS + "="
-						+ WATCHING.getCode().toString();
-		doReturn(new HttpResponse(RoutinesIO.readFromResource(testAccForDevProfile), HttpStatus.OK.value())).when(httpCaller)
-				.call(eq(profileUrl), eq(HttpMethod.GET), eq(params));
-		doReturn(new HttpResponse(RoutinesIO.readFromResource(testAccForDevFirstJson300), HttpStatus.OK.value())).when(httpCaller)
-				.call(eq(firstJsonUrl300Titles), eq(HttpMethod.GET), eq(params));
-		doReturn(new HttpResponse(RoutinesIO.readFromResource(testAccForDevAdditionalJsonMoreThan300), HttpStatus.OK.value())).when(httpCaller)
-				.call(eq(additionalJsonUrlMoreThan300), eq(HttpMethod.GET), eq(params));
-		doReturn(new HttpResponse(RoutinesIO.readFromResource(testAccForDevAdditionalJsonMoreThan600), HttpStatus.OK.value())).when(httpCaller)
-				.call(eq(additionalJsonUrlMore600), eq(HttpMethod.GET), eq(params));
-		doReturn(new HttpResponse(RoutinesIO.readFromResource(testAccForDevAdditionalJsonMoreThan900), HttpStatus.OK.value())).when(httpCaller)
-				.call(eq(additionalJsonUrlMore900), eq(HttpMethod.GET), eq(params));
+		stubTestUser();
 		Set<UserMALTitleInfo> watchingTitles = malService.getWatchingTitles(TEST_ACC_FOR_DEV);
 		assertNotNull(watchingTitles);
 		assertEquals(TEST_ACC_WATCHING_TITLES, watchingTitles.size());
-		watchingTitlesFromCache = userMALCache.get(TEST_ACC_FOR_DEV, LinkedHashSet.class);
+		Set<UserMALTitleInfo> watchingTitlesFromCache = userMALCache.get(TEST_ACC_FOR_DEV, LinkedHashSet.class);
 		assertNotNull(watchingTitlesFromCache);
 		assertEquals(TEST_ACC_WATCHING_TITLES, watchingTitlesFromCache.size());
-		verify(httpCaller, times(5)).call(any(String.class), eq(HttpMethod.GET), eq(params));
-		verify(httpCaller, times(1)).call(eq(profileUrl), eq(HttpMethod.GET), eq(params));
-		verify(httpCaller, times(1)).call(eq(firstJsonUrl300Titles), eq(HttpMethod.GET), eq(params));
-		verify(httpCaller, times(1)).call(eq(additionalJsonUrlMoreThan300), eq(HttpMethod.GET), eq(params));
-		verify(httpCaller, times(1)).call(eq(additionalJsonUrlMore600), eq(HttpMethod.GET), eq(params));
-		verify(httpCaller, times(1)).call(eq(additionalJsonUrlMore900), eq(HttpMethod.GET), eq(params));
 	}
 
 	@Test(expected = WatchingTitlesNotFoundException.class)
 	public void getWatchingTitlesNotFound() throws Exception {
-		Map<String, Map<String, String>> params = parametersBuilder.build();
-		String profileUrl = myAnimeListNet + PROFILE + TEST_ACC_FOR_DEV;
-		doReturn(new HttpResponse("", HttpStatus.OK.value())).when(httpCaller).call(eq(profileUrl), eq(HttpMethod.GET), eq(params));
+		createStubWithContent("/profile/testaccfordev", TEXT_HTML_CHARSET_UTF_8, "Watching</a><span class=\"changed-class\">123</span>", OK.value());
 		malService.getWatchingTitles(TEST_ACC_FOR_DEV);
 	}
 
 	@Test(expected = WatchingTitlesNotFoundException.class)
 	public void getWatchingTitlesEqualsZero() throws Exception {
-		Map<String, Map<String, String>> params = parametersBuilder.build();
-		String profileUrl = myAnimeListNet + PROFILE + TEST_ACC_FOR_DEV;
-		doReturn(new HttpResponse("Watching</a><span class=\"di-ib fl-r lh10\">0</span>", HttpStatus.OK.value())).when(httpCaller)
-				.call(eq(profileUrl), eq(HttpMethod.GET), eq(params));
+		createStubWithBodyFile("/profile/testaccfordev", TEXT_HTML_CHARSET_UTF_8, "mal/testAccForDevProfileWatchingTitles0.txt");
 		malService.getWatchingTitles(TEST_ACC_FOR_DEV);
 	}
 
 	@Test(expected = MALUserAccountNotFoundException.class)
 	public void getWatchingTitlesMALUserAccountNotFound() throws Exception {
-		Map<String, Map<String, String>> params = parametersBuilder.build();
-		String profileUrl = myAnimeListNet + PROFILE + TEST_ACC_FOR_DEV;
-		doReturn(new HttpResponse("", HttpStatus.NOT_FOUND.value())).when(httpCaller).call(eq(profileUrl), eq(HttpMethod.GET), eq(params));
+		createStubWithContent("/profile/testaccfordev", TEXT_HTML_CHARSET_UTF_8, "", NOT_FOUND.value());
+		malService.getWatchingTitles(TEST_ACC_FOR_DEV);
+	}
+
+	@Test(expected = MALUserAnimeListAccessException.class)
+	public void getWatchingTitlesMALUserAnimeListAccessException() throws Exception {
+		createStubWithBodyFile("/profile/testaccfordev", TEXT_HTML_CHARSET_UTF_8, "mal/testAccForDevProfile.txt");
+		createStubWithContent("/animelist/testaccfordev/load.json?offset=0&status=1",
+				APPLICATION_JSON_CHARSET_UTF_8,
+				"{\"errors\":[{\"message\":\"invalid request\"}]}",
+				BAD_REQUEST.value());
 		malService.getWatchingTitles(TEST_ACC_FOR_DEV);
 	}
 
@@ -228,61 +128,79 @@ public class MALServiceTest extends AbstractTest {
 	}
 
 	@Test
-	public void getWatchingTitlesWithUpdatedNumberOfWatchedEpisodes() {
-		UserMALTitleInfo accelWorld = new UserMALTitleInfo(0,
-				WATCHING.getCode(),
-				0,
-				"accel world",
-				24,
-				"https://myanimelist.cdn-dena.com/images/anime/8/38155.webp",
-				"https://myanimelist.net//anime/11759/Accel_World");
-		Set<UserMALTitleInfo> cached = new LinkedHashSet<>();
-		cached.add(accelWorld);
-		Set<UserMALTitleInfo> fresh = new LinkedHashSet<>();
-		fresh.add(accelWorld);
-		Set<UserMALTitleInfo> watchingTitlesWithUpdatedNumberOfWatchedEpisodes = malService
-				.getWatchingTitlesWithUpdatedNumberOfWatchedEpisodes(fresh, cached);
-		assertEquals(0, watchingTitlesWithUpdatedNumberOfWatchedEpisodes.size());
-		int freshNumWatcheEpisodes = 10;
-		UserMALTitleInfo increasedAccelWorld = new UserMALTitleInfo(accelWorld);
-		increasedAccelWorld.setNumWatchedEpisodes(freshNumWatcheEpisodes);
-		fresh.add(increasedAccelWorld);
-		watchingTitlesWithUpdatedNumberOfWatchedEpisodes = malService.getWatchingTitlesWithUpdatedNumberOfWatchedEpisodes(fresh, cached);
-		assertEquals(1, watchingTitlesWithUpdatedNumberOfWatchedEpisodes.size());
-		assertEquals(1, watchingTitlesWithUpdatedNumberOfWatchedEpisodes.stream().filter(title -> title.equals(increasedAccelWorld)).count());
-		fresh.clear();
-		accelWorld.setNumWatchedEpisodes(freshNumWatcheEpisodes);
-		freshNumWatcheEpisodes = 5;
-		UserMALTitleInfo decreasedAccelWorld = new UserMALTitleInfo(accelWorld);
-		decreasedAccelWorld.setNumWatchedEpisodes(freshNumWatcheEpisodes);
-		fresh.add(decreasedAccelWorld);
-		watchingTitlesWithUpdatedNumberOfWatchedEpisodes = malService.getWatchingTitlesWithUpdatedNumberOfWatchedEpisodes(fresh, cached);
-		assertEquals(1, watchingTitlesWithUpdatedNumberOfWatchedEpisodes.size());
-		assertEquals(1, watchingTitlesWithUpdatedNumberOfWatchedEpisodes.stream().filter(title -> title.equals(decreasedAccelWorld)).count());
+	public void watchingTitlesWithoutUpdates() {
+		UserMALTitleInfo titleForTest = getTitleForTest(0);
+		Set<UserMALTitleInfo> watchingTitlesWithUpdatedNumberOfWatchedEpisodes =
+				malService.getWatchingTitlesWithUpdatedNumberOfWatchedEpisodes(Sets.newHashSet(
+				titleForTest), Sets.newHashSet(titleForTest));
+		assertTrue(watchingTitlesWithUpdatedNumberOfWatchedEpisodes.isEmpty());
+	}
+
+	@Test
+	public void watchingTitlesWithIncreasedNumberOfWatchedEpisodes() {
+		UserMALTitleInfo titleForTest = getTitleForTest(0);
+		UserMALTitleInfo titleForTestWithIncreasedNumOfWtchedEpisodes = getTitleForTest(10);
+		Set<UserMALTitleInfo> watchingTitlesWithUpdatedNumberOfWatchedEpisodes =
+				malService.getWatchingTitlesWithUpdatedNumberOfWatchedEpisodes(Sets.newHashSet(
+				titleForTest,
+				titleForTestWithIncreasedNumOfWtchedEpisodes), Sets.newHashSet(titleForTest));
+		checkUpdatedTitle(titleForTestWithIncreasedNumOfWtchedEpisodes, watchingTitlesWithUpdatedNumberOfWatchedEpisodes);
+	}
+
+	@Test
+	public void watchingTitlesWithDecreasedNumberOfWatchedEpisodes() {
+		UserMALTitleInfo titleForTest = getTitleForTest(10);
+		UserMALTitleInfo titleForTestWithDecreasedNumberOfWatchedEpisodes = getTitleForTest(5);
+		Set<UserMALTitleInfo> watchingTitlesWithUpdatedNumberOfWatchedEpisodes =
+				malService.getWatchingTitlesWithUpdatedNumberOfWatchedEpisodes(Sets.newHashSet(
+				titleForTest,
+				titleForTestWithDecreasedNumberOfWatchedEpisodes), Sets.newHashSet(titleForTest));
+		checkUpdatedTitle(titleForTestWithDecreasedNumberOfWatchedEpisodes, watchingTitlesWithUpdatedNumberOfWatchedEpisodes);
 	}
 
 	@Test
 	public void testIsTitleExistResultFound() {
-		String url = myAnimeListNet + SEARCH_PREFIX_JSON + "?type=all&v=1&keyword=fairy%20tail";
-		doReturn(new HttpResponse(RoutinesIO.readFromResource(searchTitleFairyTail), HttpStatus.OK.value())).when(httpCaller)
-				.call(eq(url), eq(HttpMethod.GET), eq(parametersBuilder.build()));
+		createStubWithBodyFile("/search/prefix.json?type=all&v=1&keyword=fairy%20tail", APPLICATION_JSON_CHARSET_UTF_8, "mal/searchTitleFairyTail.json");
 		assertTrue(malService.isTitleExist("fairy tail"));
 	}
 
 	@Test
 	public void testIsTitleExistResultNotFound() {
-		String url = myAnimeListNet + SEARCH_PREFIX_JSON + "?type=all&v=1&keyword=notFairyTail";
-		doReturn(new HttpResponse(RoutinesIO.readFromResource(searchTitleNotFound), HttpStatus.OK.value())).when(httpCaller)
-				.call(eq(url), eq(HttpMethod.GET), eq(parametersBuilder.build()));
+		createStubWithBodyFile("/search/prefix.json?type=all&v=1&keyword=notFairyTail", APPLICATION_JSON_CHARSET_UTF_8, "mal/searchTitleNotFound.json");
 		assertFalse(malService.isTitleExist("notFairyTail"));
 	}
 
 	@Test
 	public void testIsTitleExistBadRequest() {
-		String url = myAnimeListNet + SEARCH_PREFIX_JSON + "?type=all&v=1&keyword=notFairyTail";
-		doReturn(new HttpResponse("{\"errors\":[{\"message\":\"Your keyword length must save less than or equal to 100.\"}]}",
-				HttpStatus.BAD_REQUEST.value())).when(httpCaller).call(eq(url), eq(HttpMethod.GET), eq(parametersBuilder.build()));
+		createStubWithContent("/search/prefix.json?type=all&v=1&keyword=notFairyTail",
+				APPLICATION_JSON_CHARSET_UTF_8,
+				"{\"errors\":[{\"message" + "\":\"Your keyword length must save less than or equal to 100.\"}]}",
+				BAD_REQUEST.value());
 		assertFalse(malService.isTitleExist("notFairyTail"));
+	}
+
+	private void stubTestUser() {
+		createStubWithBodyFile("/profile/testaccfordev", TEXT_HTML_CHARSET_UTF_8, "mal/testAccForDevProfile.txt");
+		createStubWithBodyFile("/animelist/testaccfordev/load.json?offset=0&status=1",
+				APPLICATION_JSON_CHARSET_UTF_8,
+				"mal/testAccForDevFirstJson300.json");
+		createStubWithBodyFile("/animelist/testaccfordev/load.json?offset=300&status=1",
+				APPLICATION_JSON_CHARSET_UTF_8,
+				"mal/testAccForDevAdditionalJsonMoreThan300.json");
+		createStubWithBodyFile("/animelist/testaccfordev/load.json?offset=600&status=1",
+				APPLICATION_JSON_CHARSET_UTF_8,
+				"mal/testAccForDevAdditionalJsonMoreThan600.json");
+		createStubWithBodyFile("/animelist/testaccfordev/load.json?offset=900&status=1",
+				APPLICATION_JSON_CHARSET_UTF_8,
+				"mal/testAccForDevAdditionalJsonMoreThan900.json");
+	}
+
+	private void checkUpdatedTitle(UserMALTitleInfo updatedTitle, Set<UserMALTitleInfo> watchingTitlesWithUpdatedNumberOfWatchedEpisodes) {
+		assertEquals(1, watchingTitlesWithUpdatedNumberOfWatchedEpisodes.size());
+		assertEquals(1,
+				watchingTitlesWithUpdatedNumberOfWatchedEpisodes.stream()
+						.filter(title -> title.equals(updatedTitle))
+						.count());
 	}
 
 	private void checkTitlesWithUpdatedNumberOfWatchedEpisodes(String typeOfChange) {
@@ -290,10 +208,24 @@ public class MALServiceTest extends AbstractTest {
 		Set<UserMALTitleInfo> cached = new LinkedHashSet<>(getWatchingTitlesForTest(CACHED_ANIME_LIST));
 		UserMALTitleInfo updatedTitle = getWatchingTitlesForTest(typeOfChange).get(0);
 		assertNotEquals(increasedWatchedEpisodes, cached);
-		assertNotEquals(updatedTitle.getNumWatchedEpisodes(), new ArrayList<>(cached).get(0).getNumWatchedEpisodes());
+		assertNotEquals(updatedTitle.getNumWatchedEpisodes(),
+				new ArrayList<>(cached).get(0)
+						.getNumWatchedEpisodes());
 		assertTrue(malService.isWatchingTitlesUpdated(increasedWatchedEpisodes, cached));
-		assertEquals(updatedTitle.getNumWatchedEpisodes(), new ArrayList<>(cached).get(0).getNumWatchedEpisodes());
+		assertEquals(updatedTitle.getNumWatchedEpisodes(),
+				new ArrayList<>(cached).get(0)
+						.getNumWatchedEpisodes());
 		assertEquals(increasedWatchedEpisodes, cached);
+	}
+
+	private UserMALTitleInfo getTitleForTest(int numWatchedEpisodes) {
+		return new UserMALTitleInfo(0,
+				WATCHING.getCode(),
+				numWatchedEpisodes,
+				"accel world",
+				24,
+				"https://myanimelist.cdn-dena.com/images/anime/8/38155.webp",
+				"https://myanimelist.net//anime/11759/Accel_World");
 	}
 
 	private List<UserMALTitleInfo> getWatchingTitlesForTest(String type) {
