@@ -61,16 +61,6 @@ public class UserMALTitleInfo {
 	@JsonProperty(value = "anime_url")
 	private String animeUrl;
 
-	public UserMALTitleInfo(UserMALTitleInfo userMALTitleInfo) {
-		this.id = userMALTitleInfo.getId();
-		this.status = userMALTitleInfo.getStatus();
-		this.numWatchedEpisodes = userMALTitleInfo.getNumWatchedEpisodes();
-		this.title = userMALTitleInfo.getTitle();
-		this.animeNumEpisodes = userMALTitleInfo.getAnimeNumEpisodes();
-		this.posterUrl = userMALTitleInfo.getPosterUrl();
-		this.animeUrl = userMALTitleInfo.getAnimeUrl();
-	}
-
 	public void setTitle(String title) {
 		this.title = title.toLowerCase();
 	}

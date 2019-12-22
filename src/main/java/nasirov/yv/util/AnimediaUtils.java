@@ -1,18 +1,15 @@
 package nasirov.yv.util;
 
+import static java.util.Optional.ofNullable;
 import static nasirov.yv.data.constants.BaseConstants.NOT_FOUND_ON_MAL;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
+import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import java.util.stream.Stream;
 import lombok.experimental.UtilityClass;
-import nasirov.yv.data.animedia.AnimediaMALTitleReferences;
-import nasirov.yv.data.animedia.AnimediaTitleSearchInfo;
-import nasirov.yv.data.constants.BaseConstants;
+import nasirov.yv.data.animedia.AnimediaSearchListTitle;
+import nasirov.yv.data.animedia.TitleReference;
 
 /**
  * Util operations with Animedia Created by nasirov.yv
@@ -22,39 +19,36 @@ public class AnimediaUtils {
 
 	private static final Pattern MAX_EPISODES_IS_UNDEFINED = Pattern.compile("^[xXхХ]{1,3}$");
 
-
 	public static boolean isMaxEpisodeUndefined(String maxEpisodes) {
-		Matcher matcher = MAX_EPISODES_IS_UNDEFINED.matcher(maxEpisodes);
+		// TODO: 18.12.2019 revert after a json object improvement with max episode in a data list from animedia api
+		Matcher matcher = MAX_EPISODES_IS_UNDEFINED.matcher(ofNullable(maxEpisodes).orElse("XXX"));
 		return matcher.find();
 	}
 
-	public static boolean isAnnouncement(String html) {
-		return html.contains(BaseConstants.ANNOUNCEMENT_MARK);
+	public static boolean isAnnouncement(TitleReference reference) {
+		return Objects.isNull(reference.getAnimeIdOnAnimedia());
 	}
 
-	public static boolean isTitleConcretizedAndOngoing(AnimediaMALTitleReferences reference) {
-		return reference.getMinConcretizedEpisodeOnAnimedia() != null && reference.getMaxConcretizedEpisodeOnAnimedia() != null
-				&& reference.getCurrentMax() == null && reference.getFirstEpisode() != null && reference.getMinConcretizedEpisodeOnMAL() != null
-				&& reference.getMaxConcretizedEpisodeOnMAL() != null;
+	public static boolean isAnnouncement(AnimediaSearchListTitle animediaSearchListTitle) {
+		return Objects.isNull(animediaSearchListTitle.getAnimeId());
 	}
 
-	public static boolean isTitleUpdated(AnimediaMALTitleReferences reference) {
-		return reference.getMinConcretizedEpisodeOnAnimedia() != null && reference.getMaxConcretizedEpisodeOnAnimedia() != null
-				&& reference.getCurrentMax() != null && reference.getFirstEpisode() != null;
+	public static boolean isTitleConcretizedAndOngoing(TitleReference reference) {
+		return reference.getMinOnAnimedia() != null && reference.getMaxOnAnimedia() != null && reference.getCurrentMaxOnAnimedia() == null
+				&& reference.getMinOnMAL() != null && reference.getMaxOnMAL() != null;
 	}
 
-	public static boolean isTitleNotFoundOnMAL(AnimediaMALTitleReferences reference) {
-		return reference.getTitleOnMAL()
+	public static boolean isTitleUpdated(TitleReference reference) {
+		return reference.getMinOnAnimedia() != null && reference.getMaxOnAnimedia() != null && reference.getCurrentMaxOnAnimedia() != null;
+	}
+
+	public static boolean isTitleNotFoundOnMAL(TitleReference reference) {
+		return reference.getTitleNameOnMAL()
 				.equals(NOT_FOUND_ON_MAL);
 	}
 
-	public static boolean isTitleNotFoundOnMAL(AnimediaTitleSearchInfo animediaTitleSearchInfo) {
-		return animediaTitleSearchInfo.getKeywords()
-				.equals(NOT_FOUND_ON_MAL);
-	}
-
-	public static boolean isTitleConcretizedOnMAL(AnimediaMALTitleReferences reference) {
-		return reference.getMinConcretizedEpisodeOnMAL() != null && reference.getMaxConcretizedEpisodeOnMAL() != null;
+	public static boolean isTitleConcretizedOnMAL(TitleReference reference) {
+		return reference.getMinOnMAL() != null && reference.getMaxOnMAL() != null;
 	}
 
 	public static String getCorrectCurrentMax(String currentMax) {
@@ -87,44 +81,5 @@ public class AnimediaUtils {
 	public static String getLastEpisode(List<String> episodesList) {
 		int lastIndex = episodesList.size() - 1;
 		return episodesList.get(lastIndex);
-	}
-
-	public static String getAnimeId(Map<String, Map<String, String>> animeIdDataListsAndMaxEpisodesMap) {
-		return Stream.of(animeIdDataListsAndMaxEpisodesMap)
-				.flatMap(map -> map.entrySet()
-						.stream())
-				.map(Entry::getKey)
-				.findFirst()
-				.orElse(null);
-	}
-
-	public static Map<String, String> getDataListsAndMaxEpisodesMap(Map<String, Map<String, String>> animeIdDataListsAndMaxEpisodesMap) {
-		return Stream.of(animeIdDataListsAndMaxEpisodesMap)
-				.flatMap(map -> map.entrySet()
-						.stream())
-				.map(Entry::getValue)
-				.findFirst()
-				.orElseGet(HashMap::new);
-	}
-
-	public static String getDataList(Map<String, String> dataListsAndMaxEpisodesMap) {
-		return dataListsAndMaxEpisodesMap.keySet()
-				.stream()
-				.findFirst()
-				.orElse(null);
-	}
-
-	public static List<String> getEpisodesRange(Map<String, List<String>> maxEpisodesAndEpisodesRange) {
-		return maxEpisodesAndEpisodesRange.values()
-				.stream()
-				.findFirst()
-				.orElse(null);
-	}
-
-	public static String getMaxEpisode(Map<String, List<String>> maxEpisodesAndEpisodesRange) {
-		return maxEpisodesAndEpisodesRange.keySet()
-				.stream()
-				.findFirst()
-				.orElse(null);
 	}
 }

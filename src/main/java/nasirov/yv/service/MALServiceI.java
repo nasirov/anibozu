@@ -14,10 +14,5 @@ public interface MALServiceI {
 	Set<UserMALTitleInfo> getWatchingTitles(String username)
 			throws WatchingTitlesNotFoundException, MALUserAccountNotFoundException, MALUserAnimeListAccessException;
 
-	Set<UserMALTitleInfo> getWatchingTitlesWithUpdatedNumberOfWatchedEpisodes(Set<UserMALTitleInfo> watchingTitlesNew,
-			Set<UserMALTitleInfo> watchingTitlesFromCache);
-
-	boolean isWatchingTitlesUpdated(Set<UserMALTitleInfo> watchingTitlesNew, Set<UserMALTitleInfo> watchingTitlesFromCache);
-
 	boolean isTitleExist(String titleOnMAL);
 }

@@ -10,11 +10,10 @@ import org.springframework.validation.annotation.Validated;
 /**
  * Created by nasirov.yv
  */
-
-@ConfigurationProperties(prefix = "application.urls")
-@Configuration
-@Validated
 @Data
+@Validated
+@Configuration
+@ConfigurationProperties(prefix = "application.urls")
 public class UrlsNames {
 
 	@NotNull

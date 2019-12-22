@@ -20,10 +20,10 @@
   <p class="title">New Episode Available</p>
   <ul>
     <#list newEpisodeAvailable as available>
-      <a href="${available.finalUrl}" target="_blank"><img src="${available.posterUrl}" height="318" width="225"
-                                                           alt="${available.titleOnMAL}"
-                                                           title="${available.titleOnMAL} episode ${available.episodeNumberForWatch}"
-                                                           class="fade"/></a>
+      <a href="${available.finalUrlForFront}" target="_blank"><img src="${available.posterUrlOnMAL}" height="318" width="225"
+                                                                   alt="${available.titleNameOnMAL}"
+                                                                   title="${available.titleNameOnMAL} episode ${available.episodeNumberForWatchForFront}"
+                                                                   class="fade"/></a>
     </#list>
   </ul>
 </section>
@@ -34,8 +34,8 @@
   <p class="title">New Episode Not Available</p>
   <ul>
     <#list newEpisodeNotAvailable as notAvailable>
-      <img src="${notAvailable.posterUrl}" height="318" width="225" alt="${notAvailable.titleOnMAL}"
-           title="${notAvailable.titleOnMAL}" class="fade"/>
+      <img src="${notAvailable.posterUrlOnMAL}" height="318" width="225" alt="${notAvailable.titleNameOnMAL}"
+           title="${notAvailable.titleNameOnMAL}" class="fade"/>
     </#list>
   </ul>
 </section>

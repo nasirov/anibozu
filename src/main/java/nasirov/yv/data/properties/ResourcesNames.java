@@ -9,21 +9,11 @@ import org.springframework.validation.annotation.Validated;
 /**
  * Created by nasirov.yv
  */
-
-@ConfigurationProperties(prefix = "application.resources")
-@Configuration
-@Validated
 @Data
+@Validated
+@Configuration
+@ConfigurationProperties(prefix = "application.resources")
 public class ResourcesNames {
-
-	@NotBlank
-	private String multiSeasonsAnimeUrls;
-
-	@NotBlank
-	private String singleSeasonsAnimeUrls;
-
-	@NotBlank
-	private String announcementsUrls;
 
 	@NotBlank
 	private String applicationLogo;
@@ -44,12 +34,9 @@ public class ResourcesNames {
 	private String tempDuplicatedUrlsInAnimediaSearchList;
 
 	@NotBlank
-	private String tempSingleSeasonTitlesWithCyrillicKeywordsInAnimediaSearchList;
-
-	@NotBlank
 	private String tempReferencesWithInvalidMALTitleName;
 
 	@NotBlank
-	private String tempSearchTitlesWithInvalidMALTitleName;
+	private String tempExAnnouncements;
 
 }

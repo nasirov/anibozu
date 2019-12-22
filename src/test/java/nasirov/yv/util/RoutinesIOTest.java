@@ -1,5 +1,10 @@
 package nasirov.yv.util;
 
+import static nasirov.yv.utils.ReferencesBuilder.buildConcretizedAndOngoingReference;
+import static nasirov.yv.utils.ReferencesBuilder.getAnnouncementReference;
+import static nasirov.yv.utils.ReferencesBuilder.getConcretizedReferenceWithEpisodesRange;
+import static nasirov.yv.utils.ReferencesBuilder.getRegularReferenceNotUpdated;
+import static nasirov.yv.utils.TestConstants.TEMP_FOLDER_NAME;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
@@ -7,7 +12,6 @@ import static org.junit.Assert.assertTrue;
 
 import com.fasterxml.jackson.databind.exc.MismatchedInputException;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
@@ -15,7 +19,7 @@ import java.util.List;
 import java.util.Set;
 import lombok.SneakyThrows;
 import nasirov.yv.AbstractTest;
-import nasirov.yv.data.animedia.AnimediaMALTitleReferences;
+import nasirov.yv.data.animedia.TitleReference;
 import org.apache.commons.io.FileUtils;
 import org.junit.After;
 import org.junit.Before;
@@ -28,15 +32,13 @@ import org.springframework.util.FileSystemUtils;
 /**
  * Created by nasirov.yv
  */
-
-
 public class RoutinesIOTest extends AbstractTest {
 
 	private static final String FILE_NAME = "test123.txt";
 
 	private static final String DIR_NAME = "test123";
 
-	@Value("classpath:__files/routinesIOtestFile.json")
+	@Value("classpath:__files/github/referencesForTest.json")
 	private Resource routinesIOtestResource;
 
 	private File testFile;
@@ -44,6 +46,7 @@ public class RoutinesIOTest extends AbstractTest {
 	private File testDir;
 
 	@Before
+	@SneakyThrows
 	@Override
 	public void setUp() {
 		super.setUp();
@@ -51,21 +54,24 @@ public class RoutinesIOTest extends AbstractTest {
 		testDir = new File(DIR_NAME);
 		clear(testDir);
 		clear(testFile);
+		clear(new File(routinesIOtestResource.getFilename()));
 	}
 
 	@After
+	@SneakyThrows
 	@Override
 	public void tearDown() {
 		super.tearDown();
 		clear(testDir);
 		clear(testFile);
+		clear(new File(routinesIOtestResource.getFilename()));
 	}
 
 	@Test
 	public void marshalToFile() {
-		List<AnimediaMALTitleReferences> collectionToMarshal = new ArrayList<>();
+		List<TitleReference> collectionToMarshal = new ArrayList<>();
 		routinesIO.marshalToFile(FILE_NAME, collectionToMarshal);
-		assertEquals(collectionToMarshal, routinesIO.unmarshalFromFile(FILE_NAME, AnimediaMALTitleReferences.class, ArrayList.class));
+		assertEquals(collectionToMarshal, routinesIO.unmarshalFromFile(FILE_NAME, TitleReference.class, ArrayList.class));
 	}
 
 	@Test
@@ -75,6 +81,7 @@ public class RoutinesIOTest extends AbstractTest {
 		unmarshalFromDifferentSources(fileName, null, null);
 		FileSystemUtils.deleteRecursively(testFile);
 	}
+
 	@Test
 	public void unmarshalFromFileParameterFile() throws Exception {
 		File testFile = createTestFileFromResourcesTestFile(routinesIOtestResource.getFilename());
@@ -85,56 +92,6 @@ public class RoutinesIOTest extends AbstractTest {
 	@Test
 	public void unmarshalFromResource() {
 		unmarshalFromDifferentSources(null, null, routinesIOtestResource);
-	}
-
-	@Test
-	public void writeToFileAppendTrue() {
-		String firstString = "first string";
-		String secondString = "second string";
-		routinesIO.writeToFile(FILE_NAME, firstString, true);
-		routinesIO.writeToFile(FILE_NAME, secondString, true);
-		assertTrue(testFile.exists());
-		String readFromFileStringPath = routinesIO.readFromFile(FILE_NAME);
-		String readFromTestFile = routinesIO.readFromFile(testFile);
-		assertEquals(readFromFileStringPath, readFromTestFile);
-		String finalString = firstString + System.lineSeparator() + secondString + System.lineSeparator();
-		assertEquals(finalString, readFromTestFile);
-		assertEquals(finalString, readFromFileStringPath);
-	}
-
-	@Test
-	public void writeToFileAppendFalse() {
-		String firstString = "first string";
-		String secondString = "second string";
-		routinesIO.writeToFile(FILE_NAME, firstString, false);
-		routinesIO.writeToFile(FILE_NAME, secondString, false);
-		assertTrue(testFile.exists());
-		String readFromFileStringPath = routinesIO.readFromFile(FILE_NAME);
-		String readFromTestFile = routinesIO.readFromFile(testFile);
-		assertEquals(readFromFileStringPath, readFromTestFile);
-		String expected = secondString + System.lineSeparator();
-		assertEquals(expected, readFromTestFile);
-		assertEquals(expected, readFromFileStringPath);
-	}
-
-	@Test
-	public void writeToFileException() {
-		assertTrue(testDir.mkdir());
-		assertFalse(testDir.isFile());
-		String firstString = "first string";
-		routinesIO.writeToFile(DIR_NAME, firstString, true);
-	}
-
-	@Test
-	public void readFromFile() {
-		String firstString = "first string";
-		routinesIO.writeToFile(FILE_NAME, firstString, true);
-		String readFromFileStringPath = routinesIO.readFromFile(FILE_NAME);
-		String readFromTestFile = routinesIO.readFromFile(testFile);
-		assertEquals(readFromFileStringPath, readFromTestFile);
-		String expected = firstString + System.lineSeparator();
-		assertEquals(expected, readFromTestFile);
-		assertEquals(expected, readFromFileStringPath);
 	}
 
 	@Test(expected = IOException.class)
@@ -153,8 +110,8 @@ public class RoutinesIOTest extends AbstractTest {
 
 	@Test
 	public void readFromResource() {
-		Set<AnimediaMALTitleReferences> unmarshalledFromFile = wrappedObjectMapperI.unmarshal(routinesIO.readFromResource(routinesIOtestResource),
-				AnimediaMALTitleReferences.class,
+		Set<TitleReference> unmarshalledFromFile = wrappedObjectMapper.unmarshal(routinesIO.readFromResource(routinesIOtestResource),
+				TitleReference.class,
 				LinkedHashSet.class);
 		checkTestContent(unmarshalledFromFile);
 	}
@@ -163,7 +120,7 @@ public class RoutinesIOTest extends AbstractTest {
 	public void readFromResourceException() {
 		ClassPathResource resourcesNotFound = new ClassPathResource("resourcesNotFound");
 		assertFalse(resourcesNotFound.exists());
-		routinesIO.unmarshalFromResource(resourcesNotFound, AnimediaMALTitleReferences.class, LinkedHashSet.class);
+		routinesIO.unmarshalFromResource(resourcesNotFound, TitleReference.class, LinkedHashSet.class);
 	}
 
 	@Test
@@ -203,60 +160,26 @@ public class RoutinesIOTest extends AbstractTest {
 	}
 
 	private void unmarshalFromDifferentSources(String fileName, File testFile, Resource testResource) {
-		Set<AnimediaMALTitleReferences> unmarshalledFromFile = null;
+		Set<TitleReference> unmarshalledFromFile = null;
 		if (fileName != null) {
-			unmarshalledFromFile = routinesIO.unmarshalFromFile(fileName, AnimediaMALTitleReferences.class, LinkedHashSet.class);
+			unmarshalledFromFile = routinesIO.unmarshalFromFile(fileName, TitleReference.class, LinkedHashSet.class);
 		} else if (testFile != null) {
-			unmarshalledFromFile = routinesIO.unmarshalFromFile(testFile, AnimediaMALTitleReferences.class, LinkedHashSet.class);
+			unmarshalledFromFile = routinesIO.unmarshalFromFile(testFile, TitleReference.class, LinkedHashSet.class);
 		} else if (testResource != null) {
-			unmarshalledFromFile = routinesIO.unmarshalFromResource(testResource, AnimediaMALTitleReferences.class, LinkedHashSet.class);
+			unmarshalledFromFile = routinesIO.unmarshalFromResource(testResource, TitleReference.class, LinkedHashSet.class);
 			testResource.exists();
 		}
-		assertNotNull(unmarshalledFromFile);
-		assertFalse(unmarshalledFromFile.isEmpty());
-		AnimediaMALTitleReferences onePunch7 = AnimediaMALTitleReferences.builder()
-				.url("anime/vanpanchmen")
-				.dataList("7")
-				.firstEpisode("1")
-				.titleOnMAL("one punch man specials")
-				.minConcretizedEpisodeOnAnimedia("1")
-				.maxConcretizedEpisodeOnAnimedia("6")
-				.minConcretizedEpisodeOnMAL("1")
-				.maxConcretizedEpisodeOnMAL("6")
-				.currentMax("6")
-				.build();
-		AnimediaMALTitleReferences onePunch7_2 = AnimediaMALTitleReferences.builder()
-				.url("anime/vanpanchmen")
-				.dataList("7")
-				.firstEpisode("7")
-				.titleOnMAL("one punch man: road to hero")
-				.minConcretizedEpisodeOnAnimedia("7")
-				.maxConcretizedEpisodeOnAnimedia("7")
-				.minConcretizedEpisodeOnMAL("1")
-				.maxConcretizedEpisodeOnMAL("1")
-				.currentMax("7")
-				.build();
-		assertEquals(2, unmarshalledFromFile.size());
-		assertEquals(1,
-				unmarshalledFromFile.stream()
-						.filter(ref -> ref.equals(onePunch7))
-						.count());
-		assertEquals(1,
-				unmarshalledFromFile.stream()
-						.filter(ref -> ref.equals(onePunch7_2))
-						.count());
+		checkTestContent(unmarshalledFromFile);
 	}
 
 	@Test
 	public void testMarshalToFileInTheFolderOk() {
-		String tempFolderName = "temp";
-		List<AnimediaMALTitleReferences> testContent = getTestContent();
+		List<TitleReference> testContent = getTestContent();
 		String testFilename = routinesIOtestResource.getFilename();
-		routinesIO.marshalToFileInTheFolder(tempFolderName, testFilename, testContent);
-		File testDir = new File(tempFolderName);
+		routinesIO.marshalToFileInTheFolder(TEMP_FOLDER_NAME, testFilename, testContent);
+		File testDir = new File(TEMP_FOLDER_NAME);
 		File testFileInTestDir = new File(testDir, testFilename);
-		Set<AnimediaMALTitleReferences> unmarshalledFromFile = wrappedObjectMapperI.unmarshal(routinesIO.readFromFile(testFileInTestDir),
-				AnimediaMALTitleReferences.class,
+		Set<TitleReference> unmarshalledFromFile = wrappedObjectMapper.unmarshal(routinesIO.readFromFile(testFileInTestDir), TitleReference.class,
 				LinkedHashSet.class);
 		checkTestContent(unmarshalledFromFile);
 		FileSystemUtils.deleteRecursively(testDir);
@@ -265,63 +188,43 @@ public class RoutinesIOTest extends AbstractTest {
 	@Test
 	public void testMarshalToFileInTheFolderInvalidDir() throws IOException {
 		assertTrue(testFile.createNewFile());
-		List<AnimediaMALTitleReferences> testContent = getTestContent();
+		List<TitleReference> testContent = getTestContent();
 		String testFilename = routinesIOtestResource.getFilename();
 		routinesIO.marshalToFileInTheFolder(FILE_NAME, testFilename, testContent);
 		assertFalse(testFile.isDirectory());
 	}
 
-	private void checkTestContent(Set<AnimediaMALTitleReferences> unmarshalledFromFile) {
-		List<AnimediaMALTitleReferences> contentFromTestFile = getTestContent();
-		AnimediaMALTitleReferences onePunch7 = contentFromTestFile.stream()
-				.filter(title -> title.getTitleOnMAL()
-						.equals("one punch man specials"))
-				.findAny()
-				.get();
-		AnimediaMALTitleReferences onePunch7_2 = contentFromTestFile.stream()
-				.filter(title -> title.getTitleOnMAL()
-						.equals("one punch man: road to " + "hero"))
-				.findAny()
-				.get();
+	private void checkTestContent(Set<TitleReference> unmarshalledFromFile) {
 		assertNotNull(unmarshalledFromFile);
 		assertFalse(unmarshalledFromFile.isEmpty());
-		assertEquals(2, unmarshalledFromFile.size());
+		TitleReference concretizedTitleWithEpisodesRange = getConcretizedReferenceWithEpisodesRange();
+		TitleReference concretizedAndOngoingReference = buildConcretizedAndOngoingReference();
+		TitleReference announcementReference = getAnnouncementReference();
+		TitleReference regularReferenceNotUpdated = getRegularReferenceNotUpdated();
+		assertEquals(4, unmarshalledFromFile.size());
+		checkUnmarshaled(unmarshalledFromFile, concretizedTitleWithEpisodesRange);
+		checkUnmarshaled(unmarshalledFromFile, concretizedAndOngoingReference);
+		checkUnmarshaled(unmarshalledFromFile, announcementReference);
+		checkUnmarshaled(unmarshalledFromFile, regularReferenceNotUpdated);
+	}
+
+	private void checkUnmarshaled(Set<TitleReference> unmarshalledFromFile, TitleReference titleReference) {
 		assertEquals(1,
 				unmarshalledFromFile.stream()
-						.filter(ref -> ref.equals(onePunch7))
-						.count());
-		assertEquals(1,
-				unmarshalledFromFile.stream()
-						.filter(ref -> ref.equals(onePunch7_2))
+						.filter(ref -> ref.equals(titleReference))
 						.count());
 	}
 
-	private List<AnimediaMALTitleReferences> getTestContent() {
-		ArrayList<AnimediaMALTitleReferences> result = new ArrayList<>();
-		AnimediaMALTitleReferences onePunch7 = AnimediaMALTitleReferences.builder()
-				.url("anime/vanpanchmen")
-				.dataList("7")
-				.firstEpisode("1")
-				.titleOnMAL("one punch man specials")
-				.minConcretizedEpisodeOnAnimedia("1")
-				.maxConcretizedEpisodeOnAnimedia("6")
-				.minConcretizedEpisodeOnMAL("1")
-				.maxConcretizedEpisodeOnMAL("6")
-				.currentMax("6")
-				.build();
-		AnimediaMALTitleReferences onePunch7_2 = AnimediaMALTitleReferences.builder()
-				.url("anime/vanpanchmen")
-				.dataList("7")
-				.firstEpisode("7")
-				.titleOnMAL("one punch man: road to hero")
-				.minConcretizedEpisodeOnAnimedia("7")
-				.maxConcretizedEpisodeOnAnimedia("7")
-				.minConcretizedEpisodeOnMAL("1")
-				.maxConcretizedEpisodeOnMAL("1")
-				.currentMax("7")
-				.build();
-		result.add(onePunch7);
-		result.add(onePunch7_2);
+	private List<TitleReference> getTestContent() {
+		ArrayList<TitleReference> result = new ArrayList<>();
+		TitleReference concretizedTitleWithEpisodesRange = getConcretizedReferenceWithEpisodesRange();
+		TitleReference concretizedAndOngoingReference = buildConcretizedAndOngoingReference();
+		TitleReference announcementReference = getAnnouncementReference();
+		TitleReference regularReferenceNotUpdated = getRegularReferenceNotUpdated();
+		result.add(concretizedTitleWithEpisodesRange);
+		result.add(concretizedAndOngoingReference);
+		result.add(announcementReference);
+		result.add(regularReferenceNotUpdated);
 		return result;
 	}
 

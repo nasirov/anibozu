@@ -1,0 +1,30 @@
+{
+  "response": [
+    {
+      "id": 9480,
+      "title": "Сказка о Хвосте Феи",
+      "pic": "https://static.animedia.tv/uploads/image.jpg",
+      "categories": "Приключения,Сёнэн,Фэнтези",
+      "old": "8",
+      "description": "Описание тайтла",
+      "season": [
+        {
+          "displayName": "1 Сезон",
+          "seasonId": 1
+        },
+        {
+          "displayName": "2 Сезон",
+          "seasonId": 2
+        },
+        {
+          "displayName": "3 Сезон",
+          "seasonId": 3
+        },
+        {
+          "displayName": "ОВА & ODA",
+          "seasonId": 7
+        }
+      ]
+    }
+  ]
+}

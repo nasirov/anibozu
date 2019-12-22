@@ -1,7 +1,7 @@
 package nasirov.yv.http.feign;
 
 import java.util.Set;
-import nasirov.yv.data.animedia.AnimediaTitleSearchInfo;
+import nasirov.yv.data.animedia.AnimediaSearchListTitle;
 import nasirov.yv.http.config.FeignClientConfig;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.ResponseEntity;
@@ -20,7 +20,7 @@ public interface AnimediaFeignClient {
 	ResponseEntity<String> getAnimediaMainPage();
 
 	@GetMapping(value = "/ajax/anime_list", produces = "text/javascript;charset=UTF-8")
-	ResponseEntity<Set<AnimediaTitleSearchInfo>> getAnimediaSearchList();
+	ResponseEntity<Set<AnimediaSearchListTitle>> getAnimediaSearchList();
 
 	@GetMapping(value = "/{animeUrl}", produces = "text/html; charset=UTF-8")
 	ResponseEntity<String> getAnimePageWithDataLists(@PathVariable String animeUrl);

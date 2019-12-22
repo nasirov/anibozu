@@ -1,7 +1,7 @@
 package nasirov.yv.service;
 
 import java.util.Set;
-import nasirov.yv.data.animedia.AnimediaMALTitleReferences;
+import nasirov.yv.data.animedia.TitleReference;
 import nasirov.yv.data.mal.UserMALTitleInfo;
 
 /**
@@ -9,11 +9,9 @@ import nasirov.yv.data.mal.UserMALTitleInfo;
  */
 public interface ReferencesServiceI {
 
-	Set<AnimediaMALTitleReferences> getMultiSeasonsReferences();
+	Set<TitleReference> getReferences();
 
-	void updateReferences(Set<AnimediaMALTitleReferences> references);
+	void updateReferences(Set<TitleReference> references);
 
-	Set<AnimediaMALTitleReferences> getMatchedReferences(Set<AnimediaMALTitleReferences> references, Set<UserMALTitleInfo> watchingTitles);
-
-	void updateCurrentMaxAndEpisodesRange(Set<AnimediaMALTitleReferences> matchedAnimeFromCache, AnimediaMALTitleReferences currentlyUpdatedTitle);
+	Set<TitleReference> getMatchedReferences(Set<UserMALTitleInfo> watchingTitles);
 }

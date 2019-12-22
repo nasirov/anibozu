@@ -14,8 +14,6 @@ import org.springframework.http.HttpHeaders;
 /**
  * Created by nasirov.yv
  */
-
-
 public class IndexControllerTest extends AbstractTest {
 
 	private static final String INDEX = "index";

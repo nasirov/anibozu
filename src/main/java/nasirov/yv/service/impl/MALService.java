@@ -9,7 +9,6 @@ import java.util.List;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import java.util.stream.Collectors;
 import javax.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -21,9 +20,8 @@ import nasirov.yv.exception.mal.MALUserAccountNotFoundException;
 import nasirov.yv.exception.mal.MALUserAnimeListAccessException;
 import nasirov.yv.exception.mal.WatchingTitlesNotFoundException;
 import nasirov.yv.http.feign.MALFeignClient;
-import nasirov.yv.parser.MALParser;
+import nasirov.yv.parser.MALParserI;
 import nasirov.yv.service.MALServiceI;
-import org.springframework.cache.annotation.CachePut;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -50,7 +48,7 @@ public class MALService implements MALServiceI {
 
 	private final MALFeignClient malFeignClient;
 
-	private final MALParser malParser;
+	private final MALParserI malParser;
 
 	private final UrlsNames urlsNames;
 
@@ -71,7 +69,6 @@ public class MALService implements MALServiceI {
 	 * @throws MALUserAccountNotFoundException if username doesn't exist
 	 */
 	@Override
-	@CachePut(value = "userMALCache", key = "#username", condition = "#root.caches[0].get(#username) == null")
 	public Set<UserMALTitleInfo> getWatchingTitles(String username)
 			throws WatchingTitlesNotFoundException, MALUserAccountNotFoundException, MALUserAnimeListAccessException {
 		ResponseEntity<String> malResponseWithUserProfile = malFeignClient.getUserProfile(username);
@@ -108,48 +105,6 @@ public class MALService implements MALServiceI {
 	}
 
 	/**
-	 * Compares cached and fresh user watching titles and: update num of watched episodes add new title in cache if it doesn't exist in
-	 * watchingTitlesFromCache remove title from cache if it doesn't exist in watchingTitlesNew
-	 *
-	 * @param watchingTitlesNew       fresh watching titles
-	 * @param watchingTitlesFromCache cached watching titles
-	 * @return true if user anime list updated
-	 */
-	@Override
-	public boolean isWatchingTitlesUpdated(Set<UserMALTitleInfo> watchingTitlesNew, Set<UserMALTitleInfo> watchingTitlesFromCache) {
-		boolean isSomeTitleHasUpdatedNumOfWatchedEpisodes = updateNumOfWatchedEpisodesForCachedTitles(watchingTitlesNew, watchingTitlesFromCache);
-		boolean isNewWatchingTitlesPresents = addNewWatchingTitlesToCached(watchingTitlesNew, watchingTitlesFromCache);
-		boolean isSomeCachedTitleRemoved = pruneCachedWatchingTitles(watchingTitlesNew, watchingTitlesFromCache);
-		return isSomeTitleHasUpdatedNumOfWatchedEpisodes || isNewWatchingTitlesPresents || isSomeCachedTitleRemoved;
-	}
-
-	/**
-	 * Compares number of watched episodes fresh and cached watching titles
-	 *
-	 * @param watchingTitlesNew       fresh mal user title info
-	 * @param watchingTitlesFromCache cached mal user title info
-	 * @return collection with watching titles which number of watched episodes was updated
-	 */
-	@Override
-	public Set<UserMALTitleInfo> getWatchingTitlesWithUpdatedNumberOfWatchedEpisodes(Set<UserMALTitleInfo> watchingTitlesNew,
-			Set<UserMALTitleInfo> watchingTitlesFromCache) {
-		Set<UserMALTitleInfo> result = new LinkedHashSet<>();
-		for (UserMALTitleInfo userMALTitleInfoNew : watchingTitlesNew) {
-			Integer numWatchedEpisodesNew = userMALTitleInfoNew.getNumWatchedEpisodes();
-			UserMALTitleInfo userMALTitleInfoFromCache = watchingTitlesFromCache.stream()
-					.filter(set -> set.getTitle()
-							.equalsIgnoreCase(userMALTitleInfoNew.getTitle()))
-					.findFirst()
-					.orElse(null);
-			if (userMALTitleInfoFromCache != null && !userMALTitleInfoFromCache.getNumWatchedEpisodes()
-					.equals(numWatchedEpisodesNew)) {
-				result.add(userMALTitleInfoNew);
-			}
-		}
-		return result;
-	}
-
-	/**
 	 * Checks MAL title name for existence
 	 *
 	 * @param titleOnMAL the MAL title name
@@ -172,12 +127,12 @@ public class MALService implements MALServiceI {
 	}
 
 	/**
-	 * Converts and sets poster URL from https://cdn.myanimelist.net/r/96x136/images/anime/7/86743.jpg?s=50f775b44d0a2317e9337a4eaaac6100 to
+	 * Changes and sets poster URL from https://cdn.myanimelist.net/r/96x136/images/anime/7/86743.jpg?s=50f775b44d0a2317e9337a4eaaac6100 to
 	 * https://cdn.myanimelist.net/images/anime/7/86743.jpg
 	 * <p>
 	 * because last url provides better quality image
 	 *
-	 * @param title the MAL title
+	 * @param title MAL title
 	 */
 	private void changePosterUrl(UserMALTitleInfo title) {
 		String changedPosterUrl = "";
@@ -260,38 +215,5 @@ public class MALService implements MALServiceI {
 		if (numberOfUserWatchingTitles.equals(0)) {
 			throw new WatchingTitlesNotFoundException("Not found watching titles for " + username + " !");
 		}
-	}
-
-	private boolean updateNumOfWatchedEpisodesForCachedTitles(Set<UserMALTitleInfo> watchingTitlesNew, Set<UserMALTitleInfo> watchingTitlesFromCache) {
-		boolean isSomeTitleHasUpdatedNumOfWatchedEpisodes = false;
-		for (UserMALTitleInfo userMALTitleInfoNew : watchingTitlesNew) {
-			Integer numWatchedEpisodesNew = userMALTitleInfoNew.getNumWatchedEpisodes();
-			UserMALTitleInfo userMALTitleInfoFromCache = watchingTitlesFromCache.stream()
-					.filter(set -> set.getTitle()
-							.equalsIgnoreCase(userMALTitleInfoNew.getTitle()))
-					.findFirst()
-					.orElse(null);
-			if (userMALTitleInfoFromCache != null && !userMALTitleInfoFromCache.getNumWatchedEpisodes()
-					.equals(numWatchedEpisodesNew)) {
-				userMALTitleInfoFromCache.setNumWatchedEpisodes(numWatchedEpisodesNew);
-				isSomeTitleHasUpdatedNumOfWatchedEpisodes = true;
-			}
-		}
-		return isSomeTitleHasUpdatedNumOfWatchedEpisodes;
-	}
-
-	private boolean addNewWatchingTitlesToCached(Set<UserMALTitleInfo> watchingTitlesNew, Set<UserMALTitleInfo> watchingTitlesFromCache) {
-		Set<UserMALTitleInfo> newWatchingTitles = watchingTitlesNew.stream()
-				.filter(x -> watchingTitlesFromCache.stream()
-						.noneMatch(set -> set.getTitle()
-								.equalsIgnoreCase(x.getTitle())))
-				.collect(Collectors.toSet());
-		return watchingTitlesFromCache.addAll(newWatchingTitles);
-	}
-
-	private boolean pruneCachedWatchingTitles(Set<UserMALTitleInfo> watchingTitlesNew, Set<UserMALTitleInfo> watchingTitlesFromCache) {
-		return watchingTitlesFromCache.removeIf(x -> watchingTitlesNew.stream()
-				.noneMatch(set -> set.getTitle()
-						.equalsIgnoreCase(x.getTitle())));
 	}
 }

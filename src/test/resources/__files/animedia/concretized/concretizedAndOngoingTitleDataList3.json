@@ -1,0 +1,49 @@
+{
+  "response": [
+    {
+      "id": 1,
+      "animeId": 9302,
+      "seasonNum": 3,
+      "title": "Атака титанов",
+      "name": "Серия 1 (38)",
+      "url_video": "https://cdn-6.animedia.tv/dir520/1532375281e1b7af22522c4a5f28a1818c299391959318b039/master.m3u8",
+      "pic": "//static.animedia.tv/screens/1532375281e1b7af22522c4a5f28a1818c299391959318b039.jpg"
+    },
+    {
+      "id": 2,
+      "animeId": 9302,
+      "seasonNum": 3,
+      "title": "Атака титанов",
+      "name": "Серия 2 (39)",
+      "url_video": "https://cdn-6.animedia.tv/dir520/1532975594c8c2eddd55e50929314335229e49832c61070a9c/master.m3u8",
+      "pic": "//static.animedia.tv/screens/1532975594c8c2eddd55e50929314335229e49832c61070a9c.jpg"
+    },
+    {
+      "id": 3,
+      "animeId": 9302,
+      "seasonNum": 3,
+      "title": "Атака титанов",
+      "name": "Серия 3 (40)",
+      "url_video": "https://cdn-6.animedia.tv/dir520/15335799317df8d2cb0f07cf6b6345ca5196c345d95787aa1b/master.m3u8",
+      "pic": "//static.animedia.tv/screens/15335799317df8d2cb0f07cf6b6345ca5196c345d95787aa1b.jpg"
+    },
+    {
+      "id": 4,
+      "animeId": 9302,
+      "seasonNum": 3,
+      "title": "Атака титанов",
+      "name": "Серия 4 (41)",
+      "url_video": "https://cdn-6.animedia.tv/dir520/1534187328fe9d4554c1d7740e340598330e2b29ff9d9d9fe9/master.m3u8",
+      "pic": "//static.animedia.tv/screens/1534187328fe9d4554c1d7740e340598330e2b29ff9d9d9fe9.jpg"
+    },
+    {
+      "id": 5,
+      "animeId": 9302,
+      "seasonNum": 3,
+      "title": "Атака титанов",
+      "name": "Серия 5 (42)",
+      "url_video": "https://cdn-6.animedia.tv/dir520/15348811861891a2b74a1dd2f2c41c1ee2f2369e8aee361cf7/master.m3u8",
+      "pic": "//static.animedia.tv/screens/15348811861891a2b74a1dd2f2c41c1ee2f2369e8aee361cf7.jpg"
+    }
+  ]
+}

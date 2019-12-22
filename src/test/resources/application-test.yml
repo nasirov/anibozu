@@ -1,17 +1,13 @@
 application:
   resources:
-    multiSeasonsAnimeUrls: multiSeasonsAnimeUrls.json
-    singleSeasonsAnimeUrls: singleSeasonsAnimeUrls.json
-    announcementsUrls: announcements.json
     applicationLogo: anime-checker-logo.txt
     tempFolder: temp
     tempRawReferences: tempRawReferences.json
     tempNewTitlesInAnimediaSearchList: newTitles.json
     tempRemovedTitlesFromAnimediaSearchList: removedTitles.json
     tempDuplicatedUrlsInAnimediaSearchList: titlesWithEqualsUrls.json
-    tempSingleSeasonTitlesWithCyrillicKeywordsInAnimediaSearchList: singleSeasonTitlesWithCyrillicKeywords.json
     tempReferencesWithInvalidMALTitleName: referencesWithInvalidMALTitleName.json
-    tempSearchTitlesWithInvalidMALTitleName: searchTitlesWithInvalidMALTitleName.json
+    tempExAnnouncements: exAnnouncements.json
   urls:
     animedia-urls:
       online-animedia-tv: https://online.animedia.tv/
@@ -19,14 +15,16 @@ application:
       myAnimeList-net: https://myanimelist.net/
       cdn-myAnimeList-net: https://cdn.myanimelist.net/
   services:
-    resourcesLoader-enabled: false
     applicationLogoPrinter-enabled: true
   cron:
-    cache-cron-expression: 0 0/30 * * * ?
     resources-check-cron-expression: 0 0/30 * * * ?
 
 
 animedia-feign-client:
+  ribbon:
+    listOfServers: localhost:${wiremock.server.port}
+
+animedia-api-feign-client:
   ribbon:
     listOfServers: localhost:${wiremock.server.port}
 
@@ -41,10 +39,10 @@ github-feign-client:
 ribbon:
   eureka:
     enabled: false
-  ConnectTimeout: 20000
-  ReadTimeout: 20000
+  ConnectTimeout: 60000
+  ReadTimeout: 60000
   MaxAutoRetries: 2
-  retryableStatusCodes: 429, 504
+  retryableStatusCodes: 429, 403, 504
 
 feign:
   hystrix:
@@ -56,4 +54,4 @@ hystrix:
       execution:
         isolation:
           thread:
-            timeoutInMilliseconds: 20000
+            timeoutInMilliseconds: 60000

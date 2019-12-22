@@ -5,10 +5,8 @@ import static org.apache.commons.io.FileUtils.readFileToString;
 import static org.springframework.util.ResourceUtils.getFile;
 
 import java.io.BufferedInputStream;
-import java.io.BufferedWriter;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.NotDirectoryException;
@@ -18,11 +16,9 @@ import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import nasirov.yv.parser.WrappedObjectMapperI;
 import org.apache.commons.io.FileUtils;
-import org.apache.commons.io.IOUtils;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
 import org.springframework.util.FileSystemUtils;
-import org.springframework.util.ResourceUtils;
 
 /**
  * IO operations Created by nasirov.yv
@@ -53,16 +49,6 @@ public class RoutinesIO {
 		return wrappedObjectMapperI.unmarshal(content, targetClass, collection);
 	}
 
-	public <T extends CharSequence> void writeToFile(String pathToFile, T value, boolean append) {
-		try (BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(new File(pathToFile), append))) {
-			bufferedWriter.append(value)
-					.append(System.lineSeparator());
-			bufferedWriter.flush();
-		} catch (IOException e) {
-			log.error("ERROR WHILE WRITING TO FILE " + pathToFile, e);
-		}
-	}
-
 	@SneakyThrows
 	public String readFromFile(String pathToFile) {
 		return readFileToString(getFile(pathToFile), UTF_8);
@@ -73,7 +59,6 @@ public class RoutinesIO {
 		return readFileToString(file, UTF_8);
 	}
 
-	@SneakyThrows
 	public String readFromResource(Resource resource) {
 		String fromFile = "";
 		try (BufferedInputStream byteArrayInputStream = new BufferedInputStream(resource.getInputStream());
