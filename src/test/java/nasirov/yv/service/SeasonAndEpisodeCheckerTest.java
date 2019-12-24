@@ -56,7 +56,7 @@ public class SeasonAndEpisodeCheckerTest extends AbstractTest {
 	@Test
 	public void handleZeroMatchedResult() {
 		UserMALTitleInfo notFoundOnAnimediaTitle = buildWatchingTitle(NOT_FOUND_ON_ANIMEDIA_TITLE_NAME, 0, NOT_FOUND_ON_ANIMEDIA_TITLE_POSTER_URL);
-		Set<TitleReference> matchedAnime = seasonAndEpisodeChecker.getMatchedAnime(Sets.newLinkedHashSet(notFoundOnAnimediaTitle),
+		Set<TitleReference> matchedAnime = seasonsAndEpisodesService.getMatchedAnime(Sets.newLinkedHashSet(notFoundOnAnimediaTitle),
 				getReferences(),
 				TEST_ACC_FOR_DEV);
 		assertTrue(matchedAnime.isEmpty());
@@ -67,7 +67,7 @@ public class SeasonAndEpisodeCheckerTest extends AbstractTest {
 	@Test
 	public void handleOneMatchedResultAnnouncement() {
 		UserMALTitleInfo announcementTitle = buildWatchingTitle(ANNOUNCEMENT_TITLE_NAME, 0, ANNOUNCEMENT_TITLE_POSTER_URL);
-		Set<TitleReference> matchedAnime = seasonAndEpisodeChecker.getMatchedAnime(Sets.newLinkedHashSet(announcementTitle),
+		Set<TitleReference> matchedAnime = seasonsAndEpisodesService.getMatchedAnime(Sets.newLinkedHashSet(announcementTitle),
 				getReferences(),
 				TEST_ACC_FOR_DEV);
 		assertEquals(1, matchedAnime.size());
@@ -78,7 +78,7 @@ public class SeasonAndEpisodeCheckerTest extends AbstractTest {
 	@Test
 	public void handleOneMatchedResultNewEpisodeAvailable() {
 		UserMALTitleInfo title = buildWatchingTitle(REGULAR_TITLE_NAME, 0, REGULAR_TITLE_POSTER_URL);
-		Set<TitleReference> matchedAnime = seasonAndEpisodeChecker.getMatchedAnime(Sets.newLinkedHashSet(title), getReferences(), TEST_ACC_FOR_DEV);
+		Set<TitleReference> matchedAnime = seasonsAndEpisodesService.getMatchedAnime(Sets.newLinkedHashSet(title), getReferences(), TEST_ACC_FOR_DEV);
 		assertEquals(1, matchedAnime.size());
 		TitleReference reference = reference("1", null);
 		assertTrue(matchedAnime.contains(reference));
@@ -87,7 +87,7 @@ public class SeasonAndEpisodeCheckerTest extends AbstractTest {
 	@Test
 	public void handleOneMatchedResultNewEpisodeNotAvailable() {
 		UserMALTitleInfo title = buildWatchingTitle(REGULAR_TITLE_NAME, 12, REGULAR_TITLE_POSTER_URL);
-		Set<TitleReference> matchedAnime = seasonAndEpisodeChecker.getMatchedAnime(Sets.newLinkedHashSet(title), getReferences(), TEST_ACC_FOR_DEV);
+		Set<TitleReference> matchedAnime = seasonsAndEpisodesService.getMatchedAnime(Sets.newLinkedHashSet(title), getReferences(), TEST_ACC_FOR_DEV);
 		assertEquals(1, matchedAnime.size());
 		TitleReference reference = reference(EPISODE_NUMBER_FOR_WATCH_VALUE_IF_EPISODE_IS_NOT_AVAILABLE, FINAL_URL_VALUE_IF_EPISODE_IS_NOT_AVAILABLE);
 		assertTrue(matchedAnime.contains(reference));
@@ -96,7 +96,7 @@ public class SeasonAndEpisodeCheckerTest extends AbstractTest {
 	@Test
 	public void handleOneMatchedResultIsConcretizedTitleWithSingleEpisodeAvailable() {
 		UserMALTitleInfo title = buildWatchingTitle(CONCRETIZED_TITLE_WITH_SINGLE_EPISODE_NAME, 0, CONCRETIZED_TITLE_POSTER_URL);
-		Set<TitleReference> matchedAnime = seasonAndEpisodeChecker.getMatchedAnime(Sets.newLinkedHashSet(title), getReferences(), TEST_ACC_FOR_DEV);
+		Set<TitleReference> matchedAnime = seasonsAndEpisodesService.getMatchedAnime(Sets.newLinkedHashSet(title), getReferences(), TEST_ACC_FOR_DEV);
 		assertEquals(1, matchedAnime.size());
 		TitleReference concretizedReferenceWithSingleEpisode = concretizedReferenceWithSingleEpisode("1", null);
 		assertTrue(matchedAnime.contains(concretizedReferenceWithSingleEpisode));
@@ -105,7 +105,7 @@ public class SeasonAndEpisodeCheckerTest extends AbstractTest {
 	@Test
 	public void handleOneMatchedResultIsConcretizedTitleWithSingleEpisodeNotAvailable() {
 		UserMALTitleInfo title = buildWatchingTitle(CONCRETIZED_TITLE_WITH_SINGLE_EPISODE_NAME, 1, CONCRETIZED_TITLE_POSTER_URL);
-		Set<TitleReference> matchedAnime = seasonAndEpisodeChecker.getMatchedAnime(Sets.newLinkedHashSet(title), getReferences(), TEST_ACC_FOR_DEV);
+		Set<TitleReference> matchedAnime = seasonsAndEpisodesService.getMatchedAnime(Sets.newLinkedHashSet(title), getReferences(), TEST_ACC_FOR_DEV);
 		assertEquals(1, matchedAnime.size());
 		TitleReference concretizedReferenceWithSingleEpisode = concretizedReferenceWithSingleEpisode(
 				EPISODE_NUMBER_FOR_WATCH_VALUE_IF_EPISODE_IS_NOT_AVAILABLE,
@@ -116,7 +116,7 @@ public class SeasonAndEpisodeCheckerTest extends AbstractTest {
 	@Test
 	public void handleOneMatchedResultIsConcretizedTitleWithEpisodesRange() {
 		UserMALTitleInfo title = buildWatchingTitle(CONCRETIZED_TITLE_WITH_EPISODES_RANGE_NAME, 0, CONCRETIZED_TITLE_POSTER_URL);
-		Set<TitleReference> matchedAnime = seasonAndEpisodeChecker.getMatchedAnime(Sets.newLinkedHashSet(title), getReferences(), TEST_ACC_FOR_DEV);
+		Set<TitleReference> matchedAnime = seasonsAndEpisodesService.getMatchedAnime(Sets.newLinkedHashSet(title), getReferences(), TEST_ACC_FOR_DEV);
 		assertEquals(1, matchedAnime.size());
 		TitleReference concretizedReferenceWithEpisodesRange = concretizedReferenceWithEpisodesRange();
 		assertTrue(matchedAnime.contains(concretizedReferenceWithEpisodesRange));
@@ -125,7 +125,7 @@ public class SeasonAndEpisodeCheckerTest extends AbstractTest {
 	@Test
 	public void handleMoreThanOneMatchedResultOnSameDataListOneMatch() {
 		UserMALTitleInfo title = buildWatchingTitle(CONCRETIZED_TITLE_WITH_JOINED_EPISODES_NAME, 1, CONCRETIZED_TITLE_WITH_JOINED_EPISODES_POSTER_URL);
-		Set<TitleReference> matchedAnime = seasonAndEpisodeChecker.getMatchedAnime(Sets.newLinkedHashSet(title), getReferences(), TEST_ACC_FOR_DEV);
+		Set<TitleReference> matchedAnime = seasonsAndEpisodesService.getMatchedAnime(Sets.newLinkedHashSet(title), getReferences(), TEST_ACC_FOR_DEV);
 		assertEquals(1, matchedAnime.size());
 		TitleReference concretizedReferenceWithJoinedEpisodes = concretizedReferenceWithJoinedEpisodesPart1();
 		assertTrue(matchedAnime.contains(concretizedReferenceWithJoinedEpisodes));
@@ -134,7 +134,7 @@ public class SeasonAndEpisodeCheckerTest extends AbstractTest {
 	@Test
 	public void handleMoreThanOneMatchedResultOnSameDataListSeveralMatches() {
 		UserMALTitleInfo title = buildWatchingTitle(CONCRETIZED_TITLE_WITH_JOINED_EPISODES_NAME, 3, CONCRETIZED_TITLE_WITH_JOINED_EPISODES_POSTER_URL);
-		Set<TitleReference> matchedAnime = seasonAndEpisodeChecker.getMatchedAnime(Sets.newLinkedHashSet(title), getReferences(), TEST_ACC_FOR_DEV);
+		Set<TitleReference> matchedAnime = seasonsAndEpisodesService.getMatchedAnime(Sets.newLinkedHashSet(title), getReferences(), TEST_ACC_FOR_DEV);
 		assertEquals(1, matchedAnime.size());
 		TitleReference concretizedReferenceWithEpisodesRange = concretizedReferenceWithJoinedEpisodesPart2();
 		assertTrue(matchedAnime.contains(concretizedReferenceWithEpisodesRange));
@@ -143,7 +143,7 @@ public class SeasonAndEpisodeCheckerTest extends AbstractTest {
 	@Test
 	public void handleMoreThanOneMatchedResult() {
 		UserMALTitleInfo title = buildWatchingTitle(TITLE_ON_SEVERAL_DATA_LISTS_NAME, 9, TITLE_ON_SEVERAL_DATA_LISTS_POSTER_URL);
-		Set<TitleReference> matchedAnime = seasonAndEpisodeChecker.getMatchedAnime(Sets.newLinkedHashSet(title), getReferences(), TEST_ACC_FOR_DEV);
+		Set<TitleReference> matchedAnime = seasonsAndEpisodesService.getMatchedAnime(Sets.newLinkedHashSet(title), getReferences(), TEST_ACC_FOR_DEV);
 		assertEquals(1, matchedAnime.size());
 		TitleReference referencePlacedOnSeveralDataLists = referencePlacedOnSeveralDataLists();
 		assertTrue(matchedAnime.contains(referencePlacedOnSeveralDataLists));
@@ -152,7 +152,7 @@ public class SeasonAndEpisodeCheckerTest extends AbstractTest {
 	@Test
 	public void handleMoreThanOneMatchedResultJoinedEpisode() {
 		UserMALTitleInfo title = buildWatchingTitle(TITLE_WITH_JOINED_EPISODES_NAME, 2, TITLE_WITH_JOINED_EPISODES_POSTER_URL);
-		Set<TitleReference> matchedAnime = seasonAndEpisodeChecker.getMatchedAnime(Sets.newLinkedHashSet(title), getReferences(), TEST_ACC_FOR_DEV);
+		Set<TitleReference> matchedAnime = seasonsAndEpisodesService.getMatchedAnime(Sets.newLinkedHashSet(title), getReferences(), TEST_ACC_FOR_DEV);
 		assertEquals(1, matchedAnime.size());
 		TitleReference referenceWithJoinedEpisodes = referenceWithJoinedEpisodes();
 		assertTrue(matchedAnime.contains(referenceWithJoinedEpisodes));

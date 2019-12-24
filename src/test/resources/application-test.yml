@@ -1,25 +1,3 @@
-application:
-  resources:
-    applicationLogo: anime-checker-logo.txt
-    tempFolder: temp
-    tempRawReferences: tempRawReferences.json
-    tempNewTitlesInAnimediaSearchList: newTitles.json
-    tempRemovedTitlesFromAnimediaSearchList: removedTitles.json
-    tempDuplicatedUrlsInAnimediaSearchList: titlesWithEqualsUrls.json
-    tempReferencesWithInvalidMALTitleName: referencesWithInvalidMALTitleName.json
-    tempExAnnouncements: exAnnouncements.json
-  urls:
-    animedia-urls:
-      online-animedia-tv: https://online.animedia.tv/
-    mal-urls:
-      myAnimeList-net: https://myanimelist.net/
-      cdn-myAnimeList-net: https://cdn.myanimelist.net/
-  services:
-    applicationLogoPrinter-enabled: true
-  cron:
-    resources-check-cron-expression: 0 0/30 * * * ?
-
-
 animedia-feign-client:
   ribbon:
     listOfServers: localhost:${wiremock.server.port}
@@ -35,23 +13,3 @@ mal-feign-client:
 github-feign-client:
   ribbon:
     listOfServers: localhost:${wiremock.server.port}
-
-ribbon:
-  eureka:
-    enabled: false
-  ConnectTimeout: 60000
-  ReadTimeout: 60000
-  MaxAutoRetries: 2
-  retryableStatusCodes: 429, 403, 504
-
-feign:
-  hystrix:
-    enabled: true
-
-hystrix:
-  command:
-    default:
-      execution:
-        isolation:
-          thread:
-            timeoutInMilliseconds: 60000

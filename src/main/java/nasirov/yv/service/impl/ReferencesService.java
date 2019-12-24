@@ -26,6 +26,7 @@ import nasirov.yv.http.feign.AnimediaApiFeignClient;
 import nasirov.yv.http.feign.GitHubFeignClient;
 import nasirov.yv.parser.AnimediaHTMLParserI;
 import nasirov.yv.service.ReferencesServiceI;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -49,6 +50,7 @@ public class ReferencesService implements ReferencesServiceI {
 	 * @return animedia references
 	 */
 	@Override
+	@Cacheable(value = "github", key = "'references'", unless = "#result?.isEmpty()")
 	public Set<TitleReference> getReferences() {
 		ResponseEntity<Set<TitleReference>> response = gitHubFeignClient.getReferences();
 		return ofNullable(response.getBody()).orElseGet(Collections::emptySet);

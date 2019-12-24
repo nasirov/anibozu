@@ -31,7 +31,7 @@ public class ReferencesServiceTest extends AbstractTest {
 	@Test
 	public void getMultiSeasonsReferences() throws Exception {
 		stubGitHub();
-		Set<TitleReference> multiSeasonsReferences = referencesManager.getReferences();
+		Set<TitleReference> multiSeasonsReferences = referencesService.getReferences();
 		List<TitleReference> expected = getReferences(ArrayList.class, false);
 		assertEquals(expected.size(), multiSeasonsReferences.size());
 		multiSeasonsReferences.forEach(x -> assertTrue(expected.contains(x)));
@@ -41,7 +41,7 @@ public class ReferencesServiceTest extends AbstractTest {
 	public void updateReferences() throws Exception {
 		stubAnimedia();
 		Set<TitleReference> referencesForUpdate = getReferences(LinkedHashSet.class, false);
-		referencesManager.updateReferences(referencesForUpdate);
+		referencesService.updateReferences(referencesForUpdate);
 		List<TitleReference> expectedUpdatedReferences = getReferences(ArrayList.class, true);
 		assertEquals(expectedUpdatedReferences.size(), referencesForUpdate.size());
 		referencesForUpdate.forEach(x -> assertTrue(expectedUpdatedReferences.contains(x)));
@@ -53,7 +53,7 @@ public class ReferencesServiceTest extends AbstractTest {
 		Set<TitleReference> multiSeasonsReferencesList = getReferences(LinkedHashSet.class, true);
 		multiSeasonsReferencesList.forEach(set -> assertNull(set.getPosterUrlOnMAL()));
 		Set<UserMALTitleInfo> watchingTitles = getWatchingTitles();
-		Set<TitleReference> matchedReferences = referencesManager.getMatchedReferences(watchingTitles);
+		Set<TitleReference> matchedReferences = referencesService.getMatchedReferences(watchingTitles);
 		assertEquals(4, matchedReferences.size());
 		assertTrue(matchedReferences.stream()
 				.allMatch(x -> x.getPosterUrlOnMAL()

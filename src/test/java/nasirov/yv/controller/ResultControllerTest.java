@@ -25,25 +25,14 @@ import java.util.List;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import nasirov.yv.AbstractTest;
 import nasirov.yv.data.animedia.TitleReference;
 import nasirov.yv.data.mal.UserMALTitleInfo;
 import nasirov.yv.exception.mal.MALUserAccountNotFoundException;
 import nasirov.yv.exception.mal.WatchingTitlesNotFoundException;
-import nasirov.yv.repository.NotFoundAnimeOnAnimediaRepository;
-import nasirov.yv.service.AnimediaServiceI;
-import nasirov.yv.service.MALServiceI;
-import nasirov.yv.service.ReferencesServiceI;
-import nasirov.yv.service.SeasonsAndEpisodesServiceI;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.mock.web.MockHttpServletResponse;
-import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.validation.BindException;
 import org.springframework.validation.ObjectError;
@@ -51,32 +40,11 @@ import org.springframework.validation.ObjectError;
 /**
  * Created by nasirov.yv
  */
-@RunWith(SpringRunner.class)
-@SpringBootTest
-@AutoConfigureMockMvc
-public class ResultControllerTest {
+public class ResultControllerTest extends AbstractTest {
 
 	private static final String PATH = "/result";
 
 	private static final String ERROR_VIEW = "error";
-
-	@MockBean
-	private MALServiceI malService;
-
-	@MockBean
-	private AnimediaServiceI animediaService;
-
-	@MockBean
-	private ReferencesServiceI referencesService;
-
-	@MockBean
-	private SeasonsAndEpisodesServiceI seasonsAndEpisodesService;
-
-	@Autowired
-	private NotFoundAnimeOnAnimediaRepository notFoundAnimeOnAnimediaRepository;
-
-	@Autowired
-	private MockMvc mockMvc;
 
 	@Before
 	public void setUp() {
@@ -101,7 +69,7 @@ public class ResultControllerTest {
 	public void checkResultUsernameIsNotFound() throws Exception {
 		String errorMsg = "MAL account " + TEST_ACC_FOR_DEV.toLowerCase() + " is not found";
 		doThrow(new MALUserAccountNotFoundException(errorMsg)).when(malService)
-				.getWatchingTitles(eq(TEST_ACC_FOR_DEV.toLowerCase()));
+				.getWatchingTitles(TEST_ACC_FOR_DEV.toLowerCase());
 		checkErrorResult(errorMsg);
 	}
 
@@ -109,7 +77,7 @@ public class ResultControllerTest {
 	public void checkResultWatchingTitlesNotFound() throws Exception {
 		String errorMsg = "errorMsg";
 		doThrow(new WatchingTitlesNotFoundException(errorMsg)).when(malService)
-				.getWatchingTitles(eq(TEST_ACC_FOR_DEV.toLowerCase()));
+				.getWatchingTitles(TEST_ACC_FOR_DEV.toLowerCase());
 		checkErrorResult(errorMsg);
 	}
 

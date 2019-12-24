@@ -23,6 +23,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.core.AutoConfigureCache;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.SpyBean;
@@ -35,6 +36,7 @@ import org.springframework.test.web.servlet.MockMvc;
  * Created by nasirov.yv
  */
 @SpringBootTest
+@AutoConfigureCache
 @AutoConfigureMockMvc
 @ActiveProfiles("test")
 @RunWith(SpringRunner.class)
@@ -48,10 +50,10 @@ public abstract class AbstractTest {
 	protected MALServiceI malService;
 
 	@SpyBean
-	protected SeasonsAndEpisodesServiceI seasonAndEpisodeChecker;
+	protected SeasonsAndEpisodesServiceI seasonsAndEpisodesService;
 
 	@SpyBean
-	protected ReferencesServiceI referencesManager;
+	protected ReferencesServiceI referencesService;
 
 	@Autowired
 	protected ResourcesNames resourcesNames;

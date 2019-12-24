@@ -18,6 +18,23 @@ application:
     applicationLogoPrinter-enabled: true
   cron:
     resources-check-cron-expression: 0 0/30 * * * ?
+  cache:
+    animedia-api:
+      name: animediaApi
+      ttl: 60
+      max-entity-count: 100
+    animedia:
+      name: animedia
+      ttl: 3600
+      max-entity-count: 1
+    mal:
+      name: mal
+      ttl: 60
+      max-entity-count: 100
+    github:
+      name: github
+      ttl: 3600
+      max-entity-count: 2
 
 server:
   port: ${PORT}

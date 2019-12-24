@@ -22,6 +22,7 @@ import nasirov.yv.exception.mal.WatchingTitlesNotFoundException;
 import nasirov.yv.http.feign.MALFeignClient;
 import nasirov.yv.parser.MALParserI;
 import nasirov.yv.service.MALServiceI;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -69,6 +70,7 @@ public class MALService implements MALServiceI {
 	 * @throws MALUserAccountNotFoundException if username doesn't exist
 	 */
 	@Override
+	@Cacheable(value = "mal", key = "#username", unless = "#result?.isEmpty()")
 	public Set<UserMALTitleInfo> getWatchingTitles(String username)
 			throws WatchingTitlesNotFoundException, MALUserAccountNotFoundException, MALUserAnimeListAccessException {
 		ResponseEntity<String> malResponseWithUserProfile = malFeignClient.getUserProfile(username);

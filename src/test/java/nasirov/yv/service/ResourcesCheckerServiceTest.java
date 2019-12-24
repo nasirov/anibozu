@@ -196,7 +196,7 @@ public class ResourcesCheckerServiceTest extends AbstractTest {
 	}
 
 	private void mockGetReferences(Set<TitleReference> allReferences) {
-		doReturn(allReferences).when(referencesManager)
+		doReturn(allReferences).when(referencesService)
 				.getReferences();
 	}
 

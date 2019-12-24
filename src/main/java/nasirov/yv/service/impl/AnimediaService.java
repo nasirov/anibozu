@@ -7,7 +7,6 @@ import static org.springframework.web.util.UriUtils.encodePath;
 import java.util.Collections;
 import java.util.Set;
 import java.util.stream.Collectors;
-import javax.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import nasirov.yv.data.animedia.AnimediaSearchListTitle;
@@ -15,6 +14,7 @@ import nasirov.yv.data.properties.UrlsNames;
 import nasirov.yv.http.feign.AnimediaFeignClient;
 import nasirov.yv.http.feign.GitHubFeignClient;
 import nasirov.yv.service.AnimediaServiceI;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -32,20 +32,13 @@ public class AnimediaService implements AnimediaServiceI {
 
 	private final UrlsNames urlsNames;
 
-	private String onlineAnimediaTv;
-
-	@PostConstruct
-	public void init() {
-		onlineAnimediaTv = urlsNames.getAnimediaUrls()
-				.getOnlineAnimediaTv();
-	}
-
 	/**
 	 * Searches for fresh animedia search list from animedia
 	 *
 	 * @return the list with title search info on animedia
 	 */
 	@Override
+	@Cacheable(value = "animedia", key = "'aslFromAnimedia'", unless = "#result?.isEmpty()")
 	public Set<AnimediaSearchListTitle> getAnimediaSearchListFromAnimedia() {
 		ResponseEntity<Set<AnimediaSearchListTitle>> animediaRespone = animediaFeignClient.getAnimediaSearchList();
 		return ofNullable(animediaRespone.getBody()).orElseGet(Collections::emptySet)
@@ -60,6 +53,7 @@ public class AnimediaService implements AnimediaServiceI {
 	 * @return the list with title search info on animedia
 	 */
 	@Override
+	@Cacheable(value = "github", key = "'aslFromGitHub'", unless = "#result?.isEmpty()")
 	public Set<AnimediaSearchListTitle> getAnimediaSearchListFromGitHub() {
 		ResponseEntity<Set<AnimediaSearchListTitle>> animediaResponse = gitHubFeignClient.getAnimediaSearchList();
 		return ofNullable(animediaResponse.getBody()).orElseGet(Collections::emptySet);
@@ -67,7 +61,8 @@ public class AnimediaService implements AnimediaServiceI {
 
 	private AnimediaSearchListTitle changeUrl(AnimediaSearchListTitle animediaSearchListTitle) {
 		animediaSearchListTitle.setUrl(encodePath(animediaSearchListTitle.getUrl()
-				.replaceAll(onlineAnimediaTv, ""), UTF_8));
+				.replaceAll(urlsNames.getAnimediaUrls()
+						.getOnlineAnimediaTv(), ""), UTF_8));
 		return animediaSearchListTitle;
 	}
 }
