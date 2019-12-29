@@ -40,7 +40,7 @@ public class AnimediaHTMLParser implements AnimediaHTMLParserI {
 		return getEpisodeNumber(episodeName);
 	}
 
-	private String getEpisodeNumber(String episodeName) throws EpisodeNumberNotFoundException {
+	private String getEpisodeNumber(String episodeName) {
 		Matcher matcher = EPISODE_NUMBER_PATTERN.matcher(episodeName);
 		String episodes = null;
 		if (matcher.find()) {
