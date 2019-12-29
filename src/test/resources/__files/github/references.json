@@ -17,7 +17,7 @@
   {
     "urlOnAnimedia": "anime/announcement-url",
     "dataListOnAnimedia": "1",
-    "animeIdOnAnimedia": null,
+    "animeIdOnAnimedia": "1234",
     "minOnAnimedia": "1",
     "maxOnAnimedia": null,
     "currentMaxOnAnimedia": null,

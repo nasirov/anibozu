@@ -13,5 +13,5 @@ public interface ReferencesServiceI {
 
 	void updateReferences(Set<TitleReference> references);
 
-	Set<TitleReference> getMatchedReferences(Set<UserMALTitleInfo> watchingTitles);
+	Set<TitleReference> getMatchedReferences(Set<UserMALTitleInfo> watchingTitles, Set<TitleReference> references);
 }

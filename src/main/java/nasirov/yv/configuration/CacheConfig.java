@@ -7,17 +7,18 @@ import static org.ehcache.config.builders.ExpiryPolicyBuilder.timeToLiveExpirati
 import static org.ehcache.jsr107.Eh107Configuration.fromEhcacheCacheConfiguration;
 
 import com.google.common.collect.Sets;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.LinkedHashSet;
 import javax.cache.CacheManager;
 import javax.cache.configuration.Configuration;
 import lombok.RequiredArgsConstructor;
+import nasirov.yv.data.animedia.api.Response;
 import nasirov.yv.data.properties.CacheProps;
 import nasirov.yv.data.properties.CacheProps.ConfigurableCacheProps;
 import org.ehcache.config.builders.ResourcePoolsBuilder;
 import org.ehcache.event.CacheEventListener;
 import org.ehcache.event.EventType;
 import org.springframework.boot.autoconfigure.cache.JCacheManagerCustomizer;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 
 /**
@@ -33,17 +34,18 @@ public class CacheConfig implements JCacheManagerCustomizer {
 
 	@Override
 	public void customize(CacheManager cacheManager) {
-		ConfigurableCacheProps animediaApiCache = cacheProps.getAnimediaApi();
-		cacheManager.createCache(animediaApiCache.getName(), createCacheConfiguration(animediaApiCache, ResponseEntity.class));
-		ConfigurableCacheProps animedia = cacheProps.getAnimedia();
-		cacheManager.createCache(animedia.getName(), createCacheConfiguration(animedia, Set.class));
-		ConfigurableCacheProps malCache = cacheProps.getMal();
-		cacheManager.createCache(malCache.getName(), createCacheConfiguration(malCache, Set.class));
-		ConfigurableCacheProps githubCache = cacheProps.getGithub();
-		cacheManager.createCache(githubCache.getName(), createCacheConfiguration(githubCache, Set.class));
+		buildCache(cacheManager, cacheProps.getAnimeList(), LinkedHashSet.class);
+		buildCache(cacheManager, cacheProps.getTitleInfo(), Response.class);
+		buildCache(cacheManager, cacheProps.getDataListInfo(), ArrayList.class);
+		buildCache(cacheManager, cacheProps.getMal(), LinkedHashSet.class);
+		buildCache(cacheManager, cacheProps.getGithub(), LinkedHashSet.class);
 	}
 
-	private <T> Configuration<String, T> createCacheConfiguration(ConfigurableCacheProps configurableCacheProps, Class<T> valueClass) {
+	private void buildCache(CacheManager cacheManager, ConfigurableCacheProps configurableCacheProps, Class<?> valueClass) {
+		cacheManager.createCache(configurableCacheProps.getName(), createCacheConfiguration(configurableCacheProps, valueClass));
+	}
+
+	private Configuration<String, ?> createCacheConfiguration(ConfigurableCacheProps configurableCacheProps, Class<?> valueClass) {
 		return fromEhcacheCacheConfiguration(newCacheConfigurationBuilder(String.class,
 				valueClass,
 				ResourcePoolsBuilder.heap(configurableCacheProps.getMaxEntityCount())).withExpiry(timeToLiveExpiration(ofSeconds(configurableCacheProps.getTtl())))

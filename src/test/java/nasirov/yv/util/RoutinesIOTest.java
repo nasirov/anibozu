@@ -38,7 +38,7 @@ public class RoutinesIOTest extends AbstractTest {
 
 	private static final String DIR_NAME = "test123";
 
-	@Value("classpath:__files/github/referencesForTest.json")
+	@Value("classpath:__files/github/references.json")
 	private Resource routinesIOtestResource;
 
 	private File testFile;

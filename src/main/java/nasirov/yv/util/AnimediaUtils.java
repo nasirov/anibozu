@@ -25,12 +25,8 @@ public class AnimediaUtils {
 		return matcher.find();
 	}
 
-	public static boolean isAnnouncement(TitleReference reference) {
-		return Objects.isNull(reference.getAnimeIdOnAnimedia());
-	}
-
 	public static boolean isAnnouncement(AnimediaSearchListTitle animediaSearchListTitle) {
-		return Objects.isNull(animediaSearchListTitle.getAnimeId());
+		return Objects.isNull(animediaSearchListTitle.getSeasons());
 	}
 
 	public static boolean isTitleConcretizedAndOngoing(TitleReference reference) {
@@ -39,7 +35,10 @@ public class AnimediaUtils {
 	}
 
 	public static boolean isTitleUpdated(TitleReference reference) {
-		return reference.getMinOnAnimedia() != null && reference.getMaxOnAnimedia() != null && reference.getCurrentMaxOnAnimedia() != null;
+		// TODO: 29.12.2019 rollback after improvement api object
+		return reference.getMinOnAnimedia() != null
+				//&& reference.getMaxOnAnimedia() != null
+				&& reference.getCurrentMaxOnAnimedia() != null;
 	}
 
 	public static boolean isTitleNotFoundOnMAL(TitleReference reference) {

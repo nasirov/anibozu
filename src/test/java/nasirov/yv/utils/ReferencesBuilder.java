@@ -5,6 +5,7 @@ import static nasirov.yv.data.constants.BaseConstants.FINAL_URL_VALUE_IF_EPISODE
 import static nasirov.yv.data.constants.BaseConstants.FIRST_DATA_LIST;
 import static nasirov.yv.data.constants.BaseConstants.FIRST_EPISODE;
 import static nasirov.yv.data.constants.BaseConstants.ZERO_EPISODE;
+import static nasirov.yv.utils.TestConstants.ANNOUNCEMENT_TITLE_ID;
 import static nasirov.yv.utils.TestConstants.ANNOUNCEMENT_TITLE_NAME;
 import static nasirov.yv.utils.TestConstants.ANNOUNCEMENT_TITLE_POSTER_URL;
 import static nasirov.yv.utils.TestConstants.ANNOUNCEMENT_TITLE_URL;
@@ -130,6 +131,7 @@ public class ReferencesBuilder {
 	public static TitleReference getAnnouncementReference() {
 		return TitleReference.builder()
 				.urlOnAnimedia(ANNOUNCEMENT_TITLE_URL)
+				.animeIdOnAnimedia(ANNOUNCEMENT_TITLE_ID)
 				.dataListOnAnimedia(FIRST_DATA_LIST)
 				.minOnAnimedia(FIRST_EPISODE)
 				.titleNameOnMAL(ANNOUNCEMENT_TITLE_NAME)

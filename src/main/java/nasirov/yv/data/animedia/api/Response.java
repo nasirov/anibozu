@@ -18,12 +18,6 @@ import lombok.NoArgsConstructor;
 @Builder
 public class Response {
 
-	@JsonProperty(value = "animeId")
-	private String animeId;
-
-	@JsonProperty(value = "seasonNum")
-	private String dataList;
-
 	@JsonProperty(value = "name")
 	private String episodeName;
 

@@ -27,7 +27,7 @@ import nasirov.yv.data.mal.UserMALTitleInfo;
 import nasirov.yv.data.properties.UrlsNames;
 import nasirov.yv.repository.NotFoundAnimeOnAnimediaRepository;
 import nasirov.yv.service.SeasonsAndEpisodesServiceI;
-import org.apache.commons.lang.StringUtils;
+import nasirov.yv.util.AnimediaUtils;
 import org.springframework.stereotype.Service;
 
 /**
@@ -38,18 +38,13 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class SeasonsAndEpisodesService implements SeasonsAndEpisodesServiceI {
 
-	private static final Map<String, String> EPISODE_IS_NOT_AVAILABLE_FINAL_URL_AND_EPISODE_NUMBER_FOR_WATCH = new HashMap<>(1);
-
 	private static final int UNDEFINED_MAX = 0;
-
-	static {
-		EPISODE_IS_NOT_AVAILABLE_FINAL_URL_AND_EPISODE_NUMBER_FOR_WATCH.put(EPISODE_NUMBER_FOR_WATCH_VALUE_IF_EPISODE_IS_NOT_AVAILABLE,
-				FINAL_URL_VALUE_IF_EPISODE_IS_NOT_AVAILABLE);
-	}
 
 	private final NotFoundAnimeOnAnimediaRepository notFoundAnimeOnAnimediaRepository;
 
 	private final UrlsNames urlsNames;
+
+	private Map<String, String> episodeIsNotAvailableFinalUrlAndEpisodeNumberForWatch;
 
 	private String animediaOnlineTv;
 
@@ -57,6 +52,9 @@ public class SeasonsAndEpisodesService implements SeasonsAndEpisodesServiceI {
 	public void init() {
 		animediaOnlineTv = urlsNames.getAnimediaUrls()
 				.getOnlineAnimediaTv();
+		episodeIsNotAvailableFinalUrlAndEpisodeNumberForWatch = new HashMap<>(1);
+		episodeIsNotAvailableFinalUrlAndEpisodeNumberForWatch.put(EPISODE_NUMBER_FOR_WATCH_VALUE_IF_EPISODE_IS_NOT_AVAILABLE,
+				FINAL_URL_VALUE_IF_EPISODE_IS_NOT_AVAILABLE);
 	}
 
 	/**
@@ -162,6 +160,7 @@ public class SeasonsAndEpisodesService implements SeasonsAndEpisodesServiceI {
 	private TitleReference handleAnnouncements(TitleReference reference, UserMALTitleInfo userMALTitleInfo) {
 		TitleReference result = TitleReference.builder()
 				.urlOnAnimedia(reference.getUrlOnAnimedia())
+				.animeIdOnAnimedia(reference.getAnimeIdOnAnimedia())
 				.dataListOnAnimedia(FIRST_DATA_LIST)
 				.titleNameOnMAL(userMALTitleInfo.getTitle())
 				.minOnAnimedia(ZERO_EPISODE)
@@ -259,7 +258,7 @@ public class SeasonsAndEpisodesService implements SeasonsAndEpisodesServiceI {
 			log.info("NEW EPISODE IS AVAILABLE {} !", finalUrl);
 			nextEpisodeForWatchFinalUrl.put(episodeNumberForWatchForFront, finalUrl);
 		} else {
-			nextEpisodeForWatchFinalUrl = EPISODE_IS_NOT_AVAILABLE_FINAL_URL_AND_EPISODE_NUMBER_FOR_WATCH;
+			nextEpisodeForWatchFinalUrl = episodeIsNotAvailableFinalUrlAndEpisodeNumberForWatch;
 			finalUrl = animediaOnlineTv + titleReference.getUrlOnAnimedia() + "/" + titleReference.getDataListOnAnimedia() + "/"
 					+ titleReference.getMinOnAnimedia();
 			log.info("NEW EPISODE FOR {} IS NOT AVAILABLE.", finalUrl);
@@ -313,7 +312,7 @@ public class SeasonsAndEpisodesService implements SeasonsAndEpisodesServiceI {
 		String nextEpisodeForWatchForTitleWithConcretizedEpisodeOnMAL = null;
 		int episodeNumberForWatch;
 		int firstEpisode = Integer.parseInt(reference.getMinOnAnimedia());
-		if (StringUtils.isBlank(reference.getAnimeIdOnAnimedia())) {
+		if (!AnimediaUtils.isTitleUpdated(reference)) {
 			return handleAnnouncements(reference, userMALTitleInfo);
 		}
 		if (isTitleConcretizedOnMAL(reference)) {

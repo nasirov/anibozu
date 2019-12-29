@@ -55,7 +55,7 @@ public class ResultController {
 	}
 
 	private String handleNewUser(String username, Set<UserMALTitleInfo> watchingTitles, Model model) {
-		Set<TitleReference> matchedReferences = referencesService.getMatchedReferences(watchingTitles);
+		Set<TitleReference> matchedReferences = referencesService.getMatchedReferences(watchingTitles, referencesService.getReferences());
 		referencesService.updateReferences(matchedReferences);
 		Set<TitleReference> matchedAnime = seasonAndEpisodeChecker.getMatchedAnime(watchingTitles, matchedReferences, username);
 		return enrichModel(matchedAnime, watchingTitles, model);

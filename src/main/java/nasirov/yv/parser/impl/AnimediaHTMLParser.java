@@ -19,17 +19,18 @@ import org.springframework.stereotype.Component;
 @Slf4j
 public class AnimediaHTMLParser implements AnimediaHTMLParserI {
 
-	private static final String ANIME_ID_REGEXP = "<ul role=\"tablist\" class=\"media__tabs__nav nav-tabs\" data-entry_id=\"(?<animeId>\\d+)\".*?";
-
 	private static final String EPISODE_NUMBER_REGEXP =
 			"^(?<description>[a-zA-Zа-яА-Я\\s]*)?\\s*(?<firstEpisodeInSeason>\\d{1,3})?(-" + "(?<joinedEpisode>\\d{1,3}))?(\\s\\(\\d{1,3}\\))?\\s*$";
 
 	private static final Pattern EPISODE_NUMBER_PATTERN = Pattern.compile(EPISODE_NUMBER_REGEXP);
 
-	private static final Pattern ANIME_ID_PATTERN = Pattern.compile(ANIME_ID_REGEXP);
-
 	/**
-	 * Extracts an episode number from an episode name e.g Серия 1 (64) -> 1 Серия 1-2 -> 1-2 Серия 1 -> 1 Серия -> 1 etc
+	 * Extracts an episode number from an episode name
+	 * e.g Серия 1 (64) -> 1
+	 * Серия 1-2 -> 1-2
+	 * Серия 1 -> 1
+	 * Серия -> 1
+	 * etc
 	 *
 	 * @param episodeName episode name {@link Response#getEpisodeName()}
 	 * @return episode number
@@ -37,22 +38,6 @@ public class AnimediaHTMLParser implements AnimediaHTMLParserI {
 	@Override
 	public String extractEpisodeNumber(String episodeName) {
 		return getEpisodeNumber(episodeName);
-	}
-
-	/**
-	 * Searches for an anime id on a title html page
-	 *
-	 * @param content html page
-	 * @return anime id
-	 */
-	@Override
-	public String getAnimeId(String content) {
-		String animeId = null;
-		Matcher matcher = ANIME_ID_PATTERN.matcher(ofNullable(content).orElse(""));
-		if (matcher.find()) {
-			animeId = matcher.group("animeId");
-		}
-		return animeId;
 	}
 
 	private String getEpisodeNumber(String episodeName) throws EpisodeNumberNotFoundException {

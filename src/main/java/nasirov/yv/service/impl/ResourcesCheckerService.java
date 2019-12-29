@@ -1,16 +1,13 @@
 package nasirov.yv.service.impl;
 
-import static java.util.Objects.nonNull;
-import static java.util.Optional.ofNullable;
 import static nasirov.yv.data.constants.BaseConstants.FIRST_DATA_LIST;
 import static nasirov.yv.data.constants.BaseConstants.FIRST_EPISODE;
 import static nasirov.yv.util.AnimediaUtils.isAnnouncement;
 import static nasirov.yv.util.AnimediaUtils.isTitleNotFoundOnMAL;
 
-import com.google.common.collect.Iterables;
-import java.util.ArrayList;
+import feign.template.UriUtils;
+import java.nio.charset.StandardCharsets;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.LinkedHashSet;
 import java.util.LinkedList;
 import java.util.List;
@@ -21,22 +18,16 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import nasirov.yv.data.animedia.AnimediaSearchListTitle;
 import nasirov.yv.data.animedia.TitleReference;
-import nasirov.yv.data.animedia.api.AnimediaApiResponse;
 import nasirov.yv.data.animedia.api.Response;
 import nasirov.yv.data.animedia.api.Season;
 import nasirov.yv.data.mal.UserMALTitleInfo;
 import nasirov.yv.data.properties.ResourcesNames;
-import nasirov.yv.http.feign.AnimediaApiFeignClient;
-import nasirov.yv.http.feign.AnimediaFeignClient;
-import nasirov.yv.parser.AnimediaHTMLParserI;
 import nasirov.yv.repository.NotFoundAnimeOnAnimediaRepository;
 import nasirov.yv.service.AnimediaServiceI;
 import nasirov.yv.service.MALServiceI;
 import nasirov.yv.service.ReferencesServiceI;
 import nasirov.yv.service.ResourcesCheckerServiceI;
-import nasirov.yv.util.AnimediaUtils;
 import nasirov.yv.util.RoutinesIO;
-import org.springframework.http.ResponseEntity;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
@@ -60,45 +51,11 @@ public class ResourcesCheckerService implements ResourcesCheckerServiceI {
 
 	private final RoutinesIO routinesIO;
 
-	private final AnimediaApiFeignClient animediaApiFeignClient;
-
-	private final AnimediaFeignClient animediaFeignClient;
-
-	private final AnimediaHTMLParserI animediaHTMLParser;
-
 	private String tempFolder;
 
 	@PostConstruct
 	public void init() {
 		tempFolder = resourcesNames.getTempFolder();
-	}
-
-	@Override
-	@Scheduled(cron = "${application.cron.resources-check-cron-expression}")
-	public void checkAnimediaSearchListFromGitHub() {
-		log.info("START CHECKING ANIMEDIA SEARCH LIST FROM GITHUB ...");
-		boolean isAnimediaSearchListFromGitHubUpToDate = isAnimediaSearchListFromGitHubUpToDate(animediaService.getAnimediaSearchListFromGitHub(),
-				animediaService.getAnimediaSearchListFromAnimedia());
-		if (isAnimediaSearchListFromGitHubUpToDate) {
-			log.info("ANIMEDIA SEARCH LIST FROM GITHUB IS UP-TO-DATE.");
-		} else {
-			log.warn("ANIMEDIA SEARCH LIST FROM GITHUB ISN'T UP-TO-DATE.");
-		}
-		log.info("END CHECKING ANIMEDIA SEARCH LIST FROM GITHUB.");
-	}
-
-	@Override
-	@Scheduled(cron = "${application.cron.resources-check-cron-expression}")
-	public void checkAnnouncements() {
-		log.info("START CHECKING ANNOUNCEMENTS ...");
-		Set<AnimediaSearchListTitle> animediaSearchListFromGitHub = animediaService.getAnimediaSearchListFromGitHub();
-		List<AnimediaSearchListTitle> exAnnouncements = animediaSearchListFromGitHub.stream()
-				.filter(AnimediaUtils::isAnnouncement)
-				.map(this::checkAnimeIdForAnnouncement)
-				.filter(x -> !AnimediaUtils.isAnnouncement(x))
-				.collect(Collectors.toList());
-		marshallToTempFolder(resourcesNames.getTempExAnnouncements(), exAnnouncements);
-		log.info("END CHECKING ANNOUNCEMENTS.");
 	}
 
 	@Override
@@ -131,7 +88,7 @@ public class ResourcesCheckerService implements ResourcesCheckerServiceI {
 	@Scheduled(cron = "${application.cron.resources-check-cron-expression}")
 	public void checkReferences() {
 		log.info("START CHECKING REFERENCES ...");
-		Set<AnimediaSearchListTitle> animediaSearchListFromGitHub = animediaService.getAnimediaSearchListFromGitHub();
+		Set<AnimediaSearchListTitle> animediaSearchListFromGitHub = animediaService.getAnimediaSearchList();
 		Set<TitleReference> allReferences = referencesService.getReferences();
 		List<TitleReference> notFoundInReferences = new LinkedList<>();
 		for (AnimediaSearchListTitle titleSearchInfo : animediaSearchListFromGitHub) {
@@ -146,12 +103,8 @@ public class ResourcesCheckerService implements ResourcesCheckerServiceI {
 					notFoundInReferences.add(buildTempAnnouncementReference(titleSearchInfo));
 				}
 			} else {
-				ResponseEntity<AnimediaApiResponse> titleInfo = animediaApiFeignClient.getTitleInfo(titleSearchInfo.getAnimeId());
-				AnimediaApiResponse animediaApiResponse = ofNullable(titleInfo.getBody()).orElseGet(AnimediaApiResponse::new);
-				List<Response> responses = ofNullable(animediaApiResponse.getResponse()).orElseGet(Collections::emptyList);
-				Response response = Iterables.getFirst(responses, new Response());
-				List<Season> seasons = ofNullable(response).orElseGet(Response::new)
-						.getSeasons();
+				Response response = animediaService.getTitleInfo(titleSearchInfo.getAnimeId());
+				List<Season> seasons = response.getSeasons();
 				for (Season season : seasons) {
 					boolean titleIsNotPresentInReferences = references.stream()
 							.noneMatch(x -> x.getDataListOnAnimedia()
@@ -184,51 +137,6 @@ public class ResourcesCheckerService implements ResourcesCheckerServiceI {
 		log.info("END CHECKING NOT FOUND ANIME ON ANIMEDIA REPOSITORY.");
 	}
 
-
-	private boolean isAnimediaSearchListFromGitHubUpToDate(Set<AnimediaSearchListTitle> fromGitHub, Set<AnimediaSearchListTitle> fromAnimedia) {
-		boolean fullMatch = true;
-		List<AnimediaSearchListTitle> removedTitlesFromSearchList = new ArrayList<>();
-		List<AnimediaSearchListTitle> newTitlesInSearchList = new ArrayList<>();
-		Set<AnimediaSearchListTitle> duplicates = new LinkedHashSet<>();
-		for (AnimediaSearchListTitle title : fromGitHub) {
-			AnimediaSearchListTitle matchedTitle = fromAnimedia.stream()
-					.filter(set -> set.getUrl()
-							.equals(title.getUrl()))
-					.findAny()
-					.orElse(null);
-			if (matchedTitle == null) {
-				removedTitlesFromSearchList.add(title);
-				fullMatch = false;
-				log.warn("TITLE {} REMOVED FROM ANIMEDIA! PLEASE, REMOVE IT FROM GITHUB ANIMEDIA SEARCH LIST!", title);
-			}
-			long duplicatedTitlesCount = fromGitHub.stream()
-					.filter(set -> set.getUrl()
-							.equals(title.getUrl()))
-					.count();
-			if (duplicatedTitlesCount > 1) {
-				duplicates.add(title);
-				fullMatch = false;
-				log.warn("DUPLICATED TITLE IN GITHUB ANIMEDIA SEARCH LIST {}", title);
-			}
-		}
-		for (AnimediaSearchListTitle title : fromAnimedia) {
-			AnimediaSearchListTitle matchedTitle = fromGitHub.stream()
-					.filter(set -> set.getUrl()
-							.equals(title.getUrl()))
-					.findAny()
-					.orElse(null);
-			if (matchedTitle == null) {
-				newTitlesInSearchList.add(title);
-				fullMatch = false;
-				log.warn("NEW TITLE AVAILABLE ON ANIMEDIA {} ! PLEASE, ADD IT TO GITHUB ANIMEDIA SEARCH LIST!", title);
-			}
-		}
-		marshallToTempFolder(resourcesNames.getTempNewTitlesInAnimediaSearchList(), newTitlesInSearchList);
-		marshallToTempFolder(resourcesNames.getTempRemovedTitlesFromAnimediaSearchList(), removedTitlesFromSearchList);
-		marshallToTempFolder(resourcesNames.getTempDuplicatedUrlsInAnimediaSearchList(), duplicates);
-		return fullMatch;
-	}
-
 	private TitleReference buildTempReference(AnimediaSearchListTitle titleSearchInfo, Season season) {
 		return TitleReference.builder()
 				.urlOnAnimedia(titleSearchInfo.getUrl())
@@ -245,21 +153,11 @@ public class ResourcesCheckerService implements ResourcesCheckerServiceI {
 				.build();
 	}
 
-	private AnimediaSearchListTitle checkAnimeIdForAnnouncement(AnimediaSearchListTitle animediaSearchListTitle) {
-		ResponseEntity<String> animePage = animediaFeignClient.getAnimePageWithDataLists(animediaSearchListTitle.getUrl());
-		String animeId = animediaHTMLParser.getAnimeId(animePage.getBody());
-		animediaSearchListTitle.setAnimeId(animeId);
-		if (nonNull(animeId)) {
-			log.error("{} BECOME ONGOING! UPDATE ANIMEDIA SEARCH LIST FROM GITHUB!", animediaSearchListTitle.getUrl());
-		}
-		return animediaSearchListTitle;
-	}
-
 	private List<TitleReference> getMatchedReferences(Set<TitleReference> allReference, AnimediaSearchListTitle titleSearchInfo) {
 		List<TitleReference> references;
 		references = allReference.stream()
-				.filter(x -> x.getUrlOnAnimedia()
-						.equals(titleSearchInfo.getUrl()))
+				.filter(x -> titleSearchInfo.getUrl()
+						.equals(UriUtils.decode(x.getUrlOnAnimedia(), StandardCharsets.UTF_8)))
 				.collect(Collectors.toList());
 		return references;
 	}

@@ -2,6 +2,7 @@ package nasirov.yv.service;
 
 import static nasirov.yv.data.mal.MALAnimeStatus.WATCHING;
 import static nasirov.yv.utils.ReferencesBuilder.getReferences;
+import static nasirov.yv.utils.TestConstants.ANNOUNCEMENT_TITLE_ID;
 import static nasirov.yv.utils.TestConstants.ANNOUNCEMENT_TITLE_NAME;
 import static nasirov.yv.utils.TestConstants.CONCRETIZED_AND_ONGOING_TITLE_ID;
 import static nasirov.yv.utils.TestConstants.CONCRETIZED_AND_ONGOING_TITLE_NAME;
@@ -50,10 +51,10 @@ public class ReferencesServiceTest extends AbstractTest {
 	@Test
 	public void getMatchedReferences() throws Exception {
 		stubGitHub();
-		Set<TitleReference> multiSeasonsReferencesList = getReferences(LinkedHashSet.class, true);
-		multiSeasonsReferencesList.forEach(set -> assertNull(set.getPosterUrlOnMAL()));
+		Set<TitleReference> references = getReferences(LinkedHashSet.class, true);
+		references.forEach(set -> assertNull(set.getPosterUrlOnMAL()));
 		Set<UserMALTitleInfo> watchingTitles = getWatchingTitles();
-		Set<TitleReference> matchedReferences = referencesService.getMatchedReferences(watchingTitles);
+		Set<TitleReference> matchedReferences = referencesService.getMatchedReferences(watchingTitles, references);
 		assertEquals(4, matchedReferences.size());
 		assertTrue(matchedReferences.stream()
 				.allMatch(x -> x.getPosterUrlOnMAL()
@@ -77,10 +78,13 @@ public class ReferencesServiceTest extends AbstractTest {
 		stubAnimeMainPageAndDataLists(CONCRETIZED_AND_ONGOING_TITLE_ID,
 				"animedia/concretized/concretizedAndOngoingTitle.json",
 				of("3", "animedia/concretized/concretizedAndOngoingTitleDataList3.json"));
+		stubAnimeMainPageAndDataLists(ANNOUNCEMENT_TITLE_ID,
+				"animedia/announcement/announcementTitle.json",
+				of("1", "animedia/announcement" + "/announcementTitleDataList1.json"));
 	}
 
 	private void stubGitHub() {
-		createStubWithBodyFile("/nasirov/anime-checker-resources/master/references.json", TEXT_PLAIN_CHARSET_UTF_8, "github/referencesForTest.json");
+		createStubWithBodyFile("/nasirov/anime-checker-resources/master/references.json", TEXT_PLAIN_CHARSET_UTF_8, "github/references.json");
 	}
 
 	private Set<UserMALTitleInfo> getWatchingTitles() {

@@ -1,7 +1,3 @@
-animedia-feign-client:
-  ribbon:
-    listOfServers: localhost:${wiremock.server.port}
-
 animedia-api-feign-client:
   ribbon:
     listOfServers: localhost:${wiremock.server.port}

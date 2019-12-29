@@ -10,6 +10,8 @@ public class TestConstants {
 
 	public static final String ANNOUNCEMENT_TITLE_NAME = "announcement title name";
 
+	public static final String ANNOUNCEMENT_TITLE_ID = "1234";
+
 	public static final String ANNOUNCEMENT_TITLE_URL = "anime/announcement-url";
 
 	public static final String ANNOUNCEMENT_TITLE_POSTER_URL = "images/anime/1/announcement.jpg";

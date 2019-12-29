@@ -3,9 +3,6 @@ application:
     applicationLogo: anime-checker-logo.txt
     tempFolder: temp
     tempRawReferences: tempRawReferences.json
-    tempNewTitlesInAnimediaSearchList: newTitles.json
-    tempRemovedTitlesFromAnimediaSearchList: removedTitles.json
-    tempDuplicatedUrlsInAnimediaSearchList: titlesWithEqualsUrls.json
     tempReferencesWithInvalidMALTitleName: referencesWithInvalidMALTitleName.json
     tempExAnnouncements: exAnnouncements.json
   urls:
@@ -19,29 +16,29 @@ application:
   cron:
     resources-check-cron-expression: 0 0/30 * * * ?
   cache:
-    animedia-api:
-      name: animediaApi
-      ttl: 60
-      max-entity-count: 100
-    animedia:
-      name: animedia
+    anime-list:
+      name: animeList
       ttl: 3600
       max-entity-count: 1
+    title-info:
+      name: titleInfo
+      ttl: 300
+      max-entity-count: 60
+    data-list-info:
+      name: dataListInfo
+      ttl: 300
+      max-entity-count: 200
     mal:
       name: mal
-      ttl: 60
-      max-entity-count: 100
+      ttl: 300
+      max-entity-count: 50
     github:
       name: github
       ttl: 3600
-      max-entity-count: 2
+      max-entity-count: 1
 
 server:
   port: ${PORT}
-
-animedia-feign-client:
-  ribbon:
-    listOfServers: https://online.animedia.tv
 
 animedia-api-feign-client:
   ribbon:

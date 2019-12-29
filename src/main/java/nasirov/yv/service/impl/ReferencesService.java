@@ -1,17 +1,15 @@
 package nasirov.yv.service.impl;
 
-import static java.util.Optional.ofNullable;
 import static nasirov.yv.data.constants.BaseConstants.JOINED_EPISODE_REGEXP;
 import static nasirov.yv.util.AnimediaUtils.getCorrectCurrentMax;
 import static nasirov.yv.util.AnimediaUtils.getCorrectFirstEpisodeAndMin;
 import static nasirov.yv.util.AnimediaUtils.getFirstEpisode;
 import static nasirov.yv.util.AnimediaUtils.getLastEpisode;
-import static nasirov.yv.util.AnimediaUtils.isAnnouncement;
 import static nasirov.yv.util.AnimediaUtils.isTitleConcretizedAndOngoing;
 import static nasirov.yv.util.AnimediaUtils.isTitleNotFoundOnMAL;
 import static nasirov.yv.util.AnimediaUtils.isTitleUpdated;
 
-import java.util.Collections;
+import com.google.common.collect.Sets;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
@@ -19,15 +17,13 @@ import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import nasirov.yv.data.animedia.TitleReference;
-import nasirov.yv.data.animedia.api.AnimediaApiResponse;
 import nasirov.yv.data.animedia.api.Response;
 import nasirov.yv.data.mal.UserMALTitleInfo;
-import nasirov.yv.http.feign.AnimediaApiFeignClient;
 import nasirov.yv.http.feign.GitHubFeignClient;
 import nasirov.yv.parser.AnimediaHTMLParserI;
+import nasirov.yv.service.AnimediaServiceI;
 import nasirov.yv.service.ReferencesServiceI;
 import org.springframework.cache.annotation.Cacheable;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 /**
@@ -42,7 +38,7 @@ public class ReferencesService implements ReferencesServiceI {
 
 	private final AnimediaHTMLParserI animediaHTMLParser;
 
-	private final AnimediaApiFeignClient animediaApiFeignClient;
+	private final AnimediaServiceI animediaService;
 
 	/**
 	 * Searches for references which extracted to GitHub
@@ -52,8 +48,7 @@ public class ReferencesService implements ReferencesServiceI {
 	@Override
 	@Cacheable(value = "github", key = "'references'", unless = "#result?.isEmpty()")
 	public Set<TitleReference> getReferences() {
-		ResponseEntity<Set<TitleReference>> response = gitHubFeignClient.getReferences();
-		return ofNullable(response.getBody()).orElseGet(Collections::emptySet);
+		return Sets.newLinkedHashSet(gitHubFeignClient.getReferences());
 	}
 
 	/**
@@ -69,14 +64,14 @@ public class ReferencesService implements ReferencesServiceI {
 	}
 
 	private boolean isReferenceNeedUpdate(TitleReference reference) {
-		return !(isTitleUpdated(reference) || isTitleNotFoundOnMAL(reference) || isAnnouncement(reference));
+		return !(isTitleUpdated(reference) || isTitleNotFoundOnMAL(reference));
 	}
 
 	private void handleReference(TitleReference reference) {
-		ResponseEntity<AnimediaApiResponse> dataListInfo = animediaApiFeignClient.getDataListInfo(reference.getAnimeIdOnAnimedia(),
-				reference.getDataListOnAnimedia());
-		List<Response> episodesList = ofNullable(dataListInfo.getBody()).orElseGet(AnimediaApiResponse::new)
-				.getResponse();
+		List<Response> episodesList = animediaService.getDataListInfo(reference.getAnimeIdOnAnimedia(), reference.getDataListOnAnimedia());
+		if (episodesList.isEmpty()) {
+			return;
+		}
 		List<String> episodesRange = episodesList.stream()
 				.map(x -> animediaHTMLParser.extractEpisodeNumber(x.getEpisodeName()))
 				.collect(Collectors.toList());
@@ -94,8 +89,7 @@ public class ReferencesService implements ReferencesServiceI {
 	 * @return matched references
 	 */
 	@Override
-	public Set<TitleReference> getMatchedReferences(Set<UserMALTitleInfo> watchingTitles) {
-		Set<TitleReference> references = getReferences();
+	public Set<TitleReference> getMatchedReferences(Set<UserMALTitleInfo> watchingTitles, Set<TitleReference> references) {
 		return watchingTitles.stream()
 				.map(x -> findMatchedReference(x, references))
 				.flatMap(List::stream)

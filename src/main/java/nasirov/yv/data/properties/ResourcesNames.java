@@ -25,15 +25,6 @@ public class ResourcesNames {
 	private String tempRawReferences;
 
 	@NotBlank
-	private String tempNewTitlesInAnimediaSearchList;
-
-	@NotBlank
-	private String tempRemovedTitlesFromAnimediaSearchList;
-
-	@NotBlank
-	private String tempDuplicatedUrlsInAnimediaSearchList;
-
-	@NotBlank
 	private String tempReferencesWithInvalidMALTitleName;
 
 	@NotBlank

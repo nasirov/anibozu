@@ -2,17 +2,15 @@ package nasirov.yv.service;
 
 import static nasirov.yv.data.constants.BaseConstants.EPISODE_NUMBER_FOR_WATCH_VALUE_IF_EPISODE_IS_NOT_AVAILABLE;
 import static nasirov.yv.data.constants.BaseConstants.FINAL_URL_VALUE_IF_EPISODE_IS_NOT_AVAILABLE;
-import static nasirov.yv.data.constants.BaseConstants.FIRST_DATA_LIST;
-import static nasirov.yv.data.constants.BaseConstants.FIRST_EPISODE;
 import static nasirov.yv.data.mal.MALAnimeStatus.WATCHING;
 import static nasirov.yv.utils.ReferencesBuilder.buildConcretizedReferenceWithEpisodesRange;
 import static nasirov.yv.utils.ReferencesBuilder.buildConcretizedReferenceWithSingleEpisode;
 import static nasirov.yv.utils.ReferencesBuilder.buildUpdatedAnnouncementReference;
 import static nasirov.yv.utils.ReferencesBuilder.buildUpdatedRegularReference;
+import static nasirov.yv.utils.ReferencesBuilder.getAnnouncementReference;
 import static nasirov.yv.utils.TestConstants.ANIMEDIA_ONLINE_TV;
 import static nasirov.yv.utils.TestConstants.ANNOUNCEMENT_TITLE_NAME;
 import static nasirov.yv.utils.TestConstants.ANNOUNCEMENT_TITLE_POSTER_URL;
-import static nasirov.yv.utils.TestConstants.ANNOUNCEMENT_TITLE_URL;
 import static nasirov.yv.utils.TestConstants.CONCRETIZED_TITLE_POSTER_URL;
 import static nasirov.yv.utils.TestConstants.CONCRETIZED_TITLE_WITH_EPISODES_RANGE_NAME;
 import static nasirov.yv.utils.TestConstants.CONCRETIZED_TITLE_WITH_JOINED_EPISODES_ID;
@@ -169,8 +167,7 @@ public class SeasonAndEpisodeCheckerTest extends AbstractTest {
 				buildUpdatedRegularReference(),
 				buildConcretizedReferenceWithJoinedEpisodes("1", "1", "2"),
 				buildConcretizedReferenceWithJoinedEpisodes("2", "3", "4"),
-				buildReferenceWithJoinedEpisodesUrl(),
-				announcementReference());
+				buildReferenceWithJoinedEpisodesUrl(), getAnnouncementReference());
 	}
 
 	private TitleReference builtLastDataList() {
@@ -278,15 +275,6 @@ public class SeasonAndEpisodeCheckerTest extends AbstractTest {
 				.posterUrlOnMAL(MY_ANIME_LIST_STATIC_CONTENT_URL + CONCRETIZED_TITLE_WITH_JOINED_EPISODES_POSTER_URL)
 				.minOnMAL(minConcretizedEpisodeOnMAL)
 				.maxOnMAL(maxConcretizedEpisodeOnMAL)
-				.build();
-	}
-
-	private TitleReference announcementReference() {
-		return TitleReference.builder()
-				.urlOnAnimedia(ANNOUNCEMENT_TITLE_URL)
-				.titleNameOnMAL(ANNOUNCEMENT_TITLE_NAME)
-				.dataListOnAnimedia(FIRST_DATA_LIST)
-				.minOnAnimedia(FIRST_EPISODE)
 				.build();
 	}
 

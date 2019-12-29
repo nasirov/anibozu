@@ -95,12 +95,10 @@ public class ResultControllerTest extends AbstractTest {
 		notFoundAnimeOnAnimediaRepository.saveAll(nofFound);
 		doReturn(nofFound).when(malService)
 				.getWatchingTitles(TEST_ACC_FOR_DEV.toLowerCase());
-		doReturn(new LinkedHashSet<>()).when(animediaService)
-				.getAnimediaSearchListFromGitHub();
 		doReturn(new LinkedHashSet<>()).when(referencesService)
 				.getReferences();
 		doReturn(new LinkedHashSet<>()).when(referencesService)
-				.getMatchedReferences(anySet());
+				.getMatchedReferences(anySet(), anySet());
 		doReturn(getMatchedAnime()).when(seasonsAndEpisodesService)
 				.getMatchedAnime(anySet(), anySet(), eq(TEST_ACC_FOR_DEV.toLowerCase()));
 		MockHttpServletResponse response = mockMvc.perform(post(PATH).param("username", TEST_ACC_FOR_DEV.toLowerCase()))
