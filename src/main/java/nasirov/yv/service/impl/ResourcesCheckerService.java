@@ -20,22 +20,22 @@ import nasirov.yv.data.animedia.AnimediaSearchListTitle;
 import nasirov.yv.data.animedia.TitleReference;
 import nasirov.yv.data.animedia.api.Response;
 import nasirov.yv.data.animedia.api.Season;
-import nasirov.yv.data.mal.UserMALTitleInfo;
 import nasirov.yv.data.properties.ResourcesNames;
-import nasirov.yv.repository.NotFoundAnimeOnAnimediaRepository;
 import nasirov.yv.service.AnimediaServiceI;
 import nasirov.yv.service.MALServiceI;
 import nasirov.yv.service.ReferencesServiceI;
 import nasirov.yv.service.ResourcesCheckerServiceI;
 import nasirov.yv.util.RoutinesIO;
+import org.springframework.context.annotation.Profile;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 /**
  * Created by nasirov.yv
  */
-@Service
 @Slf4j
+@Service
+@Profile(value = {"local", "test"})
 @RequiredArgsConstructor
 public class ResourcesCheckerService implements ResourcesCheckerServiceI {
 
@@ -46,8 +46,6 @@ public class ResourcesCheckerService implements ResourcesCheckerServiceI {
 	private final MALServiceI malService;
 
 	private final ResourcesNames resourcesNames;
-
-	private final NotFoundAnimeOnAnimediaRepository notFoundAnimeOnAnimediaRepository;
 
 	private final RoutinesIO routinesIO;
 
@@ -118,23 +116,6 @@ public class ResourcesCheckerService implements ResourcesCheckerServiceI {
 		}
 		marshallToTempFolder(resourcesNames.getTempRawReferences(), notFoundInReferences);
 		log.info("END CHECKING REFERENCES.");
-	}
-
-	@Override
-	@Scheduled(cron = "${application.cron.resources-check-cron-expression}")
-	public void checkNotFoundTitlesOnAnimedia() {
-		log.info("START CHECKING NOT FOUND ANIME ON ANIMEDIA REPOSITORY ...");
-		Set<TitleReference> allReferences = referencesService.getReferences();
-		List<UserMALTitleInfo> notFoundAnimeOnAnimedia = notFoundAnimeOnAnimediaRepository.findAll();
-		for (UserMALTitleInfo notFoundTitle : notFoundAnimeOnAnimedia) {
-			if (allReferences.stream()
-					.anyMatch(ref -> ref.getTitleNameOnMAL()
-							.equals(notFoundTitle.getTitle()))) {
-				log.info("{} HAS REMOVED FROM NotFoundAnimeOnAnimediaRepository", notFoundTitle.getTitle());
-				notFoundAnimeOnAnimediaRepository.delete(notFoundTitle);
-			}
-		}
-		log.info("END CHECKING NOT FOUND ANIME ON ANIMEDIA REPOSITORY.");
 	}
 
 	private TitleReference buildTempReference(AnimediaSearchListTitle titleSearchInfo, Season season) {

@@ -3,7 +3,6 @@ package nasirov.yv.service;
 import static java.util.Collections.emptyMap;
 import static nasirov.yv.data.constants.BaseConstants.FIRST_DATA_LIST;
 import static nasirov.yv.data.constants.BaseConstants.FIRST_EPISODE;
-import static nasirov.yv.data.mal.MALAnimeStatus.WATCHING;
 import static nasirov.yv.utils.AnimediaSearchListTitleBuilder.getAnnouncement;
 import static nasirov.yv.utils.AnimediaSearchListTitleBuilder.getRegularTitle;
 import static nasirov.yv.utils.AnimediaSearchListTitleBuilder.tempStub;
@@ -14,7 +13,6 @@ import static nasirov.yv.utils.TestConstants.REGULAR_TITLE_NAME;
 import static nasirov.yv.utils.TestConstants.REGULAR_TITLE_URL;
 import static nasirov.yv.utils.TestConstants.TEMP_FOLDER_NAME;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.doReturn;
 import static org.springframework.util.FileSystemUtils.deleteRecursively;
@@ -29,7 +27,6 @@ import lombok.SneakyThrows;
 import nasirov.yv.AbstractTest;
 import nasirov.yv.data.animedia.AnimediaSearchListTitle;
 import nasirov.yv.data.animedia.TitleReference;
-import nasirov.yv.data.mal.UserMALTitleInfo;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -82,15 +79,6 @@ public class ResourcesCheckerServiceTest extends AbstractTest {
 				buildMissedReference("7"));
 	}
 
-	@Test
-	public void checkNotFoundTitlesOnAnimediaRemoveTitleFromRepo() {
-		saveUserWatchingTitleToNotFoundRepo();
-		mockGetReferences(getAllReferences());
-		resourcesCheckerService.checkNotFoundTitlesOnAnimedia();
-		assertTrue(notFoundAnimeOnAnimediaRepository.findAll()
-				.isEmpty());
-	}
-
 	private <T> void checkMarshalledTempFiles(String fileName, Class<T> targetClass, T... title) {
 		checkTempFolder(true);
 		String prefix = TEMP_FOLDER_NAME + File.separator;
@@ -106,10 +94,6 @@ public class ResourcesCheckerServiceTest extends AbstractTest {
 	@SneakyThrows
 	private void checkTempFolder(boolean expected) {
 		assertEquals(expected, routinesIO.isDirectoryExists(TEMP_FOLDER_NAME));
-	}
-
-	private void saveUserWatchingTitleToNotFoundRepo() {
-		notFoundAnimeOnAnimediaRepository.saveAndFlush(new UserMALTitleInfo(0, WATCHING.getCode(), 0, REGULAR_TITLE_NAME, 0, "testPoster", "testUrl"));
 	}
 
 	private void mockGetReferences(Set<TitleReference> allReferences) {

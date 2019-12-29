@@ -5,6 +5,4 @@ public interface ResourcesCheckerServiceI {
 	void checkReferencesNames();
 
 	void checkReferences();
-
-	void checkNotFoundTitlesOnAnimedia();
 }

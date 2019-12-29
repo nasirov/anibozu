@@ -16,6 +16,7 @@ import nasirov.yv.repository.NotFoundAnimeOnAnimediaRepository;
 import nasirov.yv.service.AnimediaServiceI;
 import nasirov.yv.service.MALServiceI;
 import nasirov.yv.service.ReferencesServiceI;
+import nasirov.yv.service.RepositoryCheckerServiceI;
 import nasirov.yv.service.ResourcesCheckerServiceI;
 import nasirov.yv.service.SeasonsAndEpisodesServiceI;
 import nasirov.yv.util.RoutinesIO;
@@ -75,6 +76,9 @@ public abstract class AbstractTest {
 
 	@Autowired
 	protected NotFoundAnimeOnAnimediaRepository notFoundAnimeOnAnimediaRepository;
+
+	@Autowired
+	protected RepositoryCheckerServiceI repositoryCheckerService;
 
 	@Before
 	public void setUp() {
