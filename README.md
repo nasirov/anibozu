@@ -7,12 +7,13 @@
 
 The application analyzes user watching titles from **[MyAnimeList](https://myanimelist.net/)** and searches for new episodes on **[Animedia](https://online.animedia.tv/)**
 
-# Try It On Heroku
+# Try It Out On Heroku
 
 https://anime-checker.herokuapp.com/
 
 # NB
-- Keep in mind that most of the data is creates in runtime and the application check result is directly depends on mal and animedia ping and the amount of your watching titles
+- Keep in mind that ongoings data is creates in runtime and the application check result is directly depends on mal and animedia ping and the
+ amount of your watching titles
 
 # Screenshots
 
