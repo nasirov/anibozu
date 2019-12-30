@@ -71,3 +71,6 @@ hystrix:
         isolation:
           thread:
             timeoutInMilliseconds: 60000
+spring:
+  application:
+    name: anime-checker
