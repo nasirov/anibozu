@@ -36,6 +36,8 @@ application:
       name: github
       ttl: 3600
       max-entity-count: 1
+  github-auth:
+    token: ${GITHUB_ACCESS_TOKEN}
 
 server:
   port: ${PORT}

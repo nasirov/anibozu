@@ -107,7 +107,10 @@ public class ReferencesServiceTest extends AbstractTest {
 	}
 
 	private void stubGitHub() {
-		createStubWithBodyFile("/nasirov/anime-checker-resources/master/references.json", TEXT_PLAIN_CHARSET_UTF_8, "github/references.json");
+		createStubWithBodyFile("/nasirov/anime-checker-resources/master/references.json",
+				TEXT_PLAIN_CHARSET_UTF_8,
+				"github/references.json",
+				gitHubAuthProps.getToken());
 	}
 
 	private Set<UserMALTitleInfo> getWatchingTitles() {

@@ -5,11 +5,13 @@ import static com.github.tomakehurst.wiremock.client.WireMock.equalTo;
 import static com.github.tomakehurst.wiremock.client.WireMock.get;
 import static nasirov.yv.utils.TestConstants.TEXT_JAVASCRIPT_CHARSET_UTF_8;
 import static org.springframework.http.HttpHeaders.ACCEPT_ENCODING;
+import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 import static org.springframework.http.HttpHeaders.CONTENT_TYPE;
 
 import com.github.tomakehurst.wiremock.WireMockServer;
 import java.util.Map;
 import java.util.stream.Stream;
+import nasirov.yv.data.properties.GitHubAuthProps;
 import nasirov.yv.data.properties.ResourcesNames;
 import nasirov.yv.parser.WrappedObjectMapperI;
 import nasirov.yv.repository.NotFoundAnimeOnAnimediaRepository;
@@ -80,6 +82,9 @@ public abstract class AbstractTest {
 	@Autowired
 	protected RepositoryCheckerServiceI repositoryCheckerService;
 
+	@Autowired
+	protected GitHubAuthProps gitHubAuthProps;
+
 	@Before
 	public void setUp() {
 		clearResources();
@@ -92,6 +97,14 @@ public abstract class AbstractTest {
 
 	protected void createStubWithBodyFile(String url, String contentType, String bodyFilePath) {
 		wireMockServer.addStubMapping(get(url).withHeader(ACCEPT_ENCODING, equalTo("gzip, deflate, br"))
+				.willReturn(aResponse().withHeader(CONTENT_TYPE, contentType)
+						.withBodyFile(bodyFilePath))
+				.build());
+	}
+
+	protected void createStubWithBodyFile(String url, String contentType, String bodyFilePath, String token) {
+		wireMockServer.addStubMapping(get(url).withHeader(ACCEPT_ENCODING, equalTo("gzip, deflate, br"))
+				.withHeader(AUTHORIZATION, equalTo("token " + token))
 				.willReturn(aResponse().withHeader(CONTENT_TYPE, contentType)
 						.withBodyFile(bodyFilePath))
 				.build());

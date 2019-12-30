@@ -19,6 +19,7 @@ import lombok.extern.slf4j.Slf4j;
 import nasirov.yv.data.animedia.TitleReference;
 import nasirov.yv.data.animedia.api.Response;
 import nasirov.yv.data.mal.UserMALTitleInfo;
+import nasirov.yv.data.properties.GitHubAuthProps;
 import nasirov.yv.http.feign.GitHubFeignClient;
 import nasirov.yv.parser.AnimediaHTMLParserI;
 import nasirov.yv.service.AnimediaServiceI;
@@ -40,6 +41,8 @@ public class ReferencesService implements ReferencesServiceI {
 
 	private final AnimediaServiceI animediaService;
 
+	private final GitHubAuthProps gitHubAuthProps;
+
 	/**
 	 * Searches for references which extracted to GitHub
 	 *
@@ -48,7 +51,7 @@ public class ReferencesService implements ReferencesServiceI {
 	@Override
 	@Cacheable(value = "github", key = "'references'", unless = "#result?.isEmpty()")
 	public Set<TitleReference> getReferences() {
-		return Sets.newLinkedHashSet(gitHubFeignClient.getReferences());
+		return Sets.newLinkedHashSet(gitHubFeignClient.getReferences("token " + gitHubAuthProps.getToken()));
 	}
 
 	/**
