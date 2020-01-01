@@ -21,7 +21,6 @@ import nasirov.yv.service.ReferencesServiceI;
 import nasirov.yv.service.RepositoryCheckerServiceI;
 import nasirov.yv.service.ResourcesCheckerServiceI;
 import nasirov.yv.service.SeasonsAndEpisodesServiceI;
-import nasirov.yv.util.RoutinesIO;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.runner.RunWith;
@@ -29,6 +28,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.core.AutoConfigureCache;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.boot.test.mock.mockito.SpyBean;
 import org.springframework.cloud.contract.wiremock.AutoConfigureWireMock;
 import org.springframework.test.context.ActiveProfiles;
@@ -46,6 +46,9 @@ import org.springframework.test.web.servlet.MockMvc;
 @AutoConfigureWireMock(port = 0)
 public abstract class AbstractTest {
 
+	@MockBean
+	protected WrappedObjectMapperI wrappedObjectMapper;
+
 	@SpyBean
 	protected AnimediaServiceI animediaService;
 
@@ -60,12 +63,6 @@ public abstract class AbstractTest {
 
 	@Autowired
 	protected ResourcesNames resourcesNames;
-
-	@Autowired
-	protected RoutinesIO routinesIO;
-
-	@Autowired
-	protected WrappedObjectMapperI wrappedObjectMapper;
 
 	@Autowired
 	protected MockMvc mockMvc;

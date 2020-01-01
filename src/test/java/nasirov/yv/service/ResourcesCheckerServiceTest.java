@@ -12,49 +12,32 @@ import static nasirov.yv.utils.TestConstants.REGULAR_TITLE_ID;
 import static nasirov.yv.utils.TestConstants.REGULAR_TITLE_NAME;
 import static nasirov.yv.utils.TestConstants.REGULAR_TITLE_URL;
 import static nasirov.yv.utils.TestConstants.TEMP_FOLDER_NAME;
-import static org.junit.Assert.assertEquals;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.argThat;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.doReturn;
-import static org.springframework.util.FileSystemUtils.deleteRecursively;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 
 import com.google.common.collect.Sets;
 import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.LinkedList;
 import java.util.Set;
-import java.util.stream.Stream;
-import lombok.SneakyThrows;
 import nasirov.yv.AbstractTest;
 import nasirov.yv.data.animedia.AnimediaSearchListTitle;
 import nasirov.yv.data.animedia.TitleReference;
-import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
+import org.springframework.util.CollectionUtils;
 
 public class ResourcesCheckerServiceTest extends AbstractTest {
-
-	@Before
-	@Override
-	@SneakyThrows
-	public void setUp() {
-		super.setUp();
-		deleteRecursively(new File(TEMP_FOLDER_NAME));
-	}
-
-	@After
-	@Override
-	@SneakyThrows
-	public void tearDown() {
-		super.tearDown();
-		deleteRecursively(new File(TEMP_FOLDER_NAME));
-	}
 
 	@Test
 	public void checkReferencesNamesOk() {
 		mockGetReferences(getAllReferences());
 		mockIsTitleExist(true);
 		resourcesCheckerService.checkReferencesNames();
-		checkTempFolder(false);
+		verify(wrappedObjectMapper, never()).marshal(any(), any());
 	}
 
 	@Test
@@ -62,7 +45,7 @@ public class ResourcesCheckerServiceTest extends AbstractTest {
 		mockGetReferences(getAllReferences());
 		mockIsTitleExist(false);
 		resourcesCheckerService.checkReferencesNames();
-		checkMarshalledTempFiles(resourcesNames.getTempReferencesWithInvalidMALTitleName(), TitleReference.class, getRegularReferenceNotUpdated());
+		checkMarshalledTempFiles(resourcesNames.getTempReferencesWithInvalidMALTitleName(), getRegularReferenceNotUpdated());
 	}
 
 	@Test
@@ -72,28 +55,16 @@ public class ResourcesCheckerServiceTest extends AbstractTest {
 		stubAnimeMainPageAndDataLists(REGULAR_TITLE_ID, "animedia/regular/regularTitle.json", emptyMap());
 		resourcesCheckerService.checkReferences();
 		checkMarshalledTempFiles(resourcesNames.getTempRawReferences(),
-				TitleReference.class,
 				buildTempAnnouncementReference(getAnnouncement()),
 				buildMissedReference("2"),
 				buildMissedReference("3"),
 				buildMissedReference("7"));
 	}
 
-	private <T> void checkMarshalledTempFiles(String fileName, Class<T> targetClass, T... title) {
-		checkTempFolder(true);
+	private <T> void checkMarshalledTempFiles(String fileName, T... title) {
 		String prefix = TEMP_FOLDER_NAME + File.separator;
-		List<T> marshaledTitles = routinesIO.unmarshalFromFile(prefix + fileName, targetClass, ArrayList.class);
-		assertEquals(title.length, marshaledTitles.size());
-		Stream.of(title)
-				.forEach(x -> assertEquals(1,
-						marshaledTitles.stream()
-								.filter(ref -> ref.equals(x))
-								.count()));
-	}
-
-	@SneakyThrows
-	private void checkTempFolder(boolean expected) {
-		assertEquals(expected, routinesIO.isDirectoryExists(TEMP_FOLDER_NAME));
+		verify(wrappedObjectMapper, times(1)).marshal(argThat(x -> x.getName()
+				.equals(fileName)), argThat((LinkedList x) -> x.size() == title.length && x.containsAll(CollectionUtils.arrayToList(title))));
 	}
 
 	private void mockGetReferences(Set<TitleReference> allReferences) {

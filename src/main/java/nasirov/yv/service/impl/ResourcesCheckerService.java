@@ -6,14 +6,13 @@ import static nasirov.yv.util.AnimediaUtils.isAnnouncement;
 import static nasirov.yv.util.AnimediaUtils.isTitleNotFoundOnMAL;
 
 import feign.template.UriUtils;
+import java.io.File;
 import java.nio.charset.StandardCharsets;
 import java.util.Collection;
-import java.util.LinkedHashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
-import javax.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import nasirov.yv.data.animedia.AnimediaSearchListTitle;
@@ -21,11 +20,11 @@ import nasirov.yv.data.animedia.TitleReference;
 import nasirov.yv.data.animedia.api.Response;
 import nasirov.yv.data.animedia.api.Season;
 import nasirov.yv.data.properties.ResourcesNames;
+import nasirov.yv.parser.WrappedObjectMapperI;
 import nasirov.yv.service.AnimediaServiceI;
 import nasirov.yv.service.MALServiceI;
 import nasirov.yv.service.ReferencesServiceI;
 import nasirov.yv.service.ResourcesCheckerServiceI;
-import nasirov.yv.util.RoutinesIO;
 import org.springframework.context.annotation.Profile;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
@@ -47,21 +46,14 @@ public class ResourcesCheckerService implements ResourcesCheckerServiceI {
 
 	private final ResourcesNames resourcesNames;
 
-	private final RoutinesIO routinesIO;
-
-	private String tempFolder;
-
-	@PostConstruct
-	public void init() {
-		tempFolder = resourcesNames.getTempFolder();
-	}
+	private final WrappedObjectMapperI wrappedObjectMapper;
 
 	@Override
 	@Scheduled(cron = "${application.cron.resources-check-cron-expression}")
 	public void checkReferencesNames() {
 		log.info("START CHECKING REFERENCES NAMES ON MAL ...");
 		Set<TitleReference> allReferences = referencesService.getReferences();
-		Set<TitleReference> referencesWithInvalidMALTitleName = new LinkedHashSet<>();
+		List<TitleReference> referencesWithInvalidMALTitleName = new LinkedList<>();
 		for (TitleReference reference : allReferences) {
 			String titleOnMAL = reference.getTitleNameOnMAL();
 			if (!isTitleNotFoundOnMAL(reference)) {
@@ -145,7 +137,11 @@ public class ResourcesCheckerService implements ResourcesCheckerServiceI {
 
 	private void marshallToTempFolder(String tempFileName, Collection<?> content) {
 		if (!content.isEmpty()) {
-			routinesIO.marshalToFileInTheFolder(tempFolder, tempFileName, content);
+			wrappedObjectMapper.marshal(buildResultFile(tempFileName), content);
 		}
+	}
+
+	private File buildResultFile(String tempFileName) {
+		return new File(new File(resourcesNames.getTempFolder()), tempFileName);
 	}
 }
