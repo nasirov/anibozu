@@ -19,6 +19,8 @@ import org.apache.commons.io.FileUtils;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
 import org.springframework.util.FileSystemUtils;
+import org.springframework.util.ResourceUtils;
+import org.springframework.util.StreamUtils;
 
 /**
  * IO operations Created by nasirov.yv
@@ -59,21 +61,9 @@ public class RoutinesIO {
 		return readFileToString(file, UTF_8);
 	}
 
+	@SneakyThrows
 	public String readFromResource(Resource resource) {
-		String fromFile = "";
-		try (BufferedInputStream byteArrayInputStream = new BufferedInputStream(resource.getInputStream());
-				ByteArrayOutputStream bufferedOutputStream = new ByteArrayOutputStream()) {
-			int readByte;
-			byte[] data = new byte[1024];
-			while ((readByte = byteArrayInputStream.read(data, 0, data.length)) != -1) {
-				bufferedOutputStream.write(data, 0, readByte);
-				bufferedOutputStream.flush();
-			}
-			fromFile = new String(bufferedOutputStream.toByteArray(), StandardCharsets.UTF_8);
-		} catch (IOException e) {
-			log.error("EXCEPTION WHILE READING FROM RESOURCE " + resource, e);
-		}
-		return fromFile;
+		return StreamUtils.copyToString(resource.getInputStream(), UTF_8);
 	}
 
 	public void mkDir(String dirPath) {

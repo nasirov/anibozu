@@ -10,8 +10,8 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
-import com.fasterxml.jackson.databind.exc.MismatchedInputException;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
@@ -116,7 +116,7 @@ public class RoutinesIOTest extends AbstractTest {
 		checkTestContent(unmarshalledFromFile);
 	}
 
-	@Test(expected = MismatchedInputException.class)
+	@Test(expected = FileNotFoundException.class)
 	public void readFromResourceException() {
 		ClassPathResource resourcesNotFound = new ClassPathResource("resourcesNotFound");
 		assertFalse(resourcesNotFound.exists());
@@ -179,7 +179,8 @@ public class RoutinesIOTest extends AbstractTest {
 		routinesIO.marshalToFileInTheFolder(TEMP_FOLDER_NAME, testFilename, testContent);
 		File testDir = new File(TEMP_FOLDER_NAME);
 		File testFileInTestDir = new File(testDir, testFilename);
-		Set<TitleReference> unmarshalledFromFile = wrappedObjectMapper.unmarshal(routinesIO.readFromFile(testFileInTestDir), TitleReference.class,
+		Set<TitleReference> unmarshalledFromFile = wrappedObjectMapper.unmarshal(routinesIO.readFromFile(testFileInTestDir),
+				TitleReference.class,
 				LinkedHashSet.class);
 		checkTestContent(unmarshalledFromFile);
 		FileSystemUtils.deleteRecursively(testDir);
