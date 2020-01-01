@@ -10,6 +10,9 @@ import java.util.Collection;
 import lombok.SneakyThrows;
 import lombok.experimental.UtilityClass;
 
+/**
+ * Created by nasirov.yv
+ */
 @UtilityClass
 public class IOUtils {
 
