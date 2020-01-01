@@ -1,11 +1,19 @@
 package nasirov.yv.controller;
 
-import static nasirov.yv.data.mal.MALAnimeStatus.WATCHING;
 import static nasirov.yv.utils.ReferencesBuilder.buildUpdatedAnnouncementReference;
 import static nasirov.yv.utils.ReferencesBuilder.buildUpdatedRegularReference;
 import static nasirov.yv.utils.TestConstants.ANIMEDIA_ONLINE_TV;
+import static nasirov.yv.utils.TestConstants.ANNOUNCEMENT_TITLE_MAL_ANIME_URL;
+import static nasirov.yv.utils.TestConstants.ANNOUNCEMENT_TITLE_NAME;
+import static nasirov.yv.utils.TestConstants.ANNOUNCEMENT_TITLE_URL;
 import static nasirov.yv.utils.TestConstants.MY_ANIME_LIST_STATIC_CONTENT_URL;
+import static nasirov.yv.utils.TestConstants.MY_ANIME_LIST_URL;
+import static nasirov.yv.utils.TestConstants.NOT_FOUND_ON_ANIMEDIA_TITLE_MAL_ANIME_URL;
+import static nasirov.yv.utils.TestConstants.NOT_FOUND_ON_ANIMEDIA_TITLE_NAME;
 import static nasirov.yv.utils.TestConstants.NOT_FOUND_ON_ANIMEDIA_TITLE_POSTER_URL;
+import static nasirov.yv.utils.TestConstants.REGULAR_TITLE_MAL_ANIME_URL;
+import static nasirov.yv.utils.TestConstants.REGULAR_TITLE_NAME;
+import static nasirov.yv.utils.TestConstants.REGULAR_TITLE_POSTER_URL;
 import static nasirov.yv.utils.TestConstants.TEST_ACC_FOR_DEV;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -25,12 +33,12 @@ import java.util.List;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import lombok.SneakyThrows;
 import nasirov.yv.AbstractTest;
 import nasirov.yv.data.animedia.TitleReference;
 import nasirov.yv.data.mal.UserMALTitleInfo;
 import nasirov.yv.exception.mal.MALUserAccountNotFoundException;
 import nasirov.yv.exception.mal.WatchingTitlesNotFoundException;
-import org.junit.Before;
 import org.junit.Test;
 import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.test.web.servlet.MvcResult;
@@ -45,11 +53,6 @@ public class ResultControllerTest extends AbstractTest {
 	private static final String PATH = "/result";
 
 	private static final String ERROR_VIEW = "error";
-
-	@Before
-	public void setUp() {
-		notFoundAnimeOnAnimediaRepository.deleteAll();
-	}
 
 	@Test
 	public void checkResultInvalidUsername() throws Exception {
@@ -68,32 +71,36 @@ public class ResultControllerTest extends AbstractTest {
 	@Test
 	public void checkResultUsernameIsNotFound() throws Exception {
 		String errorMsg = "MAL account " + TEST_ACC_FOR_DEV.toLowerCase() + " is not found";
-		doThrow(new MALUserAccountNotFoundException(errorMsg)).when(malService)
-				.getWatchingTitles(TEST_ACC_FOR_DEV.toLowerCase());
+		mockMalService(new MALUserAccountNotFoundException(errorMsg));
 		checkErrorResult(errorMsg);
 	}
 
 	@Test
 	public void checkResultWatchingTitlesNotFound() throws Exception {
 		String errorMsg = "errorMsg";
-		doThrow(new WatchingTitlesNotFoundException(errorMsg)).when(malService)
-				.getWatchingTitles(TEST_ACC_FOR_DEV.toLowerCase());
+		mockMalService(new WatchingTitlesNotFoundException(errorMsg));
 		checkErrorResult(errorMsg);
 	}
 
 	@Test
 	public void checkResultForNewUser() throws Exception {
-		Set<UserMALTitleInfo> nofFound = new LinkedHashSet<>();
-		UserMALTitleInfo notFoundAnime = new UserMALTitleInfo(0,
-				WATCHING.getCode(),
-				0,
-				"nevermind",
-				0,
-				MY_ANIME_LIST_STATIC_CONTENT_URL + NOT_FOUND_ON_ANIMEDIA_TITLE_POSTER_URL,
-				"testUrl");
-		nofFound.add(notFoundAnime);
-		notFoundAnimeOnAnimediaRepository.saveAll(nofFound);
-		doReturn(nofFound).when(malService)
+		mockServicesOk();
+		MockHttpServletResponse response = mockMvc.perform(post(PATH).param("username", TEST_ACC_FOR_DEV.toLowerCase()))
+				.andReturn()
+				.getResponse();
+		String content = response.getContentAsString();
+		checkFront(content, buildNextEpisodeAvailableReference(), buildNextEpisodeIsNotAvailableReference(), buildNotFoundOnAnimedia());
+	}
+
+	@SneakyThrows
+	private void mockMalService(Exception toBeThrown) {
+		doThrow(toBeThrown).when(malService)
+				.getWatchingTitles(TEST_ACC_FOR_DEV.toLowerCase());
+	}
+
+	@SneakyThrows
+	private void mockServicesOk() {
+		doReturn(getWatchingTitles()).when(malService)
 				.getWatchingTitles(TEST_ACC_FOR_DEV.toLowerCase());
 		doReturn(new LinkedHashSet<>()).when(referencesService)
 				.getReferences();
@@ -101,13 +108,6 @@ public class ResultControllerTest extends AbstractTest {
 				.getMatchedReferences(anySet(), anySet());
 		doReturn(getMatchedAnime()).when(seasonsAndEpisodesService)
 				.getMatchedAnime(anySet(), anySet(), eq(TEST_ACC_FOR_DEV.toLowerCase()));
-		MockHttpServletResponse response = mockMvc.perform(post(PATH).param("username", TEST_ACC_FOR_DEV.toLowerCase()))
-				.andReturn()
-				.getResponse();
-		assertNotNull(response);
-		String content = response.getContentAsString();
-		assertNotNull(content);
-		checkFront(content, buildNextEpisodeAvailableReference(), buildNextEpisodeIsNotAvailableReference(), notFoundAnime);
 	}
 
 	private void checkBindExceptionInMvcResult(MvcResult mvcResult) {
@@ -180,5 +180,22 @@ public class ResultControllerTest extends AbstractTest {
 
 	private TitleReference buildNextEpisodeIsNotAvailableReference() {
 		return buildUpdatedAnnouncementReference();
+	}
+
+	private Set<UserMALTitleInfo> getWatchingTitles() {
+		Set<UserMALTitleInfo> userMALTitleInfo = new LinkedHashSet<>();
+		userMALTitleInfo.add(buildUserMALTitleInfo(REGULAR_TITLE_NAME, REGULAR_TITLE_POSTER_URL, REGULAR_TITLE_MAL_ANIME_URL));
+		userMALTitleInfo.add(buildUserMALTitleInfo(ANNOUNCEMENT_TITLE_NAME, ANNOUNCEMENT_TITLE_URL, ANNOUNCEMENT_TITLE_MAL_ANIME_URL));
+		userMALTitleInfo.add(buildNotFoundOnAnimedia());
+		return userMALTitleInfo;
+	}
+
+	private UserMALTitleInfo buildNotFoundOnAnimedia() {
+		return buildUserMALTitleInfo(NOT_FOUND_ON_ANIMEDIA_TITLE_NAME, NOT_FOUND_ON_ANIMEDIA_TITLE_POSTER_URL,
+				NOT_FOUND_ON_ANIMEDIA_TITLE_MAL_ANIME_URL);
+	}
+
+	private UserMALTitleInfo buildUserMALTitleInfo(String titleName, String titlePosterUrl, String animeUrl) {
+		return new UserMALTitleInfo(0, titleName, MY_ANIME_LIST_STATIC_CONTENT_URL + titlePosterUrl, MY_ANIME_LIST_URL + animeUrl);
 	}
 }

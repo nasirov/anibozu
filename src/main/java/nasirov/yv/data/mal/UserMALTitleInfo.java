@@ -2,34 +2,18 @@ package nasirov.yv.data.mal;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 /**
  * MAL User Anime List Info animelist/USERNAME Created by nasirov.yv
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
-@Entity
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class UserMALTitleInfo {
-
-	@Id
-	@GeneratedValue
-	@EqualsAndHashCode.Exclude
-	private int id;
-
-	/**
-	 * Anime Status
-	 */
-	@JsonProperty(value = "status")
-	private Integer status;
 
 	/**
 	 * Number of watched episodes
@@ -42,12 +26,6 @@ public class UserMALTitleInfo {
 	 */
 	@JsonProperty(value = "anime_title")
 	private String title;
-
-	/**
-	 * Max number of episodes
-	 */
-	@JsonProperty(value = "anime_num_episodes")
-	private Integer animeNumEpisodes;
 
 	/**
 	 * Poster URL

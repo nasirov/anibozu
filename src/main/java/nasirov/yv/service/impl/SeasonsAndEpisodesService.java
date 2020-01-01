@@ -25,7 +25,6 @@ import lombok.extern.slf4j.Slf4j;
 import nasirov.yv.data.animedia.TitleReference;
 import nasirov.yv.data.mal.UserMALTitleInfo;
 import nasirov.yv.data.properties.UrlsNames;
-import nasirov.yv.repository.NotFoundAnimeOnAnimediaRepository;
 import nasirov.yv.service.SeasonsAndEpisodesServiceI;
 import nasirov.yv.util.AnimediaUtils;
 import org.springframework.stereotype.Service;
@@ -39,8 +38,6 @@ import org.springframework.stereotype.Service;
 public class SeasonsAndEpisodesService implements SeasonsAndEpisodesServiceI {
 
 	private static final int UNDEFINED_MAX = 0;
-
-	private final NotFoundAnimeOnAnimediaRepository notFoundAnimeOnAnimediaRepository;
 
 	private final UrlsNames urlsNames;
 
@@ -100,9 +97,6 @@ public class SeasonsAndEpisodesService implements SeasonsAndEpisodesServiceI {
 
 	private void handleZeroMatchedResult(UserMALTitleInfo userMALTitleInfo) {
 		log.info("ANIME {}({}) IS NOT FOUND ON ANIMEDIA!", userMALTitleInfo.getTitle(), userMALTitleInfo.getAnimeUrl());
-		if (!notFoundAnimeOnAnimediaRepository.exitsByTitle(userMALTitleInfo.getTitle())) {
-			notFoundAnimeOnAnimediaRepository.saveAndFlush(userMALTitleInfo);
-		}
 	}
 
 	private TitleReference handleOneMatchedResult(Set<TitleReference> matchedMultiSeasonsReferences, UserMALTitleInfo userMALTitleInfo) {

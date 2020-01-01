@@ -1,6 +1,5 @@
 package nasirov.yv.service;
 
-import static nasirov.yv.data.mal.MALAnimeStatus.WATCHING;
 import static nasirov.yv.utils.ReferencesBuilder.getReferences;
 import static nasirov.yv.utils.TestConstants.ANNOUNCEMENT_TITLE_ID;
 import static nasirov.yv.utils.TestConstants.ANNOUNCEMENT_TITLE_NAME;
@@ -115,10 +114,10 @@ public class ReferencesServiceTest extends AbstractTest {
 
 	private Set<UserMALTitleInfo> getWatchingTitles() {
 		Set<UserMALTitleInfo> userMALTitleInfo = new LinkedHashSet<>();
-		userMALTitleInfo.add(new UserMALTitleInfo(0, WATCHING.getCode(), 0, REGULAR_TITLE_NAME, 0, "testPoster", "testUrl"));
-		userMALTitleInfo.add(new UserMALTitleInfo(0, WATCHING.getCode(), 0, ANNOUNCEMENT_TITLE_NAME, 0, "testPoster", "testUrl"));
-		userMALTitleInfo.add(new UserMALTitleInfo(0, WATCHING.getCode(), 0, CONCRETIZED_TITLE_WITH_EPISODES_RANGE_NAME, 0, "testPoster", "testUrl"));
-		userMALTitleInfo.add(new UserMALTitleInfo(0, WATCHING.getCode(), 0, CONCRETIZED_AND_ONGOING_TITLE_NAME, 0, "testPoster", "testUrl"));
+		userMALTitleInfo.add(new UserMALTitleInfo(0, REGULAR_TITLE_NAME, "testPoster", "testUrl"));
+		userMALTitleInfo.add(new UserMALTitleInfo(0, ANNOUNCEMENT_TITLE_NAME, "testPoster", "testUrl"));
+		userMALTitleInfo.add(new UserMALTitleInfo(0, CONCRETIZED_TITLE_WITH_EPISODES_RANGE_NAME, "testPoster", "testUrl"));
+		userMALTitleInfo.add(new UserMALTitleInfo(0, CONCRETIZED_AND_ONGOING_TITLE_NAME, "testPoster", "testUrl"));
 		return userMALTitleInfo;
 	}
 

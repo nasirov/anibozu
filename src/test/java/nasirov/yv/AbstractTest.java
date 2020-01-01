@@ -14,11 +14,9 @@ import java.util.stream.Stream;
 import nasirov.yv.data.properties.GitHubAuthProps;
 import nasirov.yv.data.properties.ResourcesNames;
 import nasirov.yv.parser.WrappedObjectMapperI;
-import nasirov.yv.repository.NotFoundAnimeOnAnimediaRepository;
 import nasirov.yv.service.AnimediaServiceI;
 import nasirov.yv.service.MALServiceI;
 import nasirov.yv.service.ReferencesServiceI;
-import nasirov.yv.service.RepositoryCheckerServiceI;
 import nasirov.yv.service.ResourcesCheckerServiceI;
 import nasirov.yv.service.SeasonsAndEpisodesServiceI;
 import org.junit.After;
@@ -74,12 +72,6 @@ public abstract class AbstractTest {
 	protected ResourcesCheckerServiceI resourcesCheckerService;
 
 	@Autowired
-	protected NotFoundAnimeOnAnimediaRepository notFoundAnimeOnAnimediaRepository;
-
-	@Autowired
-	protected RepositoryCheckerServiceI repositoryCheckerService;
-
-	@Autowired
 	protected GitHubAuthProps gitHubAuthProps;
 
 	@Before
@@ -125,7 +117,6 @@ public abstract class AbstractTest {
 
 	private void clearResources() {
 		clearAllStub();
-		notFoundAnimeOnAnimediaRepository.deleteAll();
 	}
 
 	private void clearAllStub() {

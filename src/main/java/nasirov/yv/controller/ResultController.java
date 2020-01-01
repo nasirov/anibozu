@@ -1,12 +1,11 @@
 package nasirov.yv.controller;
 
+import static java.util.Objects.isNull;
 import static nasirov.yv.data.constants.BaseConstants.FINAL_URL_VALUE_IF_EPISODE_IS_NOT_AVAILABLE;
 
-import java.util.LinkedHashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
-import java.util.stream.Collectors;
 import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -16,7 +15,6 @@ import nasirov.yv.data.mal.UserMALTitleInfo;
 import nasirov.yv.exception.mal.MALUserAccountNotFoundException;
 import nasirov.yv.exception.mal.MALUserAnimeListAccessException;
 import nasirov.yv.exception.mal.WatchingTitlesNotFoundException;
-import nasirov.yv.repository.NotFoundAnimeOnAnimediaRepository;
 import nasirov.yv.service.MALServiceI;
 import nasirov.yv.service.ReferencesServiceI;
 import nasirov.yv.service.SeasonsAndEpisodesServiceI;
@@ -37,8 +35,6 @@ public class ResultController {
 	private final ReferencesServiceI referencesService;
 
 	private final SeasonsAndEpisodesServiceI seasonAndEpisodeChecker;
-
-	private final NotFoundAnimeOnAnimediaRepository notFoundAnimeOnAnimediaRepository;
 
 	@PostMapping(value = "/result")
 	public String checkResult(@Valid MALUser malUser, Model model) {
@@ -64,24 +60,30 @@ public class ResultController {
 	private String enrichModel(Set<TitleReference> matchedAnime, Set<UserMALTitleInfo> watchingTitles, Model model) {
 		List<TitleReference> newEpisodeAvailable = new LinkedList<>();
 		List<TitleReference> newEpisodeNotAvailable = new LinkedList<>();
-		for (TitleReference anime : matchedAnime) {
-			if (anime.getFinalUrlForFront()
+		List<UserMALTitleInfo> notFoundAnimeOnAnimedia = new LinkedList<>();
+		for (UserMALTitleInfo titleInfo : watchingTitles) {
+			TitleReference matchedReference = getMatchedReference(titleInfo, matchedAnime);
+			if (isNull(matchedReference)) {
+				notFoundAnimeOnAnimedia.add(titleInfo);
+			} else if (matchedReference.getFinalUrlForFront()
 					.equals(FINAL_URL_VALUE_IF_EPISODE_IS_NOT_AVAILABLE)) {
-				newEpisodeNotAvailable.add(anime);
+				newEpisodeNotAvailable.add(matchedReference);
 			} else {
-				newEpisodeAvailable.add(anime);
+				newEpisodeAvailable.add(matchedReference);
 			}
 		}
-		Set<UserMALTitleInfo> notFoundAnimeOnAnimedia = new LinkedHashSet<>(notFoundAnimeOnAnimediaRepository.findAll());
-		Set<UserMALTitleInfo> matchedNotFoundAnimeOnAnimedia = watchingTitles.stream()
-				.filter(x -> notFoundAnimeOnAnimedia.stream()
-						.anyMatch(set -> set.getTitle()
-								.equals(x.getTitle())))
-				.collect(Collectors.toSet());
 		model.addAttribute("newEpisodeAvailable", newEpisodeAvailable);
 		model.addAttribute("newEpisodeNotAvailable", newEpisodeNotAvailable);
-		model.addAttribute("matchedNotFoundAnimeOnAnimedia", matchedNotFoundAnimeOnAnimedia);
+		model.addAttribute("notFoundAnimeOnAnimedia", notFoundAnimeOnAnimedia);
 		return "result";
+	}
+
+	private TitleReference getMatchedReference(UserMALTitleInfo userMALTitleInfo, Set<TitleReference> matchedAnime) {
+		return matchedAnime.stream()
+				.filter(m -> userMALTitleInfo.getTitle()
+						.equals(m.getTitleNameOnMAL()))
+				.findFirst()
+				.orElse(null);
 	}
 
 	private String handleError(String errorMsg, Model model, Exception exception) {

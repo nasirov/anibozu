@@ -9,7 +9,7 @@
 </head>
 <body>
 
-<#if newEpisodeAvailable?has_content || newEpisodeNotAvailable?has_content || matchedNotFoundAnimeOnAnimedia?has_content>
+<#if newEpisodeAvailable?has_content || newEpisodeNotAvailable?has_content || notFoundAnimeOnAnimedia?has_content>
 <header>
   <h1>Result for ${username}</h1>
 </header>
@@ -41,11 +41,11 @@
 </section>
 </#if>
 
-<#if matchedNotFoundAnimeOnAnimedia?has_content>
+<#if notFoundAnimeOnAnimedia?has_content>
 <section class="nes-container with-title is-centered">
   <p class="title">Not Found on Animedia</p>
   <ul>
-    <#list matchedNotFoundAnimeOnAnimedia as notFound>
+      <#list notFoundAnimeOnAnimedia as notFound>
       <a href="${notFound.animeUrl}" target="_blank"><img src="${notFound.posterUrl}" height="318" width="225"
                                                           alt="${notFound.title}"
                                                           title="${notFound.title}" class="fade"/></a>

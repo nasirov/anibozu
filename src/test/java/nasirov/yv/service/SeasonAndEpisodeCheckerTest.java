@@ -2,7 +2,6 @@ package nasirov.yv.service;
 
 import static nasirov.yv.data.constants.BaseConstants.EPISODE_NUMBER_FOR_WATCH_VALUE_IF_EPISODE_IS_NOT_AVAILABLE;
 import static nasirov.yv.data.constants.BaseConstants.FINAL_URL_VALUE_IF_EPISODE_IS_NOT_AVAILABLE;
-import static nasirov.yv.data.mal.MALAnimeStatus.WATCHING;
 import static nasirov.yv.utils.ReferencesBuilder.buildConcretizedReferenceWithEpisodesRange;
 import static nasirov.yv.utils.ReferencesBuilder.buildConcretizedReferenceWithSingleEpisode;
 import static nasirov.yv.utils.ReferencesBuilder.buildUpdatedAnnouncementReference;
@@ -58,8 +57,6 @@ public class SeasonAndEpisodeCheckerTest extends AbstractTest {
 				getReferences(),
 				TEST_ACC_FOR_DEV);
 		assertTrue(matchedAnime.isEmpty());
-		assertTrue(notFoundAnimeOnAnimediaRepository.findAll()
-				.contains(notFoundOnAnimediaTitle));
 	}
 
 	@Test
@@ -245,7 +242,7 @@ public class SeasonAndEpisodeCheckerTest extends AbstractTest {
 	}
 
 	private UserMALTitleInfo buildWatchingTitle(String titleName, int numWatchedEpisodes, String posterUrl) {
-		return new UserMALTitleInfo(0, WATCHING.getCode(), numWatchedEpisodes, titleName, 0, MY_ANIME_LIST_STATIC_CONTENT_URL + posterUrl, "animeUrl");
+		return new UserMALTitleInfo(numWatchedEpisodes, titleName, MY_ANIME_LIST_STATIC_CONTENT_URL + posterUrl, "animeUrl");
 	}
 
 	private TitleReference buildReferenceWithJoinedEpisodesUrl() {
