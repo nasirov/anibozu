@@ -76,3 +76,7 @@ hystrix:
 spring:
   application:
     name: anime-checker
+
+logging:
+  level:
+    com.netflix: error
