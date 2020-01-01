@@ -76,6 +76,8 @@ hystrix:
 spring:
   application:
     name: anime-checker
+  freemarker:
+    suffix: .ftl
 
 logging:
   level:
