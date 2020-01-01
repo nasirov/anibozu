@@ -2,24 +2,25 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
+
   <parent>
     <groupId>org.springframework.boot</groupId>
     <artifactId>spring-boot-starter-parent</artifactId>
     <version>2.1.2.RELEASE</version>
-    <relativePath/> <!-- lookup parent from repository -->
+    <relativePath/>
   </parent>
+
   <groupId>nasirov.yv</groupId>
   <artifactId>anime-checker</artifactId>
   <version>2.0</version>
   <name>anime-checker</name>
-  <description>Analyzes user anime list from myanimelist.net and searches for new episodes on animedia.tv
+  <description>The application analyzes user watching titles from MyAnimeList(https://myanimelist.net/) and searches for new episodes on
+    Animedia(https://online.animedia.tv/)
   </description>
   <packaging>jar</packaging>
 
   <properties>
     <java.version>1.8</java.version>
-    <jersey-bundle>1.19.4</jersey-bundle>
-    <dec>0.1.2</dec>
     <docker-maven-version>0.31.0</docker-maven-version>
     <org.jacoco>0.8.3</org.jacoco>
     <org.sonarsource.scanner.maven>3.6.0.1398</org.sonarsource.scanner.maven>
@@ -43,22 +44,17 @@
 
     <dependency>
       <groupId>org.springframework.boot</groupId>
-      <artifactId>spring-boot-starter-data-jpa</artifactId>
+      <artifactId>spring-boot-starter-web</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-aop</artifactId>
     </dependency>
 
     <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-freemarker</artifactId>
-    </dependency>
-
-    <dependency>
-      <groupId>org.springframework.boot</groupId>
-      <artifactId>spring-boot-starter-jersey</artifactId>
-    </dependency>
-
-    <dependency>
-      <groupId>org.springframework.boot</groupId>
-      <artifactId>spring-boot-starter-web</artifactId>
     </dependency>
 
     <dependency>
@@ -74,25 +70,9 @@
     </dependency>
 
     <dependency>
-      <groupId>org.springframework.boot</groupId>
-      <artifactId>spring-boot-starter-cache</artifactId>
-    </dependency>
-
-    <dependency>
       <groupId>io.github.openfeign</groupId>
       <artifactId>feign-jackson</artifactId>
       <version>${feign-jackson.version}</version>
-    </dependency>
-
-    <dependency>
-      <groupId>org.ehcache</groupId>
-      <artifactId>ehcache</artifactId>
-      <version>${ehcache.version}</version>
-    </dependency>
-
-    <dependency>
-      <groupId>javax.cache</groupId>
-      <artifactId>cache-api</artifactId>
     </dependency>
 
     <dependency>
@@ -109,34 +89,26 @@
       <version>${spring-retry.version}</version>
     </dependency>
 
-
     <dependency>
-      <groupId>com.h2database</groupId>
-      <artifactId>h2</artifactId>
-      <scope>runtime</scope>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-cache</artifactId>
     </dependency>
 
     <dependency>
-      <groupId>org.springframework.boot</groupId>
-      <artifactId>spring-boot-starter-test</artifactId>
-      <scope>test</scope>
+      <groupId>org.ehcache</groupId>
+      <artifactId>ehcache</artifactId>
+      <version>${ehcache.version}</version>
     </dependency>
 
     <dependency>
-      <groupId>org.springframework.boot</groupId>
-      <artifactId>spring-boot-starter-aop</artifactId>
+      <groupId>javax.cache</groupId>
+      <artifactId>cache-api</artifactId>
     </dependency>
 
     <dependency>
       <groupId>org.projectlombok</groupId>
       <artifactId>lombok</artifactId>
       <optional>true</optional>
-    </dependency>
-
-    <dependency>
-      <groupId>com.sun.jersey</groupId>
-      <artifactId>jersey-bundle</artifactId>
-      <version>${jersey-bundle}</version>
     </dependency>
 
     <dependency>
@@ -151,6 +123,12 @@
       <version>${commons-io.version}</version>
     </dependency>
 
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-test</artifactId>
+      <scope>test</scope>
+    </dependency>
+    
     <dependency>
       <groupId>org.springframework.cloud</groupId>
       <artifactId>spring-cloud-starter-contract-stub-runner</artifactId>
@@ -236,7 +214,6 @@
             <exclude>**/data/**</exclude>
             <exclude>**/exception/**</exclude>
             <exclude>**/http/**</exclude>
-            <exclude>**/repository/**</exclude>
             <exclude>**/AnimeCheckerApplication**</exclude>
           </excludes>
         </configuration>
