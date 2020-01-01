@@ -45,7 +45,7 @@ public class ResultController {
 		try {
 			watchingTitles = malService.getWatchingTitles(username);
 		} catch (MALUserAccountNotFoundException | WatchingTitlesNotFoundException | MALUserAnimeListAccessException e) {
-			return handleError(e.getMessage(), model, e);
+			return handleError(e.getMessage(), model);
 		}
 		return handleNewUser(username, watchingTitles, model);
 	}
@@ -86,8 +86,8 @@ public class ResultController {
 				.orElse(null);
 	}
 
-	private String handleError(String errorMsg, Model model, Exception exception) {
-		log.error(errorMsg, exception);
+	private String handleError(String errorMsg, Model model) {
+		log.error(errorMsg);
 		model.addAttribute("errorMsg", errorMsg);
 		return "error";
 	}
