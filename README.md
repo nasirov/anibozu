@@ -5,15 +5,11 @@
 [![Coverage Status](https://coveralls.io/repos/github/nasirov/anime-checker/badge.svg?branch=master)](https://coveralls.io/github/nasirov/anime-checker?branch=master)
 [![Apache License 2](https://img.shields.io/badge/license-ASF2-blue.svg)](https://www.apache.org/licenses/LICENSE-2.0.txt)
 
-The application analyzes user watching titles from **[MyAnimeList](https://myanimelist.net/)** and searches for new episodes on **[Animedia](https://online.animedia.tv/)**
+The application analyzes a user watching titles from **[MyAnimeList](https://myanimelist.net/)** and searches for new episodes on **[Animedia](https://online.animedia.tv/)**
 
 # Try It Out On Heroku
 
 https://anime-checker.herokuapp.com/
-
-# NB
-- Keep in mind that ongoings data is creates in runtime and the application check result is directly depends on mal and animedia ping and the
- amount of your watching titles
 
 # Screenshots
 
@@ -24,10 +20,10 @@ https://anime-checker.herokuapp.com/
 *MAL username must be between 2 and 16 characters*
 
 ![Submit form](/images/validInputAndDataProcessing.gif)
-*Submit MAL username and wait a while*
+*Submit a MAL username and wait a while*
 
 ![Result View](/images/resultViewPt1.jpg)
-*Posters from "New Episode Available" section are provides links to new episodes on **[Animedia](https://online.animedia.tv/)***
+*Posters from "New Episode Available" section provide links to new episodes on **[Animedia](https://online.animedia.tv/)***
 
 ![Result View](/images/resultViewPt2.jpg)
-*Posters from "Not Found on Animedia" section are provides links to title page on **[MyAnimeList](https://myanimelist.net/)***
+*Posters from "Not Found on Animedia" section provide links to titles pages on **[MyAnimeList](https://myanimelist.net/)***
