@@ -164,8 +164,7 @@ public class MALService implements MALServiceI {
 	 * @param title the MAL title
 	 */
 	private void changeAnimeUrl(UserMALTitleInfo title) {
-		title.setAnimeUrl(myAnimeListNet + title.getAnimeUrl()
-				.substring(1));
+		title.setAnimeUrl(myAnimeListNet + title.getAnimeUrl());
 	}
 
 	/**

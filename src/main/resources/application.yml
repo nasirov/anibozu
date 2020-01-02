@@ -9,7 +9,7 @@ application:
     animedia-urls:
       online-animedia-tv: https://online.animedia.tv/
     mal-urls:
-      myAnimeList-net: https://myanimelist.net/
+      myAnimeList-net: https://myanimelist.net
       cdn-myAnimeList-net: https://cdn.myanimelist.net/
   services:
     applicationLogoPrinter-enabled: true
