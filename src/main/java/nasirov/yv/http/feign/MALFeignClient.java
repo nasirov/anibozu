@@ -26,5 +26,5 @@ public interface MALFeignClient {
 	ResponseEntity<List<UserMALTitleInfo>> getUserAnimeList(@PathVariable String username, @RequestParam int offset, @RequestParam int status);
 
 	@GetMapping(value = "/search/prefix.json?type=all&v=1", produces = "application/json; charset=UTF-8")
-	ResponseEntity<MALSearchResult> searchTitleByName(@RequestParam("keyword") String titleName);
+	MALSearchResult searchTitleByName(@RequestParam("keyword") String titleName);
 }

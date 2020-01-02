@@ -16,6 +16,12 @@ import lombok.NoArgsConstructor;
 public class UserMALTitleInfo {
 
 	/**
+	 * Animed id in MAL db
+	 */
+	@JsonProperty("anime_id")
+	private Integer animeId;
+
+	/**
 	 * Number of watched episodes
 	 */
 	@JsonProperty(value = "num_watched_episodes")

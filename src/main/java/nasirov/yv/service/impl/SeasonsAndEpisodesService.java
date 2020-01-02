@@ -157,6 +157,7 @@ public class SeasonsAndEpisodesService implements SeasonsAndEpisodesServiceI {
 				.animeIdOnAnimedia(reference.getAnimeIdOnAnimedia())
 				.dataListOnAnimedia(FIRST_DATA_LIST)
 				.titleNameOnMAL(userMALTitleInfo.getTitle())
+				.titleIdOnMAL(userMALTitleInfo.getAnimeId())
 				.minOnAnimedia(ZERO_EPISODE)
 				.maxOnAnimedia(ZERO_EPISODE)
 				.currentMaxOnAnimedia(ZERO_EPISODE)

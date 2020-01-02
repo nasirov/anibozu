@@ -9,19 +9,17 @@ import static nasirov.yv.utils.AnimediaSearchListTitleBuilder.tempStub;
 import static nasirov.yv.utils.ReferencesBuilder.getRegularReferenceNotUpdated;
 import static nasirov.yv.utils.ReferencesBuilder.notFoundOnAnimedia;
 import static nasirov.yv.utils.TestConstants.REGULAR_TITLE_ID;
+import static nasirov.yv.utils.TestConstants.REGULAR_TITLE_MAL_ID;
 import static nasirov.yv.utils.TestConstants.REGULAR_TITLE_NAME;
 import static nasirov.yv.utils.TestConstants.REGULAR_TITLE_URL;
-import static nasirov.yv.utils.TestConstants.TEMP_FOLDER_NAME;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.argThat;
-import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
 import com.google.common.collect.Sets;
-import java.io.File;
 import java.util.LinkedList;
 import java.util.Set;
 import nasirov.yv.AbstractTest;
@@ -62,7 +60,6 @@ public class ResourcesCheckerServiceTest extends AbstractTest {
 	}
 
 	private <T> void checkMarshalledTempFiles(String fileName, T... title) {
-		String prefix = TEMP_FOLDER_NAME + File.separator;
 		verify(wrappedObjectMapper, times(1)).marshal(argThat(x -> x.getName()
 				.equals(fileName)), argThat((LinkedList x) -> x.size() == title.length && x.containsAll(CollectionUtils.arrayToList(title))));
 	}
@@ -74,7 +71,7 @@ public class ResourcesCheckerServiceTest extends AbstractTest {
 
 	private void mockIsTitleExist(boolean isTitleExist) {
 		doReturn(isTitleExist).when(malService)
-				.isTitleExist(eq(REGULAR_TITLE_NAME));
+				.isTitleExist(REGULAR_TITLE_NAME, REGULAR_TITLE_MAL_ID);
 	}
 
 	private void mockGetAnimediaSearchList(Set<AnimediaSearchListTitle> animediaSearchListFromAnimedia) {

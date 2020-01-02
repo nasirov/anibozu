@@ -196,6 +196,6 @@ public class ResultControllerTest extends AbstractTest {
 	}
 
 	private UserMALTitleInfo buildUserMALTitleInfo(String titleName, String titlePosterUrl, String animeUrl) {
-		return new UserMALTitleInfo(0, titleName, MY_ANIME_LIST_STATIC_CONTENT_URL + titlePosterUrl, MY_ANIME_LIST_URL + animeUrl);
+		return new UserMALTitleInfo(1, 0, titleName, MY_ANIME_LIST_STATIC_CONTENT_URL + titlePosterUrl, MY_ANIME_LIST_URL + animeUrl);
 	}
 }

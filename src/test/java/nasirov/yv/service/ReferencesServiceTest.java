@@ -114,10 +114,10 @@ public class ReferencesServiceTest extends AbstractTest {
 
 	private Set<UserMALTitleInfo> getWatchingTitles() {
 		Set<UserMALTitleInfo> userMALTitleInfo = new LinkedHashSet<>();
-		userMALTitleInfo.add(new UserMALTitleInfo(0, REGULAR_TITLE_NAME, "testPoster", "testUrl"));
-		userMALTitleInfo.add(new UserMALTitleInfo(0, ANNOUNCEMENT_TITLE_NAME, "testPoster", "testUrl"));
-		userMALTitleInfo.add(new UserMALTitleInfo(0, CONCRETIZED_TITLE_WITH_EPISODES_RANGE_NAME, "testPoster", "testUrl"));
-		userMALTitleInfo.add(new UserMALTitleInfo(0, CONCRETIZED_AND_ONGOING_TITLE_NAME, "testPoster", "testUrl"));
+		userMALTitleInfo.add(new UserMALTitleInfo(2, 0, REGULAR_TITLE_NAME, "testPoster", "testUrl"));
+		userMALTitleInfo.add(new UserMALTitleInfo(1, 0, ANNOUNCEMENT_TITLE_NAME, "testPoster", "testUrl"));
+		userMALTitleInfo.add(new UserMALTitleInfo(5, 0, CONCRETIZED_TITLE_WITH_EPISODES_RANGE_NAME, "testPoster", "testUrl"));
+		userMALTitleInfo.add(new UserMALTitleInfo(8, 0, CONCRETIZED_AND_ONGOING_TITLE_NAME, "testPoster", "testUrl"));
 		return userMALTitleInfo;
 	}
 

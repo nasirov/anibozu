@@ -13,6 +13,7 @@ import static nasirov.yv.utils.TestConstants.ANNOUNCEMENT_TITLE_POSTER_URL;
 import static nasirov.yv.utils.TestConstants.CONCRETIZED_TITLE_POSTER_URL;
 import static nasirov.yv.utils.TestConstants.CONCRETIZED_TITLE_WITH_EPISODES_RANGE_NAME;
 import static nasirov.yv.utils.TestConstants.CONCRETIZED_TITLE_WITH_JOINED_EPISODES_ID;
+import static nasirov.yv.utils.TestConstants.CONCRETIZED_TITLE_WITH_JOINED_EPISODES_MAL_ANIME_ID;
 import static nasirov.yv.utils.TestConstants.CONCRETIZED_TITLE_WITH_JOINED_EPISODES_NAME;
 import static nasirov.yv.utils.TestConstants.CONCRETIZED_TITLE_WITH_JOINED_EPISODES_POSTER_URL;
 import static nasirov.yv.utils.TestConstants.CONCRETIZED_TITLE_WITH_JOINED_EPISODES_URL;
@@ -24,10 +25,12 @@ import static nasirov.yv.utils.TestConstants.REGULAR_TITLE_NAME;
 import static nasirov.yv.utils.TestConstants.REGULAR_TITLE_POSTER_URL;
 import static nasirov.yv.utils.TestConstants.TEST_ACC_FOR_DEV;
 import static nasirov.yv.utils.TestConstants.TITLE_ON_SEVERAL_DATA_LISTS_ID;
+import static nasirov.yv.utils.TestConstants.TITLE_ON_SEVERAL_DATA_LISTS_MAL_ANIME_ID;
 import static nasirov.yv.utils.TestConstants.TITLE_ON_SEVERAL_DATA_LISTS_NAME;
 import static nasirov.yv.utils.TestConstants.TITLE_ON_SEVERAL_DATA_LISTS_POSTER_URL;
 import static nasirov.yv.utils.TestConstants.TITLE_ON_SEVERAL_DATA_LISTS_URL;
 import static nasirov.yv.utils.TestConstants.TITLE_WITH_JOINED_EPISODES_ID;
+import static nasirov.yv.utils.TestConstants.TITLE_WITH_JOINED_EPISODES_MAL_ANIME_ID;
 import static nasirov.yv.utils.TestConstants.TITLE_WITH_JOINED_EPISODES_NAME;
 import static nasirov.yv.utils.TestConstants.TITLE_WITH_JOINED_EPISODES_POSTER_URL;
 import static nasirov.yv.utils.TestConstants.TITLE_WITH_JOINED_EPISODES_URL;
@@ -232,6 +235,7 @@ public class SeasonAndEpisodeCheckerTest extends AbstractTest {
 				.urlOnAnimedia(TITLE_ON_SEVERAL_DATA_LISTS_URL)
 				.dataListOnAnimedia(TITLE_ON_SEVERAL_DATA_LISTS_ID)
 				.titleNameOnMAL(TITLE_ON_SEVERAL_DATA_LISTS_NAME)
+				.titleIdOnMAL(TITLE_ON_SEVERAL_DATA_LISTS_MAL_ANIME_ID)
 				.dataListOnAnimedia(dataList)
 				.minOnAnimedia(firstEpisode)
 				.maxOnAnimedia(maxConcretizedEpisodeOnAnimedia)
@@ -242,7 +246,7 @@ public class SeasonAndEpisodeCheckerTest extends AbstractTest {
 	}
 
 	private UserMALTitleInfo buildWatchingTitle(String titleName, int numWatchedEpisodes, String posterUrl) {
-		return new UserMALTitleInfo(numWatchedEpisodes, titleName, MY_ANIME_LIST_STATIC_CONTENT_URL + posterUrl, "animeUrl");
+		return new UserMALTitleInfo(1, numWatchedEpisodes, titleName, MY_ANIME_LIST_STATIC_CONTENT_URL + posterUrl, "animeUrl");
 	}
 
 	private TitleReference buildReferenceWithJoinedEpisodesUrl() {
@@ -250,6 +254,7 @@ public class SeasonAndEpisodeCheckerTest extends AbstractTest {
 				.urlOnAnimedia(TITLE_WITH_JOINED_EPISODES_URL)
 				.animeIdOnAnimedia(TITLE_WITH_JOINED_EPISODES_ID)
 				.titleNameOnMAL(TITLE_WITH_JOINED_EPISODES_NAME)
+				.titleIdOnMAL(TITLE_WITH_JOINED_EPISODES_MAL_ANIME_ID)
 				.dataListOnAnimedia("1")
 				.minOnAnimedia("1")
 				.maxOnAnimedia("5")
@@ -265,6 +270,7 @@ public class SeasonAndEpisodeCheckerTest extends AbstractTest {
 				.urlOnAnimedia(CONCRETIZED_TITLE_WITH_JOINED_EPISODES_URL)
 				.animeIdOnAnimedia(CONCRETIZED_TITLE_WITH_JOINED_EPISODES_ID)
 				.titleNameOnMAL(CONCRETIZED_TITLE_WITH_JOINED_EPISODES_NAME)
+				.titleIdOnMAL(CONCRETIZED_TITLE_WITH_JOINED_EPISODES_MAL_ANIME_ID)
 				.dataListOnAnimedia("2")
 				.minOnAnimedia(episodeOnAnimedia)
 				.maxOnAnimedia(episodeOnAnimedia)

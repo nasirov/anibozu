@@ -68,6 +68,11 @@ public class TitleReference {
 	private String titleNameOnMAL;
 
 	/**
+	 * Animed id in MAL db
+	 */
+	private Integer titleIdOnMAL;
+
+	/**
 	 * Min range episodes on MAL
 	 */
 	private String minOnMAL;

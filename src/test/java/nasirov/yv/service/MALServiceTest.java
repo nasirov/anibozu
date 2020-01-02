@@ -1,6 +1,7 @@
 package nasirov.yv.service;
 
 import static nasirov.yv.utils.TestConstants.APPLICATION_JSON_CHARSET_UTF_8;
+import static nasirov.yv.utils.TestConstants.REGULAR_TITLE_MAL_ID;
 import static nasirov.yv.utils.TestConstants.REGULAR_TITLE_NAME;
 import static nasirov.yv.utils.TestConstants.TEST_ACC_FOR_DEV;
 import static nasirov.yv.utils.TestConstants.TEST_ACC_WATCHING_TITLES;
@@ -14,7 +15,6 @@ import static org.springframework.http.HttpStatus.NOT_FOUND;
 import static org.springframework.http.HttpStatus.OK;
 
 import feign.template.UriUtils;
-import java.io.UnsupportedEncodingException;
 import java.nio.charset.StandardCharsets;
 import java.util.Set;
 import nasirov.yv.AbstractTest;
@@ -69,11 +69,11 @@ public class MALServiceTest extends AbstractTest {
 	}
 
 	@Test
-	public void testIsTitleExistResultFound() throws UnsupportedEncodingException {
+	public void testIsTitleExistResultFound() {
 		createStubWithBodyFile("/search/prefix.json?type=all&v=1&keyword=" + UriUtils.encode(REGULAR_TITLE_NAME, StandardCharsets.UTF_8),
 				APPLICATION_JSON_CHARSET_UTF_8,
 				"mal/searchRegularTitle.json");
-		assertTrue(malService.isTitleExist(REGULAR_TITLE_NAME));
+		assertTrue(malService.isTitleExist(REGULAR_TITLE_NAME, REGULAR_TITLE_MAL_ID));
 	}
 
 	@Test
@@ -82,7 +82,7 @@ public class MALServiceTest extends AbstractTest {
 		createStubWithBodyFile("/search/prefix.json?type=all&v=1&keyword=" + notRegularTitleName,
 				APPLICATION_JSON_CHARSET_UTF_8,
 				"mal/searchRegularTitle.json");
-		assertFalse(malService.isTitleExist(notRegularTitleName));
+		assertFalse(malService.isTitleExist(notRegularTitleName, REGULAR_TITLE_MAL_ID));
 	}
 
 	@Test
@@ -92,7 +92,7 @@ public class MALServiceTest extends AbstractTest {
 				APPLICATION_JSON_CHARSET_UTF_8,
 				"{\"errors\":[{\"message" + "\":\"Your keyword length must save less than or equal to 100.\"}]}",
 				BAD_REQUEST.value());
-		assertFalse(malService.isTitleExist(keywordLargerThan100));
+		assertFalse(malService.isTitleExist(keywordLargerThan100, REGULAR_TITLE_MAL_ID));
 	}
 
 	private void stubTestUser() {

@@ -4,21 +4,26 @@ import static nasirov.yv.data.constants.BaseConstants.EPISODE_NUMBER_FOR_WATCH_V
 import static nasirov.yv.data.constants.BaseConstants.FINAL_URL_VALUE_IF_EPISODE_IS_NOT_AVAILABLE;
 import static nasirov.yv.data.constants.BaseConstants.FIRST_DATA_LIST;
 import static nasirov.yv.data.constants.BaseConstants.FIRST_EPISODE;
+import static nasirov.yv.data.constants.BaseConstants.NOT_FOUND_ON_MAL;
 import static nasirov.yv.data.constants.BaseConstants.ZERO_EPISODE;
 import static nasirov.yv.utils.TestConstants.ANNOUNCEMENT_TITLE_ID;
+import static nasirov.yv.utils.TestConstants.ANNOUNCEMENT_TITLE_MAL_ANIME_ID;
 import static nasirov.yv.utils.TestConstants.ANNOUNCEMENT_TITLE_NAME;
 import static nasirov.yv.utils.TestConstants.ANNOUNCEMENT_TITLE_POSTER_URL;
 import static nasirov.yv.utils.TestConstants.ANNOUNCEMENT_TITLE_URL;
 import static nasirov.yv.utils.TestConstants.CONCRETIZED_AND_ONGOING_TITLE_ID;
+import static nasirov.yv.utils.TestConstants.CONCRETIZED_AND_ONGOING_TITLE_MAL_ANIME_ID;
 import static nasirov.yv.utils.TestConstants.CONCRETIZED_AND_ONGOING_TITLE_NAME;
 import static nasirov.yv.utils.TestConstants.CONCRETIZED_AND_ONGOING_TITLE_URL;
 import static nasirov.yv.utils.TestConstants.CONCRETIZED_TITLE_ID;
+import static nasirov.yv.utils.TestConstants.CONCRETIZED_TITLE_MAL_ANIME_ID;
 import static nasirov.yv.utils.TestConstants.CONCRETIZED_TITLE_POSTER_URL;
 import static nasirov.yv.utils.TestConstants.CONCRETIZED_TITLE_URL;
 import static nasirov.yv.utils.TestConstants.CONCRETIZED_TITLE_WITH_EPISODES_RANGE_NAME;
 import static nasirov.yv.utils.TestConstants.CONCRETIZED_TITLE_WITH_SINGLE_EPISODE_NAME;
 import static nasirov.yv.utils.TestConstants.MY_ANIME_LIST_STATIC_CONTENT_URL;
 import static nasirov.yv.utils.TestConstants.REGULAR_TITLE_ID;
+import static nasirov.yv.utils.TestConstants.REGULAR_TITLE_MAL_ID;
 import static nasirov.yv.utils.TestConstants.REGULAR_TITLE_NAME;
 import static nasirov.yv.utils.TestConstants.REGULAR_TITLE_POSTER_URL;
 import static nasirov.yv.utils.TestConstants.REGULAR_TITLE_URL;
@@ -26,7 +31,6 @@ import static nasirov.yv.utils.TestConstants.REGULAR_TITLE_URL;
 import java.util.Collection;
 import lombok.experimental.UtilityClass;
 import nasirov.yv.data.animedia.TitleReference;
-import nasirov.yv.data.constants.BaseConstants;
 
 /**
  * Created by nasirov.yv
@@ -93,6 +97,7 @@ public class ReferencesBuilder {
 				.dataListOnAnimedia("3")
 				.animeIdOnAnimedia(CONCRETIZED_AND_ONGOING_TITLE_ID)
 				.titleNameOnMAL(CONCRETIZED_AND_ONGOING_TITLE_NAME)
+				.titleIdOnMAL(CONCRETIZED_AND_ONGOING_TITLE_MAL_ANIME_ID)
 				.minOnAnimedia("1")
 				.maxOnAnimedia("5")
 				.minOnMAL("1")
@@ -106,6 +111,7 @@ public class ReferencesBuilder {
 				.dataListOnAnimedia("7")
 				.animeIdOnAnimedia(CONCRETIZED_TITLE_ID)
 				.titleNameOnMAL(CONCRETIZED_TITLE_WITH_EPISODES_RANGE_NAME)
+				.titleIdOnMAL(CONCRETIZED_TITLE_MAL_ANIME_ID)
 				.minOnAnimedia("1")
 				.maxOnAnimedia("6")
 				.minOnMAL("1")
@@ -119,6 +125,7 @@ public class ReferencesBuilder {
 				.urlOnAnimedia(CONCRETIZED_TITLE_URL)
 				.animeIdOnAnimedia(CONCRETIZED_TITLE_ID)
 				.titleNameOnMAL(CONCRETIZED_TITLE_WITH_SINGLE_EPISODE_NAME)
+				.titleIdOnMAL(CONCRETIZED_TITLE_MAL_ANIME_ID)
 				.dataListOnAnimedia("7")
 				.minOnAnimedia("7")
 				.maxOnAnimedia("7")
@@ -135,6 +142,7 @@ public class ReferencesBuilder {
 				.dataListOnAnimedia(FIRST_DATA_LIST)
 				.minOnAnimedia(FIRST_EPISODE)
 				.titleNameOnMAL(ANNOUNCEMENT_TITLE_NAME)
+				.titleIdOnMAL(ANNOUNCEMENT_TITLE_MAL_ANIME_ID)
 				.build();
 	}
 
@@ -145,6 +153,7 @@ public class ReferencesBuilder {
 				.dataListOnAnimedia("1")
 				.minOnAnimedia("1")
 				.titleNameOnMAL(REGULAR_TITLE_NAME)
+				.titleIdOnMAL(REGULAR_TITLE_MAL_ID)
 				.build();
 	}
 
@@ -154,7 +163,7 @@ public class ReferencesBuilder {
 				.animeIdOnAnimedia("1234")
 				.dataListOnAnimedia("1")
 				.minOnAnimedia("1")
-				.titleNameOnMAL(BaseConstants.NOT_FOUND_ON_MAL)
+				.titleNameOnMAL(NOT_FOUND_ON_MAL)
 				.build();
 	}
 }

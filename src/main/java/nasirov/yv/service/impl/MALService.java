@@ -2,6 +2,7 @@ package nasirov.yv.service.impl;
 
 import static java.util.Optional.ofNullable;
 import static nasirov.yv.data.mal.MALAnimeStatus.WATCHING;
+import static nasirov.yv.data.mal.MALCategories.ANIME;
 
 import java.util.Collections;
 import java.util.LinkedHashSet;
@@ -12,8 +13,8 @@ import java.util.regex.Pattern;
 import javax.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import nasirov.yv.data.mal.MALCategories;
-import nasirov.yv.data.mal.MALSearchResult;
+import nasirov.yv.data.mal.MALSearchCategories;
+import nasirov.yv.data.mal.MALSearchTitleInfo;
 import nasirov.yv.data.mal.UserMALTitleInfo;
 import nasirov.yv.data.properties.UrlsNames;
 import nasirov.yv.exception.mal.MALUserAccountNotFoundException;
@@ -109,23 +110,31 @@ public class MALService implements MALServiceI {
 	/**
 	 * Checks MAL title name for existence
 	 *
-	 * @param titleOnMAL the MAL title name
+	 * @param titleOnMAL   MAL title name
+	 * @param titleIdOnMAL title id in MAL db
 	 * @return true if MAL response contain one anime title with equals titleOnMAL, else false
 	 */
 	@Override
-	public boolean isTitleExist(String titleOnMAL) {
-		ResponseEntity<MALSearchResult> malResponse = malFeignClient.searchTitleByName(titleOnMAL);
-		return malResponse.getStatusCode() == HttpStatus.OK && ofNullable(malResponse.getBody()).orElseGet(MALSearchResult::new)
+	public boolean isTitleExist(String titleOnMAL, Integer titleIdOnMAL) {
+		return malFeignClient.searchTitleByName(titleOnMAL)
 				.getCategories()
 				.stream()
-				.filter(categories -> categories.getType()
-						.equals(MALCategories.ANIME.getDescription()))
-				.flatMap(categories -> categories.getItems()
-						.stream())
-				.filter(title -> title.getName()
-						.equalsIgnoreCase(titleOnMAL) && title.getType()
-						.equals(MALCategories.ANIME.getDescription()))
-				.count() == 1;
+				.filter(this::isAnimeCategory)
+				.map(MALSearchCategories::getItems)
+				.flatMap(List::stream)
+				.anyMatch(title -> isTargetTitle(titleOnMAL, titleIdOnMAL, title));
+	}
+
+	private boolean isAnimeCategory(MALSearchCategories categories) {
+		return categories.getType()
+				.equals(ANIME.getDescription());
+	}
+
+	private boolean isTargetTitle(String titleOnMAL, Integer titleIdOnMAL, MALSearchTitleInfo malSearchTitleInfo) {
+		return malSearchTitleInfo.getType()
+				.equals(ANIME.getDescription()) && malSearchTitleInfo.getName()
+				.equalsIgnoreCase(titleOnMAL) && malSearchTitleInfo.getAnimeId()
+				.equals(titleIdOnMAL);
 	}
 
 	/**

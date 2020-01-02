@@ -56,16 +56,18 @@ public class ResourcesCheckerService implements ResourcesCheckerServiceI {
 		List<TitleReference> referencesWithInvalidMALTitleName = new LinkedList<>();
 		for (TitleReference reference : allReferences) {
 			String titleOnMAL = reference.getTitleNameOnMAL();
+			Integer titleIdOnMAL = reference.getTitleIdOnMAL();
 			if (!isTitleNotFoundOnMAL(reference)) {
-				boolean titleExist = malService.isTitleExist(titleOnMAL);
+				boolean titleExist = malService.isTitleExist(titleOnMAL, titleIdOnMAL);
 				if (!titleExist) {
-					log.error("TITLE NAME {} DOESN'T EXIST!", titleOnMAL);
+					log.error("TITLE {} WITH ID {} DOESN'T EXIST!", titleOnMAL, titleIdOnMAL);
 					referencesWithInvalidMALTitleName.add(TitleReference.builder()
 							.urlOnAnimedia(reference.getUrlOnAnimedia())
 							.animeIdOnAnimedia(reference.getAnimeIdOnAnimedia())
 							.dataListOnAnimedia(reference.getDataListOnAnimedia())
 							.minOnAnimedia(reference.getMinOnAnimedia())
-							.titleNameOnMAL(reference.getTitleNameOnMAL())
+							.titleNameOnMAL(titleOnMAL)
+							.titleIdOnMAL(titleIdOnMAL)
 							.build());
 				}
 			}

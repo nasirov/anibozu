@@ -1,12 +1,16 @@
 package nasirov.yv.http.fallback;
 
+import static nasirov.yv.data.mal.MALCategories.ANIME;
 import static org.springframework.http.HttpStatus.BAD_REQUEST;
 import static org.springframework.http.HttpStatus.NOT_FOUND;
 
+import com.google.common.collect.Lists;
 import feign.FeignException;
 import feign.hystrix.FallbackFactory;
 import java.util.List;
+import nasirov.yv.data.mal.MALSearchCategories;
 import nasirov.yv.data.mal.MALSearchResult;
+import nasirov.yv.data.mal.MALSearchTitleInfo;
 import nasirov.yv.data.mal.UserMALTitleInfo;
 import nasirov.yv.exception.mal.UnexpectedCallingException;
 import nasirov.yv.http.feign.MALFeignClient;
@@ -40,13 +44,17 @@ public class MALFeignClientFallbackFactory implements FallbackFactory<MALFeignCl
 				throw new UnexpectedCallingException(cause);
 			}
 			@Override
-			public ResponseEntity<MALSearchResult> searchTitleByName(String titleName) {
+			public MALSearchResult searchTitleByName(String titleName) {
 				if (httpStatus == BAD_REQUEST.value()) {
-					return ResponseEntity.badRequest()
-							.build();
+					return buildSafeMalSearchResult();
 				}
 				throw new UnexpectedCallingException(cause);
 			}
 		};
+	}
+
+	private MALSearchResult buildSafeMalSearchResult() {
+		return new MALSearchResult(Lists.newArrayList(new MALSearchCategories(ANIME.getDescription(),
+				Lists.newArrayList(new MALSearchTitleInfo(-1, "", "")))));
 	}
 }
