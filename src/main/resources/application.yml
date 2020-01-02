@@ -48,7 +48,7 @@ animedia-api-feign-client:
 
 mal-feign-client:
   ribbon:
-    listOfServers: https://myanimelist.net/
+    listOfServers: https://myanimelist.net
 
 github-feign-client:
   ribbon:
