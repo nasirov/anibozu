@@ -23,7 +23,9 @@ import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.anySet;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.doThrow;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.asyncDispatch;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.request;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
@@ -85,10 +87,13 @@ public class ResultControllerTest extends AbstractTest {
 	@Test
 	public void checkResultForNewUser() throws Exception {
 		mockServicesOk();
-		MockHttpServletResponse response = mockMvc.perform(post(PATH).param("username", TEST_ACC_FOR_DEV.toLowerCase()))
-				.andReturn()
-				.getResponse();
-		String content = response.getContentAsString();
+		MvcResult mvcResult = mockMvc.perform(post(PATH).param("username", TEST_ACC_FOR_DEV.toLowerCase()))
+				.andExpect(request().asyncStarted())
+				.andReturn();
+		MvcResult response = mockMvc.perform(asyncDispatch(mvcResult))
+				.andReturn();
+		String content = response.getResponse()
+				.getContentAsString();
 		checkFront(content, buildNextEpisodeAvailableReference(), buildNextEpisodeIsNotAvailableReference(), buildNotFoundOnAnimedia());
 	}
 
@@ -151,9 +156,11 @@ public class ResultControllerTest extends AbstractTest {
 
 	private void checkErrorResult(String errorMsg) throws Exception {
 		MvcResult result = mockMvc.perform(post(PATH).param("username", TEST_ACC_FOR_DEV.toLowerCase()))
-				.andExpect(view().name(ERROR_VIEW))
 				.andReturn();
-		MockHttpServletResponse response = result.getResponse();
+		MockHttpServletResponse response = mockMvc.perform(asyncDispatch(result))
+				.andExpect(view().name(ERROR_VIEW))
+				.andReturn()
+				.getResponse();
 		assertNotNull(response);
 		String content = response.getContentAsString();
 		assertNotNull(content);

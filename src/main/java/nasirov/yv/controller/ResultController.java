@@ -6,6 +6,7 @@ import static nasirov.yv.data.constants.BaseConstants.FINAL_URL_VALUE_IF_EPISODE
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
+import java.util.concurrent.ForkJoinPool;
 import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -21,6 +22,7 @@ import nasirov.yv.service.SeasonsAndEpisodesServiceI;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.context.request.async.DeferredResult;
 
 /**
  * Created by nasirov.yv
@@ -30,6 +32,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 @RequiredArgsConstructor
 public class ResultController {
 
+	private static final ForkJoinPool COMMON_POOL = ForkJoinPool.commonPool();
+
 	private final MALServiceI malService;
 
 	private final ReferencesServiceI referencesService;
@@ -37,20 +41,32 @@ public class ResultController {
 	private final SeasonsAndEpisodesServiceI seasonAndEpisodeChecker;
 
 	@PostMapping(value = "/result")
-	public String checkResult(@Valid MALUser malUser, Model model) {
-		String username = malUser.getUsername()
-				.toLowerCase();
-		model.addAttribute("username", username);
-		Set<UserMALTitleInfo> watchingTitles;
-		try {
-			watchingTitles = malService.getWatchingTitles(username);
-		} catch (MALUserAccountNotFoundException | WatchingTitlesNotFoundException | MALUserAnimeListAccessException e) {
-			return handleError(e.getMessage(), model);
-		}
-		return handleNewUser(username, watchingTitles, model);
+	public DeferredResult<String> checkResult(@Valid MALUser malUser, Model model) {
+		malUser.setUsername(malUser.getUsername().toLowerCase());
+		log.info("RECEIVED {}", malUser.getUsername());
+		DeferredResult<String> result = new DeferredResult<>(5 * 60 * 1000L);
+		COMMON_POOL.submit(processResult(malUser, model, result));
+		return result;
 	}
 
-	private String handleNewUser(String username, Set<UserMALTitleInfo> watchingTitles, Model model) {
+	private Runnable processResult(MALUser malUser, Model model, DeferredResult<String> result) {
+		return () -> {
+			String username = malUser.getUsername();
+			log.info("PROCESSING {}", username);
+			model.addAttribute("username", username);
+			Set<UserMALTitleInfo> watchingTitles;
+			try {
+				watchingTitles = malService.getWatchingTitles(username);
+			} catch (MALUserAccountNotFoundException | WatchingTitlesNotFoundException | MALUserAnimeListAccessException e) {
+				result.setErrorResult(handleError(e.getMessage(), model));
+				return;
+			}
+			result.setResult(handleUser(username, watchingTitles, model));
+		};
+	}
+
+	private String handleUser(String username, Set<UserMALTitleInfo> watchingTitles, Model model) {
+		log.info("HANDLE USER {}", username);
 		Set<TitleReference> matchedReferences = referencesService.getMatchedReferences(watchingTitles, referencesService.getReferences());
 		referencesService.updateReferences(matchedReferences);
 		Set<TitleReference> matchedAnime = seasonAndEpisodeChecker.getMatchedAnime(watchingTitles, matchedReferences, username);
