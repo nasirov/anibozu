@@ -132,24 +132,27 @@ public class ResultControllerTest extends AbstractTest {
 		Pattern pattern = Pattern.compile("<title>Result for " + TEST_ACC_FOR_DEV.toLowerCase() + "</title>");
 		Matcher matcher = pattern.matcher(content);
 		assertTrue(matcher.find());
-		pattern = Pattern.compile("<header>\\R\\s*<h1>Result for " + TEST_ACC_FOR_DEV.toLowerCase() + "</h1>\\R</header>");
+		pattern = Pattern.compile("<header>\\R\\s*<h1>Result for " + TEST_ACC_FOR_DEV.toLowerCase() + "</h1>\\R\\s*</header>");
 		matcher = pattern.matcher(content);
 		assertTrue(matcher.find());
-		pattern = Pattern.compile("<p class=\"title\">New Episode Available</p>\\R\\s*<ul>\\R\\s*<a href=\"" + available.getFinalUrlForFront()
-				+ "\" target=\"_blank\"><img src=\"" + available.getPosterUrlOnMAL() + "\" height=\"318\" width=\"225\"\\R\\s+alt=\""
-				+ available.getTitleNameOnMAL() + "\"\\R\\s+title=\"" + available.getTitleNameOnMAL() + " episode "
-				+ available.getEpisodeNumberForWatchForFront() + "\"");
+		pattern = Pattern.compile("<section class=\"nes-container with-title is-centered\">\\R\\s*<p class=\"title\">Available</p>\\R\\s*<div "
+				+ "class=\"item\">\\R\\s*<img src=\"" + available.getPosterUrlOnMAL() + "\" alt=\"regular title " + "name\"\\R\\s*title=\""
+				+ available.getTitleNameOnMAL() + " episode " + available.getEpisodeNumberForWatchForFront() + "\">\\R\\s*<div "
+				+ "class=\"episode_overlay\">\\R\\s*<span>" + available.getEpisodeNumberForWatchForFront()
+				+ "</span>\\R\\s*<span>episode</span>\\R\\s*</div>\\R\\s*<div class=\"overlay "
+				+ "full_cover\">\\R\\s*<div class=\"link_holder\">\\R\\s*<a class=\"outbound_link animedia_background\" href=\""
+				+ available.getFinalUrlForFront() + "\" target=\"_blank\"></a" + ">\\R\\s*</div>\\R\\s*</div>\\R\\s*</div>\\R\\s*</section>");
 		matcher = pattern.matcher(content);
 		assertTrue(matcher.find());
-		pattern = Pattern.compile("<p class=\"title\">New Episode Not Available</p>\\R\\s*<ul>\\R\\s*<img src=\"" + notAvailable.getPosterUrlOnMAL()
-				+ "\" height=\"318\" width=\"225\" alt=\"" + notAvailable.getTitleNameOnMAL() + "\"\\R\\s+title=\"" + notAvailable.getTitleNameOnMAL()
-				+ "\" class=\"fade\"/>");
+		pattern = Pattern.compile("<section class=\"nes-container with-title is-centered\">\\R\\s*<p class=\"title\">Not Available"
+				+ "</p>\\R\\s*<div class=\"item\">\\R\\s*<img src=\"" + notAvailable.getPosterUrlOnMAL() + "\" alt=\""
+				+ notAvailable.getTitleNameOnMAL() + "\" title=\"" + notAvailable.getTitleNameOnMAL() + "\">\\R\\s*</div>\\R\\s*</section>");
 		matcher = pattern.matcher(content);
 		assertTrue(matcher.find());
-		pattern = Pattern.compile(
-				"<p class=\"title\">Not Found on Animedia</p>\\R\\s*<ul>\\R\\s*<a href=\"" + notFound.getAnimeUrl() + "\" target=\"_blank\"><img src=\""
-						+ notFound.getPosterUrl() + "\" height=\"318\" width=\"225\"\\R\\s+alt=\"" + notFound.getTitle() + "\"\\R\\s+title=\""
-						+ notFound.getTitle() + "\" class=\"fade\"/></a>");
+		pattern = Pattern.compile("<section class=\"nes-container with-title is-centered\">\\R\\s*<p class=\"title\">Not Found</p>\\R\\s*<div "
+				+ "class=\"item\">\\R\\s*<img src=\"" + notFound.getPosterUrl() + "\" alt=\"" + notFound.getTitle() + "\" title=\"" + notFound.getTitle()
+				+ "\"/>\\R\\s*<div " + "class=\"overlay full_cover\">\\R\\s*<a class=\"full_cover\" " + "href=\"" + notFound.getAnimeUrl() + "\" "
+				+ "target=\"_blank\"></a>\\R\\s*</div>\\R\\s*</div>\\R\\s*</section>");
 		matcher = pattern.matcher(content);
 		assertTrue(matcher.find());
 	}

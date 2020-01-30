@@ -13,17 +13,5 @@ https://anime-checker.herokuapp.com/
 
 # Screenshots
 
-![Index](/images/index.jpg)
-*Start page*
-
-![Invalid Input](/images/invalidInput.jpg)
-*MAL username must be between 2 and 16 characters*
-
-![Submit form](/images/validInputAndDataProcessing.gif)
+![Submit form](/images/flow.gif)
 *Submit a MAL username and wait a while*
-
-![Result View](/images/resultViewPt1.jpg)
-*Posters from "New Episode Available" section provide links to new episodes on **[Animedia](https://online.animedia.tv/)***
-
-![Result View](/images/resultViewPt2.jpg)
-*Posters from "Not Found on Animedia" section provide links to titles pages on **[MyAnimeList](https://myanimelist.net/)***
