@@ -38,6 +38,7 @@
     <docker.buildArg.JAR_FILE>target/${project.build.finalName}.jar</docker.buildArg.JAR_FILE>
     <spring-retry.version>1.2.4.RELEASE</spring-retry.version>
     <ehcache.version>3.6.3</ehcache.version>
+    <jsoup.version>1.12.1</jsoup.version>
   </properties>
 
   <dependencies>
@@ -121,6 +122,12 @@
       <groupId>commons-io</groupId>
       <artifactId>commons-io</artifactId>
       <version>${commons-io.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.jsoup</groupId>
+      <artifactId>jsoup</artifactId>
+      <version>${jsoup.version}</version>
     </dependency>
 
     <dependency>
