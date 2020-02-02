@@ -39,6 +39,7 @@
     <spring-retry.version>1.2.4.RELEASE</spring-retry.version>
     <ehcache.version>3.6.3</ehcache.version>
     <jsoup.version>1.12.1</jsoup.version>
+    <dec>0.1.2</dec>
   </properties>
 
   <dependencies>
@@ -128,6 +129,12 @@
       <groupId>org.jsoup</groupId>
       <artifactId>jsoup</artifactId>
       <version>${jsoup.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.brotli</groupId>
+      <artifactId>dec</artifactId>
+      <version>${dec}</version>
     </dependency>
 
     <dependency>

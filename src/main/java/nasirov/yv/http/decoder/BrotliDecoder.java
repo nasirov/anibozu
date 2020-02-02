@@ -8,27 +8,32 @@ import feign.Response;
 import feign.codec.Decoder;
 import java.io.IOException;
 import java.lang.reflect.Type;
-import java.util.zip.GZIPInputStream;
+import org.brotli.dec.BrotliInputStream;
 
 /**
  * Created by nasirov.yv
  */
-public class GZIPDecoder implements Decoder {
+public class BrotliDecoder implements Decoder {
 
 	private final Decoder delegate;
 
-	public GZIPDecoder(Decoder delegate) {
-		requireNonNull(delegate, "Decoder must not be null. ");
+	public BrotliDecoder(Decoder delegate) {
+		requireNonNull(delegate, "Decoder must not be null.");
 		this.delegate = delegate;
 	}
 
 	@Override
 	public Object decode(Response response, Type type) throws IOException {
+		String decompressedBody = decompressBody(response);
 		return delegate.decode(response.toBuilder()
 				.status(response.status())
 				.headers(response.headers())
-				.body(new String(toByteArray(new GZIPInputStream(response.body()
-						.asInputStream()))), UTF_8)
+				.body(decompressedBody, UTF_8)
 				.build(), type);
+	}
+
+	private String decompressBody(Response response) throws IOException {
+		return new String(toByteArray(new BrotliInputStream(response.body()
+				.asInputStream())));
 	}
 }
