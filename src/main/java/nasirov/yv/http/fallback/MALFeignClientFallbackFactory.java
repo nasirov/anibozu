@@ -8,6 +8,7 @@ import com.google.common.collect.Lists;
 import feign.FeignException;
 import feign.hystrix.FallbackFactory;
 import java.util.List;
+import lombok.extern.slf4j.Slf4j;
 import nasirov.yv.data.mal.MALSearchCategories;
 import nasirov.yv.data.mal.MALSearchResult;
 import nasirov.yv.data.mal.MALSearchTitleInfo;
@@ -20,6 +21,7 @@ import org.springframework.stereotype.Component;
 /**
  * Created by nasirov.yv
  */
+@Slf4j
 @Component
 public class MALFeignClientFallbackFactory implements FallbackFactory<MALFeignClient> {
 
@@ -29,6 +31,7 @@ public class MALFeignClientFallbackFactory implements FallbackFactory<MALFeignCl
 		return new MALFeignClient() {
 			@Override
 			public ResponseEntity<String> getUserProfile(String username) {
+				log.error("MALFeignClient fallback during call /profile/{} | Cause message [{}]", username, cause.getMessage());
 				if (httpStatus == NOT_FOUND.value()) {
 					return ResponseEntity.notFound()
 							.build();
@@ -37,6 +40,11 @@ public class MALFeignClientFallbackFactory implements FallbackFactory<MALFeignCl
 			}
 			@Override
 			public ResponseEntity<List<UserMALTitleInfo>> getUserAnimeList(String username, int offset, int status) {
+				log.error("MALFeignClient fallback during call /animelist/{}/load.json?offset={}&status={} | Cause message [{}]",
+						username,
+						offset,
+						status,
+						cause.getMessage());
 				if (httpStatus == BAD_REQUEST.value()) {
 					return ResponseEntity.badRequest()
 							.build();
@@ -45,6 +53,9 @@ public class MALFeignClientFallbackFactory implements FallbackFactory<MALFeignCl
 			}
 			@Override
 			public MALSearchResult searchTitleByName(String titleName) {
+				log.error("MALFeignClient fallback during call /search/prefix.json?type=all&v=1&keyword={} | Cause message [{}]",
+						titleName,
+						cause.getMessage());
 				if (httpStatus == BAD_REQUEST.value()) {
 					return buildSafeMalSearchResult();
 				}
