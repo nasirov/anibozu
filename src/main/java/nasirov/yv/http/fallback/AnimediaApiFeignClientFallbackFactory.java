@@ -21,17 +21,17 @@ public class AnimediaApiFeignClientFallbackFactory implements FallbackFactory<An
 		return new AnimediaApiFeignClient() {
 			@Override
 			public Set<AnimediaSearchListTitle> getAnimediaSearchList(String part) {
-				log.error("AnimediaApiFeignClient fallback during call /api/anime-list/{}\n{}", part, cause.getMessage());
+				log.error("AnimediaApiFeignClient fallback during call /api/anime-list/{} | Cause message [{}]", part, cause.getMessage());
 				return Collections.emptySet();
 			}
 			@Override
 			public AnimediaApiResponse getTitleInfo(String animeId) {
-				log.error("AnimediaApiFeignClient fallback during call /api/mobile-anime/{}\n{}", animeId, cause.getMessage());
+				log.error("AnimediaApiFeignClient fallback during call /api/mobile-anime/{} | Cause message [{}]", animeId, cause.getMessage());
 				return buildSafeResponseEntity();
 			}
 			@Override
 			public AnimediaApiResponse getDataListInfo(String animeId, String dataList) {
-				log.error("AnimediaApiFeignClient fallback during call /api/mobile-anime/{}/{}\n{}", animeId, dataList, cause.getMessage());
+				log.error("AnimediaApiFeignClient fallback during call /api/mobile-anime/{}/{} | Cause message [{}]", animeId, dataList, cause.getMessage());
 				return buildSafeResponseEntity();
 			}
 		};
