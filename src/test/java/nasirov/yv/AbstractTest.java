@@ -3,6 +3,7 @@ package nasirov.yv;
 import static com.github.tomakehurst.wiremock.client.WireMock.aResponse;
 import static com.github.tomakehurst.wiremock.client.WireMock.equalTo;
 import static com.github.tomakehurst.wiremock.client.WireMock.get;
+import static nasirov.yv.utils.TestConstants.REQUEST_ACCEPT_ENCODING;
 import static nasirov.yv.utils.TestConstants.TEXT_JAVASCRIPT_CHARSET_UTF_8;
 import static org.springframework.http.HttpHeaders.ACCEPT_ENCODING;
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
@@ -85,14 +86,14 @@ public abstract class AbstractTest {
 	}
 
 	protected void createStubWithBodyFile(String url, String contentType, String bodyFilePath) {
-		wireMockServer.addStubMapping(get(url).withHeader(ACCEPT_ENCODING, equalTo("gzip, deflate, br"))
+		wireMockServer.addStubMapping(get(url).withHeader(ACCEPT_ENCODING, equalTo(REQUEST_ACCEPT_ENCODING))
 				.willReturn(aResponse().withHeader(CONTENT_TYPE, contentType)
 						.withBodyFile(bodyFilePath))
 				.build());
 	}
 
 	protected void createStubWithBodyFile(String url, String contentType, String bodyFilePath, String token) {
-		wireMockServer.addStubMapping(get(url).withHeader(ACCEPT_ENCODING, equalTo("gzip, deflate, br"))
+		wireMockServer.addStubMapping(get(url).withHeader(ACCEPT_ENCODING, equalTo(REQUEST_ACCEPT_ENCODING))
 				.withHeader(AUTHORIZATION, equalTo("token " + token))
 				.willReturn(aResponse().withHeader(CONTENT_TYPE, contentType)
 						.withBodyFile(bodyFilePath))
@@ -100,7 +101,7 @@ public abstract class AbstractTest {
 	}
 
 	protected void createStubWithContent(String url, String contentType, String content, int status) {
-		wireMockServer.addStubMapping(get(url).withHeader(ACCEPT_ENCODING, equalTo("gzip, deflate, br"))
+		wireMockServer.addStubMapping(get(url).withHeader(ACCEPT_ENCODING, equalTo(REQUEST_ACCEPT_ENCODING))
 				.willReturn(aResponse().withHeader(CONTENT_TYPE, contentType)
 						.withBody(content)
 						.withStatus(status))

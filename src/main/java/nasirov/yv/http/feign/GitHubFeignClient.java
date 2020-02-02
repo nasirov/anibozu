@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
  * Created by nasirov.yv
  */
 @FeignClient(value = "github-feign-client", configuration = FeignClientConfig.class, fallbackFactory = GitHubFeignClientFallbackFactory.class)
-@RequestMapping(value = "/nasirov/anime-checker-resources/master", headers = {"Accept-Encoding=gzip, deflate, br"})
+@RequestMapping(value = "/nasirov/anime-checker-resources/master", headers = {"Accept-Encoding=gzip, br"})
 public interface GitHubFeignClient {
 
 	@GetMapping(value = "/references.json", produces = "text/plain; charset=utf-8")

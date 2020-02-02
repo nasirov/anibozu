@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
  */
 @FeignClient(value = "animedia-api-feign-client", configuration = FeignClientConfig.class, fallbackFactory =
 		AnimediaApiFeignClientFallbackFactory.class)
-@RequestMapping(headers = {"Accept-Encoding=gzip, deflate, br"})
+@RequestMapping(headers = {"Accept-Encoding=gzip, br"})
 public interface AnimediaApiFeignClient {
 
 	@GetMapping(value = "/api/anime-list/{part}", produces = "application/json; charset=utf-8")

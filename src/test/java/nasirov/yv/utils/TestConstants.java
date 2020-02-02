@@ -60,6 +60,7 @@ public class TestConstants {
 	public static final String TEXT_PLAIN_CHARSET_UTF_8 = "text/plain; charset=utf-8";
 	public static final String TEXT_HTML_CHARSET_UTF_8 = "text/html; charset=UTF-8";
 	public static final String APPLICATION_JSON_CHARSET_UTF_8 = "application/json; charset=UTF-8";
+	public static final String REQUEST_ACCEPT_ENCODING = "gzip, br";
 
 	public static final String MY_ANIME_LIST_STATIC_CONTENT_URL = "https://cdn.myanimelist.net/";
 	public static final String MY_ANIME_LIST_URL = "https://myanimelist.net";
