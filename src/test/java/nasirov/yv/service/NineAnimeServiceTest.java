@@ -5,10 +5,12 @@ import static nasirov.yv.data.constants.BaseConstants.FINAL_URL_VALUE_IF_EPISODE
 import static nasirov.yv.data.constants.BaseConstants.NOT_FOUND_ON_FUNDUB_SITE_URL;
 import static nasirov.yv.data.constants.FunDubSource.NINEANIME;
 import static nasirov.yv.utils.TestConstants.MY_ANIME_LIST_STATIC_CONTENT_URL;
+import static nasirov.yv.utils.TestConstants.MY_ANIME_LIST_URL;
 import static nasirov.yv.utils.TestConstants.NINE_ANIME_TO;
 import static nasirov.yv.utils.TestConstants.REGULAR_TITLE_DUB_AVAILABLE_EPISODE_ID;
 import static nasirov.yv.utils.TestConstants.REGULAR_TITLE_DUB_NINE_ANIME_DATA_ID;
 import static nasirov.yv.utils.TestConstants.REGULAR_TITLE_DUB_NINE_ANIME_URL;
+import static nasirov.yv.utils.TestConstants.REGULAR_TITLE_MAL_ANIME_URL;
 import static nasirov.yv.utils.TestConstants.REGULAR_TITLE_NAME;
 import static nasirov.yv.utils.TestConstants.REGULAR_TITLE_NINE_ANIME_DATA_ID;
 import static nasirov.yv.utils.TestConstants.REGULAR_TITLE_POSTER_URL;
@@ -119,7 +121,8 @@ public class NineAnimeServiceTest extends AbstractTest {
 	}
 
 	private UserMALTitleInfo buildWatchingTitle() {
-		return new UserMALTitleInfo(1, 0, buildTitleNameWithSemiColin(), MY_ANIME_LIST_STATIC_CONTENT_URL + REGULAR_TITLE_POSTER_URL, "animeUrl");
+		return new UserMALTitleInfo(1, 0, buildTitleNameWithSemiColin(), MY_ANIME_LIST_STATIC_CONTENT_URL + REGULAR_TITLE_POSTER_URL,
+				MY_ANIME_LIST_URL + REGULAR_TITLE_MAL_ANIME_URL);
 	}
 
 	private void checkMatchedAnime(Anime anime, String s, String expectedEpisode) {
@@ -127,6 +130,8 @@ public class NineAnimeServiceTest extends AbstractTest {
 		assertEquals(buildTitleNameWithSemiColin(), anime.getTitleName());
 		assertEquals(s, anime.getLink());
 		assertEquals(expectedEpisode, anime.getEpisode());
+		assertEquals(MY_ANIME_LIST_STATIC_CONTENT_URL + REGULAR_TITLE_POSTER_URL, anime.getPosterUrlOnMAL());
+		assertEquals(MY_ANIME_LIST_URL + REGULAR_TITLE_MAL_ANIME_URL, anime.getTitleUrlOnMAL());
 	}
 
 	private void checkMatchedSize(Set<Anime> matchedAnime) {

@@ -53,12 +53,11 @@ public class NineAnimeService implements NineAnimeServiceI {
 	}
 
 	private Anime handleTitle(UserMALTitleInfo watchingTitle) {
-		String titleName = watchingTitle.getTitle();
-		Element searchResultWithTitleLink = getSearchResultWithTitleLink(titleName);
+		Element searchResultWithTitleLink = getSearchResultWithTitleLink(watchingTitle.getTitle());
 		if (nonNull(searchResultWithTitleLink)) {
 			return buildAnime(watchingTitle, searchResultWithTitleLink);
 		} else {
-			return buildNotFoundAnime(titleName);
+			return buildNotFoundAnime(watchingTitle);
 		}
 	}
 
@@ -73,6 +72,8 @@ public class NineAnimeService implements NineAnimeServiceI {
 				.titleName(watchingTitle.getTitle())
 				.episode(valueOf(episode))
 				.link(episodeLink)
+				.posterUrlOnMAL(watchingTitle.getPosterUrl())
+				.titleUrlOnMAL(watchingTitle.getAnimeUrl())
 				.build();
 		if (result.isAvailable()) {
 			log.info("NEW EPISODE AVAILABLE {}", result.getLink());
@@ -82,12 +83,14 @@ public class NineAnimeService implements NineAnimeServiceI {
 		return result;
 	}
 
-	private Anime buildNotFoundAnime(String titleName) {
-		log.error("TITLE [{}] WAS NOT FOUND ON 9Anime!", titleName);
+	private Anime buildNotFoundAnime(UserMALTitleInfo watchingTitle) {
+		log.error("TITLE [{}] WAS NOT FOUND ON 9Anime!", watchingTitle);
 		return Anime.builder()
 				.funDubSource(NINEANIME)
-				.titleName(titleName)
+				.titleName(watchingTitle.getTitle())
 				.link(NOT_FOUND_ON_FUNDUB_SITE_URL)
+				.posterUrlOnMAL(watchingTitle.getPosterUrl())
+				.titleUrlOnMAL(watchingTitle.getAnimeUrl())
 				.build();
 	}
 

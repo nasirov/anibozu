@@ -35,6 +35,16 @@ public class Anime {
 	 */
 	private String episode;
 
+	/**
+	 * Poster URL on MyAnimeList
+	 */
+	private String posterUrlOnMAL;
+
+	/**
+	 * Title URL on MyAnimeList
+	 */
+	private String titleUrlOnMAL;
+
 	public boolean isNotFound() {
 		return nonNull(link) && NOT_FOUND_ON_FUNDUB_SITE_URL.equals(link);
 	}
