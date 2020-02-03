@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 public interface NineAnimeFeignClient {
 
 	@GetMapping(value = "/ajax/film/search", produces = APPLICATION_JSON_VALUE)
-	SearchDto getTitleByName(@RequestParam("keyword") String titleName);
+	SearchDto searchTitleByName(@RequestParam("keyword") String titleName);
 
 	@GetMapping(value = "/ajax/film/servers/{dataId}", produces = APPLICATION_JSON_VALUE)
 	SearchDto getTitleEpisodesInfo(@PathVariable("dataId") String dataId);

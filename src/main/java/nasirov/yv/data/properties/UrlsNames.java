@@ -22,6 +22,9 @@ public class UrlsNames {
 	@NotNull
 	private MALUrls malUrls;
 
+	@NotNull
+	private NineAnimeUrls nineAnimeUrls;
+
 	@Data
 	public static class AnimediaUrls {
 
@@ -37,5 +40,12 @@ public class UrlsNames {
 
 		@NotBlank
 		private String cdnMyAnimeListNet;
+	}
+
+	@Data
+	public static class NineAnimeUrls {
+
+		@NotBlank
+		private String nineAnimeTo;
 	}
 }

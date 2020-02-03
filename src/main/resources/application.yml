@@ -11,6 +11,8 @@ application:
     mal-urls:
       myAnimeList-net: https://myanimelist.net
       cdn-myAnimeList-net: https://cdn.myanimelist.net/
+    nine-anime-urls:
+      nine-anime-to: https://9anime.to
   services:
     applicationLogoPrinter-enabled: true
   cron:
@@ -64,7 +66,8 @@ ribbon:
   ConnectTimeout: 60000
   ReadTimeout: 60000
   MaxAutoRetries: 2
-  retryableStatusCodes: 429, 403, 504
+  retryableStatusCodes: 429, 403, 504, 503
+  MaxAutoRetriesNextServer: 10
 
 feign:
   hystrix:

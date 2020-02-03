@@ -14,5 +14,7 @@ public class BaseConstants {
 	public static final String EPISODE_NUMBER_FOR_WATCH_VALUE_IF_EPISODE_IS_NOT_AVAILABLE = "";
 	public static final String NOT_FOUND_ON_MAL = "not found on mal";
 
+	public static final String NOT_FOUND_ON_FUNDUB_SITE_URL = "not found on a fundub site";
+
 	public static final String JOINED_EPISODE_REGEXP = "\\d{1,3}-\\d{1,3}";
 }

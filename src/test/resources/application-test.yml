@@ -13,3 +13,7 @@ mal-feign-client:
 github-feign-client:
   ribbon:
     listOfServers: localhost:${wiremock.server.port}
+
+nine-anime-feign-client:
+  ribbon:
+    listOfServers: localhost:${wiremock.server.port}

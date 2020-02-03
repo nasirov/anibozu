@@ -14,7 +14,7 @@ public class NineAnimeFeignClientFallbackFactory implements FallbackFactory<Nine
 	public NineAnimeFeignClient create(Throwable cause) {
 		return new NineAnimeFeignClient() {
 			@Override
-			public SearchDto getTitleByName(String titleName) {
+			public SearchDto searchTitleByName(String titleName) {
 				log.error("NineAnimeFeignClient fallback during call /ajax/film/search?keyword={} | Cause message [{}]", titleName, cause.getMessage());
 				return buildSafeSearchDto();
 			}

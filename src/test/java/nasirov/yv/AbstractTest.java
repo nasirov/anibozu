@@ -17,6 +17,7 @@ import nasirov.yv.data.properties.ResourcesNames;
 import nasirov.yv.parser.WrappedObjectMapperI;
 import nasirov.yv.service.AnimediaServiceI;
 import nasirov.yv.service.MALServiceI;
+import nasirov.yv.service.NineAnimeServiceI;
 import nasirov.yv.service.ReferencesServiceI;
 import nasirov.yv.service.ResourcesCheckerServiceI;
 import nasirov.yv.service.SeasonsAndEpisodesServiceI;
@@ -74,6 +75,9 @@ public abstract class AbstractTest {
 
 	@Autowired
 	protected GitHubAuthProps gitHubAuthProps;
+
+	@Autowired
+	protected NineAnimeServiceI nineAnimeService;
 
 	@Before
 	public void setUp() {

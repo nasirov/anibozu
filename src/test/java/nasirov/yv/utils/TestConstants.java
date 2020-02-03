@@ -22,6 +22,11 @@ public class TestConstants {
 	public static final String REGULAR_TITLE_MAL_ANIME_URL = "/anime/2/regular%20title%20name";
 	public static final Integer REGULAR_TITLE_MAL_ID = 2;
 
+	public static final String REGULAR_TITLE_NINE_ANIME_DATA_ID = "12rtm34";
+	public static final String REGULAR_TITLE_DUB_NINE_ANIME_DATA_ID = "56rtm78";
+	public static final String REGULAR_TITLE_DUB_NINE_ANIME_URL = "/watch/regular-title-name." + REGULAR_TITLE_DUB_NINE_ANIME_DATA_ID + "/";
+	public static final String REGULAR_TITLE_DUB_AVAILABLE_EPISODE_ID = "1efrtm";
+
 	public static final String TITLE_WITH_JOINED_EPISODES_URL = "anime/title-with-joined-episodes-url";
 	public static final String TITLE_WITH_JOINED_EPISODES_NAME = "title with joined episodes name";
 	public static final String TITLE_WITH_JOINED_EPISODES_ID = "1234";
@@ -65,6 +70,8 @@ public class TestConstants {
 	public static final String MY_ANIME_LIST_STATIC_CONTENT_URL = "https://cdn.myanimelist.net/";
 	public static final String MY_ANIME_LIST_URL = "https://myanimelist.net";
 	public static final String ANIMEDIA_ONLINE_TV = "https://online.animedia.tv/";
+
+	public static final String NINE_ANIME_TO = "https://9anime.to";
 
 	public static final int TEST_ACC_WATCHING_TITLES = 1004;
 
