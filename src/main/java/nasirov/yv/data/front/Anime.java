@@ -12,6 +12,8 @@ import lombok.Singular;
 import nasirov.yv.data.constants.FunDubSource;
 
 /**
+ * Dto holds processing result information and handles by freemarker via templates
+ * <p>
  * Created by nasirov.yv
  */
 @Data
