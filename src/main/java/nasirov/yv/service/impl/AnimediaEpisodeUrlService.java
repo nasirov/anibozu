@@ -78,8 +78,11 @@ public class AnimediaEpisodeUrlService implements EpisodeUrlServiceI {
 	}
 
 	/**
-	 * Handles more than one matched result in the multi seasons references it happens when data list contain several titles for example, 1-2
-	 * https://online.animedia.tv/anime/tamayura/2/1 Tamayura  1-1 3-4 https://online.animedia.tv/anime/tamayura/2/2 Tamayura  2-2
+	 * Handles more than one matched result in the multi seasons references it happens when data list contain several titles
+	 * <p>
+	 * for example, 1-2 https://online.animedia.tv/anime/tamayura/2/1 Tamayura  1-1
+	 * <p>
+	 * 3-4 https://online.animedia.tv/anime/tamayura/2/2 Tamayura  2-2
 	 *
 	 * @param matchedMultiSeasonsReferences the references with equals titles and data lists
 	 * @param watchingTitle                 user watching title
@@ -102,10 +105,11 @@ public class AnimediaEpisodeUrlService implements EpisodeUrlServiceI {
 	}
 
 	/**
-	 * Handles more than one matched result in the multi seasons references it happens when one season separated on several tabs for example,
+	 * Handles more than one matched result in the multi seasons references it happens when one season separated on several tabs
+	 * <p>
 	 * http://online.animedia.tv/anime/one-piece-van-pis-tv/
 	 *
-	 * @param matchedMultiSeasonsReferences the matched multi seasons references
+	 * @param matchedMultiSeasonsReferences matched references
 	 */
 	private String handleMoreThanOneMatchedResult(Set<TitleReference> matchedMultiSeasonsReferences, UserMALTitleInfo watchingTitle) {
 		int nextNumberOfEpisodeForWatch = getEpisodeNumberForWatch(watchingTitle);
@@ -130,8 +134,11 @@ public class AnimediaEpisodeUrlService implements EpisodeUrlServiceI {
 	}
 
 	/**
-	 * Get episode number for watch for titles with concretized episodes on MAL Used for references with concretized episodes on MAL for example, 1-2
-	 * https://online.animedia.tv/anime/tamayura/2/1 Tamayura  1-1 3-4 https://online.animedia.tv/anime/tamayura/2/2 Tamayura  2-2
+	 * Get episode number for watch for titles with concretized episodes on MAL Used for references with concretized episodes on MAL
+	 * <p>
+	 * 1-2 https://online.animedia.tv/anime/tamayura/2/1 Tamayura  1-1
+	 * <p>
+	 * 3-4 https://online.animedia.tv/anime/tamayura/2/2 Tamayura  2-2
 	 *
 	 * @param titleReference   title reference
 	 * @param userMALTitleInfo mal title
@@ -174,9 +181,9 @@ public class AnimediaEpisodeUrlService implements EpisodeUrlServiceI {
 	/**
 	 * Builds a new episode url
 	 *
-	 * @param titleReference        matched title
+	 * @param titleReference        matched reference
 	 * @param episodeNumberForWatch next episode for watch
-	 * @return correct nextEpisodeForWatch and finalURL if new episode is available or "" if new episode is not available
+	 * @return finalURL if new episode is available or "" if new episode is not available
 	 */
 	private String getFinalUrl(TitleReference titleReference, int episodeNumberForWatch) {
 		String finalUrl;
@@ -200,8 +207,8 @@ public class AnimediaEpisodeUrlService implements EpisodeUrlServiceI {
 	 * Finds joined episode in episodes range
 	 *
 	 * @param episodeNumberForWatch next episode for watch
-	 * @param episodesRange         episodes range from min to max
-	 * @return true if episodeNumberForWatch is contains in joined episode, false in other case
+	 * @param episodesRange         episodes range
+	 * @return true if episodeNumberForWatch contains in joined episode, false in other case
 	 */
 	private boolean isNextEpisodeForWatchInJoinedEpisode(String episodeNumberForWatch, List<String> episodesRange) {
 		return ofNullable(episodesRange).orElseGet(Collections::emptyList)
@@ -212,7 +219,7 @@ public class AnimediaEpisodeUrlService implements EpisodeUrlServiceI {
 	}
 
 	/**
-	 * Creates array with episode number for URL and front if joined episode is present
+	 * Creates an array with episode number for URL and front if joined episode is present
 	 *
 	 * @param episodeNumberForWatch next episode for watch
 	 * @param episodesRange         episodes range from min to max

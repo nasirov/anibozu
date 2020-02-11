@@ -112,7 +112,7 @@ public class MALService implements MALServiceI {
 	 *
 	 * @param titleOnMAL   MAL title name
 	 * @param titleIdOnMAL title id in MAL db
-	 * @return true if MAL response contain one anime title with equals titleOnMAL, else false
+	 * @return true if MAL response contain one anime title with equals titleOnMAL and titleIdOnMAL, else false
 	 */
 	@Override
 	public boolean isTitleExist(String titleOnMAL, Integer titleIdOnMAL) {
@@ -139,6 +139,7 @@ public class MALService implements MALServiceI {
 
 	/**
 	 * Changes and sets poster URL from https://cdn.myanimelist.net/r/96x136/images/anime/7/86743.jpg?s=50f775b44d0a2317e9337a4eaaac6100 to
+	 * <p>
 	 * https://cdn.myanimelist.net/images/anime/7/86743.jpg
 	 * <p>
 	 * because last url provides better quality image
@@ -177,7 +178,7 @@ public class MALService implements MALServiceI {
 	}
 
 	/**
-	 * Searches for additional json anime list and unmarshal https://myanimelist.net/animelist/username/load .json?offset=currentOffset&status=1
+	 * Searches for additional json anime list and unmarshal https://myanimelist.net/animelist/username/load.json?offset=currentOffset&status=1
 	 *
 	 * @param currentOffset the number of watching titles
 	 * @param username      the MAL username
