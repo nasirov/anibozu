@@ -7,7 +7,9 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
- * MAL User Anime List Info animelist/USERNAME Created by nasirov.yv
+ * MAL User Anime List Info animelist/USERNAME
+ * <p>
+ * Created by nasirov.yv
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
 @Data
