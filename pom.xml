@@ -12,10 +12,10 @@
 
   <groupId>nasirov.yv</groupId>
   <artifactId>anime-checker</artifactId>
-  <version>2.0</version>
+  <version>3.0</version>
   <name>anime-checker</name>
-  <description>The application analyzes user watching titles from MyAnimeList(https://myanimelist.net/) and searches for new episodes on
-    Animedia(https://online.animedia.tv/)
+  <description>The application analyzes a user watching titles from MyAnimeList(https://myanimelist.net/) and searches for new episodes on FanDub
+    Sites
   </description>
   <packaging>jar</packaging>
 
