@@ -7,7 +7,9 @@ import nasirov.yv.parser.MALParserI;
 import org.springframework.stereotype.Component;
 
 /**
- * Parser MAL html Created by nasirov.yv
+ * MAL html parser
+ * <p>
+ * Created by nasirov.yv
  */
 @Component
 @Slf4j
