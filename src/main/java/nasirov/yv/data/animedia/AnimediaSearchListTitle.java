@@ -9,8 +9,8 @@ import lombok.NoArgsConstructor;
 import nasirov.yv.data.animedia.api.Season;
 
 /**
- * Anime information for search on animedia
- *
+ * Anime information for search on Animedia
+ * <p>
  * Created by nasirov.yv
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
@@ -21,6 +21,7 @@ public class AnimediaSearchListTitle {
 
 	/**
 	 * Animed ID on Animedia
+	 * <p>
 	 * e.g 1234
 	 */
 	@JsonProperty("animeId")
@@ -28,7 +29,7 @@ public class AnimediaSearchListTitle {
 
 	/**
 	 * Anime URL on Animedia
-	 *
+	 * <p>
 	 * e.g anime/some-anime
 	 */
 	@JsonProperty("url")
