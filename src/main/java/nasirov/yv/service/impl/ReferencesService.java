@@ -11,18 +11,16 @@ import static nasirov.yv.util.AnimediaUtils.isTitleUpdated;
 
 import com.google.common.collect.Sets;
 import java.util.List;
-import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import nasirov.yv.data.animedia.TitleReference;
 import nasirov.yv.data.animedia.api.Response;
-import nasirov.yv.data.mal.UserMALTitleInfo;
 import nasirov.yv.data.properties.GitHubAuthProps;
 import nasirov.yv.http.feign.GitHubFeignClient;
 import nasirov.yv.parser.AnimediaHTMLParserI;
-import nasirov.yv.service.AnimediaServiceI;
+import nasirov.yv.service.AnimediaApiServiceI;
 import nasirov.yv.service.ReferencesServiceI;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
@@ -39,7 +37,7 @@ public class ReferencesService implements ReferencesServiceI {
 
 	private final AnimediaHTMLParserI animediaHTMLParser;
 
-	private final AnimediaServiceI animediaService;
+	private final AnimediaApiServiceI animediaApiService;
 
 	private final GitHubAuthProps gitHubAuthProps;
 
@@ -71,7 +69,7 @@ public class ReferencesService implements ReferencesServiceI {
 	}
 
 	private void handleReference(TitleReference reference) {
-		List<Response> episodesList = animediaService.getDataListInfo(reference.getAnimeIdOnAnimedia(), reference.getDataListOnAnimedia());
+		List<Response> episodesList = animediaApiService.getDataListInfo(reference.getAnimeIdOnAnimedia(), reference.getDataListOnAnimedia());
 		if (episodesList.isEmpty()) {
 			return;
 		}
@@ -83,34 +81,6 @@ public class ReferencesService implements ReferencesServiceI {
 		} else {
 			enrichRegularReference(reference, episodesRange);
 		}
-	}
-
-	/**
-	 * Searches for references based on user watching titles
-	 *
-	 * @param watchingTitles user watching titles from MAL
-	 * @return matched references
-	 */
-	@Override
-	public Set<TitleReference> getMatchedReferences(Set<UserMALTitleInfo> watchingTitles, Set<TitleReference> references) {
-		return watchingTitles.stream()
-				.map(x -> findMatchedReference(x, references))
-				.flatMap(List::stream)
-				.filter(Objects::nonNull)
-				.collect(Collectors.toSet());
-	}
-
-	private List<TitleReference> findMatchedReference(UserMALTitleInfo userMALTitleInfo, Set<TitleReference> references) {
-		return references.stream()
-				.filter(x -> x.getTitleNameOnMAL()
-						.equals(userMALTitleInfo.getTitle()))
-				.map(x -> setPosterUrlFromMAL(userMALTitleInfo, x))
-				.collect(Collectors.toList());
-	}
-
-	private TitleReference setPosterUrlFromMAL(UserMALTitleInfo userMALTitleInfo, TitleReference reference) {
-		reference.setPosterUrlOnMAL(userMALTitleInfo.getPosterUrl());
-		return reference;
 	}
 
 	private void enrichRegularReference(TitleReference reference, List<String> episodesList) {

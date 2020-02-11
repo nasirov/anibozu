@@ -75,7 +75,7 @@ public class ResourcesCheckerServiceTest extends AbstractTest {
 	}
 
 	private void mockGetAnimediaSearchList(Set<AnimediaSearchListTitle> animediaSearchListFromAnimedia) {
-		doReturn(animediaSearchListFromAnimedia).when(animediaService)
+		doReturn(animediaSearchListFromAnimedia).when(animediaApiService)
 				.getAnimediaSearchList();
 	}
 

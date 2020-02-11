@@ -9,7 +9,7 @@ import lombok.extern.slf4j.Slf4j;
 import nasirov.yv.data.animedia.AnimediaSearchListTitle;
 import nasirov.yv.data.animedia.api.Response;
 import nasirov.yv.http.feign.AnimediaApiFeignClient;
-import nasirov.yv.service.AnimediaServiceI;
+import nasirov.yv.service.AnimediaApiServiceI;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
@@ -19,7 +19,7 @@ import org.springframework.stereotype.Service;
 @Service
 @Slf4j
 @RequiredArgsConstructor
-public class AnimediaService implements AnimediaServiceI {
+public class AnimediaApiService implements AnimediaApiServiceI {
 
 	private final AnimediaApiFeignClient animediaApiFeignClient;
 

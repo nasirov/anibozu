@@ -2,17 +2,12 @@ package nasirov.yv.service;
 
 import static nasirov.yv.utils.ReferencesBuilder.getReferences;
 import static nasirov.yv.utils.TestConstants.ANNOUNCEMENT_TITLE_ID;
-import static nasirov.yv.utils.TestConstants.ANNOUNCEMENT_TITLE_NAME;
 import static nasirov.yv.utils.TestConstants.CONCRETIZED_AND_ONGOING_TITLE_ID;
-import static nasirov.yv.utils.TestConstants.CONCRETIZED_AND_ONGOING_TITLE_NAME;
-import static nasirov.yv.utils.TestConstants.CONCRETIZED_TITLE_WITH_EPISODES_RANGE_NAME;
 import static nasirov.yv.utils.TestConstants.REGULAR_TITLE_ID;
-import static nasirov.yv.utils.TestConstants.REGULAR_TITLE_NAME;
 import static nasirov.yv.utils.TestConstants.REGULAR_TITLE_URL;
 import static nasirov.yv.utils.TestConstants.TEXT_PLAIN_CHARSET_UTF_8;
 import static org.apache.groovy.util.Maps.of;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 import com.google.common.collect.Lists;
@@ -22,7 +17,6 @@ import java.util.List;
 import java.util.Set;
 import nasirov.yv.AbstractTest;
 import nasirov.yv.data.animedia.TitleReference;
-import nasirov.yv.data.mal.UserMALTitleInfo;
 import org.junit.Test;
 
 /**
@@ -59,23 +53,6 @@ public class ReferencesServiceTest extends AbstractTest {
 		referencesForUpdate.forEach(x -> assertTrue(expectedUpdatedReferences.contains(x)));
 	}
 
-	@Test
-	public void getMatchedReferences() throws Exception {
-		stubGitHub();
-		Set<TitleReference> references = getReferences(LinkedHashSet.class, true);
-		references.forEach(set -> assertNull(set.getPosterUrlOnMAL()));
-		Set<UserMALTitleInfo> watchingTitles = getWatchingTitles();
-		Set<TitleReference> matchedReferences = referencesService.getMatchedReferences(watchingTitles, references);
-		assertEquals(4, matchedReferences.size());
-		assertTrue(matchedReferences.stream()
-				.allMatch(x -> x.getPosterUrlOnMAL()
-						.equals("testPoster")));
-		checkMatchedReferences(matchedReferences, REGULAR_TITLE_NAME);
-		checkMatchedReferences(matchedReferences, ANNOUNCEMENT_TITLE_NAME);
-		checkMatchedReferences(matchedReferences, CONCRETIZED_TITLE_WITH_EPISODES_RANGE_NAME);
-		checkMatchedReferences(matchedReferences, CONCRETIZED_AND_ONGOING_TITLE_NAME);
-	}
-
 	private List<TitleReference> buildExpectedWithRegularWithEpisodesRange() throws IllegalAccessException, InstantiationException {
 		List<TitleReference> expectedUpdatedReferences = getReferences(ArrayList.class, true);
 		expectedUpdatedReferences.stream()
@@ -85,14 +62,6 @@ public class ReferencesServiceTest extends AbstractTest {
 				.get()
 				.setEpisodesRangeOnAnimedia(Lists.newArrayList("1", "2", "3", "4-5"));
 		return expectedUpdatedReferences;
-	}
-
-	private void checkMatchedReferences(Set<TitleReference> matchedReferences, String titleOnMal) {
-		assertEquals(1,
-				matchedReferences.stream()
-						.filter(set -> set.getTitleNameOnMAL()
-								.equals(titleOnMal))
-						.count());
 	}
 
 	private void stubAnimedia(String dataListBody) {
@@ -111,14 +80,4 @@ public class ReferencesServiceTest extends AbstractTest {
 				"github/references.json",
 				gitHubAuthProps.getToken());
 	}
-
-	private Set<UserMALTitleInfo> getWatchingTitles() {
-		Set<UserMALTitleInfo> userMALTitleInfo = new LinkedHashSet<>();
-		userMALTitleInfo.add(new UserMALTitleInfo(2, 0, REGULAR_TITLE_NAME, "testPoster", "testUrl"));
-		userMALTitleInfo.add(new UserMALTitleInfo(1, 0, ANNOUNCEMENT_TITLE_NAME, "testPoster", "testUrl"));
-		userMALTitleInfo.add(new UserMALTitleInfo(5, 0, CONCRETIZED_TITLE_WITH_EPISODES_RANGE_NAME, "testPoster", "testUrl"));
-		userMALTitleInfo.add(new UserMALTitleInfo(8, 0, CONCRETIZED_AND_ONGOING_TITLE_NAME, "testPoster", "testUrl"));
-		return userMALTitleInfo;
-	}
-
 }

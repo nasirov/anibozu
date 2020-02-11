@@ -24,19 +24,25 @@ public class TestConstants {
 
 	public static final String REGULAR_TITLE_NINE_ANIME_DATA_ID = "12rtm34";
 	public static final String REGULAR_TITLE_DUB_NINE_ANIME_DATA_ID = "56rtm78";
-	public static final String REGULAR_TITLE_DUB_NINE_ANIME_URL = "/watch/regular-title-name." + REGULAR_TITLE_DUB_NINE_ANIME_DATA_ID + "/";
 	public static final String REGULAR_TITLE_DUB_AVAILABLE_EPISODE_ID = "1efrtm";
+
+	public static final String REGULAR_TITLE_DUB_NINE_ANIME_URL =
+			"/watch/regular-title-name." + REGULAR_TITLE_DUB_NINE_ANIME_DATA_ID + "/" + REGULAR_TITLE_DUB_AVAILABLE_EPISODE_ID;
 
 	public static final String TITLE_WITH_JOINED_EPISODES_URL = "anime/title-with-joined-episodes-url";
 	public static final String TITLE_WITH_JOINED_EPISODES_NAME = "title with joined episodes name";
 	public static final String TITLE_WITH_JOINED_EPISODES_ID = "1234";
 	public static final String TITLE_WITH_JOINED_EPISODES_POSTER_URL = "images/anime/3/titleWithJoinedEpisodes.jpg";
+
+	public static final String TITLE_WITH_JOINED_EPISODES_MAL_ANIME_URL = "/anime/3/titleWithJoinedEpisodes";
 	public static final Integer TITLE_WITH_JOINED_EPISODES_MAL_ANIME_ID = 3;
 
 	public static final String TITLE_ON_SEVERAL_DATA_LISTS_URL = "anime/title-on-several-data-lists-url";
 	public static final String TITLE_ON_SEVERAL_DATA_LISTS_NAME = "title on several data lists name";
 	public static final String TITLE_ON_SEVERAL_DATA_LISTS_ID = "9649";
 	public static final String TITLE_ON_SEVERAL_DATA_LISTS_POSTER_URL = "images/anime/4/titleOnSeveralDataLists.jpg";
+
+	public static final String TITLE_ON_SEVERAL_DATA_LISTS_MAL_ANIME_URL = "/anime/4/titleOnSeveralDataLists";
 	public static final Integer TITLE_ON_SEVERAL_DATA_LISTS_MAL_ANIME_ID = 4;
 
 	public static final String CONCRETIZED_TITLE_URL = "anime/concretized-title-url";
@@ -44,6 +50,8 @@ public class TestConstants {
 	public static final String CONCRETIZED_TITLE_WITH_SINGLE_EPISODE_NAME = "concretized title with single episode name";
 	public static final String CONCRETIZED_TITLE_WITH_EPISODES_RANGE_NAME = "concretized title with episodes range name";
 	public static final String CONCRETIZED_TITLE_POSTER_URL = "images/anime/5/concretizedTitle.jpg";
+
+	public static final String CONCRETIZED_TITLE_MAL_ANIME_URL = "/anime/5/concretizedTitle";
 	public static final Integer CONCRETIZED_TITLE_MAL_ANIME_ID = 5;
 
 	public static final String NOT_FOUND_ON_ANIMEDIA_TITLE_NAME = "not found on animedia title name";
@@ -70,7 +78,6 @@ public class TestConstants {
 	public static final String MY_ANIME_LIST_STATIC_CONTENT_URL = "https://cdn.myanimelist.net/";
 	public static final String MY_ANIME_LIST_URL = "https://myanimelist.net";
 	public static final String ANIMEDIA_ONLINE_TV = "https://online.animedia.tv/";
-
 	public static final String NINE_ANIME_TO = "https://9anime.to";
 
 	public static final int TEST_ACC_WATCHING_TITLES = 1004;

@@ -17,11 +17,21 @@
       <p class="title">Anime Checker</p>
       <div class="nes-field">
         <form id="username-submit-form" action="/result/" method="post">
-        <@spring.bind "malUser"/>
-        <@spring.formInput "malUser.username",'class="nes-input"
+            <@spring.bind "malUser"/>
+            <@spring.formInput "malUser.username",'class="nes-input"
                  placeholder="Enter MAL username..."
                  title="Please enter a valid mal username between 2 and 16 characters(latin letters, numbers, underscores and dashes only)"
                  autofocus'/>
+          <label>
+              <@spring.bind "malUser.funDubSources"/>
+            <input id="animedia-checkbox" type="checkbox" class="nes-checkbox" name="funDubSources" value="${animedia}"/>
+            <span>Animedia</span>
+          </label>
+          <label>
+              <@spring.bind "malUser.funDubSources"/>
+            <input id="nineAnime-checkbox" type="checkbox" class="nes-checkbox" name="funDubSources" checked="checked" value="${nineAnime}"/>
+            <span>9Anime</span>
+          </label>
           <button type="submit" class="nes-btn is-primary">Search for new episodes</button>
         </form>
       </div>

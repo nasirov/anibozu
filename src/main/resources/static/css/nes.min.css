@@ -1520,6 +1520,12 @@ input[type=checkbox], input[type=radio] {
     appearance: none
 }
 
+.nes-checkbox.is-success {
+}
+
+.nes-checkbox.is-error {
+}
+
 .nes-checkbox + span {
     position: relative;
     cursor: url(../img/cursor-click.png), pointer

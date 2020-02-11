@@ -1,24 +1,21 @@
 package nasirov.yv.controller;
 
-import static java.util.Objects.isNull;
-import static nasirov.yv.data.constants.BaseConstants.FINAL_URL_VALUE_IF_EPISODE_IS_NOT_AVAILABLE;
+import static nasirov.yv.data.constants.FunDubSource.ANIMEDIA;
+import static nasirov.yv.data.constants.FunDubSource.NINEANIME;
 
-import java.util.LinkedList;
-import java.util.List;
 import java.util.Set;
 import java.util.concurrent.ForkJoinPool;
 import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import nasirov.yv.data.animedia.TitleReference;
+import nasirov.yv.data.front.Anime;
 import nasirov.yv.data.mal.MALUser;
 import nasirov.yv.data.mal.UserMALTitleInfo;
 import nasirov.yv.exception.mal.MALUserAccountNotFoundException;
 import nasirov.yv.exception.mal.MALUserAnimeListAccessException;
 import nasirov.yv.exception.mal.WatchingTitlesNotFoundException;
+import nasirov.yv.service.AnimeServiceI;
 import nasirov.yv.service.MALServiceI;
-import nasirov.yv.service.ReferencesServiceI;
-import nasirov.yv.service.SeasonsAndEpisodesServiceI;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -36,13 +33,12 @@ public class ResultController {
 
 	private final MALServiceI malService;
 
-	private final ReferencesServiceI referencesService;
-
-	private final SeasonsAndEpisodesServiceI seasonAndEpisodeChecker;
+	private final AnimeServiceI animeService;
 
 	@PostMapping(value = "/result")
 	public DeferredResult<String> checkResult(@Valid MALUser malUser, Model model) {
-		malUser.setUsername(malUser.getUsername().toLowerCase());
+		malUser.setUsername(malUser.getUsername()
+				.toLowerCase());
 		log.info("RECEIVED {}", malUser.getUsername());
 		DeferredResult<String> result = new DeferredResult<>(5 * 60 * 1000L);
 		COMMON_POOL.submit(processResult(malUser, model, result));
@@ -61,45 +57,17 @@ public class ResultController {
 				result.setErrorResult(handleError(e.getMessage(), model));
 				return;
 			}
-			result.setResult(handleUser(username, watchingTitles, model));
+			result.setResult(handleUser(malUser, watchingTitles, model));
 		};
 	}
 
-	private String handleUser(String username, Set<UserMALTitleInfo> watchingTitles, Model model) {
-		log.info("HANDLE USER {}", username);
-		Set<TitleReference> matchedReferences = referencesService.getMatchedReferences(watchingTitles, referencesService.getReferences());
-		referencesService.updateReferences(matchedReferences);
-		Set<TitleReference> matchedAnime = seasonAndEpisodeChecker.getMatchedAnime(watchingTitles, matchedReferences, username);
-		return enrichModel(matchedAnime, watchingTitles, model);
-	}
-
-	private String enrichModel(Set<TitleReference> matchedAnime, Set<UserMALTitleInfo> watchingTitles, Model model) {
-		List<TitleReference> newEpisodeAvailable = new LinkedList<>();
-		List<TitleReference> newEpisodeNotAvailable = new LinkedList<>();
-		List<UserMALTitleInfo> notFoundAnimeOnAnimedia = new LinkedList<>();
-		for (UserMALTitleInfo titleInfo : watchingTitles) {
-			TitleReference matchedReference = getMatchedReference(titleInfo, matchedAnime);
-			if (isNull(matchedReference)) {
-				notFoundAnimeOnAnimedia.add(titleInfo);
-			} else if (matchedReference.getFinalUrlForFront()
-					.equals(FINAL_URL_VALUE_IF_EPISODE_IS_NOT_AVAILABLE)) {
-				newEpisodeNotAvailable.add(matchedReference);
-			} else {
-				newEpisodeAvailable.add(matchedReference);
-			}
-		}
-		model.addAttribute("newEpisodeAvailable", newEpisodeAvailable);
-		model.addAttribute("newEpisodeNotAvailable", newEpisodeNotAvailable);
-		model.addAttribute("notFoundAnimeOnAnimedia", notFoundAnimeOnAnimedia);
+	private String handleUser(MALUser malUser, Set<UserMALTitleInfo> watchingTitles, Model model) {
+		log.info("HANDLE USER {}", malUser.getUsername());
+		Set<Anime> anime = animeService.getAnime(malUser.getFunDubSources(), watchingTitles);
+		model.addAttribute("resultAnimeList", anime);
+		model.addAttribute("animedia", ANIMEDIA.getName());
+		model.addAttribute("nineAnime", NINEANIME.getName());
 		return "result";
-	}
-
-	private TitleReference getMatchedReference(UserMALTitleInfo userMALTitleInfo, Set<TitleReference> matchedAnime) {
-		return matchedAnime.stream()
-				.filter(m -> userMALTitleInfo.getTitle()
-						.equals(m.getTitleNameOnMAL()))
-				.findFirst()
-				.orElse(null);
 	}
 
 	private String handleError(String errorMsg, Model model) {

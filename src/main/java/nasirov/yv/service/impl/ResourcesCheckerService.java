@@ -21,7 +21,7 @@ import nasirov.yv.data.animedia.api.Response;
 import nasirov.yv.data.animedia.api.Season;
 import nasirov.yv.data.properties.ResourcesNames;
 import nasirov.yv.parser.WrappedObjectMapperI;
-import nasirov.yv.service.AnimediaServiceI;
+import nasirov.yv.service.AnimediaApiServiceI;
 import nasirov.yv.service.MALServiceI;
 import nasirov.yv.service.ReferencesServiceI;
 import nasirov.yv.service.ResourcesCheckerServiceI;
@@ -40,7 +40,7 @@ public class ResourcesCheckerService implements ResourcesCheckerServiceI {
 
 	private final ReferencesServiceI referencesService;
 
-	private final AnimediaServiceI animediaService;
+	private final AnimediaApiServiceI animediaApiService;
 
 	private final MALServiceI malService;
 
@@ -80,7 +80,7 @@ public class ResourcesCheckerService implements ResourcesCheckerServiceI {
 	@Scheduled(cron = "${application.cron.resources-check-cron-expression}")
 	public void checkReferences() {
 		log.info("START CHECKING REFERENCES ...");
-		Set<AnimediaSearchListTitle> animediaSearchListFromGitHub = animediaService.getAnimediaSearchList();
+		Set<AnimediaSearchListTitle> animediaSearchListFromGitHub = animediaApiService.getAnimediaSearchList();
 		Set<TitleReference> allReferences = referencesService.getReferences();
 		List<TitleReference> notFoundInReferences = new LinkedList<>();
 		for (AnimediaSearchListTitle titleSearchInfo : animediaSearchListFromGitHub) {
@@ -95,7 +95,7 @@ public class ResourcesCheckerService implements ResourcesCheckerServiceI {
 					notFoundInReferences.add(buildTempAnnouncementReference(titleSearchInfo));
 				}
 			} else {
-				Response response = animediaService.getTitleInfo(titleSearchInfo.getAnimeId());
+				Response response = animediaApiService.getTitleInfo(titleSearchInfo.getAnimeId());
 				List<Season> seasons = response.getSeasons();
 				for (Season season : seasons) {
 					boolean titleIsNotPresentInReferences = references.stream()

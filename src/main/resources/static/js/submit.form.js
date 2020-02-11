@@ -7,8 +7,11 @@ $(document).ready(function () {
     var usernameInputField = $('#username');
     var submitButton = $('.nes-btn');
     var username = usernameInputField.val();
+    var funDubCheckboxes = $('.nes-checkbox');
     if (!isElementHasReadonlyAttr(usernameInputField[0])) {
-      if (checkMalUsername(username)) {
+      var isValidUsername = checkMalUsername(username);
+      var isAtLeastOnFunDubChecked = checkFunDubCheckboxes(funDubCheckboxes);
+      if (isValidUsername && isAtLeastOnFunDubChecked) {
         addReadonlyAttr(usernameInputField);
         changeClasses(usernameInputField, true);
         changeClasses(submitButton, true);
@@ -17,7 +20,8 @@ $(document).ready(function () {
         addAndRunProgressBar(container);
       } else {
         disableEvents(e);
-        changeClasses(usernameInputField, false);
+        changeClasses(usernameInputField, isValidUsername);
+        changeClasses(funDubCheckboxes, isAtLeastOnFunDubChecked);
         changeClasses(submitButton, false);
         removeProgressBar(container);
       }
@@ -27,6 +31,7 @@ $(document).ready(function () {
   });
 
 });
+
 function addAndRunProgressBar(element) {
   var progressBar = '<progress class="nes-progress is-success" value="0" max="100"></progress>';
   if (element.find('.nes-progress.is-success').length === 0) {
@@ -34,12 +39,14 @@ function addAndRunProgressBar(element) {
     setInterval(runProgressBar, 1000);
   }
 }
+
 function removeProgressBar(element) {
   var progressBar = '.nes-progress.is-success';
   if (!(element.find(progressBar).length === 0)) {
     element.find(progressBar).remove();
   }
 }
+
 function runProgressBar() {
   var progressBar = $('.nes-progress.is-success');
   var value = progressBar[0].value;
@@ -49,6 +56,7 @@ function runProgressBar() {
   value += 10;
   progressBar.attr('value', value);
 }
+
 function changeClasses(element, isInputValueValid) {
   var is_success = 'is-success';
   var is_error = 'is-error';
@@ -72,25 +80,41 @@ function changeClasses(element, isInputValueValid) {
     }
   }
 }
+
 function checkMalUsername(username) {
   if (username === undefined || username === null) {
     return false;
   }
   return username.match(/^[\w_-]{2,16}$/) !== null;
 }
+
+function checkFunDubCheckboxes(funDubCheckboxes) {
+  for (var i = 0; i < funDubCheckboxes.length; i++) {
+    var checkbox = funDubCheckboxes[i];
+    if (checkbox.checked) {
+      return true;
+    }
+  }
+  return false;
+}
+
 function addReadonlyAttr(element) {
   element.attr('readonly', '');
 }
+
 function isElementHasReadonlyAttr(element) {
   return element.hasAttribute('readonly');
 }
+
 function disableEvents(element) {
   element.preventDefault();
   element.stopImmediatePropagation();
 }
+
 function setInnerHtmlValue(element, value) {
   element.innerHTML = value;
 }
+
 function setDisabledAttributeValue(element, value) {
   element.disabled = value;
 }

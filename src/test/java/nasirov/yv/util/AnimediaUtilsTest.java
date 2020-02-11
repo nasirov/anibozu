@@ -1,8 +1,8 @@
 package nasirov.yv.util;
 
 import static nasirov.yv.utils.ReferencesBuilder.buildConcretizedAndOngoingReference;
-import static nasirov.yv.utils.ReferencesBuilder.buildConcretizedReferenceWithEpisodesRange;
 import static nasirov.yv.utils.ReferencesBuilder.buildUpdatedRegularReference;
+import static nasirov.yv.utils.ReferencesBuilder.getConcretizedReferenceWithEpisodesRange;
 import static nasirov.yv.utils.ReferencesBuilder.getRegularReferenceNotUpdated;
 import static nasirov.yv.utils.ReferencesBuilder.notFoundOnAnimedia;
 import static org.junit.Assert.assertEquals;
@@ -34,12 +34,12 @@ public class AnimediaUtilsTest extends AbstractTest {
 	@Test
 	public void isTitleConcretizedAndOngoing() {
 		assertTrue(AnimediaUtils.isTitleConcretizedAndOngoing(buildConcretizedAndOngoingReference()));
-		assertFalse(AnimediaUtils.isTitleConcretizedAndOngoing(buildConcretizedReferenceWithEpisodesRange()));
+		assertFalse(AnimediaUtils.isTitleConcretizedAndOngoing(getConcretizedReferenceWithEpisodesRange()));
 	}
 	@Test
 	public void isTitleConcretizedOnMAL() {
 		assertTrue(AnimediaUtils.isTitleConcretizedOnMAL(buildConcretizedAndOngoingReference()));
-		assertTrue(AnimediaUtils.isTitleConcretizedOnMAL(buildConcretizedReferenceWithEpisodesRange()));
+		assertTrue(AnimediaUtils.isTitleConcretizedOnMAL(getConcretizedReferenceWithEpisodesRange()));
 	}
 	@Test
 	public void isTitleUpdated() {
@@ -49,7 +49,7 @@ public class AnimediaUtilsTest extends AbstractTest {
 	@Test
 	public void isTitleNotFoundOnMAL() {
 		assertTrue(AnimediaUtils.isTitleNotFoundOnMAL(notFoundOnAnimedia()));
-		assertFalse(AnimediaUtils.isTitleNotFoundOnMAL(buildConcretizedReferenceWithEpisodesRange()));
+		assertFalse(AnimediaUtils.isTitleNotFoundOnMAL(getConcretizedReferenceWithEpisodesRange()));
 	}
 	@Test
 	public void getCorrectCurrentMax() {

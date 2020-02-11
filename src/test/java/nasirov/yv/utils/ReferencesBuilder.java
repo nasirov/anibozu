@@ -1,15 +1,11 @@
 package nasirov.yv.utils;
 
-import static nasirov.yv.data.constants.BaseConstants.EPISODE_NUMBER_FOR_WATCH_VALUE_IF_EPISODE_IS_NOT_AVAILABLE;
-import static nasirov.yv.data.constants.BaseConstants.FINAL_URL_VALUE_IF_EPISODE_IS_NOT_AVAILABLE;
 import static nasirov.yv.data.constants.BaseConstants.FIRST_DATA_LIST;
 import static nasirov.yv.data.constants.BaseConstants.FIRST_EPISODE;
 import static nasirov.yv.data.constants.BaseConstants.NOT_FOUND_ON_MAL;
-import static nasirov.yv.data.constants.BaseConstants.ZERO_EPISODE;
 import static nasirov.yv.utils.TestConstants.ANNOUNCEMENT_TITLE_ID;
 import static nasirov.yv.utils.TestConstants.ANNOUNCEMENT_TITLE_MAL_ANIME_ID;
 import static nasirov.yv.utils.TestConstants.ANNOUNCEMENT_TITLE_NAME;
-import static nasirov.yv.utils.TestConstants.ANNOUNCEMENT_TITLE_POSTER_URL;
 import static nasirov.yv.utils.TestConstants.ANNOUNCEMENT_TITLE_URL;
 import static nasirov.yv.utils.TestConstants.CONCRETIZED_AND_ONGOING_TITLE_ID;
 import static nasirov.yv.utils.TestConstants.CONCRETIZED_AND_ONGOING_TITLE_MAL_ANIME_ID;
@@ -17,15 +13,12 @@ import static nasirov.yv.utils.TestConstants.CONCRETIZED_AND_ONGOING_TITLE_NAME;
 import static nasirov.yv.utils.TestConstants.CONCRETIZED_AND_ONGOING_TITLE_URL;
 import static nasirov.yv.utils.TestConstants.CONCRETIZED_TITLE_ID;
 import static nasirov.yv.utils.TestConstants.CONCRETIZED_TITLE_MAL_ANIME_ID;
-import static nasirov.yv.utils.TestConstants.CONCRETIZED_TITLE_POSTER_URL;
 import static nasirov.yv.utils.TestConstants.CONCRETIZED_TITLE_URL;
 import static nasirov.yv.utils.TestConstants.CONCRETIZED_TITLE_WITH_EPISODES_RANGE_NAME;
 import static nasirov.yv.utils.TestConstants.CONCRETIZED_TITLE_WITH_SINGLE_EPISODE_NAME;
-import static nasirov.yv.utils.TestConstants.MY_ANIME_LIST_STATIC_CONTENT_URL;
 import static nasirov.yv.utils.TestConstants.REGULAR_TITLE_ID;
 import static nasirov.yv.utils.TestConstants.REGULAR_TITLE_MAL_ID;
 import static nasirov.yv.utils.TestConstants.REGULAR_TITLE_NAME;
-import static nasirov.yv.utils.TestConstants.REGULAR_TITLE_POSTER_URL;
 import static nasirov.yv.utils.TestConstants.REGULAR_TITLE_URL;
 
 import java.util.Collection;
@@ -38,37 +31,12 @@ import nasirov.yv.data.animedia.TitleReference;
 @UtilityClass
 public class ReferencesBuilder {
 
-
-	public static TitleReference buildConcretizedReferenceWithEpisodesRange() {
-		TitleReference concretizedReference = getConcretizedReferenceWithEpisodesRange();
-		concretizedReference.setPosterUrlOnMAL(MY_ANIME_LIST_STATIC_CONTENT_URL + CONCRETIZED_TITLE_POSTER_URL);
-		return concretizedReference;
-	}
-
-	public static TitleReference buildConcretizedReferenceWithSingleEpisode() {
-		TitleReference concretizedReferenceWithSingleEpisode = getConcretizedReferenceWithSingleEpisode();
-		concretizedReferenceWithSingleEpisode.setPosterUrlOnMAL(MY_ANIME_LIST_STATIC_CONTENT_URL + CONCRETIZED_TITLE_POSTER_URL);
-		return concretizedReferenceWithSingleEpisode;
-	}
-
 	public static TitleReference buildUpdatedRegularReference() {
 		TitleReference regularReferenceNotUpdated = getRegularReferenceNotUpdated();
 		regularReferenceNotUpdated.setMinOnAnimedia("1");
 		regularReferenceNotUpdated.setMaxOnAnimedia("5");
 		regularReferenceNotUpdated.setCurrentMaxOnAnimedia("5");
-		regularReferenceNotUpdated.setPosterUrlOnMAL(MY_ANIME_LIST_STATIC_CONTENT_URL + REGULAR_TITLE_POSTER_URL);
 		return regularReferenceNotUpdated;
-	}
-
-	public static TitleReference buildUpdatedAnnouncementReference() {
-		TitleReference announcementReference = getAnnouncementReference();
-		announcementReference.setMinOnAnimedia(ZERO_EPISODE);
-		announcementReference.setMaxOnAnimedia(ZERO_EPISODE);
-		announcementReference.setCurrentMaxOnAnimedia(ZERO_EPISODE);
-		announcementReference.setPosterUrlOnMAL(MY_ANIME_LIST_STATIC_CONTENT_URL + ANNOUNCEMENT_TITLE_POSTER_URL);
-		announcementReference.setFinalUrlForFront(FINAL_URL_VALUE_IF_EPISODE_IS_NOT_AVAILABLE);
-		announcementReference.setEpisodeNumberForWatchForFront(EPISODE_NUMBER_FOR_WATCH_VALUE_IF_EPISODE_IS_NOT_AVAILABLE);
-		return announcementReference;
 	}
 
 	public static <T extends Collection> T getReferences(Class<T> collection, boolean updated) throws IllegalAccessException, InstantiationException {

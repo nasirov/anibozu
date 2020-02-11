@@ -1,11 +1,14 @@
 package nasirov.yv.data.front;
 
+import static java.util.Objects.isNull;
 import static java.util.Objects.nonNull;
 import static nasirov.yv.data.constants.BaseConstants.FINAL_URL_VALUE_IF_EPISODE_IS_NOT_AVAILABLE;
 import static nasirov.yv.data.constants.BaseConstants.NOT_FOUND_ON_FUNDUB_SITE_URL;
 
+import java.util.Map;
 import lombok.Builder;
 import lombok.Data;
+import lombok.Singular;
 import nasirov.yv.data.constants.FunDubSource;
 
 /**
@@ -16,19 +19,9 @@ import nasirov.yv.data.constants.FunDubSource;
 public class Anime {
 
 	/**
-	 * Target FunDub
+	 * Anime name on MAL
 	 */
-	private FunDubSource funDubSource;
-
-	/**
-	 * Title name on MAL
-	 */
-	private String titleName;
-
-	/**
-	 * Link of available episode
-	 */
-	private String link;
+	private String animeName;
 
 	/**
 	 * Number of available episode
@@ -41,15 +34,31 @@ public class Anime {
 	private String posterUrlOnMAL;
 
 	/**
-	 * Title URL on MyAnimeList
+	 * Anime URL on MyAnimeList
 	 */
-	private String titleUrlOnMAL;
+	private String animeUrlOnMAL;
 
-	public boolean isNotFound() {
-		return nonNull(link) && NOT_FOUND_ON_FUNDUB_SITE_URL.equals(link);
+	/**
+	 * Map with URLs to fundub sites
+	 */
+	@Singular
+	private Map<FunDubSource, String> funDubUrls;
+
+	public String getUrlByFunDubSourceName(String funDubSourceName) {
+		return funDubUrls.getOrDefault(FunDubSource.getFunDubSourceByName(funDubSourceName), "");
 	}
 
-	public boolean isAvailable() {
-		return nonNull(link) && !FINAL_URL_VALUE_IF_EPISODE_IS_NOT_AVAILABLE.equals(link);
+	public boolean isNotFound(String funDubSourceName) {
+		String url = extractUrl(funDubSourceName);
+		return isNull(url) || NOT_FOUND_ON_FUNDUB_SITE_URL.equals(url);
+	}
+
+	public boolean isAvailable(String funDubSourceName) {
+		String url = extractUrl(funDubSourceName);
+		return nonNull(url) && !FINAL_URL_VALUE_IF_EPISODE_IS_NOT_AVAILABLE.equals(url) && !NOT_FOUND_ON_FUNDUB_SITE_URL.equals(url);
+	}
+
+	private String extractUrl(String funDubSourceName) {
+		return funDubUrls.get(FunDubSource.getFunDubSourceByName(funDubSourceName));
 	}
 }

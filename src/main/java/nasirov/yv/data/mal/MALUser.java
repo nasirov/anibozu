@@ -1,7 +1,10 @@
 package nasirov.yv.data.mal;
 
+import java.util.Set;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Pattern;
 import lombok.Data;
+import nasirov.yv.data.constants.FunDubSource;
 import org.springframework.validation.annotation.Validated;
 
 /**
@@ -15,4 +18,6 @@ public class MALUser {
 			+ "and dashes only)")
 	private String username;
 
+	@NotEmpty(message = "Please specify at least one FunDub source!")
+	private Set<FunDubSource> funDubSources;
 }

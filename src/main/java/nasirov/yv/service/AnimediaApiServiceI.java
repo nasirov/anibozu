@@ -8,7 +8,7 @@ import nasirov.yv.data.animedia.api.Response;
 /**
  * Created by nasirov.yv
  */
-public interface AnimediaServiceI {
+public interface AnimediaApiServiceI {
 
 	Set<AnimediaSearchListTitle> getAnimediaSearchList();
 

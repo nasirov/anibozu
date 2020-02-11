@@ -15,12 +15,13 @@ import java.util.stream.Stream;
 import nasirov.yv.data.properties.GitHubAuthProps;
 import nasirov.yv.data.properties.ResourcesNames;
 import nasirov.yv.parser.WrappedObjectMapperI;
-import nasirov.yv.service.AnimediaServiceI;
+import nasirov.yv.service.AnimeServiceI;
+import nasirov.yv.service.AnimediaApiServiceI;
 import nasirov.yv.service.MALServiceI;
-import nasirov.yv.service.NineAnimeServiceI;
 import nasirov.yv.service.ReferencesServiceI;
 import nasirov.yv.service.ResourcesCheckerServiceI;
-import nasirov.yv.service.SeasonsAndEpisodesServiceI;
+import nasirov.yv.service.impl.AnimediaEpisodeUrlService;
+import nasirov.yv.service.impl.NineAnimeEpisodeUrlService;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.runner.RunWith;
@@ -50,16 +51,16 @@ public abstract class AbstractTest {
 	protected WrappedObjectMapperI wrappedObjectMapper;
 
 	@SpyBean
-	protected AnimediaServiceI animediaService;
+	protected AnimediaApiServiceI animediaApiService;
 
 	@SpyBean
 	protected MALServiceI malService;
 
 	@SpyBean
-	protected SeasonsAndEpisodesServiceI seasonsAndEpisodesService;
+	protected ReferencesServiceI referencesService;
 
 	@SpyBean
-	protected ReferencesServiceI referencesService;
+	protected AnimeServiceI animeService;
 
 	@Autowired
 	protected ResourcesNames resourcesNames;
@@ -77,7 +78,10 @@ public abstract class AbstractTest {
 	protected GitHubAuthProps gitHubAuthProps;
 
 	@Autowired
-	protected NineAnimeServiceI nineAnimeService;
+	protected AnimediaEpisodeUrlService animediaEpisodeUrlService;
+
+	@Autowired
+	protected NineAnimeEpisodeUrlService nineAnimeEpisodeUrlService;
 
 	@Before
 	public void setUp() {
