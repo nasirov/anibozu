@@ -12,7 +12,9 @@ import nasirov.yv.data.animedia.AnimediaSearchListTitle;
 import nasirov.yv.data.animedia.TitleReference;
 
 /**
- * Util operations with Animedia Created by nasirov.yv
+ * Util operations with Animedia
+ * <p>
+ * Created by nasirov.yv
  */
 @UtilityClass
 public class AnimediaUtils {
