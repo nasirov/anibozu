@@ -8,7 +8,9 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
- * Anime references Created by nasirov.yv
+ * Dto adapter between MAL and Animedia
+ * <p>
+ * Created by nasirov.yv
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
 @Data
@@ -58,11 +60,6 @@ public class TitleReference {
 	private List<String> episodesRangeOnAnimedia;
 
 	/**
-	 * Poster URL
-	 */
-	private String posterUrlOnMAL;
-
-	/**
 	 * Title on MAL
 	 */
 	private String titleNameOnMAL;
@@ -81,14 +78,4 @@ public class TitleReference {
 	 * Min range episodes on MAL
 	 */
 	private String maxOnMAL;
-
-	/**
-	 * Next episode for watch
-	 */
-	private String episodeNumberForWatchForFront;
-
-	/**
-	 * URL for new episode
-	 */
-	private String finalUrlForFront;
 }
