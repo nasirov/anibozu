@@ -1,6 +1,5 @@
 package nasirov.yv.service;
 
-import static nasirov.yv.data.constants.BaseConstants.EPISODE_NUMBER_FOR_WATCH_VALUE_IF_EPISODE_IS_NOT_AVAILABLE;
 import static nasirov.yv.data.constants.BaseConstants.FINAL_URL_VALUE_IF_EPISODE_IS_NOT_AVAILABLE;
 import static nasirov.yv.data.constants.BaseConstants.NOT_FOUND_ON_FUNDUB_SITE_URL;
 import static nasirov.yv.utils.ReferencesBuilder.buildUpdatedRegularReference;
@@ -93,7 +92,7 @@ public class AnimediaEpisodeUrlServiceTest extends AbstractTest {
 	@Test
 	public void handleOneMatchedResultNewEpisodeNotAvailable() {
 		UserMALTitleInfo title = buildWatchingTitle(REGULAR_TITLE_NAME, 12, REGULAR_TITLE_POSTER_URL, REGULAR_TITLE_MAL_ANIME_URL);
-		performAndCheck(title, urlForReference(EPISODE_NUMBER_FOR_WATCH_VALUE_IF_EPISODE_IS_NOT_AVAILABLE, FINAL_URL_VALUE_IF_EPISODE_IS_NOT_AVAILABLE));
+		performAndCheck(title, urlForReference(null, FINAL_URL_VALUE_IF_EPISODE_IS_NOT_AVAILABLE));
 	}
 
 	@Test
