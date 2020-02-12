@@ -40,6 +40,8 @@ application:
       max-entity-count: 1
   github-auth:
     token: ${GITHUB_ACCESS_TOKEN}
+  deferred-result:
+    timeout-in-min: 1
 
 server:
   port: ${PORT}

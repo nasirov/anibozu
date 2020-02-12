@@ -1,5 +1,6 @@
 package nasirov.yv.controller;
 
+import static java.util.concurrent.TimeUnit.MINUTES;
 import static nasirov.yv.data.constants.FunDubSource.ANIMEDIA;
 import static nasirov.yv.data.constants.FunDubSource.NINEANIME;
 
@@ -11,6 +12,7 @@ import lombok.extern.slf4j.Slf4j;
 import nasirov.yv.data.front.Anime;
 import nasirov.yv.data.mal.MALUser;
 import nasirov.yv.data.mal.UserMALTitleInfo;
+import nasirov.yv.data.properties.DeferredResultProps;
 import nasirov.yv.exception.mal.MALUserAccountNotFoundException;
 import nasirov.yv.exception.mal.MALUserAnimeListAccessException;
 import nasirov.yv.exception.mal.WatchingTitlesNotFoundException;
@@ -35,12 +37,14 @@ public class ResultController {
 
 	private final AnimeServiceI animeService;
 
+	private final DeferredResultProps deferredResultProps;
+
 	@PostMapping(value = "/result")
 	public DeferredResult<String> checkResult(@Valid MALUser malUser, Model model) {
 		malUser.setUsername(malUser.getUsername()
 				.toLowerCase());
 		log.info("RECEIVED {}", malUser.getUsername());
-		DeferredResult<String> result = new DeferredResult<>(5 * 60 * 1000L);
+		DeferredResult<String> result = new DeferredResult<>(MINUTES.toMillis(deferredResultProps.getTimeoutInMin()));
 		COMMON_POOL.submit(processResult(malUser, model, result));
 		return result;
 	}
