@@ -23,13 +23,13 @@
                  title="Please enter a valid mal username between 2 and 16 characters(latin letters, numbers, underscores and dashes only)"
                  autofocus'/>
           <label>
-              <@spring.bind "malUser.funDubSources"/>
-            <input id="animedia-checkbox" type="checkbox" class="nes-checkbox" name="funDubSources" checked="checked" value="${animedia}"/>
+              <@spring.bind "malUser.fanDubSources"/>
+            <input id="animedia-checkbox" type="checkbox" class="nes-checkbox" name="fanDubSources" checked="checked" value="${animedia}"/>
             <span>Animedia</span>
           </label>
           <label>
-              <@spring.bind "malUser.funDubSources"/>
-            <input id="nineAnime-checkbox" type="checkbox" class="nes-checkbox" name="funDubSources" checked="checked" value="${nineAnime}"/>
+              <@spring.bind "malUser.fanDubSources"/>
+            <input id="nineAnime-checkbox" type="checkbox" class="nes-checkbox" name="fanDubSources" checked="checked" value="${nineAnime}"/>
             <span>9Anime</span>
           </label>
           <button type="submit" class="nes-btn is-primary">Search for new episodes</button>

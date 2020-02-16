@@ -1,9 +1,9 @@
 package nasirov.yv.service;
 
 import static nasirov.yv.data.constants.BaseConstants.FINAL_URL_VALUE_IF_EPISODE_IS_NOT_AVAILABLE;
-import static nasirov.yv.data.constants.BaseConstants.NOT_FOUND_ON_FUNDUB_SITE_URL;
-import static nasirov.yv.data.constants.FunDubSource.ANIMEDIA;
-import static nasirov.yv.data.constants.FunDubSource.NINEANIME;
+import static nasirov.yv.data.constants.BaseConstants.NOT_FOUND_ON_FANDUB_SITE_URL;
+import static nasirov.yv.data.constants.FanDubSource.ANIMEDIA;
+import static nasirov.yv.data.constants.FanDubSource.NINEANIME;
 import static nasirov.yv.utils.TestConstants.ANIMEDIA_ONLINE_TV;
 import static nasirov.yv.utils.TestConstants.CONCRETIZED_TITLE_MAL_ANIME_URL;
 import static nasirov.yv.utils.TestConstants.CONCRETIZED_TITLE_POSTER_URL;
@@ -26,7 +26,7 @@ import static org.mockito.Mockito.doReturn;
 import com.google.common.collect.Sets;
 import java.util.Set;
 import nasirov.yv.AbstractTest;
-import nasirov.yv.data.constants.FunDubSource;
+import nasirov.yv.data.constants.FanDubSource;
 import nasirov.yv.data.front.Anime;
 import nasirov.yv.data.mal.UserMALTitleInfo;
 import org.junit.Test;
@@ -40,7 +40,7 @@ public class AnimeServiceTest extends AbstractTest {
 	@Test
 	public void allTypesOfPossibleUrlsTest() {
 		mockEpisodeUrlServices();
-		Set<Anime> resultAnime = animeService.getAnime(buildFunDubSources(), buildWatchingTitles());
+		Set<Anime> resultAnime = animeService.getAnime(buildFanDubSources(), buildWatchingTitles());
 		assertEquals(buildWatchingTitles().size(), resultAnime.size());
 		buildExpectedAnime().forEach(x -> assertTrue(resultAnime.contains(x)));
 	}
@@ -48,10 +48,10 @@ public class AnimeServiceTest extends AbstractTest {
 	private void mockEpisodeUrlServices() {
 		mockEpisodeUrlServices(EPISODE_URL_ON_ANIMEDIA, EPISODE_URL_ON_NINE_ANIME, buildRegularTitle());
 		mockEpisodeUrlServices(FINAL_URL_VALUE_IF_EPISODE_IS_NOT_AVAILABLE, FINAL_URL_VALUE_IF_EPISODE_IS_NOT_AVAILABLE, buildConcretizedTitle());
-		mockEpisodeUrlServices(NOT_FOUND_ON_FUNDUB_SITE_URL, NOT_FOUND_ON_FUNDUB_SITE_URL, buildNotFoundOnSiteTitle());
+		mockEpisodeUrlServices(NOT_FOUND_ON_FANDUB_SITE_URL, NOT_FOUND_ON_FANDUB_SITE_URL, buildNotFoundOnSiteTitle());
 	}
 
-	private Set<FunDubSource> buildFunDubSources() {
+	private Set<FanDubSource> buildFanDubSources() {
 		return Sets.newHashSet(ANIMEDIA, NINEANIME);
 	}
 
@@ -65,7 +65,7 @@ public class AnimeServiceTest extends AbstractTest {
 	private Set<Anime> buildExpectedAnime() {
 		return Sets.newHashSet(buildAnime(buildRegularTitle(), EPISODE_URL_ON_ANIMEDIA, EPISODE_URL_ON_NINE_ANIME),
 				buildAnime(buildConcretizedTitle(), FINAL_URL_VALUE_IF_EPISODE_IS_NOT_AVAILABLE, FINAL_URL_VALUE_IF_EPISODE_IS_NOT_AVAILABLE),
-				buildAnime(buildNotFoundOnSiteTitle(), NOT_FOUND_ON_FUNDUB_SITE_URL, NOT_FOUND_ON_FUNDUB_SITE_URL));
+				buildAnime(buildNotFoundOnSiteTitle(), NOT_FOUND_ON_FANDUB_SITE_URL, NOT_FOUND_ON_FANDUB_SITE_URL));
 	}
 
 	private Anime buildAnime(UserMALTitleInfo watchingTitle, String episodeUrlOnAnimedia, String episodeUrlOnNineAnime) {
@@ -74,8 +74,8 @@ public class AnimeServiceTest extends AbstractTest {
 				.episode(String.valueOf(watchingTitle.getNumWatchedEpisodes() + 1))
 				.posterUrlOnMAL(watchingTitle.getPosterUrl())
 				.animeUrlOnMAL(watchingTitle.getAnimeUrl())
-				.funDubUrl(ANIMEDIA, episodeUrlOnAnimedia)
-				.funDubUrl(NINEANIME, episodeUrlOnNineAnime)
+				.fanDubUrl(ANIMEDIA, episodeUrlOnAnimedia)
+				.fanDubUrl(NINEANIME, episodeUrlOnNineAnime)
 				.build();
 	}
 

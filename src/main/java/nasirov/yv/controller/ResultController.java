@@ -9,7 +9,7 @@ import java.util.stream.Collectors;
 import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import nasirov.yv.data.constants.FunDubSource;
+import nasirov.yv.data.constants.FanDubSource;
 import nasirov.yv.data.front.Anime;
 import nasirov.yv.data.mal.MALUser;
 import nasirov.yv.data.mal.UserMALTitleInfo;
@@ -68,9 +68,9 @@ public class ResultController {
 
 	private String handleUser(MALUser malUser, Set<UserMALTitleInfo> watchingTitles, Model model) {
 		log.info("HANDLE USER {}", malUser.getUsername());
-		Set<Anime> anime = animeService.getAnime(malUser.getFunDubSources(), watchingTitles);
+		Set<Anime> anime = animeService.getAnime(malUser.getFanDubSources(), watchingTitles);
 		model.addAttribute("resultAnimeList", anime);
-		model.addAttribute("fundubList", buildFunDubList(malUser.getFunDubSources()));
+		model.addAttribute("fandubList", buildFanDubList(malUser.getFanDubSources()));
 		return "result";
 	}
 
@@ -80,9 +80,9 @@ public class ResultController {
 		return "error";
 	}
 
-	private List<String> buildFunDubList(Set<FunDubSource> funDubSources) {
-		return funDubSources.stream()
-				.map(FunDubSource::getName)
+	private List<String> buildFanDubList(Set<FanDubSource> fanDubSources) {
+		return fanDubSources.stream()
+				.map(FanDubSource::getName)
 				.collect(Collectors.toList());
 	}
 }

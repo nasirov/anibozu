@@ -1,7 +1,7 @@
 package nasirov.yv.controller;
 
-import static nasirov.yv.data.constants.FunDubSource.ANIMEDIA;
-import static nasirov.yv.data.constants.FunDubSource.NINEANIME;
+import static nasirov.yv.data.constants.FanDubSource.ANIMEDIA;
+import static nasirov.yv.data.constants.FanDubSource.NINEANIME;
 
 import nasirov.yv.data.mal.MALUser;
 import org.springframework.stereotype.Controller;

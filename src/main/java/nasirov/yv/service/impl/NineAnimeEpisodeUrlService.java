@@ -5,7 +5,7 @@ import static java.util.Comparator.comparing;
 import static java.util.Objects.isNull;
 import static java.util.Objects.nonNull;
 import static nasirov.yv.data.constants.BaseConstants.FINAL_URL_VALUE_IF_EPISODE_IS_NOT_AVAILABLE;
-import static nasirov.yv.data.constants.BaseConstants.NOT_FOUND_ON_FUNDUB_SITE_URL;
+import static nasirov.yv.data.constants.BaseConstants.NOT_FOUND_ON_FANDUB_SITE_URL;
 import static org.springframework.web.util.UriUtils.encode;
 
 import com.google.common.primitives.Ints;
@@ -66,7 +66,7 @@ public class NineAnimeEpisodeUrlService implements EpisodeUrlServiceI {
 
 	private String urlForNotFoundTitle(UserMALTitleInfo watchingTitle) {
 		log.error("TITLE [{}] WAS NOT FOUND ON 9Anime!", watchingTitle);
-		return NOT_FOUND_ON_FUNDUB_SITE_URL;
+		return NOT_FOUND_ON_FANDUB_SITE_URL;
 	}
 
 	private Element getSearchResultWithTitleUrl(String titleName) {

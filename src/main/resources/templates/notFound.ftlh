@@ -1,19 +1,19 @@
-<#macro isNotFoundMacro fundubList anime>
-    <#list fundubList as fundub>
-        <#if anime.isNotFound("${fundub}")>
-            ${fundub}
+<#macro isNotFoundMacro fandubList anime>
+    <#list fandubList as fandub>
+        <#if anime.isNotFound("${fandub}")>
+            ${fandub}
         </#if>
     </#list>
 </#macro>
-<#macro notFoundSection resultAnimeList fundubList>
+<#macro notFoundSection resultAnimeList fandubList>
     <#assign notFound>
         <#list resultAnimeList as anime>
             <#outputformat "plainText">
                 <#assign isNotFound>
-                    <@isNotFoundMacro fundubList anime/>
+                    <@isNotFoundMacro fandubList anime/>
                 </#assign>
             </#outputformat>
-            <#if isNotFound?has_content && fundubList?size == isNotFound?word_list?size>
+            <#if isNotFound?has_content && fandubList?size == isNotFound?word_list?size>
               <div class="item">
                 <img src="${anime.posterUrlOnMAL}" alt="${anime.animeName}" title="${anime.animeName}"/>
                 <div class="overlay full_cover">

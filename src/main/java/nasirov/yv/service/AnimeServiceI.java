@@ -1,7 +1,7 @@
 package nasirov.yv.service;
 
 import java.util.Set;
-import nasirov.yv.data.constants.FunDubSource;
+import nasirov.yv.data.constants.FanDubSource;
 import nasirov.yv.data.front.Anime;
 import nasirov.yv.data.mal.UserMALTitleInfo;
 
@@ -11,11 +11,11 @@ import nasirov.yv.data.mal.UserMALTitleInfo;
 public interface AnimeServiceI {
 
 	/**
-	 * Builds a set with {@link Anime} based on given watching titles and fundub sources
+	 * Builds a set with {@link Anime} based on given watching titles and fandub sources
 	 *
-	 * @param funDubSources  fundub sources
+	 * @param fanDubSources  fandub sources
 	 * @param watchingTitles an user currently watching titles
 	 * @return a set with {@link Anime}
 	 */
-	Set<Anime> getAnime(Set<FunDubSource> funDubSources, Set<UserMALTitleInfo> watchingTitles);
+	Set<Anime> getAnime(Set<FanDubSource> fanDubSources, Set<UserMALTitleInfo> watchingTitles);
 }

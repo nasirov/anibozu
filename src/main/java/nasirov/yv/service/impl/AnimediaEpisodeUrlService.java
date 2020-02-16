@@ -6,7 +6,7 @@ import static java.util.Comparator.comparing;
 import static java.util.Optional.ofNullable;
 import static nasirov.yv.data.constants.BaseConstants.FINAL_URL_VALUE_IF_EPISODE_IS_NOT_AVAILABLE;
 import static nasirov.yv.data.constants.BaseConstants.JOINED_EPISODE_REGEXP;
-import static nasirov.yv.data.constants.BaseConstants.NOT_FOUND_ON_FUNDUB_SITE_URL;
+import static nasirov.yv.data.constants.BaseConstants.NOT_FOUND_ON_FANDUB_SITE_URL;
 import static nasirov.yv.util.AnimediaUtils.isMaxEpisodeUndefined;
 import static nasirov.yv.util.AnimediaUtils.isTitleConcretizedOnMAL;
 
@@ -67,7 +67,7 @@ public class AnimediaEpisodeUrlService implements EpisodeUrlServiceI {
 
 	private String handleZeroMatchedResult(UserMALTitleInfo watchingTitle) {
 		log.error("TITLE [{}] WAS NOT FOUND ON Animedia!", watchingTitle);
-		return NOT_FOUND_ON_FUNDUB_SITE_URL;
+		return NOT_FOUND_ON_FANDUB_SITE_URL;
 	}
 
 	private String handleOneMatchedResult(Set<TitleReference> matchedMultiSeasonsReferences, UserMALTitleInfo watchingTitle) {
@@ -117,7 +117,7 @@ public class AnimediaEpisodeUrlService implements EpisodeUrlServiceI {
 				.filter(ref -> isNextNumberOfEpisodeForWatchInReferenceEpisodesRange(nextNumberOfEpisodeForWatch, ref))
 				.map(ref -> getFinalUrl(ref, getEpisodeNumberForWatch(watchingTitle)))
 				.findFirst()
-				.orElse(NOT_FOUND_ON_FUNDUB_SITE_URL);
+				.orElse(NOT_FOUND_ON_FANDUB_SITE_URL);
 	}
 
 	private String handleAnnouncement(UserMALTitleInfo watchingTitle) {

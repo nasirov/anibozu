@@ -9,14 +9,14 @@ import lombok.RequiredArgsConstructor;
  * Created by nasirov.yv
  */
 @RequiredArgsConstructor
-public enum FunDubSource {
+public enum FanDubSource {
 	ANIMEDIA("animedia"), NINEANIME("nineAnime");
 
 	@Getter
 	private final String name;
 
-	public static FunDubSource getFunDubSourceByName(String name) {
-		return stream(FunDubSource.values()).filter(x -> x.getName()
+	public static FanDubSource getFanDubSourceByName(String name) {
+		return stream(FanDubSource.values()).filter(x -> x.getName()
 				.equals(name))
 				.findFirst()
 				.orElse(null);

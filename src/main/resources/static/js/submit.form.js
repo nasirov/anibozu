@@ -7,11 +7,11 @@ $(document).ready(function () {
     var usernameInputField = $('#username');
     var submitButton = $('.nes-btn');
     var username = usernameInputField.val();
-    var funDubCheckboxes = $('.nes-checkbox');
+    var fanDubCheckboxes = $('.nes-checkbox');
     if (!isElementHasReadonlyAttr(usernameInputField[0])) {
       var isValidUsername = checkMalUsername(username);
-      var isAtLeastOnFunDubChecked = checkFunDubCheckboxes(funDubCheckboxes);
-      if (isValidUsername && isAtLeastOnFunDubChecked) {
+      var isAtLeastOnFanDubChecked = checkFanDubCheckboxes(fanDubCheckboxes);
+      if (isValidUsername && isAtLeastOnFanDubChecked) {
         addReadonlyAttr(usernameInputField);
         changeClasses(usernameInputField, true);
         changeClasses(submitButton, true);
@@ -21,7 +21,7 @@ $(document).ready(function () {
       } else {
         disableEvents(e);
         changeClasses(usernameInputField, isValidUsername);
-        changeClasses(funDubCheckboxes, isAtLeastOnFunDubChecked);
+        changeClasses(fanDubCheckboxes, isAtLeastOnFanDubChecked);
         changeClasses(submitButton, false);
         removeProgressBar(container);
       }
@@ -88,9 +88,9 @@ function checkMalUsername(username) {
   return username.match(/^[\w_-]{2,16}$/) !== null;
 }
 
-function checkFunDubCheckboxes(funDubCheckboxes) {
-  for (var i = 0; i < funDubCheckboxes.length; i++) {
-    var checkbox = funDubCheckboxes[i];
+function checkFanDubCheckboxes(fanDubCheckboxes) {
+  for (var i = 0; i < fanDubCheckboxes.length; i++) {
+    var checkbox = fanDubCheckboxes[i];
     if (checkbox.checked) {
       return true;
     }

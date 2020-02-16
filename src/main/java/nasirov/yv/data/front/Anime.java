@@ -1,13 +1,13 @@
 package nasirov.yv.data.front;
 
 import static nasirov.yv.data.constants.BaseConstants.FINAL_URL_VALUE_IF_EPISODE_IS_NOT_AVAILABLE;
-import static nasirov.yv.data.constants.BaseConstants.NOT_FOUND_ON_FUNDUB_SITE_URL;
+import static nasirov.yv.data.constants.BaseConstants.NOT_FOUND_ON_FANDUB_SITE_URL;
 
 import java.util.Map;
 import lombok.Builder;
 import lombok.Data;
 import lombok.Singular;
-import nasirov.yv.data.constants.FunDubSource;
+import nasirov.yv.data.constants.FanDubSource;
 
 /**
  * Dto holds processing result information and handles by freemarker via templates
@@ -39,29 +39,29 @@ public class Anime {
 	private String animeUrlOnMAL;
 
 	/**
-	 * Map with URLs to fundub sites
+	 * Map with URLs to fandub sites
 	 */
 	@Singular
-	private Map<FunDubSource, String> funDubUrls;
+	private Map<FanDubSource, String> fanDubUrls;
 
-	public String getUrlByFunDubSourceName(String funDubSourceName) {
-		return funDubUrls.getOrDefault(FunDubSource.getFunDubSourceByName(funDubSourceName), "");
+	public String getUrlByFanDubSourceName(String fanDubSourceName) {
+		return fanDubUrls.getOrDefault(FanDubSource.getFanDubSourceByName(fanDubSourceName), "");
 	}
 
-	public boolean isAvailable(String funDubSourceName) {
-		String url = extractUrl(funDubSourceName);
-		return !FINAL_URL_VALUE_IF_EPISODE_IS_NOT_AVAILABLE.equals(url) && !NOT_FOUND_ON_FUNDUB_SITE_URL.equals(url);
+	public boolean isAvailable(String fanDubSourceName) {
+		String url = extractUrl(fanDubSourceName);
+		return !FINAL_URL_VALUE_IF_EPISODE_IS_NOT_AVAILABLE.equals(url) && !NOT_FOUND_ON_FANDUB_SITE_URL.equals(url);
 	}
 
-	public boolean isNotAvailable(String funDubSourceName) {
-		return FINAL_URL_VALUE_IF_EPISODE_IS_NOT_AVAILABLE.equals(extractUrl(funDubSourceName));
+	public boolean isNotAvailable(String fanDubSourceName) {
+		return FINAL_URL_VALUE_IF_EPISODE_IS_NOT_AVAILABLE.equals(extractUrl(fanDubSourceName));
 	}
 
-	public boolean isNotFound(String funDubSourceName) {
-		return NOT_FOUND_ON_FUNDUB_SITE_URL.equals(extractUrl(funDubSourceName));
+	public boolean isNotFound(String fanDubSourceName) {
+		return NOT_FOUND_ON_FANDUB_SITE_URL.equals(extractUrl(fanDubSourceName));
 	}
 
-	private String extractUrl(String funDubSourceName) {
-		return funDubUrls.getOrDefault(FunDubSource.getFunDubSourceByName(funDubSourceName), "default");
+	private String extractUrl(String fanDubSourceName) {
+		return fanDubUrls.getOrDefault(FanDubSource.getFanDubSourceByName(fanDubSourceName), "default");
 	}
 }

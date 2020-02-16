@@ -1,7 +1,7 @@
 package nasirov.yv.controller;
 
-import static nasirov.yv.data.constants.FunDubSource.ANIMEDIA;
-import static nasirov.yv.data.constants.FunDubSource.NINEANIME;
+import static nasirov.yv.data.constants.FanDubSource.ANIMEDIA;
+import static nasirov.yv.data.constants.FanDubSource.NINEANIME;
 import static nasirov.yv.utils.TestConstants.TEST_ACC_FOR_DEV;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.doThrow;
@@ -36,18 +36,18 @@ public class ResultControllerTest extends AbstractTest {
 		String[] invalidUsernameArray = {"", "moreThan16Charssss", "space between ", "@#!sd"};
 		for (String invalidUsername : invalidUsernameArray) {
 			mockMvc.perform(post(PATH).param("username", invalidUsername)
-					.param("funDubSources", "ANIMEDIA", "NINEANIME"))
+					.param("fanDubSources", "ANIMEDIA", "NINEANIME"))
 					.andExpect(status().isBadRequest())
 					.andReturn();
 		}
 	}
 
 	@Test
-	public void checkResultInvalidFunDubSources() throws Exception {
+	public void checkResultInvalidFanDubSources() throws Exception {
 		String[] invalidUsernameArray = {"animedia", "nineanime", ""};
 		for (String invalidUsername : invalidUsernameArray) {
 			mockMvc.perform(post(PATH).param("username", TEST_ACC_FOR_DEV)
-					.param("funDubSources", invalidUsername))
+					.param("fanDubSources", invalidUsername))
 					.andExpect(status().isBadRequest())
 					.andReturn();
 		}
@@ -91,7 +91,7 @@ public class ResultControllerTest extends AbstractTest {
 	@SneakyThrows
 	private void checkResult(String viewName) {
 		MvcResult result = mockMvc.perform(post(PATH).param("username", TEST_ACC_FOR_DEV.toLowerCase())
-				.param("funDubSources", "ANIMEDIA", "NINEANIME"))
+				.param("fanDubSources", "ANIMEDIA", "NINEANIME"))
 				.andReturn();
 		mockMvc.perform(asyncDispatch(result))
 				.andExpect(view().name(viewName))

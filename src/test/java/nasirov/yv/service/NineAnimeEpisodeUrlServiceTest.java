@@ -2,7 +2,7 @@ package nasirov.yv.service;
 
 import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 import static nasirov.yv.data.constants.BaseConstants.FINAL_URL_VALUE_IF_EPISODE_IS_NOT_AVAILABLE;
-import static nasirov.yv.data.constants.BaseConstants.NOT_FOUND_ON_FUNDUB_SITE_URL;
+import static nasirov.yv.data.constants.BaseConstants.NOT_FOUND_ON_FANDUB_SITE_URL;
 import static nasirov.yv.utils.TestConstants.MY_ANIME_LIST_STATIC_CONTENT_URL;
 import static nasirov.yv.utils.TestConstants.MY_ANIME_LIST_URL;
 import static nasirov.yv.utils.TestConstants.NINE_ANIME_TO;
@@ -79,7 +79,7 @@ public class NineAnimeEpisodeUrlServiceTest extends AbstractTest {
 		mockNineAnime("nine_anime/title_search/regularTitleNotFound.json",
 				"nine_anime/episodes_search/newEpisodeAvailable.json",
 				REGULAR_TITLE_DUB_NINE_ANIME_DATA_ID);
-		performAndCheck(NOT_FOUND_ON_FUNDUB_SITE_URL);
+		performAndCheck(NOT_FOUND_ON_FANDUB_SITE_URL);
 	}
 
 	private void performAndCheck(String expectedUrl) {

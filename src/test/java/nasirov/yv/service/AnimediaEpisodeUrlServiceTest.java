@@ -1,7 +1,7 @@
 package nasirov.yv.service;
 
 import static nasirov.yv.data.constants.BaseConstants.FINAL_URL_VALUE_IF_EPISODE_IS_NOT_AVAILABLE;
-import static nasirov.yv.data.constants.BaseConstants.NOT_FOUND_ON_FUNDUB_SITE_URL;
+import static nasirov.yv.data.constants.BaseConstants.NOT_FOUND_ON_FANDUB_SITE_URL;
 import static nasirov.yv.utils.ReferencesBuilder.buildUpdatedRegularReference;
 import static nasirov.yv.utils.ReferencesBuilder.getAnnouncementReference;
 import static nasirov.yv.utils.ReferencesBuilder.getConcretizedReferenceWithEpisodesRange;
@@ -71,7 +71,7 @@ public class AnimediaEpisodeUrlServiceTest extends AbstractTest {
 				0,
 				NOT_FOUND_ON_ANIMEDIA_TITLE_POSTER_URL,
 				NOT_FOUND_ON_ANIMEDIA_TITLE_MAL_ANIME_URL);
-		performAndCheck(notFoundOnAnimediaTitle, NOT_FOUND_ON_FUNDUB_SITE_URL);
+		performAndCheck(notFoundOnAnimediaTitle, NOT_FOUND_ON_FANDUB_SITE_URL);
 	}
 
 	@Test

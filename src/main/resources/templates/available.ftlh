@@ -1,16 +1,16 @@
-<#macro isAvailableMacro fundubList anime>
-    <#list fundubList as fundub>
-        <#if anime.isAvailable("${fundub}")>
-            ${fundub}
+<#macro isAvailableMacro fandubList anime>
+    <#list fandubList as fandub>
+        <#if anime.isAvailable("${fandub}")>
+            ${fandub}
         </#if>
     </#list>
 </#macro>
-<#macro availableSection resultAnimeList fundubList>
+<#macro availableSection resultAnimeList fandubList>
     <#assign available>
         <#list resultAnimeList as anime>
             <#outputformat "plainText">
                 <#assign isAvailable>
-                    <@isAvailableMacro fundubList anime/>
+                    <@isAvailableMacro fandubList anime/>
                 </#assign>
             </#outputformat>
             <#if isAvailable?has_content>
@@ -22,8 +22,8 @@
                 </div>
                 <div class="overlay full_cover">
                   <div class="link_holder">
-                      <#list isAvailable?word_list as fundub>
-                        <a class="outbound_link ${fundub}_background" href="${anime.getUrlByFunDubSourceName("${fundub}")}" target="_blank"></a>
+                      <#list isAvailable?word_list as fandub>
+                        <a class="outbound_link ${fandub}_background" href="${anime.getUrlByFanDubSourceName("${fandub}")}" target="_blank"></a>
                       </#list>
                   </div>
                 </div>
