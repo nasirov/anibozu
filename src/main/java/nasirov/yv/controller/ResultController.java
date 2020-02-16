@@ -1,14 +1,15 @@
 package nasirov.yv.controller;
 
 import static java.util.concurrent.TimeUnit.MINUTES;
-import static nasirov.yv.data.constants.FunDubSource.ANIMEDIA;
-import static nasirov.yv.data.constants.FunDubSource.NINEANIME;
 
+import java.util.List;
 import java.util.Set;
 import java.util.concurrent.ForkJoinPool;
+import java.util.stream.Collectors;
 import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import nasirov.yv.data.constants.FunDubSource;
 import nasirov.yv.data.front.Anime;
 import nasirov.yv.data.mal.MALUser;
 import nasirov.yv.data.mal.UserMALTitleInfo;
@@ -69,8 +70,7 @@ public class ResultController {
 		log.info("HANDLE USER {}", malUser.getUsername());
 		Set<Anime> anime = animeService.getAnime(malUser.getFunDubSources(), watchingTitles);
 		model.addAttribute("resultAnimeList", anime);
-		model.addAttribute("animedia", ANIMEDIA.getName());
-		model.addAttribute("nineAnime", NINEANIME.getName());
+		model.addAttribute("fundubList", buildFunDubList(malUser.getFunDubSources()));
 		return "result";
 	}
 
@@ -78,5 +78,11 @@ public class ResultController {
 		log.error(errorMsg);
 		model.addAttribute("errorMsg", errorMsg);
 		return "error";
+	}
+
+	private List<String> buildFunDubList(Set<FunDubSource> funDubSources) {
+		return funDubSources.stream()
+				.map(FunDubSource::getName)
+				.collect(Collectors.toList());
 	}
 }

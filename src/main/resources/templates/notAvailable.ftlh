@@ -1,7 +1,19 @@
-<#macro notAvailableSection resultAnimeList>
+<#macro isNotAvailableMacro fundubList anime>
+    <#list fundubList as fundub>
+        <#if anime.isNotAvailable("${fundub}")>
+            ${fundub}
+        </#if>
+    </#list>
+</#macro>
+<#macro notAvailableSection resultAnimeList fundubList>
     <#assign notAvailable>
         <#list resultAnimeList as anime>
-            <#if !anime.isAvailable("${animedia}") && !anime.isAvailable("${nineAnime}")>
+            <#outputformat "plainText">
+                <#assign isNotAvailable>
+                    <@isNotAvailableMacro fundubList anime/>
+                </#assign>
+            </#outputformat>
+            <#if isNotAvailable?has_content && fundubList?size == isNotAvailable?word_list?size>
               <div class="item">
                 <img src="${anime.posterUrlOnMAL}" alt="${anime.animeName}" title="${anime.animeName}">
                 <div class="episode_overlay">

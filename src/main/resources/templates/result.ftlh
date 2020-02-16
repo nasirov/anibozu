@@ -16,9 +16,9 @@
   <header>
     <h1>Result for ${username}</h1>
   </header>
-    <@available.availableSection resultAnimeList/>
-    <@notAvailable.notAvailableSection resultAnimeList/>
-    <@notFound.notFoundSection resultAnimeList/>
+    <@available.availableSection resultAnimeList fundubList/>
+    <@notAvailable.notAvailableSection resultAnimeList fundubList/>
+    <@notFound.notFoundSection resultAnimeList fundubList/>
 </#if>
 </body>
 </html>

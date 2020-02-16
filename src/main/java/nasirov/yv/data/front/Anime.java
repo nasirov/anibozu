@@ -1,7 +1,5 @@
 package nasirov.yv.data.front;
 
-import static java.util.Objects.isNull;
-import static java.util.Objects.nonNull;
 import static nasirov.yv.data.constants.BaseConstants.FINAL_URL_VALUE_IF_EPISODE_IS_NOT_AVAILABLE;
 import static nasirov.yv.data.constants.BaseConstants.NOT_FOUND_ON_FUNDUB_SITE_URL;
 
@@ -50,17 +48,20 @@ public class Anime {
 		return funDubUrls.getOrDefault(FunDubSource.getFunDubSourceByName(funDubSourceName), "");
 	}
 
-	public boolean isNotFound(String funDubSourceName) {
-		String url = extractUrl(funDubSourceName);
-		return isNull(url) || NOT_FOUND_ON_FUNDUB_SITE_URL.equals(url);
-	}
-
 	public boolean isAvailable(String funDubSourceName) {
 		String url = extractUrl(funDubSourceName);
-		return nonNull(url) && !FINAL_URL_VALUE_IF_EPISODE_IS_NOT_AVAILABLE.equals(url) && !NOT_FOUND_ON_FUNDUB_SITE_URL.equals(url);
+		return !FINAL_URL_VALUE_IF_EPISODE_IS_NOT_AVAILABLE.equals(url) && !NOT_FOUND_ON_FUNDUB_SITE_URL.equals(url);
+	}
+
+	public boolean isNotAvailable(String funDubSourceName) {
+		return FINAL_URL_VALUE_IF_EPISODE_IS_NOT_AVAILABLE.equals(extractUrl(funDubSourceName));
+	}
+
+	public boolean isNotFound(String funDubSourceName) {
+		return NOT_FOUND_ON_FUNDUB_SITE_URL.equals(extractUrl(funDubSourceName));
 	}
 
 	private String extractUrl(String funDubSourceName) {
-		return funDubUrls.get(FunDubSource.getFunDubSourceByName(funDubSourceName));
+		return funDubUrls.getOrDefault(FunDubSource.getFunDubSourceByName(funDubSourceName), "default");
 	}
 }
