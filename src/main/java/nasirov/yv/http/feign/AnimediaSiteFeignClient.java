@@ -1,7 +1,7 @@
 package nasirov.yv.http.feign;
 
 import java.util.List;
-import nasirov.yv.data.animedia.site.Episode;
+import nasirov.yv.data.animedia.site.SiteEpisode;
 import nasirov.yv.http.config.FeignClientConfig;
 import nasirov.yv.http.fallback.AnimediaSiteFeignClientFallbackFactory;
 import org.springframework.cloud.openfeign.FeignClient;
@@ -21,8 +21,8 @@ public interface AnimediaSiteFeignClient {
 	String getAnimediaSearchList(@PathVariable("offset") int offset, @PathVariable("limit") int limit);
 
 	@GetMapping(value = "/{animeUrl}", produces = "text/html; charset=UTF-8")
-	String getAnimePageWithDataLists(@PathVariable("animeUrl") String animeUrl);
+	String getAnimePage(@PathVariable("animeUrl") String animeUrl);
 
 	@GetMapping(value = "/embeds/playlist-j.txt/{animeId}/{dataList}", produces = "text/html; charset=UTF-8")
-	List<Episode> getDataListEpisodes(@PathVariable("animeId") String animeId, @PathVariable("dataList") String dataList);
+	List<SiteEpisode> getEpisodes(@PathVariable("animeId") String animeId, @PathVariable("dataList") String dataList);
 }

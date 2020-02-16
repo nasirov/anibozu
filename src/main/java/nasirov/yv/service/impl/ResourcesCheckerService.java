@@ -17,7 +17,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import nasirov.yv.data.animedia.AnimediaSearchListTitle;
 import nasirov.yv.data.animedia.TitleReference;
-import nasirov.yv.data.animedia.api.Season;
 import nasirov.yv.data.properties.ResourcesNames;
 import nasirov.yv.parser.WrappedObjectMapperI;
 import nasirov.yv.service.AnimediaServiceI;
@@ -90,14 +89,14 @@ public class ResourcesCheckerService implements ResourcesCheckerServiceI {
 					notFoundInReferences.add(buildTempAnnouncementReference(titleSearchInfo));
 				}
 			} else {
-				List<Season> seasons = titleSearchInfo.getSeasons();
-				for (Season season : seasons) {
+				List<String> dataLists = titleSearchInfo.getDataLists();
+				for (String dataList : dataLists) {
 					boolean titleIsNotPresentInReferences = references.stream()
 							.noneMatch(x -> x.getDataListOnAnimedia()
-									.equals(season.getDataList()));
+									.equals(dataList));
 					if (titleIsNotPresentInReferences) {
-						log.error("TITLE IS NOT PRESENT IN REFERENCES {}/{}", titleSearchInfo.getUrl(), season.getDataList());
-						notFoundInReferences.add(buildTempReference(titleSearchInfo, season));
+						log.error("TITLE IS NOT PRESENT IN REFERENCES {}/{}", titleSearchInfo.getUrl(), dataList);
+						notFoundInReferences.add(buildTempReference(titleSearchInfo, dataList));
 					}
 				}
 			}
@@ -106,11 +105,11 @@ public class ResourcesCheckerService implements ResourcesCheckerServiceI {
 		log.info("END CHECKING REFERENCES.");
 	}
 
-	private TitleReference buildTempReference(AnimediaSearchListTitle titleSearchInfo, Season season) {
+	private TitleReference buildTempReference(AnimediaSearchListTitle titleSearchInfo, String dataList) {
 		return TitleReference.builder()
 				.urlOnAnimedia(titleSearchInfo.getUrl())
 				.animeIdOnAnimedia(titleSearchInfo.getAnimeId())
-				.dataListOnAnimedia(season.getDataList())
+				.dataListOnAnimedia(dataList)
 				.build();
 	}
 

@@ -28,7 +28,7 @@ public class AnimediaUtils {
 	}
 
 	public static boolean isAnnouncement(AnimediaSearchListTitle animediaSearchListTitle) {
-		return CollectionUtils.isEmpty(animediaSearchListTitle.getSeasons());
+		return CollectionUtils.isEmpty(animediaSearchListTitle.getDataLists());
 	}
 
 	public static boolean isTitleConcretizedAndOngoing(TitleReference reference) {

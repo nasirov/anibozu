@@ -4,7 +4,7 @@ import feign.hystrix.FallbackFactory;
 import java.util.Collections;
 import java.util.List;
 import lombok.extern.slf4j.Slf4j;
-import nasirov.yv.data.animedia.site.Episode;
+import nasirov.yv.data.animedia.site.SiteEpisode;
 import nasirov.yv.http.feign.AnimediaSiteFeignClient;
 import org.springframework.context.annotation.Configuration;
 
@@ -27,12 +27,12 @@ public class AnimediaSiteFeignClientFallbackFactory implements FallbackFactory<A
 				return buildSafeBody();
 			}
 			@Override
-			public String getAnimePageWithDataLists(String animeUrl) {
+			public String getAnimePage(String animeUrl) {
 				log.error("AnimediaApiFeignClient fallback during call /{} | Cause message [{}]", animeUrl, cause.getMessage());
 				return buildSafeBody();
 			}
 			@Override
-			public List<Episode> getDataListEpisodes(String animeId, String dataList) {
+			public List<SiteEpisode> getEpisodes(String animeId, String dataList) {
 				log.error("AnimediaApiFeignClient fallback during call /embeds/playlist-j.txt/{}/{} | Cause message [{}]",
 						animeId,
 						dataList,

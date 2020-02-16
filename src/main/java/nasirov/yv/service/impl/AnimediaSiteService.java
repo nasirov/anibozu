@@ -10,9 +10,7 @@ import javax.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import nasirov.yv.data.animedia.AnimediaSearchListTitle;
-import nasirov.yv.data.animedia.api.Response;
-import nasirov.yv.data.animedia.api.Season;
-import nasirov.yv.data.animedia.site.Episode;
+import nasirov.yv.data.animedia.site.SiteEpisode;
 import nasirov.yv.data.properties.AnimediaProps;
 import nasirov.yv.http.feign.AnimediaSiteFeignClient;
 import nasirov.yv.service.AnimediaServiceI;
@@ -56,29 +54,27 @@ public class AnimediaSiteService implements AnimediaServiceI {
 			Elements titles = extractTitlesElements(rawPageWithTitles);
 			titles.stream()
 					.map(this::buildAnimediaSearchListTitle)
-					.map(this::buildWithSeasons)
+					.map(this::buildWithDataLists)
 					.forEach(animediaSearchList::add);
 		}
 		return animediaSearchList;
 	}
 
 	@Override
-	public Response getDataLists(AnimediaSearchListTitle animediaSearchTitle) {
-		String animePageWithDataLists = animediaSiteFeignClient.getAnimePageWithDataLists(animediaSearchTitle.getUrl());
+	public List<String> getDataLists(AnimediaSearchListTitle animediaSearchTitle) {
+		String animePageWithDataLists = animediaSiteFeignClient.getAnimePage(animediaSearchTitle.getUrl());
 		Elements tabsElements = extractTabsElements(animePageWithDataLists);
-		List<Season> seasons = tabsElements.stream()
+		return tabsElements.stream()
 				.filter(this::isFilledDataList)
 				.map(this::extractDataList)
-				.map(Season::new)
 				.collect(Collectors.toList());
-		return buildResponse(seasons);
 	}
 
 	@Override
-	public List<Response> getDataListEpisodes(String animeId, String dataList) {
-		List<Episode> dataListEpisodes = animediaSiteFeignClient.getDataListEpisodes(animeId, dataList);
-		return dataListEpisodes.stream()
-				.map(this::buildResponse)
+	public List<String> getEpisodes(String animeId, String dataList) {
+		List<SiteEpisode> episodes = animediaSiteFeignClient.getEpisodes(animeId, dataList);
+		return episodes.stream()
+				.map(SiteEpisode::getEpisodeName)
 				.collect(Collectors.toList());
 	}
 
@@ -94,9 +90,8 @@ public class AnimediaSiteService implements AnimediaServiceI {
 				.build();
 	}
 
-	private AnimediaSearchListTitle buildWithSeasons(AnimediaSearchListTitle title) {
-		title.setSeasons(this.getDataLists(title)
-				.getSeasons());
+	private AnimediaSearchListTitle buildWithDataLists(AnimediaSearchListTitle title) {
+		title.setDataLists(this.getDataLists(title));
 		return title;
 	}
 
@@ -125,21 +120,9 @@ public class AnimediaSiteService implements AnimediaServiceI {
 				.attr("data-list_id");
 	}
 
-	private Response buildResponse(List<Season> seasons) {
-		return Response.builder()
-				.seasons(seasons)
-				.build();
-	}
-
 	private boolean isFilledDataList(Element elementWithDataListEpisodesDescription) {
 		return elementWithDataListEpisodesDescription.selectFirst(".media__tabs__series__footer__item.media__tabs__series__footer__item__center")
 				.text()
 				.matches("^.+из.+$");
-	}
-
-	private Response buildResponse(Episode episode) {
-		return Response.builder()
-				.episodeName(episode.getEpisodeName())
-				.build();
 	}
 }

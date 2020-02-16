@@ -13,14 +13,11 @@ import lombok.NoArgsConstructor;
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
 @Data
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
-public class Response {
-
-	@JsonProperty(value = "name")
-	private String episodeName;
+public class TitleInfo {
 
 	@JsonProperty(value = "season")
-	private List<Season> seasons;
+	private List<DataList> dataLists;
 }

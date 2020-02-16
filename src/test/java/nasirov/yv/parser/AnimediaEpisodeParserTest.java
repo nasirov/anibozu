@@ -2,15 +2,15 @@ package nasirov.yv.parser;
 
 import static org.junit.Assert.assertEquals;
 
-import nasirov.yv.parser.impl.AnimediaHTMLParser;
+import nasirov.yv.parser.impl.AnimediaEpisodeParser;
 import org.junit.Test;
 
 /**
  * Created by nasirov.yv
  */
-public class AnimediaHTMLParserTest {
+public class AnimediaEpisodeParserTest {
 
-	private final AnimediaHTMLParserI animediaHTMLParser = new AnimediaHTMLParser();
+	private final AnimediaEpisodeParserI animediaHTMLParser = new AnimediaEpisodeParser();
 
 	@Test
 	public void extractEpisodeNumberOk() {
@@ -24,5 +24,7 @@ public class AnimediaHTMLParserTest {
 		assertEquals("123", animediaHTMLParser.extractEpisodeNumber("123"));
 		assertEquals("123", animediaHTMLParser.extractEpisodeNumber("123 OVA"));
 		assertEquals("123", animediaHTMLParser.extractEpisodeNumber("OVA 123 (456)"));
+		assertEquals("1", animediaHTMLParser.extractEpisodeNumber("1"));
+		assertEquals("1", animediaHTMLParser.extractEpisodeNumber(" "));
 	}
 }

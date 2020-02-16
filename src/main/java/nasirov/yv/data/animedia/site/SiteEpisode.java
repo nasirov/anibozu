@@ -1,4 +1,4 @@
-package nasirov.yv.data.animedia.api;
+package nasirov.yv.data.animedia.site;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -13,8 +13,8 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Season {
+public class SiteEpisode {
 
-	@JsonProperty(value = "seasonId")
-	private String dataList;
+	@JsonProperty(value = "title")
+	private String episodeName;
 }

@@ -18,7 +18,6 @@ import java.util.List;
 import java.util.Set;
 import nasirov.yv.AbstractTest;
 import nasirov.yv.data.animedia.TitleReference;
-import nasirov.yv.data.animedia.api.Response;
 import org.junit.Test;
 
 /**
@@ -66,39 +65,25 @@ public class ReferencesServiceTest extends AbstractTest {
 		return expectedUpdatedReferences;
 	}
 
-	private void mockAnimediaService(List<Response> regularTitleResponse) {
+	private void mockAnimediaService(List<String> regularTitleResponse) {
 		doReturn(regularTitleResponse).when(animediaService)
-				.getDataListEpisodes(REGULAR_TITLE_ID, "1");
+				.getEpisodes(REGULAR_TITLE_ID, "1");
 		doReturn(buildConcretizedAndOngoingTitleResponse()).when(animediaService)
-				.getDataListEpisodes(CONCRETIZED_AND_ONGOING_TITLE_ID, "3");
+				.getEpisodes(CONCRETIZED_AND_ONGOING_TITLE_ID, "3");
 		doReturn(Collections.emptyList()).when(animediaService)
-				.getDataListEpisodes(ANNOUNCEMENT_TITLE_ID, "1");
+				.getEpisodes(ANNOUNCEMENT_TITLE_ID, "1");
 	}
 
-	private List<Response> buildRegularTitleResponse() {
-		return Lists.newArrayList(buildResponse("Серия 1"),
-				buildResponse("Серия 2"),
-				buildResponse("Серия 3"),
-				buildResponse("Серия 4"),
-				buildResponse("Серия 5"));
+	private List<String> buildRegularTitleResponse() {
+		return Lists.newArrayList("Серия 1", "Серия 2", "Серия 3", "Серия 4", "Серия 5");
 	}
 
-	private List<Response> buildRegularTitleWithJoinedEpisodesResponse() {
-		return Lists.newArrayList(buildResponse("Серия 1"), buildResponse("Серия 2"), buildResponse("Серия 3"), buildResponse("Серия 4-5"));
+	private List<String> buildRegularTitleWithJoinedEpisodesResponse() {
+		return Lists.newArrayList("Серия 1", "Серия 2", "Серия 3", "Серия 4-5");
 	}
 
-	private List<Response> buildConcretizedAndOngoingTitleResponse() {
-		return Lists.newArrayList(buildResponse("Серия 1 (38)"),
-				buildResponse("Серия 2 (39)"),
-				buildResponse("Серия 3 (40)"),
-				buildResponse("Серия 4 (41)"),
-				buildResponse("Серия 5 (42)"));
-	}
-
-	private Response buildResponse(String episodeName) {
-		return Response.builder()
-				.episodeName(episodeName)
-				.build();
+	private List<String> buildConcretizedAndOngoingTitleResponse() {
+		return Lists.newArrayList("Серия 1 (38)", "Серия 2 (39)", "Серия 3 (40)", "Серия 4 (41)", "Серия 5 (42)");
 	}
 
 	private void stubGitHub() {

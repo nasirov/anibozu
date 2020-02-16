@@ -12,8 +12,6 @@ import java.util.List;
 import java.util.Set;
 import nasirov.yv.AbstractTest;
 import nasirov.yv.data.animedia.AnimediaSearchListTitle;
-import nasirov.yv.data.animedia.api.Response;
-import nasirov.yv.data.animedia.api.Season;
 import org.junit.Test;
 
 /**
@@ -32,11 +30,10 @@ public class AnimediaApiServiceTest extends AbstractTest {
 	@Test
 	public void getDataLists() {
 		stubAnimeMainPageAndDataLists(REGULAR_TITLE_ID, "animedia/regular/regularTitle.json", of("1", "animedia/regular/regularTitleDataList1.json"));
-		Response titleInfo = animediaApiService.getDataLists(buildAnimediaSearchListTitle());
-		List<Season> seasons = titleInfo.getSeasons();
-		List<Season> expectedSeasons = expectedSeasons();
-		assertEquals(expectedSeasons.size(), seasons.size());
-		expectedSeasons.forEach(x -> assertTrue(seasons.contains(x)));
+		List<String> dataLists = animediaApiService.getDataLists(buildAnimediaSearchListTitle());
+		List<String> expectedDataLists = expectedDataLists();
+		assertEquals(expectedDataLists.size(), dataLists.size());
+		expectedDataLists.forEach(x -> assertTrue(dataLists.contains(x)));
 	}
 
 	@Test
@@ -45,22 +42,18 @@ public class AnimediaApiServiceTest extends AbstractTest {
 		stubAnimeMainPageAndDataLists(REGULAR_TITLE_ID,
 				"animedia/regular/regularTitle.json",
 				of(dataList, "animedia/regular/regularTitleDataList1.json"));
-		List<Response> dataListInfo = animediaApiService.getDataListEpisodes(REGULAR_TITLE_ID, dataList);
+		List<String> dataListEpisodes = animediaApiService.getEpisodes(REGULAR_TITLE_ID, dataList);
 		List<String> expectedEpisodes = expectedEpisodes();
-		assertEquals(expectedEpisodes.size(), dataListInfo.size());
-		for (int i = 0; i < expectedEpisodes.size(); i++) {
-			assertEquals(expectedEpisodes.get(i),
-					dataListInfo.get(i)
-							.getEpisodeName());
-		}
+		assertEquals(expectedEpisodes.size(), dataListEpisodes.size());
+		expectedEpisodes.forEach(x -> assertTrue(dataListEpisodes.contains(x)));
 	}
 
 	private List<String> expectedEpisodes() {
 		return Lists.newArrayList("Серия 1", "Серия 2", "Серия 3", "Серия 4", "Серия 5");
 	}
 
-	private List<Season> expectedSeasons() {
-		return Lists.newArrayList(new Season("1"), new Season("2"), new Season("3"), new Season("7"));
+	private List<String> expectedDataLists() {
+		return Lists.newArrayList("1", "2", "3", "7");
 	}
 
 	private AnimediaSearchListTitle buildAnimediaSearchListTitle() {

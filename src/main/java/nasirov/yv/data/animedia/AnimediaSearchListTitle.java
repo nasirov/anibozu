@@ -1,20 +1,16 @@
 package nasirov.yv.data.animedia;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import nasirov.yv.data.animedia.api.Season;
 
 /**
  * Anime information for search on Animedia
  * <p>
  * Created by nasirov.yv
  */
-@JsonIgnoreProperties(ignoreUnknown = true)
 @Data
 @Builder
 @NoArgsConstructor
@@ -26,7 +22,6 @@ public class AnimediaSearchListTitle {
 	 * <p>
 	 * e.g 1234
 	 */
-	@JsonProperty("animeId")
 	private String animeId;
 
 	/**
@@ -34,16 +29,12 @@ public class AnimediaSearchListTitle {
 	 * <p>
 	 * e.g anime/some-anime
 	 */
-	@JsonProperty("url")
 	private String url;
 
 	/**
-	 * Seasons list
+	 * Data Lists
 	 * <p>
-	 * e.g "season": [ { "seasonId": 1 } ]
-	 * <p>
-	 * or if announcement "season": null
+	 * e.g. [1,2,7]
 	 */
-	@JsonProperty("season")
-	private List<Season> seasons;
+	private List<String> dataLists;
 }

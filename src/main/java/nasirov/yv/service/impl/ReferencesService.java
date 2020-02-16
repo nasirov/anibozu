@@ -16,10 +16,9 @@ import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import nasirov.yv.data.animedia.TitleReference;
-import nasirov.yv.data.animedia.api.Response;
 import nasirov.yv.data.properties.GitHubAuthProps;
 import nasirov.yv.http.feign.GitHubFeignClient;
-import nasirov.yv.parser.AnimediaHTMLParserI;
+import nasirov.yv.parser.AnimediaEpisodeParserI;
 import nasirov.yv.service.AnimediaServiceI;
 import nasirov.yv.service.ReferencesServiceI;
 import org.springframework.cache.annotation.Cacheable;
@@ -35,7 +34,7 @@ public class ReferencesService implements ReferencesServiceI {
 
 	private final GitHubFeignClient gitHubFeignClient;
 
-	private final AnimediaHTMLParserI animediaHTMLParser;
+	private final AnimediaEpisodeParserI animediaHTMLParser;
 
 	private final AnimediaServiceI animediaService;
 
@@ -69,12 +68,12 @@ public class ReferencesService implements ReferencesServiceI {
 	}
 
 	private void handleReference(TitleReference reference) {
-		List<Response> episodesList = animediaService.getDataListEpisodes(reference.getAnimeIdOnAnimedia(), reference.getDataListOnAnimedia());
+		List<String> episodesList = animediaService.getEpisodes(reference.getAnimeIdOnAnimedia(), reference.getDataListOnAnimedia());
 		if (episodesList.isEmpty()) {
 			return;
 		}
 		List<String> episodesRange = episodesList.stream()
-				.map(x -> animediaHTMLParser.extractEpisodeNumber(x.getEpisodeName()))
+				.map(animediaHTMLParser::extractEpisodeNumber)
 				.collect(Collectors.toList());
 		if (isTitleConcretizedAndOngoing(reference)) {
 			enrichConcretizedAndOngoingReference(reference, episodesRange);

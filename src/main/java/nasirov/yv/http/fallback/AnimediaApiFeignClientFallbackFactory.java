@@ -4,8 +4,10 @@ import feign.hystrix.FallbackFactory;
 import java.util.Collections;
 import java.util.Set;
 import lombok.extern.slf4j.Slf4j;
-import nasirov.yv.data.animedia.AnimediaSearchListTitle;
-import nasirov.yv.data.animedia.api.AnimediaApiResponse;
+import nasirov.yv.data.animedia.api.DataListInfoResponse;
+import nasirov.yv.data.animedia.api.SearchListTitle;
+import nasirov.yv.data.animedia.api.TitleInfo;
+import nasirov.yv.data.animedia.api.TitleInfoResponse;
 import nasirov.yv.http.feign.AnimediaApiFeignClient;
 import org.springframework.stereotype.Component;
 
@@ -20,26 +22,34 @@ public class AnimediaApiFeignClientFallbackFactory implements FallbackFactory<An
 	public AnimediaApiFeignClient create(Throwable cause) {
 		return new AnimediaApiFeignClient() {
 			@Override
-			public Set<AnimediaSearchListTitle> getAnimediaSearchList(String part) {
+			public Set<SearchListTitle> getAnimediaSearchList(String part) {
 				log.error("AnimediaApiFeignClient fallback during call /api/anime-list/{} | Cause message [{}]", part, cause.getMessage());
 				return Collections.emptySet();
 			}
 			@Override
-			public AnimediaApiResponse getTitleInfo(String animeId) {
+			public TitleInfoResponse getTitleInfo(String animeId) {
 				log.error("AnimediaApiFeignClient fallback during call /api/mobile-anime/{} | Cause message [{}]", animeId, cause.getMessage());
-				return buildSafeResponseEntity();
+				return buildAnimediaApiTitleInfoResponse();
 			}
 			@Override
-			public AnimediaApiResponse getDataListInfo(String animeId, String dataList) {
+			public DataListInfoResponse getDataListInfo(String animeId, String dataList) {
 				log.error("AnimediaApiFeignClient fallback during call /api/mobile-anime/{}/{} | Cause message [{}]", animeId, dataList, cause.getMessage());
-				return buildSafeResponseEntity();
+				return buildAnimediaApiResponse();
 			}
 		};
 	}
 
-	private AnimediaApiResponse buildSafeResponseEntity() {
-		return AnimediaApiResponse.builder()
-				.response(Collections.emptyList())
+	private TitleInfoResponse buildAnimediaApiTitleInfoResponse() {
+		return TitleInfoResponse.builder()
+				.titleInfo(TitleInfo.builder()
+						.dataLists(Collections.emptyList())
+						.build())
+				.build();
+	}
+
+	private DataListInfoResponse buildAnimediaApiResponse() {
+		return DataListInfoResponse.builder()
+				.episodes(Collections.emptyList())
 				.build();
 	}
 }
