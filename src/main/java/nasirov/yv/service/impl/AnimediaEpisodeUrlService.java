@@ -66,7 +66,7 @@ public class AnimediaEpisodeUrlService implements EpisodeUrlServiceI {
 	}
 
 	private String handleZeroMatchedResult(UserMALTitleInfo watchingTitle) {
-		log.error("TITLE [{}] WAS NOT FOUND ON Animedia!", watchingTitle);
+		log.debug("TITLE [{}] WAS NOT FOUND ON Animedia!", watchingTitle);
 		return NOT_FOUND_ON_FANDUB_SITE_URL;
 	}
 
@@ -121,7 +121,7 @@ public class AnimediaEpisodeUrlService implements EpisodeUrlServiceI {
 	}
 
 	private String handleAnnouncement(UserMALTitleInfo watchingTitle) {
-		log.info("NEW EPISODE FOR {} IS NOT AVAILABLE BECAUSE IT'S ANNOUNCEMENT", watchingTitle.getTitle());
+		log.debug("NEW EPISODE FOR {} IS NOT AVAILABLE BECAUSE IT'S ANNOUNCEMENT", watchingTitle.getTitle());
 		return FINAL_URL_VALUE_IF_EPISODE_IS_NOT_AVAILABLE;
 	}
 

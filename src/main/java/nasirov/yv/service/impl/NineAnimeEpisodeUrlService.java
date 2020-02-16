@@ -65,7 +65,7 @@ public class NineAnimeEpisodeUrlService implements EpisodeUrlServiceI {
 	}
 
 	private String urlForNotFoundTitle(UserMALTitleInfo watchingTitle) {
-		log.error("TITLE [{}] WAS NOT FOUND ON 9Anime!", watchingTitle);
+		log.debug("TITLE [{}] WAS NOT FOUND ON 9Anime!", watchingTitle);
 		return NOT_FOUND_ON_FANDUB_SITE_URL;
 	}
 
@@ -139,7 +139,7 @@ public class NineAnimeEpisodeUrlService implements EpisodeUrlServiceI {
 		if (matcher.find()) {
 			String extractedEpisodeViaRegexp = matcher.group("episodeNumber");
 			parsedEpisodeNumber = Integer.parseInt(extractedEpisodeViaRegexp);
-			log.info("EPISODE_NUMBER_PATTERN extracted episode via regexp [{}] parsed [{}] from [{}]",
+			log.debug("EPISODE_NUMBER_PATTERN extracted episode via regexp [{}] parsed [{}] from [{}]",
 					extractedEpisodeViaRegexp,
 					parsedEpisodeNumber,
 					episodeNumber);
