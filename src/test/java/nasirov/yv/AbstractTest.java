@@ -3,8 +3,8 @@ package nasirov.yv;
 import static com.github.tomakehurst.wiremock.client.WireMock.aResponse;
 import static com.github.tomakehurst.wiremock.client.WireMock.equalTo;
 import static com.github.tomakehurst.wiremock.client.WireMock.get;
+import static nasirov.yv.utils.TestConstants.APPLICATION_JSON_CHARSET_UTF_8;
 import static nasirov.yv.utils.TestConstants.REQUEST_ACCEPT_ENCODING;
-import static nasirov.yv.utils.TestConstants.TEXT_JAVASCRIPT_CHARSET_UTF_8;
 import static org.springframework.http.HttpHeaders.ACCEPT_ENCODING;
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 import static org.springframework.http.HttpHeaders.CONTENT_TYPE;
@@ -12,15 +12,20 @@ import static org.springframework.http.HttpHeaders.CONTENT_TYPE;
 import com.github.tomakehurst.wiremock.WireMockServer;
 import java.util.Map;
 import java.util.stream.Stream;
+import nasirov.yv.data.properties.AnimediaProps;
 import nasirov.yv.data.properties.GitHubAuthProps;
 import nasirov.yv.data.properties.ResourcesNames;
+import nasirov.yv.http.feign.AnimediaApiFeignClient;
+import nasirov.yv.http.feign.AnimediaSiteFeignClient;
 import nasirov.yv.parser.WrappedObjectMapperI;
 import nasirov.yv.service.AnimeServiceI;
-import nasirov.yv.service.AnimediaApiServiceI;
+import nasirov.yv.service.AnimediaServiceI;
 import nasirov.yv.service.MALServiceI;
 import nasirov.yv.service.ReferencesServiceI;
 import nasirov.yv.service.ResourcesCheckerServiceI;
+import nasirov.yv.service.impl.AnimediaApiService;
 import nasirov.yv.service.impl.AnimediaEpisodeUrlService;
+import nasirov.yv.service.impl.AnimediaSiteService;
 import nasirov.yv.service.impl.NineAnimeEpisodeUrlService;
 import org.junit.After;
 import org.junit.Before;
@@ -50,8 +55,8 @@ public abstract class AbstractTest {
 	@MockBean
 	protected WrappedObjectMapperI wrappedObjectMapper;
 
-	@SpyBean
-	protected AnimediaApiServiceI animediaApiService;
+	@MockBean
+	protected AnimediaServiceI animediaService;
 
 	@SpyBean
 	protected MALServiceI malService;
@@ -61,6 +66,12 @@ public abstract class AbstractTest {
 
 	@SpyBean
 	protected AnimeServiceI animeService;
+
+	@SpyBean
+	protected AnimediaEpisodeUrlService animediaEpisodeUrlService;
+
+	@SpyBean
+	protected NineAnimeEpisodeUrlService nineAnimeEpisodeUrlService;
 
 	@Autowired
 	protected ResourcesNames resourcesNames;
@@ -78,14 +89,23 @@ public abstract class AbstractTest {
 	protected GitHubAuthProps gitHubAuthProps;
 
 	@Autowired
-	protected AnimediaEpisodeUrlService animediaEpisodeUrlService;
+	protected AnimediaApiFeignClient animediaApiFeignClient;
 
 	@Autowired
-	protected NineAnimeEpisodeUrlService nineAnimeEpisodeUrlService;
+	protected AnimediaSiteFeignClient animediaSiteFeignClient;
+
+	@Autowired
+	protected AnimediaProps animediaProps;
+
+	protected AnimediaApiService animediaApiService;
+
+	protected AnimediaSiteService animediaSiteService;
 
 	@Before
 	public void setUp() {
-		clearResources();
+		animediaApiService = new AnimediaApiService(animediaApiFeignClient);
+		animediaSiteService = new AnimediaSiteService(animediaSiteFeignClient, animediaProps);
+		animediaSiteService.init();
 	}
 
 	@After
@@ -117,11 +137,11 @@ public abstract class AbstractTest {
 	}
 
 	protected void stubAnimeMainPageAndDataLists(String animeId, String bodyFilePathForMainPage, Map<String, String> dataListAndBodyFilePath) {
-		createStubWithBodyFile("/api/mobile-anime/" + animeId, TEXT_JAVASCRIPT_CHARSET_UTF_8, bodyFilePathForMainPage);
+		createStubWithBodyFile("/api/mobile-anime/" + animeId, APPLICATION_JSON_CHARSET_UTF_8, bodyFilePathForMainPage);
 		Stream.of(dataListAndBodyFilePath)
 				.flatMap(x -> x.entrySet()
 						.stream())
-				.forEach(x -> createStubWithBodyFile("/api/mobile-anime/" + animeId + "/" + x.getKey(), TEXT_JAVASCRIPT_CHARSET_UTF_8, x.getValue()));
+				.forEach(x -> createStubWithBodyFile("/api/mobile-anime/" + animeId + "/" + x.getKey(), APPLICATION_JSON_CHARSET_UTF_8, x.getValue()));
 	}
 
 	private void clearResources() {

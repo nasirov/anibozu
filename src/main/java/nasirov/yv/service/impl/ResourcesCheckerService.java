@@ -1,5 +1,6 @@
 package nasirov.yv.service.impl;
 
+import static java.nio.charset.StandardCharsets.UTF_8;
 import static nasirov.yv.data.constants.BaseConstants.FIRST_DATA_LIST;
 import static nasirov.yv.data.constants.BaseConstants.FIRST_EPISODE;
 import static nasirov.yv.util.AnimediaUtils.isAnnouncement;
@@ -7,7 +8,6 @@ import static nasirov.yv.util.AnimediaUtils.isTitleNotFoundOnMAL;
 
 import feign.template.UriUtils;
 import java.io.File;
-import java.nio.charset.StandardCharsets;
 import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
@@ -17,11 +17,10 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import nasirov.yv.data.animedia.AnimediaSearchListTitle;
 import nasirov.yv.data.animedia.TitleReference;
-import nasirov.yv.data.animedia.api.Response;
 import nasirov.yv.data.animedia.api.Season;
 import nasirov.yv.data.properties.ResourcesNames;
 import nasirov.yv.parser.WrappedObjectMapperI;
-import nasirov.yv.service.AnimediaApiServiceI;
+import nasirov.yv.service.AnimediaServiceI;
 import nasirov.yv.service.MALServiceI;
 import nasirov.yv.service.ReferencesServiceI;
 import nasirov.yv.service.ResourcesCheckerServiceI;
@@ -40,7 +39,7 @@ public class ResourcesCheckerService implements ResourcesCheckerServiceI {
 
 	private final ReferencesServiceI referencesService;
 
-	private final AnimediaApiServiceI animediaApiService;
+	private final AnimediaServiceI animediaService;
 
 	private final MALServiceI malService;
 
@@ -80,14 +79,10 @@ public class ResourcesCheckerService implements ResourcesCheckerServiceI {
 	@Scheduled(cron = "${application.cron.resources-check-cron-expression}")
 	public void checkReferences() {
 		log.info("START CHECKING REFERENCES ...");
-		Set<AnimediaSearchListTitle> animediaSearchListFromGitHub = animediaApiService.getAnimediaSearchList();
+		Set<AnimediaSearchListTitle> animediaSearchList = animediaService.getAnimediaSearchList();
 		Set<TitleReference> allReferences = referencesService.getReferences();
 		List<TitleReference> notFoundInReferences = new LinkedList<>();
-		for (AnimediaSearchListTitle titleSearchInfo : animediaSearchListFromGitHub) {
-			// TODO: 18.12.2019 remove after fix invalid json object from animedia api
-			if ("16521".equals(titleSearchInfo.getAnimeId())) {
-				continue;
-			}
+		for (AnimediaSearchListTitle titleSearchInfo : animediaSearchList) {
 			List<TitleReference> references = getMatchedReferences(allReferences, titleSearchInfo);
 			if (isAnnouncement(titleSearchInfo)) {
 				if (references.isEmpty()) {
@@ -95,8 +90,7 @@ public class ResourcesCheckerService implements ResourcesCheckerServiceI {
 					notFoundInReferences.add(buildTempAnnouncementReference(titleSearchInfo));
 				}
 			} else {
-				Response response = animediaApiService.getTitleInfo(titleSearchInfo.getAnimeId());
-				List<Season> seasons = response.getSeasons();
+				List<Season> seasons = titleSearchInfo.getSeasons();
 				for (Season season : seasons) {
 					boolean titleIsNotPresentInReferences = references.stream()
 							.noneMatch(x -> x.getDataListOnAnimedia()
@@ -132,7 +126,7 @@ public class ResourcesCheckerService implements ResourcesCheckerServiceI {
 		List<TitleReference> references;
 		references = allReference.stream()
 				.filter(x -> titleSearchInfo.getUrl()
-						.equals(UriUtils.decode(x.getUrlOnAnimedia(), StandardCharsets.UTF_8)))
+						.equals(UriUtils.decode(x.getUrlOnAnimedia(), UTF_8)))
 				.collect(Collectors.toList());
 		return references;
 	}

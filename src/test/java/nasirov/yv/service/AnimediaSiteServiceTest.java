@@ -1,9 +1,8 @@
 package nasirov.yv.service;
 
-import static nasirov.yv.utils.TestConstants.APPLICATION_JSON_CHARSET_UTF_8;
 import static nasirov.yv.utils.TestConstants.REGULAR_TITLE_ID;
 import static nasirov.yv.utils.TestConstants.REGULAR_TITLE_URL;
-import static org.apache.groovy.util.Maps.of;
+import static nasirov.yv.utils.TestConstants.TEXT_HTML_CHARSET_UTF_8;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
@@ -19,20 +18,19 @@ import org.junit.Test;
 /**
  * Created by nasirov.yv
  */
-public class AnimediaApiServiceTest extends AbstractTest {
+public class AnimediaSiteServiceTest extends AbstractTest {
 
 	@Test
 	public void getAnimediaSearchList() {
-		createStubWithBodyFile("/api/anime-list/1", APPLICATION_JSON_CHARSET_UTF_8, "animedia/search/aslPart1.json");
-		createStubWithBodyFile("/api/anime-list/2", APPLICATION_JSON_CHARSET_UTF_8, "animedia/search/aslPart2.json");
-		Set<AnimediaSearchListTitle> animediaSearchList = animediaApiService.getAnimediaSearchList();
+		createStubWithBodyFile("/ajax/search_result_search_page_2/P0search&limit=2", TEXT_HTML_CHARSET_UTF_8, "animedia/search/aslFromSite.html");
+		Set<AnimediaSearchListTitle> animediaSearchList = animediaSiteService.getAnimediaSearchList();
 		assertEquals(2, animediaSearchList.size());
 	}
 
 	@Test
 	public void getDataLists() {
-		stubAnimeMainPageAndDataLists(REGULAR_TITLE_ID, "animedia/regular/regularTitle.json", of("1", "animedia/regular/regularTitleDataList1.json"));
-		Response titleInfo = animediaApiService.getDataLists(buildAnimediaSearchListTitle());
+		createStubWithBodyFile("/" + REGULAR_TITLE_URL, TEXT_HTML_CHARSET_UTF_8, "animedia/regular/regularTitle.html");
+		Response titleInfo = animediaSiteService.getDataLists(buildAnimediaSearchListTitle());
 		List<Season> seasons = titleInfo.getSeasons();
 		List<Season> expectedSeasons = expectedSeasons();
 		assertEquals(expectedSeasons.size(), seasons.size());
@@ -42,10 +40,10 @@ public class AnimediaApiServiceTest extends AbstractTest {
 	@Test
 	public void getDataListEpisodes() {
 		String dataList = "1";
-		stubAnimeMainPageAndDataLists(REGULAR_TITLE_ID,
-				"animedia/regular/regularTitle.json",
-				of(dataList, "animedia/regular/regularTitleDataList1.json"));
-		List<Response> dataListInfo = animediaApiService.getDataListEpisodes(REGULAR_TITLE_ID, dataList);
+		createStubWithBodyFile("/embeds/playlist-j.txt/" + REGULAR_TITLE_ID + "/" + dataList,
+				TEXT_HTML_CHARSET_UTF_8,
+				"animedia/regular" + "/regularTitleDataList1.html");
+		List<Response> dataListInfo = animediaSiteService.getDataListEpisodes(REGULAR_TITLE_ID, dataList);
 		List<String> expectedEpisodes = expectedEpisodes();
 		assertEquals(expectedEpisodes.size(), dataListInfo.size());
 		for (int i = 0; i < expectedEpisodes.size(); i++) {

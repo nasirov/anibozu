@@ -2,7 +2,6 @@ package nasirov.yv.parser.impl;
 
 import static java.util.Optional.ofNullable;
 import static nasirov.yv.data.constants.BaseConstants.FIRST_EPISODE;
-import static org.apache.commons.lang.StringUtils.isNotBlank;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -17,12 +16,11 @@ import org.springframework.stereotype.Component;
  * <p>
  * Created by nasirov.yv
  */
-@Component
 @Slf4j
+@Component
 public class AnimediaHTMLParser implements AnimediaHTMLParserI {
 
-	private static final String EPISODE_NUMBER_REGEXP = "^(?<description>[a-zA-Zа-яА-Я\\s]*)?\\s*(?<firstEpisodeInSeason>\\d{1,3})?(-"
-			+ "(?<joinedEpisode>\\d{1,3}))?(\\s\\(\\d{1,3}\\))?\\s*$";
+	private static final String EPISODE_NUMBER_REGEXP = "^([a-zA-Zа-яА-Я.\\s]*)?\\s*(?<episode>\\d{1,3}(.\\d{1,3})?)?(.*)?$";
 
 	private static final Pattern EPISODE_NUMBER_PATTERN = Pattern.compile(EPISODE_NUMBER_REGEXP);
 
@@ -49,22 +47,22 @@ public class AnimediaHTMLParser implements AnimediaHTMLParserI {
 
 	private String getEpisodeNumber(String episodeName) {
 		Matcher matcher = EPISODE_NUMBER_PATTERN.matcher(episodeName);
-		String episodes = null;
+		String result = null;
 		if (matcher.find()) {
-			String description = matcher.group("description");
-			String firstEpisodeInSeason = matcher.group("firstEpisodeInSeason");
-			String joinedEpisode = matcher.group("joinedEpisode");
-			if (firstEpisodeInSeason != null) {
-				if (joinedEpisode != null) {
-					episodes = firstEpisodeInSeason + "-" + joinedEpisode;
+			String episode = matcher.group("episode");
+			if (episode != null) {
+				result = episode;
+				if (episode.contains("-")) {
+					log.debug("Parsed joined episode [{}] from [{}]", result, episodeName);
 				} else {
-					episodes = firstEpisodeInSeason;
+					log.debug("Parsed regular episode number [{}] from [{}]", result, episodeName);
 				}
-			} else if (isNotBlank(description)) {
-				episodes = FIRST_EPISODE;
+			} else {
+				result = FIRST_EPISODE;
+				log.debug("Parsed episode without episode number [{}] from [{}]", result, episodeName);
 			}
 		}
-		return ofNullable(episodes).orElseThrow(() -> new EpisodeNumberNotFoundException(
+		return ofNullable(result).orElseThrow(() -> new EpisodeNumberNotFoundException(
 				"Episode number was not found! Check EPISODE_NUMBER_REGEXP for episode name: " + episodeName));
 	}
 }

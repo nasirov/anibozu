@@ -25,7 +25,9 @@ public class AnimediaSearchListTitleBuilder {
 	}
 
 	public static AnimediaSearchListTitle getRegularTitle() {
-		return new AnimediaSearchListTitle(REGULAR_TITLE_ID, REGULAR_TITLE_URL, Lists.newArrayList(new Season("1 Сезон", "1")));
+		return new AnimediaSearchListTitle(REGULAR_TITLE_ID,
+				REGULAR_TITLE_URL,
+				Lists.newArrayList(new Season("1"), new Season("2"), new Season("3"), new Season("7")));
 	}
 
 	public static AnimediaSearchListTitle getAnnouncement() {
@@ -33,11 +35,6 @@ public class AnimediaSearchListTitleBuilder {
 	}
 
 	public static AnimediaSearchListTitle getNewTitle() {
-		return new AnimediaSearchListTitle(CONCRETIZED_TITLE_ID, CONCRETIZED_TITLE_URL, Lists.newArrayList(new Season("Спешл", "7")));
-	}
-
-	// TODO: 18.12.2019 need to remove after fix json for 16521
-	public static AnimediaSearchListTitle tempStub() {
-		return new AnimediaSearchListTitle("16521", "anime/sudba-velikij-prikaz-vaviloniya", Lists.newArrayList(new Season("Cпешл", "7")));
+		return new AnimediaSearchListTitle(CONCRETIZED_TITLE_ID, CONCRETIZED_TITLE_URL, Lists.newArrayList(new Season("7")));
 	}
 }

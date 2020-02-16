@@ -9,8 +9,8 @@ import lombok.extern.slf4j.Slf4j;
 import nasirov.yv.data.animedia.AnimediaSearchListTitle;
 import nasirov.yv.data.animedia.api.Response;
 import nasirov.yv.http.feign.AnimediaApiFeignClient;
-import nasirov.yv.service.AnimediaApiServiceI;
-import org.springframework.cache.annotation.Cacheable;
+import nasirov.yv.service.AnimediaServiceI;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Service;
 
 /**
@@ -19,44 +19,24 @@ import org.springframework.stereotype.Service;
 @Service
 @Slf4j
 @RequiredArgsConstructor
-public class AnimediaApiService implements AnimediaApiServiceI {
+@ConditionalOnProperty(name = "application.services.animedia-service-source", havingValue = "api")
+public class AnimediaApiService implements AnimediaServiceI {
 
 	private final AnimediaApiFeignClient animediaApiFeignClient;
 
-	/**
-	 * Searches for an anime list from animedia API
-	 *
-	 * @return list with title search info on animedia
-	 */
 	@Override
-	@Cacheable(value = "animeList", key = "'animeList'")
 	public Set<AnimediaSearchListTitle> getAnimediaSearchList() {
 		return Sets.union(animediaApiFeignClient.getAnimediaSearchList("1"), animediaApiFeignClient.getAnimediaSearchList("2"));
 	}
 
-	/**
-	 * Searches for title info by anime id
-	 *
-	 * @param animeId title id for search
-	 * @return title info
-	 */
 	@Override
-	@Cacheable(value = "titleInfo", key = "#animeId")
-	public Response getTitleInfo(String animeId) {
-		return Iterables.get(animediaApiFeignClient.getTitleInfo(animeId)
+	public Response getDataLists(AnimediaSearchListTitle animediaSearchTitle) {
+		return Iterables.get(animediaApiFeignClient.getTitleInfo(animediaSearchTitle.getAnimeId())
 				.getResponse(), 0);
 	}
 
-	/**
-	 * Searched for data list info by anime id and data list number
-	 *
-	 * @param animeId  title id for search
-	 * @param dataList data list number
-	 * @return list of episodes info
-	 */
 	@Override
-	@Cacheable(value = "dataListInfo", key = "T(java.lang.String).valueOf(T(java.util.Objects).hash(#animeId, #dataList))")
-	public List<Response> getDataListInfo(String animeId, String dataList) {
+	public List<Response> getDataListEpisodes(String animeId, String dataList) {
 		return animediaApiFeignClient.getDataListInfo(animeId, dataList)
 				.getResponse();
 	}

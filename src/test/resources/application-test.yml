@@ -1,8 +1,15 @@
 application:
   github-auth:
     token: testAccessToken
+  animedia:
+    search-list-max-size: 2
+    request-limit: 2
 
 animedia-api-feign-client:
+  ribbon:
+    listOfServers: localhost:${wiremock.server.port}
+
+animedia-site-feign-client:
   ribbon:
     listOfServers: localhost:${wiremock.server.port}
 

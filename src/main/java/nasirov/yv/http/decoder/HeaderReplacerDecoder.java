@@ -17,7 +17,9 @@ import java.util.Map;
  */
 public class HeaderReplacerDecoder implements Decoder {
 
-	private static final String TEXT_JAVASCRIPT_PLAIN_CHARSET_UTF_8 = "(text/javascript|text/plain)(;\\s?charset=.*)";
+	private static final String TEXT_PLAIN_CHARSET_UTF_8 = "text/plain;\\s?charset=.*";
+
+	private static final String ANIMEDIA_DATA_LIST_INFO_ENDPOINT = "/embeds/playlist-j.txt/";
 
 	private final Decoder delegate;
 
@@ -31,16 +33,22 @@ public class HeaderReplacerDecoder implements Decoder {
 		Map<String, Collection<String>> headers = response.headers();
 		Collection<String> contentType = headers.getOrDefault(CONTENT_TYPE, emptyList());
 		contentType.stream()
-				.filter(x -> x.matches(TEXT_JAVASCRIPT_PLAIN_CHARSET_UTF_8))
+				.filter(x -> isContentTypeHeaderNeedsReplace(response, x))
 				.findFirst()
-				.ifPresent(x -> replaceContentTypeHeaderForJsonDeserialization(contentType));
+				.ifPresent(x -> replaceContentTypeHeaderForJsonDeserialization(contentType, x));
 		return delegate.decode(response.toBuilder()
 				.headers(headers)
 				.build(), type);
 	}
 
-	private void replaceContentTypeHeaderForJsonDeserialization(Collection<String> contentTypeValues) {
-		contentTypeValues.removeIf(x -> x.matches(TEXT_JAVASCRIPT_PLAIN_CHARSET_UTF_8));
+	private boolean isContentTypeHeaderNeedsReplace(Response response, String contentTypeValue) {
+		return contentTypeValue.matches(TEXT_PLAIN_CHARSET_UTF_8) || response.request()
+				.url()
+				.contains(ANIMEDIA_DATA_LIST_INFO_ENDPOINT);
+	}
+
+	private void replaceContentTypeHeaderForJsonDeserialization(Collection<String> contentTypeValues, String contentType) {
+		contentTypeValues.removeIf(x -> x.matches(contentType));
 		contentTypeValues.add(APPLICATION_JSON_VALUE);
 	}
 }

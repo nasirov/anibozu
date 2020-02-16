@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.List;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import nasirov.yv.data.animedia.api.Season;
@@ -15,6 +16,7 @@ import nasirov.yv.data.animedia.api.Season;
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
 @Data
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class AnimediaSearchListTitle {
@@ -38,7 +40,7 @@ public class AnimediaSearchListTitle {
 	/**
 	 * Seasons list
 	 * <p>
-	 * e.g "season": [ { "displayName": "1 Сезон", "seasonId": 1 } ]
+	 * e.g "season": [ { "seasonId": 1 } ]
 	 * <p>
 	 * or if announcement "season": null
 	 */

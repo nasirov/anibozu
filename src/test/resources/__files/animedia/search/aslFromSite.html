@@ -1,0 +1,107 @@
+<?php
+function isAjaxRequest()
+{
+    if(empty($_SERVER['HTTP_X_REQUESTED_WITH'])){
+        return false;
+    }
+    return 'XMLHttpRequest' === $_SERVER['HTTP_X_REQUESTED_WITH'];
+}
+if (!isAjaxRequest())
+{
+    exit('No direct script access allowed'); //Ну или ваша реализаци
+
+}
+$allowed_host = 'online.animedia.tv';
+$host = parse_url($_SERVER['HTTP_REFERER'], PHP_URL_HOST);
+?>
+<div class="xads-list">
+  <div class="ads-list__item">
+
+    <div class="ads-list__item__thumb js-postload"><a href="https://online.animedia.tv/anime/regular-title-url">
+      <img data-src="https://static.animedia.tv/uploads/opwano.jpg?h=385&w=280&fit=crop&q=70" alt="Постер аниме regular title name"
+           title="Постер аниме regular title name">
+    </a>
+      <div class="ads-list__item__overlay overlay">
+
+        <div class="overlay__header" data-entry='9480'></div>
+
+        <div class="raitings">7.8/10</div>
+        <div class="overlay__counters">
+
+          <div class="overlay__counters__primary"><a href="https://online.animedia.tv/anime/regular-title-url"
+                                                     title="Смотреть онлайн аниме regular title name" class="overlay__counters__primary__wrap"><span>44788201</span>
+            просмотров</a></div>
+
+          <div class="overlay__counters__secondary"><span class="overlay__counters__secondary__comments"><i
+              class="ai ai-comment"></i> 5888</span><span class="overlay__counters__secondary__likes"><i class="ai ai-like__full"></i>  3112</span>
+          </div>
+
+        </div>
+
+        <div class="overlay__footer">
+          <div class="col-l"><a href="https://tt.animedia.tv/anime/regular-title-url" title="Скачать regular title name"
+                                class="btn btn__green btn__sm"><i class="ai ai-download"></i> Скачать</a></div>
+          <div class="col-l"><a href="https://online.animedia.tv/anime/regular-title-url" title="Подробнее смотреть аниме онлайн regular title name"
+                                class="btn btn__black btn__sm"><i class="ai ai-next"></i> Подробно</a></div>
+        </div>
+
+      </div>
+    </div>
+    <div class="original-title">One Piece</div>
+    <a href="https://online.animedia.tv/anime/regular-title-url" title="regular title name" class="h3 ads-list__item__title">regular title name</a>
+    <div class="genre-tags">Жанр: <a href="https://online.animedia.tv/category/comedy" title="Жанр аниме Комедия">Комедия</a><a
+        href="https://online.animedia.tv/category/advanture" title="Жанр аниме Приключения">Приключения</a><a
+        href="https://online.animedia.tv/category/shounen" title="Жанр аниме Сёнэн">Сёнэн</a><a href="https://online.animedia.tv/category/fantasy"
+                                                                                                title="Жанр аниме Фэнтези">Фэнтези</a></div>
+
+  </div>
+
+  <div class="ads-list__item">
+
+    <div class="ads-list__item__thumb js-postload"><a href="https://online.animedia.tv/anime/announcement-url">
+      <img data-src="https://static.animedia.tv/uploads/1316.jpg?h=385&w=280&fit=crop&q=70" alt="Постер аниме announcement title name"
+           title="Постер аниме announcement title name">
+    </a>
+      <div class="ads-list__item__overlay overlay">
+
+        <div class="overlay__header" data-entry='1234'></div>
+
+        <div class="raitings">9.5/10</div>
+        <div class="overlay__counters">
+
+          <div class="overlay__counters__primary"><a href="https://online.animedia.tv/anime/announcement-url"
+                                                     title="Смотреть онлайн аниме announcement title name"
+                                                     class="overlay__counters__primary__wrap"><span>9808676</span> просмотров</a></div>
+
+          <div class="overlay__counters__secondary"><span class="overlay__counters__secondary__comments"><i class="ai ai-comment"></i> 361</span><span
+              class="overlay__counters__secondary__likes"><i class="ai ai-like__full"></i>  2256</span></div>
+
+        </div>
+
+        <div class="overlay__footer">
+          <div class="col-l"><a href="https://tt.animedia.tv/anime/announcement-url" title="Скачать аниме announcement title name"
+                                class="btn btn__green btn__sm"><i class="ai ai-download"></i> Скачать</a></div>
+          <div class="col-l"><a href="https://online.animedia.tv/anime/announcement-url"
+                                title="Подробнее смотреть аниме онлайн announcement title name / One-Punch Man" class="btn btn__black btn__sm"><i
+              class="ai ai-next"></i> Подробно</a></div>
+        </div>
+
+      </div>
+    </div>
+    <div class="original-title">One-Punch Man</div>
+    <a href="https://online.animedia.tv/anime/announcement-url" title="Аниме announcement title name" class="h3 ads-list__item__title">announcement
+      title name</a>
+    <div class="genre-tags">Жанр: <a href="https://online.animedia.tv/category/martial-arts" title="Жанр аниме Боевые искусства">Боевые
+      искусства</a><a href="https://online.animedia.tv/category/comedy" title="Жанр аниме Комедия">Комедия</a><a
+        href="https://online.animedia.tv/category/slice-of-Life" title="Жанр аниме Повседневность">Повседневность</a><a
+        href="https://online.animedia.tv/category/advanture" title="Жанр аниме Приключения">Приключения</a><a
+        href="https://online.animedia.tv/category/fantastika" title="Жанр аниме Фантастика">Фантастика</a></div>
+
+  </div>
+
+  <p>
+  <div class="paginate" style="clear: both; text-align: center;"><a href="javascript:;" onclick="app.load_more()" class="btn btn__gray btn__more"><i
+      class="ai ai-down"></i> Загрузить ещё</a></div>
+  </p>
+  <!-- Pagination End-->
+</div>

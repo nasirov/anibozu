@@ -20,7 +20,7 @@ import nasirov.yv.data.animedia.api.Response;
 import nasirov.yv.data.properties.GitHubAuthProps;
 import nasirov.yv.http.feign.GitHubFeignClient;
 import nasirov.yv.parser.AnimediaHTMLParserI;
-import nasirov.yv.service.AnimediaApiServiceI;
+import nasirov.yv.service.AnimediaServiceI;
 import nasirov.yv.service.ReferencesServiceI;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
@@ -37,7 +37,7 @@ public class ReferencesService implements ReferencesServiceI {
 
 	private final AnimediaHTMLParserI animediaHTMLParser;
 
-	private final AnimediaApiServiceI animediaApiService;
+	private final AnimediaServiceI animediaService;
 
 	private final GitHubAuthProps gitHubAuthProps;
 
@@ -69,7 +69,7 @@ public class ReferencesService implements ReferencesServiceI {
 	}
 
 	private void handleReference(TitleReference reference) {
-		List<Response> episodesList = animediaApiService.getDataListInfo(reference.getAnimeIdOnAnimedia(), reference.getDataListOnAnimedia());
+		List<Response> episodesList = animediaService.getDataListEpisodes(reference.getAnimeIdOnAnimedia(), reference.getDataListOnAnimedia());
 		if (episodesList.isEmpty()) {
 			return;
 		}

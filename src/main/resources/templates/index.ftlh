@@ -24,7 +24,7 @@
                  autofocus'/>
           <label>
               <@spring.bind "malUser.funDubSources"/>
-            <input id="animedia-checkbox" type="checkbox" class="nes-checkbox" name="funDubSources" value="${animedia}"/>
+            <input id="animedia-checkbox" type="checkbox" class="nes-checkbox" name="funDubSources" checked="checked" value="${animedia}"/>
             <span>Animedia</span>
           </label>
           <label>

@@ -33,12 +33,19 @@ public class AnimeService implements AnimeServiceI {
 	private Anime buildAnime(Set<FunDubSource> funDubSources, UserMALTitleInfo watchingTitle) {
 		AnimeBuilder animeBuilder = Anime.builder()
 				.animeName(watchingTitle.getTitle())
-				.episode(String.valueOf(watchingTitle.getNumWatchedEpisodes() + 1))
+				.episode(buildNextEpisodeForWatch(watchingTitle))
 				.posterUrlOnMAL(watchingTitle.getPosterUrl())
 				.animeUrlOnMAL(watchingTitle.getAnimeUrl());
-		funDubSources.forEach(x -> animeBuilder.funDubUrl(x,
-				episodeUrlStrategy.get(x)
-						.getEpisodeUrl(watchingTitle)));
+		funDubSources.forEach(x -> animeBuilder.funDubUrl(x, buildEpisodeUrlViaEpisodeUrlService(watchingTitle, x)));
 		return animeBuilder.build();
+	}
+
+	private String buildNextEpisodeForWatch(UserMALTitleInfo watchingTitle) {
+		return String.valueOf(watchingTitle.getNumWatchedEpisodes() + 1);
+	}
+
+	private String buildEpisodeUrlViaEpisodeUrlService(UserMALTitleInfo watchingTitle, FunDubSource targetFunDubSource) {
+		return episodeUrlStrategy.get(targetFunDubSource)
+				.getEpisodeUrl(watchingTitle);
 	}
 }

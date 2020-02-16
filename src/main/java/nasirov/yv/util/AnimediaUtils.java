@@ -4,12 +4,12 @@ import static java.util.Optional.ofNullable;
 import static nasirov.yv.data.constants.BaseConstants.NOT_FOUND_ON_MAL;
 
 import java.util.List;
-import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import lombok.experimental.UtilityClass;
 import nasirov.yv.data.animedia.AnimediaSearchListTitle;
 import nasirov.yv.data.animedia.TitleReference;
+import org.springframework.util.CollectionUtils;
 
 /**
  * Util operations with Animedia
@@ -28,7 +28,7 @@ public class AnimediaUtils {
 	}
 
 	public static boolean isAnnouncement(AnimediaSearchListTitle animediaSearchListTitle) {
-		return Objects.isNull(animediaSearchListTitle.getSeasons());
+		return CollectionUtils.isEmpty(animediaSearchListTitle.getSeasons());
 	}
 
 	public static boolean isTitleConcretizedAndOngoing(TitleReference reference) {

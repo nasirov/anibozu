@@ -1,11 +1,9 @@
 package nasirov.yv.service;
 
-import static java.util.Collections.emptyMap;
 import static nasirov.yv.data.constants.BaseConstants.FIRST_DATA_LIST;
 import static nasirov.yv.data.constants.BaseConstants.FIRST_EPISODE;
 import static nasirov.yv.utils.AnimediaSearchListTitleBuilder.getAnnouncement;
 import static nasirov.yv.utils.AnimediaSearchListTitleBuilder.getRegularTitle;
-import static nasirov.yv.utils.AnimediaSearchListTitleBuilder.tempStub;
 import static nasirov.yv.utils.ReferencesBuilder.getRegularReferenceNotUpdated;
 import static nasirov.yv.utils.ReferencesBuilder.notFoundOnAnimedia;
 import static nasirov.yv.utils.TestConstants.REGULAR_TITLE_ID;
@@ -48,9 +46,8 @@ public class ResourcesCheckerServiceTest extends AbstractTest {
 
 	@Test
 	public void checkReferencesMarshalMissingReferences() {
-		mockGetAnimediaSearchList(Sets.newHashSet(getRegularTitle(), getAnnouncement(), tempStub()));
+		mockGetAnimediaSearchList(Sets.newHashSet(getRegularTitle(), getAnnouncement()));
 		mockGetReferences(getAllReferences());
-		stubAnimeMainPageAndDataLists(REGULAR_TITLE_ID, "animedia/regular/regularTitle.json", emptyMap());
 		resourcesCheckerService.checkReferences();
 		checkMarshalledTempFiles(resourcesNames.getTempRawReferences(),
 				buildTempAnnouncementReference(getAnnouncement()),
@@ -75,7 +72,7 @@ public class ResourcesCheckerServiceTest extends AbstractTest {
 	}
 
 	private void mockGetAnimediaSearchList(Set<AnimediaSearchListTitle> animediaSearchListFromAnimedia) {
-		doReturn(animediaSearchListFromAnimedia).when(animediaApiService)
+		doReturn(animediaSearchListFromAnimedia).when(animediaService)
 				.getAnimediaSearchList();
 	}
 

@@ -17,12 +17,6 @@ import org.springframework.validation.annotation.Validated;
 public class CacheProps {
 
 	@NotNull
-	private ConfigurableCacheProps animeList;
-
-	@NotNull
-	private ConfigurableCacheProps titleInfo;
-
-	@NotNull
 	private ConfigurableCacheProps dataListInfo;
 
 	@NotNull

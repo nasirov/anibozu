@@ -12,7 +12,6 @@ import java.util.LinkedHashSet;
 import javax.cache.CacheManager;
 import javax.cache.configuration.Configuration;
 import lombok.RequiredArgsConstructor;
-import nasirov.yv.data.animedia.api.Response;
 import nasirov.yv.data.properties.CacheProps;
 import nasirov.yv.data.properties.CacheProps.ConfigurableCacheProps;
 import org.ehcache.config.builders.ResourcePoolsBuilder;
@@ -34,8 +33,6 @@ public class CacheConfig implements JCacheManagerCustomizer {
 
 	@Override
 	public void customize(CacheManager cacheManager) {
-		buildCache(cacheManager, cacheProps.getAnimeList(), LinkedHashSet.class);
-		buildCache(cacheManager, cacheProps.getTitleInfo(), Response.class);
 		buildCache(cacheManager, cacheProps.getDataListInfo(), ArrayList.class);
 		buildCache(cacheManager, cacheProps.getMal(), LinkedHashSet.class);
 		buildCache(cacheManager, cacheProps.getGithub(), LinkedHashSet.class);
