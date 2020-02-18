@@ -30,7 +30,33 @@ $(document).ready(function () {
     }
   });
 
+  $('#username.nes-input').on({
+    keypress: function (e) {
+      replaceIllegalChars(e);
+    },
+    keydown: function (e) {
+      replaceIllegalChars(e);
+    },
+    keyup: function (e) {
+      replaceIllegalChars(e);
+    },
+    onpaste: function (e) {
+      replaceIllegalChars(e);
+    }
+  });
 });
+
+function replaceIllegalChars(e) {
+  setTimeout(function () {
+    var element = $(e.target);
+    element.val(element.val().replace(/[^a-zA-Z-_\d]/g, ''));
+    var usernameLength = element.val().length;
+    var maxUsernameLength = 16;
+    if (usernameLength >= maxUsernameLength) {
+      element.val(element.val().substring(0, 16));
+    }
+  }, 0);
+}
 
 function addAndRunProgressBar(element) {
   var progressBar = '<progress class="nes-progress is-success" value="0" max="100"></progress>';
