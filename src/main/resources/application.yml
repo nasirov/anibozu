@@ -38,6 +38,8 @@ application:
   animedia:
     search-list-max-size: 900
     request-limit: 100
+  mal:
+    offset-step: 300
 
 server:
   port: ${PORT}

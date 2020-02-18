@@ -80,7 +80,7 @@ public class TestConstants {
 	public static final String ANIMEDIA_ONLINE_TV = "https://online.animedia.tv/";
 	public static final String NINE_ANIME_TO = "https://9anime.to";
 
-	public static final int TEST_ACC_WATCHING_TITLES = 1004;
+	public static final int TEST_ACC_WATCHING_TITLES = 2;
 
 	public static final String TEST_ACC_FOR_DEV = "testAccForDev";
 

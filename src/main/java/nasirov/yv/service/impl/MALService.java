@@ -10,12 +10,14 @@ import java.util.List;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 import javax.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import nasirov.yv.data.mal.MALSearchCategories;
 import nasirov.yv.data.mal.MALSearchTitleInfo;
 import nasirov.yv.data.mal.UserMALTitleInfo;
+import nasirov.yv.data.properties.MalProps;
 import nasirov.yv.data.properties.UrlsNames;
 import nasirov.yv.exception.mal.MALUserAccountNotFoundException;
 import nasirov.yv.exception.mal.MALUserAnimeListAccessException;
@@ -41,25 +43,19 @@ public class MALService implements MALServiceI {
 
 	private static final Pattern S_VARIABLE_PATTERN = Pattern.compile("(\\?s=.+)");
 
-	/**
-	 * Lazy initialization limit of titles in json in html page
-	 */
-	private static final Integer MAX_OFFSET_FOR_LOAD_JSON = 300;
-
-	private static final Integer INITIAL_OFFSET_FOR_LOAD_JSON = 0;
-
 	private final MALFeignClient malFeignClient;
 
 	private final MALParserI malParser;
 
 	private final UrlsNames urlsNames;
 
-	private String myAnimeListNet;
+	private final MalProps malProps;
+
+	private int offsetStep;
 
 	@PostConstruct
 	public void init() {
-		myAnimeListNet = urlsNames.getMalUrls()
-				.getMyAnimeListNet();
+		offsetStep = malProps.getOffsetStep();
 	}
 
 	/**
@@ -74,37 +70,13 @@ public class MALService implements MALServiceI {
 	@Cacheable(value = "mal", key = "#username", unless = "#result?.isEmpty()")
 	public Set<UserMALTitleInfo> getWatchingTitles(String username)
 			throws WatchingTitlesNotFoundException, MALUserAccountNotFoundException, MALUserAnimeListAccessException {
-		ResponseEntity<String> malResponseWithUserProfile = malFeignClient.getUserProfile(username);
-		String userProfile = malResponseWithUserProfile.getBody();
-		validateUserAccountExistence(malResponseWithUserProfile, username);
-		Integer numberOfUserWatchingTitles = malParser.getNumWatchingTitles(userProfile);
-		validateNumberOfUserWatchingTitles(numberOfUserWatchingTitles, username);
-		Set<UserMALTitleInfo> resultWatchingTitles = new LinkedHashSet<>(numberOfUserWatchingTitles);
-		int performedRequestCount = 0;
-		//performedRequestCount == 0 -> first request for titles 1 - 300 https://myanimelist.net/animelist/username/load.json?offset=0&status=1
-		//performedRequestCount == 1 -> second request for titles 301 - 600 https://myanimelist.net/animelist/username/load.json?offset=300&status=1
-		//etc
-		do {
-			int actualOffset;
-			int offsetStep;
-			if (performedRequestCount == 0) {
-				actualOffset = INITIAL_OFFSET_FOR_LOAD_JSON;
-				offsetStep = INITIAL_OFFSET_FOR_LOAD_JSON;
-			} else {
-				actualOffset = MAX_OFFSET_FOR_LOAD_JSON * performedRequestCount;
-				offsetStep = MAX_OFFSET_FOR_LOAD_JSON;
-			}
-			List<UserMALTitleInfo> tempWatchingTitles = getJsonTitlesAndUnmarshal(actualOffset, username);
-			tempWatchingTitles.forEach(title -> {
-				changePosterUrl(title);
-				changeAnimeUrl(title);
-				changeTitleName(title);
-				resultWatchingTitles.add(title);
-			});
-			numberOfUserWatchingTitles -= offsetStep;
-			performedRequestCount++;
-		} while (numberOfUserWatchingTitles > MAX_OFFSET_FOR_LOAD_JSON);
-		return resultWatchingTitles;
+		String userProfile = extractUserProfile(username);
+		int numberOfUserWatchingTitles = extractNumberOfWatchingTitles(userProfile, username);
+		Set<UserMALTitleInfo> watchingTitles = new LinkedHashSet<>(numberOfUserWatchingTitles);
+		for (int offset = 0; offset < numberOfUserWatchingTitles; offset += offsetStep) {
+			watchingTitles.addAll(getJsonTitlesAndUnmarshal(offset, username));
+		}
+		return formatWatchingTitles(watchingTitles);
 	}
 
 	/**
@@ -123,6 +95,27 @@ public class MALService implements MALServiceI {
 				.map(MALSearchCategories::getItems)
 				.flatMap(List::stream)
 				.anyMatch(title -> isTargetTitle(titleOnMAL, titleIdOnMAL, title));
+	}
+
+	private String extractUserProfile(String username) throws MALUserAccountNotFoundException {
+		ResponseEntity<String> malResponseWithUserProfile = malFeignClient.getUserProfile(username);
+		String userProfile = malResponseWithUserProfile.getBody();
+		validateUserAccountExistence(malResponseWithUserProfile, username);
+		return userProfile;
+	}
+
+	private int extractNumberOfWatchingTitles(String userProfile, String username) throws WatchingTitlesNotFoundException {
+		Integer numberOfUserWatchingTitles = malParser.getNumWatchingTitles(userProfile);
+		validateNumberOfUserWatchingTitles(numberOfUserWatchingTitles, username);
+		return numberOfUserWatchingTitles;
+	}
+
+	private Set<UserMALTitleInfo> formatWatchingTitles(Set<UserMALTitleInfo> watchingTitles) {
+		return watchingTitles.stream()
+				.map(this::changePosterUrl)
+				.map(this::changeAnimeUrl)
+				.map(this::changeTitleName)
+				.collect(Collectors.toCollection(LinkedHashSet::new));
 	}
 
 	private boolean isAnimeCategory(MALSearchCategories categories) {
@@ -146,7 +139,7 @@ public class MALService implements MALServiceI {
 	 *
 	 * @param title MAL title
 	 */
-	private void changePosterUrl(UserMALTitleInfo title) {
+	private UserMALTitleInfo changePosterUrl(UserMALTitleInfo title) {
 		String changedPosterUrl = "";
 		Matcher matcher = POSTER_URL_RESOLUTION_PATTERN.matcher(title.getPosterUrl());
 		if (matcher.find()) {
@@ -157,6 +150,7 @@ public class MALService implements MALServiceI {
 			changedPosterUrl = matcher.replaceAll("");
 		}
 		title.setPosterUrl(changedPosterUrl);
+		return title;
 	}
 
 	/**
@@ -164,8 +158,10 @@ public class MALService implements MALServiceI {
 	 *
 	 * @param title the MAL title
 	 */
-	private void changeAnimeUrl(UserMALTitleInfo title) {
-		title.setAnimeUrl(myAnimeListNet + title.getAnimeUrl());
+	private UserMALTitleInfo changeAnimeUrl(UserMALTitleInfo title) {
+		title.setAnimeUrl(urlsNames.getMalUrls()
+				.getMyAnimeListNet() + title.getAnimeUrl());
+		return title;
 	}
 
 	/**
@@ -173,8 +169,9 @@ public class MALService implements MALServiceI {
 	 *
 	 * @param title the MAL title
 	 */
-	private void changeTitleName(UserMALTitleInfo title) {
+	private UserMALTitleInfo changeTitleName(UserMALTitleInfo title) {
 		title.setTitle(HtmlUtils.htmlUnescape(title.getTitle()));
+		return title;
 	}
 
 	/**

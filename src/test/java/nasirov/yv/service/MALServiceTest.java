@@ -14,6 +14,7 @@ import static org.springframework.http.HttpStatus.BAD_REQUEST;
 import static org.springframework.http.HttpStatus.NOT_FOUND;
 import static org.springframework.http.HttpStatus.OK;
 
+import com.google.common.collect.Sets;
 import feign.template.UriUtils;
 import java.nio.charset.StandardCharsets;
 import java.util.Set;
@@ -35,6 +36,7 @@ public class MALServiceTest extends AbstractTest {
 		Set<UserMALTitleInfo> watchingTitles = malService.getWatchingTitles(TEST_ACC_FOR_DEV);
 		assertNotNull(watchingTitles);
 		assertEquals(TEST_ACC_WATCHING_TITLES, watchingTitles.size());
+		watchingTitles.forEach(this::checkTitle);
 	}
 
 	@Test(expected = WatchingTitlesNotFoundException.class)
@@ -100,14 +102,24 @@ public class MALServiceTest extends AbstractTest {
 		createStubWithBodyFile("/animelist/" + TEST_ACC_FOR_DEV + "/load.json?offset=0&status=1",
 				APPLICATION_JSON_CHARSET_UTF_8,
 				"mal/testAccForDevFirstJson300.json");
-		createStubWithBodyFile("/animelist/" + TEST_ACC_FOR_DEV + "/load.json?offset=300&status=1",
-				APPLICATION_JSON_CHARSET_UTF_8,
-				"mal/testAccForDevAdditionalJsonMoreThan300.json");
-		createStubWithBodyFile("/animelist/" + TEST_ACC_FOR_DEV + "/load.json?offset=600&status=1",
-				APPLICATION_JSON_CHARSET_UTF_8,
-				"mal/testAccForDevAdditionalJsonMoreThan600.json");
-		createStubWithBodyFile("/animelist/" + TEST_ACC_FOR_DEV + "/load.json?offset=900&status=1",
-				APPLICATION_JSON_CHARSET_UTF_8,
-				"mal/testAccForDevAdditionalJsonMoreThan900.json");
+	}
+
+	private void checkTitle(UserMALTitleInfo title) {
+		assertTrue(expectedTitles().contains(title.getTitle()));
+		assertTrue(expectedPosters().contains(title.getPosterUrl()));
+		assertTrue(expectedUrls().contains(title.getAnimeUrl()));
+	}
+
+	private Set<String> expectedTitles() {
+		return Sets.newHashSet("\"bungaku shoujo\" kyou no oyatsu: hatsukoi", ".hack//g.u. trilogy");
+	}
+
+	private Set<String> expectedPosters() {
+		return Sets.newHashSet("https://cdn.myanimelist.net/images/anime/2/79900.jpg", "https://cdn.myanimelist.net/images/anime/4/23083.jpg");
+	}
+
+	private Set<String> expectedUrls() {
+		return Sets.newHashSet("https://myanimelist.net/anime/7669/Bungaku_Shoujo_Kyou_no_Oyatsu__Hatsukoi",
+				"https://myanimelist.net/anime/3269/hack__GU_Trilogy");
 	}
 }
