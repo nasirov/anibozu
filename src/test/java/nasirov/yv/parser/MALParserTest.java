@@ -18,14 +18,13 @@ public class MALParserTest {
 
 	@Test
 	public void getNumWatchingTitlesOk() {
-		Integer numWatchingTitlesString = malParser.getNumWatchingTitles(readFromFile("classpath:__files/mal/testAccForDevProfile.txt"));
-		assertNotNull(numWatchingTitlesString);
-		assertEquals(TEST_ACC_WATCHING_TITLES, numWatchingTitlesString.intValue());
+		int numWatchingTitlesString = malParser.getNumWatchingTitles(readFromFile("classpath:__files/mal/testAccForDevProfile.html"));
+		assertEquals(TEST_ACC_WATCHING_TITLES, numWatchingTitlesString);
 	}
 
 	@Test
 	public void getNumWatchingTitlesWatchingTitlesNotFound() {
-		Integer numWatchingTitles = malParser.getNumWatchingTitles("");
-		assertNull(numWatchingTitles);
+		int numWatchingTitles = malParser.getNumWatchingTitles("");
+		assertEquals(0, numWatchingTitles);
 	}
 }

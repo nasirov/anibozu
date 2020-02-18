@@ -105,7 +105,7 @@ public class MALService implements MALServiceI {
 	}
 
 	private int extractNumberOfWatchingTitles(String userProfile, String username) throws WatchingTitlesNotFoundException {
-		Integer numberOfUserWatchingTitles = malParser.getNumWatchingTitles(userProfile);
+		int numberOfUserWatchingTitles = malParser.getNumWatchingTitles(userProfile);
 		validateNumberOfUserWatchingTitles(numberOfUserWatchingTitles, username);
 		return numberOfUserWatchingTitles;
 	}
@@ -214,13 +214,10 @@ public class MALService implements MALServiceI {
 	 *
 	 * @param numberOfUserWatchingTitles a number of user watching titles
 	 * @param username                   the MAL username
-	 * @throws WatchingTitlesNotFoundException if the number == null or 0
+	 * @throws WatchingTitlesNotFoundException if numberOfUserWatchingTitles == 0
 	 */
-	private void validateNumberOfUserWatchingTitles(Integer numberOfUserWatchingTitles, String username) throws WatchingTitlesNotFoundException {
-		if (numberOfUserWatchingTitles == null) {
-			throw new WatchingTitlesNotFoundException("Watching titles number is not found for " + username + " !");
-		}
-		if (numberOfUserWatchingTitles.equals(0)) {
+	private void validateNumberOfUserWatchingTitles(int numberOfUserWatchingTitles, String username) throws WatchingTitlesNotFoundException {
+		if (numberOfUserWatchingTitles == 0) {
 			throw new WatchingTitlesNotFoundException("Not found watching titles for " + username + " !");
 		}
 	}

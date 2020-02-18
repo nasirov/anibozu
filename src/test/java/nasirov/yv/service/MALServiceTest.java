@@ -50,7 +50,7 @@ public class MALServiceTest extends AbstractTest {
 
 	@Test(expected = WatchingTitlesNotFoundException.class)
 	public void getWatchingTitlesEqualsZero() throws Exception {
-		createStubWithBodyFile("/profile/" + TEST_ACC_FOR_DEV, TEXT_HTML_CHARSET_UTF_8, "mal/testAccForDevProfileWatchingTitles0.txt");
+		createStubWithBodyFile("/profile/" + TEST_ACC_FOR_DEV, TEXT_HTML_CHARSET_UTF_8, "mal/testAccForDevProfileWatchingTitles0.html");
 		malService.getWatchingTitles(TEST_ACC_FOR_DEV);
 	}
 
@@ -62,7 +62,7 @@ public class MALServiceTest extends AbstractTest {
 
 	@Test(expected = MALUserAnimeListAccessException.class)
 	public void getWatchingTitlesMALUserAnimeListAccessException() throws Exception {
-		createStubWithBodyFile("/profile/" + TEST_ACC_FOR_DEV, TEXT_HTML_CHARSET_UTF_8, "mal/testAccForDevProfile.txt");
+		createStubWithBodyFile("/profile/" + TEST_ACC_FOR_DEV, TEXT_HTML_CHARSET_UTF_8, "mal/testAccForDevProfile.html");
 		createStubWithContent("/animelist/" + TEST_ACC_FOR_DEV + "/load.json?offset=0&status=1",
 				APPLICATION_JSON_CHARSET_UTF_8,
 				"{\"errors\":[{\"message\":\"invalid request\"}]}",
@@ -98,7 +98,7 @@ public class MALServiceTest extends AbstractTest {
 	}
 
 	private void stubTestUser() {
-		createStubWithBodyFile("/profile/" + TEST_ACC_FOR_DEV, TEXT_HTML_CHARSET_UTF_8, "mal/testAccForDevProfile.txt");
+		createStubWithBodyFile("/profile/" + TEST_ACC_FOR_DEV, TEXT_HTML_CHARSET_UTF_8, "mal/testAccForDevProfile.html");
 		createStubWithBodyFile("/animelist/" + TEST_ACC_FOR_DEV + "/load.json?offset=0&status=1",
 				APPLICATION_JSON_CHARSET_UTF_8,
 				"mal/testAccForDevFirstJson300.json");
