@@ -1,31 +1,39 @@
 package nasirov.yv.controller;
 
-import static nasirov.yv.data.constants.FanDubSource.ANIMEDIA;
-import static nasirov.yv.data.constants.FanDubSource.NINEANIME;
 import static nasirov.yv.utils.TestConstants.TEST_ACC_FOR_DEV;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.doThrow;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.asyncDispatch;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
-import com.google.common.collect.Sets;
-import java.util.Set;
+import java.util.Map;
 import lombok.SneakyThrows;
 import nasirov.yv.AbstractTest;
+import nasirov.yv.data.mal.MALUser;
 import nasirov.yv.data.mal.UserMALTitleInfo;
 import nasirov.yv.exception.mal.MALUserAccountNotFoundException;
+import nasirov.yv.exception.mal.MALUserAnimeListAccessException;
 import nasirov.yv.exception.mal.WatchingTitlesNotFoundException;
 import org.junit.Test;
+import org.springframework.http.HttpStatus;
 import org.springframework.test.web.servlet.MvcResult;
+import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
+import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
+import wiremock.com.google.common.collect.Lists;
 
 /**
  * Created by nasirov.yv
  */
 public class ResultControllerTest extends AbstractTest {
 
-	private static final String PATH = "/result";
+	private static final String RESULT_VIEW_PATH = "/result";
+
+	private static final String SSE_PATH = "/sse";
 
 	private static final String ERROR_VIEW = "error";
 
@@ -35,7 +43,7 @@ public class ResultControllerTest extends AbstractTest {
 	public void checkResultInvalidUsername() throws Exception {
 		String[] invalidUsernameArray = {"", "moreThan16Charssss", "space between ", "@#!sd"};
 		for (String invalidUsername : invalidUsernameArray) {
-			mockMvc.perform(post(PATH).param("username", invalidUsername)
+			mockMvc.perform(post(RESULT_VIEW_PATH).param("username", invalidUsername)
 					.param("fanDubSources", "ANIMEDIA", "NINEANIME"))
 					.andExpect(status().isBadRequest())
 					.andReturn();
@@ -46,7 +54,7 @@ public class ResultControllerTest extends AbstractTest {
 	public void checkResultInvalidFanDubSources() throws Exception {
 		String[] invalidUsernameArray = {"animedia", "nineanime", ""};
 		for (String invalidUsername : invalidUsernameArray) {
-			mockMvc.perform(post(PATH).param("username", TEST_ACC_FOR_DEV)
+			mockMvc.perform(post(RESULT_VIEW_PATH).param("username", TEST_ACC_FOR_DEV)
 					.param("fanDubSources", invalidUsername))
 					.andExpect(status().isBadRequest())
 					.andReturn();
@@ -57,20 +65,40 @@ public class ResultControllerTest extends AbstractTest {
 	public void checkResultUsernameIsNotFound() {
 		String errorMsg = "MAL account " + TEST_ACC_FOR_DEV.toLowerCase() + " is not found";
 		mockMalService(new MALUserAccountNotFoundException(errorMsg));
-		checkResult(ERROR_VIEW);
+		checkErrorView(errorMsg);
 	}
 
 	@Test
 	public void checkResultWatchingTitlesNotFound() {
-		String errorMsg = "errorMsg";
+		String errorMsg = "Not found watching titles for " + TEST_ACC_FOR_DEV.toLowerCase() + " !";
 		mockMalService(new WatchingTitlesNotFoundException(errorMsg));
-		checkResult(ERROR_VIEW);
+		checkErrorView(errorMsg);
 	}
 
 	@Test
-	public void checkResultForNewUser() {
-		mockServicesOk();
-		checkResult(RESULT_VIEW);
+	public void checkResultUserAnimeListPrivateAccess() {
+		String errorMsg = "Anime list " + TEST_ACC_FOR_DEV.toLowerCase() + " has private access!";
+		mockMalService(new MALUserAnimeListAccessException(errorMsg));
+		checkErrorView(errorMsg);
+	}
+
+	@Test
+	public void resultOk() {
+		mockMalServiceOk();
+		checkResultView();
+	}
+
+	@Test
+	public void sseOk() {
+		mockSseEmitterExecutorServiceOk();
+		assertEquals(HttpStatus.OK.value(),
+				call(get(SSE_PATH)).getResponse()
+						.getStatus());
+	}
+
+	private void mockSseEmitterExecutorServiceOk() {
+		doReturn(new SseEmitter()).when(sseEmitterExecutorService)
+				.buildAndExecuteSseEmitter(any(MALUser.class));
 	}
 
 	@SneakyThrows
@@ -80,21 +108,36 @@ public class ResultControllerTest extends AbstractTest {
 	}
 
 	@SneakyThrows
-	private void mockServicesOk() {
-		Set<UserMALTitleInfo> watchingTitles = Sets.newHashSet();
-		doReturn(watchingTitles).when(malService)
+	private void mockMalServiceOk() {
+		doReturn(Lists.newArrayList(new UserMALTitleInfo())).when(malService)
 				.getWatchingTitles(TEST_ACC_FOR_DEV.toLowerCase());
-		doReturn(Sets.newHashSet()).when(animeService)
-				.getAnime(Sets.newHashSet(ANIMEDIA, NINEANIME), watchingTitles);
+	}
+
+	private void checkErrorView(String errorMsg) {
+		MvcResult result = call(post(RESULT_VIEW_PATH));
+		ModelAndView modelAndView = result.getModelAndView();
+		assertNotNull(modelAndView);
+		assertEquals(ERROR_VIEW, modelAndView.getViewName());
+		assertEquals(errorMsg,
+				modelAndView.getModel()
+						.get("errorMsg"));
+	}
+
+	private void checkResultView() {
+		MvcResult result = call(post(RESULT_VIEW_PATH));
+		ModelAndView modelAndView = result.getModelAndView();
+		assertNotNull(modelAndView);
+		assertEquals(RESULT_VIEW, modelAndView.getViewName());
+		Map<String, Object> model = modelAndView.getModel();
+		assertEquals(TEST_ACC_FOR_DEV.toLowerCase(), model.get("username"));
+		assertEquals(1, model.get("watchingTitlesSize"));
+		assertEquals("ANIMEDIA,NINEANIME", model.get("fandubList"));
 	}
 
 	@SneakyThrows
-	private void checkResult(String viewName) {
-		MvcResult result = mockMvc.perform(post(PATH).param("username", TEST_ACC_FOR_DEV.toLowerCase())
+	private MvcResult call(MockHttpServletRequestBuilder request) {
+		return mockMvc.perform(request.param("username", TEST_ACC_FOR_DEV.toLowerCase())
 				.param("fanDubSources", "ANIMEDIA", "NINEANIME"))
 				.andReturn();
-		mockMvc.perform(asyncDispatch(result))
-				.andExpect(view().name(viewName))
-				.andExpect(status().isOk());
 	}
 }

@@ -31,10 +31,14 @@ application:
       name: github
       ttl: 3600
       max-entity-count: 1
+    sse:
+      name: sse
+      ttl: 300
+      max-entity-count: 50
   github-auth:
     token: ${GITHUB_ACCESS_TOKEN}
-  deferred-result:
-    timeout-in-min: 1
+  sse:
+    timeout-in-min: 5
   animedia:
     search-list-max-size: 900
     request-limit: 100

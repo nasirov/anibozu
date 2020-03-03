@@ -19,7 +19,6 @@ import static nasirov.yv.utils.TestConstants.REGULAR_TITLE_MAL_ANIME_URL;
 import static nasirov.yv.utils.TestConstants.REGULAR_TITLE_NAME;
 import static nasirov.yv.utils.TestConstants.REGULAR_TITLE_POSTER_URL;
 import static nasirov.yv.utils.TestConstants.REGULAR_TITLE_URL;
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.doReturn;
 
@@ -31,6 +30,9 @@ import nasirov.yv.data.front.Anime;
 import nasirov.yv.data.mal.UserMALTitleInfo;
 import org.junit.Test;
 
+/**
+ * Created by nasirov.yv
+ */
 public class AnimeServiceTest extends AbstractTest {
 
 	private static final String EPISODE_URL_ON_ANIMEDIA = ANIMEDIA_ONLINE_TV + REGULAR_TITLE_URL + "/1/1";
@@ -40,9 +42,12 @@ public class AnimeServiceTest extends AbstractTest {
 	@Test
 	public void allTypesOfPossibleUrlsTest() {
 		mockEpisodeUrlServices();
-		Set<Anime> resultAnime = animeService.getAnime(buildFanDubSources(), buildWatchingTitles());
-		assertEquals(buildWatchingTitles().size(), resultAnime.size());
-		buildExpectedAnime().forEach(x -> assertTrue(resultAnime.contains(x)));
+		Set<UserMALTitleInfo> watchingTitles = buildWatchingTitles();
+		Set<Anime> expectedAnime = buildExpectedAnime();
+		for (UserMALTitleInfo title : watchingTitles) {
+			Anime resultAnime = animeService.buildAnime(buildFanDubSources(), title);
+			assertTrue(expectedAnime.contains(resultAnime));
+		}
 	}
 
 	private void mockEpisodeUrlServices() {

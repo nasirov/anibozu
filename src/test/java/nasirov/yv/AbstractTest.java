@@ -23,6 +23,7 @@ import nasirov.yv.service.AnimediaServiceI;
 import nasirov.yv.service.MALServiceI;
 import nasirov.yv.service.ReferencesServiceI;
 import nasirov.yv.service.ResourcesCheckerServiceI;
+import nasirov.yv.service.SseEmitterExecutorServiceI;
 import nasirov.yv.service.impl.AnimediaApiService;
 import nasirov.yv.service.impl.AnimediaEpisodeUrlService;
 import nasirov.yv.service.impl.AnimediaSiteService;
@@ -72,6 +73,9 @@ public abstract class AbstractTest {
 
 	@SpyBean
 	protected NineAnimeEpisodeUrlService nineAnimeEpisodeUrlService;
+
+	@SpyBean
+	protected SseEmitterExecutorServiceI sseEmitterExecutorService;
 
 	@Autowired
 	protected ResourcesNames resourcesNames;

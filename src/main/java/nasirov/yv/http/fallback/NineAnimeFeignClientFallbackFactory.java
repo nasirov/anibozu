@@ -6,6 +6,9 @@ import nasirov.yv.data.nine_anime.SearchDto;
 import nasirov.yv.http.feign.NineAnimeFeignClient;
 import org.springframework.stereotype.Component;
 
+/**
+ * Created by nasirov.yv
+ */
 @Slf4j
 @Component
 public class NineAnimeFeignClientFallbackFactory implements FallbackFactory<NineAnimeFeignClient> {

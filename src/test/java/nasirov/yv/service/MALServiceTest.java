@@ -17,6 +17,7 @@ import static org.springframework.http.HttpStatus.OK;
 import com.google.common.collect.Sets;
 import feign.template.UriUtils;
 import java.nio.charset.StandardCharsets;
+import java.util.List;
 import java.util.Set;
 import nasirov.yv.AbstractTest;
 import nasirov.yv.data.mal.UserMALTitleInfo;
@@ -33,7 +34,7 @@ public class MALServiceTest extends AbstractTest {
 	@Test
 	public void getWatchingTitles() throws Exception {
 		stubTestUser();
-		Set<UserMALTitleInfo> watchingTitles = malService.getWatchingTitles(TEST_ACC_FOR_DEV);
+		List<UserMALTitleInfo> watchingTitles = malService.getWatchingTitles(TEST_ACC_FOR_DEV);
 		assertNotNull(watchingTitles);
 		assertEquals(TEST_ACC_WATCHING_TITLES, watchingTitles.size());
 		watchingTitles.forEach(this::checkTitle);

@@ -13,8 +13,8 @@ import org.springframework.validation.annotation.Validated;
 @Data
 @Validated
 @Configuration
-@ConfigurationProperties("application.deferred-result")
-public class DeferredResultProps {
+@ConfigurationProperties("application.sse")
+public class SseProps {
 
 	@Min(1)
 	@NotNull

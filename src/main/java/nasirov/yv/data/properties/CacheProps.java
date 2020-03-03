@@ -25,6 +25,9 @@ public class CacheProps {
 	@NotNull
 	private ConfigurableCacheProps github;
 
+	@NotNull
+	private ConfigurableCacheProps sse;
+
 	@Data
 	@Validated
 	public static class ConfigurableCacheProps {

@@ -4,10 +4,9 @@ import static java.util.Optional.ofNullable;
 import static nasirov.yv.data.mal.MALAnimeStatus.WATCHING;
 import static nasirov.yv.data.mal.MALCategories.ANIME;
 
+import java.util.ArrayList;
 import java.util.Collections;
-import java.util.LinkedHashSet;
 import java.util.List;
-import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -68,11 +67,11 @@ public class MALService implements MALServiceI {
 	 */
 	@Override
 	@Cacheable(value = "mal", key = "#username", unless = "#result?.isEmpty()")
-	public Set<UserMALTitleInfo> getWatchingTitles(String username)
+	public List<UserMALTitleInfo> getWatchingTitles(String username)
 			throws WatchingTitlesNotFoundException, MALUserAccountNotFoundException, MALUserAnimeListAccessException {
 		String userProfile = extractUserProfile(username);
 		int numberOfUserWatchingTitles = extractNumberOfWatchingTitles(userProfile, username);
-		Set<UserMALTitleInfo> watchingTitles = new LinkedHashSet<>(numberOfUserWatchingTitles);
+		List<UserMALTitleInfo> watchingTitles = new ArrayList<>(numberOfUserWatchingTitles);
 		for (int offset = 0; offset < numberOfUserWatchingTitles; offset += offsetStep) {
 			watchingTitles.addAll(getJsonTitlesAndUnmarshal(offset, username));
 		}
@@ -110,12 +109,12 @@ public class MALService implements MALServiceI {
 		return numberOfUserWatchingTitles;
 	}
 
-	private Set<UserMALTitleInfo> formatWatchingTitles(Set<UserMALTitleInfo> watchingTitles) {
+	private List<UserMALTitleInfo> formatWatchingTitles(List<UserMALTitleInfo> watchingTitles) {
 		return watchingTitles.stream()
 				.map(this::changePosterUrl)
 				.map(this::changeAnimeUrl)
 				.map(this::changeTitleName)
-				.collect(Collectors.toCollection(LinkedHashSet::new));
+				.collect(Collectors.toList());
 	}
 
 	private boolean isAnimeCategory(MALSearchCategories categories) {

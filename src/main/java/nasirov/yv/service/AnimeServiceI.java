@@ -11,11 +11,11 @@ import nasirov.yv.data.mal.UserMALTitleInfo;
 public interface AnimeServiceI {
 
 	/**
-	 * Builds a set with {@link Anime} based on given watching titles and fandub sources
+	 * Builds an {@link Anime} based on given watching title and fandub sources
 	 *
-	 * @param fanDubSources  fandub sources
-	 * @param watchingTitles an user currently watching titles
-	 * @return a set with {@link Anime}
+	 * @param fanDubSources fandub sources
+	 * @param watchingTitle user currently watching title
+	 * @return an {@link Anime} dto
 	 */
-	Set<Anime> getAnime(Set<FanDubSource> fanDubSources, Set<UserMALTitleInfo> watchingTitles);
+	Anime buildAnime(Set<FanDubSource> fanDubSources, UserMALTitleInfo watchingTitle);
 }

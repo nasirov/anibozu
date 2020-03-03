@@ -6,6 +6,9 @@ import lombok.extern.slf4j.Slf4j;
 import nasirov.yv.http.feign.GitHubFeignClient;
 import org.springframework.stereotype.Component;
 
+/**
+ * Created by nasirov.yv
+ */
 @Slf4j
 @Component
 public class GitHubFeignClientFallbackFactory implements FallbackFactory<GitHubFeignClient> {

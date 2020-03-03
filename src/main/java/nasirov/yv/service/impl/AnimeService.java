@@ -2,7 +2,6 @@ package nasirov.yv.service.impl;
 
 import java.util.Map;
 import java.util.Set;
-import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import nasirov.yv.data.constants.FanDubSource;
@@ -24,13 +23,7 @@ public class AnimeService implements AnimeServiceI {
 	private final Map<FanDubSource, EpisodeUrlServiceI> episodeUrlStrategy;
 
 	@Override
-	public Set<Anime> getAnime(Set<FanDubSource> fanDubSources, Set<UserMALTitleInfo> watchingTitles) {
-		return watchingTitles.stream()
-				.map(x -> buildAnime(fanDubSources, x))
-				.collect(Collectors.toSet());
-	}
-
-	private Anime buildAnime(Set<FanDubSource> fanDubSources, UserMALTitleInfo watchingTitle) {
+	public Anime buildAnime(Set<FanDubSource> fanDubSources, UserMALTitleInfo watchingTitle) {
 		AnimeBuilder animeBuilder = Anime.builder()
 				.animeName(watchingTitle.getTitle())
 				.episode(buildNextEpisodeForWatch(watchingTitle))

@@ -3,7 +3,6 @@
  */
 $(document).ready(function () {
   $('#username-submit-form').on('submit', function (e) {
-    var container = $('.nes-container.with-title.is-centered');
     var usernameInputField = $('#username');
     var submitButton = $('.nes-btn');
     var username = usernameInputField.val();
@@ -15,15 +14,13 @@ $(document).ready(function () {
         addReadonlyAttr(usernameInputField);
         changeClasses(usernameInputField, true);
         changeClasses(submitButton, true);
-        setInnerHtmlValue(submitButton[0], "Searching...");
+        setInnerHtmlValue(submitButton[0], "Searching for Watching Titles...");
         setDisabledAttributeValue(submitButton[0], true);
-        addAndRunProgressBar(container);
       } else {
         disableEvents(e);
         changeClasses(usernameInputField, isValidUsername);
         changeClasses(fanDubCheckboxes, isAtLeastOnFanDubChecked);
         changeClasses(submitButton, false);
-        removeProgressBar(container);
       }
     } else {
       disableEvents(e);
@@ -49,38 +46,13 @@ $(document).ready(function () {
 function replaceIllegalChars(e) {
   setTimeout(function () {
     var element = $(e.target);
-    element.val(element.val().replace(/[^a-zA-Z-_\d]/g, ''));
+    element.val(element.val().replace(/[^\w-_]/g, ''));
     var usernameLength = element.val().length;
     var maxUsernameLength = 16;
     if (usernameLength >= maxUsernameLength) {
       element.val(element.val().substring(0, 16));
     }
   }, 0);
-}
-
-function addAndRunProgressBar(element) {
-  var progressBar = '<progress class="nes-progress is-success" value="0" max="100"></progress>';
-  if (element.find('.nes-progress.is-success').length === 0) {
-    element.append(progressBar);
-    setInterval(runProgressBar, 1000);
-  }
-}
-
-function removeProgressBar(element) {
-  var progressBar = '.nes-progress.is-success';
-  if (!(element.find(progressBar).length === 0)) {
-    element.find(progressBar).remove();
-  }
-}
-
-function runProgressBar() {
-  var progressBar = $('.nes-progress.is-success');
-  var value = progressBar[0].value;
-  if (value === 100) {
-    value = 0;
-  }
-  value += 10;
-  progressBar.attr('value', value);
 }
 
 function changeClasses(element, isInputValueValid) {

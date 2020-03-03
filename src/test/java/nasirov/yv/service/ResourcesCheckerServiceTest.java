@@ -26,6 +26,9 @@ import nasirov.yv.data.animedia.TitleReference;
 import org.junit.Test;
 import org.springframework.util.CollectionUtils;
 
+/**
+ * Created by nasirov.yv
+ */
 public class ResourcesCheckerServiceTest extends AbstractTest {
 
 	@Test

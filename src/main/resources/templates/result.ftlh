@@ -1,6 +1,3 @@
-<#import "available.ftlh" as available>
-<#import "notAvailable.ftlh" as notAvailable>
-<#import "notFound.ftlh" as notFound>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -12,13 +9,13 @@
   <meta charset="UTF-8">
 </head>
 <body>
-<#if resultAnimeList?has_content>
-  <header>
-    <h1>Result for ${username}</h1>
-  </header>
-    <@available.availableSection resultAnimeList fandubList/>
-    <@notAvailable.notAvailableSection resultAnimeList fandubList/>
-    <@notFound.notFoundSection resultAnimeList fandubList/>
-</#if>
+<input id="username" type="hidden" value="${username}"/>
+<input id="fandubList" type="hidden" value="${fandubList}"/>
+<input id="watchingTitlesSize" type="hidden" value="${watchingTitlesSize}"/>
+<header>
+  <h1 id="status">Processing result for ${username} ...</h1>
+</header>
 </body>
+<script src="${versionedUrls.getForLookupPath('/js/jquery.min.js')}"></script>
+<script src="${versionedUrls.getForLookupPath('/js/sse.js')}"></script>
 </html>
