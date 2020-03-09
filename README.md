@@ -14,8 +14,16 @@ The application analyzes an user watching titles from **[MyAnimeList](https://my
   <tr>
     <td><a href="https://online.animedia.tv"><img src="https://www.google.com/s2/favicons?domain=https://online.animedia.tv" alt="animedia"> Animedia</a></td>
   </tr>
+  </tbody>
+</table>
+
+# Disabled FanDub Sites
+
+<table>
+  <tbody>
   <tr>
-    <td><a href="https://9anime.to"><img src="https://www.google.com/s2/favicons?domain=https://9anime.to" alt="9anime"> 9anime</a></td>
+    <td><a href="https://9anime.to"><img src="https://www.google.com/s2/favicons?domain=https://9anime.to" alt="9anime"> 9anime(Because of
+     aggressive WAF policy)</a></td>
   </tr>
   </tbody>
 </table>

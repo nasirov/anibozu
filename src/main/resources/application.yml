@@ -44,6 +44,8 @@ application:
     request-limit: 100
   mal:
     offset-step: 300
+  fandub:
+    disabled: NINEANIME
 
 server:
   port: ${PORT}
