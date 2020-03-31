@@ -18,9 +18,10 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import nasirov.yv.data.animedia.TitleReference;
 import nasirov.yv.data.mal.UserMALTitleInfo;
+import nasirov.yv.data.properties.GithubResources;
 import nasirov.yv.data.properties.UrlsNames;
 import nasirov.yv.service.EpisodeUrlServiceI;
-import nasirov.yv.service.ReferencesServiceI;
+import nasirov.yv.service.GithubResourcesServiceI;
 import nasirov.yv.util.AnimediaUtils;
 import org.springframework.stereotype.Service;
 
@@ -36,7 +37,9 @@ public class AnimediaEpisodeUrlService implements EpisodeUrlServiceI {
 
 	private final UrlsNames urlsNames;
 
-	private final ReferencesServiceI referencesService;
+	private final GithubResourcesServiceI githubResourcesService;
+
+	private final GithubResources githubResources;
 
 	@Override
 	public String getEpisodeUrl(UserMALTitleInfo watchingTitle) {
@@ -46,7 +49,7 @@ public class AnimediaEpisodeUrlService implements EpisodeUrlServiceI {
 	private String buildEpisodeUrl(UserMALTitleInfo watchingTitle) {
 		String result;
 		Set<TitleReference> matchedReferences = getMatchedReferences(watchingTitle);
-		referencesService.updateReferences(matchedReferences);
+		githubResourcesService.updateReferences(matchedReferences);
 		switch (matchedReferences.size()) {
 			case 0:
 				result = handleZeroMatchedResult(watchingTitle);
@@ -126,7 +129,7 @@ public class AnimediaEpisodeUrlService implements EpisodeUrlServiceI {
 	}
 
 	private Set<TitleReference> getMatchedReferences(UserMALTitleInfo userMALTitleInfo) {
-		return referencesService.getReferences()
+		return githubResourcesService.getResource(githubResources.getAnimediaTitles(), TitleReference.class)
 				.stream()
 				.filter(set -> set.getTitleNameOnMAL()
 						.equals(userMALTitleInfo.getTitle()))

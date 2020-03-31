@@ -17,11 +17,12 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import nasirov.yv.data.animedia.AnimediaSearchListTitle;
 import nasirov.yv.data.animedia.TitleReference;
+import nasirov.yv.data.properties.GithubResources;
 import nasirov.yv.data.properties.ResourcesNames;
 import nasirov.yv.parser.WrappedObjectMapperI;
 import nasirov.yv.service.AnimediaServiceI;
+import nasirov.yv.service.GithubResourcesServiceI;
 import nasirov.yv.service.MALServiceI;
-import nasirov.yv.service.ReferencesServiceI;
 import nasirov.yv.service.ResourcesCheckerServiceI;
 import org.springframework.context.annotation.Profile;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -36,7 +37,7 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class ResourcesCheckerService implements ResourcesCheckerServiceI {
 
-	private final ReferencesServiceI referencesService;
+	private final GithubResourcesServiceI githubResourcesService;
 
 	private final AnimediaServiceI animediaService;
 
@@ -46,11 +47,13 @@ public class ResourcesCheckerService implements ResourcesCheckerServiceI {
 
 	private final WrappedObjectMapperI wrappedObjectMapper;
 
+	private final GithubResources githubResources;
+
 	@Override
 	@Scheduled(cron = "${application.cron.resources-check-cron-expression}")
 	public void checkReferencesNames() {
 		log.info("START CHECKING REFERENCES NAMES ON MAL ...");
-		Set<TitleReference> allReferences = referencesService.getReferences();
+		Set<TitleReference> allReferences = githubResourcesService.getResource(githubResources.getAnimediaTitles(), TitleReference.class);
 		List<TitleReference> referencesWithInvalidMALTitleName = new LinkedList<>();
 		for (TitleReference reference : allReferences) {
 			String titleOnMAL = reference.getTitleNameOnMAL();
@@ -79,7 +82,7 @@ public class ResourcesCheckerService implements ResourcesCheckerServiceI {
 	public void checkReferences() {
 		log.info("START CHECKING REFERENCES ...");
 		Set<AnimediaSearchListTitle> animediaSearchList = animediaService.getAnimediaSearchList();
-		Set<TitleReference> allReferences = referencesService.getReferences();
+		Set<TitleReference> allReferences = githubResourcesService.getResource(githubResources.getAnimediaTitles(), TitleReference.class);
 		List<TitleReference> notFoundInReferences = new LinkedList<>();
 		for (AnimediaSearchListTitle titleSearchInfo : animediaSearchList) {
 			List<TitleReference> references = getMatchedReferences(allReferences, titleSearchInfo);
@@ -122,12 +125,10 @@ public class ResourcesCheckerService implements ResourcesCheckerServiceI {
 	}
 
 	private List<TitleReference> getMatchedReferences(Set<TitleReference> allReference, AnimediaSearchListTitle titleSearchInfo) {
-		List<TitleReference> references;
-		references = allReference.stream()
+		return allReference.stream()
 				.filter(x -> titleSearchInfo.getUrl()
 						.equals(UriUtils.decode(x.getUrlOnAnimedia(), UTF_8)))
 				.collect(Collectors.toList());
-		return references;
 	}
 
 	private void marshallToTempFolder(String tempFileName, Collection<?> content) {

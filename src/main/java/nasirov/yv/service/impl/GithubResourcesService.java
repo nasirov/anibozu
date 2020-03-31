@@ -9,7 +9,7 @@ import static nasirov.yv.util.AnimediaUtils.isTitleConcretizedAndOngoing;
 import static nasirov.yv.util.AnimediaUtils.isTitleNotFoundOnMAL;
 import static nasirov.yv.util.AnimediaUtils.isTitleUpdated;
 
-import com.google.common.collect.Sets;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -19,8 +19,9 @@ import nasirov.yv.data.animedia.TitleReference;
 import nasirov.yv.data.properties.GitHubAuthProps;
 import nasirov.yv.http.feign.GitHubFeignClient;
 import nasirov.yv.parser.AnimediaEpisodeParserI;
+import nasirov.yv.parser.WrappedObjectMapperI;
 import nasirov.yv.service.AnimediaServiceI;
-import nasirov.yv.service.ReferencesServiceI;
+import nasirov.yv.service.GithubResourcesServiceI;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
@@ -30,7 +31,7 @@ import org.springframework.stereotype.Service;
 @Service
 @Slf4j
 @RequiredArgsConstructor
-public class ReferencesService implements ReferencesServiceI {
+public class GithubResourcesService implements GithubResourcesServiceI {
 
 	private final GitHubFeignClient gitHubFeignClient;
 
@@ -40,15 +41,18 @@ public class ReferencesService implements ReferencesServiceI {
 
 	private final GitHubAuthProps gitHubAuthProps;
 
+	private final WrappedObjectMapperI wrappedObjectMapper;
+
 	/**
 	 * Searches for references which extracted to GitHub
 	 *
 	 * @return animedia references
 	 */
 	@Override
-	@Cacheable(value = "github", key = "'references'", unless = "#result?.isEmpty()")
-	public Set<TitleReference> getReferences() {
-		return Sets.newLinkedHashSet(gitHubFeignClient.getReferences("token " + gitHubAuthProps.getToken()));
+	@Cacheable(value = "github", key = "#resourceName", unless = "#result?.isEmpty()")
+	public <T> Set<T> getResource(String resourceName, Class<T> targetClass) {
+		String resourceString = gitHubFeignClient.getResource("token " + gitHubAuthProps.getToken(), resourceName);
+		return wrappedObjectMapper.unmarshal(resourceString, targetClass, LinkedHashSet.class);
 	}
 
 	/**

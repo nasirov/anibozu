@@ -1,0 +1,16 @@
+{
+  "episodes": [
+    {
+      "name": "1 серия",
+      "url": "https://video.sibnet.ru/shell.php?videoid=1234567"
+    },
+    {
+      "name": "2 серия",
+      "url": "https://vk.com/some-path"
+    },
+    {
+      "name": "3 серия",
+      "url": "https://out.pladform.ru/some-path"
+    }
+  ]
+}

@@ -21,6 +21,10 @@ public class TestConstants {
 	public static final String REGULAR_TITLE_POSTER_URL = "images/anime/2/regularTitle.jpg";
 	public static final String REGULAR_TITLE_MAL_ANIME_URL = "/anime/2/regular%20title%20name";
 	public static final Integer REGULAR_TITLE_MAL_ID = 2;
+	public static final Integer REGULAR_TITLE_ANIDUB_ID = 1;
+	public static final Integer REGULAR_TITLE_ANIDUB_TYPE_ID = 5;
+	public static final Integer REGULAR_TITLE_ANIDUB_TYPE_SUPPORTED_SOURCE_ID = 6;
+	public static final String REGULAR_TITLE_ANIDUB_URL = "https://video.sibnet.ru/shell.php?videoid=1234567";
 
 	public static final String REGULAR_TITLE_NINE_ANIME_DATA_ID = "12rtm34";
 	public static final String REGULAR_TITLE_DUB_NINE_ANIME_DATA_ID = "56rtm78";
@@ -73,6 +77,7 @@ public class TestConstants {
 	public static final String TEXT_PLAIN_CHARSET_UTF_8 = "text/plain; charset=utf-8";
 	public static final String TEXT_HTML_CHARSET_UTF_8 = "text/html; charset=UTF-8";
 	public static final String APPLICATION_JSON_CHARSET_UTF_8 = "application/json; charset=UTF-8";
+	public static final String APPLICATION_JSON_CHARSET_UTF_8_ALT = "application/json;charset=UTF-8";
 	public static final String REQUEST_ACCEPT_ENCODING = "gzip, br";
 
 	public static final String MY_ANIME_LIST_STATIC_CONTENT_URL = "https://cdn.myanimelist.net/";

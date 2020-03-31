@@ -1,5 +1,6 @@
 package nasirov.yv.configuration;
 
+import static nasirov.yv.data.constants.FanDubSource.ANIDUB;
 import static nasirov.yv.data.constants.FanDubSource.ANIMEDIA;
 import static nasirov.yv.data.constants.FanDubSource.NINEANIME;
 
@@ -7,6 +8,7 @@ import java.util.EnumMap;
 import java.util.Map;
 import nasirov.yv.data.constants.FanDubSource;
 import nasirov.yv.service.EpisodeUrlServiceI;
+import nasirov.yv.service.impl.AnidubEpisodeUrlService;
 import nasirov.yv.service.impl.AnimediaEpisodeUrlService;
 import nasirov.yv.service.impl.NineAnimeEpisodeUrlService;
 import org.springframework.context.annotation.Bean;
@@ -20,10 +22,11 @@ public class EpisodeUrlStrategyConfig {
 
 	@Bean
 	public Map<FanDubSource, EpisodeUrlServiceI> episodeUrlStrategy(AnimediaEpisodeUrlService animediaEpisodeUrlService,
-			NineAnimeEpisodeUrlService nineAnimeEpisodeUrlService) {
+			NineAnimeEpisodeUrlService nineAnimeEpisodeUrlService, AnidubEpisodeUrlService anidubEpisodeUrlService) {
 		EnumMap<FanDubSource, EpisodeUrlServiceI> map = new EnumMap<>(FanDubSource.class);
 		map.put(ANIMEDIA, animediaEpisodeUrlService);
 		map.put(NINEANIME, nineAnimeEpisodeUrlService);
+		map.put(ANIDUB, anidubEpisodeUrlService);
 		return map;
 	}
 }

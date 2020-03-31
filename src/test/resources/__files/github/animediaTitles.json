@@ -11,9 +11,7 @@
     "titleNameOnMAL": "regular title name",
     "titleIdOnMAL": 2,
     "minOnMAL": null,
-    "maxOnMAL": null,
-    "episodeNumberForWatchForFront": null,
-    "finalUrlForFront": null
+    "maxOnMAL": null
   },
   {
     "urlOnAnimedia": "anime/announcement-url",
@@ -27,9 +25,7 @@
     "titleNameOnMAL": "announcement title name",
     "titleIdOnMAL": 1,
     "minOnMAL": null,
-    "maxOnMAL": null,
-    "episodeNumberForWatchForFront": null,
-    "finalUrlForFront": null
+    "maxOnMAL": null
   },
   {
     "urlOnAnimedia": "anime/concretized-title-url",
@@ -43,9 +39,7 @@
     "titleNameOnMAL": "concretized title with episodes range name",
     "titleIdOnMAL": 5,
     "minOnMAL": "1",
-    "maxOnMAL": "6",
-    "episodeNumberForWatchForFront": null,
-    "finalUrlForFront": null
+    "maxOnMAL": "6"
   },
   {
     "urlOnAnimedia": "anime/concretized-and-ongoing-title-url",
@@ -59,8 +53,6 @@
     "titleNameOnMAL": "concretized and ongoing title name",
     "titleIdOnMAL": 8,
     "minOnMAL": "1",
-    "maxOnMAL": "5",
-    "episodeNumberForWatchForFront": null,
-    "finalUrlForFront": null
+    "maxOnMAL": "5"
   }
 ]

@@ -30,7 +30,7 @@ application:
     github:
       name: github
       ttl: 3600
-      max-entity-count: 1
+      max-entity-count: 2
     sse:
       name: sse
       ttl: 300
@@ -46,6 +46,10 @@ application:
     offset-step: 300
   fandub:
     disabled: NINEANIME
+  github:
+    resources:
+      animedia-titles: animediaTitles.json
+      anidub-titles: anidubTitles.json
 
 server:
   port: ${PORT}
@@ -74,6 +78,10 @@ nine-anime-feign-client:
     MaxAutoRetriesNextServer: 10
     listOfServers: https://9anime.to,https://9anime.tv,https://9anime.live,https://9anime.life,https://9anime.love,https://9anime.nl,https://9anime.one,https://9anime.page,https://9anime.ru,https://9anime.video
 
+anidub-api-feign-client:
+  ribbon:
+    listOfServers: ${ANIDUB-API-URL}
+
 ribbon:
   eureka:
     enabled: false
@@ -93,10 +101,13 @@ hystrix:
         isolation:
           thread:
             timeoutInMilliseconds: 60000
+
 spring:
   application:
     name: anime-checker
 
 logging:
   level:
-    com.netflix: error
+    ROOT: INFO
+    com.netflix: ERROR
+    nasirov.yv: DEBUG

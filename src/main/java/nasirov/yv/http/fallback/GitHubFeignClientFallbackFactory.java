@@ -1,7 +1,8 @@
 package nasirov.yv.http.fallback;
 
+import static org.apache.logging.log4j.util.Strings.EMPTY;
+
 import feign.hystrix.FallbackFactory;
-import java.util.Collections;
 import lombok.extern.slf4j.Slf4j;
 import nasirov.yv.http.feign.GitHubFeignClient;
 import org.springframework.stereotype.Component;
@@ -15,10 +16,10 @@ public class GitHubFeignClientFallbackFactory implements FallbackFactory<GitHubF
 
 	@Override
 	public GitHubFeignClient create(Throwable cause) {
-		return x -> {
-			log.error("GitHubFeignClient fallback during call /nasirov/anime-checker-resources/master/references.json | Cause message [{}]",
+		return (token, resourceName) -> {
+			log.error("GitHubFeignClient fallback during call /nasirov/anime-checker-resources/master/{} | Cause message [{}]", resourceName,
 					cause.getMessage());
-			return Collections.emptySet();
+			return EMPTY;
 		};
 	}
 }

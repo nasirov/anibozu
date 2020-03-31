@@ -23,12 +23,12 @@ import org.junit.Test;
 /**
  * Created by nasirov.yv
  */
-public class ReferencesServiceTest extends AbstractTest {
+public class GithubResourcesServiceTest extends AbstractTest {
 
 	@Test
 	public void getMultiSeasonsReferences() throws Exception {
 		stubGitHub();
-		Set<TitleReference> multiSeasonsReferences = referencesService.getReferences();
+		Set<TitleReference> multiSeasonsReferences = githubResourcesService.getResource("animediaTitles.json", TitleReference.class);
 		List<TitleReference> expected = getReferences(ArrayList.class, false);
 		assertEquals(expected.size(), multiSeasonsReferences.size());
 		multiSeasonsReferences.forEach(x -> assertTrue(expected.contains(x)));
@@ -38,7 +38,7 @@ public class ReferencesServiceTest extends AbstractTest {
 	public void updateReferences() throws Exception {
 		mockAnimediaService(buildRegularTitleResponse());
 		Set<TitleReference> referencesForUpdate = getReferences(LinkedHashSet.class, false);
-		referencesService.updateReferences(referencesForUpdate);
+		githubResourcesService.updateReferences(referencesForUpdate);
 		List<TitleReference> expectedUpdatedReferences = getReferences(ArrayList.class, true);
 		assertEquals(expectedUpdatedReferences.size(), referencesForUpdate.size());
 		referencesForUpdate.forEach(x -> assertTrue(expectedUpdatedReferences.contains(x)));
@@ -48,7 +48,7 @@ public class ReferencesServiceTest extends AbstractTest {
 	public void updateReferencesRegularWithJoinedEpisodes() throws Exception {
 		mockAnimediaService(buildRegularTitleWithJoinedEpisodesResponse());
 		Set<TitleReference> referencesForUpdate = getReferences(LinkedHashSet.class, false);
-		referencesService.updateReferences(referencesForUpdate);
+		githubResourcesService.updateReferences(referencesForUpdate);
 		List<TitleReference> expectedUpdatedReferences = buildExpectedWithRegularWithEpisodesRange();
 		assertEquals(expectedUpdatedReferences.size(), referencesForUpdate.size());
 		referencesForUpdate.forEach(x -> assertTrue(expectedUpdatedReferences.contains(x)));
@@ -87,9 +87,7 @@ public class ReferencesServiceTest extends AbstractTest {
 	}
 
 	private void stubGitHub() {
-		createStubWithBodyFile("/nasirov/anime-checker-resources/master/references.json",
-				TEXT_PLAIN_CHARSET_UTF_8,
-				"github/references.json",
+		createStubWithBodyFile("/nasirov/anime-checker-resources/master/animediaTitles.json", TEXT_PLAIN_CHARSET_UTF_8, "github/animediaTitles.json",
 				gitHubAuthProps.getToken());
 	}
 }

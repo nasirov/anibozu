@@ -28,3 +28,7 @@ github-feign-client:
 nine-anime-feign-client:
   ribbon:
     listOfServers: localhost:${wiremock.server.port}
+
+anidub-api-feign-client:
+  ribbon:
+    listOfServers: localhost:${wiremock.server.port}

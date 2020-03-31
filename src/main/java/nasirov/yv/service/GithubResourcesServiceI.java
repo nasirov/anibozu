@@ -6,9 +6,9 @@ import nasirov.yv.data.animedia.TitleReference;
 /**
  * Created by nasirov.yv
  */
-public interface ReferencesServiceI {
+public interface GithubResourcesServiceI {
 
-	Set<TitleReference> getReferences();
+	<T> Set<T> getResource(String resourceName, Class<T> targetClass);
 
 	void updateReferences(Set<TitleReference> references);
 }

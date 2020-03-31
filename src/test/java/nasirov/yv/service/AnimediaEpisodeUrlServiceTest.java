@@ -62,7 +62,7 @@ public class AnimediaEpisodeUrlServiceTest extends AbstractTest {
 	@Before
 	public void setUp() {
 		super.setUp();
-		mockReferencesService(getReferences());
+		mockGithubResourcesService(getReferences());
 	}
 
 	@Test
@@ -165,9 +165,9 @@ public class AnimediaEpisodeUrlServiceTest extends AbstractTest {
 		assertEquals(expectedUrl, actualUrl);
 	}
 
-	private void mockReferencesService(Set<TitleReference> references) {
-		doReturn(references).when(referencesService)
-				.getReferences();
+	private void mockGithubResourcesService(Set<TitleReference> references) {
+		doReturn(references).when(githubResourcesService)
+				.getResource("animediaTitles.json", TitleReference.class);
 	}
 
 	private Set<TitleReference> getReferences() {

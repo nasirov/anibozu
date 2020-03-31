@@ -1,5 +1,6 @@
 package nasirov.yv.controller;
 
+import static nasirov.yv.data.constants.FanDubSource.ANIDUB;
 import static nasirov.yv.data.constants.FanDubSource.ANIMEDIA;
 
 import nasirov.yv.data.mal.MALUser;
@@ -18,7 +19,8 @@ public class IndexController {
 	@GetMapping
 	public String index(Model model) {
 		model.addAttribute("malUser", new MALUser());
-		model.addAttribute("animedia", ANIMEDIA);
+		model.addAttribute(ANIMEDIA.getName(), ANIMEDIA);
+		model.addAttribute(ANIDUB.getName(), ANIDUB);
 		return "index";
 	}
 }

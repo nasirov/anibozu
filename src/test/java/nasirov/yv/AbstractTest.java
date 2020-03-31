@@ -20,10 +20,11 @@ import nasirov.yv.http.feign.AnimediaSiteFeignClient;
 import nasirov.yv.parser.WrappedObjectMapperI;
 import nasirov.yv.service.AnimeServiceI;
 import nasirov.yv.service.AnimediaServiceI;
+import nasirov.yv.service.GithubResourcesServiceI;
 import nasirov.yv.service.MALServiceI;
-import nasirov.yv.service.ReferencesServiceI;
 import nasirov.yv.service.ResourcesCheckerServiceI;
 import nasirov.yv.service.SseEmitterExecutorServiceI;
+import nasirov.yv.service.impl.AnidubEpisodeUrlService;
 import nasirov.yv.service.impl.AnimediaApiService;
 import nasirov.yv.service.impl.AnimediaEpisodeUrlService;
 import nasirov.yv.service.impl.AnimediaSiteService;
@@ -54,16 +55,16 @@ import org.springframework.test.web.servlet.MockMvc;
 public abstract class AbstractTest {
 
 	@MockBean
-	protected WrappedObjectMapperI wrappedObjectMapper;
-
-	@MockBean
 	protected AnimediaServiceI animediaService;
+
+	@SpyBean
+	protected WrappedObjectMapperI wrappedObjectMapper;
 
 	@SpyBean
 	protected MALServiceI malService;
 
 	@SpyBean
-	protected ReferencesServiceI referencesService;
+	protected GithubResourcesServiceI githubResourcesService;
 
 	@SpyBean
 	protected AnimeServiceI animeService;
@@ -100,6 +101,9 @@ public abstract class AbstractTest {
 
 	@Autowired
 	protected AnimediaProps animediaProps;
+
+	@Autowired
+	protected AnidubEpisodeUrlService anidubEpisodeUrlService;
 
 	protected AnimediaApiService animediaApiService;
 

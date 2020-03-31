@@ -44,10 +44,6 @@ public class Anime {
 	@Singular
 	private Map<FanDubSource, String> fanDubUrls;
 
-	public String getUrlByFanDubSourceName(String fanDubSourceName) {
-		return fanDubUrls.getOrDefault(FanDubSource.getFanDubSourceByName(fanDubSourceName), "");
-	}
-
 	public boolean isAvailable(String fanDubSourceName) {
 		String url = extractUrl(fanDubSourceName);
 		return !FINAL_URL_VALUE_IF_EPISODE_IS_NOT_AVAILABLE.equals(url) && !NOT_FOUND_ON_FANDUB_SITE_URL.equals(url);
@@ -55,10 +51,6 @@ public class Anime {
 
 	public boolean isNotAvailable(String fanDubSourceName) {
 		return FINAL_URL_VALUE_IF_EPISODE_IS_NOT_AVAILABLE.equals(extractUrl(fanDubSourceName));
-	}
-
-	public boolean isNotFound(String fanDubSourceName) {
-		return NOT_FOUND_ON_FANDUB_SITE_URL.equals(extractUrl(fanDubSourceName));
 	}
 
 	private String extractUrl(String fanDubSourceName) {

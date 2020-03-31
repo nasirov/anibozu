@@ -12,17 +12,20 @@ import static nasirov.yv.utils.TestConstants.REGULAR_TITLE_NAME;
 import static nasirov.yv.utils.TestConstants.REGULAR_TITLE_URL;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.argThat;
+import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
 import com.google.common.collect.Sets;
+import java.io.File;
 import java.util.LinkedList;
 import java.util.Set;
 import nasirov.yv.AbstractTest;
 import nasirov.yv.data.animedia.AnimediaSearchListTitle;
 import nasirov.yv.data.animedia.TitleReference;
+import org.junit.Before;
 import org.junit.Test;
 import org.springframework.util.CollectionUtils;
 
@@ -30,6 +33,14 @@ import org.springframework.util.CollectionUtils;
  * Created by nasirov.yv
  */
 public class ResourcesCheckerServiceTest extends AbstractTest {
+
+	@Override
+	@Before
+	public void setUp() {
+		super.setUp();
+		doNothing().when(wrappedObjectMapper)
+				.marshal(any(File.class), any());
+	}
 
 	@Test
 	public void checkReferencesNamesOk() {
@@ -65,8 +76,8 @@ public class ResourcesCheckerServiceTest extends AbstractTest {
 	}
 
 	private void mockGetReferences(Set<TitleReference> allReferences) {
-		doReturn(allReferences).when(referencesService)
-				.getReferences();
+		doReturn(allReferences).when(githubResourcesService)
+				.getResource("animediaTitles.json", TitleReference.class);
 	}
 
 	private void mockIsTitleExist(boolean isTitleExist) {
