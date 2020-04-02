@@ -24,6 +24,7 @@ import nasirov.yv.service.GithubResourcesServiceI;
 import nasirov.yv.service.MALServiceI;
 import nasirov.yv.service.ResourcesCheckerServiceI;
 import nasirov.yv.service.SseEmitterExecutorServiceI;
+import nasirov.yv.service.TitleReferenceUpdateServiceI;
 import nasirov.yv.service.impl.AnidubEpisodeUrlService;
 import nasirov.yv.service.impl.AnimediaApiService;
 import nasirov.yv.service.impl.AnimediaEpisodeUrlService;
@@ -104,6 +105,9 @@ public abstract class AbstractTest {
 
 	@Autowired
 	protected AnidubEpisodeUrlService anidubEpisodeUrlService;
+
+	@Autowired
+	protected TitleReferenceUpdateServiceI titleReferenceUpdateService;
 
 	protected AnimediaApiService animediaApiService;
 

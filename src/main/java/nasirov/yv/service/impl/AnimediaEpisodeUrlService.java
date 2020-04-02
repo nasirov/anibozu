@@ -22,6 +22,7 @@ import nasirov.yv.data.properties.GithubResources;
 import nasirov.yv.data.properties.UrlsNames;
 import nasirov.yv.service.EpisodeUrlServiceI;
 import nasirov.yv.service.GithubResourcesServiceI;
+import nasirov.yv.service.TitleReferenceUpdateServiceI;
 import nasirov.yv.util.AnimediaUtils;
 import org.springframework.stereotype.Service;
 
@@ -41,6 +42,8 @@ public class AnimediaEpisodeUrlService implements EpisodeUrlServiceI {
 
 	private final GithubResources githubResources;
 
+	private final TitleReferenceUpdateServiceI titleReferenceUpdateService;
+
 	@Override
 	public String getEpisodeUrl(UserMALTitleInfo watchingTitle) {
 		return buildEpisodeUrl(watchingTitle);
@@ -49,7 +52,7 @@ public class AnimediaEpisodeUrlService implements EpisodeUrlServiceI {
 	private String buildEpisodeUrl(UserMALTitleInfo watchingTitle) {
 		String result;
 		Set<TitleReference> matchedReferences = getMatchedReferences(watchingTitle);
-		githubResourcesService.updateReferences(matchedReferences);
+		titleReferenceUpdateService.updateReferences(matchedReferences);
 		switch (matchedReferences.size()) {
 			case 0:
 				result = handleZeroMatchedResult(watchingTitle);
