@@ -18,10 +18,9 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import nasirov.yv.data.animedia.TitleReference;
 import nasirov.yv.data.mal.UserMALTitleInfo;
-import nasirov.yv.data.properties.GithubResources;
 import nasirov.yv.data.properties.UrlsNames;
+import nasirov.yv.service.AnimediaGitHubResourcesServiceI;
 import nasirov.yv.service.EpisodeUrlServiceI;
-import nasirov.yv.service.GithubResourcesServiceI;
 import nasirov.yv.service.TitleReferenceUpdateServiceI;
 import nasirov.yv.util.AnimediaUtils;
 import org.springframework.stereotype.Service;
@@ -38,9 +37,7 @@ public class AnimediaEpisodeUrlService implements EpisodeUrlServiceI {
 
 	private final UrlsNames urlsNames;
 
-	private final GithubResourcesServiceI githubResourcesService;
-
-	private final GithubResources githubResources;
+	private final AnimediaGitHubResourcesServiceI animediaGitHubResourcesService;
 
 	private final TitleReferenceUpdateServiceI titleReferenceUpdateService;
 
@@ -132,11 +129,8 @@ public class AnimediaEpisodeUrlService implements EpisodeUrlServiceI {
 	}
 
 	private Set<TitleReference> getMatchedReferences(UserMALTitleInfo userMALTitleInfo) {
-		return githubResourcesService.getResource(githubResources.getAnimediaTitles(), TitleReference.class)
-				.stream()
-				.filter(set -> set.getTitleNameOnMAL()
-						.equals(userMALTitleInfo.getTitle()))
-				.collect(Collectors.toSet());
+		return animediaGitHubResourcesService.getTitleReferences()
+				.getOrDefault(userMALTitleInfo.getAnimeId(), Collections.emptySet());
 	}
 
 	/**

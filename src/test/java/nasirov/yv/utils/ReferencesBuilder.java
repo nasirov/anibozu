@@ -12,16 +12,18 @@ import static nasirov.yv.utils.TestConstants.CONCRETIZED_AND_ONGOING_TITLE_MAL_A
 import static nasirov.yv.utils.TestConstants.CONCRETIZED_AND_ONGOING_TITLE_NAME;
 import static nasirov.yv.utils.TestConstants.CONCRETIZED_AND_ONGOING_TITLE_URL;
 import static nasirov.yv.utils.TestConstants.CONCRETIZED_TITLE_ID;
-import static nasirov.yv.utils.TestConstants.CONCRETIZED_TITLE_MAL_ANIME_ID;
 import static nasirov.yv.utils.TestConstants.CONCRETIZED_TITLE_URL;
 import static nasirov.yv.utils.TestConstants.CONCRETIZED_TITLE_WITH_EPISODES_RANGE_NAME;
+import static nasirov.yv.utils.TestConstants.CONCRETIZED_TITLE_WITH_SINGLE_EPISODE_MAL_ANIME_ID;
 import static nasirov.yv.utils.TestConstants.CONCRETIZED_TITLE_WITH_SINGLE_EPISODE_NAME;
+import static nasirov.yv.utils.TestConstants.CONCRETIZED_TITLE_WITH_WITH_EPISODES_RANGE_MAL_ANIME_ID;
 import static nasirov.yv.utils.TestConstants.REGULAR_TITLE_ID;
-import static nasirov.yv.utils.TestConstants.REGULAR_TITLE_MAL_ID;
+import static nasirov.yv.utils.TestConstants.REGULAR_TITLE_MAL_ANIME_ID;
 import static nasirov.yv.utils.TestConstants.REGULAR_TITLE_NAME;
 import static nasirov.yv.utils.TestConstants.REGULAR_TITLE_URL;
 
 import java.util.Collection;
+import lombok.SneakyThrows;
 import lombok.experimental.UtilityClass;
 import nasirov.yv.data.animedia.TitleReference;
 
@@ -39,7 +41,8 @@ public class ReferencesBuilder {
 		return regularReferenceNotUpdated;
 	}
 
-	public static <T extends Collection> T getReferences(Class<T> collection, boolean updated) throws IllegalAccessException, InstantiationException {
+	@SneakyThrows
+	public static <T extends Collection> T getReferences(Class<T> collection, boolean updated) {
 		T refs = collection.newInstance();
 		TitleReference regularReferenceNotUpdated = getRegularReferenceNotUpdated();
 		TitleReference announcementReference = getAnnouncementReference();
@@ -79,7 +82,7 @@ public class ReferencesBuilder {
 				.dataListOnAnimedia("7")
 				.animeIdOnAnimedia(CONCRETIZED_TITLE_ID)
 				.titleNameOnMAL(CONCRETIZED_TITLE_WITH_EPISODES_RANGE_NAME)
-				.titleIdOnMAL(CONCRETIZED_TITLE_MAL_ANIME_ID)
+				.titleIdOnMAL(CONCRETIZED_TITLE_WITH_WITH_EPISODES_RANGE_MAL_ANIME_ID)
 				.minOnAnimedia("1")
 				.maxOnAnimedia("6")
 				.minOnMAL("1")
@@ -93,7 +96,7 @@ public class ReferencesBuilder {
 				.urlOnAnimedia(CONCRETIZED_TITLE_URL)
 				.animeIdOnAnimedia(CONCRETIZED_TITLE_ID)
 				.titleNameOnMAL(CONCRETIZED_TITLE_WITH_SINGLE_EPISODE_NAME)
-				.titleIdOnMAL(CONCRETIZED_TITLE_MAL_ANIME_ID)
+				.titleIdOnMAL(CONCRETIZED_TITLE_WITH_SINGLE_EPISODE_MAL_ANIME_ID)
 				.dataListOnAnimedia("7")
 				.minOnAnimedia("7")
 				.maxOnAnimedia("7")
@@ -121,7 +124,7 @@ public class ReferencesBuilder {
 				.dataListOnAnimedia("1")
 				.minOnAnimedia("1")
 				.titleNameOnMAL(REGULAR_TITLE_NAME)
-				.titleIdOnMAL(REGULAR_TITLE_MAL_ID)
+				.titleIdOnMAL(REGULAR_TITLE_MAL_ANIME_ID)
 				.build();
 	}
 

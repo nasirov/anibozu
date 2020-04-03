@@ -11,9 +11,12 @@ import com.fasterxml.jackson.core.JsonGenerationException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.type.CollectionType;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Sets;
 import java.io.File;
 import java.util.ArrayList;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -65,17 +68,29 @@ public class WrappedObjectMapperTest {
 	}
 
 	@Test
-	public void unmarshalCollectionOk() {
+	public void unmarshalListOk() {
 		String jsonList = "[{\"testField\":\"foo\"},{\"testField\":\"bar\"}]";
-		List<FooBarObject> result = wrappedObjectMapper.unmarshal(jsonList, FooBarObject.class, ArrayList.class);
+		List<FooBarObject> result = wrappedObjectMapper.unmarshalToList(jsonList, FooBarObject.class, ArrayList.class);
 		assertEquals(result, buildTestList());
 	}
 
+	@Test
+	public void unmarshalSetOk() {
+		String jsonList = "[{\"testField\":\"foo\"},{\"testField\":\"bar\"}]";
+		Set<FooBarObject> result = wrappedObjectMapper.unmarshalToSet(jsonList, FooBarObject.class, LinkedHashSet.class);
+		assertEquals(result, buildTestSet());
+	}
+
 	@Test(expected = JsonGenerationException.class)
-	public void unmarshalCollectionFail() {
+	public void unmarshalListFail() {
 		mockObjectMapperReadFail();
-		List<FooBarObject> result = wrappedObjectMapper.unmarshal("", FooBarObject.class, ArrayList.class);
-		assertEquals(result, result);
+		wrappedObjectMapper.unmarshalToList("", FooBarObject.class, ArrayList.class);
+	}
+
+	@Test(expected = JsonGenerationException.class)
+	public void unmarshalSetFail() {
+		mockObjectMapperReadFail();
+		wrappedObjectMapper.unmarshalToSet("", FooBarObject.class, LinkedHashSet.class);
 	}
 
 	@SneakyThrows
@@ -100,6 +115,10 @@ public class WrappedObjectMapperTest {
 
 	private List<FooBarObject> buildTestList() {
 		return Lists.newArrayList(buildFooBarObject("foo"), buildFooBarObject("bar"));
+	}
+
+	private Set<FooBarObject> buildTestSet() {
+		return Sets.newLinkedHashSet(buildTestList());
 	}
 
 	@Data

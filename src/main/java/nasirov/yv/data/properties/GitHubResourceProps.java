@@ -13,7 +13,7 @@ import org.springframework.validation.annotation.Validated;
 @Validated
 @Configuration
 @ConfigurationProperties(prefix = "application.github.resources")
-public class GithubResources {
+public class GitHubResourceProps {
 
 	@NotBlank
 	private String animediaTitles;

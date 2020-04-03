@@ -14,9 +14,9 @@ import nasirov.yv.data.anidub.AnidubTitle;
 import nasirov.yv.data.anidub.AnidubTitleEpisode;
 import nasirov.yv.data.anidub.AnidubTitleFandubSource;
 import nasirov.yv.data.mal.UserMALTitleInfo;
-import nasirov.yv.data.properties.GithubResources;
 import nasirov.yv.http.feign.AnidubApiFeignClient;
 import nasirov.yv.parser.AnidubParserI;
+import nasirov.yv.service.AnidubGitHubResourcesServiceI;
 import nasirov.yv.service.EpisodeUrlServiceI;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Service;
@@ -29,7 +29,7 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class AnidubEpisodeUrlService implements EpisodeUrlServiceI {
 
-	private static final String ANIDUB_FANDUB_NAME = "AniDUB";
+	private static final String ANIDUB_FANDUB_NAME = "anidub";
 
 	private static final String UNAVAILABLE_SOURCE_MARK = "(не работает)";
 
@@ -41,9 +41,7 @@ public class AnidubEpisodeUrlService implements EpisodeUrlServiceI {
 
 	private final AnidubApiFeignClient anidubApiFeignClient;
 
-	private final GithubResourcesService githubResourcesService;
-
-	private final GithubResources githubResources;
+	private final AnidubGitHubResourcesServiceI anidubGitHubResourcesService;
 
 	private final AnidubParserI anidubParser;
 
@@ -66,19 +64,15 @@ public class AnidubEpisodeUrlService implements EpisodeUrlServiceI {
 	}
 
 	private AnidubTitle getMatchedTitle(UserMALTitleInfo watchingTitle) {
-		return githubResourcesService.getResource(githubResources.getAnidubTitles(), AnidubTitle.class)
-				.stream()
-				.filter(x -> watchingTitle.getAnimeId()
-						.equals(x.getTitleIdOnMal()))
-				.findFirst()
-				.orElse(null);
+		return anidubGitHubResourcesService.getAnidubTitles()
+				.get(watchingTitle.getAnimeId());
 	}
 
 	private Integer getAnidubFandubId(Integer titleId) {
 		return anidubApiFeignClient.getAvailableFandubs(titleId)
 				.getTypes()
 				.stream()
-				.filter(x -> ANIDUB_FANDUB_NAME.equals(x.getName()))
+				.filter(x -> ANIDUB_FANDUB_NAME.equals(StringUtils.lowerCase(x.getName())))
 				.findFirst()
 				.orElseGet(AnidubTitleFandubSource::new)
 				.getId();

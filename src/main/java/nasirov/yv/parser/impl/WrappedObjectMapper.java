@@ -6,6 +6,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.type.CollectionType;
 import java.io.File;
 import java.util.Collection;
+import java.util.List;
+import java.util.Set;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
@@ -31,8 +33,17 @@ public class WrappedObjectMapper implements WrappedObjectMapperI {
 	}
 
 	@Override
+	public <T, C extends Set> Set<T> unmarshalToSet(String content, Class<T> targetClass, Class<C> collection) {
+		return readValue(content, targetClass, collection);
+	}
+
+	@Override
+	public <T, C extends List> List<T> unmarshalToList(String content, Class<T> targetClass, Class<C> collection) {
+		return readValue(content, targetClass, collection);
+	}
+
 	@SneakyThrows
-	public <T, C extends Collection> C unmarshal(String content, Class<T> targetClass, Class<C> collection) {
+	private <T, C extends Collection> T readValue(String content, Class<?> targetClass, Class<C> collection) {
 		CollectionType collectionType = objectMapper.getTypeFactory()
 				.constructCollectionType(collection, targetClass);
 		return objectMapper.readValue(content, collectionType);

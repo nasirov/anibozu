@@ -20,7 +20,7 @@ import nasirov.yv.http.feign.AnimediaSiteFeignClient;
 import nasirov.yv.parser.WrappedObjectMapperI;
 import nasirov.yv.service.AnimeServiceI;
 import nasirov.yv.service.AnimediaServiceI;
-import nasirov.yv.service.GithubResourcesServiceI;
+import nasirov.yv.service.GitHubResourcesServiceI;
 import nasirov.yv.service.MALServiceI;
 import nasirov.yv.service.ResourcesCheckerServiceI;
 import nasirov.yv.service.SseEmitterExecutorServiceI;
@@ -65,7 +65,7 @@ public abstract class AbstractTest {
 	protected MALServiceI malService;
 
 	@SpyBean
-	protected GithubResourcesServiceI githubResourcesService;
+	protected GitHubResourcesServiceI githubResourcesService;
 
 	@SpyBean
 	protected AnimeServiceI animeService;

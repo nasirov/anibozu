@@ -8,7 +8,7 @@ import static org.ehcache.jsr107.Eh107Configuration.fromEhcacheCacheConfiguratio
 
 import com.google.common.collect.Sets;
 import java.util.ArrayList;
-import java.util.LinkedHashSet;
+import java.util.HashMap;
 import javax.cache.CacheManager;
 import javax.cache.configuration.Configuration;
 import lombok.RequiredArgsConstructor;
@@ -36,7 +36,7 @@ public class CacheConfig implements JCacheManagerCustomizer {
 	public void customize(CacheManager cacheManager) {
 		buildCache(cacheManager, cacheProps.getDataListInfo(), ArrayList.class);
 		buildCache(cacheManager, cacheProps.getMal(), ArrayList.class);
-		buildCache(cacheManager, cacheProps.getGithub(), LinkedHashSet.class);
+		buildCache(cacheManager, cacheProps.getGithub(), HashMap.class);
 		buildCache(cacheManager, cacheProps.getSse(), SseAction.class);
 	}
 

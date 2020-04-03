@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import nasirov.yv.data.github.GitHubResource;
 
 /**
  * Dto adapter between MAL and Animedia
@@ -17,7 +18,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class TitleReference {
+public class TitleReference extends GitHubResource {
 
 	/**
 	 * URL on Animedia

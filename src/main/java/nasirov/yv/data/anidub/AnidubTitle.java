@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import nasirov.yv.data.github.GitHubResource;
 
 /**
  * Created by nasirov.yv
@@ -15,7 +16,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class AnidubTitle {
+public class AnidubTitle extends GitHubResource {
 
 	@JsonProperty(value = "id")
 	private Integer id;

@@ -25,7 +25,7 @@ import org.junit.Test;
 public class TitleReferenceUpdaterServiceTest extends AbstractTest {
 
 	@Test
-	public void updateReferences() throws Exception {
+	public void updateReferences() {
 		mockAnimediaService(buildRegularTitleResponse());
 		Set<TitleReference> referencesForUpdate = getReferences(LinkedHashSet.class, false);
 		titleReferenceUpdateService.updateReferences(referencesForUpdate);
@@ -35,7 +35,7 @@ public class TitleReferenceUpdaterServiceTest extends AbstractTest {
 	}
 
 	@Test
-	public void updateReferencesRegularWithJoinedEpisodes() throws Exception {
+	public void updateReferencesRegularWithJoinedEpisodes() {
 		mockAnimediaService(buildRegularTitleWithJoinedEpisodesResponse());
 		Set<TitleReference> referencesForUpdate = getReferences(LinkedHashSet.class, false);
 		titleReferenceUpdateService.updateReferences(referencesForUpdate);
@@ -44,7 +44,7 @@ public class TitleReferenceUpdaterServiceTest extends AbstractTest {
 		referencesForUpdate.forEach(x -> assertTrue(expectedUpdatedReferences.contains(x)));
 	}
 
-	private List<TitleReference> buildExpectedWithRegularWithEpisodesRange() throws IllegalAccessException, InstantiationException {
+	private List<TitleReference> buildExpectedWithRegularWithEpisodesRange() {
 		List<TitleReference> expectedUpdatedReferences = getReferences(ArrayList.class, true);
 		expectedUpdatedReferences.stream()
 				.filter(x -> x.getUrlOnAnimedia()

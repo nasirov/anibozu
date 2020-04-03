@@ -7,6 +7,7 @@ import static nasirov.yv.utils.ReferencesBuilder.getAnnouncementReference;
 import static nasirov.yv.utils.ReferencesBuilder.getConcretizedReferenceWithEpisodesRange;
 import static nasirov.yv.utils.ReferencesBuilder.getConcretizedReferenceWithSingleEpisode;
 import static nasirov.yv.utils.TestConstants.ANIMEDIA_ONLINE_TV;
+import static nasirov.yv.utils.TestConstants.ANNOUNCEMENT_TITLE_MAL_ANIME_ID;
 import static nasirov.yv.utils.TestConstants.ANNOUNCEMENT_TITLE_MAL_ANIME_URL;
 import static nasirov.yv.utils.TestConstants.ANNOUNCEMENT_TITLE_NAME;
 import static nasirov.yv.utils.TestConstants.ANNOUNCEMENT_TITLE_POSTER_URL;
@@ -18,12 +19,16 @@ import static nasirov.yv.utils.TestConstants.CONCRETIZED_TITLE_WITH_JOINED_EPISO
 import static nasirov.yv.utils.TestConstants.CONCRETIZED_TITLE_WITH_JOINED_EPISODES_NAME;
 import static nasirov.yv.utils.TestConstants.CONCRETIZED_TITLE_WITH_JOINED_EPISODES_POSTER_URL;
 import static nasirov.yv.utils.TestConstants.CONCRETIZED_TITLE_WITH_JOINED_EPISODES_URL;
+import static nasirov.yv.utils.TestConstants.CONCRETIZED_TITLE_WITH_SINGLE_EPISODE_MAL_ANIME_ID;
 import static nasirov.yv.utils.TestConstants.CONCRETIZED_TITLE_WITH_SINGLE_EPISODE_NAME;
+import static nasirov.yv.utils.TestConstants.CONCRETIZED_TITLE_WITH_WITH_EPISODES_RANGE_MAL_ANIME_ID;
 import static nasirov.yv.utils.TestConstants.MY_ANIME_LIST_STATIC_CONTENT_URL;
 import static nasirov.yv.utils.TestConstants.MY_ANIME_LIST_URL;
+import static nasirov.yv.utils.TestConstants.NOT_FOUND_ON_ANIMEDIA_MAL_ANIME_ID;
 import static nasirov.yv.utils.TestConstants.NOT_FOUND_ON_ANIMEDIA_TITLE_MAL_ANIME_URL;
 import static nasirov.yv.utils.TestConstants.NOT_FOUND_ON_ANIMEDIA_TITLE_NAME;
 import static nasirov.yv.utils.TestConstants.NOT_FOUND_ON_ANIMEDIA_TITLE_POSTER_URL;
+import static nasirov.yv.utils.TestConstants.REGULAR_TITLE_MAL_ANIME_ID;
 import static nasirov.yv.utils.TestConstants.REGULAR_TITLE_MAL_ANIME_URL;
 import static nasirov.yv.utils.TestConstants.REGULAR_TITLE_NAME;
 import static nasirov.yv.utils.TestConstants.REGULAR_TITLE_POSTER_URL;
@@ -62,12 +67,12 @@ public class AnimediaEpisodeUrlServiceTest extends AbstractTest {
 	@Before
 	public void setUp() {
 		super.setUp();
-		mockGithubResourcesService(getReferences());
+		mockGitHubResourcesService(getReferences());
 	}
 
 	@Test
 	public void handleZeroMatchedResult() {
-		UserMALTitleInfo notFoundOnAnimediaTitle = buildWatchingTitle(NOT_FOUND_ON_ANIMEDIA_TITLE_NAME,
+		UserMALTitleInfo notFoundOnAnimediaTitle = buildWatchingTitle(NOT_FOUND_ON_ANIMEDIA_MAL_ANIME_ID, NOT_FOUND_ON_ANIMEDIA_TITLE_NAME,
 				0,
 				NOT_FOUND_ON_ANIMEDIA_TITLE_POSTER_URL,
 				NOT_FOUND_ON_ANIMEDIA_TITLE_MAL_ANIME_URL);
@@ -76,7 +81,7 @@ public class AnimediaEpisodeUrlServiceTest extends AbstractTest {
 
 	@Test
 	public void handleOneMatchedResultAnnouncement() {
-		UserMALTitleInfo announcementTitle = buildWatchingTitle(ANNOUNCEMENT_TITLE_NAME,
+		UserMALTitleInfo announcementTitle = buildWatchingTitle(ANNOUNCEMENT_TITLE_MAL_ANIME_ID, ANNOUNCEMENT_TITLE_NAME,
 				0,
 				ANNOUNCEMENT_TITLE_POSTER_URL,
 				ANNOUNCEMENT_TITLE_MAL_ANIME_URL);
@@ -85,19 +90,27 @@ public class AnimediaEpisodeUrlServiceTest extends AbstractTest {
 
 	@Test
 	public void handleOneMatchedResultNewEpisodeAvailable() {
-		UserMALTitleInfo title = buildWatchingTitle(REGULAR_TITLE_NAME, 0, REGULAR_TITLE_POSTER_URL, REGULAR_TITLE_MAL_ANIME_URL);
+		UserMALTitleInfo title = buildWatchingTitle(REGULAR_TITLE_MAL_ANIME_ID,
+				REGULAR_TITLE_NAME,
+				0,
+				REGULAR_TITLE_POSTER_URL,
+				REGULAR_TITLE_MAL_ANIME_URL);
 		performAndCheck(title, urlForReference("1", null));
 	}
 
 	@Test
 	public void handleOneMatchedResultNewEpisodeNotAvailable() {
-		UserMALTitleInfo title = buildWatchingTitle(REGULAR_TITLE_NAME, 12, REGULAR_TITLE_POSTER_URL, REGULAR_TITLE_MAL_ANIME_URL);
+		UserMALTitleInfo title = buildWatchingTitle(REGULAR_TITLE_MAL_ANIME_ID,
+				REGULAR_TITLE_NAME,
+				12,
+				REGULAR_TITLE_POSTER_URL,
+				REGULAR_TITLE_MAL_ANIME_URL);
 		performAndCheck(title, urlForReference(null, FINAL_URL_VALUE_IF_EPISODE_IS_NOT_AVAILABLE));
 	}
 
 	@Test
 	public void handleOneMatchedResultIsConcretizedTitleWithSingleEpisodeAvailable() {
-		UserMALTitleInfo title = buildWatchingTitle(CONCRETIZED_TITLE_WITH_SINGLE_EPISODE_NAME,
+		UserMALTitleInfo title = buildWatchingTitle(CONCRETIZED_TITLE_WITH_SINGLE_EPISODE_MAL_ANIME_ID, CONCRETIZED_TITLE_WITH_SINGLE_EPISODE_NAME,
 				0,
 				CONCRETIZED_TITLE_POSTER_URL,
 				CONCRETIZED_TITLE_MAL_ANIME_URL);
@@ -106,7 +119,7 @@ public class AnimediaEpisodeUrlServiceTest extends AbstractTest {
 
 	@Test
 	public void handleOneMatchedResultIsConcretizedTitleWithSingleEpisodeNotAvailable() {
-		UserMALTitleInfo title = buildWatchingTitle(CONCRETIZED_TITLE_WITH_SINGLE_EPISODE_NAME,
+		UserMALTitleInfo title = buildWatchingTitle(CONCRETIZED_TITLE_WITH_SINGLE_EPISODE_MAL_ANIME_ID, CONCRETIZED_TITLE_WITH_SINGLE_EPISODE_NAME,
 				1,
 				CONCRETIZED_TITLE_POSTER_URL,
 				CONCRETIZED_TITLE_MAL_ANIME_URL);
@@ -115,7 +128,7 @@ public class AnimediaEpisodeUrlServiceTest extends AbstractTest {
 
 	@Test
 	public void handleOneMatchedResultIsConcretizedTitleWithEpisodesRange() {
-		UserMALTitleInfo title = buildWatchingTitle(CONCRETIZED_TITLE_WITH_EPISODES_RANGE_NAME,
+		UserMALTitleInfo title = buildWatchingTitle(CONCRETIZED_TITLE_WITH_WITH_EPISODES_RANGE_MAL_ANIME_ID, CONCRETIZED_TITLE_WITH_EPISODES_RANGE_NAME,
 				0,
 				CONCRETIZED_TITLE_POSTER_URL,
 				CONCRETIZED_TITLE_MAL_ANIME_URL);
@@ -124,7 +137,7 @@ public class AnimediaEpisodeUrlServiceTest extends AbstractTest {
 
 	@Test
 	public void handleMoreThanOneMatchedResultOnSameDataListOneMatch() {
-		UserMALTitleInfo title = buildWatchingTitle(CONCRETIZED_TITLE_WITH_JOINED_EPISODES_NAME,
+		UserMALTitleInfo title = buildWatchingTitle(CONCRETIZED_TITLE_WITH_JOINED_EPISODES_MAL_ANIME_ID, CONCRETIZED_TITLE_WITH_JOINED_EPISODES_NAME,
 				1,
 				CONCRETIZED_TITLE_WITH_JOINED_EPISODES_POSTER_URL,
 				CONCRETIZED_TITLE_MAL_ANIME_URL);
@@ -133,7 +146,7 @@ public class AnimediaEpisodeUrlServiceTest extends AbstractTest {
 
 	@Test
 	public void handleMoreThanOneMatchedResultOnSameDataListSeveralMatches() {
-		UserMALTitleInfo title = buildWatchingTitle(CONCRETIZED_TITLE_WITH_JOINED_EPISODES_NAME,
+		UserMALTitleInfo title = buildWatchingTitle(CONCRETIZED_TITLE_WITH_JOINED_EPISODES_MAL_ANIME_ID, CONCRETIZED_TITLE_WITH_JOINED_EPISODES_NAME,
 				3,
 				CONCRETIZED_TITLE_WITH_JOINED_EPISODES_POSTER_URL,
 				CONCRETIZED_TITLE_MAL_ANIME_URL);
@@ -142,7 +155,7 @@ public class AnimediaEpisodeUrlServiceTest extends AbstractTest {
 
 	@Test
 	public void handleMoreThanOneMatchedResult() {
-		UserMALTitleInfo title = buildWatchingTitle(TITLE_ON_SEVERAL_DATA_LISTS_NAME,
+		UserMALTitleInfo title = buildWatchingTitle(TITLE_ON_SEVERAL_DATA_LISTS_MAL_ANIME_ID, TITLE_ON_SEVERAL_DATA_LISTS_NAME,
 				9,
 				TITLE_ON_SEVERAL_DATA_LISTS_POSTER_URL,
 				TITLE_ON_SEVERAL_DATA_LISTS_MAL_ANIME_URL);
@@ -151,7 +164,7 @@ public class AnimediaEpisodeUrlServiceTest extends AbstractTest {
 
 	@Test
 	public void handleMoreThanOneMatchedResultJoinedEpisode() {
-		UserMALTitleInfo title = buildWatchingTitle(TITLE_WITH_JOINED_EPISODES_NAME,
+		UserMALTitleInfo title = buildWatchingTitle(TITLE_WITH_JOINED_EPISODES_MAL_ANIME_ID, TITLE_WITH_JOINED_EPISODES_NAME,
 				2,
 				TITLE_WITH_JOINED_EPISODES_POSTER_URL,
 				TITLE_WITH_JOINED_EPISODES_MAL_ANIME_URL);
@@ -165,7 +178,7 @@ public class AnimediaEpisodeUrlServiceTest extends AbstractTest {
 		assertEquals(expectedUrl, actualUrl);
 	}
 
-	private void mockGithubResourcesService(Set<TitleReference> references) {
+	private void mockGitHubResourcesService(Set<TitleReference> references) {
 		doReturn(references).when(githubResourcesService)
 				.getResource("animediaTitles.json", TitleReference.class);
 	}
@@ -284,7 +297,7 @@ public class AnimediaEpisodeUrlServiceTest extends AbstractTest {
 		return result;
 	}
 
-	private UserMALTitleInfo buildWatchingTitle(String titleName, int numWatchedEpisodes, String posterUrl, String animeUrl) {
-		return new UserMALTitleInfo(1, numWatchedEpisodes, titleName, MY_ANIME_LIST_STATIC_CONTENT_URL + posterUrl, MY_ANIME_LIST_URL + animeUrl);
+	private UserMALTitleInfo buildWatchingTitle(int animeId, String titleName, int numWatchedEpisodes, String posterUrl, String animeUrl) {
+		return new UserMALTitleInfo(animeId, numWatchedEpisodes, titleName, MY_ANIME_LIST_STATIC_CONTENT_URL + posterUrl, MY_ANIME_LIST_URL + animeUrl);
 	}
 }

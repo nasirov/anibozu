@@ -12,5 +12,19 @@
     "title_original": "regular title name",
     "title_ru": "название на русском",
     "titleIdOnMAL": 2
+  },
+  {
+    "id": 1,
+    "status": {
+      "id": 1,
+      "name": "Вышел"
+    },
+    "category": {
+      "id": 1,
+      "name": "Сериал"
+    },
+    "title_original": "not found on mal",
+    "title_ru": "название на русском",
+    "titleIdOnMAL": null
   }
 ]

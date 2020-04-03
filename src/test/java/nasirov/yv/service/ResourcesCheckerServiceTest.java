@@ -7,7 +7,7 @@ import static nasirov.yv.utils.AnimediaSearchListTitleBuilder.getRegularTitle;
 import static nasirov.yv.utils.ReferencesBuilder.getRegularReferenceNotUpdated;
 import static nasirov.yv.utils.ReferencesBuilder.notFoundOnAnimedia;
 import static nasirov.yv.utils.TestConstants.REGULAR_TITLE_ID;
-import static nasirov.yv.utils.TestConstants.REGULAR_TITLE_MAL_ID;
+import static nasirov.yv.utils.TestConstants.REGULAR_TITLE_MAL_ANIME_ID;
 import static nasirov.yv.utils.TestConstants.REGULAR_TITLE_NAME;
 import static nasirov.yv.utils.TestConstants.REGULAR_TITLE_URL;
 import static org.mockito.ArgumentMatchers.any;
@@ -82,7 +82,7 @@ public class ResourcesCheckerServiceTest extends AbstractTest {
 
 	private void mockIsTitleExist(boolean isTitleExist) {
 		doReturn(isTitleExist).when(malService)
-				.isTitleExist(REGULAR_TITLE_NAME, REGULAR_TITLE_MAL_ID);
+				.isTitleExist(REGULAR_TITLE_NAME, REGULAR_TITLE_MAL_ANIME_ID);
 	}
 
 	private void mockGetAnimediaSearchList(Set<AnimediaSearchListTitle> animediaSearchListFromAnimedia) {

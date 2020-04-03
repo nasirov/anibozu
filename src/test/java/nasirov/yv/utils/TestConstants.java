@@ -20,7 +20,7 @@ public class TestConstants {
 	public static final String REGULAR_TITLE_ID = "9480";
 	public static final String REGULAR_TITLE_POSTER_URL = "images/anime/2/regularTitle.jpg";
 	public static final String REGULAR_TITLE_MAL_ANIME_URL = "/anime/2/regular%20title%20name";
-	public static final Integer REGULAR_TITLE_MAL_ID = 2;
+	public static final Integer REGULAR_TITLE_MAL_ANIME_ID = 2;
 	public static final Integer REGULAR_TITLE_ANIDUB_ID = 1;
 	public static final Integer REGULAR_TITLE_ANIDUB_TYPE_ID = 5;
 	public static final Integer REGULAR_TITLE_ANIDUB_TYPE_SUPPORTED_SOURCE_ID = 6;
@@ -56,11 +56,13 @@ public class TestConstants {
 	public static final String CONCRETIZED_TITLE_POSTER_URL = "images/anime/5/concretizedTitle.jpg";
 
 	public static final String CONCRETIZED_TITLE_MAL_ANIME_URL = "/anime/5/concretizedTitle";
-	public static final Integer CONCRETIZED_TITLE_MAL_ANIME_ID = 5;
+	public static final Integer CONCRETIZED_TITLE_WITH_SINGLE_EPISODE_MAL_ANIME_ID = 5;
+	public static final Integer CONCRETIZED_TITLE_WITH_WITH_EPISODES_RANGE_MAL_ANIME_ID = 6;
 
 	public static final String NOT_FOUND_ON_ANIMEDIA_TITLE_NAME = "not found on animedia title name";
 	public static final String NOT_FOUND_ON_ANIMEDIA_TITLE_POSTER_URL = "images/anime/6/notFoundOnAnimedia.jpg";
 	public static final String NOT_FOUND_ON_ANIMEDIA_TITLE_MAL_ANIME_URL = "/anime/6/not%20found%20on%20animedia%20title%20name";
+	public static final Integer NOT_FOUND_ON_ANIMEDIA_MAL_ANIME_ID = 9;
 
 	public static final String CONCRETIZED_TITLE_WITH_JOINED_EPISODES_NAME = "concretized title with joined episodes name";
 	public static final String CONCRETIZED_TITLE_WITH_JOINED_EPISODES_URL = "anime/concretized-title-with-joined-episodes-url";
