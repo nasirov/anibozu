@@ -14,6 +14,7 @@ public class TestConstants {
 	public static final String ANNOUNCEMENT_TITLE_POSTER_URL = "images/anime/1/announcement.jpg";
 	public static final String ANNOUNCEMENT_TITLE_MAL_ANIME_URL = "/anime/1/announcement%20title%20name";
 	public static final Integer ANNOUNCEMENT_TITLE_MAL_ANIME_ID = 1;
+	public static final String ANNOUNCEMENT_TITLE_ANIDUB_SITE_URL = "anime/full/1234-announcement-url.html";
 
 	public static final String REGULAR_TITLE_URL = "anime/regular-title-url";
 	public static final String REGULAR_TITLE_NAME = "regular title name";
@@ -24,7 +25,8 @@ public class TestConstants {
 	public static final Integer REGULAR_TITLE_ANIDUB_ID = 1;
 	public static final Integer REGULAR_TITLE_ANIDUB_TYPE_ID = 5;
 	public static final Integer REGULAR_TITLE_ANIDUB_TYPE_SUPPORTED_SOURCE_ID = 6;
-	public static final String REGULAR_TITLE_ANIDUB_URL = "https://video.sibnet.ru/shell.php?videoid=1234567";
+	public static final String REGULAR_TITLE_ANIDUB_API_URL = "https://video.sibnet.ru/shell.php?videoid=1234567";
+	public static final String REGULAR_TITLE_ANIDUB_SITE_URL = "anime/full/4321-regular-title-url.html";
 
 	public static final String REGULAR_TITLE_NINE_ANIME_DATA_ID = "12rtm34";
 	public static final String REGULAR_TITLE_DUB_NINE_ANIME_DATA_ID = "56rtm78";
@@ -86,6 +88,7 @@ public class TestConstants {
 	public static final String MY_ANIME_LIST_URL = "https://myanimelist.net";
 	public static final String ANIMEDIA_ONLINE_TV = "https://online.animedia.tv/";
 	public static final String NINE_ANIME_TO = "https://9anime.to";
+	public static final String ANIDUB_URL = "https://anime.anidub.life/";
 
 	public static final int TEST_ACC_WATCHING_TITLES = 2;
 

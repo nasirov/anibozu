@@ -25,7 +25,11 @@ public class UrlsNames {
 	@NotNull
 	private NineAnimeUrls nineAnimeUrls;
 
+	@NotNull
+	private AnidubUrls anidubUrls;
+
 	@Data
+	@Validated
 	public static class AnimediaUrls {
 
 		@NotBlank
@@ -33,6 +37,7 @@ public class UrlsNames {
 	}
 
 	@Data
+	@Validated
 	public static class MALUrls {
 
 		@NotBlank
@@ -43,9 +48,18 @@ public class UrlsNames {
 	}
 
 	@Data
+	@Validated
 	public static class NineAnimeUrls {
 
 		@NotBlank
 		private String nineAnimeTo;
+	}
+
+	@Data
+	@Validated
+	public static class AnidubUrls {
+
+		@NotBlank
+		private String anidubSiteUrl;
 	}
 }

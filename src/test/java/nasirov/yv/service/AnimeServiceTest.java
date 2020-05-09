@@ -4,6 +4,7 @@ import static nasirov.yv.data.constants.BaseConstants.FINAL_URL_VALUE_IF_EPISODE
 import static nasirov.yv.data.constants.BaseConstants.NOT_FOUND_ON_FANDUB_SITE_URL;
 import static nasirov.yv.data.constants.FanDubSource.ANIMEDIA;
 import static nasirov.yv.data.constants.FanDubSource.NINEANIME;
+import static nasirov.yv.util.MalUtils.getNextEpisodeForWatch;
 import static nasirov.yv.utils.TestConstants.ANIMEDIA_ONLINE_TV;
 import static nasirov.yv.utils.TestConstants.CONCRETIZED_TITLE_MAL_ANIME_URL;
 import static nasirov.yv.utils.TestConstants.CONCRETIZED_TITLE_POSTER_URL;
@@ -76,7 +77,7 @@ public class AnimeServiceTest extends AbstractTest {
 	private Anime buildAnime(UserMALTitleInfo watchingTitle, String episodeUrlOnAnimedia, String episodeUrlOnNineAnime) {
 		return Anime.builder()
 				.animeName(watchingTitle.getTitle())
-				.episode(String.valueOf(watchingTitle.getNumWatchedEpisodes() + 1))
+				.episode(getNextEpisodeForWatch(watchingTitle).toString())
 				.posterUrlOnMAL(watchingTitle.getPosterUrl())
 				.animeUrlOnMAL(watchingTitle.getAnimeUrl())
 				.fanDubUrl(ANIMEDIA, episodeUrlOnAnimedia)

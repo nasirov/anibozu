@@ -13,9 +13,12 @@ application:
       cdn-myAnimeList-net: https://cdn.myanimelist.net/
     nine-anime-urls:
       nine-anime-to: https://9anime.to
+    anidub-urls:
+      anidub-site-url: https://anime.anidub.life/
   services:
     applicationLogoPrinter-enabled: true
     animedia-service-source: site #api | site
+    anidub-episode-url-service-source: site #api | site
   cron:
     resources-check-cron-expression: 0 0/30 * * * ?
   cache:
@@ -49,7 +52,8 @@ application:
   github:
     resources:
       animedia-titles: animediaTitles.json
-      anidub-titles: anidubTitles.json
+      anidub-api-titles: anidubApiTitles.json
+      anidub-site-titles: anidubSiteTitles.json
 
 server:
   port: ${PORT}
@@ -81,6 +85,10 @@ nine-anime-feign-client:
 anidub-api-feign-client:
   ribbon:
     listOfServers: ${ANIDUB-API-URL}
+
+anidub-site-feign-client:
+  ribbon:
+    listOfServers: https://anime.anidub.life
 
 ribbon:
   eureka:

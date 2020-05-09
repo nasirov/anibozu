@@ -1,19 +1,22 @@
 package nasirov.yv.utils;
 
 import static nasirov.yv.data.constants.BaseConstants.NOT_FOUND_ON_MAL;
+import static nasirov.yv.utils.TestConstants.ANNOUNCEMENT_TITLE_ANIDUB_SITE_URL;
 import static nasirov.yv.utils.TestConstants.ANNOUNCEMENT_TITLE_MAL_ANIME_ID;
 import static nasirov.yv.utils.TestConstants.REGULAR_TITLE_ANIDUB_ID;
+import static nasirov.yv.utils.TestConstants.REGULAR_TITLE_ANIDUB_SITE_URL;
 import static nasirov.yv.utils.TestConstants.REGULAR_TITLE_MAL_ANIME_ID;
 import static nasirov.yv.utils.TestConstants.REGULAR_TITLE_NAME;
 
 import com.google.common.collect.Sets;
 import java.util.Set;
 import lombok.experimental.UtilityClass;
-import nasirov.yv.data.anidub.AnidubTitle;
-import nasirov.yv.data.anidub.AnidubTitleCategory;
-import nasirov.yv.data.anidub.AnidubTitleStatus;
-import nasirov.yv.data.anidub.Category;
-import nasirov.yv.data.anidub.Status;
+import nasirov.yv.data.anidub.api.AnidubApiTitle;
+import nasirov.yv.data.anidub.api.AnidubTitleCategory;
+import nasirov.yv.data.anidub.api.AnidubTitleStatus;
+import nasirov.yv.data.anidub.api.Category;
+import nasirov.yv.data.anidub.api.Status;
+import nasirov.yv.data.anidub.site.AnidubSiteTitle;
 
 /**
  * Created by nasirov.yv
@@ -22,12 +25,29 @@ import nasirov.yv.data.anidub.Status;
 public class AnidubTitleBuilder {
 
 
-	public static Set<AnidubTitle> buildAnidubTitle() {
-		return Sets.newHashSet(buildRegularAnidubTitle(), buildNotFoundOnMal());
+	public static Set<AnidubApiTitle> buildAnidubApiTitles() {
+		return Sets.newHashSet(buildRegularAnidubApiTitle(), buildNotFoundOnMalAnidubApiTitle());
 	}
 
-	public static AnidubTitle buildRegularAnidubTitle() {
-		return AnidubTitle.builder()
+	public static Set<AnidubSiteTitle> buildAnidubSiteTitles() {
+		return Sets.newHashSet(buildRegularAnidubSiteTitle(), buildNotFoundOnMalAnidubSiteTitle());
+	}
+
+	public static AnidubSiteTitle buildRegularAnidubSiteTitle() {
+		return AnidubSiteTitle.builder()
+				.url(REGULAR_TITLE_ANIDUB_SITE_URL)
+				.titleIdOnMal(REGULAR_TITLE_MAL_ANIME_ID)
+				.build();
+	}
+
+	public static AnidubSiteTitle buildNotFoundOnMalAnidubSiteTitle() {
+		return AnidubSiteTitle.builder()
+				.url(ANNOUNCEMENT_TITLE_ANIDUB_SITE_URL)
+				.build();
+	}
+
+	public static AnidubApiTitle buildRegularAnidubApiTitle() {
+		return AnidubApiTitle.builder()
 				.id(REGULAR_TITLE_ANIDUB_ID)
 				.category(AnidubTitleCategory.builder()
 						.id(Category.SERIES.getId())
@@ -43,8 +63,8 @@ public class AnidubTitleBuilder {
 				.build();
 	}
 
-	public static AnidubTitle buildNotFoundOnMal() {
-		return AnidubTitle.builder()
+	public static AnidubApiTitle buildNotFoundOnMalAnidubApiTitle() {
+		return AnidubApiTitle.builder()
 				.id(ANNOUNCEMENT_TITLE_MAL_ANIME_ID)
 				.category(AnidubTitleCategory.builder()
 						.id(Category.SERIES.getId())

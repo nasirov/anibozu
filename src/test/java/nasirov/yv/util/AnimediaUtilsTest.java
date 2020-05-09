@@ -11,13 +11,12 @@ import static org.junit.Assert.assertTrue;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
-import nasirov.yv.AbstractTest;
 import org.junit.Test;
 
 /**
  * Created by nasirov.yv
  */
-public class AnimediaUtilsTest extends AbstractTest {
+public class AnimediaUtilsTest {
 
 	@Test
 	public void isMaxEpisodesUndefined() {

@@ -14,9 +14,14 @@ import java.util.Map;
 import java.util.stream.Stream;
 import nasirov.yv.data.properties.AnimediaProps;
 import nasirov.yv.data.properties.GitHubAuthProps;
+import nasirov.yv.data.properties.GitHubResourceProps;
 import nasirov.yv.data.properties.ResourcesNames;
+import nasirov.yv.data.properties.UrlsNames;
+import nasirov.yv.http.feign.AnidubApiFeignClient;
+import nasirov.yv.http.feign.AnidubSiteFeignClient;
 import nasirov.yv.http.feign.AnimediaApiFeignClient;
 import nasirov.yv.http.feign.AnimediaSiteFeignClient;
+import nasirov.yv.parser.AnidubParserI;
 import nasirov.yv.parser.WrappedObjectMapperI;
 import nasirov.yv.service.AnimeServiceI;
 import nasirov.yv.service.AnimediaServiceI;
@@ -25,11 +30,14 @@ import nasirov.yv.service.MALServiceI;
 import nasirov.yv.service.ResourcesCheckerServiceI;
 import nasirov.yv.service.SseEmitterExecutorServiceI;
 import nasirov.yv.service.TitleReferenceUpdateServiceI;
-import nasirov.yv.service.impl.AnidubEpisodeUrlService;
-import nasirov.yv.service.impl.AnimediaApiService;
-import nasirov.yv.service.impl.AnimediaEpisodeUrlService;
-import nasirov.yv.service.impl.AnimediaSiteService;
-import nasirov.yv.service.impl.NineAnimeEpisodeUrlService;
+import nasirov.yv.service.impl.fandub.anidub.AnidubApiEpisodeUrlService;
+import nasirov.yv.service.impl.fandub.anidub.AnidubApiGitHubResourcesService;
+import nasirov.yv.service.impl.fandub.anidub.AnidubSiteEpisodeUrlService;
+import nasirov.yv.service.impl.fandub.anidub.AnidubSiteGitHubResourcesService;
+import nasirov.yv.service.impl.fandub.animedia.AnimediaApiService;
+import nasirov.yv.service.impl.fandub.animedia.AnimediaEpisodeUrlService;
+import nasirov.yv.service.impl.fandub.animedia.AnimediaSiteService;
+import nasirov.yv.service.impl.fandub.nine_anime.NineAnimeEpisodeUrlService;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.runner.RunWith;
@@ -95,6 +103,9 @@ public abstract class AbstractTest {
 	protected GitHubAuthProps gitHubAuthProps;
 
 	@Autowired
+	protected GitHubResourceProps gitHubResourceProps;
+
+	@Autowired
 	protected AnimediaApiFeignClient animediaApiFeignClient;
 
 	@Autowired
@@ -104,20 +115,41 @@ public abstract class AbstractTest {
 	protected AnimediaProps animediaProps;
 
 	@Autowired
-	protected AnidubEpisodeUrlService anidubEpisodeUrlService;
+	protected TitleReferenceUpdateServiceI titleReferenceUpdateService;
 
 	@Autowired
-	protected TitleReferenceUpdateServiceI titleReferenceUpdateService;
+	protected AnidubApiFeignClient anidubApiFeignClient;
+
+	@Autowired
+	protected AnidubSiteFeignClient anidubSiteFeignClient;
+
+	@Autowired
+	protected AnidubParserI anidubParser;
+
+	@Autowired
+	protected UrlsNames urlsNames;
 
 	protected AnimediaApiService animediaApiService;
 
 	protected AnimediaSiteService animediaSiteService;
+
+	protected AnidubApiGitHubResourcesService anidubApiGitHubResourcesService;
+
+	protected AnidubSiteGitHubResourcesService anidubSiteGitHubResourcesService;
+
+	protected AnidubApiEpisodeUrlService anidubApiEpisodeUrlService;
+
+	protected AnidubSiteEpisodeUrlService anidubSiteEpisodeUrlService;
 
 	@Before
 	public void setUp() {
 		animediaApiService = new AnimediaApiService(animediaApiFeignClient);
 		animediaSiteService = new AnimediaSiteService(animediaSiteFeignClient, animediaProps);
 		animediaSiteService.init();
+		anidubApiGitHubResourcesService = new AnidubApiGitHubResourcesService(githubResourcesService, gitHubResourceProps);
+		anidubSiteGitHubResourcesService = new AnidubSiteGitHubResourcesService(githubResourcesService, gitHubResourceProps);
+		anidubApiEpisodeUrlService = new AnidubApiEpisodeUrlService(anidubApiFeignClient, anidubApiGitHubResourcesService, anidubParser);
+		anidubSiteEpisodeUrlService = new AnidubSiteEpisodeUrlService(anidubSiteFeignClient, anidubSiteGitHubResourcesService, anidubParser, urlsNames);
 	}
 
 	@After

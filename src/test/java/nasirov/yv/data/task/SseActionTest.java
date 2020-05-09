@@ -24,7 +24,7 @@ import nasirov.yv.data.front.SseDto;
 import nasirov.yv.data.mal.MALUser;
 import nasirov.yv.data.mal.UserMALTitleInfo;
 import nasirov.yv.service.MALServiceI;
-import nasirov.yv.service.impl.AnimeService;
+import nasirov.yv.service.impl.common.AnimeService;
 import nasirov.yv.utils.TestConstants;
 import org.junit.Test;
 import org.junit.runner.RunWith;

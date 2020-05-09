@@ -11,7 +11,7 @@ import java.util.Map;
 import java.util.Set;
 import nasirov.yv.data.animedia.TitleReference;
 import nasirov.yv.data.properties.GitHubResourceProps;
-import nasirov.yv.service.impl.AnimediaGitHubResourcesService;
+import nasirov.yv.service.impl.fandub.animedia.AnimediaGitHubResourcesService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;

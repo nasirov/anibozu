@@ -8,7 +8,7 @@ import static org.mockito.Mockito.mock;
 
 import java.io.PrintStream;
 import nasirov.yv.data.properties.ResourcesNames;
-import nasirov.yv.service.impl.ApplicationLogoPrinter;
+import nasirov.yv.service.impl.common.ApplicationLogoPrinter;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.core.io.ClassPathResource;

@@ -1,9 +1,9 @@
 package nasirov.yv.http.feign;
 
-import nasirov.yv.data.anidub.response.AnidubApiSearchListResponse;
-import nasirov.yv.data.anidub.response.AnidubApiTitleEpisodesResponse;
-import nasirov.yv.data.anidub.response.AnidubApiTitleFandubSourceTypesResponse;
-import nasirov.yv.data.anidub.response.AnidubApiTitleFandubSourcesResponse;
+import nasirov.yv.data.anidub.api.response.AnidubApiSearchListResponse;
+import nasirov.yv.data.anidub.api.response.AnidubApiTitleEpisodesResponse;
+import nasirov.yv.data.anidub.api.response.AnidubApiTitleFandubSourceTypesResponse;
+import nasirov.yv.data.anidub.api.response.AnidubApiTitleFandubSourcesResponse;
 import nasirov.yv.http.config.FeignClientConfig;
 import nasirov.yv.http.fallback.AnidubApiFeignClientFallbackFactory;
 import org.springframework.cloud.openfeign.FeignClient;

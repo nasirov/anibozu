@@ -3,10 +3,10 @@ package nasirov.yv.http.fallback;
 import feign.hystrix.FallbackFactory;
 import java.util.Collections;
 import lombok.extern.slf4j.Slf4j;
-import nasirov.yv.data.anidub.response.AnidubApiSearchListResponse;
-import nasirov.yv.data.anidub.response.AnidubApiTitleEpisodesResponse;
-import nasirov.yv.data.anidub.response.AnidubApiTitleFandubSourceTypesResponse;
-import nasirov.yv.data.anidub.response.AnidubApiTitleFandubSourcesResponse;
+import nasirov.yv.data.anidub.api.response.AnidubApiSearchListResponse;
+import nasirov.yv.data.anidub.api.response.AnidubApiTitleEpisodesResponse;
+import nasirov.yv.data.anidub.api.response.AnidubApiTitleFandubSourceTypesResponse;
+import nasirov.yv.data.anidub.api.response.AnidubApiTitleFandubSourcesResponse;
 import nasirov.yv.http.feign.AnidubApiFeignClient;
 import org.springframework.stereotype.Component;
 

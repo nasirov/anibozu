@@ -19,5 +19,8 @@ public class GitHubResourceProps {
 	private String animediaTitles;
 
 	@NotBlank
-	private String anidubTitles;
+	private String anidubApiTitles;
+
+	@NotBlank
+	private String anidubSiteTitles;
 }
