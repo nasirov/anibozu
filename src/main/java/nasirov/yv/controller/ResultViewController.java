@@ -11,14 +11,9 @@ import nasirov.yv.data.mal.MALUser;
 import nasirov.yv.data.mal.UserMALTitleInfo;
 import nasirov.yv.exception.mal.MalException;
 import nasirov.yv.service.MALServiceI;
-import nasirov.yv.service.SseEmitterExecutorServiceI;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
 /**
  * Created by nasirov.yv
@@ -26,30 +21,23 @@ import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 @Slf4j
 @Controller
 @RequiredArgsConstructor
-public class ResultController {
-
-	private final SseEmitterExecutorServiceI sseService;
+public class ResultViewController {
 
 	private final MALServiceI malService;
 
 	@PostMapping(value = "/result")
 	public String getResultView(@Valid MALUser malUser, Model model) {
 		String username = malUser.getUsername();
-		log.debug("Received request for result view by [{}]", username);
-		List<UserMALTitleInfo> watchingTitles;
+		log.info("Received a request for result view by [{}] ...", username);
+		String resultView;
 		try {
-			watchingTitles = malService.getWatchingTitles(username);
+			List<UserMALTitleInfo> watchingTitles = malService.getWatchingTitles(username);
+			resultView = handleSuccess(watchingTitles.size(), malUser, model);
 		} catch (MalException malException) {
-			return handleError(malException.getMessage(), model);
+			resultView = handleError(malException.getMessage(), model);
 		}
-		return handleSuccess(watchingTitles.size(), malUser, model);
-	}
-
-	@GetMapping("/sse")
-	@ResponseBody
-	public ResponseEntity<SseEmitter> getSseEmitter(@Valid MALUser malUser) {
-		log.debug("Received request for Server-Sent Events processing by [{}]", malUser.getUsername());
-		return ResponseEntity.ok(sseService.buildAndExecuteSseEmitter(malUser));
+		log.info("Got result view [{}]. End of a request for [{}].", resultView, username);
+		return resultView;
 	}
 
 	private String handleSuccess(int watchingTitlesSize, MALUser malUser, Model model) {
