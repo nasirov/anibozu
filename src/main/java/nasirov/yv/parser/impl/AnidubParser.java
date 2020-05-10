@@ -24,7 +24,7 @@ public class AnidubParser implements AnidubParserI {
 	@Override
 	public Integer extractEpisodeNumber(String episodeName) {
 		Matcher matcher = EPISODE_PATTERN.matcher(ofNullable(episodeName).orElse(EMPTY));
-		String episode = matcher.find() ? matcher.group("episode") : FIRST_EPISODE;
+		String episode = matcher.find() ? matcher.group("episode") : getDefaultEpisodeNumber(episodeName);
 		return Integer.valueOf(episode);
 	}
 
@@ -32,5 +32,10 @@ public class AnidubParser implements AnidubParserI {
 	public String fixBrokenUrl(String url) {
 		Matcher matcher = BROKEN_URL_PATTERN.matcher(url);
 		return matcher.find() ? matcher.group("url") : url;
+	}
+
+	private String getDefaultEpisodeNumber(String episodeName) {
+		log.error("Cannot parse episode number from [{}]", episodeName);
+		return FIRST_EPISODE;
 	}
 }
