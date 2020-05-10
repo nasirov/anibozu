@@ -10,6 +10,7 @@ import static nasirov.yv.util.MalUtils.getNextEpisodeForWatch;
 import static org.springframework.web.util.UriUtils.encode;
 
 import com.google.common.primitives.Ints;
+import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import lombok.RequiredArgsConstructor;
@@ -18,6 +19,7 @@ import nasirov.yv.data.mal.UserMALTitleInfo;
 import nasirov.yv.data.properties.UrlsNames;
 import nasirov.yv.http.feign.NineAnimeFeignClient;
 import nasirov.yv.service.EpisodeUrlServiceI;
+import org.apache.commons.lang.StringUtils;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -47,14 +49,9 @@ public class NineAnimeEpisodeUrlService implements EpisodeUrlServiceI {
 	}
 
 	private String buildEpisodeUrl(UserMALTitleInfo watchingTitle) {
-		String result;
-		Element searchResultWithTitleUrl = getSearchResultWithTitleUrl(watchingTitle.getTitle());
-		if (nonNull(searchResultWithTitleUrl)) {
-			result = urlForTitle(watchingTitle, searchResultWithTitleUrl);
-		} else {
-			result = urlForNotFoundTitle(watchingTitle);
-		}
-		return result;
+		Optional<Element> searchResultWithTitleUrl = getSearchResultWithTitleUrl(watchingTitle.getTitle());
+		return searchResultWithTitleUrl.map(x -> urlForTitle(watchingTitle, x))
+				.orElseGet(() -> urlForNotFoundTitle(watchingTitle));
 	}
 
 	private String urlForTitle(UserMALTitleInfo watchingTitle, Element elementWithTitleUrl) {
@@ -70,14 +67,14 @@ public class NineAnimeEpisodeUrlService implements EpisodeUrlServiceI {
 		return NOT_FOUND_ON_FANDUB_SITE_URL;
 	}
 
-	private Element getSearchResultWithTitleUrl(String titleName) {
-		Document document = Jsoup.parse(searchTitleByNameAndGetResultHtml(titleName));
+	private Optional<Element> getSearchResultWithTitleUrl(String titleName) {
+		String htmlWithTitleInfo = searchTitleByNameAndGetResultHtml(titleName);
+		Document document = Jsoup.parse(htmlWithTitleInfo);
 		return document.getElementsByClass("name")
 				.stream()
 				.filter(x -> isTargetTitle(titleName, x))
 				.max(comparing(x -> x.text()
-						.length()))
-				.orElse(null);
+						.length()));
 	}
 
 	private String searchTitleByNameAndGetResultHtml(String titleName) {
@@ -101,7 +98,7 @@ public class NineAnimeEpisodeUrlService implements EpisodeUrlServiceI {
 
 	private String extractDataId(String titleUrl) {
 		Matcher matcher = DATA_ID_PATTERN.matcher(titleUrl);
-		return matcher.find() ? matcher.group("dataId") : "";
+		return matcher.find() ? matcher.group("dataId") : StringUtils.EMPTY;
 	}
 
 	private String getTitleEpisodesInfoHtml(String dataId) {
@@ -114,9 +111,8 @@ public class NineAnimeEpisodeUrlService implements EpisodeUrlServiceI {
 		return document.select(".episodes.range > li > a")
 				.stream()
 				.filter(x -> isNewEpisodeAvailable(nextEpisodeForWatch, x))
-				.map(x -> x.attr("href"))
 				.map(x -> urlsNames.getNineAnimeUrls()
-						.getNineAnimeTo() + x)
+						.getNineAnimeTo() + x.attr("href"))
 				.findFirst()
 				.orElse(FINAL_URL_VALUE_IF_EPISODE_IS_NOT_AVAILABLE);
 	}
