@@ -6,7 +6,9 @@ import static nasirov.yv.data.constants.BaseConstants.NOT_FOUND_ON_FANDUB_SITE_U
 import static nasirov.yv.data.constants.ServiceSourceType.SITE;
 import static nasirov.yv.util.MalUtils.getNextEpisodeForWatch;
 
+import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -19,6 +21,7 @@ import nasirov.yv.service.AnidubEpisodeUrlServiceI;
 import nasirov.yv.service.AnidubGitHubResourcesServiceI;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Service;
 
@@ -61,12 +64,24 @@ public class AnidubSiteEpisodeUrlService implements AnidubEpisodeUrlServiceI {
 	private List<Integer> extractAvailableEpisodes(AnidubSiteTitle matchedTitle) {
 		String titlePage = anidubSiteFeignClient.getTitlePage(matchedTitle.getUrl());
 		Document document = Jsoup.parse(titlePage);
-		return document.getElementsByClass("tabs-sel series-tab")
-				.eachText()
+		Optional<Element> elementWithEpisodes = extractElementWithEpisodes(document);
+		return elementWithEpisodes.map(this::extractEpisodes)
+				.orElseGet(Collections::emptyList);
+	}
+
+	private Optional<Element> extractElementWithEpisodes(Document document) {
+		return Optional.ofNullable(document.getElementsByClass("tabs-sel series-tab")
+				.first());
+	}
+
+	private List<Integer> extractEpisodes(Element elementWithEpisodes) {
+		return elementWithEpisodes.select("span")
 				.stream()
-				.distinct()
-				.map(anidubParser::extractEpisodeNumber)
-				.map(Integer::valueOf)
+				.map(this::parseEpisodeNumber)
 				.collect(Collectors.toList());
+	}
+
+	private Integer parseEpisodeNumber(Element elementWithEpisode) {
+		return Integer.valueOf(anidubParser.extractEpisodeNumber(elementWithEpisode.text()));
 	}
 }
