@@ -41,7 +41,7 @@ public class SseAction extends RecursiveAction {
 	@Override
 	protected void compute() {
 		try {
-			log.info("Process SseAction for [{}]", malUser);
+			log.info("Start process SseAction for [{}]", malUser);
 			List<UserMALTitleInfo> watchingTitles = malService.getWatchingTitles(malUser.getUsername());
 			for (int i = 0; i < watchingTitles.size() && isRunning.get(); i++) {
 				Set<FanDubSource> fanDubSources = malUser.getFanDubSources();
@@ -51,8 +51,9 @@ public class SseAction extends RecursiveAction {
 			}
 			sseEmitter.send(buildSseEvent(-1, buildDtoWithFinalEvent()));
 			sseEmitter.complete();
+			log.info("End process SseAction for [{}]", malUser);
 		} catch (Exception e) {
-			log.error("Exception has been occurred during sse", e);
+			log.error("Exception has been occurred during process SseAction for [{}]", malUser, e);
 			sseEmitter.completeWithError(e);
 		}
 	}
