@@ -44,10 +44,6 @@ public class AnimediaEpisodeUrlService implements EpisodeUrlServiceI {
 
 	@Override
 	public String getEpisodeUrl(UserMALTitleInfo watchingTitle) {
-		return buildEpisodeUrl(watchingTitle);
-	}
-
-	private String buildEpisodeUrl(UserMALTitleInfo watchingTitle) {
 		String result;
 		Set<TitleReference> matchedReferences = getMatchedReferences(watchingTitle);
 		titleReferenceUpdateService.updateReferences(matchedReferences);
@@ -74,8 +70,8 @@ public class AnimediaEpisodeUrlService implements EpisodeUrlServiceI {
 		return NOT_FOUND_ON_FANDUB_SITE_URL;
 	}
 
-	private String handleOneMatchedResult(Set<TitleReference> matchedMultiSeasonsReferences, UserMALTitleInfo watchingTitle) {
-		return matchedMultiSeasonsReferences.stream()
+	private String handleOneMatchedResult(Set<TitleReference> matchedReferences, UserMALTitleInfo watchingTitle) {
+		return matchedReferences.stream()
 				.map(x -> buildUrlForOneMatchedResult(x, watchingTitle))
 				.findFirst()
 				.orElse(null);
@@ -88,21 +84,21 @@ public class AnimediaEpisodeUrlService implements EpisodeUrlServiceI {
 	 * <p>
 	 * 3-4 https://online.animedia.tv/anime/tamayura/2/2 Tamayura  2-2
 	 *
-	 * @param matchedMultiSeasonsReferences the references with equals titles and data lists
-	 * @param watchingTitle                 user watching title
+	 * @param matchedReferences the references with equals titles and data lists
+	 * @param watchingTitle     user watching title
 	 */
-	private String handleMoreThanOneMatchedResultOnSameDataList(Set<TitleReference> matchedMultiSeasonsReferences, UserMALTitleInfo watchingTitle) {
+	private String handleMoreThanOneMatchedResultOnSameDataList(Set<TitleReference> matchedReferences, UserMALTitleInfo watchingTitle) {
 		int nextNumberOfEpisodeForWatch;
 		TitleReference titleReference;
 		int nextEpisodeNumber = getNextEpisodeForWatch(watchingTitle);
-		List<TitleReference> matched = matchedMultiSeasonsReferences.stream()
+		List<TitleReference> matched = matchedReferences.stream()
 				.filter(ref -> nextEpisodeNumber >= Integer.parseInt(ref.getMinOnMAL()))
 				.collect(Collectors.toList());
 		if (matched.size() == 1) {
 			titleReference = get(matched, 0);
 			nextNumberOfEpisodeForWatch = getEpisodeNumberForWatchForConcretizedReferences(titleReference, watchingTitle);
 		} else {
-			titleReference = max(matchedMultiSeasonsReferences, comparing(TitleReference::getMinOnMAL));
+			titleReference = max(matchedReferences, comparing(TitleReference::getMinOnMAL));
 			nextNumberOfEpisodeForWatch = getEpisodeNumberForWatchForConcretizedReferences(titleReference, watchingTitle);
 		}
 		return getFinalUrl(titleReference, nextNumberOfEpisodeForWatch);
@@ -113,11 +109,11 @@ public class AnimediaEpisodeUrlService implements EpisodeUrlServiceI {
 	 * <p>
 	 * http://online.animedia.tv/anime/one-piece-van-pis-tv/
 	 *
-	 * @param matchedMultiSeasonsReferences matched references
+	 * @param matchedReferences matched references
 	 */
-	private String handleMoreThanOneMatchedResult(Set<TitleReference> matchedMultiSeasonsReferences, UserMALTitleInfo watchingTitle) {
+	private String handleMoreThanOneMatchedResult(Set<TitleReference> matchedReferences, UserMALTitleInfo watchingTitle) {
 		int nextNumberOfEpisodeForWatch = getNextEpisodeForWatch(watchingTitle);
-		return matchedMultiSeasonsReferences.stream()
+		return matchedReferences.stream()
 				.filter(ref -> isNextNumberOfEpisodeForWatchInReferenceEpisodesRange(nextNumberOfEpisodeForWatch, ref))
 				.map(ref -> getFinalUrl(ref, getNextEpisodeForWatch(watchingTitle)))
 				.findFirst()
@@ -165,14 +161,11 @@ public class AnimediaEpisodeUrlService implements EpisodeUrlServiceI {
 		return episodeNumberForWatch;
 	}
 
-	private boolean isMatchedReferencesOnSameDataList(Set<TitleReference> matchedMultiSeasonsReferences) {
-		return matchedMultiSeasonsReferences.stream()
-				.filter(ref -> ref.getDataListOnAnimedia()
-						.equals(matchedMultiSeasonsReferences.stream()
-								.findFirst()
-								.orElseGet(TitleReference::new)
-								.getDataListOnAnimedia()))
-				.count() > 1;
+	private boolean isMatchedReferencesOnSameDataList(Set<TitleReference> matchedReferences) {
+		return matchedReferences.stream()
+				.map(TitleReference::getDataListOnAnimedia)
+				.distinct()
+				.count() < matchedReferences.size();
 	}
 
 	/**
