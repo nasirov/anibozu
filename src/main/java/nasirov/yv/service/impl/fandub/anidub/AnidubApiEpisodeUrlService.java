@@ -58,8 +58,8 @@ public class AnidubApiEpisodeUrlService implements AnidubEpisodeUrlServiceI {
 			Integer anidubFandubId = getAnidubFandubId(titleId);
 			List<AnidubTitleFandubSource> anidubEpisodesSources = getAnidubEpisodesSources(titleId, anidubFandubId);
 			List<AnidubTitleEpisode> titleEpisodes = getValidEpisodes(titleId, anidubFandubId, anidubEpisodesSources);
-			Map<String, String> episodesAndUrls = extractEpisodesAndUrls(titleEpisodes);
-			url = anidubParser.fixBrokenUrl(episodesAndUrls.getOrDefault(getNextEpisodeForWatch(watchingTitle).toString(),
+			Map<Integer, String> episodesAndUrls = extractEpisodesAndUrls(titleEpisodes);
+			url = anidubParser.fixBrokenUrl(episodesAndUrls.getOrDefault(getNextEpisodeForWatch(watchingTitle),
 					FINAL_URL_VALUE_IF_EPISODE_IS_NOT_AVAILABLE));
 		} else {
 			log.debug("TITLE [{}] WAS NOT FOUND ON ANIDUB!", watchingTitle.getTitle());
@@ -121,7 +121,7 @@ public class AnidubApiEpisodeUrlService implements AnidubEpisodeUrlServiceI {
 				.noneMatch(x -> StringUtils.contains(x.getUrl(), VK_COM) || StringUtils.contains(x.getUrl(), OUT_PLADFORM_RU));
 	}
 
-	private Map<String, String> extractEpisodesAndUrls(List<AnidubTitleEpisode> titleEpisodes) {
+	private Map<Integer, String> extractEpisodesAndUrls(List<AnidubTitleEpisode> titleEpisodes) {
 		return titleEpisodes.stream()
 				.collect(Collectors.toMap(x -> anidubParser.extractEpisodeNumber(x.getName()), AnidubTitleEpisode::getUrl, (oldKey, newKey) -> oldKey));
 	}

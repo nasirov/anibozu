@@ -14,15 +14,15 @@ public class AnidubParserTest {
 
 	@Test
 	public void shouldExtractEpisodeNumber() {
-		assertEquals("2", anidubParser.extractEpisodeNumber("2 Серия "));
-		assertEquals("1", anidubParser.extractEpisodeNumber("Серия"));
-		assertEquals("1", anidubParser.extractEpisodeNumber("Серия "));
-		assertEquals("2", anidubParser.extractEpisodeNumber("2 Серия | OVA"));
-		assertEquals("123", anidubParser.extractEpisodeNumber("123"));
-		assertEquals("123", anidubParser.extractEpisodeNumber("123 OVA"));
-		assertEquals("1", anidubParser.extractEpisodeNumber("1"));
-		assertEquals("1", anidubParser.extractEpisodeNumber(" "));
-		assertEquals("1", anidubParser.extractEpisodeNumber(null));
+		assertEquals(2, anidubParser.extractEpisodeNumber("2 Серия ").intValue());
+		assertEquals(1, anidubParser.extractEpisodeNumber("Серия").intValue());
+		assertEquals(1, anidubParser.extractEpisodeNumber("Серия ").intValue());
+		assertEquals(2, anidubParser.extractEpisodeNumber("2 Серия | OVA").intValue());
+		assertEquals(123, anidubParser.extractEpisodeNumber("123").intValue());
+		assertEquals(123, anidubParser.extractEpisodeNumber("123 OVA").intValue());
+		assertEquals(1, anidubParser.extractEpisodeNumber("1").intValue());
+		assertEquals(1, anidubParser.extractEpisodeNumber(" ").intValue());
+		assertEquals(1, anidubParser.extractEpisodeNumber(null).intValue());
 	}
 
 	@Test

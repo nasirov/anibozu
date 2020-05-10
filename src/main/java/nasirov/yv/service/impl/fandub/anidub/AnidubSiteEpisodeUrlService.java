@@ -82,6 +82,6 @@ public class AnidubSiteEpisodeUrlService implements AnidubEpisodeUrlServiceI {
 	}
 
 	private Integer parseEpisodeNumber(Element elementWithEpisode) {
-		return Integer.valueOf(anidubParser.extractEpisodeNumber(elementWithEpisode.text()));
+		return anidubParser.extractEpisodeNumber(elementWithEpisode.text());
 	}
 }

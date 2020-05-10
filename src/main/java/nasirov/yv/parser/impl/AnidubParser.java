@@ -22,11 +22,10 @@ public class AnidubParser implements AnidubParserI {
 	private static final Pattern BROKEN_URL_PATTERN = Pattern.compile("(?<url>http.?://video\\.sibnet\\.ru/shell\\.php\\?videoid=\\d+)\"");
 
 	@Override
-	public String extractEpisodeNumber(String episodeName) {
+	public Integer extractEpisodeNumber(String episodeName) {
 		Matcher matcher = EPISODE_PATTERN.matcher(ofNullable(episodeName).orElse(EMPTY));
 		String episode = matcher.find() ? matcher.group("episode") : FIRST_EPISODE;
-		return Integer.valueOf(episode)
-				.toString();
+		return Integer.valueOf(episode);
 	}
 
 	@Override

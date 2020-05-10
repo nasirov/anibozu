@@ -5,7 +5,7 @@ package nasirov.yv.parser;
  */
 public interface AnidubParserI {
 
-	String extractEpisodeNumber(String episodeName);
+	Integer extractEpisodeNumber(String episodeName);
 
 	String fixBrokenUrl(String url);
 }
