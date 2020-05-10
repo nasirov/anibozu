@@ -1,8 +1,7 @@
 package nasirov.yv.data.github;
 
 /**
- * Base class for github resources
+ * Interface for github resources
  */
-public abstract class GitHubResource {
-
+public interface GitHubResource {
 }

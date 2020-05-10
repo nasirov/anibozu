@@ -18,7 +18,7 @@ import nasirov.yv.data.github.GitHubResource;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class TitleReference extends GitHubResource {
+public class TitleReference implements GitHubResource {
 
 	/**
 	 * URL on Animedia

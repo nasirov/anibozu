@@ -16,7 +16,7 @@ import nasirov.yv.data.github.GitHubResource;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class AnidubSiteTitle extends GitHubResource {
+public class AnidubSiteTitle implements GitHubResource {
 
 	@JsonProperty(value = "url")
 	private String url;

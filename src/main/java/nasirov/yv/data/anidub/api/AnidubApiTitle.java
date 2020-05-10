@@ -16,7 +16,7 @@ import nasirov.yv.data.github.GitHubResource;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class AnidubApiTitle extends GitHubResource {
+public class AnidubApiTitle implements GitHubResource {
 
 	@JsonProperty(value = "id")
 	private Integer id;
