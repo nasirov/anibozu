@@ -41,11 +41,12 @@ public class AnimediaEpisodeParser implements AnimediaEpisodeParserI {
 	 */
 	@Override
 	public String extractEpisodeNumber(String episodeName) {
-		return getEpisodeNumber(episodeName);
+		Matcher matcher = EPISODE_NUMBER_PATTERN.matcher(episodeName);
+		return matcher.find() ? matcher.group("episode") : getDefaultEpisodeNumber(episodeName);
 	}
 
-	private String getEpisodeNumber(String episodeName) {
-		Matcher matcher = EPISODE_NUMBER_PATTERN.matcher(episodeName);
-		return matcher.find() ? matcher.group("episode") : FIRST_EPISODE;
+	private String getDefaultEpisodeNumber(String episodeName) {
+		log.error("Cannot parse episode number from [{}]", episodeName);
+		return FIRST_EPISODE;
 	}
 }
