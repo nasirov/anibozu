@@ -11,14 +11,19 @@ import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.Collection;
 import java.util.Map;
+import nasirov.yv.data.animedia.site.SiteEpisode;
+import org.springframework.http.MediaType;
 
 /**
  * Created by nasirov.yv
  */
 public class HeaderReplacerDecoder implements Decoder {
 
-	private static final String TEXT_PLAIN_CHARSET_UTF_8 = "text/plain;\\s?charset=.*";
-
+	/**
+	 * Url part of Animedia data list info endpoint
+	 * <p>
+	 * Should be replaced with {@link MediaType#APPLICATION_JSON_VALUE} in order deserialize json to {@link SiteEpisode}
+	 */
 	private static final String ANIMEDIA_DATA_LIST_INFO_ENDPOINT = "/embeds/playlist-j.txt/";
 
 	private final Decoder delegate;
@@ -33,22 +38,22 @@ public class HeaderReplacerDecoder implements Decoder {
 		Map<String, Collection<String>> headers = response.headers();
 		Collection<String> contentType = headers.getOrDefault(CONTENT_TYPE, emptyList());
 		contentType.stream()
-				.filter(x -> isContentTypeHeaderNeedsReplace(response, x))
+				.filter(x -> isContentTypeHeaderNeedsReplace(response))
 				.findFirst()
-				.ifPresent(x -> replaceContentTypeHeaderForJsonDeserialization(contentType, x));
+				.ifPresent(x -> replaceContentTypeHeaderForJsonDeserialization(contentType));
 		return delegate.decode(response.toBuilder()
 				.headers(headers)
 				.build(), type);
 	}
 
-	private boolean isContentTypeHeaderNeedsReplace(Response response, String contentTypeValue) {
-		return contentTypeValue.matches(TEXT_PLAIN_CHARSET_UTF_8) || response.request()
+	private boolean isContentTypeHeaderNeedsReplace(Response response) {
+		return response.request()
 				.url()
 				.contains(ANIMEDIA_DATA_LIST_INFO_ENDPOINT);
 	}
 
-	private void replaceContentTypeHeaderForJsonDeserialization(Collection<String> contentTypeValues, String contentType) {
-		contentTypeValues.removeIf(x -> x.matches(contentType));
+	private void replaceContentTypeHeaderForJsonDeserialization(Collection<String> contentTypeValues) {
+		contentTypeValues.clear();
 		contentTypeValues.add(APPLICATION_JSON_VALUE);
 	}
 }
