@@ -25,45 +25,45 @@ import static nasirov.yv.utils.TestConstants.REGULAR_TITLE_URL;
 import java.util.Collection;
 import lombok.SneakyThrows;
 import lombok.experimental.UtilityClass;
-import nasirov.yv.data.animedia.TitleReference;
+import nasirov.yv.data.animedia.AnimediaTitle;
 
 /**
  * Created by nasirov.yv
  */
 @UtilityClass
-public class ReferencesBuilder {
+public class AnimediaTitlesTestBuilder {
 
-	public static TitleReference buildUpdatedRegularReference() {
-		TitleReference regularReferenceNotUpdated = getRegularReferenceNotUpdated();
-		regularReferenceNotUpdated.setMinOnAnimedia("1");
-		regularReferenceNotUpdated.setMaxOnAnimedia("5");
-		regularReferenceNotUpdated.setCurrentMaxOnAnimedia("5");
-		return regularReferenceNotUpdated;
+	public static AnimediaTitle buildUpdatedRegularAnimediaTitle() {
+		AnimediaTitle regularNotUpdatedAnimediaTitle = getRegularNotUpdatedAnimediaTitle();
+		regularNotUpdatedAnimediaTitle.setMinOnAnimedia("1");
+		regularNotUpdatedAnimediaTitle.setMaxOnAnimedia("5");
+		regularNotUpdatedAnimediaTitle.setCurrentMaxOnAnimedia("5");
+		return regularNotUpdatedAnimediaTitle;
 	}
 
 	@SneakyThrows
-	public static <T extends Collection> T getReferences(Class<T> collection, boolean updated) {
+	public static <T extends Collection> T getAnimediaTitles(Class<T> collection, boolean updated) {
 		T refs = collection.newInstance();
-		TitleReference regularReferenceNotUpdated = getRegularReferenceNotUpdated();
-		TitleReference announcementReference = getAnnouncementReference();
-		TitleReference concretizedReference = getConcretizedReferenceWithEpisodesRange();
-		TitleReference concretizedAndOngoingReference = buildConcretizedAndOngoingReference();
+		AnimediaTitle regularNotUpdatedAnimediaTitle = getRegularNotUpdatedAnimediaTitle();
+		AnimediaTitle announcementAnimediaTitle = getAnnouncementAnimediaTitle();
+		AnimediaTitle concretizedAnimediaTitle = getConcretizedAnimediaTitleWithEpisodesRange();
+		AnimediaTitle concretizedAndOngoingAnimediaTitle = buildConcretizedAndOngoingAnimediaTitle();
 		if (updated) {
-			regularReferenceNotUpdated.setMinOnAnimedia("1");
+			regularNotUpdatedAnimediaTitle.setMinOnAnimedia("1");
 			// TODO: 17.12.2019 uncomment when animedia improve api object that will return max episode in a season
-//			regularReferenceNotUpdated.setMaxConcretizedEpisodeOnAnimedia("5");
-			regularReferenceNotUpdated.setCurrentMaxOnAnimedia("5");
-			concretizedAndOngoingReference.setCurrentMaxOnAnimedia("5");
+//			regularNotUpdatedAnimediaTitle.setMaxConcretizedEpisodeOnAnimedia("5");
+			regularNotUpdatedAnimediaTitle.setCurrentMaxOnAnimedia("5");
+			concretizedAndOngoingAnimediaTitle.setCurrentMaxOnAnimedia("5");
 		}
-		refs.add(regularReferenceNotUpdated);
-		refs.add(announcementReference);
-		refs.add(concretizedReference);
-		refs.add(concretizedAndOngoingReference);
+		refs.add(regularNotUpdatedAnimediaTitle);
+		refs.add(announcementAnimediaTitle);
+		refs.add(concretizedAnimediaTitle);
+		refs.add(concretizedAndOngoingAnimediaTitle);
 		return refs;
 	}
 
-	public static TitleReference buildConcretizedAndOngoingReference() {
-		return TitleReference.builder()
+	public static AnimediaTitle buildConcretizedAndOngoingAnimediaTitle() {
+		return AnimediaTitle.builder()
 				.urlOnAnimedia(CONCRETIZED_AND_ONGOING_TITLE_URL)
 				.dataListOnAnimedia("3")
 				.animeIdOnAnimedia(CONCRETIZED_AND_ONGOING_TITLE_ID)
@@ -76,8 +76,8 @@ public class ReferencesBuilder {
 				.build();
 	}
 
-	public static TitleReference getConcretizedReferenceWithEpisodesRange() {
-		return TitleReference.builder()
+	public static AnimediaTitle getConcretizedAnimediaTitleWithEpisodesRange() {
+		return AnimediaTitle.builder()
 				.urlOnAnimedia(CONCRETIZED_TITLE_URL)
 				.dataListOnAnimedia("7")
 				.animeIdOnAnimedia(CONCRETIZED_TITLE_ID)
@@ -91,8 +91,8 @@ public class ReferencesBuilder {
 				.build();
 	}
 
-	public static TitleReference getConcretizedReferenceWithSingleEpisode() {
-		return TitleReference.builder()
+	public static AnimediaTitle getConcretizedAnimediaTitleWithSingleEpisode() {
+		return AnimediaTitle.builder()
 				.urlOnAnimedia(CONCRETIZED_TITLE_URL)
 				.animeIdOnAnimedia(CONCRETIZED_TITLE_ID)
 				.titleNameOnMAL(CONCRETIZED_TITLE_WITH_SINGLE_EPISODE_NAME)
@@ -106,8 +106,8 @@ public class ReferencesBuilder {
 				.build();
 	}
 
-	public static TitleReference getAnnouncementReference() {
-		return TitleReference.builder()
+	public static AnimediaTitle getAnnouncementAnimediaTitle() {
+		return AnimediaTitle.builder()
 				.urlOnAnimedia(ANNOUNCEMENT_TITLE_URL)
 				.animeIdOnAnimedia(ANNOUNCEMENT_TITLE_ID)
 				.dataListOnAnimedia(FIRST_DATA_LIST)
@@ -117,8 +117,8 @@ public class ReferencesBuilder {
 				.build();
 	}
 
-	public static TitleReference getRegularReferenceNotUpdated() {
-		return TitleReference.builder()
+	public static AnimediaTitle getRegularNotUpdatedAnimediaTitle() {
+		return AnimediaTitle.builder()
 				.urlOnAnimedia(REGULAR_TITLE_URL)
 				.animeIdOnAnimedia(REGULAR_TITLE_ID)
 				.dataListOnAnimedia("1")
@@ -128,8 +128,8 @@ public class ReferencesBuilder {
 				.build();
 	}
 
-	public static TitleReference notFoundOnAnimedia() {
-		return TitleReference.builder()
+	public static AnimediaTitle getNotFoundOnMalAnimediaTitle() {
+		return AnimediaTitle.builder()
 				.urlOnAnimedia("anime/something")
 				.animeIdOnAnimedia("1234")
 				.dataListOnAnimedia("1")

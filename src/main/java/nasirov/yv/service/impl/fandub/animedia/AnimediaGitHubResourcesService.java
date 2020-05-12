@@ -8,7 +8,7 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import nasirov.yv.data.animedia.TitleReference;
+import nasirov.yv.data.animedia.AnimediaTitle;
 import nasirov.yv.data.properties.GitHubResourceProps;
 import nasirov.yv.service.AnimediaGitHubResourcesServiceI;
 import nasirov.yv.service.GitHubResourcesServiceI;
@@ -29,34 +29,34 @@ public class AnimediaGitHubResourcesService implements AnimediaGitHubResourcesSe
 
 	@Override
 	@Cacheable(value = "github", key = "'animediaTitles'", unless = "#result?.isEmpty()")
-	public Map<Integer, Set<TitleReference>> getTitleReferences() {
-		log.debug("Trying to convert Set<TitleReference> from GitHub to Map<distinct && non null - Integer titleIdOnMal, Set<TitleReference>>");
-		Set<TitleReference> references = getResourceFromGitHub();
-		List<Integer> malIds = extractDistinctTitleIdOnMalList(references);
-		Map<Integer, Set<TitleReference>> result = convertToMap(references, malIds);
-		log.debug("Got Map<distinct && non null - Integer titleIdOnMal, Set<TitleReference>> with size [{}]", result.size());
+	public Map<Integer, Set<AnimediaTitle>> getAnimediaTitles() {
+		log.debug("Trying to convert Set<AnimediaTitle> from GitHub to Map<distinct && non null - Integer titleIdOnMal, Set<AnimediaTitle>>");
+		Set<AnimediaTitle> animediaTitles = getResourceFromGitHub();
+		List<Integer> malIds = extractDistinctTitleIdOnMalList(animediaTitles);
+		Map<Integer, Set<AnimediaTitle>> result = convertToMap(animediaTitles, malIds);
+		log.debug("Got Map<distinct && non null - Integer titleIdOnMal, Set<AnimediaTitle>> with size [{}]", result.size());
 		return result;
 	}
 
-	private Set<TitleReference> getResourceFromGitHub() {
-		return gitHubResourcesService.getResource(gitHubResourceProps.getAnimediaTitles(), TitleReference.class);
+	private Set<AnimediaTitle> getResourceFromGitHub() {
+		return gitHubResourcesService.getResource(gitHubResourceProps.getAnimediaTitles(), AnimediaTitle.class);
 	}
 
-	private List<Integer> extractDistinctTitleIdOnMalList(Set<TitleReference> references) {
-		return references.stream()
-				.map(TitleReference::getTitleIdOnMAL)
+	private List<Integer> extractDistinctTitleIdOnMalList(Set<AnimediaTitle> animediaTitles) {
+		return animediaTitles.stream()
+				.map(AnimediaTitle::getTitleIdOnMAL)
 				.filter(Objects::nonNull)
 				.distinct()
 				.collect(Collectors.toList());
 	}
 
-	private Map<Integer, Set<TitleReference>> convertToMap(Set<TitleReference> references, List<Integer> malIds) {
+	private Map<Integer, Set<AnimediaTitle>> convertToMap(Set<AnimediaTitle> animediaTitles, List<Integer> malIds) {
 		return malIds.stream()
-				.collect(Collectors.toMap(Function.identity(), x -> extractTitleReferencesByTitleIdOnMal(references, x)));
+				.collect(Collectors.toMap(Function.identity(), x -> extractAnimediaTitlesByTitleIdOnMal(animediaTitles, x)));
 	}
 
-	private Set<TitleReference> extractTitleReferencesByTitleIdOnMal(Set<TitleReference> references, Integer titleIdOnMal) {
-		return references.stream()
+	private Set<AnimediaTitle> extractAnimediaTitlesByTitleIdOnMal(Set<AnimediaTitle> animediaTitles, Integer titleIdOnMal) {
+		return animediaTitles.stream()
 				.filter(x -> titleIdOnMal.equals(x.getTitleIdOnMAL()))
 				.collect(Collectors.toSet());
 	}

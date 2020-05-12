@@ -1,10 +1,10 @@
 package nasirov.yv.util;
 
-import static nasirov.yv.utils.ReferencesBuilder.buildConcretizedAndOngoingReference;
-import static nasirov.yv.utils.ReferencesBuilder.buildUpdatedRegularReference;
-import static nasirov.yv.utils.ReferencesBuilder.getConcretizedReferenceWithEpisodesRange;
-import static nasirov.yv.utils.ReferencesBuilder.getRegularReferenceNotUpdated;
-import static nasirov.yv.utils.ReferencesBuilder.notFoundOnAnimedia;
+import static nasirov.yv.utils.AnimediaTitlesTestBuilder.buildConcretizedAndOngoingAnimediaTitle;
+import static nasirov.yv.utils.AnimediaTitlesTestBuilder.buildUpdatedRegularAnimediaTitle;
+import static nasirov.yv.utils.AnimediaTitlesTestBuilder.getConcretizedAnimediaTitleWithEpisodesRange;
+import static nasirov.yv.utils.AnimediaTitlesTestBuilder.getNotFoundOnMalAnimediaTitle;
+import static nasirov.yv.utils.AnimediaTitlesTestBuilder.getRegularNotUpdatedAnimediaTitle;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
@@ -32,23 +32,23 @@ public class AnimediaUtilsTest {
 
 	@Test
 	public void isTitleConcretizedAndOngoing() {
-		assertTrue(AnimediaUtils.isTitleConcretizedAndOngoing(buildConcretizedAndOngoingReference()));
-		assertFalse(AnimediaUtils.isTitleConcretizedAndOngoing(getConcretizedReferenceWithEpisodesRange()));
+		assertTrue(AnimediaUtils.isTitleConcretizedAndOngoing(buildConcretizedAndOngoingAnimediaTitle()));
+		assertFalse(AnimediaUtils.isTitleConcretizedAndOngoing(getConcretizedAnimediaTitleWithEpisodesRange()));
 	}
 	@Test
 	public void isTitleConcretizedOnMAL() {
-		assertTrue(AnimediaUtils.isTitleConcretizedOnMAL(buildConcretizedAndOngoingReference()));
-		assertTrue(AnimediaUtils.isTitleConcretizedOnMAL(getConcretizedReferenceWithEpisodesRange()));
+		assertTrue(AnimediaUtils.isTitleConcretizedOnMAL(buildConcretizedAndOngoingAnimediaTitle()));
+		assertTrue(AnimediaUtils.isTitleConcretizedOnMAL(getConcretizedAnimediaTitleWithEpisodesRange()));
 	}
 	@Test
 	public void isTitleUpdated() {
-		assertTrue(AnimediaUtils.isTitleUpdated(buildUpdatedRegularReference()));
-		assertFalse(AnimediaUtils.isTitleUpdated(getRegularReferenceNotUpdated()));
+		assertTrue(AnimediaUtils.isTitleUpdated(buildUpdatedRegularAnimediaTitle()));
+		assertFalse(AnimediaUtils.isTitleUpdated(getRegularNotUpdatedAnimediaTitle()));
 	}
 	@Test
 	public void isTitleNotFoundOnMAL() {
-		assertTrue(AnimediaUtils.isTitleNotFoundOnMAL(notFoundOnAnimedia()));
-		assertFalse(AnimediaUtils.isTitleNotFoundOnMAL(getConcretizedReferenceWithEpisodesRange()));
+		assertTrue(AnimediaUtils.isTitleNotFoundOnMAL(getNotFoundOnMalAnimediaTitle()));
+		assertFalse(AnimediaUtils.isTitleNotFoundOnMAL(getConcretizedAnimediaTitleWithEpisodesRange()));
 	}
 	@Test
 	public void getCorrectCurrentMax() {

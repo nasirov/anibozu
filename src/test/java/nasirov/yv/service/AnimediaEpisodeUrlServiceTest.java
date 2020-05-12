@@ -2,10 +2,10 @@ package nasirov.yv.service;
 
 import static nasirov.yv.data.constants.BaseConstants.FINAL_URL_VALUE_IF_EPISODE_IS_NOT_AVAILABLE;
 import static nasirov.yv.data.constants.BaseConstants.NOT_FOUND_ON_FANDUB_SITE_URL;
-import static nasirov.yv.utils.ReferencesBuilder.buildUpdatedRegularReference;
-import static nasirov.yv.utils.ReferencesBuilder.getAnnouncementReference;
-import static nasirov.yv.utils.ReferencesBuilder.getConcretizedReferenceWithEpisodesRange;
-import static nasirov.yv.utils.ReferencesBuilder.getConcretizedReferenceWithSingleEpisode;
+import static nasirov.yv.utils.AnimediaTitlesTestBuilder.buildUpdatedRegularAnimediaTitle;
+import static nasirov.yv.utils.AnimediaTitlesTestBuilder.getAnnouncementAnimediaTitle;
+import static nasirov.yv.utils.AnimediaTitlesTestBuilder.getConcretizedAnimediaTitleWithEpisodesRange;
+import static nasirov.yv.utils.AnimediaTitlesTestBuilder.getConcretizedAnimediaTitleWithSingleEpisode;
 import static nasirov.yv.utils.TestConstants.ANIMEDIA_ONLINE_TV;
 import static nasirov.yv.utils.TestConstants.ANNOUNCEMENT_TITLE_MAL_ANIME_ID;
 import static nasirov.yv.utils.TestConstants.ANNOUNCEMENT_TITLE_MAL_ANIME_URL;
@@ -51,7 +51,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 import nasirov.yv.AbstractTest;
-import nasirov.yv.data.animedia.TitleReference;
+import nasirov.yv.data.animedia.AnimediaTitle;
 import nasirov.yv.data.mal.UserMALTitleInfo;
 import org.assertj.core.util.Lists;
 import org.assertj.core.util.Sets;
@@ -67,7 +67,7 @@ public class AnimediaEpisodeUrlServiceTest extends AbstractTest {
 	@Before
 	public void setUp() {
 		super.setUp();
-		mockGitHubResourcesService(getReferences());
+		mockGitHubResourcesService(getAnimediaTitles());
 	}
 
 	@Test
@@ -95,7 +95,7 @@ public class AnimediaEpisodeUrlServiceTest extends AbstractTest {
 				0,
 				REGULAR_TITLE_POSTER_URL,
 				REGULAR_TITLE_MAL_ANIME_URL);
-		performAndCheck(title, urlForReference("1", null));
+		performAndCheck(title, urlForAnimediaTitle("1", null));
 	}
 
 	@Test
@@ -105,7 +105,7 @@ public class AnimediaEpisodeUrlServiceTest extends AbstractTest {
 				12,
 				REGULAR_TITLE_POSTER_URL,
 				REGULAR_TITLE_MAL_ANIME_URL);
-		performAndCheck(title, urlForReference(null, FINAL_URL_VALUE_IF_EPISODE_IS_NOT_AVAILABLE));
+		performAndCheck(title, urlForAnimediaTitle(null, FINAL_URL_VALUE_IF_EPISODE_IS_NOT_AVAILABLE));
 	}
 
 	@Test
@@ -114,7 +114,7 @@ public class AnimediaEpisodeUrlServiceTest extends AbstractTest {
 				0,
 				CONCRETIZED_TITLE_POSTER_URL,
 				CONCRETIZED_TITLE_MAL_ANIME_URL);
-		performAndCheck(title, urlForConcretizedReferenceWithSingleEpisode(null));
+		performAndCheck(title, urlForConcretizedAnimediaTitleWithSingleEpisode(null));
 	}
 
 	@Test
@@ -123,7 +123,7 @@ public class AnimediaEpisodeUrlServiceTest extends AbstractTest {
 				1,
 				CONCRETIZED_TITLE_POSTER_URL,
 				CONCRETIZED_TITLE_MAL_ANIME_URL);
-		performAndCheck(title, urlForConcretizedReferenceWithSingleEpisode(FINAL_URL_VALUE_IF_EPISODE_IS_NOT_AVAILABLE));
+		performAndCheck(title, urlForConcretizedAnimediaTitleWithSingleEpisode(FINAL_URL_VALUE_IF_EPISODE_IS_NOT_AVAILABLE));
 	}
 
 	@Test
@@ -132,7 +132,7 @@ public class AnimediaEpisodeUrlServiceTest extends AbstractTest {
 				0,
 				CONCRETIZED_TITLE_POSTER_URL,
 				CONCRETIZED_TITLE_MAL_ANIME_URL);
-		performAndCheck(title, urlForConcretizedReferenceWithEpisodesRange());
+		performAndCheck(title, urlForConcretizedAnimediaTitleWithEpisodesRange());
 	}
 
 	@Test
@@ -141,7 +141,7 @@ public class AnimediaEpisodeUrlServiceTest extends AbstractTest {
 				1,
 				CONCRETIZED_TITLE_WITH_JOINED_EPISODES_POSTER_URL,
 				CONCRETIZED_TITLE_MAL_ANIME_URL);
-		performAndCheck(title, urlForConcretizedReferenceWithJoinedEpisodesPart1());
+		performAndCheck(title, urlForConcretizedAnimediaTitleWithJoinedEpisodesPart1());
 	}
 
 	@Test
@@ -150,7 +150,7 @@ public class AnimediaEpisodeUrlServiceTest extends AbstractTest {
 				3,
 				CONCRETIZED_TITLE_WITH_JOINED_EPISODES_POSTER_URL,
 				CONCRETIZED_TITLE_MAL_ANIME_URL);
-		performAndCheck(title, urlForConcretizedReferenceWithJoinedEpisodesPart2());
+		performAndCheck(title, urlForConcretizedAnimediaTitleWithJoinedEpisodesPart2());
 	}
 
 	@Test
@@ -159,7 +159,7 @@ public class AnimediaEpisodeUrlServiceTest extends AbstractTest {
 				9,
 				TITLE_ON_SEVERAL_DATA_LISTS_POSTER_URL,
 				TITLE_ON_SEVERAL_DATA_LISTS_MAL_ANIME_URL);
-		performAndCheck(title, urlForReferencePlacedOnSeveralDataLists());
+		performAndCheck(title, urlForAnimediaTitlePlacedOnSeveralDataLists());
 	}
 
 	@Test
@@ -169,8 +169,8 @@ public class AnimediaEpisodeUrlServiceTest extends AbstractTest {
 				TITLE_WITH_JOINED_EPISODES_POSTER_URL,
 				TITLE_WITH_JOINED_EPISODES_MAL_ANIME_URL);
 		performAndCheck(title,
-				ANIMEDIA_ONLINE_TV + buildReferenceWithJoinedEpisodesUrl().getUrlOnAnimedia() + "/"
-						+ buildReferenceWithJoinedEpisodesUrl().getDataListOnAnimedia() + "/" + "2");
+				ANIMEDIA_ONLINE_TV + buildAnimediaTitlesWithJoinedEpisodesUrl().getUrlOnAnimedia() + "/"
+						+ buildAnimediaTitlesWithJoinedEpisodesUrl().getDataListOnAnimedia() + "/" + "2");
 	}
 
 	private void performAndCheck(UserMALTitleInfo watchingTitle, String expectedUrl) {
@@ -178,65 +178,70 @@ public class AnimediaEpisodeUrlServiceTest extends AbstractTest {
 		assertEquals(expectedUrl, actualUrl);
 	}
 
-	private void mockGitHubResourcesService(Set<TitleReference> references) {
-		doReturn(references).when(githubResourcesService)
-				.getResource("animediaTitles.json", TitleReference.class);
+	private void mockGitHubResourcesService(Set<AnimediaTitle> animediaTitles) {
+		doReturn(animediaTitles).when(githubResourcesService)
+				.getResource("animediaTitles.json", AnimediaTitle.class);
 	}
 
-	private Set<TitleReference> getReferences() {
-		return Sets.newLinkedHashSet(buildReferenceOnSeveralDataLists("1", "1", "2", "2"),
-				buildReferenceOnSeveralDataLists("2", "3", "4", "4"),
-				buildReferenceOnSeveralDataLists("3", "5", "6", "6"),
-				buildReferenceOnSeveralDataLists("4", "7", "8", "8"),
+	private Set<AnimediaTitle> getAnimediaTitles() {
+		return Sets.newLinkedHashSet(buildAnimediaTitleOnSeveralDataLists("1", "1", "2", "2"),
+				buildAnimediaTitleOnSeveralDataLists("2", "3", "4", "4"),
+				buildAnimediaTitleOnSeveralDataLists("3", "5", "6", "6"),
+				buildAnimediaTitleOnSeveralDataLists("4", "7", "8", "8"),
 				builtLastDataList(),
-				getConcretizedReferenceWithSingleEpisode(),
-				getConcretizedReferenceWithEpisodesRange(),
-				buildUpdatedRegularReference(),
-				buildConcretizedReferenceWithJoinedEpisodes("1", "1", "2"),
-				buildConcretizedReferenceWithJoinedEpisodes("2", "3", "4"),
-				buildReferenceWithJoinedEpisodesUrl(),
-				getAnnouncementReference());
+				getConcretizedAnimediaTitleWithSingleEpisode(),
+				getConcretizedAnimediaTitleWithEpisodesRange(),
+				buildUpdatedRegularAnimediaTitle(),
+				buildConcretizedAnimediaTitleWithJoinedEpisodes("1", "1", "2"),
+				buildConcretizedAnimediaTitleWithJoinedEpisodes("2", "3", "4"),
+				buildAnimediaTitlesWithJoinedEpisodesUrl(),
+				getAnnouncementAnimediaTitle());
 	}
 
-	private TitleReference builtLastDataList() {
-		return buildReferenceOnSeveralDataLists("5", "9", "xxx", "10");
+	private AnimediaTitle builtLastDataList() {
+		return buildAnimediaTitleOnSeveralDataLists("5", "9", "xxx", "10");
 	}
 
-	private String urlForReferencePlacedOnSeveralDataLists() {
-		TitleReference reference = builtLastDataList();
-		return ANIMEDIA_ONLINE_TV + reference.getUrlOnAnimedia() + "/" + reference.getDataListOnAnimedia() + "/" + reference.getCurrentMaxOnAnimedia();
+	private String urlForAnimediaTitlePlacedOnSeveralDataLists() {
+		AnimediaTitle animediaTitle = builtLastDataList();
+		return ANIMEDIA_ONLINE_TV + animediaTitle.getUrlOnAnimedia() + "/" + animediaTitle.getDataListOnAnimedia() + "/"
+				+ animediaTitle.getCurrentMaxOnAnimedia();
 	}
 
-	private String urlForConcretizedReferenceWithJoinedEpisodesPart1() {
-		TitleReference reference = buildConcretizedReferenceWithJoinedEpisodes("1", "1", "2");
-		return ANIMEDIA_ONLINE_TV + reference.getUrlOnAnimedia() + "/" + reference.getDataListOnAnimedia() + "/" + reference.getMinOnAnimedia();
+	private String urlForConcretizedAnimediaTitleWithJoinedEpisodesPart1() {
+		AnimediaTitle animediaTitle = buildConcretizedAnimediaTitleWithJoinedEpisodes("1", "1", "2");
+		return ANIMEDIA_ONLINE_TV + animediaTitle.getUrlOnAnimedia() + "/" + animediaTitle.getDataListOnAnimedia() + "/"
+				+ animediaTitle.getMinOnAnimedia();
 	}
 
-	private String urlForConcretizedReferenceWithJoinedEpisodesPart2() {
-		TitleReference reference = buildConcretizedReferenceWithJoinedEpisodes("2", "3", "4");
-		return ANIMEDIA_ONLINE_TV + reference.getUrlOnAnimedia() + "/" + reference.getDataListOnAnimedia() + "/" + reference.getMinOnAnimedia();
+	private String urlForConcretizedAnimediaTitleWithJoinedEpisodesPart2() {
+		AnimediaTitle animediaTitle = buildConcretizedAnimediaTitleWithJoinedEpisodes("2", "3", "4");
+		return ANIMEDIA_ONLINE_TV + animediaTitle.getUrlOnAnimedia() + "/" + animediaTitle.getDataListOnAnimedia() + "/"
+				+ animediaTitle.getMinOnAnimedia();
 	}
 
-	private String urlForConcretizedReferenceWithEpisodesRange() {
-		TitleReference reference = getConcretizedReferenceWithEpisodesRange();
-		return ANIMEDIA_ONLINE_TV + reference.getUrlOnAnimedia() + "/" + reference.getDataListOnAnimedia() + "/" + reference.getMinOnAnimedia();
+	private String urlForConcretizedAnimediaTitleWithEpisodesRange() {
+		AnimediaTitle animediaTitle = getConcretizedAnimediaTitleWithEpisodesRange();
+		return ANIMEDIA_ONLINE_TV + animediaTitle.getUrlOnAnimedia() + "/" + animediaTitle.getDataListOnAnimedia() + "/"
+				+ animediaTitle.getMinOnAnimedia();
 	}
 
-	private String urlForConcretizedReferenceWithSingleEpisode(String finalUrl) {
-		TitleReference reference = getConcretizedReferenceWithSingleEpisode();
+	private String urlForConcretizedAnimediaTitleWithSingleEpisode(String finalUrl) {
+		AnimediaTitle animediaTitle = getConcretizedAnimediaTitleWithSingleEpisode();
 		return FINAL_URL_VALUE_IF_EPISODE_IS_NOT_AVAILABLE.equals(finalUrl) ? finalUrl
-				: ANIMEDIA_ONLINE_TV + reference.getUrlOnAnimedia() + "/" + reference.getDataListOnAnimedia() + "/" + reference.getMinOnAnimedia();
+				: ANIMEDIA_ONLINE_TV + animediaTitle.getUrlOnAnimedia() + "/" + animediaTitle.getDataListOnAnimedia() + "/"
+						+ animediaTitle.getMinOnAnimedia();
 	}
 
-	private String urlForReference(String episodeNumberForWatch, String finalUrl) {
-		TitleReference reference = buildUpdatedRegularReference();
+	private String urlForAnimediaTitle(String episodeNumberForWatch, String finalUrl) {
+		AnimediaTitle animediaTitle = buildUpdatedRegularAnimediaTitle();
 		return FINAL_URL_VALUE_IF_EPISODE_IS_NOT_AVAILABLE.equals(finalUrl) ? finalUrl
-				: ANIMEDIA_ONLINE_TV + reference.getUrlOnAnimedia() + "/" + reference.getDataListOnAnimedia() + "/" + episodeNumberForWatch;
+				: ANIMEDIA_ONLINE_TV + animediaTitle.getUrlOnAnimedia() + "/" + animediaTitle.getDataListOnAnimedia() + "/" + episodeNumberForWatch;
 	}
 
-	private TitleReference buildReferenceOnSeveralDataLists(String dataList, String firstEpisode, String maxConcretizedEpisodeOnAnimedia,
+	private AnimediaTitle buildAnimediaTitleOnSeveralDataLists(String dataList, String firstEpisode, String maxConcretizedEpisodeOnAnimedia,
 			String currentMax) {
-		return TitleReference.builder()
+		return AnimediaTitle.builder()
 				.urlOnAnimedia(TITLE_ON_SEVERAL_DATA_LISTS_URL)
 				.dataListOnAnimedia(TITLE_ON_SEVERAL_DATA_LISTS_ID)
 				.titleNameOnMAL(TITLE_ON_SEVERAL_DATA_LISTS_NAME)
@@ -249,8 +254,8 @@ public class AnimediaEpisodeUrlServiceTest extends AbstractTest {
 				.build();
 	}
 
-	private TitleReference buildReferenceWithJoinedEpisodesUrl() {
-		return TitleReference.builder()
+	private AnimediaTitle buildAnimediaTitlesWithJoinedEpisodesUrl() {
+		return AnimediaTitle.builder()
 				.urlOnAnimedia(TITLE_WITH_JOINED_EPISODES_URL)
 				.animeIdOnAnimedia(TITLE_WITH_JOINED_EPISODES_ID)
 				.titleNameOnMAL(TITLE_WITH_JOINED_EPISODES_NAME)
@@ -263,9 +268,9 @@ public class AnimediaEpisodeUrlServiceTest extends AbstractTest {
 				.build();
 	}
 
-	private TitleReference buildConcretizedReferenceWithJoinedEpisodes(String episodeOnAnimedia, String minConcretizedEpisodeOnMAL,
+	private AnimediaTitle buildConcretizedAnimediaTitleWithJoinedEpisodes(String episodeOnAnimedia, String minConcretizedEpisodeOnMAL,
 			String maxConcretizedEpisodeOnMAL) {
-		return TitleReference.builder()
+		return AnimediaTitle.builder()
 				.urlOnAnimedia(CONCRETIZED_TITLE_WITH_JOINED_EPISODES_URL)
 				.animeIdOnAnimedia(CONCRETIZED_TITLE_WITH_JOINED_EPISODES_ID)
 				.titleNameOnMAL(CONCRETIZED_TITLE_WITH_JOINED_EPISODES_NAME)

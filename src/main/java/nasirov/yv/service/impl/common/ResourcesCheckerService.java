@@ -16,7 +16,7 @@ import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import nasirov.yv.data.animedia.AnimediaSearchListTitle;
-import nasirov.yv.data.animedia.TitleReference;
+import nasirov.yv.data.animedia.AnimediaTitle;
 import nasirov.yv.data.properties.GitHubResourceProps;
 import nasirov.yv.data.properties.ResourcesNames;
 import nasirov.yv.parser.WrappedObjectMapperI;
@@ -51,81 +51,82 @@ public class ResourcesCheckerService implements ResourcesCheckerServiceI {
 
 	@Override
 	@Scheduled(cron = "${application.cron.resources-check-cron-expression}")
-	public void checkReferencesNames() {
-		log.info("START CHECKING REFERENCES NAMES ON MAL ...");
-		Set<TitleReference> allReferences = githubResourcesService.getResource(githubResourceProps.getAnimediaTitles(), TitleReference.class);
-		List<TitleReference> referencesWithInvalidMALTitleName = new LinkedList<>();
-		for (TitleReference reference : allReferences) {
-			String titleOnMAL = reference.getTitleNameOnMAL();
-			Integer titleIdOnMAL = reference.getTitleIdOnMAL();
-			if (!isTitleNotFoundOnMAL(reference)) {
+	public void checkAnimediaTitlesExistenceOnMal() {
+		log.info("START CHECKING ANIMEDIA TITLES EXISTENCE ON MAL ...");
+		Set<AnimediaTitle> animediaTitles = githubResourcesService.getResource(githubResourceProps.getAnimediaTitles(), AnimediaTitle.class);
+		List<AnimediaTitle> notFoundOnMal = new LinkedList<>();
+		for (AnimediaTitle animediaTitle : animediaTitles) {
+			String titleOnMAL = animediaTitle.getTitleNameOnMAL();
+			Integer titleIdOnMAL = animediaTitle.getTitleIdOnMAL();
+			if (!isTitleNotFoundOnMAL(animediaTitle)) {
 				boolean titleExist = malService.isTitleExist(titleOnMAL, titleIdOnMAL);
 				if (!titleExist) {
-					log.error("TITLE {} WITH ID {} DOESN'T EXIST!", titleOnMAL, titleIdOnMAL);
-					referencesWithInvalidMALTitleName.add(TitleReference.builder()
-							.urlOnAnimedia(reference.getUrlOnAnimedia())
-							.animeIdOnAnimedia(reference.getAnimeIdOnAnimedia())
-							.dataListOnAnimedia(reference.getDataListOnAnimedia())
-							.minOnAnimedia(reference.getMinOnAnimedia())
+					log.error("NOT FOUND TITLE [{}] WITH ID [{}] ON MAL!", titleOnMAL, titleIdOnMAL);
+					notFoundOnMal.add(AnimediaTitle.builder()
+							.urlOnAnimedia(animediaTitle.getUrlOnAnimedia())
+							.animeIdOnAnimedia(animediaTitle.getAnimeIdOnAnimedia())
+							.dataListOnAnimedia(animediaTitle.getDataListOnAnimedia())
+							.minOnAnimedia(animediaTitle.getMinOnAnimedia())
 							.titleNameOnMAL(titleOnMAL)
 							.titleIdOnMAL(titleIdOnMAL)
 							.build());
 				}
 			}
 		}
-		marshallToTempFolder(resourcesNames.getTempReferencesWithInvalidMALTitleName(), referencesWithInvalidMALTitleName);
-		log.info("END CHECKING REFERENCES NAMES ON MAL.");
+		marshallToTempFolder(resourcesNames.getTempAnimediaTitlesNotFoundOnMal(), notFoundOnMal);
+		log.info("END CHECKING ANIMEDIA TITLES EXISTENCE ON MAL.");
 	}
 
 	@Override
 	@Scheduled(cron = "${application.cron.resources-check-cron-expression}")
-	public void checkReferences() {
-		log.info("START CHECKING REFERENCES ...");
+	public void checkAnimediaTitlesOnAnimedia() {
+		log.info("START CHECKING ANIMEDIA TITLES ON ANIMEDIA ...");
 		Set<AnimediaSearchListTitle> animediaSearchList = animediaService.getAnimediaSearchList();
-		Set<TitleReference> allReferences = githubResourcesService.getResource(githubResourceProps.getAnimediaTitles(), TitleReference.class);
-		List<TitleReference> notFoundInReferences = new LinkedList<>();
+		String animediaTitlesResourceName = githubResourceProps.getAnimediaTitles();
+		Set<AnimediaTitle> animediaTitles = githubResourcesService.getResource(animediaTitlesResourceName, AnimediaTitle.class);
+		List<AnimediaTitle> missedAnimediaTitles = new LinkedList<>();
 		for (AnimediaSearchListTitle titleSearchInfo : animediaSearchList) {
-			List<TitleReference> references = getMatchedReferences(allReferences, titleSearchInfo);
+			List<AnimediaTitle> matchedAnimediaTitles = getMatchedAnimediaTitles(animediaTitles, titleSearchInfo);
 			if (isAnnouncement(titleSearchInfo)) {
-				if (references.isEmpty()) {
-					log.error("ANNOUNCEMENT MUST BE PRESENT IN ONE REFERENCE {}", titleSearchInfo);
-					notFoundInReferences.add(buildTempAnnouncementReference(titleSearchInfo));
+				if (matchedAnimediaTitles.isEmpty()) {
+					log.error("ANNOUNCEMENT MUST BE PRESENT IN [{}] {}", animediaTitlesResourceName, titleSearchInfo);
+					missedAnimediaTitles.add(buildTempAnnouncementAnimediaTitle(titleSearchInfo));
 				}
 			} else {
 				List<String> dataLists = titleSearchInfo.getDataLists();
 				for (String dataList : dataLists) {
-					boolean titleIsNotPresentInReferences = references.stream()
+					boolean titleIsNotPresentInAnimediaTitlesResources = matchedAnimediaTitles.stream()
 							.noneMatch(x -> x.getDataListOnAnimedia()
 									.equals(dataList));
-					if (titleIsNotPresentInReferences) {
-						log.error("TITLE IS NOT PRESENT IN REFERENCES {}/{}", titleSearchInfo.getUrl(), dataList);
-						notFoundInReferences.add(buildTempReference(titleSearchInfo, dataList));
+					if (titleIsNotPresentInAnimediaTitlesResources) {
+						log.error("TITLE IS NOT PRESENT IN [{}] {}/{}", animediaTitlesResourceName, titleSearchInfo.getUrl(), dataList);
+						missedAnimediaTitles.add(buildTempAnimediaTitle(titleSearchInfo, dataList));
 					}
 				}
 			}
 		}
-		marshallToTempFolder(resourcesNames.getTempRawReferences(), notFoundInReferences);
-		log.info("END CHECKING REFERENCES.");
+		marshallToTempFolder(resourcesNames.getTempMissedAnimediaTitles(), missedAnimediaTitles);
+		log.info("END CHECKING ANIMEDIA TITLES ON ANIMEDIA.");
 	}
 
-	private TitleReference buildTempReference(AnimediaSearchListTitle titleSearchInfo, String dataList) {
-		return TitleReference.builder()
+	private AnimediaTitle buildTempAnimediaTitle(AnimediaSearchListTitle titleSearchInfo, String dataList) {
+		return AnimediaTitle.builder()
 				.urlOnAnimedia(titleSearchInfo.getUrl())
 				.animeIdOnAnimedia(titleSearchInfo.getAnimeId())
 				.dataListOnAnimedia(dataList)
 				.build();
 	}
 
-	private TitleReference buildTempAnnouncementReference(AnimediaSearchListTitle titleSearchInfo) {
-		return TitleReference.builder()
+	private AnimediaTitle buildTempAnnouncementAnimediaTitle(AnimediaSearchListTitle titleSearchInfo) {
+		return AnimediaTitle.builder()
 				.urlOnAnimedia(titleSearchInfo.getUrl())
 				.dataListOnAnimedia(FIRST_DATA_LIST)
 				.minOnAnimedia(FIRST_EPISODE)
 				.build();
 	}
 
-	private List<TitleReference> getMatchedReferences(Set<TitleReference> allReference, AnimediaSearchListTitle titleSearchInfo) {
-		return allReference.stream()
+	private List<AnimediaTitle> getMatchedAnimediaTitles(Set<AnimediaTitle> animediaTitles, AnimediaSearchListTitle titleSearchInfo) {
+		return animediaTitles.stream()
 				.filter(x -> titleSearchInfo.getUrl()
 						.equals(UriUtils.decode(x.getUrlOnAnimedia(), UTF_8)))
 				.collect(Collectors.toList());

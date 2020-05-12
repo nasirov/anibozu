@@ -2,8 +2,8 @@ application:
   resources:
     applicationLogo: anime-checker-logo.txt
     tempFolder: temp
-    tempRawReferences: tempRawReferences.json
-    tempReferencesWithInvalidMALTitleName: referencesWithInvalidMALTitleName.json
+    tempMissedAnimediaTitles: tempMissedAnimediaTitles.json
+    tempAnimediaTitlesNotFoundOnMal: tempAnimediaTitlesNotFoundOnMal.json
     tempExAnnouncements: exAnnouncements.json
   urls:
     animedia-urls:

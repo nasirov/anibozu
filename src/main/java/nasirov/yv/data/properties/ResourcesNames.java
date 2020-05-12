@@ -22,10 +22,10 @@ public class ResourcesNames {
 	private String tempFolder;
 
 	@NotBlank
-	private String tempRawReferences;
+	private String tempMissedAnimediaTitles;
 
 	@NotBlank
-	private String tempReferencesWithInvalidMALTitleName;
+	private String tempAnimediaTitlesNotFoundOnMal;
 
 	@NotBlank
 	private String tempExAnnouncements;

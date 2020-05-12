@@ -5,7 +5,7 @@ package nasirov.yv.service;
  */
 public interface ResourcesCheckerServiceI {
 
-	void checkReferencesNames();
+	void checkAnimediaTitlesExistenceOnMal();
 
-	void checkReferences();
+	void checkAnimediaTitlesOnAnimedia();
 }

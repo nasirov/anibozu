@@ -1,3 +1,30 @@
 spring:
   profiles:
     include: default
+
+application:
+  cron:
+    resources-check-cron-expression: 0 0/30 * * * ?
+
+ribbon:
+  eureka:
+    enabled: false
+  ConnectTimeout: 2400000
+  ReadTimeout: 2400000
+  MaxAutoRetries: 20
+  retryableStatusCodes: 429, 403, 502, 504
+
+feign:
+  hystrix:
+    enabled: true
+
+hystrix:
+  threadpool:
+    default:
+      coreSize: 20
+  command:
+    default:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 2400000

@@ -25,11 +25,11 @@ import nasirov.yv.parser.AnidubParserI;
 import nasirov.yv.parser.WrappedObjectMapperI;
 import nasirov.yv.service.AnimeServiceI;
 import nasirov.yv.service.AnimediaServiceI;
+import nasirov.yv.service.AnimediaTitlesUpdateServiceI;
 import nasirov.yv.service.GitHubResourcesServiceI;
 import nasirov.yv.service.MALServiceI;
 import nasirov.yv.service.ResourcesCheckerServiceI;
 import nasirov.yv.service.SseEmitterExecutorServiceI;
-import nasirov.yv.service.TitleReferenceUpdateServiceI;
 import nasirov.yv.service.impl.fandub.anidub.AnidubApiEpisodeUrlService;
 import nasirov.yv.service.impl.fandub.anidub.AnidubApiGitHubResourcesService;
 import nasirov.yv.service.impl.fandub.anidub.AnidubSiteEpisodeUrlService;
@@ -115,7 +115,7 @@ public abstract class AbstractTest {
 	protected AnimediaProps animediaProps;
 
 	@Autowired
-	protected TitleReferenceUpdateServiceI titleReferenceUpdateService;
+	protected AnimediaTitlesUpdateServiceI animediaTitlesUpdateService;
 
 	@Autowired
 	protected AnidubApiFeignClient anidubApiFeignClient;

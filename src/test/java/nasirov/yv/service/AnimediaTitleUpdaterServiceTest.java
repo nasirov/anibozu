@@ -1,6 +1,6 @@
 package nasirov.yv.service;
 
-import static nasirov.yv.utils.ReferencesBuilder.getReferences;
+import static nasirov.yv.utils.AnimediaTitlesTestBuilder.getAnimediaTitles;
 import static nasirov.yv.utils.TestConstants.ANNOUNCEMENT_TITLE_ID;
 import static nasirov.yv.utils.TestConstants.CONCRETIZED_AND_ONGOING_TITLE_ID;
 import static nasirov.yv.utils.TestConstants.REGULAR_TITLE_ID;
@@ -16,43 +16,43 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 import nasirov.yv.AbstractTest;
-import nasirov.yv.data.animedia.TitleReference;
+import nasirov.yv.data.animedia.AnimediaTitle;
 import org.junit.Test;
 
 /**
  * Created by nasirov.yv
  */
-public class TitleReferenceUpdaterServiceTest extends AbstractTest {
+public class AnimediaTitleUpdaterServiceTest extends AbstractTest {
 
 	@Test
-	public void updateReferences() {
+	public void updateAnimediaTitles() {
 		mockAnimediaService(buildRegularTitleResponse());
-		Set<TitleReference> referencesForUpdate = getReferences(LinkedHashSet.class, false);
-		titleReferenceUpdateService.updateReferences(referencesForUpdate);
-		List<TitleReference> expectedUpdatedReferences = getReferences(ArrayList.class, true);
-		assertEquals(expectedUpdatedReferences.size(), referencesForUpdate.size());
-		referencesForUpdate.forEach(x -> assertTrue(expectedUpdatedReferences.contains(x)));
+		Set<AnimediaTitle> animediaTitles = getAnimediaTitles(LinkedHashSet.class, false);
+		animediaTitlesUpdateService.updateAnimediaTitles(animediaTitles);
+		List<AnimediaTitle> expectedUpdatedAnimediaTitles = getAnimediaTitles(ArrayList.class, true);
+		assertEquals(expectedUpdatedAnimediaTitles.size(), animediaTitles.size());
+		animediaTitles.forEach(x -> assertTrue(expectedUpdatedAnimediaTitles.contains(x)));
 	}
 
 	@Test
-	public void updateReferencesRegularWithJoinedEpisodes() {
+	public void updateRegularAnimediaTitlesWithJoinedEpisodes() {
 		mockAnimediaService(buildRegularTitleWithJoinedEpisodesResponse());
-		Set<TitleReference> referencesForUpdate = getReferences(LinkedHashSet.class, false);
-		titleReferenceUpdateService.updateReferences(referencesForUpdate);
-		List<TitleReference> expectedUpdatedReferences = buildExpectedWithRegularWithEpisodesRange();
-		assertEquals(expectedUpdatedReferences.size(), referencesForUpdate.size());
-		referencesForUpdate.forEach(x -> assertTrue(expectedUpdatedReferences.contains(x)));
+		Set<AnimediaTitle> animediaTitles = getAnimediaTitles(LinkedHashSet.class, false);
+		animediaTitlesUpdateService.updateAnimediaTitles(animediaTitles);
+		List<AnimediaTitle> expectedUpdatedAnimediaTitles = buildExpectedWithRegularWithEpisodesRange();
+		assertEquals(expectedUpdatedAnimediaTitles.size(), animediaTitles.size());
+		animediaTitles.forEach(x -> assertTrue(expectedUpdatedAnimediaTitles.contains(x)));
 	}
 
-	private List<TitleReference> buildExpectedWithRegularWithEpisodesRange() {
-		List<TitleReference> expectedUpdatedReferences = getReferences(ArrayList.class, true);
-		expectedUpdatedReferences.stream()
+	private List<AnimediaTitle> buildExpectedWithRegularWithEpisodesRange() {
+		List<AnimediaTitle> expectedUpdatedAnimediaTitles = getAnimediaTitles(ArrayList.class, true);
+		expectedUpdatedAnimediaTitles.stream()
 				.filter(x -> x.getUrlOnAnimedia()
 						.equals(REGULAR_TITLE_URL))
 				.findFirst()
 				.get()
 				.setEpisodesRangeOnAnimedia(Lists.newArrayList("1", "2", "3", "4-5"));
-		return expectedUpdatedReferences;
+		return expectedUpdatedAnimediaTitles;
 	}
 
 	private void mockAnimediaService(List<String> regularTitleResponse) {

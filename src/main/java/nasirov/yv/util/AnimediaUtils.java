@@ -8,7 +8,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import lombok.experimental.UtilityClass;
 import nasirov.yv.data.animedia.AnimediaSearchListTitle;
-import nasirov.yv.data.animedia.TitleReference;
+import nasirov.yv.data.animedia.AnimediaTitle;
 import org.springframework.util.CollectionUtils;
 
 /**
@@ -31,25 +31,25 @@ public class AnimediaUtils {
 		return CollectionUtils.isEmpty(animediaSearchListTitle.getDataLists());
 	}
 
-	public static boolean isTitleConcretizedAndOngoing(TitleReference reference) {
-		return reference.getMinOnAnimedia() != null && reference.getMaxOnAnimedia() != null && reference.getCurrentMaxOnAnimedia() == null
-				&& reference.getMinOnMAL() != null && reference.getMaxOnMAL() != null;
+	public static boolean isTitleConcretizedAndOngoing(AnimediaTitle animediaTitle) {
+		return animediaTitle.getMinOnAnimedia() != null && animediaTitle.getMaxOnAnimedia() != null && animediaTitle.getCurrentMaxOnAnimedia() == null
+				&& animediaTitle.getMinOnMAL() != null && animediaTitle.getMaxOnMAL() != null;
 	}
 
-	public static boolean isTitleUpdated(TitleReference reference) {
+	public static boolean isTitleUpdated(AnimediaTitle animediaTitle) {
 		// TODO: 29.12.2019 rollback after improvement api object
-		return reference.getMinOnAnimedia() != null
-				//&& reference.getMaxOnAnimedia() != null
-				&& reference.getCurrentMaxOnAnimedia() != null;
+		return animediaTitle.getMinOnAnimedia() != null
+				//&& animediaTitle.getMaxOnAnimedia() != null
+				&& animediaTitle.getCurrentMaxOnAnimedia() != null;
 	}
 
-	public static boolean isTitleNotFoundOnMAL(TitleReference reference) {
-		return reference.getTitleNameOnMAL()
+	public static boolean isTitleNotFoundOnMAL(AnimediaTitle animediaTitle) {
+		return animediaTitle.getTitleNameOnMAL()
 				.equals(NOT_FOUND_ON_MAL);
 	}
 
-	public static boolean isTitleConcretizedOnMAL(TitleReference reference) {
-		return reference.getMinOnMAL() != null && reference.getMaxOnMAL() != null;
+	public static boolean isTitleConcretizedOnMAL(AnimediaTitle animediaTitle) {
+		return animediaTitle.getMinOnMAL() != null && animediaTitle.getMaxOnMAL() != null;
 	}
 
 	public static String getCorrectCurrentMax(String currentMax) {

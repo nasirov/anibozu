@@ -4,7 +4,7 @@ import static nasirov.yv.utils.AnidubTitleBuilder.buildNotFoundOnMalAnidubApiTit
 import static nasirov.yv.utils.AnidubTitleBuilder.buildNotFoundOnMalAnidubSiteTitle;
 import static nasirov.yv.utils.AnidubTitleBuilder.buildRegularAnidubApiTitle;
 import static nasirov.yv.utils.AnidubTitleBuilder.buildRegularAnidubSiteTitle;
-import static nasirov.yv.utils.ReferencesBuilder.getReferences;
+import static nasirov.yv.utils.AnimediaTitlesTestBuilder.getAnimediaTitles;
 import static nasirov.yv.utils.TestConstants.TEXT_PLAIN_CHARSET_UTF_8;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -15,7 +15,7 @@ import java.util.Set;
 import nasirov.yv.AbstractTest;
 import nasirov.yv.data.anidub.api.AnidubApiTitle;
 import nasirov.yv.data.anidub.site.AnidubSiteTitle;
-import nasirov.yv.data.animedia.TitleReference;
+import nasirov.yv.data.animedia.AnimediaTitle;
 import org.junit.Test;
 
 /**
@@ -27,9 +27,9 @@ public class GitHubResourcesServiceTest extends AbstractTest {
 	public void shouldReturnAnimediaTitles() {
 		//given
 		stubGitHub("animediaTitles.json");
-		List<TitleReference> expected = getReferences(ArrayList.class, false);
+		List<AnimediaTitle> expected = getAnimediaTitles(ArrayList.class, false);
 		//when
-		Set<TitleReference> result = githubResourcesService.getResource("animediaTitles.json", TitleReference.class);
+		Set<AnimediaTitle> result = githubResourcesService.getResource("animediaTitles.json", AnimediaTitle.class);
 		//then
 		assertEquals(expected.size(), result.size());
 		result.forEach(x -> assertTrue(expected.contains(x)));

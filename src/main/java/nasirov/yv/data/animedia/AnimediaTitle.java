@@ -18,7 +18,7 @@ import nasirov.yv.data.github.GitHubResource;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class TitleReference implements GitHubResource {
+public class AnimediaTitle implements GitHubResource {
 
 	/**
 	 * URL on Animedia
@@ -56,7 +56,7 @@ public class TitleReference implements GitHubResource {
 	 * example, 215-216 (https://online.animedia.tv/ajax/episodes/9649/2/undefined) Final url for both episodes(1 video)
 	 * https://online.animedia.tv/anime/one-piece-van-pis-tv/2/215
 	 * <p>
-	 * Not null only if regular reference contains joined episodes
+	 * Not null only if a regular title contains joined episodes
 	 */
 	private List<String> episodesRangeOnAnimedia;
 

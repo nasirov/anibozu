@@ -14,10 +14,10 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import nasirov.yv.data.animedia.TitleReference;
+import nasirov.yv.data.animedia.AnimediaTitle;
 import nasirov.yv.parser.AnimediaEpisodeParserI;
 import nasirov.yv.service.AnimediaServiceI;
-import nasirov.yv.service.TitleReferenceUpdateServiceI;
+import nasirov.yv.service.AnimediaTitlesUpdateServiceI;
 import org.springframework.stereotype.Service;
 
 /**
@@ -26,60 +26,60 @@ import org.springframework.stereotype.Service;
 @Service
 @Slf4j
 @RequiredArgsConstructor
-public class TitleReferenceUpdateService implements TitleReferenceUpdateServiceI {
+public class AnimediaTitlesUpdateService implements AnimediaTitlesUpdateServiceI {
 
 	private final AnimediaEpisodeParserI animediaEpisodeParser;
 
 	private final AnimediaServiceI animediaService;
 
 	/**
-	 * Updates given references
+	 * Updates given animedia titles
 	 *
-	 * @param references references for update
+	 * @param animediaTitles animedia titles for update
 	 */
 	@Override
-	public void updateReferences(Set<TitleReference> references) {
-		references.stream()
-				.filter(this::isReferenceNeedUpdate)
-				.forEach(this::handleReference);
+	public void updateAnimediaTitles(Set<AnimediaTitle> animediaTitles) {
+		animediaTitles.stream()
+				.filter(this::isTitleNeedUpdate)
+				.forEach(this::handleTitle);
 	}
 
-	private boolean isReferenceNeedUpdate(TitleReference reference) {
-		return !(isTitleUpdated(reference) || isTitleNotFoundOnMAL(reference));
+	private boolean isTitleNeedUpdate(AnimediaTitle animediaTitle) {
+		return !(isTitleUpdated(animediaTitle) || isTitleNotFoundOnMAL(animediaTitle));
 	}
 
-	private void handleReference(TitleReference reference) {
-		List<String> episodesList = animediaService.getEpisodes(reference.getAnimeIdOnAnimedia(), reference.getDataListOnAnimedia());
+	private void handleTitle(AnimediaTitle animediaTitle) {
+		List<String> episodesList = animediaService.getEpisodes(animediaTitle.getAnimeIdOnAnimedia(), animediaTitle.getDataListOnAnimedia());
 		if (episodesList.isEmpty()) {
 			return;
 		}
 		List<String> episodesRange = episodesList.stream()
 				.map(animediaEpisodeParser::extractEpisodeNumber)
 				.collect(Collectors.toList());
-		if (isTitleConcretizedAndOngoing(reference)) {
-			enrichConcretizedAndOngoingReference(reference, episodesRange);
+		if (isTitleConcretizedAndOngoing(animediaTitle)) {
+			enrichConcretizedAndOngoingTitle(animediaTitle, episodesRange);
 		} else {
-			enrichRegularReference(reference, episodesRange);
+			enrichRegularTitle(animediaTitle, episodesRange);
 		}
 	}
 
-	private void enrichRegularReference(TitleReference reference, List<String> episodesList) {
+	private void enrichRegularTitle(AnimediaTitle animediaTitle, List<String> episodesList) {
 		String correctFirstEpisodeAndMin = getCorrectFirstEpisodeAndMin(getFirstEpisode(episodesList));
 		String correctCurrentMax = getCorrectCurrentMax(getLastEpisode(episodesList));
 		//если в дата листах суммируют первую серию и последнюю с предыдущего дата листа, то нужна проверка для правильного максимума
 		//например, всего серий ххх, 1 даталист: серии 1 из 100; 2 дата лист: серии 51 из 100
-		reference.setMinOnAnimedia(correctFirstEpisodeAndMin);
+		animediaTitle.setMinOnAnimedia(correctFirstEpisodeAndMin);
 		// TODO: 17.12.2019 uncomment and implement when animedia improve api object that will return max episode in season
-//		reference.setMaxConcretizedEpisodeOnAnimedia("correctMaxInDataList");
+//		animediaTitle.setMaxConcretizedEpisodeOnAnimedia("correctMaxInDataList");
 		episodesList.stream()
 				.filter(x -> x.matches(JOINED_EPISODE_REGEXP))
 				.findFirst()
-				.ifPresent(x -> reference.setEpisodesRangeOnAnimedia(episodesList));
-		reference.setCurrentMaxOnAnimedia(correctCurrentMax);
+				.ifPresent(x -> animediaTitle.setEpisodesRangeOnAnimedia(episodesList));
+		animediaTitle.setCurrentMaxOnAnimedia(correctCurrentMax);
 	}
 
-	private void enrichConcretizedAndOngoingReference(TitleReference reference, List<String> episodesList) {
+	private void enrichConcretizedAndOngoingTitle(AnimediaTitle animediaTitle, List<String> episodesList) {
 		String currentMax = getCorrectCurrentMax(getLastEpisode(episodesList));
-		reference.setCurrentMaxOnAnimedia(currentMax);
+		animediaTitle.setCurrentMaxOnAnimedia(currentMax);
 	}
 }

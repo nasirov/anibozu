@@ -1,6 +1,6 @@
 package nasirov.yv.service;
 
-import static nasirov.yv.utils.ReferencesBuilder.getReferences;
+import static nasirov.yv.utils.AnimediaTitlesTestBuilder.getAnimediaTitles;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.doReturn;
@@ -9,7 +9,7 @@ import java.util.Collections;
 import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Set;
-import nasirov.yv.data.animedia.TitleReference;
+import nasirov.yv.data.animedia.AnimediaTitle;
 import nasirov.yv.data.properties.GitHubResourceProps;
 import nasirov.yv.service.impl.fandub.animedia.AnimediaGitHubResourcesService;
 import org.junit.Test;
@@ -37,16 +37,16 @@ public class AnimediaGitHubResourcesServiceTest {
 	public void shouldReturnDistinctNonNull() {
 		//given
 		mockGitHubResourceProps();
-		Set<TitleReference> expected = getReferences(LinkedHashSet.class, false);
+		Set<AnimediaTitle> expected = getAnimediaTitles(LinkedHashSet.class, false);
 		mockGitHubResourcesService(expected);
 		//when
-		Map<Integer, Set<TitleReference>> result = animediaGitHubResourcesService.getTitleReferences();
+		Map<Integer, Set<AnimediaTitle>> result = animediaGitHubResourcesService.getAnimediaTitles();
 		//then
 		assertEquals(expected.size(), result.size());
 		expected.forEach(x -> {
-			Set<TitleReference> titleReferencesByTitleIdOnMal = result.get(x.getTitleIdOnMAL());
-			assertEquals(1, titleReferencesByTitleIdOnMal.size());
-			assertTrue(titleReferencesByTitleIdOnMal.contains(x));
+			Set<AnimediaTitle> animediaTitlesByAnimediaTitleIdOnMal = result.get(x.getTitleIdOnMAL());
+			assertEquals(1, animediaTitlesByAnimediaTitleIdOnMal.size());
+			assertTrue(animediaTitlesByAnimediaTitleIdOnMal.contains(x));
 		});
 	}
 
@@ -56,7 +56,7 @@ public class AnimediaGitHubResourcesServiceTest {
 		mockGitHubResourceProps();
 		mockGitHubResourcesService(Collections.emptySet());
 		//when
-		Map<Integer, Set<TitleReference>> result = animediaGitHubResourcesService.getTitleReferences();
+		Map<Integer, Set<AnimediaTitle>> result = animediaGitHubResourcesService.getAnimediaTitles();
 		//then
 		assertTrue(result.isEmpty());
 	}
@@ -66,8 +66,8 @@ public class AnimediaGitHubResourcesServiceTest {
 				.getAnimediaTitles();
 	}
 
-	private void mockGitHubResourcesService(Set<TitleReference> animediaTitles) {
+	private void mockGitHubResourcesService(Set<AnimediaTitle> animediaTitles) {
 		doReturn(animediaTitles).when(gitHubResourcesService)
-				.getResource("animediaTitles.json", TitleReference.class);
+				.getResource("animediaTitles.json", AnimediaTitle.class);
 	}
 }
