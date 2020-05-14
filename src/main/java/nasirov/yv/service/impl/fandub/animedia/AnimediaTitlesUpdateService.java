@@ -1,6 +1,6 @@
 package nasirov.yv.service.impl.fandub.animedia;
 
-import static nasirov.yv.data.constants.BaseConstants.JOINED_EPISODE_REGEXP;
+import static nasirov.yv.data.constants.BaseConstants.JOINED_EPISODES_PATTERN;
 import static nasirov.yv.util.AnimediaUtils.getCorrectCurrentMax;
 import static nasirov.yv.util.AnimediaUtils.getCorrectFirstEpisodeAndMin;
 import static nasirov.yv.util.AnimediaUtils.getFirstEpisode;
@@ -72,7 +72,8 @@ public class AnimediaTitlesUpdateService implements AnimediaTitlesUpdateServiceI
 		// TODO: 17.12.2019 uncomment and implement when animedia improve api object that will return max episode in season
 //		animediaTitle.setMaxConcretizedEpisodeOnAnimedia("correctMaxInDataList");
 		episodesList.stream()
-				.filter(x -> x.matches(JOINED_EPISODE_REGEXP))
+				.filter(x -> JOINED_EPISODES_PATTERN.matcher(x)
+						.find())
 				.findFirst()
 				.ifPresent(x -> animediaTitle.setEpisodesRangeOnAnimedia(episodesList));
 		animediaTitle.setCurrentMaxOnAnimedia(correctCurrentMax);

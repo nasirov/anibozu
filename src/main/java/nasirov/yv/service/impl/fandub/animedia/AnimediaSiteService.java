@@ -34,6 +34,8 @@ public class AnimediaSiteService implements AnimediaServiceI {
 
 	private static final Pattern URL_PATTERN = Pattern.compile("^.+(?<url>anime/.+)$");
 
+	private static final Pattern FILLED_DATA_LIST_PATTERN = Pattern.compile("^.+из.+$");
+
 	private final AnimediaSiteFeignClient animediaSiteFeignClient;
 
 	private final AnimediaProps animediaProps;
@@ -123,8 +125,9 @@ public class AnimediaSiteService implements AnimediaServiceI {
 	}
 
 	private boolean isFilledDataList(Element elementWithDataListEpisodesDescription) {
-		return elementWithDataListEpisodesDescription.selectFirst(".media__tabs__series__footer__item.media__tabs__series__footer__item__center")
-				.text()
-				.matches("^.+из.+$");
+		return FILLED_DATA_LIST_PATTERN.matcher(elementWithDataListEpisodesDescription.selectFirst(
+				".media__tabs__series__footer__item" + ".media__tabs__series__footer__item__center")
+				.text())
+				.find();
 	}
 }

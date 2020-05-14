@@ -1,5 +1,6 @@
 package nasirov.yv.data.constants;
 
+import java.util.regex.Pattern;
 import lombok.experimental.UtilityClass;
 
 /**
@@ -18,5 +19,5 @@ public class BaseConstants {
 
 	public static final String NOT_FOUND_ON_FANDUB_SITE_URL = "not found on a fandub site";
 
-	public static final String JOINED_EPISODE_REGEXP = "\\d{1,3}-\\d{1,3}";
+	public static final Pattern JOINED_EPISODES_PATTERN = Pattern.compile("\\d{1,3}-\\d{1,3}");
 }
