@@ -4,6 +4,7 @@ import static nasirov.yv.data.constants.ServiceSourceType.SITE;
 
 import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -16,6 +17,7 @@ import nasirov.yv.data.animedia.site.SiteEpisode;
 import nasirov.yv.data.properties.AnimediaProps;
 import nasirov.yv.http.feign.AnimediaSiteFeignClient;
 import nasirov.yv.service.AnimediaServiceI;
+import org.apache.commons.lang.StringUtils;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -105,13 +107,14 @@ public class AnimediaSiteService implements AnimediaServiceI {
 	}
 
 	private String extractUrl(Element elementWithUrlValue) {
-		return elementWithUrlValue.selectFirst(".ads-list__item__thumb.js-postload a")
-				.attr("href");
+		return Optional.ofNullable(elementWithUrlValue.selectFirst(".ads-list__item__thumb.js-postload a"))
+				.map(x -> x.attr("href"))
+				.orElse(StringUtils.EMPTY);
 	}
 
 	private String cutUrl(String fullUrl) {
 		Matcher matcher = URL_PATTERN.matcher(fullUrl);
-		return matcher.find() ? matcher.group("url") : "";
+		return matcher.find() ? matcher.group("url") : StringUtils.EMPTY;
 	}
 
 	private Elements extractTabsElements(String animePageWithDataLists) {
@@ -125,9 +128,10 @@ public class AnimediaSiteService implements AnimediaServiceI {
 	}
 
 	private boolean isFilledDataList(Element elementWithDataListEpisodesDescription) {
-		return FILLED_DATA_LIST_PATTERN.matcher(elementWithDataListEpisodesDescription.selectFirst(
-				".media__tabs__series__footer__item" + ".media__tabs__series__footer__item__center")
-				.text())
-				.find();
+		return Optional.ofNullable(elementWithDataListEpisodesDescription.selectFirst(
+				".media__tabs__series__footer__item.media__tabs__series__footer__item__center"))
+				.map(x -> FILLED_DATA_LIST_PATTERN.matcher(x.text())
+						.find())
+				.orElse(false);
 	}
 }
