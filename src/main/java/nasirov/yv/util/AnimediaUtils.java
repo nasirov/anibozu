@@ -44,8 +44,7 @@ public class AnimediaUtils {
 	}
 
 	public static boolean isTitleNotFoundOnMAL(AnimediaTitle animediaTitle) {
-		return animediaTitle.getTitleNameOnMAL()
-				.equals(NOT_FOUND_ON_MAL);
+		return NOT_FOUND_ON_MAL.equals(animediaTitle.getTitleNameOnMAL());
 	}
 
 	public static boolean isTitleConcretizedOnMAL(AnimediaTitle animediaTitle) {
