@@ -21,6 +21,8 @@ public class AnimediaUtils {
 
 	private static final Pattern MAX_EPISODES_IS_UNDEFINED = Pattern.compile("^[xXхХ]{1,3}$");
 
+	private static final Pattern JOINED_EPISODES_PATTERN = Pattern.compile("\\d{1,3}-\\d{1,3}");
+
 	public static boolean isMaxEpisodeUndefined(String maxEpisodes) {
 		// TODO: 18.12.2019 revert after a json object improvement with max episode in a data list from animedia api
 		Matcher matcher = MAX_EPISODES_IS_UNDEFINED.matcher(ofNullable(maxEpisodes).orElse("XXX"));
@@ -53,7 +55,7 @@ public class AnimediaUtils {
 
 	public static String getCorrectCurrentMax(String currentMax) {
 		String result;
-		String[] joinedEpisodes = currentMax.split("-");
+		String[] joinedEpisodes = splitJoinedEpisodes(currentMax);
 		if (joinedEpisodes.length > 1) {
 			result = joinedEpisodes[joinedEpisodes.length - 1];
 		} else {
@@ -64,7 +66,7 @@ public class AnimediaUtils {
 
 	public static String getCorrectFirstEpisodeAndMin(String firstEpisodeAndMin) {
 		String result;
-		String[] joinedEpisodes = firstEpisodeAndMin.split("-");
+		String[] joinedEpisodes = splitJoinedEpisodes(firstEpisodeAndMin);
 		if (joinedEpisodes.length > 1) {
 			result = joinedEpisodes[0];
 		} else {
@@ -81,5 +83,14 @@ public class AnimediaUtils {
 	public static String getLastEpisode(List<String> episodesList) {
 		int lastIndex = episodesList.size() - 1;
 		return episodesList.get(lastIndex);
+	}
+
+	public static String[] splitJoinedEpisodes(String episode) {
+		return episode.split("-");
+	}
+
+	public static boolean isJoinedEpisodes(String episode) {
+		return JOINED_EPISODES_PATTERN.matcher(episode)
+				.find();
 	}
 }

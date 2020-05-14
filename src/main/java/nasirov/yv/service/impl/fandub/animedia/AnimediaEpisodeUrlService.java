@@ -5,7 +5,6 @@ import static java.util.Collections.max;
 import static java.util.Comparator.comparing;
 import static java.util.Optional.ofNullable;
 import static nasirov.yv.data.constants.BaseConstants.FINAL_URL_VALUE_IF_EPISODE_IS_NOT_AVAILABLE;
-import static nasirov.yv.data.constants.BaseConstants.JOINED_EPISODES_PATTERN;
 import static nasirov.yv.data.constants.BaseConstants.NOT_FOUND_ON_FANDUB_SITE_URL;
 import static nasirov.yv.util.AnimediaUtils.isMaxEpisodeUndefined;
 import static nasirov.yv.util.AnimediaUtils.isTitleConcretizedOnMAL;
@@ -210,8 +209,8 @@ public class AnimediaEpisodeUrlService implements EpisodeUrlServiceI {
 	private boolean isNextEpisodeForWatchInJoinedEpisode(String episodeNumberForWatch, List<String> episodesRange) {
 		return ofNullable(episodesRange).orElseGet(Collections::emptyList)
 				.stream()
-				.filter(this::isJoinedEpisodes)
-				.map(this::splitJoinedEpisodes)
+				.filter(AnimediaUtils::isJoinedEpisodes)
+				.map(AnimediaUtils::splitJoinedEpisodes)
 				.anyMatch(x -> isEpisodeInRange(x, episodeNumberForWatch));
 	}
 
@@ -225,8 +224,8 @@ public class AnimediaEpisodeUrlService implements EpisodeUrlServiceI {
 	private String getEpisodeNumberForWatchForURLandFrontIfJoinedEpisodeIsPresent(String episodeNumberForWatch, List<String> episodesRange) {
 		String[] result = new String[2];
 		String[] splittedEpisodes = episodesRange.stream()
-				.filter(this::isJoinedEpisodes)
-				.map(this::splitJoinedEpisodes)
+				.filter(AnimediaUtils::isJoinedEpisodes)
+				.map(AnimediaUtils::splitJoinedEpisodes)
 				.filter(x -> isEpisodeInRange(x, episodeNumberForWatch))
 				.findFirst()
 				.orElse(null);
@@ -235,15 +234,6 @@ public class AnimediaEpisodeUrlService implements EpisodeUrlServiceI {
 			result[1] = episodeNumberForWatch;
 		}
 		return result[0];
-	}
-
-	private boolean isJoinedEpisodes(String episode) {
-		return JOINED_EPISODES_PATTERN.matcher(episode)
-				.find();
-	}
-
-	private String[] splitJoinedEpisodes(String joinedEpisodes) {
-		return joinedEpisodes.split("-");
 	}
 
 	private boolean isEpisodeInRange(String[] episodesArray, String episodeNumberForWatch) {

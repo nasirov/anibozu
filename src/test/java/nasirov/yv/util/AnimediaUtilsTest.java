@@ -5,6 +5,7 @@ import static nasirov.yv.utils.AnimediaTitlesTestBuilder.buildUpdatedRegularAnim
 import static nasirov.yv.utils.AnimediaTitlesTestBuilder.getConcretizedAnimediaTitleWithEpisodesRange;
 import static nasirov.yv.utils.AnimediaTitlesTestBuilder.getNotFoundOnMalAnimediaTitle;
 import static nasirov.yv.utils.AnimediaTitlesTestBuilder.getRegularNotUpdatedAnimediaTitle;
+import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
@@ -65,6 +66,19 @@ public class AnimediaUtilsTest {
 		String joinedEpisode = firstEpisode + "-" + secondEpisode;
 		assertEquals(firstEpisode, AnimediaUtils.getCorrectFirstEpisodeAndMin(joinedEpisode));
 		assertEquals(firstEpisode, AnimediaUtils.getCorrectFirstEpisodeAndMin(firstEpisode));
+	}
+
+	@Test
+	public void splitJoinedEpisodes() {
+		assertArrayEquals(new String[]{"1", "2"}, AnimediaUtils.splitJoinedEpisodes("1-2"));
+		assertArrayEquals(new String[]{"1"}, AnimediaUtils.splitJoinedEpisodes("1"));
+	}
+
+	@Test
+	public void isJoinedEpisodes() {
+		assertFalse(AnimediaUtils.isJoinedEpisodes("1"));
+		assertTrue(AnimediaUtils.isJoinedEpisodes("1-2"));
+		assertTrue(AnimediaUtils.isJoinedEpisodes("123-321"));
 	}
 
 	@Test
