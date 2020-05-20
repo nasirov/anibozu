@@ -15,6 +15,7 @@ public class TestConstants {
 	public static final String ANNOUNCEMENT_TITLE_MAL_ANIME_URL = "/anime/1/announcement%20title%20name";
 	public static final Integer ANNOUNCEMENT_TITLE_MAL_ANIME_ID = 1;
 	public static final String ANNOUNCEMENT_TITLE_ANIDUB_SITE_URL = "anime/full/1234-announcement-url.html";
+	public static final Integer ANNOUNCEMENT_TITLE_JESIDAO_ID = 0;
 
 	public static final String REGULAR_TITLE_URL = "anime/regular-title-url";
 	public static final String REGULAR_TITLE_NAME = "regular title name";
@@ -23,6 +24,7 @@ public class TestConstants {
 	public static final String REGULAR_TITLE_MAL_ANIME_URL = "/anime/2/regular%20title%20name";
 	public static final Integer REGULAR_TITLE_MAL_ANIME_ID = 2;
 	public static final Integer REGULAR_TITLE_ANIDUB_ID = 1;
+	public static final Integer REGULAR_TITLE_JESIDAO_ID = 1;
 	public static final Integer REGULAR_TITLE_ANIDUB_TYPE_ID = 5;
 	public static final Integer REGULAR_TITLE_ANIDUB_TYPE_SUPPORTED_SOURCE_ID = 6;
 	public static final String REGULAR_TITLE_ANIDUB_API_URL = "https://video.sibnet.ru/shell.php?videoid=1234567";
