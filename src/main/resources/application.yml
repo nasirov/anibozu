@@ -90,6 +90,10 @@ anidub-site-feign-client:
   ribbon:
     listOfServers: https://anime.anidub.life
 
+jisedai-feign-client:
+  ribbon:
+    listOfServers: https://jisedai.tv
+
 ribbon:
   eureka:
     enabled: false
