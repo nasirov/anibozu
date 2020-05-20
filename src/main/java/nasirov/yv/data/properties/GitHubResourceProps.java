@@ -23,4 +23,7 @@ public class GitHubResourceProps {
 
 	@NotBlank
 	private String anidubSiteTitles;
+
+	@NotBlank
+	private String jisedaiSiteTitles;
 }
