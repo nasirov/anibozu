@@ -28,6 +28,9 @@ public class UrlsNames {
 	@NotNull
 	private AnidubUrls anidubUrls;
 
+	@NotNull
+	private JisedaiUrls jisedaiUrls;
+
 	@Data
 	@Validated
 	public static class AnimediaUrls {
@@ -61,5 +64,13 @@ public class UrlsNames {
 
 		@NotBlank
 		private String anidubSiteUrl;
+	}
+
+	@Data
+	@Validated
+	public static class JisedaiUrls {
+
+		@NotBlank
+		private String jisedaiSiteUrl;
 	}
 }

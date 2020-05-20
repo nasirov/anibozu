@@ -15,6 +15,8 @@ application:
       nine-anime-to: https://9anime.to
     anidub-urls:
       anidub-site-url: https://anime.anidub.life/
+    jisedai-urls:
+      jisedai-site-url: https://jisedai.tv
   services:
     applicationLogoPrinter-enabled: true
     animedia-service-source: site #api | site
