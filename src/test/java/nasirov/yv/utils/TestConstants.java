@@ -15,7 +15,8 @@ public class TestConstants {
 	public static final String ANNOUNCEMENT_TITLE_MAL_ANIME_URL = "/anime/1/announcement%20title%20name";
 	public static final Integer ANNOUNCEMENT_TITLE_MAL_ANIME_ID = 1;
 	public static final String ANNOUNCEMENT_TITLE_ANIDUB_SITE_URL = "anime/full/1234-announcement-url.html";
-	public static final Integer ANNOUNCEMENT_TITLE_JESIDAO_ID = 0;
+	public static final String ANNOUNCEMENT_TITLE_JISEDAI_SITE_URL = "anime/0-announcement-url";
+	public static final Integer ANNOUNCEMENT_TITLE_JESIDAI_ID = 0;
 
 	public static final String REGULAR_TITLE_URL = "anime/regular-title-url";
 	public static final String REGULAR_TITLE_NAME = "regular title name";
@@ -24,12 +25,12 @@ public class TestConstants {
 	public static final String REGULAR_TITLE_MAL_ANIME_URL = "/anime/2/regular%20title%20name";
 	public static final Integer REGULAR_TITLE_MAL_ANIME_ID = 2;
 	public static final Integer REGULAR_TITLE_ANIDUB_ID = 1;
-	public static final Integer REGULAR_TITLE_JESIDAO_ID = 1;
+	public static final Integer REGULAR_TITLE_JESIDAI_ID = 1;
 	public static final Integer REGULAR_TITLE_ANIDUB_TYPE_ID = 5;
 	public static final Integer REGULAR_TITLE_ANIDUB_TYPE_SUPPORTED_SOURCE_ID = 6;
 	public static final String REGULAR_TITLE_ANIDUB_API_URL = "https://video.sibnet.ru/shell.php?videoid=1234567";
 	public static final String REGULAR_TITLE_ANIDUB_SITE_URL = "anime/full/4321-regular-title-url.html";
-
+	public static final String REGULAR_TITLE_JISEDAI_SITE_URL = "anime/1-regular-title-url";
 	public static final String REGULAR_TITLE_NINE_ANIME_DATA_ID = "12rtm34";
 	public static final String REGULAR_TITLE_DUB_NINE_ANIME_DATA_ID = "56rtm78";
 	public static final String REGULAR_TITLE_DUB_AVAILABLE_EPISODE_ID = "1efrtm";
@@ -82,6 +83,7 @@ public class TestConstants {
 	public static final String TEXT_JAVASCRIPT_CHARSET_UTF_8 = "text/javascript;charset=UTF-8";
 	public static final String TEXT_PLAIN_CHARSET_UTF_8 = "text/plain; charset=utf-8";
 	public static final String TEXT_HTML_CHARSET_UTF_8 = "text/html; charset=UTF-8";
+	public static final String TEXT_HTML_CHARSET_UTF_8_ALT = "text/html; charset=utf-8";
 	public static final String APPLICATION_JSON_CHARSET_UTF_8 = "application/json; charset=UTF-8";
 	public static final String APPLICATION_JSON_CHARSET_UTF_8_ALT = "application/json;charset=UTF-8";
 	public static final String REQUEST_ACCEPT_ENCODING = "gzip, br";
@@ -91,6 +93,7 @@ public class TestConstants {
 	public static final String ANIMEDIA_ONLINE_TV = "https://online.animedia.tv/";
 	public static final String NINE_ANIME_TO = "https://9anime.to";
 	public static final String ANIDUB_URL = "https://anime.anidub.life/";
+	public static final String JISEDAI_URL = "https://jisedai.tv/";
 
 	public static final int TEST_ACC_WATCHING_TITLES = 2;
 

@@ -17,6 +17,9 @@ The application analyzes an user watching titles from **[MyAnimeList](https://my
   <tr>
     <td><a href="https://anime.anidub.life/"><img src="https://www.google.com/s2/favicons?domain=https://anime.anidub.life/" alt="anidub"> Anidub</a></td>
   </tr>
+  <tr>
+    <td><a href="https://jisedai.tv/"><img src="https://www.google.com/s2/favicons?domain=https://jisedai.tv/" alt="jesidai"> Jesidai</a></td>
+  </tr>
   </tbody>
 </table>
 

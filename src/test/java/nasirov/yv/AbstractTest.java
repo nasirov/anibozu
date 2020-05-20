@@ -21,7 +21,9 @@ import nasirov.yv.http.feign.AnidubApiFeignClient;
 import nasirov.yv.http.feign.AnidubSiteFeignClient;
 import nasirov.yv.http.feign.AnimediaApiFeignClient;
 import nasirov.yv.http.feign.AnimediaSiteFeignClient;
+import nasirov.yv.http.feign.JisedaiSiteFeignClient;
 import nasirov.yv.parser.AnidubParserI;
+import nasirov.yv.parser.JisedaiParserI;
 import nasirov.yv.parser.WrappedObjectMapperI;
 import nasirov.yv.service.AnimeServiceI;
 import nasirov.yv.service.AnimediaServiceI;
@@ -37,6 +39,8 @@ import nasirov.yv.service.impl.fandub.anidub.AnidubSiteGitHubResourcesService;
 import nasirov.yv.service.impl.fandub.animedia.AnimediaApiService;
 import nasirov.yv.service.impl.fandub.animedia.AnimediaEpisodeUrlService;
 import nasirov.yv.service.impl.fandub.animedia.AnimediaSiteService;
+import nasirov.yv.service.impl.fandub.jisedai.JisedaiEpisodeUrlService;
+import nasirov.yv.service.impl.fandub.jisedai.JisedaiGitHubResourcesService;
 import nasirov.yv.service.impl.fandub.nine_anime.NineAnimeEpisodeUrlService;
 import org.junit.After;
 import org.junit.Before;
@@ -124,7 +128,13 @@ public abstract class AbstractTest {
 	protected AnidubSiteFeignClient anidubSiteFeignClient;
 
 	@Autowired
+	protected JisedaiSiteFeignClient jisedaiSiteFeignClient;
+
+	@Autowired
 	protected AnidubParserI anidubParser;
+
+	@Autowired
+	protected JisedaiParserI jisedaiParser;
 
 	@Autowired
 	protected UrlsNames urlsNames;
@@ -141,6 +151,10 @@ public abstract class AbstractTest {
 
 	protected AnidubSiteEpisodeUrlService anidubSiteEpisodeUrlService;
 
+	protected JisedaiGitHubResourcesService jisedaiGitHubResourcesService;
+
+	protected JisedaiEpisodeUrlService jisedaiSiteEpisodeUrlService;
+
 	@Before
 	public void setUp() {
 		animediaApiService = new AnimediaApiService(animediaApiFeignClient);
@@ -150,6 +164,8 @@ public abstract class AbstractTest {
 		anidubSiteGitHubResourcesService = new AnidubSiteGitHubResourcesService(githubResourcesService, gitHubResourceProps);
 		anidubApiEpisodeUrlService = new AnidubApiEpisodeUrlService(anidubApiFeignClient, anidubApiGitHubResourcesService, anidubParser);
 		anidubSiteEpisodeUrlService = new AnidubSiteEpisodeUrlService(anidubSiteFeignClient, anidubSiteGitHubResourcesService, anidubParser, urlsNames);
+		jisedaiGitHubResourcesService = new JisedaiGitHubResourcesService(githubResourcesService, gitHubResourceProps);
+		jisedaiSiteEpisodeUrlService = new JisedaiEpisodeUrlService(jisedaiSiteFeignClient, jisedaiGitHubResourcesService, jisedaiParser, urlsNames);
 	}
 
 	@After

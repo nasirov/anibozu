@@ -33,6 +33,11 @@ img {
   background-size: 40px 40px;
 }
 
+.JISEDAI_background {
+  background: url('../img/fandub/jisedai-logo.png') no-repeat center;
+  background-size: 40px 40px;
+}
+
 .full_cover {
   position: absolute;
   top: 0;

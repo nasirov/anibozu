@@ -46,7 +46,7 @@ public class AnimediaEpisodeParser implements AnimediaEpisodeParserI {
 	}
 
 	private String getDefaultEpisodeNumber(String episodeName) {
-		log.error("Cannot parse episode number from [{}]", episodeName);
+		log.error("Cannot parse an episode number from [{}]", episodeName);
 		return FIRST_EPISODE;
 	}
 }

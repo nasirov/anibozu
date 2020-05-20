@@ -2,6 +2,7 @@ package nasirov.yv.controller;
 
 import static nasirov.yv.data.constants.FanDubSource.ANIDUB;
 import static nasirov.yv.data.constants.FanDubSource.ANIMEDIA;
+import static nasirov.yv.data.constants.FanDubSource.JISEDAI;
 
 import nasirov.yv.data.mal.MALUser;
 import org.springframework.stereotype.Controller;
@@ -21,6 +22,7 @@ public class IndexController {
 		model.addAttribute("malUser", new MALUser());
 		model.addAttribute(ANIMEDIA.getName(), ANIMEDIA);
 		model.addAttribute(ANIDUB.getName(), ANIDUB);
+		model.addAttribute(JISEDAI.getName(), JISEDAI);
 		return "index";
 	}
 }

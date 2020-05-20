@@ -16,7 +16,7 @@ application:
     anidub-urls:
       anidub-site-url: https://anime.anidub.life/
     jisedai-urls:
-      jisedai-site-url: https://jisedai.tv
+      jisedai-site-url: https://jisedai.tv/
   services:
     applicationLogoPrinter-enabled: true
     animedia-service-source: site #api | site
@@ -35,7 +35,7 @@ application:
     github:
       name: github
       ttl: 3600
-      max-entity-count: 2
+      max-entity-count: 3
     sse:
       name: sse
       ttl: 300
@@ -93,7 +93,7 @@ anidub-site-feign-client:
   ribbon:
     listOfServers: https://anime.anidub.life
 
-jisedai-feign-client:
+jisedai-site-feign-client:
   ribbon:
     listOfServers: https://jisedai.tv
 

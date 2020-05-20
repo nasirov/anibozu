@@ -36,3 +36,7 @@ anidub-api-feign-client:
 anidub-site-feign-client:
   ribbon:
     listOfServers: localhost:${wiremock.server.port}
+
+jisedai-site-feign-client:
+  ribbon:
+    listOfServers: localhost:${wiremock.server.port}

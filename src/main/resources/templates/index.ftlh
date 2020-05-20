@@ -32,6 +32,11 @@
             <input id="animedia-checkbox" type="checkbox" class="nes-checkbox" name="fanDubSources" checked="checked" value="${anidub}"/>
             <span>Anidub</span>
           </label>
+          <label>
+              <@spring.bind "malUser.fanDubSources"/>
+            <input id="jisedai-checkbox" type="checkbox" class="nes-checkbox" name="fanDubSources" checked="checked" value="${jisedai}"/>
+            <span>Jisedai</span>
+          </label>
           <button type="submit" class="nes-btn is-primary">Search for new episodes</button>
         </form>
       </div>

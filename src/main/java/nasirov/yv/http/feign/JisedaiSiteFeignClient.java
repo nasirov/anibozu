@@ -10,7 +10,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 /**
  * Created by nasirov.yv
  */
-@FeignClient(value = "jisedai-feign-client", configuration = FeignClientConfig.class, fallbackFactory = JisedaiSiteFeignClientFallbackFactory.class)
+@FeignClient(value = "jisedai-site-feign-client", configuration = FeignClientConfig.class, fallbackFactory =
+		JisedaiSiteFeignClientFallbackFactory.class)
 @RequestMapping(headers = "Accept-Encoding=gzip, br")
 public interface JisedaiSiteFeignClient {
 
