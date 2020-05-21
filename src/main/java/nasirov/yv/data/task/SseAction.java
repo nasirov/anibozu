@@ -14,7 +14,7 @@ import nasirov.yv.data.front.Anime;
 import nasirov.yv.data.front.EventType;
 import nasirov.yv.data.front.SseDto;
 import nasirov.yv.data.mal.MALUser;
-import nasirov.yv.data.mal.UserMALTitleInfo;
+import nasirov.yv.data.mal.MalTitle;
 import nasirov.yv.service.MALServiceI;
 import nasirov.yv.service.impl.common.AnimeService;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
@@ -42,7 +42,7 @@ public class SseAction extends RecursiveAction {
 	protected void compute() {
 		try {
 			log.info("Start process SseAction for [{}]", malUser);
-			List<UserMALTitleInfo> watchingTitles = malService.getWatchingTitles(malUser.getUsername());
+			List<MalTitle> watchingTitles = malService.getWatchingTitles(malUser.getUsername());
 			for (int i = 0; i < watchingTitles.size() && isRunning.get(); i++) {
 				Set<FanDubSource> fanDubSources = malUser.getFanDubSources();
 				Anime anime = animeService.buildAnime(fanDubSources, watchingTitles.get(i));

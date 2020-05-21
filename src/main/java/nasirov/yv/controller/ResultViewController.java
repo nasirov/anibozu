@@ -8,7 +8,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import nasirov.yv.data.constants.FanDubSource;
 import nasirov.yv.data.mal.MALUser;
-import nasirov.yv.data.mal.UserMALTitleInfo;
+import nasirov.yv.data.mal.MalTitle;
 import nasirov.yv.exception.mal.MalException;
 import nasirov.yv.service.MALServiceI;
 import org.springframework.stereotype.Controller;
@@ -31,7 +31,7 @@ public class ResultViewController {
 		log.info("Received a request for result view by [{}] ...", username);
 		String resultView;
 		try {
-			List<UserMALTitleInfo> watchingTitles = malService.getWatchingTitles(username);
+			List<MalTitle> watchingTitles = malService.getWatchingTitles(username);
 			resultView = handleSuccess(watchingTitles.size(), malUser, model);
 		} catch (MalException malException) {
 			resultView = handleError(malException.getMessage(), model);

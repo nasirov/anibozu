@@ -6,7 +6,7 @@ import static org.junit.Assert.assertFalse;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import lombok.SneakyThrows;
-import nasirov.yv.data.mal.UserMALTitleInfo;
+import nasirov.yv.data.mal.MalTitle;
 import org.junit.Test;
 
 /**
@@ -17,9 +17,12 @@ public class MalUtilsTest {
 	@Test
 	public void shouldReturnNextEpisodeForWatch() {
 		//given
-		UserMALTitleInfo userMALTitleInfo = new UserMALTitleInfo(1, 0, "", "", "");
+		MalTitle malTitle = MalTitle.builder()
+				.id(1)
+				.numWatchedEpisodes(0)
+				.build();
 		//when
-		Integer nextEpisodeForWatch = MalUtils.getNextEpisodeForWatch(userMALTitleInfo);
+		Integer nextEpisodeForWatch = MalUtils.getNextEpisodeForWatch(malTitle);
 		//then
 		assertEquals(1, nextEpisodeForWatch.intValue());
 		assertEquals("1", nextEpisodeForWatch.toString());

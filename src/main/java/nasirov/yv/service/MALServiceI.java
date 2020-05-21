@@ -1,7 +1,7 @@
 package nasirov.yv.service;
 
 import java.util.List;
-import nasirov.yv.data.mal.UserMALTitleInfo;
+import nasirov.yv.data.mal.MalTitle;
 import nasirov.yv.exception.mal.MALUserAccountNotFoundException;
 import nasirov.yv.exception.mal.MALUserAnimeListAccessException;
 import nasirov.yv.exception.mal.WatchingTitlesNotFoundException;
@@ -11,7 +11,7 @@ import nasirov.yv.exception.mal.WatchingTitlesNotFoundException;
  */
 public interface MALServiceI {
 
-	List<UserMALTitleInfo> getWatchingTitles(String username)
+	List<MalTitle> getWatchingTitles(String username)
 			throws WatchingTitlesNotFoundException, MALUserAccountNotFoundException, MALUserAnimeListAccessException;
 
 	boolean isTitleExist(String titleNameOnMal, Integer titleIdOnMal);

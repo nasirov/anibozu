@@ -17,7 +17,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import nasirov.yv.data.animedia.AnimediaTitle;
 import nasirov.yv.data.constants.BaseConstants;
-import nasirov.yv.data.mal.UserMALTitleInfo;
+import nasirov.yv.data.mal.MalTitle;
 import nasirov.yv.data.properties.UrlsNames;
 import nasirov.yv.service.AnimediaTitlesUpdateServiceI;
 import nasirov.yv.service.EpisodeUrlServiceI;
@@ -42,7 +42,7 @@ public class AnimediaEpisodeUrlService implements EpisodeUrlServiceI {
 	private final AnimediaTitlesUpdateServiceI animediaTitlesUpdateService;
 
 	@Override
-	public String getEpisodeUrl(UserMALTitleInfo watchingTitle) {
+	public String getEpisodeUrl(MalTitle watchingTitle) {
 		String result;
 		List<AnimediaTitle> animediaTitles = getMatchedAnimediaTitles(watchingTitle);
 		animediaTitlesUpdateService.updateAnimediaTitles(animediaTitles);
@@ -64,12 +64,12 @@ public class AnimediaEpisodeUrlService implements EpisodeUrlServiceI {
 		return result;
 	}
 
-	private String handleZeroMatchedResult(UserMALTitleInfo watchingTitle) {
+	private String handleZeroMatchedResult(MalTitle watchingTitle) {
 		log.debug("TITLE [{}] WAS NOT FOUND ON Animedia!", watchingTitle);
 		return NOT_FOUND_ON_FANDUB_SITE_URL;
 	}
 
-	private String handleOneMatchedResult(List<AnimediaTitle> matchedAnimediaTitles, UserMALTitleInfo watchingTitle) {
+	private String handleOneMatchedResult(List<AnimediaTitle> matchedAnimediaTitles, MalTitle watchingTitle) {
 		return matchedAnimediaTitles.stream()
 				.map(x -> buildUrlForOneMatchedResult(x, watchingTitle))
 				.findFirst()
@@ -87,7 +87,7 @@ public class AnimediaEpisodeUrlService implements EpisodeUrlServiceI {
 	 *  @param matchedAnimediaTitles animedia titles with equal title id on mal and data list
 	 * @param watchingTitle         user watching title
 	 */
-	private String handleMoreThanOneMatchedResultOnSameDataList(List<AnimediaTitle> matchedAnimediaTitles, UserMALTitleInfo watchingTitle) {
+	private String handleMoreThanOneMatchedResultOnSameDataList(List<AnimediaTitle> matchedAnimediaTitles, MalTitle watchingTitle) {
 		int nextNumberOfEpisodeForWatch;
 		AnimediaTitle animediaTitle;
 		int nextEpisodeNumber = getNextEpisodeForWatch(watchingTitle);
@@ -113,7 +113,7 @@ public class AnimediaEpisodeUrlService implements EpisodeUrlServiceI {
 	 *
 	 * @param matchedAnimediaTitles animedia titles with equal title id on mal
 	 */
-	private String handleMoreThanOneMatchedResult(List<AnimediaTitle> matchedAnimediaTitles, UserMALTitleInfo watchingTitle) {
+	private String handleMoreThanOneMatchedResult(List<AnimediaTitle> matchedAnimediaTitles, MalTitle watchingTitle) {
 		int nextNumberOfEpisodeForWatch = getNextEpisodeForWatch(watchingTitle);
 		return matchedAnimediaTitles.stream()
 				.filter(ref -> isNextNumberOfEpisodeForWatchInAnimediaTitleEpisodesRange(nextNumberOfEpisodeForWatch, ref))
@@ -122,14 +122,14 @@ public class AnimediaEpisodeUrlService implements EpisodeUrlServiceI {
 				.orElse(NOT_FOUND_ON_FANDUB_SITE_URL);
 	}
 
-	private String handleAnnouncement(UserMALTitleInfo watchingTitle) {
-		log.debug("NEW EPISODE FOR {} IS NOT AVAILABLE BECAUSE IT'S ANNOUNCEMENT", watchingTitle.getTitle());
+	private String handleAnnouncement(MalTitle watchingTitle) {
+		log.debug("NEW EPISODE FOR {} IS NOT AVAILABLE BECAUSE IT'S ANNOUNCEMENT", watchingTitle.getName());
 		return FINAL_URL_VALUE_IF_EPISODE_IS_NOT_AVAILABLE;
 	}
 
-	private List<AnimediaTitle> getMatchedAnimediaTitles(UserMALTitleInfo userMALTitleInfo) {
+	private List<AnimediaTitle> getMatchedAnimediaTitles(MalTitle malTitle) {
 		return animediaGitHubResourcesService.getTitles()
-				.getOrDefault(userMALTitleInfo.getAnimeId(), Collections.emptyList());
+				.getOrDefault(malTitle.getId(), Collections.emptyList());
 	}
 
 	/**
@@ -142,12 +142,12 @@ public class AnimediaEpisodeUrlService implements EpisodeUrlServiceI {
 	 * 3-4 https://online.animedia.tv/anime/tamayura/2/2 Tamayura  2-2
 	 *
 	 * @param animediaTitle    animedia titles with concretized episodes on MAL
-	 * @param userMALTitleInfo mal title
+	 * @param malTitle mal title
 	 * @return correct episode number for watch
 	 */
-	private int getEpisodeNumberForWatchForConcretizedAnimediaTitle(AnimediaTitle animediaTitle, UserMALTitleInfo userMALTitleInfo) {
+	private int getEpisodeNumberForWatchForConcretizedAnimediaTitle(AnimediaTitle animediaTitle, MalTitle malTitle) {
 		int episodeNumberForWatch;
-		int nextEpisodeNumber = getNextEpisodeForWatch(userMALTitleInfo);
+		int nextEpisodeNumber = getNextEpisodeForWatch(malTitle);
 		int intMinConcretizedEpisodeOnMAL = Integer.parseInt(animediaTitle.getMinOnMAL());
 		int intMaxConcretizedEpisodeOnMAL = Integer.parseInt(animediaTitle.getMaxOnMAL());
 		int min = Integer.parseInt(animediaTitle.getMinOnAnimedia());
@@ -239,7 +239,7 @@ public class AnimediaEpisodeUrlService implements EpisodeUrlServiceI {
 				&& Integer.parseInt(episodesArray[episodesArray.length - 1]) >= Integer.parseInt(episodeNumberForWatch);
 	}
 
-	private String buildUrlForOneMatchedResult(AnimediaTitle animediaTitle, UserMALTitleInfo watchingTitle) {
+	private String buildUrlForOneMatchedResult(AnimediaTitle animediaTitle, MalTitle watchingTitle) {
 		int episodeNumberForWatch;
 		int firstEpisode = Integer.parseInt(animediaTitle.getMinOnAnimedia());
 		if (!AnimediaUtils.isTitleUpdated(animediaTitle)) {

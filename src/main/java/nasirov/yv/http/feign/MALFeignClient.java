@@ -2,7 +2,7 @@ package nasirov.yv.http.feign;
 
 import java.util.List;
 import nasirov.yv.data.mal.MALSearchResult;
-import nasirov.yv.data.mal.UserMALTitleInfo;
+import nasirov.yv.data.mal.MalTitle;
 import nasirov.yv.http.config.FeignClientConfig;
 import nasirov.yv.http.fallback.MALFeignClientFallbackFactory;
 import org.springframework.cloud.openfeign.FeignClient;
@@ -23,7 +23,7 @@ public interface MALFeignClient {
 	ResponseEntity<String> getUserProfile(@PathVariable String username);
 
 	@GetMapping(value = "/animelist/{username}/load.json", produces = "application/json; charset=UTF-8")
-	ResponseEntity<List<UserMALTitleInfo>> getUserAnimeList(@PathVariable String username, @RequestParam int offset, @RequestParam int status);
+	ResponseEntity<List<MalTitle>> getUserAnimeList(@PathVariable String username, @RequestParam int offset, @RequestParam int status);
 
 	@GetMapping(value = "/search/prefix.json?type=all&v=1", produces = "application/json; charset=UTF-8")
 	MALSearchResult searchTitleByName(@RequestParam("keyword") String titleName);

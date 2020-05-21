@@ -11,7 +11,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import java.util.Map;
 import lombok.SneakyThrows;
 import nasirov.yv.AbstractTest;
-import nasirov.yv.data.mal.UserMALTitleInfo;
+import nasirov.yv.data.mal.MalTitle;
 import nasirov.yv.exception.mal.MALUserAccountNotFoundException;
 import nasirov.yv.exception.mal.MALUserAnimeListAccessException;
 import nasirov.yv.exception.mal.WatchingTitlesNotFoundException;
@@ -85,7 +85,7 @@ public class ResultViewControllerTest extends AbstractTest {
 
 	@SneakyThrows
 	private void mockMalServiceOk() {
-		doReturn(Lists.newArrayList(new UserMALTitleInfo())).when(malService)
+		doReturn(Lists.newArrayList(new MalTitle())).when(malService)
 				.getWatchingTitles(TEST_ACC_FOR_DEV.toLowerCase());
 	}
 

@@ -9,7 +9,7 @@ import lombok.extern.slf4j.Slf4j;
 import nasirov.yv.data.constants.FanDubSource;
 import nasirov.yv.data.front.Anime;
 import nasirov.yv.data.front.Anime.AnimeBuilder;
-import nasirov.yv.data.mal.UserMALTitleInfo;
+import nasirov.yv.data.mal.MalTitle;
 import nasirov.yv.service.AnimeServiceI;
 import nasirov.yv.service.EpisodeUrlServiceI;
 import org.springframework.stereotype.Service;
@@ -25,9 +25,9 @@ public class AnimeService implements AnimeServiceI {
 	private final Map<FanDubSource, EpisodeUrlServiceI> episodeUrlStrategy;
 
 	@Override
-	public Anime buildAnime(Set<FanDubSource> fanDubSources, UserMALTitleInfo watchingTitle) {
+	public Anime buildAnime(Set<FanDubSource> fanDubSources, MalTitle watchingTitle) {
 		AnimeBuilder animeBuilder = Anime.builder()
-				.animeName(watchingTitle.getTitle())
+				.animeName(watchingTitle.getName())
 				.episode(getNextEpisodeForWatch(watchingTitle).toString())
 				.posterUrlOnMAL(watchingTitle.getPosterUrl())
 				.animeUrlOnMAL(watchingTitle.getAnimeUrl());
@@ -35,7 +35,7 @@ public class AnimeService implements AnimeServiceI {
 		return animeBuilder.build();
 	}
 
-	private String buildEpisodeUrlViaEpisodeUrlService(UserMALTitleInfo watchingTitle, FanDubSource targetFanDubSource) {
+	private String buildEpisodeUrlViaEpisodeUrlService(MalTitle watchingTitle, FanDubSource targetFanDubSource) {
 		return episodeUrlStrategy.get(targetFanDubSource)
 				.getEpisodeUrl(watchingTitle);
 	}

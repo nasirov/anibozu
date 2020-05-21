@@ -20,7 +20,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.Set;
 import nasirov.yv.AbstractTest;
-import nasirov.yv.data.mal.UserMALTitleInfo;
+import nasirov.yv.data.mal.MalTitle;
 import nasirov.yv.exception.mal.MALUserAccountNotFoundException;
 import nasirov.yv.exception.mal.MALUserAnimeListAccessException;
 import nasirov.yv.exception.mal.WatchingTitlesNotFoundException;
@@ -34,7 +34,7 @@ public class MALServiceTest extends AbstractTest {
 	@Test
 	public void getWatchingTitles() throws Exception {
 		stubTestUser();
-		List<UserMALTitleInfo> watchingTitles = malService.getWatchingTitles(TEST_ACC_FOR_DEV);
+		List<MalTitle> watchingTitles = malService.getWatchingTitles(TEST_ACC_FOR_DEV);
 		assertNotNull(watchingTitles);
 		assertEquals(TEST_ACC_WATCHING_TITLES, watchingTitles.size());
 		watchingTitles.forEach(this::checkTitle);
@@ -105,8 +105,8 @@ public class MALServiceTest extends AbstractTest {
 				"mal/testAccForDevFirstJson300.json");
 	}
 
-	private void checkTitle(UserMALTitleInfo title) {
-		assertTrue(expectedTitles().contains(title.getTitle()));
+	private void checkTitle(MalTitle title) {
+		assertTrue(expectedTitles().contains(title.getName()));
 		assertTrue(expectedPosters().contains(title.getPosterUrl()));
 		assertTrue(expectedUrls().contains(title.getAnimeUrl()));
 	}

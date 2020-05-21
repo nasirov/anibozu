@@ -4,7 +4,7 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
 /**
- * Title status in a user anime list on MAL
+ * Title status in an user anime list on MAL
  * <p>
  * Created by nasirov.yv
  */

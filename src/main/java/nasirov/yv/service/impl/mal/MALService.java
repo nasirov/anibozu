@@ -15,7 +15,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import nasirov.yv.data.mal.MALSearchCategories;
 import nasirov.yv.data.mal.MALSearchTitleInfo;
-import nasirov.yv.data.mal.UserMALTitleInfo;
+import nasirov.yv.data.mal.MalTitle;
 import nasirov.yv.data.properties.MalProps;
 import nasirov.yv.data.properties.UrlsNames;
 import nasirov.yv.exception.mal.MALUserAccountNotFoundException;
@@ -67,11 +67,11 @@ public class MALService implements MALServiceI {
 	 */
 	@Override
 	@Cacheable(value = "mal", key = "#username", unless = "#result?.isEmpty()")
-	public List<UserMALTitleInfo> getWatchingTitles(String username)
+	public List<MalTitle> getWatchingTitles(String username)
 			throws WatchingTitlesNotFoundException, MALUserAccountNotFoundException, MALUserAnimeListAccessException {
 		String userProfile = extractUserProfile(username);
 		int numberOfUserWatchingTitles = extractNumberOfWatchingTitles(userProfile, username);
-		List<UserMALTitleInfo> watchingTitles = new ArrayList<>(numberOfUserWatchingTitles);
+		List<MalTitle> watchingTitles = new ArrayList<>(numberOfUserWatchingTitles);
 		for (int offset = 0; offset < numberOfUserWatchingTitles; offset += offsetStep) {
 			watchingTitles.addAll(getJsonTitlesAndUnmarshal(offset, username));
 		}
@@ -109,7 +109,7 @@ public class MALService implements MALServiceI {
 		return numberOfUserWatchingTitles;
 	}
 
-	private List<UserMALTitleInfo> formatWatchingTitles(List<UserMALTitleInfo> watchingTitles) {
+	private List<MalTitle> formatWatchingTitles(List<MalTitle> watchingTitles) {
 		return watchingTitles.stream()
 				.map(this::changePosterUrl)
 				.map(this::changeAnimeUrl)
@@ -138,7 +138,7 @@ public class MALService implements MALServiceI {
 	 *
 	 * @param title MAL title
 	 */
-	private UserMALTitleInfo changePosterUrl(UserMALTitleInfo title) {
+	private MalTitle changePosterUrl(MalTitle title) {
 		String changedPosterUrl = "";
 		Matcher matcher = POSTER_URL_RESOLUTION_PATTERN.matcher(title.getPosterUrl());
 		if (matcher.find()) {
@@ -155,9 +155,9 @@ public class MALService implements MALServiceI {
 	/**
 	 * Sets full anime url
 	 *
-	 * @param title the MAL title
+	 * @param title a MAL title
 	 */
-	private UserMALTitleInfo changeAnimeUrl(UserMALTitleInfo title) {
+	private MalTitle changeAnimeUrl(MalTitle title) {
 		title.setAnimeUrl(urlsNames.getMalUrls()
 				.getMyAnimeListNet() + title.getAnimeUrl());
 		return title;
@@ -166,10 +166,10 @@ public class MALService implements MALServiceI {
 	/**
 	 * Sets unescaped title name
 	 *
-	 * @param title the MAL title
+	 * @param title a MAL title
 	 */
-	private UserMALTitleInfo changeTitleName(UserMALTitleInfo title) {
-		title.setTitle(HtmlUtils.htmlUnescape(title.getTitle()));
+	private MalTitle changeTitleName(MalTitle title) {
+		title.setName(HtmlUtils.htmlUnescape(title.getName()));
 		return title;
 	}
 
@@ -180,13 +180,13 @@ public class MALService implements MALServiceI {
 	 * @param username      the MAL username
 	 * @return the set with the user anime titles
 	 */
-	private List<UserMALTitleInfo> getJsonTitlesAndUnmarshal(Integer currentOffset, String username) throws MALUserAnimeListAccessException {
-		ResponseEntity<List<UserMALTitleInfo>> malResponse = malFeignClient.getUserAnimeList(username, currentOffset, WATCHING.getCode());
+	private List<MalTitle> getJsonTitlesAndUnmarshal(Integer currentOffset, String username) throws MALUserAnimeListAccessException {
+		ResponseEntity<List<MalTitle>> malResponse = malFeignClient.getUserAnimeList(username, currentOffset, WATCHING.getCode());
 		checkUserAnimeListAccess(malResponse, username);
 		return ofNullable(malResponse.getBody()).orElseGet(Collections::emptyList);
 	}
 
-	private void checkUserAnimeListAccess(ResponseEntity<List<UserMALTitleInfo>> malResponse, String username) throws MALUserAnimeListAccessException {
+	private void checkUserAnimeListAccess(ResponseEntity<List<MalTitle>> malResponse, String username) throws MALUserAnimeListAccessException {
 		if (malResponse.getStatusCode()
 				.equals(HttpStatus.BAD_REQUEST)) {
 			throw new MALUserAnimeListAccessException("Anime list " + username + " has private access!");

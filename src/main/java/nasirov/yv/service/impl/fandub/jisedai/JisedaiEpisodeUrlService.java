@@ -12,7 +12,7 @@ import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import nasirov.yv.data.jisedai.site.JisedaiSiteTitle;
-import nasirov.yv.data.mal.UserMALTitleInfo;
+import nasirov.yv.data.mal.MalTitle;
 import nasirov.yv.data.properties.UrlsNames;
 import nasirov.yv.http.feign.JisedaiSiteFeignClient;
 import nasirov.yv.parser.JisedaiParserI;
@@ -40,7 +40,7 @@ public class JisedaiEpisodeUrlService implements EpisodeUrlServiceI {
 	private final UrlsNames urlsNames;
 
 	@Override
-	public String getEpisodeUrl(UserMALTitleInfo watchingTitle) {
+	public String getEpisodeUrl(MalTitle watchingTitle) {
 		String url = NOT_FOUND_ON_FANDUB_SITE_URL;
 		JisedaiSiteTitle matchedTitle = getMatchedTitle(watchingTitle);
 		if (nonNull(matchedTitle)) {
@@ -48,14 +48,14 @@ public class JisedaiEpisodeUrlService implements EpisodeUrlServiceI {
 			url = episodes.contains(getNextEpisodeForWatch(watchingTitle)) ? urlsNames.getJisedaiUrls()
 					.getJisedaiSiteUrl() + matchedTitle.getUrl() : FINAL_URL_VALUE_IF_EPISODE_IS_NOT_AVAILABLE;
 		} else {
-			log.debug("TITLE [{}] WAS NOT FOUND ON JISEDAI!", watchingTitle.getTitle());
+			log.debug("TITLE [{}] WAS NOT FOUND ON JISEDAI!", watchingTitle.getName());
 		}
 		return url;
 	}
 
-	private JisedaiSiteTitle getMatchedTitle(UserMALTitleInfo watchingTitle) {
+	private JisedaiSiteTitle getMatchedTitle(MalTitle watchingTitle) {
 		return Optional.ofNullable(jisedaiSiteTitleService.getTitles()
-				.get(watchingTitle.getAnimeId()))
+				.get(watchingTitle.getId()))
 				.orElseGet(Collections::emptyList)
 				.stream()
 				.findFirst()

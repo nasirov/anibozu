@@ -18,7 +18,7 @@ import static org.mockito.Mockito.doReturn;
 import java.util.List;
 import nasirov.yv.AbstractTest;
 import nasirov.yv.data.jisedai.site.JisedaiSiteTitle;
-import nasirov.yv.data.mal.UserMALTitleInfo;
+import nasirov.yv.data.mal.MalTitle;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -38,7 +38,7 @@ public class JisedaiSiteEpisodeUrlServiceTest extends AbstractTest {
 	public void shouldReturnUrlWithAvailableEpisode() {
 		//given
 		mockJisedai();
-		UserMALTitleInfo title = buildWatchingTitle(REGULAR_TITLE_MAL_ANIME_ID, 0);
+		MalTitle title = buildWatchingTitle(REGULAR_TITLE_MAL_ANIME_ID, 0);
 		//when
 		String actualUrl = jisedaiSiteEpisodeUrlService.getEpisodeUrl(title);
 		//then
@@ -49,7 +49,7 @@ public class JisedaiSiteEpisodeUrlServiceTest extends AbstractTest {
 	public void shouldReturnNotAvailableUrlConstant() {
 		//given
 		mockJisedai();
-		UserMALTitleInfo title = buildWatchingTitle(REGULAR_TITLE_MAL_ANIME_ID, 3);
+		MalTitle title = buildWatchingTitle(REGULAR_TITLE_MAL_ANIME_ID, 3);
 		//when
 		String actualUrl = jisedaiSiteEpisodeUrlService.getEpisodeUrl(title);
 		//then
@@ -61,7 +61,7 @@ public class JisedaiSiteEpisodeUrlServiceTest extends AbstractTest {
 		//given
 		mockJisedai();
 		int notRegularTitleId = 5;
-		UserMALTitleInfo title = buildWatchingTitle(notRegularTitleId, 0);
+		MalTitle title = buildWatchingTitle(notRegularTitleId, 0);
 		//when
 		String actualUrl = jisedaiSiteEpisodeUrlService.getEpisodeUrl(title);
 		//then
@@ -77,11 +77,13 @@ public class JisedaiSiteEpisodeUrlServiceTest extends AbstractTest {
 				.getResource("jisedaiSiteTitles.json", JisedaiSiteTitle.class);
 	}
 
-	private UserMALTitleInfo buildWatchingTitle(int animeId, int numWatchedEpisodes) {
-		return new UserMALTitleInfo(animeId,
-				numWatchedEpisodes,
-				REGULAR_TITLE_NAME,
-				MY_ANIME_LIST_STATIC_CONTENT_URL + REGULAR_TITLE_POSTER_URL,
-				MY_ANIME_LIST_URL + REGULAR_TITLE_MAL_ANIME_URL);
+	private MalTitle buildWatchingTitle(int animeId, int numWatchedEpisodes) {
+		return MalTitle.builder()
+				.id(animeId)
+				.numWatchedEpisodes(numWatchedEpisodes)
+				.name(REGULAR_TITLE_NAME)
+				.posterUrl(MY_ANIME_LIST_STATIC_CONTENT_URL + REGULAR_TITLE_POSTER_URL)
+				.animeUrl(MY_ANIME_LIST_URL + REGULAR_TITLE_MAL_ANIME_URL)
+				.build();
 	}
 }

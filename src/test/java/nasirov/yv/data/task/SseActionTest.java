@@ -22,7 +22,7 @@ import nasirov.yv.data.front.Anime;
 import nasirov.yv.data.front.EventType;
 import nasirov.yv.data.front.SseDto;
 import nasirov.yv.data.mal.MALUser;
-import nasirov.yv.data.mal.UserMALTitleInfo;
+import nasirov.yv.data.mal.MalTitle;
 import nasirov.yv.service.MALServiceI;
 import nasirov.yv.service.impl.common.AnimeService;
 import nasirov.yv.utils.TestConstants;
@@ -80,7 +80,7 @@ public class SseActionTest {
 		Anime notAvailable = buildAnime(buildFanDubUrls(EventType.NOT_AVAILABLE));
 		Anime notFound = buildAnime(buildFanDubUrls(EventType.NOT_FOUND));
 		doReturn(available, notAvailable, notFound).when(animeService)
-				.buildAnime(eq(fanDubSources), any(UserMALTitleInfo.class));
+				.buildAnime(eq(fanDubSources), any(MalTitle.class));
 	}
 
 	@SneakyThrows
@@ -89,7 +89,7 @@ public class SseActionTest {
 		Anime available = buildAnime(buildFanDubUrls(EventType.AVAILABLE));
 		doReturn(available).doThrow(new RuntimeException("Exception message"))
 				.when(animeService)
-				.buildAnime(eq(fanDubSources), any(UserMALTitleInfo.class));
+				.buildAnime(eq(fanDubSources), any(MalTitle.class));
 	}
 
 	@SneakyThrows
@@ -99,7 +99,7 @@ public class SseActionTest {
 		Set<FanDubSource> fanDubSources = Sets.newHashSet(FanDubSource.ANIMEDIA, FanDubSource.NINEANIME);
 		doReturn(fanDubSources).when(malUser)
 				.getFanDubSources();
-		doReturn(Lists.newArrayList(new UserMALTitleInfo(), new UserMALTitleInfo(), new UserMALTitleInfo())).when(malService)
+		doReturn(Lists.newArrayList(new MalTitle(), new MalTitle(), new MalTitle())).when(malService)
 				.getWatchingTitles(eq(TEST_ACC_FOR_DEV.toLowerCase()));
 		return fanDubSources;
 	}

@@ -1,6 +1,6 @@
 package nasirov.yv.service;
 
-import nasirov.yv.data.mal.UserMALTitleInfo;
+import nasirov.yv.data.mal.MalTitle;
 
 /**
  * Created by nasirov.yv
@@ -8,7 +8,7 @@ import nasirov.yv.data.mal.UserMALTitleInfo;
 public interface EpisodeUrlServiceI {
 
 	/**
-	 * Searches for a new episode URL based on a user watching title
+	 * Searches for a new episode URL based on an user watching title
 	 *
 	 * @param watchingTitle an user currently watching title
 	 * @return 1. a new episode is available - actual URL to a FanDub site
@@ -17,5 +17,5 @@ public interface EpisodeUrlServiceI {
 	 * <p>
 	 * 3. a title is not found - {@link nasirov.yv.data.constants.BaseConstants#NOT_FOUND_ON_FANDUB_SITE_URL}
 	 */
-	String getEpisodeUrl(UserMALTitleInfo watchingTitle);
+	String getEpisodeUrl(MalTitle watchingTitle);
 }

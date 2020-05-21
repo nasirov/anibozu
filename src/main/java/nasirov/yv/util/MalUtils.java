@@ -1,7 +1,7 @@
 package nasirov.yv.util;
 
 import lombok.experimental.UtilityClass;
-import nasirov.yv.data.mal.UserMALTitleInfo;
+import nasirov.yv.data.mal.MalTitle;
 
 /**
  * Created by nasirov.yv
@@ -9,7 +9,7 @@ import nasirov.yv.data.mal.UserMALTitleInfo;
 @UtilityClass
 public class MalUtils {
 
-	public static Integer getNextEpisodeForWatch(UserMALTitleInfo watchingTitle) {
+	public static Integer getNextEpisodeForWatch(MalTitle watchingTitle) {
 		return watchingTitle.getNumWatchedEpisodes() + 1;
 	}
 }

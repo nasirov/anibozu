@@ -17,7 +17,7 @@ import static org.junit.Assert.assertEquals;
 import feign.template.UriUtils;
 import java.nio.charset.StandardCharsets;
 import nasirov.yv.AbstractTest;
-import nasirov.yv.data.mal.UserMALTitleInfo;
+import nasirov.yv.data.mal.MalTitle;
 import org.apache.commons.lang.StringUtils;
 import org.junit.Test;
 
@@ -98,11 +98,13 @@ public class NineAnimeEpisodeUrlServiceTest extends AbstractTest {
 		return StringUtils.join(REGULAR_TITLE_NAME.split(" "), ";");
 	}
 
-	private UserMALTitleInfo buildWatchingTitle() {
-		return new UserMALTitleInfo(1,
-				0,
-				buildTitleNameWithSemiColin(),
-				MY_ANIME_LIST_STATIC_CONTENT_URL + REGULAR_TITLE_POSTER_URL,
-				MY_ANIME_LIST_URL + REGULAR_TITLE_MAL_ANIME_URL);
+	private MalTitle buildWatchingTitle() {
+		return MalTitle.builder()
+				.id(1)
+				.numWatchedEpisodes(0)
+				.name(buildTitleNameWithSemiColin())
+				.posterUrl(MY_ANIME_LIST_STATIC_CONTENT_URL + REGULAR_TITLE_POSTER_URL)
+				.animeUrl(MY_ANIME_LIST_URL + REGULAR_TITLE_MAL_ANIME_URL)
+				.build();
 	}
 }

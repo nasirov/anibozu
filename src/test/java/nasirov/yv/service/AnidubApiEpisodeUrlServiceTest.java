@@ -20,7 +20,7 @@ import static org.mockito.Mockito.doReturn;
 import java.util.List;
 import nasirov.yv.AbstractTest;
 import nasirov.yv.data.anidub.api.AnidubApiTitle;
-import nasirov.yv.data.mal.UserMALTitleInfo;
+import nasirov.yv.data.mal.MalTitle;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -40,7 +40,7 @@ public class AnidubApiEpisodeUrlServiceTest extends AbstractTest {
 	public void shouldFindAvailableUrl() {
 		//given
 		mockAnidub("anidub/titleEpisodes.json");
-		UserMALTitleInfo title = buildWatchingTitle(REGULAR_TITLE_MAL_ANIME_ID,
+		MalTitle title = buildWatchingTitle(REGULAR_TITLE_MAL_ANIME_ID,
 				REGULAR_TITLE_NAME,
 				0,
 				REGULAR_TITLE_POSTER_URL,
@@ -55,7 +55,7 @@ public class AnidubApiEpisodeUrlServiceTest extends AbstractTest {
 	public void shouldFindNotAvailableUrl() {
 		//given
 		mockAnidub("anidub/titleEpisodes.json");
-		UserMALTitleInfo title = buildWatchingTitle(REGULAR_TITLE_MAL_ANIME_ID,
+		MalTitle title = buildWatchingTitle(REGULAR_TITLE_MAL_ANIME_ID,
 				REGULAR_TITLE_NAME,
 				3,
 				REGULAR_TITLE_POSTER_URL,
@@ -71,7 +71,7 @@ public class AnidubApiEpisodeUrlServiceTest extends AbstractTest {
 		//given
 		mockAnidub("anidub/titleEpisodes.json");
 		int notRegularTitleId = 5;
-		UserMALTitleInfo title = buildWatchingTitle(notRegularTitleId, REGULAR_TITLE_NAME, 0, REGULAR_TITLE_POSTER_URL, REGULAR_TITLE_MAL_ANIME_URL);
+		MalTitle title = buildWatchingTitle(notRegularTitleId, REGULAR_TITLE_NAME, 0, REGULAR_TITLE_POSTER_URL, REGULAR_TITLE_MAL_ANIME_URL);
 		//when
 		String actualUrl = anidubApiEpisodeUrlService.getEpisodeUrl(title);
 		//then
@@ -82,7 +82,7 @@ public class AnidubApiEpisodeUrlServiceTest extends AbstractTest {
 	public void shouldIgnoreEpisodesWithInvalidHosts() {
 		//given
 		mockAnidub("anidub/titleEpisodesInvalid.json");
-		UserMALTitleInfo title = buildWatchingTitle(REGULAR_TITLE_MAL_ANIME_ID,
+		MalTitle title = buildWatchingTitle(REGULAR_TITLE_MAL_ANIME_ID,
 				REGULAR_TITLE_NAME,
 				1,
 				REGULAR_TITLE_POSTER_URL,
@@ -109,7 +109,13 @@ public class AnidubApiEpisodeUrlServiceTest extends AbstractTest {
 				.getResource("anidubApiTitles.json", AnidubApiTitle.class);
 	}
 
-	private UserMALTitleInfo buildWatchingTitle(int animeId, String titleName, int numWatchedEpisodes, String posterUrl, String animeUrl) {
-		return new UserMALTitleInfo(animeId, numWatchedEpisodes, titleName, MY_ANIME_LIST_STATIC_CONTENT_URL + posterUrl, MY_ANIME_LIST_URL + animeUrl);
+	private MalTitle buildWatchingTitle(int animeId, String titleName, int numWatchedEpisodes, String posterUrl, String animeUrl) {
+		return MalTitle.builder()
+				.id(animeId)
+				.numWatchedEpisodes(numWatchedEpisodes)
+				.name(titleName)
+				.posterUrl(MY_ANIME_LIST_STATIC_CONTENT_URL + posterUrl)
+				.animeUrl(MY_ANIME_LIST_URL + animeUrl)
+				.build();
 	}
 }

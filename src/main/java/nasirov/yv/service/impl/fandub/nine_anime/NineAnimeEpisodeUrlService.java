@@ -15,7 +15,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import nasirov.yv.data.mal.UserMALTitleInfo;
+import nasirov.yv.data.mal.MalTitle;
 import nasirov.yv.data.properties.UrlsNames;
 import nasirov.yv.http.feign.NineAnimeFeignClient;
 import nasirov.yv.service.EpisodeUrlServiceI;
@@ -44,17 +44,17 @@ public class NineAnimeEpisodeUrlService implements EpisodeUrlServiceI {
 	private final UrlsNames urlsNames;
 
 	@Override
-	public String getEpisodeUrl(UserMALTitleInfo watchingTitle) {
+	public String getEpisodeUrl(MalTitle watchingTitle) {
 		return buildEpisodeUrl(watchingTitle);
 	}
 
-	private String buildEpisodeUrl(UserMALTitleInfo watchingTitle) {
-		Optional<Element> searchResultWithTitleUrl = getSearchResultWithTitleUrl(watchingTitle.getTitle());
+	private String buildEpisodeUrl(MalTitle watchingTitle) {
+		Optional<Element> searchResultWithTitleUrl = getSearchResultWithTitleUrl(watchingTitle.getName());
 		return searchResultWithTitleUrl.map(x -> urlForTitle(watchingTitle, x))
 				.orElseGet(() -> urlForNotFoundTitle(watchingTitle));
 	}
 
-	private String urlForTitle(UserMALTitleInfo watchingTitle, Element elementWithTitleUrl) {
+	private String urlForTitle(MalTitle watchingTitle, Element elementWithTitleUrl) {
 		String titleUrl = extractTitleUrl(elementWithTitleUrl);
 		String dataId = extractDataId(titleUrl);
 		String titleEpisodesInfoHtml = getTitleEpisodesInfoHtml(dataId);
@@ -62,7 +62,7 @@ public class NineAnimeEpisodeUrlService implements EpisodeUrlServiceI {
 		return extractEpisodeUrl(titleEpisodesInfoHtml, episode);
 	}
 
-	private String urlForNotFoundTitle(UserMALTitleInfo watchingTitle) {
+	private String urlForNotFoundTitle(MalTitle watchingTitle) {
 		log.debug("TITLE [{}] WAS NOT FOUND ON 9Anime!", watchingTitle);
 		return NOT_FOUND_ON_FANDUB_SITE_URL;
 	}

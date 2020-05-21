@@ -13,7 +13,7 @@ import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import nasirov.yv.data.anidub.site.AnidubSiteTitle;
-import nasirov.yv.data.mal.UserMALTitleInfo;
+import nasirov.yv.data.mal.MalTitle;
 import nasirov.yv.data.properties.UrlsNames;
 import nasirov.yv.http.feign.AnidubSiteFeignClient;
 import nasirov.yv.parser.AnidubParserI;
@@ -43,7 +43,7 @@ public class AnidubSiteEpisodeUrlService implements AnidubEpisodeUrlServiceI {
 	private final UrlsNames urlsNames;
 
 	@Override
-	public String getEpisodeUrl(UserMALTitleInfo watchingTitle) {
+	public String getEpisodeUrl(MalTitle watchingTitle) {
 		String url = NOT_FOUND_ON_FANDUB_SITE_URL;
 		AnidubSiteTitle matchedTitle = getMatchedTitle(watchingTitle);
 		if (nonNull(matchedTitle)) {
@@ -51,14 +51,14 @@ public class AnidubSiteEpisodeUrlService implements AnidubEpisodeUrlServiceI {
 			url = episodes.contains(getNextEpisodeForWatch(watchingTitle)) ? urlsNames.getAnidubUrls()
 					.getAnidubSiteUrl() + matchedTitle.getUrl() : FINAL_URL_VALUE_IF_EPISODE_IS_NOT_AVAILABLE;
 		} else {
-			log.debug("TITLE [{}] WAS NOT FOUND ON ANIDUB!", watchingTitle.getTitle());
+			log.debug("TITLE [{}] WAS NOT FOUND ON ANIDUB!", watchingTitle.getName());
 		}
 		return url;
 	}
 
-	private AnidubSiteTitle getMatchedTitle(UserMALTitleInfo watchingTitle) {
+	private AnidubSiteTitle getMatchedTitle(MalTitle watchingTitle) {
 		return Optional.ofNullable(anidubSiteTitleService.getTitles()
-				.get(watchingTitle.getAnimeId()))
+				.get(watchingTitle.getId()))
 				.orElseGet(Collections::emptyList)
 				.stream()
 				.findFirst()

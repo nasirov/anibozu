@@ -28,7 +28,7 @@ import java.util.Set;
 import nasirov.yv.AbstractTest;
 import nasirov.yv.data.constants.FanDubSource;
 import nasirov.yv.data.front.Anime;
-import nasirov.yv.data.mal.UserMALTitleInfo;
+import nasirov.yv.data.mal.MalTitle;
 import org.junit.Test;
 
 /**
@@ -43,9 +43,9 @@ public class AnimeServiceTest extends AbstractTest {
 	@Test
 	public void allTypesOfPossibleUrlsTest() {
 		mockEpisodeUrlServices();
-		Set<UserMALTitleInfo> watchingTitles = buildWatchingTitles();
+		Set<MalTitle> watchingTitles = buildWatchingTitles();
 		Set<Anime> expectedAnime = buildExpectedAnime();
-		for (UserMALTitleInfo title : watchingTitles) {
+		for (MalTitle title : watchingTitles) {
 			Anime resultAnime = animeService.buildAnime(buildFanDubSources(), title);
 			assertTrue(expectedAnime.contains(resultAnime));
 		}
@@ -61,7 +61,7 @@ public class AnimeServiceTest extends AbstractTest {
 		return Sets.newHashSet(ANIMEDIA, NINEANIME);
 	}
 
-	private void mockEpisodeUrlServices(String episodeUrlOnAnimedia, String episodeUrlOnNineAnime, UserMALTitleInfo watchingTitle) {
+	private void mockEpisodeUrlServices(String episodeUrlOnAnimedia, String episodeUrlOnNineAnime, MalTitle watchingTitle) {
 		doReturn(episodeUrlOnAnimedia).when(animediaEpisodeUrlService)
 				.getEpisodeUrl(watchingTitle);
 		doReturn(episodeUrlOnNineAnime).when(nineAnimeEpisodeUrlService)
@@ -74,9 +74,9 @@ public class AnimeServiceTest extends AbstractTest {
 				buildAnime(buildNotFoundOnSiteTitle(), NOT_FOUND_ON_FANDUB_SITE_URL, NOT_FOUND_ON_FANDUB_SITE_URL));
 	}
 
-	private Anime buildAnime(UserMALTitleInfo watchingTitle, String episodeUrlOnAnimedia, String episodeUrlOnNineAnime) {
+	private Anime buildAnime(MalTitle watchingTitle, String episodeUrlOnAnimedia, String episodeUrlOnNineAnime) {
 		return Anime.builder()
-				.animeName(watchingTitle.getTitle())
+				.animeName(watchingTitle.getName())
 				.episode(getNextEpisodeForWatch(watchingTitle).toString())
 				.posterUrlOnMAL(watchingTitle.getPosterUrl())
 				.animeUrlOnMAL(watchingTitle.getAnimeUrl())
@@ -85,23 +85,29 @@ public class AnimeServiceTest extends AbstractTest {
 				.build();
 	}
 
-	private Set<UserMALTitleInfo> buildWatchingTitles() {
+	private Set<MalTitle> buildWatchingTitles() {
 		return Sets.newHashSet(buildRegularTitle(), buildNotFoundOnSiteTitle(), buildConcretizedTitle());
 	}
 
-	private UserMALTitleInfo buildRegularTitle() {
+	private MalTitle buildRegularTitle() {
 		return buildWatchingTitle(REGULAR_TITLE_NAME, REGULAR_TITLE_POSTER_URL, REGULAR_TITLE_MAL_ANIME_URL);
 	}
 
-	private UserMALTitleInfo buildNotFoundOnSiteTitle() {
+	private MalTitle buildNotFoundOnSiteTitle() {
 		return buildWatchingTitle(NOT_FOUND_ON_ANIMEDIA_TITLE_NAME, NOT_FOUND_ON_ANIMEDIA_TITLE_POSTER_URL, NOT_FOUND_ON_ANIMEDIA_TITLE_MAL_ANIME_URL);
 	}
 
-	private UserMALTitleInfo buildConcretizedTitle() {
+	private MalTitle buildConcretizedTitle() {
 		return buildWatchingTitle(CONCRETIZED_TITLE_WITH_SINGLE_EPISODE_NAME, CONCRETIZED_TITLE_POSTER_URL, CONCRETIZED_TITLE_MAL_ANIME_URL);
 	}
 
-	private UserMALTitleInfo buildWatchingTitle(String titleName, String posterUrl, String animeUrl) {
-		return new UserMALTitleInfo(1, 0, titleName, MY_ANIME_LIST_STATIC_CONTENT_URL + posterUrl, MY_ANIME_LIST_URL + animeUrl);
+	private MalTitle buildWatchingTitle(String titleName, String posterUrl, String animeUrl) {
+		return MalTitle.builder()
+				.id(1)
+				.numWatchedEpisodes(0)
+				.name(titleName)
+				.posterUrl(MY_ANIME_LIST_STATIC_CONTENT_URL + posterUrl)
+				.animeUrl(MY_ANIME_LIST_URL + animeUrl)
+				.build();
 	}
 }

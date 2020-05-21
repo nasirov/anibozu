@@ -12,7 +12,7 @@ import lombok.extern.slf4j.Slf4j;
 import nasirov.yv.data.mal.MALSearchCategories;
 import nasirov.yv.data.mal.MALSearchResult;
 import nasirov.yv.data.mal.MALSearchTitleInfo;
-import nasirov.yv.data.mal.UserMALTitleInfo;
+import nasirov.yv.data.mal.MalTitle;
 import nasirov.yv.exception.mal.UnexpectedCallingException;
 import nasirov.yv.http.feign.MALFeignClient;
 import org.springframework.http.ResponseEntity;
@@ -39,7 +39,7 @@ public class MALFeignClientFallbackFactory implements FallbackFactory<MALFeignCl
 				throw new UnexpectedCallingException(cause);
 			}
 			@Override
-			public ResponseEntity<List<UserMALTitleInfo>> getUserAnimeList(String username, int offset, int status) {
+			public ResponseEntity<List<MalTitle>> getUserAnimeList(String username, int offset, int status) {
 				log.error("MALFeignClient fallback during call /animelist/{}/load.json?offset={}&status={} | Cause message [{}]",
 						username,
 						offset,

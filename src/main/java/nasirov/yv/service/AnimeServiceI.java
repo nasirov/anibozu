@@ -3,7 +3,7 @@ package nasirov.yv.service;
 import java.util.Set;
 import nasirov.yv.data.constants.FanDubSource;
 import nasirov.yv.data.front.Anime;
-import nasirov.yv.data.mal.UserMALTitleInfo;
+import nasirov.yv.data.mal.MalTitle;
 
 /**
  * Created by nasirov.yv
@@ -17,5 +17,5 @@ public interface AnimeServiceI {
 	 * @param watchingTitle user currently watching title
 	 * @return an {@link Anime} dto
 	 */
-	Anime buildAnime(Set<FanDubSource> fanDubSources, UserMALTitleInfo watchingTitle);
+	Anime buildAnime(Set<FanDubSource> fanDubSources, MalTitle watchingTitle);
 }
