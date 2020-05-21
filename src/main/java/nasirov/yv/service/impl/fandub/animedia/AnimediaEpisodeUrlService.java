@@ -65,7 +65,7 @@ public class AnimediaEpisodeUrlService implements EpisodeUrlServiceI {
 	}
 
 	private String handleZeroMatchedResult(MalTitle watchingTitle) {
-		log.debug("TITLE [{}] WAS NOT FOUND ON Animedia!", watchingTitle);
+		log.debug("TITLE [{}] WAS NOT FOUND ON Animedia!", watchingTitle.getName());
 		return NOT_FOUND_ON_FANDUB_SITE_URL;
 	}
 
