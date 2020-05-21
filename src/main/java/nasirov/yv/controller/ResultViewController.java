@@ -28,7 +28,7 @@ public class ResultViewController {
 	@PostMapping(value = "/result")
 	public String getResultView(@Valid MALUser malUser, Model model) {
 		String username = malUser.getUsername();
-		log.info("Received a request for result view by [{}] ...", username);
+		log.info("Received a request for result view by [{}]...", username);
 		String resultView;
 		try {
 			List<MalTitle> watchingTitles = malService.getWatchingTitles(username);

@@ -11,7 +11,6 @@ import static nasirov.yv.util.AnimediaUtils.isTitleUpdated;
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import nasirov.yv.data.animedia.AnimediaTitle;
 import nasirov.yv.parser.AnimediaEpisodeParserI;
 import nasirov.yv.service.AnimediaServiceI;
@@ -23,7 +22,6 @@ import org.springframework.stereotype.Service;
  * Created by nasirov.yv
  */
 @Service
-@Slf4j
 @RequiredArgsConstructor
 public class AnimediaTitlesUpdateService implements AnimediaTitlesUpdateServiceI {
 

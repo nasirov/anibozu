@@ -40,13 +40,14 @@ public class SseActionService implements SseActionServiceI {
 	 */
 	@Override
 	public SseAction buildSseAction(SseEmitter sseEmitter, MALUser malUser) {
-		log.debug("Received request for SseAction creation");
+		log.debug("Trying to build SseAction for [{}]...", malUser);
 		SseAction result = new SseAction(animeService, malService, sseEmitter, malUser);
 		Cache cache = cacheManager.getCache(cacheProps.getSse()
 				.getName());
 		String key = String.valueOf(malUser.hashCode());
 		stopCachedTask(key, cache);
 		cache.put(key, result);
+		log.debug("Successfully built and cached SseAction for [{}].", malUser);
 		return result;
 	}
 

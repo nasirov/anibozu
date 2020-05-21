@@ -1,13 +1,12 @@
 package nasirov.yv.data.mal;
 
-import static java.util.Objects.nonNull;
-
 import java.util.Set;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Pattern;
 import lombok.Data;
 import nasirov.yv.data.constants.FanDubSource;
 import nasirov.yv.data.validator.ValidFanDubSources;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.validation.annotation.Validated;
 
 /**
@@ -26,6 +25,6 @@ public class MALUser {
 	private Set<FanDubSource> fanDubSources;
 
 	public void setUsername(String username) {
-		this.username = nonNull(username) ? username.toLowerCase() : username;
+		this.username = StringUtils.lowerCase(username);
 	}
 }

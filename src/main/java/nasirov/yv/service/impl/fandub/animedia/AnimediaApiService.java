@@ -9,7 +9,6 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import nasirov.yv.data.animedia.AnimediaSearchListTitle;
 import nasirov.yv.data.animedia.api.ApiEpisode;
 import nasirov.yv.data.animedia.api.DataList;
@@ -26,7 +25,6 @@ import org.springframework.stereotype.Service;
  * Created by nasirov.yv
  */
 @Service
-@Slf4j
 @RequiredArgsConstructor
 @ConditionalOnProperty(name = "application.services.animedia-service-source", havingValue = API)
 public class AnimediaApiService implements AnimediaServiceI {

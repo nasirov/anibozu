@@ -51,7 +51,7 @@ public class NineAnimeEpisodeUrlService implements EpisodeUrlServiceI {
 	private String buildEpisodeUrl(MalTitle watchingTitle) {
 		Optional<Element> searchResultWithTitleUrl = getSearchResultWithTitleUrl(watchingTitle.getName());
 		return searchResultWithTitleUrl.map(x -> urlForTitle(watchingTitle, x))
-				.orElseGet(() -> urlForNotFoundTitle(watchingTitle));
+				.orElse(NOT_FOUND_ON_FANDUB_SITE_URL);
 	}
 
 	private String urlForTitle(MalTitle watchingTitle, Element elementWithTitleUrl) {
@@ -60,11 +60,6 @@ public class NineAnimeEpisodeUrlService implements EpisodeUrlServiceI {
 		String titleEpisodesInfoHtml = getTitleEpisodesInfoHtml(dataId);
 		int episode = getNextEpisodeForWatch(watchingTitle);
 		return extractEpisodeUrl(titleEpisodesInfoHtml, episode);
-	}
-
-	private String urlForNotFoundTitle(MalTitle watchingTitle) {
-		log.debug("TITLE [{}] WAS NOT FOUND ON 9Anime!", watchingTitle);
-		return NOT_FOUND_ON_FANDUB_SITE_URL;
 	}
 
 	private Optional<Element> getSearchResultWithTitleUrl(String titleName) {

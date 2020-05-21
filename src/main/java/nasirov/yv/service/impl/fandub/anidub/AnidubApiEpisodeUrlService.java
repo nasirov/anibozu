@@ -12,7 +12,6 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import nasirov.yv.data.anidub.api.AnidubApiTitle;
 import nasirov.yv.data.anidub.api.AnidubTitleEpisode;
 import nasirov.yv.data.anidub.api.AnidubTitleFandubSource;
@@ -28,7 +27,6 @@ import org.springframework.stereotype.Service;
 /**
  * Created by nasirov.yv
  */
-@Slf4j
 @Service
 @RequiredArgsConstructor
 @ConditionalOnProperty(name = "application.services.anidub-episode-url-service-source", havingValue = API)
@@ -62,8 +60,6 @@ public class AnidubApiEpisodeUrlService implements AnidubEpisodeUrlServiceI {
 			Map<Integer, String> episodesAndUrls = extractEpisodesAndUrls(titleEpisodes);
 			url = anidubParser.fixBrokenUrl(episodesAndUrls.getOrDefault(getNextEpisodeForWatch(watchingTitle),
 					FINAL_URL_VALUE_IF_EPISODE_IS_NOT_AVAILABLE));
-		} else {
-			log.debug("TITLE [{}] WAS NOT FOUND ON ANIDUB!", watchingTitle.getName());
 		}
 		return url;
 	}

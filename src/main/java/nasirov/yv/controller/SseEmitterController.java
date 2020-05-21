@@ -23,7 +23,7 @@ public class SseEmitterController {
 	@GetMapping("/sse")
 	public ResponseEntity<SseEmitter> getSseEmitter(@Valid MALUser malUser) {
 		String username = malUser.getUsername();
-		log.info("Received a request for Server-Sent Events processing by [{}] ...", username);
+		log.info("Received a request for Server-Sent Events processing by [{}]...", username);
 		SseEmitter sseEmitter = sseService.buildAndExecuteSseEmitter(malUser);
 		log.info("Got SseEmitter. End of a request for [{}].", username);
 		return ResponseEntity.ok(sseEmitter);

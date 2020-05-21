@@ -24,10 +24,10 @@ public abstract class BaseTitlesService<T extends GitHubResource> implements Tit
 	public Map<Integer, List<T>> getTitles() {
 		Pair<String, Class<T>> resourceProperties = getTargetResourceProperties();
 		Class<T> targetClass = resourceProperties.getValue();
-		log.debug("Trying to convert List<{}> from GitHub to Map<non null - Integer titleIdOnMal, List<{}>>", targetClass, targetClass);
+		log.debug("Trying to convert List<{}> from GitHub to Map<non null - Integer titleIdOnMal, List<{}>>...", targetClass, targetClass);
 		List<T> titles = getResourceFromGitHub(resourceProperties.getKey(), targetClass);
 		Map<Integer, List<T>> result = convertToMap(titles);
-		log.debug("Got Map<non null - Integer titleIdOnMal, List<{}>> with size [{}]", targetClass, result.size());
+		log.debug("Got Map<non null - Integer titleIdOnMal, List<{}>> with size [{}].", targetClass, result.size());
 		return result;
 	}
 

@@ -16,6 +16,6 @@ public class CacheCleanerService implements CacheCleanerServiceI {
 	@Override
 	@CacheEvict(cacheNames = "sse", key = "T(java.lang.String).valueOf(#malUser.hashCode())")
 	public void clearSseCache(MALUser malUser) {
-		log.info("Received request for eviction sse cache for [{}] by key [{}]", malUser, malUser.hashCode());
+		log.info("Received request for eviction sse cache for [{}] by key [{}].", malUser, malUser.hashCode());
 	}
 }

@@ -11,7 +11,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import nasirov.yv.data.anidub.site.AnidubSiteTitle;
 import nasirov.yv.data.mal.MalTitle;
 import nasirov.yv.data.properties.UrlsNames;
@@ -28,7 +27,6 @@ import org.springframework.stereotype.Service;
 /**
  * Created by nasirov.yv
  */
-@Slf4j
 @Service
 @RequiredArgsConstructor
 @ConditionalOnProperty(name = "application.services.anidub-episode-url-service-source", havingValue = SITE)
@@ -50,8 +48,6 @@ public class AnidubSiteEpisodeUrlService implements AnidubEpisodeUrlServiceI {
 			List<Integer> episodes = extractAvailableEpisodes(matchedTitle);
 			url = episodes.contains(getNextEpisodeForWatch(watchingTitle)) ? urlsNames.getAnidubUrls()
 					.getAnidubSiteUrl() + matchedTitle.getUrl() : FINAL_URL_VALUE_IF_EPISODE_IS_NOT_AVAILABLE;
-		} else {
-			log.debug("TITLE [{}] WAS NOT FOUND ON ANIDUB!", watchingTitle.getName());
 		}
 		return url;
 	}

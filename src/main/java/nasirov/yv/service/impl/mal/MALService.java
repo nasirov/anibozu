@@ -69,20 +69,23 @@ public class MALService implements MALServiceI {
 	@Cacheable(value = "mal", key = "#username", unless = "#result?.isEmpty()")
 	public List<MalTitle> getWatchingTitles(String username)
 			throws WatchingTitlesNotFoundException, MALUserAccountNotFoundException, MALUserAnimeListAccessException {
+		log.debug("Trying to get watching titles for [{}]...", username);
 		String userProfile = extractUserProfile(username);
 		int numberOfUserWatchingTitles = extractNumberOfWatchingTitles(userProfile, username);
 		List<MalTitle> watchingTitles = new ArrayList<>(numberOfUserWatchingTitles);
 		for (int offset = 0; offset < numberOfUserWatchingTitles; offset += offsetStep) {
 			watchingTitles.addAll(getJsonTitlesAndUnmarshal(offset, username));
 		}
-		return formatWatchingTitles(watchingTitles);
+		List<MalTitle> result = formatWatchingTitles(watchingTitles);
+		log.debug("Got [{}] watching titles for [{}].", result.size(), username);
+		return result;
 	}
 
 	/**
 	 * Checks MAL title name for existence
 	 *
-	 * @param titleNameOnMal   MAL title name
-	 * @param titleIdOnMal title id in MAL db
+	 * @param titleNameOnMal MAL title name
+	 * @param titleIdOnMal   title id in MAL db
 	 * @return true if MAL response contain one anime title with equals titleNameOnMal and titleIdOnMal, else false
 	 */
 	@Override

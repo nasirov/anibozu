@@ -38,13 +38,13 @@ public class SseEmitterExecutorService implements SseEmitterExecutorServiceI {
 	 */
 	@Override
 	public SseEmitter buildAndExecuteSseEmitter(MALUser malUser) {
-		log.debug("Received request for SseEmitter creation by [{}]", malUser);
+		log.debug("Trying to build SseEmitter for [{}]...", malUser);
 		SseEmitter sseEmitter = new SseEmitter(Duration.ofMinutes(sseProps.getTimeoutInMin())
 				.toMillis());
 		enrichSseEmitterWithCallbacks(sseEmitter, malUser);
 		SseAction task = sseActionService.buildSseAction(sseEmitter, malUser);
 		commonPool.execute(task);
-		log.debug("SseEmitter has been created for [{}]", malUser);
+		log.debug("Successfully built SseEmitter for [{}].", malUser);
 		return sseEmitter;
 	}
 

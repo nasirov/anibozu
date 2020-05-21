@@ -26,13 +26,19 @@ public class AnimeService implements AnimeServiceI {
 
 	@Override
 	public Anime buildAnime(Set<FanDubSource> fanDubSources, MalTitle watchingTitle) {
+		log.debug("Trying to build Anime dto based on a mal title with name [{}], id [{}]. Desired fandub sources [{}]...",
+				watchingTitle.getName(),
+				watchingTitle.getId(),
+				fanDubSources);
 		AnimeBuilder animeBuilder = Anime.builder()
 				.animeName(watchingTitle.getName())
 				.episode(getNextEpisodeForWatch(watchingTitle).toString())
 				.posterUrlOnMAL(watchingTitle.getPosterUrl())
 				.animeUrlOnMAL(watchingTitle.getAnimeUrl());
 		fanDubSources.forEach(x -> animeBuilder.fanDubUrl(x, buildEpisodeUrlViaEpisodeUrlService(watchingTitle, x)));
-		return animeBuilder.build();
+		Anime result = animeBuilder.build();
+		log.debug("Successfully built {}", result);
+		return result;
 	}
 
 	private String buildEpisodeUrlViaEpisodeUrlService(MalTitle watchingTitle, FanDubSource targetFanDubSource) {

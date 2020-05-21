@@ -14,7 +14,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import nasirov.yv.data.animedia.AnimediaTitle;
 import nasirov.yv.data.constants.BaseConstants;
 import nasirov.yv.data.mal.MalTitle;
@@ -29,7 +28,6 @@ import org.springframework.stereotype.Service;
  * Created by nasirov.yv
  */
 @Service
-@Slf4j
 @RequiredArgsConstructor
 public class AnimediaEpisodeUrlService implements EpisodeUrlServiceI {
 
@@ -43,30 +41,17 @@ public class AnimediaEpisodeUrlService implements EpisodeUrlServiceI {
 
 	@Override
 	public String getEpisodeUrl(MalTitle watchingTitle) {
-		String result;
+		String result = NOT_FOUND_ON_FANDUB_SITE_URL;
 		List<AnimediaTitle> animediaTitles = getMatchedAnimediaTitles(watchingTitle);
 		animediaTitlesUpdateService.updateAnimediaTitles(animediaTitles);
-		switch (animediaTitles.size()) {
-			case 0:
-				result = handleZeroMatchedResult(watchingTitle);
-				break;
-			case 1:
-				result = handleOneMatchedResult(animediaTitles, watchingTitle);
-				break;
-			default:
-				if (isMatchedAnimediaTitlesOnSameDataList(animediaTitles)) {
-					result = handleMoreThanOneMatchedResultOnSameDataList(animediaTitles, watchingTitle);
-				} else {
-					result = handleMoreThanOneMatchedResult(animediaTitles, watchingTitle);
-				}
-				break;
+		if (animediaTitles.size() == 1) {
+			result = handleOneMatchedResult(animediaTitles, watchingTitle);
+		}
+		if (animediaTitles.size() > 1) {
+			result = isMatchedAnimediaTitlesOnSameDataList(animediaTitles) ? handleMoreThanOneMatchedResultOnSameDataList(animediaTitles, watchingTitle)
+					: handleMoreThanOneMatchedResult(animediaTitles, watchingTitle);
 		}
 		return result;
-	}
-
-	private String handleZeroMatchedResult(MalTitle watchingTitle) {
-		log.debug("TITLE [{}] WAS NOT FOUND ON Animedia!", watchingTitle.getName());
-		return NOT_FOUND_ON_FANDUB_SITE_URL;
 	}
 
 	private String handleOneMatchedResult(List<AnimediaTitle> matchedAnimediaTitles, MalTitle watchingTitle) {
@@ -84,7 +69,8 @@ public class AnimediaEpisodeUrlService implements EpisodeUrlServiceI {
 	 * for example, 1-2 https://online.animedia.tv/anime/tamayura/2/1 Tamayura  1-1
 	 * <p>
 	 * 3-4 https://online.animedia.tv/anime/tamayura/2/2 Tamayura  2-2
-	 *  @param matchedAnimediaTitles animedia titles with equal title id on mal and data list
+	 *
+	 * @param matchedAnimediaTitles animedia titles with equal title id on mal and data list
 	 * @param watchingTitle         user watching title
 	 */
 	private String handleMoreThanOneMatchedResultOnSameDataList(List<AnimediaTitle> matchedAnimediaTitles, MalTitle watchingTitle) {
@@ -122,11 +108,6 @@ public class AnimediaEpisodeUrlService implements EpisodeUrlServiceI {
 				.orElse(NOT_FOUND_ON_FANDUB_SITE_URL);
 	}
 
-	private String handleAnnouncement(MalTitle watchingTitle) {
-		log.debug("NEW EPISODE FOR {} IS NOT AVAILABLE BECAUSE IT'S ANNOUNCEMENT", watchingTitle.getName());
-		return FINAL_URL_VALUE_IF_EPISODE_IS_NOT_AVAILABLE;
-	}
-
 	private List<AnimediaTitle> getMatchedAnimediaTitles(MalTitle malTitle) {
 		return animediaGitHubResourcesService.getTitles()
 				.getOrDefault(malTitle.getId(), Collections.emptyList());
@@ -141,8 +122,8 @@ public class AnimediaEpisodeUrlService implements EpisodeUrlServiceI {
 	 * <p>
 	 * 3-4 https://online.animedia.tv/anime/tamayura/2/2 Tamayura  2-2
 	 *
-	 * @param animediaTitle    animedia titles with concretized episodes on MAL
-	 * @param malTitle mal title
+	 * @param animediaTitle animedia titles with concretized episodes on MAL
+	 * @param malTitle      mal title
 	 * @return correct episode number for watch
 	 */
 	private int getEpisodeNumberForWatchForConcretizedAnimediaTitle(AnimediaTitle animediaTitle, MalTitle malTitle) {
@@ -243,7 +224,7 @@ public class AnimediaEpisodeUrlService implements EpisodeUrlServiceI {
 		int episodeNumberForWatch;
 		int firstEpisode = Integer.parseInt(animediaTitle.getMinOnAnimedia());
 		if (!AnimediaUtils.isTitleUpdated(animediaTitle)) {
-			return handleAnnouncement(watchingTitle);
+			return FINAL_URL_VALUE_IF_EPISODE_IS_NOT_AVAILABLE;
 		}
 		if (isTitleConcretizedOnMAL(animediaTitle)) {
 			episodeNumberForWatch = getEpisodeNumberForWatchForConcretizedAnimediaTitle(animediaTitle, watchingTitle);
