@@ -81,19 +81,19 @@ public class MALService implements MALServiceI {
 	/**
 	 * Checks MAL title name for existence
 	 *
-	 * @param titleOnMAL   MAL title name
-	 * @param titleIdOnMAL title id in MAL db
-	 * @return true if MAL response contain one anime title with equals titleOnMAL and titleIdOnMAL, else false
+	 * @param titleNameOnMal   MAL title name
+	 * @param titleIdOnMal title id in MAL db
+	 * @return true if MAL response contain one anime title with equals titleNameOnMal and titleIdOnMal, else false
 	 */
 	@Override
-	public boolean isTitleExist(String titleOnMAL, Integer titleIdOnMAL) {
-		return malFeignClient.searchTitleByName(titleOnMAL)
+	public boolean isTitleExist(String titleNameOnMal, Integer titleIdOnMal) {
+		return malFeignClient.searchTitleByName(titleNameOnMal)
 				.getCategories()
 				.stream()
 				.filter(this::isAnimeCategory)
 				.map(MALSearchCategories::getItems)
 				.flatMap(List::stream)
-				.anyMatch(title -> isTargetTitle(titleOnMAL, titleIdOnMAL, title));
+				.anyMatch(title -> isTargetTitle(titleNameOnMal, titleIdOnMal, title));
 	}
 
 	private String extractUserProfile(String username) throws MALUserAccountNotFoundException {
@@ -122,11 +122,11 @@ public class MALService implements MALServiceI {
 				.equals(ANIME.getDescription());
 	}
 
-	private boolean isTargetTitle(String titleOnMAL, Integer titleIdOnMAL, MALSearchTitleInfo malSearchTitleInfo) {
+	private boolean isTargetTitle(String titleNameOnMal, Integer titleIdOnMal, MALSearchTitleInfo malSearchTitleInfo) {
 		return malSearchTitleInfo.getType()
 				.equals(ANIME.getDescription()) && malSearchTitleInfo.getName()
-				.equalsIgnoreCase(titleOnMAL) && malSearchTitleInfo.getAnimeId()
-				.equals(titleIdOnMAL);
+				.equalsIgnoreCase(titleNameOnMal) && malSearchTitleInfo.getAnimeId()
+				.equals(titleIdOnMal);
 	}
 
 	/**

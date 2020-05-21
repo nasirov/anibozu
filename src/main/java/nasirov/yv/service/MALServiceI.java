@@ -14,5 +14,5 @@ public interface MALServiceI {
 	List<UserMALTitleInfo> getWatchingTitles(String username)
 			throws WatchingTitlesNotFoundException, MALUserAccountNotFoundException, MALUserAnimeListAccessException;
 
-	boolean isTitleExist(String titleOnMAL, Integer titleIdOnMAL);
+	boolean isTitleExist(String titleNameOnMal, Integer titleIdOnMal);
 }

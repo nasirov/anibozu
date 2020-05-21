@@ -56,19 +56,19 @@ public class ResourcesCheckerService implements ResourcesCheckerServiceI {
 		List<AnimediaTitle> animediaTitles = githubResourcesService.getResource(githubResourceProps.getAnimediaTitles(), AnimediaTitle.class);
 		List<AnimediaTitle> notFoundOnMal = new LinkedList<>();
 		for (AnimediaTitle animediaTitle : animediaTitles) {
-			String titleOnMAL = animediaTitle.getTitleNameOnMAL();
-			Integer titleIdOnMAL = animediaTitle.getTitleIdOnMal();
+			String titleNameOnMal = animediaTitle.getTitleNameOnMAL();
+			Integer titleIdOnMal = animediaTitle.getTitleIdOnMal();
 			if (!isTitleNotFoundOnMAL(animediaTitle)) {
-				boolean titleExist = malService.isTitleExist(titleOnMAL, titleIdOnMAL);
+				boolean titleExist = malService.isTitleExist(titleNameOnMal, titleIdOnMal);
 				if (!titleExist) {
-					log.error("NOT FOUND TITLE [{}] WITH ID [{}] ON MAL!", titleOnMAL, titleIdOnMAL);
+					log.error("NOT FOUND TITLE [{}] WITH ID [{}] ON MAL!", titleNameOnMal, titleIdOnMal);
 					notFoundOnMal.add(AnimediaTitle.builder()
 							.urlOnAnimedia(animediaTitle.getUrlOnAnimedia())
 							.animeIdOnAnimedia(animediaTitle.getAnimeIdOnAnimedia())
 							.dataListOnAnimedia(animediaTitle.getDataListOnAnimedia())
 							.minOnAnimedia(animediaTitle.getMinOnAnimedia())
-							.titleNameOnMAL(titleOnMAL)
-							.titleIdOnMal(titleIdOnMAL)
+							.titleNameOnMAL(titleNameOnMal)
+							.titleIdOnMal(titleIdOnMal)
 							.build());
 				}
 			}
