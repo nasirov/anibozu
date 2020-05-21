@@ -1,6 +1,6 @@
 package nasirov.yv.service;
 
-import java.util.Set;
+import java.util.List;
 import nasirov.yv.data.github.GitHubResource;
 
 
@@ -9,5 +9,5 @@ import nasirov.yv.data.github.GitHubResource;
  */
 public interface GitHubResourcesServiceI {
 
-	<T extends GitHubResource> Set<T> getResource(String resourceName, Class<T> targetClass);
+	<T extends GitHubResource> List<T> getResource(String resourceName, Class<T> targetClass);
 }

@@ -9,9 +9,7 @@ import static nasirov.yv.utils.TestConstants.TEXT_PLAIN_CHARSET_UTF_8;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 import nasirov.yv.AbstractTest;
 import nasirov.yv.data.anidub.api.AnidubApiTitle;
 import nasirov.yv.data.anidub.site.AnidubSiteTitle;
@@ -27,9 +25,9 @@ public class GitHubResourcesServiceTest extends AbstractTest {
 	public void shouldReturnAnimediaTitles() {
 		//given
 		stubGitHub("animediaTitles.json");
-		List<AnimediaTitle> expected = getAnimediaTitles(ArrayList.class, false);
+		List<AnimediaTitle> expected = getAnimediaTitles(false);
 		//when
-		Set<AnimediaTitle> result = githubResourcesService.getResource("animediaTitles.json", AnimediaTitle.class);
+		List<AnimediaTitle> result = githubResourcesService.getResource("animediaTitles.json", AnimediaTitle.class);
 		//then
 		assertEquals(expected.size(), result.size());
 		result.forEach(x -> assertTrue(expected.contains(x)));
@@ -40,7 +38,7 @@ public class GitHubResourcesServiceTest extends AbstractTest {
 		//given
 		stubGitHub("anidubApiTitles.json");
 		//when
-		Set<AnidubApiTitle> result = githubResourcesService.getResource("anidubApiTitles.json", AnidubApiTitle.class);
+		List<AnidubApiTitle> result = githubResourcesService.getResource("anidubApiTitles.json", AnidubApiTitle.class);
 		//then
 		assertEquals(2, result.size());
 		assertTrue(result.contains(buildRegularAnidubApiTitle()));
@@ -52,7 +50,7 @@ public class GitHubResourcesServiceTest extends AbstractTest {
 		//given
 		stubGitHub("anidubSiteTitles.json");
 		//when
-		Set<AnidubSiteTitle> result = githubResourcesService.getResource("anidubSiteTitles.json", AnidubSiteTitle.class);
+		List<AnidubSiteTitle> result = githubResourcesService.getResource("anidubSiteTitles.json", AnidubSiteTitle.class);
 		//then
 		assertEquals(2, result.size());
 		assertTrue(result.contains(buildRegularAnidubSiteTitle()));

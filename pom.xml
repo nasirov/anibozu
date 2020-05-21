@@ -27,6 +27,8 @@
     <org.eluder.coveralls>4.3.0</org.eluder.coveralls>
     <guava.version>28.2-jre</guava.version>
     <commons-io.version>2.6</commons-io.version>
+    <commons-lang3.version>3.10</commons-lang3.version>
+    <commons-collections4.version>4.4</commons-collections4.version>
     <spring-cloud-starter.version>2.1.0.RELEASE</spring-cloud-starter.version>
     <spring-cloud-starter-feign.version>1.4.5.RELEASE</spring-cloud-starter-feign.version>
     <spring-cloud-starter-netflix-ribbon.version>2.1.0.RELEASE</spring-cloud-starter-netflix-ribbon.version>
@@ -123,6 +125,18 @@
       <groupId>commons-io</groupId>
       <artifactId>commons-io</artifactId>
       <version>${commons-io.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.apache.commons</groupId>
+      <artifactId>commons-lang3</artifactId>
+      <version>${commons-lang3.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.apache.commons</groupId>
+      <artifactId>commons-collections4</artifactId>
+      <version>${commons-collections4.version}</version>
     </dependency>
 
     <dependency>

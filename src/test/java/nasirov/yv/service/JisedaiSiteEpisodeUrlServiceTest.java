@@ -15,7 +15,7 @@ import static nasirov.yv.utils.TestConstants.TEXT_HTML_CHARSET_UTF_8_ALT;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.doReturn;
 
-import java.util.Set;
+import java.util.List;
 import nasirov.yv.AbstractTest;
 import nasirov.yv.data.jisedai.site.JisedaiSiteTitle;
 import nasirov.yv.data.mal.UserMALTitleInfo;
@@ -72,7 +72,7 @@ public class JisedaiSiteEpisodeUrlServiceTest extends AbstractTest {
 		createStubWithBodyFile("/" + REGULAR_TITLE_JISEDAI_SITE_URL, TEXT_HTML_CHARSET_UTF_8_ALT, "jisedai/siteRegularTitle.html");
 	}
 
-	private void mockGitHubResourcesService(Set<JisedaiSiteTitle> titles) {
+	private void mockGitHubResourcesService(List<JisedaiSiteTitle> titles) {
 		doReturn(titles).when(githubResourcesService)
 				.getResource("jisedaiSiteTitles.json", JisedaiSiteTitle.class);
 	}

@@ -8,8 +8,8 @@ import static nasirov.yv.utils.TestConstants.REGULAR_TITLE_ANIDUB_SITE_URL;
 import static nasirov.yv.utils.TestConstants.REGULAR_TITLE_MAL_ANIME_ID;
 import static nasirov.yv.utils.TestConstants.REGULAR_TITLE_NAME;
 
-import com.google.common.collect.Sets;
-import java.util.Set;
+import com.google.common.collect.Lists;
+import java.util.List;
 import lombok.experimental.UtilityClass;
 import nasirov.yv.data.anidub.api.AnidubApiTitle;
 import nasirov.yv.data.anidub.api.AnidubTitleCategory;
@@ -25,12 +25,12 @@ import nasirov.yv.data.anidub.site.AnidubSiteTitle;
 public class AnidubTitleBuilder {
 
 
-	public static Set<AnidubApiTitle> buildAnidubApiTitles() {
-		return Sets.newHashSet(buildRegularAnidubApiTitle(), buildNotFoundOnMalAnidubApiTitle());
+	public static List<AnidubApiTitle> buildAnidubApiTitles() {
+		return Lists.newArrayList(buildRegularAnidubApiTitle(), buildNotFoundOnMalAnidubApiTitle());
 	}
 
-	public static Set<AnidubSiteTitle> buildAnidubSiteTitles() {
-		return Sets.newHashSet(buildRegularAnidubSiteTitle(), buildNotFoundOnMalAnidubSiteTitle());
+	public static List<AnidubSiteTitle> buildAnidubSiteTitles() {
+		return Lists.newArrayList(buildRegularAnidubSiteTitle(), buildNotFoundOnMalAnidubSiteTitle());
 	}
 
 	public static AnidubSiteTitle buildRegularAnidubSiteTitle() {

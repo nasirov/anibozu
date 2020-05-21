@@ -15,7 +15,7 @@ import static nasirov.yv.utils.TestConstants.TEXT_HTML_CHARSET_UTF_8;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.doReturn;
 
-import java.util.Set;
+import java.util.List;
 import nasirov.yv.AbstractTest;
 import nasirov.yv.data.anidub.site.AnidubSiteTitle;
 import nasirov.yv.data.mal.UserMALTitleInfo;
@@ -72,7 +72,7 @@ public class AnidubSiteEpisodeUrlServiceTest extends AbstractTest {
 		createStubWithBodyFile("/" + REGULAR_TITLE_ANIDUB_SITE_URL, TEXT_HTML_CHARSET_UTF_8, "anidub/siteRegularTitle.html");
 	}
 
-	private void mockGitHubResourcesService(Set<AnidubSiteTitle> titles) {
+	private void mockGitHubResourcesService(List<AnidubSiteTitle> titles) {
 		doReturn(titles).when(githubResourcesService)
 				.getResource("anidubSiteTitles.json", AnidubSiteTitle.class);
 	}

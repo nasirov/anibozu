@@ -17,7 +17,7 @@ import static nasirov.yv.utils.TestConstants.REGULAR_TITLE_POSTER_URL;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.doReturn;
 
-import java.util.Set;
+import java.util.List;
 import nasirov.yv.AbstractTest;
 import nasirov.yv.data.anidub.api.AnidubApiTitle;
 import nasirov.yv.data.mal.UserMALTitleInfo;
@@ -104,7 +104,7 @@ public class AnidubApiEpisodeUrlServiceTest extends AbstractTest {
 				episodesBody);
 	}
 
-	private void mockGitHubResourcesService(Set<AnidubApiTitle> titles) {
+	private void mockGitHubResourcesService(List<AnidubApiTitle> titles) {
 		doReturn(titles).when(githubResourcesService)
 				.getResource("anidubApiTitles.json", AnidubApiTitle.class);
 	}

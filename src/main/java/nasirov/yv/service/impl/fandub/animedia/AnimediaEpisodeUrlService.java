@@ -12,7 +12,6 @@ import static nasirov.yv.util.MalUtils.getNextEpisodeForWatch;
 
 import java.util.Collections;
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -20,9 +19,9 @@ import nasirov.yv.data.animedia.AnimediaTitle;
 import nasirov.yv.data.constants.BaseConstants;
 import nasirov.yv.data.mal.UserMALTitleInfo;
 import nasirov.yv.data.properties.UrlsNames;
-import nasirov.yv.service.AnimediaGitHubResourcesServiceI;
 import nasirov.yv.service.AnimediaTitlesUpdateServiceI;
 import nasirov.yv.service.EpisodeUrlServiceI;
+import nasirov.yv.service.TitlesServiceI;
 import nasirov.yv.util.AnimediaUtils;
 import org.springframework.stereotype.Service;
 
@@ -38,14 +37,14 @@ public class AnimediaEpisodeUrlService implements EpisodeUrlServiceI {
 
 	private final UrlsNames urlsNames;
 
-	private final AnimediaGitHubResourcesServiceI animediaGitHubResourcesService;
+	private final TitlesServiceI<AnimediaTitle> animediaGitHubResourcesService;
 
 	private final AnimediaTitlesUpdateServiceI animediaTitlesUpdateService;
 
 	@Override
 	public String getEpisodeUrl(UserMALTitleInfo watchingTitle) {
 		String result;
-		Set<AnimediaTitle> animediaTitles = getMatchedAnimediaTitles(watchingTitle);
+		List<AnimediaTitle> animediaTitles = getMatchedAnimediaTitles(watchingTitle);
 		animediaTitlesUpdateService.updateAnimediaTitles(animediaTitles);
 		switch (animediaTitles.size()) {
 			case 0:
@@ -70,7 +69,7 @@ public class AnimediaEpisodeUrlService implements EpisodeUrlServiceI {
 		return NOT_FOUND_ON_FANDUB_SITE_URL;
 	}
 
-	private String handleOneMatchedResult(Set<AnimediaTitle> matchedAnimediaTitles, UserMALTitleInfo watchingTitle) {
+	private String handleOneMatchedResult(List<AnimediaTitle> matchedAnimediaTitles, UserMALTitleInfo watchingTitle) {
 		return matchedAnimediaTitles.stream()
 				.map(x -> buildUrlForOneMatchedResult(x, watchingTitle))
 				.findFirst()
@@ -85,11 +84,10 @@ public class AnimediaEpisodeUrlService implements EpisodeUrlServiceI {
 	 * for example, 1-2 https://online.animedia.tv/anime/tamayura/2/1 Tamayura  1-1
 	 * <p>
 	 * 3-4 https://online.animedia.tv/anime/tamayura/2/2 Tamayura  2-2
-	 *
-	 * @param matchedAnimediaTitles animedia titles with equal title id on mal and data list
+	 *  @param matchedAnimediaTitles animedia titles with equal title id on mal and data list
 	 * @param watchingTitle         user watching title
 	 */
-	private String handleMoreThanOneMatchedResultOnSameDataList(Set<AnimediaTitle> matchedAnimediaTitles, UserMALTitleInfo watchingTitle) {
+	private String handleMoreThanOneMatchedResultOnSameDataList(List<AnimediaTitle> matchedAnimediaTitles, UserMALTitleInfo watchingTitle) {
 		int nextNumberOfEpisodeForWatch;
 		AnimediaTitle animediaTitle;
 		int nextEpisodeNumber = getNextEpisodeForWatch(watchingTitle);
@@ -115,7 +113,7 @@ public class AnimediaEpisodeUrlService implements EpisodeUrlServiceI {
 	 *
 	 * @param matchedAnimediaTitles animedia titles with equal title id on mal
 	 */
-	private String handleMoreThanOneMatchedResult(Set<AnimediaTitle> matchedAnimediaTitles, UserMALTitleInfo watchingTitle) {
+	private String handleMoreThanOneMatchedResult(List<AnimediaTitle> matchedAnimediaTitles, UserMALTitleInfo watchingTitle) {
 		int nextNumberOfEpisodeForWatch = getNextEpisodeForWatch(watchingTitle);
 		return matchedAnimediaTitles.stream()
 				.filter(ref -> isNextNumberOfEpisodeForWatchInAnimediaTitleEpisodesRange(nextNumberOfEpisodeForWatch, ref))
@@ -129,9 +127,9 @@ public class AnimediaEpisodeUrlService implements EpisodeUrlServiceI {
 		return FINAL_URL_VALUE_IF_EPISODE_IS_NOT_AVAILABLE;
 	}
 
-	private Set<AnimediaTitle> getMatchedAnimediaTitles(UserMALTitleInfo userMALTitleInfo) {
-		return animediaGitHubResourcesService.getAnimediaTitles()
-				.getOrDefault(userMALTitleInfo.getAnimeId(), Collections.emptySet());
+	private List<AnimediaTitle> getMatchedAnimediaTitles(UserMALTitleInfo userMALTitleInfo) {
+		return animediaGitHubResourcesService.getTitles()
+				.getOrDefault(userMALTitleInfo.getAnimeId(), Collections.emptyList());
 	}
 
 	/**
@@ -167,7 +165,7 @@ public class AnimediaEpisodeUrlService implements EpisodeUrlServiceI {
 		return episodeNumberForWatch;
 	}
 
-	private boolean isMatchedAnimediaTitlesOnSameDataList(Set<AnimediaTitle> matchedAnimediaTitles) {
+	private boolean isMatchedAnimediaTitlesOnSameDataList(List<AnimediaTitle> matchedAnimediaTitles) {
 		return matchedAnimediaTitles.stream()
 				.map(AnimediaTitle::getDataListOnAnimedia)
 				.distinct()

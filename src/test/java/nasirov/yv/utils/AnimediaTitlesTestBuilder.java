@@ -22,7 +22,8 @@ import static nasirov.yv.utils.TestConstants.REGULAR_TITLE_MAL_ANIME_ID;
 import static nasirov.yv.utils.TestConstants.REGULAR_TITLE_NAME;
 import static nasirov.yv.utils.TestConstants.REGULAR_TITLE_URL;
 
-import java.util.Collection;
+import java.util.ArrayList;
+import java.util.List;
 import lombok.SneakyThrows;
 import lombok.experimental.UtilityClass;
 import nasirov.yv.data.animedia.AnimediaTitle;
@@ -42,8 +43,8 @@ public class AnimediaTitlesTestBuilder {
 	}
 
 	@SneakyThrows
-	public static <T extends Collection> T getAnimediaTitles(Class<T> collection, boolean updated) {
-		T refs = collection.newInstance();
+	public static List<AnimediaTitle> getAnimediaTitles(boolean updated) {
+		List<AnimediaTitle> refs = new ArrayList<>();
 		AnimediaTitle regularNotUpdatedAnimediaTitle = getRegularNotUpdatedAnimediaTitle();
 		AnimediaTitle announcementAnimediaTitle = getAnnouncementAnimediaTitle();
 		AnimediaTitle concretizedAnimediaTitle = getConcretizedAnimediaTitleWithEpisodesRange();

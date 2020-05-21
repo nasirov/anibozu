@@ -53,7 +53,7 @@ public class ResourcesCheckerService implements ResourcesCheckerServiceI {
 	@Scheduled(cron = "${application.cron.resources-check-cron-expression}")
 	public void checkAnimediaTitlesExistenceOnMal() {
 		log.info("START CHECKING ANIMEDIA TITLES EXISTENCE ON MAL ...");
-		Set<AnimediaTitle> animediaTitles = githubResourcesService.getResource(githubResourceProps.getAnimediaTitles(), AnimediaTitle.class);
+		List<AnimediaTitle> animediaTitles = githubResourcesService.getResource(githubResourceProps.getAnimediaTitles(), AnimediaTitle.class);
 		List<AnimediaTitle> notFoundOnMal = new LinkedList<>();
 		for (AnimediaTitle animediaTitle : animediaTitles) {
 			String titleOnMAL = animediaTitle.getTitleNameOnMAL();
@@ -83,7 +83,7 @@ public class ResourcesCheckerService implements ResourcesCheckerServiceI {
 		log.info("START CHECKING ANIMEDIA TITLES ON ANIMEDIA ...");
 		Set<AnimediaSearchListTitle> animediaSearchList = animediaService.getAnimediaSearchList();
 		String animediaTitlesResourceName = githubResourceProps.getAnimediaTitles();
-		Set<AnimediaTitle> animediaTitles = githubResourcesService.getResource(animediaTitlesResourceName, AnimediaTitle.class);
+		List<AnimediaTitle> animediaTitles = githubResourcesService.getResource(animediaTitlesResourceName, AnimediaTitle.class);
 		List<AnimediaTitle> missedAnimediaTitles = new LinkedList<>();
 		for (AnimediaSearchListTitle titleSearchInfo : animediaSearchList) {
 			List<AnimediaTitle> matchedAnimediaTitles = getMatchedAnimediaTitles(animediaTitles, titleSearchInfo);
@@ -125,7 +125,7 @@ public class ResourcesCheckerService implements ResourcesCheckerServiceI {
 				.build();
 	}
 
-	private List<AnimediaTitle> getMatchedAnimediaTitles(Set<AnimediaTitle> animediaTitles, AnimediaSearchListTitle titleSearchInfo) {
+	private List<AnimediaTitle> getMatchedAnimediaTitles(List<AnimediaTitle> animediaTitles, AnimediaSearchListTitle titleSearchInfo) {
 		return animediaTitles.stream()
 				.filter(x -> titleSearchInfo.getUrl()
 						.equals(UriUtils.decode(x.getUrlOnAnimedia(), UTF_8)))

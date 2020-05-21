@@ -1,6 +1,6 @@
 package nasirov.yv.service;
 
-import java.util.Set;
+import java.util.List;
 import nasirov.yv.data.animedia.AnimediaTitle;
 
 /**
@@ -8,5 +8,5 @@ import nasirov.yv.data.animedia.AnimediaTitle;
  */
 public interface AnimediaTitlesUpdateServiceI {
 
-	void updateAnimediaTitles(Set<AnimediaTitle> animediaTitles);
+	void updateAnimediaTitles(List<AnimediaTitle> animediaTitles);
 }

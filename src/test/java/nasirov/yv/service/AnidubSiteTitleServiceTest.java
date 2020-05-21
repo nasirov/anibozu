@@ -7,11 +7,11 @@ import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.doReturn;
 
 import java.util.Collections;
+import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import nasirov.yv.data.anidub.site.AnidubSiteTitle;
 import nasirov.yv.data.properties.GitHubResourceProps;
-import nasirov.yv.service.impl.fandub.anidub.AnidubSiteGitHubResourcesService;
+import nasirov.yv.service.impl.fandub.anidub.AnidubSiteTitleService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -22,7 +22,7 @@ import org.mockito.junit.MockitoJUnitRunner;
  * Created by nasirov.yv
  */
 @RunWith(MockitoJUnitRunner.class)
-public class AnidubSiteGitHubResourcesServiceTest {
+public class AnidubSiteTitleServiceTest {
 
 	@Mock
 	private GitHubResourcesServiceI gitHubResourcesService;
@@ -31,7 +31,7 @@ public class AnidubSiteGitHubResourcesServiceTest {
 	private GitHubResourceProps gitHubResourceProps;
 
 	@InjectMocks
-	private AnidubSiteGitHubResourcesService anidubSiteGitHubResourcesService;
+	private AnidubSiteTitleService anidubSiteTitleService;
 
 	@Test
 	public void shouldReturnDistinctNonNull() {
@@ -40,19 +40,21 @@ public class AnidubSiteGitHubResourcesServiceTest {
 		mockGitHubResourcesService(buildAnidubSiteTitles());
 		AnidubSiteTitle expected = buildRegularAnidubSiteTitle();
 		//when
-		Map<Integer, AnidubSiteTitle> result = anidubSiteGitHubResourcesService.getAnidubTitles();
+		Map<Integer, List<AnidubSiteTitle>> result = anidubSiteTitleService.getTitles();
 		//then
 		assertEquals(1, result.size());
-		assertEquals(expected, result.get(expected.getTitleIdOnMal()));
+		List<AnidubSiteTitle> titles = result.get(expected.getTitleIdOnMal());
+		assertEquals(1, titles.size());
+		assertEquals(expected, titles.get(0));
 	}
 
 	@Test
 	public void shouldReturnEmptyMap() {
 		//given
 		mockGitHubResourceProps();
-		mockGitHubResourcesService(Collections.emptySet());
+		mockGitHubResourcesService(Collections.emptyList());
 		//when
-		Map<Integer, AnidubSiteTitle> result = anidubSiteGitHubResourcesService.getAnidubTitles();
+		Map<Integer, List<AnidubSiteTitle>> result = anidubSiteTitleService.getTitles();
 		//then
 		assertTrue(result.isEmpty());
 	}
@@ -62,7 +64,7 @@ public class AnidubSiteGitHubResourcesServiceTest {
 				.getAnidubSiteTitles();
 	}
 
-	private void mockGitHubResourcesService(Set<AnidubSiteTitle> anidubApiTitles) {
+	private void mockGitHubResourcesService(List<AnidubSiteTitle> anidubApiTitles) {
 		doReturn(anidubApiTitles).when(gitHubResourcesService)
 				.getResource("anidubSiteTitles.json", AnidubSiteTitle.class);
 	}

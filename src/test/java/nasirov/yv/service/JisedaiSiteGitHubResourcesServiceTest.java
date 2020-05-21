@@ -7,11 +7,11 @@ import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.doReturn;
 
 import java.util.Collections;
+import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import nasirov.yv.data.jisedai.site.JisedaiSiteTitle;
 import nasirov.yv.data.properties.GitHubResourceProps;
-import nasirov.yv.service.impl.fandub.jisedai.JisedaiGitHubResourcesService;
+import nasirov.yv.service.impl.fandub.jisedai.JisedaiSiteTitleService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -31,7 +31,7 @@ public class JisedaiSiteGitHubResourcesServiceTest {
 	private GitHubResourceProps gitHubResourceProps;
 
 	@InjectMocks
-	private JisedaiGitHubResourcesService anidubApiGitHubResourcesService;
+	private JisedaiSiteTitleService anidubApiGitHubResourcesService;
 
 	@Test
 	public void shouldReturnDistinctNonNull() {
@@ -40,19 +40,21 @@ public class JisedaiSiteGitHubResourcesServiceTest {
 		mockGitHubResourcesService(buildJesidaiSiteTitles());
 		JisedaiSiteTitle expected = buildRegularJesidaiSiteTitle();
 		//when
-		Map<Integer, JisedaiSiteTitle> result = anidubApiGitHubResourcesService.getJisedaiTitles();
+		Map<Integer, List<JisedaiSiteTitle>> result = anidubApiGitHubResourcesService.getTitles();
 		//then
 		assertEquals(1, result.size());
-		assertEquals(expected, result.get(expected.getTitleIdOnMal()));
+		List<JisedaiSiteTitle> titles = result.get(expected.getTitleIdOnMal());
+		assertEquals(1, titles.size());
+		assertEquals(expected, titles.get(0));
 	}
 
 	@Test
 	public void shouldReturnEmptyMap() {
 		//given
 		mockGitHubResourceProps();
-		mockGitHubResourcesService(Collections.emptySet());
+		mockGitHubResourcesService(Collections.emptyList());
 		//when
-		Map<Integer, JisedaiSiteTitle> result = anidubApiGitHubResourcesService.getJisedaiTitles();
+		Map<Integer, List<JisedaiSiteTitle>> result = anidubApiGitHubResourcesService.getTitles();
 		//then
 		assertTrue(result.isEmpty());
 	}
@@ -62,7 +64,7 @@ public class JisedaiSiteGitHubResourcesServiceTest {
 				.getJisedaiSiteTitles();
 	}
 
-	private void mockGitHubResourcesService(Set<JisedaiSiteTitle> jisedaiSiteTitles) {
+	private void mockGitHubResourcesService(List<JisedaiSiteTitle> jisedaiSiteTitles) {
 		doReturn(jisedaiSiteTitles).when(gitHubResourcesService)
 				.getResource("jisedaiSiteTitles.json", JisedaiSiteTitle.class);
 	}

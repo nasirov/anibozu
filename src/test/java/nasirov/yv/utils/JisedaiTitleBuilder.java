@@ -6,8 +6,8 @@ import static nasirov.yv.utils.TestConstants.REGULAR_TITLE_JESIDAI_ID;
 import static nasirov.yv.utils.TestConstants.REGULAR_TITLE_JISEDAI_SITE_URL;
 import static nasirov.yv.utils.TestConstants.REGULAR_TITLE_MAL_ANIME_ID;
 
-import com.google.common.collect.Sets;
-import java.util.Set;
+import com.google.common.collect.Lists;
+import java.util.List;
 import lombok.experimental.UtilityClass;
 import nasirov.yv.data.jisedai.site.JisedaiSiteTitle;
 
@@ -17,8 +17,8 @@ import nasirov.yv.data.jisedai.site.JisedaiSiteTitle;
 @UtilityClass
 public class JisedaiTitleBuilder {
 
-	public static Set<JisedaiSiteTitle> buildJesidaiSiteTitles() {
-		return Sets.newHashSet(buildRegularJesidaiSiteTitle(), buildNotFoundOnMalJesidaiSiteTitle());
+	public static List<JisedaiSiteTitle> buildJesidaiSiteTitles() {
+		return Lists.newArrayList(buildRegularJesidaiSiteTitle(), buildNotFoundOnMalJesidaiSiteTitle());
 	}
 
 	public static JisedaiSiteTitle buildRegularJesidaiSiteTitle() {

@@ -5,7 +5,9 @@ import static nasirov.yv.data.constants.BaseConstants.FINAL_URL_VALUE_IF_EPISODE
 import static nasirov.yv.data.constants.BaseConstants.NOT_FOUND_ON_FANDUB_SITE_URL;
 import static nasirov.yv.util.MalUtils.getNextEpisodeForWatch;
 
+import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -15,7 +17,7 @@ import nasirov.yv.data.properties.UrlsNames;
 import nasirov.yv.http.feign.JisedaiSiteFeignClient;
 import nasirov.yv.parser.JisedaiParserI;
 import nasirov.yv.service.EpisodeUrlServiceI;
-import nasirov.yv.service.JisedaiGitHubResourcesServiceI;
+import nasirov.yv.service.TitlesServiceI;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -31,7 +33,7 @@ public class JisedaiEpisodeUrlService implements EpisodeUrlServiceI {
 
 	private final JisedaiSiteFeignClient jisedaiSiteFeignClient;
 
-	private final JisedaiGitHubResourcesServiceI<JisedaiSiteTitle> jisedaiGitHubResourcesService;
+	private final TitlesServiceI<JisedaiSiteTitle> jisedaiSiteTitleService;
 
 	private final JisedaiParserI jisedaiParser;
 
@@ -52,8 +54,12 @@ public class JisedaiEpisodeUrlService implements EpisodeUrlServiceI {
 	}
 
 	private JisedaiSiteTitle getMatchedTitle(UserMALTitleInfo watchingTitle) {
-		return jisedaiGitHubResourcesService.getJisedaiTitles()
-				.get(watchingTitle.getAnimeId());
+		return Optional.ofNullable(jisedaiSiteTitleService.getTitles()
+				.get(watchingTitle.getAnimeId()))
+				.orElseGet(Collections::emptyList)
+				.stream()
+				.findFirst()
+				.orElse(null);
 	}
 
 	private List<Integer> extractAvailableEpisodes(JisedaiSiteTitle matchedTitle) {

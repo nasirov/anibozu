@@ -7,11 +7,11 @@ import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.doReturn;
 
 import java.util.Collections;
+import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import nasirov.yv.data.anidub.api.AnidubApiTitle;
 import nasirov.yv.data.properties.GitHubResourceProps;
-import nasirov.yv.service.impl.fandub.anidub.AnidubApiGitHubResourcesService;
+import nasirov.yv.service.impl.fandub.anidub.AnidubApiTitleService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -22,7 +22,7 @@ import org.mockito.junit.MockitoJUnitRunner;
  * Created by nasirov.yv
  */
 @RunWith(MockitoJUnitRunner.class)
-public class AnidubApiGitHubResourcesServiceTest {
+public class AnidubApiTitleServiceTest {
 
 	@Mock
 	private GitHubResourcesServiceI gitHubResourcesService;
@@ -31,7 +31,7 @@ public class AnidubApiGitHubResourcesServiceTest {
 	private GitHubResourceProps gitHubResourceProps;
 
 	@InjectMocks
-	private AnidubApiGitHubResourcesService anidubApiGitHubResourcesService;
+	private AnidubApiTitleService anidubApiTitleService;
 
 	@Test
 	public void shouldReturnDistinctNonNull() {
@@ -40,19 +40,21 @@ public class AnidubApiGitHubResourcesServiceTest {
 		mockGitHubResourcesService(buildAnidubApiTitles());
 		AnidubApiTitle expected = buildRegularAnidubApiTitle();
 		//when
-		Map<Integer, AnidubApiTitle> result = anidubApiGitHubResourcesService.getAnidubTitles();
+		Map<Integer, List<AnidubApiTitle>> result = anidubApiTitleService.getTitles();
 		//then
 		assertEquals(1, result.size());
-		assertEquals(expected, result.get(expected.getTitleIdOnMal()));
+		List<AnidubApiTitle> titles = result.get(expected.getTitleIdOnMal());
+		assertEquals(1, titles.size());
+		assertEquals(expected, titles.get(0));
 	}
 
 	@Test
 	public void shouldReturnEmptyMap() {
 		//given
 		mockGitHubResourceProps();
-		mockGitHubResourcesService(Collections.emptySet());
+		mockGitHubResourcesService(Collections.emptyList());
 		//when
-		Map<Integer, AnidubApiTitle> result = anidubApiGitHubResourcesService.getAnidubTitles();
+		Map<Integer, List<AnidubApiTitle>> result = anidubApiTitleService.getTitles();
 		//then
 		assertTrue(result.isEmpty());
 	}
@@ -62,7 +64,7 @@ public class AnidubApiGitHubResourcesServiceTest {
 				.getAnidubApiTitles();
 	}
 
-	private void mockGitHubResourcesService(Set<AnidubApiTitle> anidubApiTitles) {
+	private void mockGitHubResourcesService(List<AnidubApiTitle> anidubApiTitles) {
 		doReturn(anidubApiTitles).when(gitHubResourcesService)
 				.getResource("anidubApiTitles.json", AnidubApiTitle.class);
 	}

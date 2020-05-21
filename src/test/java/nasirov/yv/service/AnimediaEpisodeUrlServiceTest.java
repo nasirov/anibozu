@@ -49,12 +49,10 @@ import static org.mockito.Mockito.doReturn;
 
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Set;
 import nasirov.yv.AbstractTest;
 import nasirov.yv.data.animedia.AnimediaTitle;
 import nasirov.yv.data.mal.UserMALTitleInfo;
 import org.assertj.core.util.Lists;
-import org.assertj.core.util.Sets;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -178,13 +176,13 @@ public class AnimediaEpisodeUrlServiceTest extends AbstractTest {
 		assertEquals(expectedUrl, actualUrl);
 	}
 
-	private void mockGitHubResourcesService(Set<AnimediaTitle> animediaTitles) {
+	private void mockGitHubResourcesService(List<AnimediaTitle> animediaTitles) {
 		doReturn(animediaTitles).when(githubResourcesService)
 				.getResource("animediaTitles.json", AnimediaTitle.class);
 	}
 
-	private Set<AnimediaTitle> getAnimediaTitles() {
-		return Sets.newLinkedHashSet(buildAnimediaTitleOnSeveralDataLists("1", "1", "2", "2"),
+	private List<AnimediaTitle> getAnimediaTitles() {
+		return Lists.newArrayList(buildAnimediaTitleOnSeveralDataLists("1", "1", "2", "2"),
 				buildAnimediaTitleOnSeveralDataLists("2", "3", "4", "4"),
 				buildAnimediaTitleOnSeveralDataLists("3", "5", "6", "6"),
 				buildAnimediaTitleOnSeveralDataLists("4", "7", "8", "8"),

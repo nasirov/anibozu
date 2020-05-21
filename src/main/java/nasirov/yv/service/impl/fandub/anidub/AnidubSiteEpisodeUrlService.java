@@ -18,7 +18,7 @@ import nasirov.yv.data.properties.UrlsNames;
 import nasirov.yv.http.feign.AnidubSiteFeignClient;
 import nasirov.yv.parser.AnidubParserI;
 import nasirov.yv.service.AnidubEpisodeUrlServiceI;
-import nasirov.yv.service.AnidubGitHubResourcesServiceI;
+import nasirov.yv.service.TitlesServiceI;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -36,7 +36,7 @@ public class AnidubSiteEpisodeUrlService implements AnidubEpisodeUrlServiceI {
 
 	private final AnidubSiteFeignClient anidubSiteFeignClient;
 
-	private final AnidubGitHubResourcesServiceI<AnidubSiteTitle> anidubGitHubResourcesService;
+	private final TitlesServiceI<AnidubSiteTitle> anidubSiteTitleService;
 
 	private final AnidubParserI anidubParser;
 
@@ -57,8 +57,12 @@ public class AnidubSiteEpisodeUrlService implements AnidubEpisodeUrlServiceI {
 	}
 
 	private AnidubSiteTitle getMatchedTitle(UserMALTitleInfo watchingTitle) {
-		return anidubGitHubResourcesService.getAnidubTitles()
-				.get(watchingTitle.getAnimeId());
+		return Optional.ofNullable(anidubSiteTitleService.getTitles()
+				.get(watchingTitle.getAnimeId()))
+				.orElseGet(Collections::emptyList)
+				.stream()
+				.findFirst()
+				.orElse(null);
 	}
 
 	private List<Integer> extractAvailableEpisodes(AnidubSiteTitle matchedTitle) {

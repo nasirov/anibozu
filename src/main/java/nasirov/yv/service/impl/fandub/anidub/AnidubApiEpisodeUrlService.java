@@ -9,6 +9,7 @@ import static nasirov.yv.util.MalUtils.getNextEpisodeForWatch;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -19,7 +20,7 @@ import nasirov.yv.data.mal.UserMALTitleInfo;
 import nasirov.yv.http.feign.AnidubApiFeignClient;
 import nasirov.yv.parser.AnidubParserI;
 import nasirov.yv.service.AnidubEpisodeUrlServiceI;
-import nasirov.yv.service.AnidubGitHubResourcesServiceI;
+import nasirov.yv.service.TitlesServiceI;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Service;
@@ -45,7 +46,7 @@ public class AnidubApiEpisodeUrlService implements AnidubEpisodeUrlServiceI {
 
 	private final AnidubApiFeignClient anidubApiFeignClient;
 
-	private final AnidubGitHubResourcesServiceI<AnidubApiTitle> anidubGitHubResourcesService;
+	private final TitlesServiceI<AnidubApiTitle> anidubApiTitleService;
 
 	private final AnidubParserI anidubParser;
 
@@ -68,8 +69,12 @@ public class AnidubApiEpisodeUrlService implements AnidubEpisodeUrlServiceI {
 	}
 
 	private AnidubApiTitle getMatchedTitle(UserMALTitleInfo watchingTitle) {
-		return anidubGitHubResourcesService.getAnidubTitles()
-				.get(watchingTitle.getAnimeId());
+		return Optional.ofNullable(anidubApiTitleService.getTitles()
+				.get(watchingTitle.getAnimeId()))
+				.orElseGet(Collections::emptyList)
+				.stream()
+				.findFirst()
+				.orElse(null);
 	}
 
 	private Integer getAnidubFandubId(Integer titleId) {

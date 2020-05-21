@@ -10,11 +10,8 @@ import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.doReturn;
 
 import com.google.common.collect.Lists;
-import java.util.ArrayList;
 import java.util.Collections;
-import java.util.LinkedHashSet;
 import java.util.List;
-import java.util.Set;
 import nasirov.yv.AbstractTest;
 import nasirov.yv.data.animedia.AnimediaTitle;
 import org.junit.Test;
@@ -27,9 +24,9 @@ public class AnimediaTitleUpdaterServiceTest extends AbstractTest {
 	@Test
 	public void updateAnimediaTitles() {
 		mockAnimediaService(buildRegularTitleResponse());
-		Set<AnimediaTitle> animediaTitles = getAnimediaTitles(LinkedHashSet.class, false);
+		List<AnimediaTitle> animediaTitles = getAnimediaTitles(false);
 		animediaTitlesUpdateService.updateAnimediaTitles(animediaTitles);
-		List<AnimediaTitle> expectedUpdatedAnimediaTitles = getAnimediaTitles(ArrayList.class, true);
+		List<AnimediaTitle> expectedUpdatedAnimediaTitles = getAnimediaTitles(true);
 		assertEquals(expectedUpdatedAnimediaTitles.size(), animediaTitles.size());
 		animediaTitles.forEach(x -> assertTrue(expectedUpdatedAnimediaTitles.contains(x)));
 	}
@@ -37,7 +34,7 @@ public class AnimediaTitleUpdaterServiceTest extends AbstractTest {
 	@Test
 	public void updateRegularAnimediaTitlesWithJoinedEpisodes() {
 		mockAnimediaService(buildRegularTitleWithJoinedEpisodesResponse());
-		Set<AnimediaTitle> animediaTitles = getAnimediaTitles(LinkedHashSet.class, false);
+		List<AnimediaTitle> animediaTitles = getAnimediaTitles(false);
 		animediaTitlesUpdateService.updateAnimediaTitles(animediaTitles);
 		List<AnimediaTitle> expectedUpdatedAnimediaTitles = buildExpectedWithRegularWithEpisodesRange();
 		assertEquals(expectedUpdatedAnimediaTitles.size(), animediaTitles.size());
@@ -45,7 +42,7 @@ public class AnimediaTitleUpdaterServiceTest extends AbstractTest {
 	}
 
 	private List<AnimediaTitle> buildExpectedWithRegularWithEpisodesRange() {
-		List<AnimediaTitle> expectedUpdatedAnimediaTitles = getAnimediaTitles(ArrayList.class, true);
+		List<AnimediaTitle> expectedUpdatedAnimediaTitles = getAnimediaTitles(true);
 		expectedUpdatedAnimediaTitles.stream()
 				.filter(x -> x.getUrlOnAnimedia()
 						.equals(REGULAR_TITLE_URL))

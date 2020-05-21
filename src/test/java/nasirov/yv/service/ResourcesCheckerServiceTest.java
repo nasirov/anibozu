@@ -18,9 +18,11 @@ import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
+import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import java.io.File;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Set;
 import nasirov.yv.AbstractTest;
 import nasirov.yv.data.animedia.AnimediaSearchListTitle;
@@ -75,7 +77,7 @@ public class ResourcesCheckerServiceTest extends AbstractTest {
 				.equals(fileName)), argThat((LinkedList x) -> x.size() == title.length && x.containsAll(CollectionUtils.arrayToList(title))));
 	}
 
-	private void mockGetAnimediaTitles(Set<AnimediaTitle> allAnimediaTitles) {
+	private void mockGetAnimediaTitles(List<AnimediaTitle> allAnimediaTitles) {
 		doReturn(allAnimediaTitles).when(githubResourcesService)
 				.getResource("animediaTitles.json", AnimediaTitle.class);
 	}
@@ -90,8 +92,8 @@ public class ResourcesCheckerServiceTest extends AbstractTest {
 				.getAnimediaSearchList();
 	}
 
-	private Set<AnimediaTitle> getAllAnimediaTitles() {
-		return Sets.newHashSet(getRegularNotUpdatedAnimediaTitle(), getNotFoundOnMalAnimediaTitle());
+	private List<AnimediaTitle> getAllAnimediaTitles() {
+		return Lists.newArrayList(getRegularNotUpdatedAnimediaTitle(), getNotFoundOnMalAnimediaTitle());
 	}
 
 	private AnimediaTitle buildMissedAnimediaTitle(String dataList) {
