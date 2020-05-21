@@ -1,11 +1,12 @@
 package nasirov.yv.data.animedia;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.util.List;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
+import lombok.experimental.SuperBuilder;
 import nasirov.yv.data.github.GitHubResource;
 
 /**
@@ -13,12 +14,13 @@ import nasirov.yv.data.github.GitHubResource;
  * <p>
  * Created by nasirov.yv
  */
-@JsonIgnoreProperties(ignoreUnknown = true)
-@Data
+@Getter
+@Setter
+@SuperBuilder
 @NoArgsConstructor
-@AllArgsConstructor
-@Builder
-public class AnimediaTitle implements GitHubResource {
+@ToString(callSuper = true)
+@EqualsAndHashCode(callSuper = true)
+public class AnimediaTitle extends GitHubResource {
 
 	/**
 	 * URL on Animedia
@@ -64,11 +66,6 @@ public class AnimediaTitle implements GitHubResource {
 	 * Title on MAL
 	 */
 	private String titleNameOnMAL;
-
-	/**
-	 * Animed id in MAL db
-	 */
-	private Integer titleIdOnMAL;
 
 	/**
 	 * Min range episodes on MAL

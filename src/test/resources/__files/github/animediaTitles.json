@@ -9,7 +9,7 @@
     "episodesRangeOnAnimedia": null,
     "posterUrlOnMAL": null,
     "titleNameOnMAL": "regular title name",
-    "titleIdOnMAL": 2,
+    "titleIdOnMal": 2,
     "minOnMAL": null,
     "maxOnMAL": null
   },
@@ -23,7 +23,7 @@
     "episodesRangeOnAnimedia": null,
     "posterUrlOnMAL": null,
     "titleNameOnMAL": "announcement title name",
-    "titleIdOnMAL": 1,
+    "titleIdOnMal": 1,
     "minOnMAL": null,
     "maxOnMAL": null
   },
@@ -37,7 +37,7 @@
     "episodesRangeOnAnimedia": null,
     "posterUrlOnMAL": null,
     "titleNameOnMAL": "concretized title with episodes range name",
-    "titleIdOnMAL": 6,
+    "titleIdOnMal": 6,
     "minOnMAL": "1",
     "maxOnMAL": "6"
   },
@@ -51,7 +51,7 @@
     "episodesRangeOnAnimedia": null,
     "posterUrlOnMAL": null,
     "titleNameOnMAL": "concretized and ongoing title name",
-    "titleIdOnMAL": 8,
+    "titleIdOnMal": 8,
     "minOnMAL": "1",
     "maxOnMAL": "5"
   }

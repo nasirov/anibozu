@@ -68,7 +68,7 @@ public class AnimediaTitlesTestBuilder {
 				.dataListOnAnimedia("3")
 				.animeIdOnAnimedia(CONCRETIZED_AND_ONGOING_TITLE_ID)
 				.titleNameOnMAL(CONCRETIZED_AND_ONGOING_TITLE_NAME)
-				.titleIdOnMAL(CONCRETIZED_AND_ONGOING_TITLE_MAL_ANIME_ID)
+				.titleIdOnMal(CONCRETIZED_AND_ONGOING_TITLE_MAL_ANIME_ID)
 				.minOnAnimedia("1")
 				.maxOnAnimedia("5")
 				.minOnMAL("1")
@@ -82,7 +82,7 @@ public class AnimediaTitlesTestBuilder {
 				.dataListOnAnimedia("7")
 				.animeIdOnAnimedia(CONCRETIZED_TITLE_ID)
 				.titleNameOnMAL(CONCRETIZED_TITLE_WITH_EPISODES_RANGE_NAME)
-				.titleIdOnMAL(CONCRETIZED_TITLE_WITH_WITH_EPISODES_RANGE_MAL_ANIME_ID)
+				.titleIdOnMal(CONCRETIZED_TITLE_WITH_WITH_EPISODES_RANGE_MAL_ANIME_ID)
 				.minOnAnimedia("1")
 				.maxOnAnimedia("6")
 				.minOnMAL("1")
@@ -96,7 +96,7 @@ public class AnimediaTitlesTestBuilder {
 				.urlOnAnimedia(CONCRETIZED_TITLE_URL)
 				.animeIdOnAnimedia(CONCRETIZED_TITLE_ID)
 				.titleNameOnMAL(CONCRETIZED_TITLE_WITH_SINGLE_EPISODE_NAME)
-				.titleIdOnMAL(CONCRETIZED_TITLE_WITH_SINGLE_EPISODE_MAL_ANIME_ID)
+				.titleIdOnMal(CONCRETIZED_TITLE_WITH_SINGLE_EPISODE_MAL_ANIME_ID)
 				.dataListOnAnimedia("7")
 				.minOnAnimedia("7")
 				.maxOnAnimedia("7")
@@ -113,7 +113,7 @@ public class AnimediaTitlesTestBuilder {
 				.dataListOnAnimedia(FIRST_DATA_LIST)
 				.minOnAnimedia(FIRST_EPISODE)
 				.titleNameOnMAL(ANNOUNCEMENT_TITLE_NAME)
-				.titleIdOnMAL(ANNOUNCEMENT_TITLE_MAL_ANIME_ID)
+				.titleIdOnMal(ANNOUNCEMENT_TITLE_MAL_ANIME_ID)
 				.build();
 	}
 
@@ -124,7 +124,7 @@ public class AnimediaTitlesTestBuilder {
 				.dataListOnAnimedia("1")
 				.minOnAnimedia("1")
 				.titleNameOnMAL(REGULAR_TITLE_NAME)
-				.titleIdOnMAL(REGULAR_TITLE_MAL_ANIME_ID)
+				.titleIdOnMal(REGULAR_TITLE_MAL_ANIME_ID)
 				.build();
 	}
 

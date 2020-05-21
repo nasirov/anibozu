@@ -44,7 +44,7 @@ public class AnimediaGitHubResourcesServiceTest {
 		//then
 		assertEquals(expected.size(), result.size());
 		expected.forEach(x -> {
-			Set<AnimediaTitle> animediaTitlesByAnimediaTitleIdOnMal = result.get(x.getTitleIdOnMAL());
+			Set<AnimediaTitle> animediaTitlesByAnimediaTitleIdOnMal = result.get(x.getTitleIdOnMal());
 			assertEquals(1, animediaTitlesByAnimediaTitleIdOnMal.size());
 			assertTrue(animediaTitlesByAnimediaTitleIdOnMal.contains(x));
 		});

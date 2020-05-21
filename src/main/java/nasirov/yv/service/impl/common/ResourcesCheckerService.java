@@ -57,7 +57,7 @@ public class ResourcesCheckerService implements ResourcesCheckerServiceI {
 		List<AnimediaTitle> notFoundOnMal = new LinkedList<>();
 		for (AnimediaTitle animediaTitle : animediaTitles) {
 			String titleOnMAL = animediaTitle.getTitleNameOnMAL();
-			Integer titleIdOnMAL = animediaTitle.getTitleIdOnMAL();
+			Integer titleIdOnMAL = animediaTitle.getTitleIdOnMal();
 			if (!isTitleNotFoundOnMAL(animediaTitle)) {
 				boolean titleExist = malService.isTitleExist(titleOnMAL, titleIdOnMAL);
 				if (!titleExist) {
@@ -68,7 +68,7 @@ public class ResourcesCheckerService implements ResourcesCheckerServiceI {
 							.dataListOnAnimedia(animediaTitle.getDataListOnAnimedia())
 							.minOnAnimedia(animediaTitle.getMinOnAnimedia())
 							.titleNameOnMAL(titleOnMAL)
-							.titleIdOnMAL(titleIdOnMAL)
+							.titleIdOnMal(titleIdOnMAL)
 							.build());
 				}
 			}

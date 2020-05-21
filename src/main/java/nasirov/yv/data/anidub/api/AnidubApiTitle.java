@@ -1,22 +1,24 @@
 package nasirov.yv.data.anidub.api;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
+import lombok.experimental.SuperBuilder;
 import nasirov.yv.data.github.GitHubResource;
 
 /**
  * Created by nasirov.yv
  */
-@JsonIgnoreProperties(ignoreUnknown = true)
-@Data
-@Builder
+@Getter
+@Setter
+@SuperBuilder
 @NoArgsConstructor
-@AllArgsConstructor
-public class AnidubApiTitle implements GitHubResource {
+@ToString(callSuper = true)
+@EqualsAndHashCode(callSuper = true)
+public class AnidubApiTitle extends GitHubResource {
 
 	@JsonProperty(value = "id")
 	private Integer id;
@@ -32,7 +34,4 @@ public class AnidubApiTitle implements GitHubResource {
 
 	@JsonProperty(value = "title_ru")
 	private String ruName;
-
-	@JsonProperty(value = "titleIdOnMAL")
-	private Integer titleIdOnMal;
 }

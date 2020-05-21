@@ -44,7 +44,7 @@ public class AnimediaGitHubResourcesService implements AnimediaGitHubResourcesSe
 
 	private List<Integer> extractDistinctTitleIdOnMalList(Set<AnimediaTitle> animediaTitles) {
 		return animediaTitles.stream()
-				.map(AnimediaTitle::getTitleIdOnMAL)
+				.map(AnimediaTitle::getTitleIdOnMal)
 				.filter(Objects::nonNull)
 				.distinct()
 				.collect(Collectors.toList());
@@ -57,7 +57,7 @@ public class AnimediaGitHubResourcesService implements AnimediaGitHubResourcesSe
 
 	private Set<AnimediaTitle> extractAnimediaTitlesByTitleIdOnMal(Set<AnimediaTitle> animediaTitles, Integer titleIdOnMal) {
 		return animediaTitles.stream()
-				.filter(x -> titleIdOnMal.equals(x.getTitleIdOnMAL()))
+				.filter(x -> titleIdOnMal.equals(x.getTitleIdOnMal()))
 				.collect(Collectors.toSet());
 	}
 }
