@@ -16,7 +16,7 @@ import org.apache.commons.lang3.tuple.Pair;
  */
 @Slf4j
 @RequiredArgsConstructor
-public abstract class BaseTitlesService<T extends GitHubResource> implements TitlesServiceI {
+public abstract class BaseTitlesService<T extends GitHubResource> implements TitlesServiceI<T> {
 
 	private final GitHubResourcesServiceI gitHubResourcesService;
 
