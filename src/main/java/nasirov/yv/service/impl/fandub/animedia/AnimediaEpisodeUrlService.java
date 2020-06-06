@@ -66,9 +66,9 @@ public class AnimediaEpisodeUrlService implements EpisodeUrlServiceI {
 	 * <p>
 	 * it happens when data list contain several titles
 	 * <p>
-	 * for example, 1-2 https://online.animedia.tv/anime/tamayura/2/1 Tamayura  1-1
+	 * for example, 1-2 https://online.animedia.pro/anime/tamayura/2/1 Tamayura  1-1
 	 * <p>
-	 * 3-4 https://online.animedia.tv/anime/tamayura/2/2 Tamayura  2-2
+	 * 3-4 https://online.animedia.pro/anime/tamayura/2/2 Tamayura  2-2
 	 *
 	 * @param matchedAnimediaTitles animedia titles with equal title id on mal and data list
 	 * @param watchingTitle         user watching title
@@ -118,9 +118,9 @@ public class AnimediaEpisodeUrlService implements EpisodeUrlServiceI {
 	 * <p>
 	 * Uses for animedia titles with concretized episodes on MAL
 	 * <p>
-	 * 1-2 https://online.animedia.tv/anime/tamayura/2/1 Tamayura  1-1
+	 * 1-2 https://online.animedia.pro/anime/tamayura/2/1 Tamayura  1-1
 	 * <p>
-	 * 3-4 https://online.animedia.tv/anime/tamayura/2/2 Tamayura  2-2
+	 * 3-4 https://online.animedia.pro/anime/tamayura/2/2 Tamayura  2-2
 	 *
 	 * @param animediaTitle animedia titles with concretized episodes on MAL
 	 * @param malTitle      mal title

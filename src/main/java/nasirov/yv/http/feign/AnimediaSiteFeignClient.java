@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
  */
 @FeignClient(value = "animedia-site-feign-client", configuration = FeignClientConfig.class, fallbackFactory =
 		AnimediaSiteFeignClientFallbackFactory.class)
-@RequestMapping(headers = {"Accept-Encoding=gzip, br"})
+@RequestMapping(headers = {"User-Agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:75.0) Gecko/20100101 Firefox/75.0", "Accept-Encoding=gzip, br"})
 public interface AnimediaSiteFeignClient {
 
 	@GetMapping(value = "/ajax/search_result_search_page_2/P{offset}search&limit={limit}", produces = "text/html; charset=UTF-8")
