@@ -95,7 +95,7 @@ public class AnimediaEpisodeUrlService implements EpisodeUrlServiceI {
 	 * <p>
 	 * it happens when one season separated on several tabs
 	 * <p>
-	 * http://online.animedia.tv/anime/one-piece-van-pis-tv/
+	 * http://online.animedia.pro/anime/one-piece-van-pis-tv/
 	 *
 	 * @param matchedAnimediaTitles animedia titles with equal title id on mal
 	 */
