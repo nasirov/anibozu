@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
  * Created by nasirov.yv
  */
 @FeignClient(value = "mal-feign-client", configuration = FeignClientConfig.class, fallbackFactory = MALFeignClientFallbackFactory.class)
-@RequestMapping(headers = {"Accept-Encoding=gzip, br"})
+@RequestMapping(headers = {"User-Agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:75.0) Gecko/20100101 Firefox/75.0", "Accept-Encoding=gzip, br"})
 public interface MALFeignClient {
 
 	@GetMapping(value = "/profile/{username}", produces = "text/html; charset=UTF-8")
