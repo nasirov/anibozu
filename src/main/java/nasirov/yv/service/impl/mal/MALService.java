@@ -18,8 +18,10 @@ import nasirov.yv.data.mal.MALSearchTitleInfo;
 import nasirov.yv.data.mal.MalTitle;
 import nasirov.yv.data.properties.MalProps;
 import nasirov.yv.data.properties.UrlsNames;
+import nasirov.yv.exception.mal.MALForbiddenException;
 import nasirov.yv.exception.mal.MALUserAccountNotFoundException;
 import nasirov.yv.exception.mal.MALUserAnimeListAccessException;
+import nasirov.yv.exception.mal.MalException;
 import nasirov.yv.exception.mal.WatchingTitlesNotFoundException;
 import nasirov.yv.http.feign.MALFeignClient;
 import nasirov.yv.parser.MALParserI;
@@ -67,8 +69,7 @@ public class MALService implements MALServiceI {
 	 */
 	@Override
 	@Cacheable(value = "mal", key = "#username", unless = "#result?.isEmpty()")
-	public List<MalTitle> getWatchingTitles(String username)
-			throws WatchingTitlesNotFoundException, MALUserAccountNotFoundException, MALUserAnimeListAccessException {
+	public List<MalTitle> getWatchingTitles(String username) throws MalException {
 		log.debug("Trying to get watching titles for [{}]...", username);
 		String userProfile = extractUserProfile(username);
 		int numberOfUserWatchingTitles = extractNumberOfWatchingTitles(userProfile, username);
@@ -99,11 +100,10 @@ public class MALService implements MALServiceI {
 				.anyMatch(title -> isTargetTitle(titleNameOnMal, titleIdOnMal, title));
 	}
 
-	private String extractUserProfile(String username) throws MALUserAccountNotFoundException {
+	private String extractUserProfile(String username) throws MALUserAccountNotFoundException, MALForbiddenException {
 		ResponseEntity<String> malResponseWithUserProfile = malFeignClient.getUserProfile(username);
-		String userProfile = malResponseWithUserProfile.getBody();
-		validateUserAccountExistence(malResponseWithUserProfile, username);
-		return userProfile;
+		validateMalResponse(malResponseWithUserProfile, username);
+		return malResponseWithUserProfile.getBody();
 	}
 
 	private int extractNumberOfWatchingTitles(String userProfile, String username) throws WatchingTitlesNotFoundException {
@@ -202,12 +202,16 @@ public class MALService implements MALServiceI {
 	 * @param malResponseWithUserProfile a MAL response with an user profile
 	 * @param username                   the MAL username
 	 * @throws MALUserAccountNotFoundException if a response status == 404
+	 * @throws MALForbiddenException           if a response status == 403
 	 */
-	private void validateUserAccountExistence(ResponseEntity<String> malResponseWithUserProfile, String username)
-			throws MALUserAccountNotFoundException {
-		if (malResponseWithUserProfile.getStatusCode()
-				.equals(HttpStatus.NOT_FOUND)) {
+	private void validateMalResponse(ResponseEntity<String> malResponseWithUserProfile, String username)
+			throws MALUserAccountNotFoundException, MALForbiddenException {
+		HttpStatus responseStatus = malResponseWithUserProfile.getStatusCode();
+		if (responseStatus.equals(HttpStatus.NOT_FOUND)) {
 			throw new MALUserAccountNotFoundException("MAL account " + username + " is not found");
+		}
+		if (responseStatus.equals(HttpStatus.FORBIDDEN)) {
+			throw new MALForbiddenException("Sorry, " + username + ", but MAL rejected our requests with status 403.");
 		}
 	}
 

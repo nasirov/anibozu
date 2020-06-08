@@ -2,6 +2,7 @@ package nasirov.yv.http.fallback;
 
 import static nasirov.yv.data.mal.MALCategories.ANIME;
 import static org.springframework.http.HttpStatus.BAD_REQUEST;
+import static org.springframework.http.HttpStatus.FORBIDDEN;
 import static org.springframework.http.HttpStatus.NOT_FOUND;
 
 import com.google.common.collect.Lists;
@@ -32,8 +33,8 @@ public class MALFeignClientFallbackFactory implements FallbackFactory<MALFeignCl
 			@Override
 			public ResponseEntity<String> getUserProfile(String username) {
 				log.error("MALFeignClient fallback during call /profile/{} | Cause message [{}]", username, cause.getMessage());
-				if (httpStatus == NOT_FOUND.value()) {
-					return ResponseEntity.notFound()
+				if (httpStatus == NOT_FOUND.value() || httpStatus == FORBIDDEN.value()) {
+					return ResponseEntity.status(httpStatus)
 							.build();
 				}
 				throw new UnexpectedCallingException(cause);

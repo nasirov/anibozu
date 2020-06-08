@@ -11,6 +11,7 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.springframework.http.HttpStatus.BAD_REQUEST;
+import static org.springframework.http.HttpStatus.FORBIDDEN;
 import static org.springframework.http.HttpStatus.NOT_FOUND;
 import static org.springframework.http.HttpStatus.OK;
 
@@ -21,6 +22,7 @@ import java.util.List;
 import java.util.Set;
 import nasirov.yv.AbstractTest;
 import nasirov.yv.data.mal.MalTitle;
+import nasirov.yv.exception.mal.MALForbiddenException;
 import nasirov.yv.exception.mal.MALUserAccountNotFoundException;
 import nasirov.yv.exception.mal.MALUserAnimeListAccessException;
 import nasirov.yv.exception.mal.WatchingTitlesNotFoundException;
@@ -58,6 +60,12 @@ public class MALServiceTest extends AbstractTest {
 	@Test(expected = MALUserAccountNotFoundException.class)
 	public void getWatchingTitlesMALUserAccountNotFound() throws Exception {
 		createStubWithContent("/profile/" + TEST_ACC_FOR_DEV, TEXT_HTML_CHARSET_UTF_8, "", NOT_FOUND.value());
+		malService.getWatchingTitles(TEST_ACC_FOR_DEV);
+	}
+
+	@Test(expected = MALForbiddenException.class)
+	public void getWatchingTitlesMALForbiddenException() throws Exception {
+		createStubWithContent("/profile/" + TEST_ACC_FOR_DEV, TEXT_HTML_CHARSET_UTF_8, "", FORBIDDEN.value());
 		malService.getWatchingTitles(TEST_ACC_FOR_DEV);
 	}
 
