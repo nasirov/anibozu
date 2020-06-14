@@ -97,6 +97,10 @@ jisedai-site-feign-client:
   ribbon:
     listOfServers: https://jisedai.tv
 
+anime-pik-api-feign-client:
+  ribbon:
+    listOfServers: https://animepik.org
+
 ribbon:
   eureka:
     enabled: false
