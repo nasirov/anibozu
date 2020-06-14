@@ -35,6 +35,7 @@ public class TestConstants {
 	public static final String REGULAR_TITLE_ANIDUB_SITE_URL = "anime/full/4321-regular-title-url.html";
 	public static final String REGULAR_TITLE_JISEDAI_SITE_URL = "anime/1-regular-title-url";
 	public static final String REGULAR_TITLE_ANIMEPIK_SITE_URL = "anime/1";
+	public static final String REGULAR_TITLE_ANIMEPIK_RESOURCES_URL = "/1.txt";
 	public static final String REGULAR_TITLE_NINE_ANIME_DATA_ID = "12rtm34";
 	public static final String REGULAR_TITLE_DUB_NINE_ANIME_DATA_ID = "56rtm78";
 	public static final String REGULAR_TITLE_DUB_AVAILABLE_EPISODE_ID = "1efrtm";
@@ -98,6 +99,7 @@ public class TestConstants {
 	public static final String NINE_ANIME_TO = "https://9anime.to";
 	public static final String ANIDUB_URL = "https://anime.anidub.life/";
 	public static final String JISEDAI_URL = "https://jisedai.tv/";
+	public static final String ANIMEPIK_URL = "https://animepik.org/";
 
 	public static final int TEST_ACC_WATCHING_TITLES = 2;
 

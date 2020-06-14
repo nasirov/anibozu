@@ -1,0 +1,12 @@
+[
+  {
+    "id": 0,
+    "url": "anime/0-announcement-url",
+    "titleIdOnMal": null
+  },
+  {
+    "id": 1,
+    "url": "anime/1-regular-title-url",
+    "titleIdOnMal": 2
+  }
+]

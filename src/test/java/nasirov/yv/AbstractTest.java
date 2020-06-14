@@ -14,6 +14,7 @@ import java.util.Map;
 import java.util.stream.Stream;
 import nasirov.yv.data.anidub.api.AnidubApiTitle;
 import nasirov.yv.data.anidub.site.AnidubSiteTitle;
+import nasirov.yv.data.anime_pik.api.AnimepikTitle;
 import nasirov.yv.data.jisedai.site.JisedaiSiteTitle;
 import nasirov.yv.data.properties.AnimediaProps;
 import nasirov.yv.data.properties.GitHubAuthProps;
@@ -24,8 +25,11 @@ import nasirov.yv.http.feign.AnidubApiFeignClient;
 import nasirov.yv.http.feign.AnidubSiteFeignClient;
 import nasirov.yv.http.feign.AnimediaApiFeignClient;
 import nasirov.yv.http.feign.AnimediaSiteFeignClient;
+import nasirov.yv.http.feign.AnimepikApiFeignClient;
+import nasirov.yv.http.feign.AnimepikResourcesFeignClient;
 import nasirov.yv.http.feign.JisedaiSiteFeignClient;
 import nasirov.yv.parser.AnidubParserI;
+import nasirov.yv.parser.AnimepikParserI;
 import nasirov.yv.parser.JisedaiParserI;
 import nasirov.yv.parser.WrappedObjectMapperI;
 import nasirov.yv.service.AnimeServiceI;
@@ -43,6 +47,8 @@ import nasirov.yv.service.impl.fandub.anidub.AnidubSiteTitleService;
 import nasirov.yv.service.impl.fandub.animedia.AnimediaApiService;
 import nasirov.yv.service.impl.fandub.animedia.AnimediaEpisodeUrlService;
 import nasirov.yv.service.impl.fandub.animedia.AnimediaSiteService;
+import nasirov.yv.service.impl.fandub.animepik.AnimepikEpisodeUrlService;
+import nasirov.yv.service.impl.fandub.animepik.AnimepikTitleService;
 import nasirov.yv.service.impl.fandub.jisedai.JisedaiEpisodeUrlService;
 import nasirov.yv.service.impl.fandub.jisedai.JisedaiSiteTitleService;
 import nasirov.yv.service.impl.fandub.nine_anime.NineAnimeEpisodeUrlService;
@@ -135,10 +141,19 @@ public abstract class AbstractTest {
 	protected JisedaiSiteFeignClient jisedaiSiteFeignClient;
 
 	@Autowired
+	protected AnimepikApiFeignClient animepikApiFeignClient;
+
+	@Autowired
+	protected AnimepikResourcesFeignClient animepikResourcesFeignClient;
+
+	@Autowired
 	protected AnidubParserI anidubParser;
 
 	@Autowired
 	protected JisedaiParserI jisedaiParser;
+
+	@Autowired
+	protected AnimepikParserI animepikParser;
 
 	@Autowired
 	protected UrlsNames urlsNames;
@@ -159,6 +174,10 @@ public abstract class AbstractTest {
 
 	protected JisedaiEpisodeUrlService jisedaiSiteEpisodeUrlService;
 
+	protected TitlesServiceI<AnimepikTitle> animepikTitleTitlesService;
+
+	protected AnimepikEpisodeUrlService animepikEpisodeUrlService;
+
 	@Before
 	public void setUp() {
 		animediaApiService = new AnimediaApiService(animediaApiFeignClient);
@@ -170,6 +189,8 @@ public abstract class AbstractTest {
 		anidubApiEpisodeUrlService = new AnidubApiEpisodeUrlService(anidubApiFeignClient, anidubApiTitleService, anidubParser);
 		anidubSiteEpisodeUrlService = new AnidubSiteEpisodeUrlService(anidubSiteFeignClient, anidubSiteTitleService, anidubParser, urlsNames);
 		jisedaiSiteEpisodeUrlService = new JisedaiEpisodeUrlService(jisedaiSiteFeignClient, jisedaiSiteTitleService, jisedaiParser, urlsNames);
+		animepikTitleTitlesService = new AnimepikTitleService(githubResourcesService, gitHubResourceProps);
+		animepikEpisodeUrlService = new AnimepikEpisodeUrlService(animepikTitleTitlesService, animepikResourcesFeignClient, urlsNames, animepikParser);
 	}
 
 	@After

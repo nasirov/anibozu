@@ -1,0 +1,22 @@
+[
+  {
+    "titleIdOnMal": null,
+    "id": 0,
+    "title": {
+      "EN": [
+        "announcement title name"
+      ]
+    },
+    "url": "anime/0"
+  },
+  {
+    "titleIdOnMal": 2,
+    "id": 1,
+    "title": {
+      "EN": [
+        "regular title name"
+      ]
+    },
+    "url": "anime/1"
+  }
+]

@@ -40,3 +40,11 @@ anidub-site-feign-client:
 jisedai-site-feign-client:
   ribbon:
     listOfServers: localhost:${wiremock.server.port}
+
+anime-pik-api-feign-client:
+  ribbon:
+    listOfServers: localhost:${wiremock.server.port}
+
+anime-pik-resources-feign-client:
+  ribbon:
+    listOfServers: localhost:${wiremock.server.port}
