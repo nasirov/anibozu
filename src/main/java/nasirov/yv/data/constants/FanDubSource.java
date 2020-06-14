@@ -11,7 +11,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public enum FanDubSource {
 
-	ANIMEDIA("animedia"), NINEANIME("nineAnime"), ANIDUB("anidub"), JISEDAI("jisedai");
+	ANIMEDIA("animedia"), NINEANIME("nineAnime"), ANIDUB("anidub"), JISEDAI("jisedai"), ANIMEPIK("animepik");
 
 	@Getter
 	private final String name;
