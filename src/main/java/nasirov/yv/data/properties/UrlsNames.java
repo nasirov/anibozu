@@ -31,6 +31,9 @@ public class UrlsNames {
 	@NotNull
 	private JisedaiUrls jisedaiUrls;
 
+	@NotNull
+	private AnimePikUrls animePikUrls;
+
 	@Data
 	@Validated
 	public static class AnimediaUrls {
@@ -72,5 +75,16 @@ public class UrlsNames {
 
 		@NotBlank
 		private String jisedaiSiteUrl;
+	}
+
+	@Data
+	@Validated
+	public static class AnimePikUrls {
+
+		@NotBlank
+		private String animePikUrl;
+
+		@NotBlank
+		private String animePikResourcesUrl;
 	}
 }

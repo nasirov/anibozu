@@ -17,6 +17,9 @@ application:
       anidub-site-url: https://anime.anidub.life/
     jisedai-urls:
       jisedai-site-url: https://jisedai.tv/
+    animepik-urls:
+      animepik-url: https://animepik.org/
+      animepik-resources-url: https://cdn.iss.one
   services:
     applicationLogoPrinter-enabled: true
     animedia-service-source: site #api | site
