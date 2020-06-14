@@ -18,7 +18,7 @@ import nasirov.yv.data.github.GitHubResource;
 @NoArgsConstructor
 @ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = true)
-public class AnimePikTitle extends GitHubResource {
+public class AnimepikTitle extends GitHubResource {
 
 	@JsonProperty(value = "id")
 	private Integer id;

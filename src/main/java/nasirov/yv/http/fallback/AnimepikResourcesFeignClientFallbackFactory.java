@@ -4,8 +4,8 @@ import feign.hystrix.FallbackFactory;
 import java.util.Collections;
 import java.util.List;
 import lombok.extern.slf4j.Slf4j;
-import nasirov.yv.data.anime_pik.api.AnimePikEpisode;
-import nasirov.yv.http.feign.AnimePikResourcesFeignClient;
+import nasirov.yv.data.anime_pik.api.AnimepikEpisode;
+import nasirov.yv.http.feign.AnimepikResourcesFeignClient;
 import org.springframework.stereotype.Component;
 
 /**
@@ -13,17 +13,17 @@ import org.springframework.stereotype.Component;
  */
 @Slf4j
 @Component
-public class AnimePikResourcesFeignClientFallbackFactory implements FallbackFactory<AnimePikResourcesFeignClient> {
+public class AnimepikResourcesFeignClientFallbackFactory implements FallbackFactory<AnimepikResourcesFeignClient> {
 
 	@Override
-	public AnimePikResourcesFeignClient create(Throwable cause) {
+	public AnimepikResourcesFeignClient create(Throwable cause) {
 		return titleId -> {
 			log.error("AnimePikResourcesFeignClient fallback during call /{}.txt | Cause message [{}]", titleId, cause.getMessage());
 			return buildSafeResponse();
 		};
 	}
 
-	private List<AnimePikEpisode> buildSafeResponse() {
+	private List<AnimepikEpisode> buildSafeResponse() {
 		return Collections.emptyList();
 	}
 }

@@ -14,8 +14,8 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class AnimePikApiResponse {
+public class AnimepikApiResponse {
 
 	@JsonProperty(value = "releases")
-	private List<AnimePikTitle> titles;
+	private List<AnimepikTitle> titles;
 }

@@ -12,7 +12,7 @@ import java.lang.reflect.Type;
 import java.util.Collection;
 import java.util.Map;
 import java.util.regex.Pattern;
-import nasirov.yv.data.anime_pik.api.AnimePikEpisode;
+import nasirov.yv.data.anime_pik.api.AnimepikEpisode;
 import nasirov.yv.data.animedia.site.SiteEpisode;
 import org.springframework.http.MediaType;
 
@@ -31,7 +31,7 @@ public class HeaderReplacerDecoder implements Decoder {
 	/**
 	 * Pattern for AnimePik episodes deserialization
 	 * <p>
-	 * Should be replaced with {@link MediaType#APPLICATION_JSON_VALUE} in order deserialize json to {@link AnimePikEpisode}
+	 * Should be replaced with {@link MediaType#APPLICATION_JSON_VALUE} in order deserialize json to {@link AnimepikEpisode}
 	 */
 	private static final Pattern ANIME_PIK_RESOURCES_ENDPOINT = Pattern.compile("/\\d+.txt$");
 

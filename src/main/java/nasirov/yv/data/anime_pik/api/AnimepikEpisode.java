@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class AnimePikEpisode {
+public class AnimepikEpisode {
 
 	@JsonProperty(value = "title")
 	private String name;
