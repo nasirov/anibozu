@@ -12,7 +12,7 @@ import java.lang.reflect.Type;
 import java.util.Collection;
 import java.util.Map;
 import java.util.regex.Pattern;
-import nasirov.yv.data.anime_pik.site.AnimePikEpisode;
+import nasirov.yv.data.anime_pik.api.AnimePikEpisode;
 import nasirov.yv.data.animedia.site.SiteEpisode;
 import org.springframework.http.MediaType;
 

@@ -1,4 +1,4 @@
-package nasirov.yv.data.anime_pik.site;
+package nasirov.yv.data.anime_pik.api;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.List;
@@ -14,8 +14,8 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class AnimePikApiResponse {
+public class TitleName {
 
-	@JsonProperty(value = "releases")
-	private List<AnimePikTitle> titles;
+	@JsonProperty(value = "EN")
+	private List<String> enNames;
 }

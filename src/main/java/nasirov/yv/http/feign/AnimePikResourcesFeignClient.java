@@ -1,7 +1,7 @@
 package nasirov.yv.http.feign;
 
 import java.util.List;
-import nasirov.yv.data.anime_pik.site.AnimePikEpisode;
+import nasirov.yv.data.anime_pik.api.AnimePikEpisode;
 import nasirov.yv.http.config.FeignClientConfig;
 import nasirov.yv.http.fallback.AnimePikResourcesFeignClientFallbackFactory;
 import org.springframework.cloud.openfeign.FeignClient;

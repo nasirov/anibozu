@@ -1,4 +1,4 @@
-package nasirov.yv.data.anime_pik.site;
+package nasirov.yv.data.anime_pik.api;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.EqualsAndHashCode;

@@ -3,7 +3,7 @@ package nasirov.yv.http.fallback;
 import feign.hystrix.FallbackFactory;
 import java.util.Collections;
 import lombok.extern.slf4j.Slf4j;
-import nasirov.yv.data.anime_pik.site.AnimePikApiResponse;
+import nasirov.yv.data.anime_pik.api.AnimePikApiResponse;
 import nasirov.yv.http.feign.AnimePikApiFeignClient;
 import org.springframework.stereotype.Component;
 
