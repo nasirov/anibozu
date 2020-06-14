@@ -35,7 +35,7 @@ application:
     github:
       name: github
       ttl: 3600
-      max-entity-count: 3
+      max-entity-count: 4
     sse:
       name: sse
       ttl: 300
