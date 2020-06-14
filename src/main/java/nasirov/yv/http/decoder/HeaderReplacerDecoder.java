@@ -11,6 +11,8 @@ import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.Collection;
 import java.util.Map;
+import java.util.regex.Pattern;
+import nasirov.yv.data.anime_pik.site.AnimePikEpisode;
 import nasirov.yv.data.animedia.site.SiteEpisode;
 import org.springframework.http.MediaType;
 
@@ -25,6 +27,13 @@ public class HeaderReplacerDecoder implements Decoder {
 	 * Should be replaced with {@link MediaType#APPLICATION_JSON_VALUE} in order deserialize json to {@link SiteEpisode}
 	 */
 	private static final String ANIMEDIA_DATA_LIST_INFO_ENDPOINT = "/embeds/playlist-j.txt/";
+
+	/**
+	 * Pattern for AnimePik episodes deserialization
+	 * <p>
+	 * Should be replaced with {@link MediaType#APPLICATION_JSON_VALUE} in order deserialize json to {@link AnimePikEpisode}
+	 */
+	private static final Pattern ANIME_PIK_RESOURCES_ENDPOINT = Pattern.compile("/\\d+.txt$");
 
 	private final Decoder delegate;
 
@@ -47,9 +56,10 @@ public class HeaderReplacerDecoder implements Decoder {
 	}
 
 	private boolean isContentTypeHeaderNeedsReplace(Response response) {
-		return response.request()
-				.url()
-				.contains(ANIMEDIA_DATA_LIST_INFO_ENDPOINT);
+		String url = response.request()
+				.url();
+		return url.contains(ANIMEDIA_DATA_LIST_INFO_ENDPOINT) || ANIME_PIK_RESOURCES_ENDPOINT.matcher(url)
+				.find();
 	}
 
 	private void replaceContentTypeHeaderForJsonDeserialization(Collection<String> contentTypeValues) {

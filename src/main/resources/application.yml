@@ -101,6 +101,10 @@ anime-pik-api-feign-client:
   ribbon:
     listOfServers: https://animepik.org
 
+anime-pik-resources-feign-client:
+  ribbon:
+    listOfServers: https://cdn.iss.one
+
 ribbon:
   eureka:
     enabled: false
