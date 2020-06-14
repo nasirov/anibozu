@@ -57,6 +57,7 @@ application:
       anidub-api-titles: anidubApiTitles.json
       anidub-site-titles: anidubSiteTitles.json
       jisedai-site-titles: jisedaiSiteTitles.json
+      animepik-titles: animepikTitles.json
 
 server:
   port: ${PORT}
