@@ -20,6 +20,9 @@ The application analyzes an user watching titles from **[MyAnimeList](https://my
   <tr>
     <td><a href="https://jisedai.tv/"><img src="https://www.google.com/s2/favicons?domain=https://jisedai.tv/" alt="jesidai"> Jesidai</a></td>
   </tr>
+   <tr>
+    <td><a href="https://animepik.org/"><img src="https://www.google.com/s2/favicons?domain=https://animepik.org/" alt="animepik"> AnimePiK</a></td>
+  </tr>
   </tbody>
 </table>
 
