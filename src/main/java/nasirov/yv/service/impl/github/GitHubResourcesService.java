@@ -7,7 +7,7 @@ import lombok.extern.slf4j.Slf4j;
 import nasirov.yv.data.github.GitHubResource;
 import nasirov.yv.data.properties.GitHubAuthProps;
 import nasirov.yv.data.properties.GitHubResourceProps;
-import nasirov.yv.http.feign.GitHubFeignClient;
+import nasirov.yv.http.feign.github.GitHubFeignClient;
 import nasirov.yv.parser.WrappedObjectMapperI;
 import nasirov.yv.service.GitHubResourcesServiceI;
 import org.springframework.stereotype.Service;

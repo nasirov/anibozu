@@ -9,7 +9,7 @@ import nasirov.yv.data.anime_pik.api.AnimepikEpisode;
 import nasirov.yv.data.anime_pik.api.AnimepikTitle;
 import nasirov.yv.data.mal.MalTitle;
 import nasirov.yv.data.properties.UrlsNames;
-import nasirov.yv.http.feign.AnimepikResourcesFeignClient;
+import nasirov.yv.http.feign.fandub.animepik.api.AnimepikResourcesFeignClient;
 import nasirov.yv.parser.AnimepikParserI;
 import nasirov.yv.service.TitlesServiceI;
 import nasirov.yv.service.impl.common.BaseEpisodeUrlService;

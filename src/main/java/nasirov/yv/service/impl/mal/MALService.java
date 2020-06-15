@@ -23,7 +23,7 @@ import nasirov.yv.exception.mal.MALUserAccountNotFoundException;
 import nasirov.yv.exception.mal.MALUserAnimeListAccessException;
 import nasirov.yv.exception.mal.MalException;
 import nasirov.yv.exception.mal.WatchingTitlesNotFoundException;
-import nasirov.yv.http.feign.MALFeignClient;
+import nasirov.yv.http.feign.mal.MALFeignClient;
 import nasirov.yv.parser.MALParserI;
 import nasirov.yv.service.MALServiceI;
 import org.springframework.cache.annotation.Cacheable;

@@ -8,7 +8,7 @@ import java.util.stream.Collectors;
 import nasirov.yv.data.jisedai.site.JisedaiSiteTitle;
 import nasirov.yv.data.mal.MalTitle;
 import nasirov.yv.data.properties.UrlsNames;
-import nasirov.yv.http.feign.JisedaiSiteFeignClient;
+import nasirov.yv.http.feign.fandub.jisedai.site.JisedaiSiteFeignClient;
 import nasirov.yv.parser.JisedaiParserI;
 import nasirov.yv.service.TitlesServiceI;
 import nasirov.yv.service.impl.common.BaseEpisodeUrlService;

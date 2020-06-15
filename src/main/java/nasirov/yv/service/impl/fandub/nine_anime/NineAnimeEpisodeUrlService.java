@@ -17,7 +17,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import nasirov.yv.data.mal.MalTitle;
 import nasirov.yv.data.properties.UrlsNames;
-import nasirov.yv.http.feign.NineAnimeFeignClient;
+import nasirov.yv.http.feign.fandub.nine_anime.site.NineAnimeFeignClient;
 import nasirov.yv.service.EpisodeUrlServiceI;
 import org.apache.commons.lang.StringUtils;
 import org.jsoup.Jsoup;
