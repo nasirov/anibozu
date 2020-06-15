@@ -50,7 +50,7 @@ import static org.mockito.Mockito.doReturn;
 import java.util.LinkedList;
 import java.util.List;
 import nasirov.yv.AbstractTest;
-import nasirov.yv.data.animedia.AnimediaTitle;
+import nasirov.yv.data.fandub.animedia.AnimediaTitle;
 import nasirov.yv.data.mal.MalTitle;
 import org.assertj.core.util.Lists;
 import org.junit.Before;

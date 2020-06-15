@@ -26,7 +26,7 @@ import java.util.ArrayList;
 import java.util.List;
 import lombok.SneakyThrows;
 import lombok.experimental.UtilityClass;
-import nasirov.yv.data.animedia.AnimediaTitle;
+import nasirov.yv.data.fandub.animedia.AnimediaTitle;
 
 /**
  * Created by nasirov.yv

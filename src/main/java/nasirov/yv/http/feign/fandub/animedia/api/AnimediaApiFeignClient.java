@@ -1,9 +1,9 @@
 package nasirov.yv.http.feign.fandub.animedia.api;
 
 import java.util.Set;
-import nasirov.yv.data.animedia.api.DataListInfoResponse;
-import nasirov.yv.data.animedia.api.SearchListTitle;
-import nasirov.yv.data.animedia.api.TitleInfoResponse;
+import nasirov.yv.data.fandub.animedia.api.DataListInfoResponse;
+import nasirov.yv.data.fandub.animedia.api.SearchListTitle;
+import nasirov.yv.data.fandub.animedia.api.TitleInfoResponse;
 import nasirov.yv.http.config.FeignClientConfig;
 import nasirov.yv.http.fallback.fandub.animedia.api.AnimediaApiFeignClientFallbackFactory;
 import org.springframework.cloud.openfeign.FeignClient;

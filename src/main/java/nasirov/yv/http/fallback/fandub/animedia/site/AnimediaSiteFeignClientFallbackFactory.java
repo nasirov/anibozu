@@ -4,7 +4,7 @@ import feign.hystrix.FallbackFactory;
 import java.util.Collections;
 import java.util.List;
 import lombok.extern.slf4j.Slf4j;
-import nasirov.yv.data.animedia.site.SiteEpisode;
+import nasirov.yv.data.fandub.animedia.site.SiteEpisode;
 import nasirov.yv.http.feign.fandub.animedia.site.AnimediaSiteFeignClient;
 import org.springframework.context.annotation.Configuration;
 

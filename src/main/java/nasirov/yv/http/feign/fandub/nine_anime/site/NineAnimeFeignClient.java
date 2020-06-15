@@ -2,7 +2,7 @@ package nasirov.yv.http.feign.fandub.nine_anime.site;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
-import nasirov.yv.data.nine_anime.SearchDto;
+import nasirov.yv.data.fandub.nine_anime.SearchDto;
 import nasirov.yv.http.config.FeignClientConfig;
 import nasirov.yv.http.fallback.fandub.nine_anime.site.NineAnimeFeignClientFallbackFactory;
 import org.springframework.cloud.openfeign.FeignClient;

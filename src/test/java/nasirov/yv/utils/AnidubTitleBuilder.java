@@ -11,12 +11,12 @@ import static nasirov.yv.utils.TestConstants.REGULAR_TITLE_NAME;
 import com.google.common.collect.Lists;
 import java.util.List;
 import lombok.experimental.UtilityClass;
-import nasirov.yv.data.anidub.api.AnidubApiTitle;
-import nasirov.yv.data.anidub.api.AnidubTitleCategory;
-import nasirov.yv.data.anidub.api.AnidubTitleStatus;
-import nasirov.yv.data.anidub.api.Category;
-import nasirov.yv.data.anidub.api.Status;
-import nasirov.yv.data.anidub.site.AnidubSiteTitle;
+import nasirov.yv.data.fandub.anidub.api.AnidubApiTitle;
+import nasirov.yv.data.fandub.anidub.api.AnidubTitleCategory;
+import nasirov.yv.data.fandub.anidub.api.AnidubTitleStatus;
+import nasirov.yv.data.fandub.anidub.api.Category;
+import nasirov.yv.data.fandub.anidub.api.Status;
+import nasirov.yv.data.fandub.anidub.site.AnidubSiteTitle;
 
 /**
  * Created by nasirov.yv

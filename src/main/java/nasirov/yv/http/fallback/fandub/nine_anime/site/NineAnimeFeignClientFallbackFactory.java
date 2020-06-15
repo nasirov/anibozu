@@ -2,7 +2,7 @@ package nasirov.yv.http.fallback.fandub.nine_anime.site;
 
 import feign.hystrix.FallbackFactory;
 import lombok.extern.slf4j.Slf4j;
-import nasirov.yv.data.nine_anime.SearchDto;
+import nasirov.yv.data.fandub.nine_anime.SearchDto;
 import nasirov.yv.http.feign.fandub.nine_anime.site.NineAnimeFeignClient;
 import org.springframework.stereotype.Component;
 

@@ -4,7 +4,7 @@ import feign.hystrix.FallbackFactory;
 import java.util.Collections;
 import java.util.List;
 import lombok.extern.slf4j.Slf4j;
-import nasirov.yv.data.anime_pik.api.AnimepikEpisode;
+import nasirov.yv.data.fandub.anime_pik.api.AnimepikEpisode;
 import nasirov.yv.http.feign.fandub.animepik.api.AnimepikResourcesFeignClient;
 import org.springframework.stereotype.Component;
 

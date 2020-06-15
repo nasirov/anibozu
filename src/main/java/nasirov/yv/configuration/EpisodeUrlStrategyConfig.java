@@ -8,10 +8,10 @@ import static nasirov.yv.data.constants.FanDubSource.NINEANIME;
 
 import java.util.EnumMap;
 import java.util.Map;
-import nasirov.yv.data.anime_pik.api.AnimepikTitle;
-import nasirov.yv.data.animedia.AnimediaTitle;
+import nasirov.yv.data.fandub.anime_pik.api.AnimepikTitle;
+import nasirov.yv.data.fandub.animedia.AnimediaTitle;
 import nasirov.yv.data.constants.FanDubSource;
-import nasirov.yv.data.jisedai.site.JisedaiSiteTitle;
+import nasirov.yv.data.fandub.jisedai.site.JisedaiSiteTitle;
 import nasirov.yv.service.AnidubEpisodeUrlServiceI;
 import nasirov.yv.service.EpisodeUrlServiceI;
 import nasirov.yv.service.impl.common.BaseEpisodeUrlService;

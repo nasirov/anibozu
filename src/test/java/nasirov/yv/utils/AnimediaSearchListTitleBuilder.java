@@ -7,7 +7,7 @@ import static nasirov.yv.utils.TestConstants.REGULAR_TITLE_URL;
 
 import com.google.common.collect.Lists;
 import lombok.experimental.UtilityClass;
-import nasirov.yv.data.animedia.AnimediaSearchListTitle;
+import nasirov.yv.data.fandub.animedia.AnimediaSearchListTitle;
 
 /**
  * Created by nasirov.yv

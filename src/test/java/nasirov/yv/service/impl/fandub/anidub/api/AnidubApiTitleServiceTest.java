@@ -9,7 +9,7 @@ import static org.mockito.Mockito.doReturn;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
-import nasirov.yv.data.anidub.api.AnidubApiTitle;
+import nasirov.yv.data.fandub.anidub.api.AnidubApiTitle;
 import nasirov.yv.data.properties.GitHubResourceProps;
 import nasirov.yv.service.GitHubResourcesServiceI;
 import org.junit.Test;

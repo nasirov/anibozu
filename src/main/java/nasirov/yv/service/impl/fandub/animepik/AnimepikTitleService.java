@@ -2,7 +2,7 @@ package nasirov.yv.service.impl.fandub.animepik;
 
 import java.util.List;
 import java.util.Map;
-import nasirov.yv.data.anime_pik.api.AnimepikTitle;
+import nasirov.yv.data.fandub.anime_pik.api.AnimepikTitle;
 import nasirov.yv.data.properties.GitHubResourceProps;
 import nasirov.yv.service.GitHubResourcesServiceI;
 import nasirov.yv.service.impl.common.BaseTitlesService;

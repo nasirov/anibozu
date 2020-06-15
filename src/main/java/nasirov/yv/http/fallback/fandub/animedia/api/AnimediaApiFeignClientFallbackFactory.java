@@ -4,10 +4,10 @@ import feign.hystrix.FallbackFactory;
 import java.util.Collections;
 import java.util.Set;
 import lombok.extern.slf4j.Slf4j;
-import nasirov.yv.data.animedia.api.DataListInfoResponse;
-import nasirov.yv.data.animedia.api.SearchListTitle;
-import nasirov.yv.data.animedia.api.TitleInfo;
-import nasirov.yv.data.animedia.api.TitleInfoResponse;
+import nasirov.yv.data.fandub.animedia.api.DataListInfoResponse;
+import nasirov.yv.data.fandub.animedia.api.SearchListTitle;
+import nasirov.yv.data.fandub.animedia.api.TitleInfo;
+import nasirov.yv.data.fandub.animedia.api.TitleInfoResponse;
 import nasirov.yv.http.feign.fandub.animedia.api.AnimediaApiFeignClient;
 import org.springframework.stereotype.Component;
 

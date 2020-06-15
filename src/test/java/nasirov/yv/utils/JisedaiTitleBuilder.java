@@ -9,7 +9,7 @@ import static nasirov.yv.utils.TestConstants.REGULAR_TITLE_MAL_ANIME_ID;
 import com.google.common.collect.Lists;
 import java.util.List;
 import lombok.experimental.UtilityClass;
-import nasirov.yv.data.jisedai.site.JisedaiSiteTitle;
+import nasirov.yv.data.fandub.jisedai.site.JisedaiSiteTitle;
 
 /**
  * Created by nasirov.yv

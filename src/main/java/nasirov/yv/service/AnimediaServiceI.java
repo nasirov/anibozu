@@ -2,7 +2,7 @@ package nasirov.yv.service;
 
 import java.util.List;
 import java.util.Set;
-import nasirov.yv.data.animedia.AnimediaSearchListTitle;
+import nasirov.yv.data.fandub.animedia.AnimediaSearchListTitle;
 import org.springframework.cache.annotation.Cacheable;
 
 /**

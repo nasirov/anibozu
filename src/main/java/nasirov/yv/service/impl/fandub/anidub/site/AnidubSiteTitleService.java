@@ -4,7 +4,7 @@ import static nasirov.yv.data.constants.ServiceSourceType.SITE;
 
 import java.util.List;
 import java.util.Map;
-import nasirov.yv.data.anidub.site.AnidubSiteTitle;
+import nasirov.yv.data.fandub.anidub.site.AnidubSiteTitle;
 import nasirov.yv.data.properties.GitHubResourceProps;
 import nasirov.yv.service.GitHubResourcesServiceI;
 import nasirov.yv.service.impl.common.BaseTitlesService;

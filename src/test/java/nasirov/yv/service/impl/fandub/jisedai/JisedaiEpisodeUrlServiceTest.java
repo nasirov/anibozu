@@ -17,7 +17,7 @@ import static org.mockito.Mockito.doReturn;
 
 import java.util.List;
 import nasirov.yv.AbstractTest;
-import nasirov.yv.data.jisedai.site.JisedaiSiteTitle;
+import nasirov.yv.data.fandub.jisedai.site.JisedaiSiteTitle;
 import nasirov.yv.data.mal.MalTitle;
 import nasirov.yv.service.impl.common.BaseEpisodeUrlService;
 import nasirov.yv.service.impl.fandub.jisedai.site.JisedaiSiteTitleService;

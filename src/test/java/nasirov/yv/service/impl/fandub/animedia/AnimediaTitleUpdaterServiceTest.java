@@ -13,7 +13,7 @@ import com.google.common.collect.Lists;
 import java.util.Collections;
 import java.util.List;
 import nasirov.yv.AbstractTest;
-import nasirov.yv.data.animedia.AnimediaTitle;
+import nasirov.yv.data.fandub.animedia.AnimediaTitle;
 import org.junit.Test;
 
 /**

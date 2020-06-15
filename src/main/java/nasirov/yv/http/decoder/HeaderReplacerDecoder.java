@@ -12,8 +12,8 @@ import java.lang.reflect.Type;
 import java.util.Collection;
 import java.util.Map;
 import java.util.regex.Pattern;
-import nasirov.yv.data.anime_pik.api.AnimepikEpisode;
-import nasirov.yv.data.animedia.site.SiteEpisode;
+import nasirov.yv.data.fandub.anime_pik.api.AnimepikEpisode;
+import nasirov.yv.data.fandub.animedia.site.SiteEpisode;
 import org.springframework.http.MediaType;
 
 /**

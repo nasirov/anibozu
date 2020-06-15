@@ -1,6 +1,6 @@
 package nasirov.yv.http.feign.fandub.animepik.api;
 
-import nasirov.yv.data.anime_pik.api.AnimepikApiResponse;
+import nasirov.yv.data.fandub.anime_pik.api.AnimepikApiResponse;
 import nasirov.yv.http.config.FeignClientConfig;
 import nasirov.yv.http.fallback.fandub.animepik.api.AnimepikApiFeignClientFallbackFactory;
 import org.springframework.cloud.openfeign.FeignClient;

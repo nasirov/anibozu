@@ -7,8 +7,8 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import lombok.experimental.UtilityClass;
-import nasirov.yv.data.animedia.AnimediaSearchListTitle;
-import nasirov.yv.data.animedia.AnimediaTitle;
+import nasirov.yv.data.fandub.animedia.AnimediaSearchListTitle;
+import nasirov.yv.data.fandub.animedia.AnimediaTitle;
 import org.springframework.util.CollectionUtils;
 
 /**

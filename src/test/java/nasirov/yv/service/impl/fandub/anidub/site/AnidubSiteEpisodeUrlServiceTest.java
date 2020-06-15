@@ -17,7 +17,7 @@ import static org.mockito.Mockito.doReturn;
 
 import java.util.List;
 import nasirov.yv.AbstractTest;
-import nasirov.yv.data.anidub.site.AnidubSiteTitle;
+import nasirov.yv.data.fandub.anidub.site.AnidubSiteTitle;
 import nasirov.yv.data.mal.MalTitle;
 import nasirov.yv.service.impl.common.BaseEpisodeUrlService;
 import org.junit.Before;

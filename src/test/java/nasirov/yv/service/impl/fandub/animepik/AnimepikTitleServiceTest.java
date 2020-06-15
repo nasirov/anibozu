@@ -9,7 +9,7 @@ import static org.mockito.Mockito.doReturn;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
-import nasirov.yv.data.anime_pik.api.AnimepikTitle;
+import nasirov.yv.data.fandub.anime_pik.api.AnimepikTitle;
 import nasirov.yv.data.properties.GitHubResourceProps;
 import nasirov.yv.service.GitHubResourcesServiceI;
 import org.junit.Test;

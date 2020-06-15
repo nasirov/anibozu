@@ -11,7 +11,7 @@ import static nasirov.yv.util.AnimediaUtils.isTitleUpdated;
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
-import nasirov.yv.data.animedia.AnimediaTitle;
+import nasirov.yv.data.fandub.animedia.AnimediaTitle;
 import nasirov.yv.parser.AnimediaEpisodeParserI;
 import nasirov.yv.service.AnimediaServiceI;
 import nasirov.yv.service.AnimediaTitlesUpdateServiceI;

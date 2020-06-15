@@ -8,7 +8,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
-import nasirov.yv.data.anidub.site.AnidubSiteTitle;
+import nasirov.yv.data.fandub.anidub.site.AnidubSiteTitle;
 import nasirov.yv.data.mal.MalTitle;
 import nasirov.yv.data.properties.UrlsNames;
 import nasirov.yv.http.feign.fandub.anidub.site.AnidubSiteFeignClient;

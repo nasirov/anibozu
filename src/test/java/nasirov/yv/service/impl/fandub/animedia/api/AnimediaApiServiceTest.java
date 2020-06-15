@@ -11,7 +11,7 @@ import com.google.common.collect.Lists;
 import java.util.List;
 import java.util.Set;
 import nasirov.yv.AbstractTest;
-import nasirov.yv.data.animedia.AnimediaSearchListTitle;
+import nasirov.yv.data.fandub.animedia.AnimediaSearchListTitle;
 import org.junit.Before;
 import org.junit.Test;
 

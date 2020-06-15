@@ -5,8 +5,8 @@ import static nasirov.yv.util.MalUtils.getNextEpisodeForWatch;
 
 import java.util.List;
 import java.util.stream.Collectors;
-import nasirov.yv.data.anime_pik.api.AnimepikEpisode;
-import nasirov.yv.data.anime_pik.api.AnimepikTitle;
+import nasirov.yv.data.fandub.anime_pik.api.AnimepikEpisode;
+import nasirov.yv.data.fandub.anime_pik.api.AnimepikTitle;
 import nasirov.yv.data.mal.MalTitle;
 import nasirov.yv.data.properties.UrlsNames;
 import nasirov.yv.http.feign.fandub.animepik.api.AnimepikResourcesFeignClient;

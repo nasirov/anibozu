@@ -1,7 +1,7 @@
 package nasirov.yv.http.feign.fandub.animedia.site;
 
 import java.util.List;
-import nasirov.yv.data.animedia.site.SiteEpisode;
+import nasirov.yv.data.fandub.animedia.site.SiteEpisode;
 import nasirov.yv.http.config.FeignClientConfig;
 import nasirov.yv.http.fallback.fandub.animedia.site.AnimediaSiteFeignClientFallbackFactory;
 import org.springframework.cloud.openfeign.FeignClient;

@@ -2,7 +2,7 @@ package nasirov.yv.service.impl.fandub.jisedai.site;
 
 import java.util.List;
 import java.util.Map;
-import nasirov.yv.data.jisedai.site.JisedaiSiteTitle;
+import nasirov.yv.data.fandub.jisedai.site.JisedaiSiteTitle;
 import nasirov.yv.data.properties.GitHubResourceProps;
 import nasirov.yv.service.GitHubResourcesServiceI;
 import nasirov.yv.service.impl.common.BaseTitlesService;

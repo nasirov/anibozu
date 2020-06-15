@@ -18,7 +18,7 @@ import static org.mockito.Mockito.doReturn;
 
 import java.util.List;
 import nasirov.yv.AbstractTest;
-import nasirov.yv.data.anime_pik.api.AnimepikTitle;
+import nasirov.yv.data.fandub.anime_pik.api.AnimepikTitle;
 import nasirov.yv.data.mal.MalTitle;
 import nasirov.yv.service.impl.common.BaseEpisodeUrlService;
 import org.junit.Before;

@@ -5,7 +5,7 @@ import static nasirov.yv.util.MalUtils.getNextEpisodeForWatch;
 
 import java.util.List;
 import java.util.stream.Collectors;
-import nasirov.yv.data.jisedai.site.JisedaiSiteTitle;
+import nasirov.yv.data.fandub.jisedai.site.JisedaiSiteTitle;
 import nasirov.yv.data.mal.MalTitle;
 import nasirov.yv.data.properties.UrlsNames;
 import nasirov.yv.http.feign.fandub.jisedai.site.JisedaiSiteFeignClient;
