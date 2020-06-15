@@ -20,6 +20,9 @@ import java.util.List;
 import nasirov.yv.AbstractTest;
 import nasirov.yv.data.anime_pik.api.AnimepikTitle;
 import nasirov.yv.data.mal.MalTitle;
+import nasirov.yv.service.impl.common.BaseEpisodeUrlService;
+import nasirov.yv.service.impl.fandub.animepik.AnimepikEpisodeUrlService;
+import nasirov.yv.service.impl.fandub.animepik.AnimepikTitleService;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -28,11 +31,17 @@ import org.junit.Test;
  */
 public class AnimepikEpisodeUrlServiceTest extends AbstractTest {
 
+	private BaseEpisodeUrlService<AnimepikTitle> animepikEpisodeUrlService;
+
 	@Override
 	@Before
 	public void setUp() {
 		super.setUp();
 		mockGitHubResourcesService(buildAnimepikTitles());
+		animepikEpisodeUrlService = new AnimepikEpisodeUrlService(new AnimepikTitleService(githubResourcesService, gitHubResourceProps),
+				animepikResourcesFeignClient,
+				urlsNames,
+				animepikParser);
 	}
 
 	@Test

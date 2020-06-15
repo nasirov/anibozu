@@ -1,8 +1,6 @@
 package nasirov.yv.service.impl.fandub.anidub;
 
-import static java.util.Objects.nonNull;
 import static nasirov.yv.data.constants.BaseConstants.FINAL_URL_VALUE_IF_EPISODE_IS_NOT_AVAILABLE;
-import static nasirov.yv.data.constants.BaseConstants.NOT_FOUND_ON_FANDUB_SITE_URL;
 import static nasirov.yv.data.constants.ServiceSourceType.SITE;
 import static nasirov.yv.util.MalUtils.getNextEpisodeForWatch;
 
@@ -10,7 +8,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
-import lombok.RequiredArgsConstructor;
 import nasirov.yv.data.anidub.site.AnidubSiteTitle;
 import nasirov.yv.data.mal.MalTitle;
 import nasirov.yv.data.properties.UrlsNames;
@@ -18,6 +15,7 @@ import nasirov.yv.http.feign.AnidubSiteFeignClient;
 import nasirov.yv.parser.AnidubParserI;
 import nasirov.yv.service.AnidubEpisodeUrlServiceI;
 import nasirov.yv.service.TitlesServiceI;
+import nasirov.yv.service.impl.common.BaseEpisodeUrlService;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -28,37 +26,29 @@ import org.springframework.stereotype.Service;
  * Created by nasirov.yv
  */
 @Service
-@RequiredArgsConstructor
 @ConditionalOnProperty(name = "application.services.anidub-episode-url-service-source", havingValue = SITE)
-public class AnidubSiteEpisodeUrlService implements AnidubEpisodeUrlServiceI {
+public class AnidubSiteEpisodeUrlService extends BaseEpisodeUrlService<AnidubSiteTitle> implements AnidubEpisodeUrlServiceI {
 
 	private final AnidubSiteFeignClient anidubSiteFeignClient;
-
-	private final TitlesServiceI<AnidubSiteTitle> anidubSiteTitleService;
 
 	private final AnidubParserI anidubParser;
 
 	private final UrlsNames urlsNames;
 
-	@Override
-	public String getEpisodeUrl(MalTitle watchingTitle) {
-		String url = NOT_FOUND_ON_FANDUB_SITE_URL;
-		AnidubSiteTitle matchedTitle = getMatchedTitle(watchingTitle);
-		if (nonNull(matchedTitle)) {
-			List<Integer> episodes = extractAvailableEpisodes(matchedTitle);
-			url = episodes.contains(getNextEpisodeForWatch(watchingTitle)) ? urlsNames.getAnidubUrls()
-					.getAnidubSiteUrl() + matchedTitle.getUrl() : FINAL_URL_VALUE_IF_EPISODE_IS_NOT_AVAILABLE;
-		}
-		return url;
+	public AnidubSiteEpisodeUrlService(AnidubSiteFeignClient anidubSiteFeignClient, TitlesServiceI<AnidubSiteTitle> anidubSiteTitleService,
+			AnidubParserI anidubParser, UrlsNames urlsNames) {
+		super(anidubSiteTitleService);
+		this.anidubSiteFeignClient = anidubSiteFeignClient;
+		this.anidubParser = anidubParser;
+		this.urlsNames = urlsNames;
 	}
 
-	private AnidubSiteTitle getMatchedTitle(MalTitle watchingTitle) {
-		return Optional.ofNullable(anidubSiteTitleService.getTitles()
-				.get(watchingTitle.getId()))
-				.orElseGet(Collections::emptyList)
-				.stream()
-				.findFirst()
-				.orElse(null);
+	@Override
+	protected String buildUrl(MalTitle watchingTitle, List<AnidubSiteTitle> matchedTitles) {
+		AnidubSiteTitle matchedTitle = matchedTitles.get(0);
+		List<Integer> episodes = extractAvailableEpisodes(matchedTitle);
+		return episodes.contains(getNextEpisodeForWatch(watchingTitle)) ? urlsNames.getAnidubUrls()
+				.getAnidubSiteUrl() + matchedTitle.getUrl() : FINAL_URL_VALUE_IF_EPISODE_IS_NOT_AVAILABLE;
 	}
 
 	private List<Integer> extractAvailableEpisodes(AnidubSiteTitle matchedTitle) {

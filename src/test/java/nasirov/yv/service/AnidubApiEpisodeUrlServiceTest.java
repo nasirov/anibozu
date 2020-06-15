@@ -21,6 +21,9 @@ import java.util.List;
 import nasirov.yv.AbstractTest;
 import nasirov.yv.data.anidub.api.AnidubApiTitle;
 import nasirov.yv.data.mal.MalTitle;
+import nasirov.yv.service.impl.common.BaseEpisodeUrlService;
+import nasirov.yv.service.impl.fandub.anidub.AnidubApiEpisodeUrlService;
+import nasirov.yv.service.impl.fandub.anidub.AnidubApiTitleService;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -29,11 +32,16 @@ import org.junit.Test;
  */
 public class AnidubApiEpisodeUrlServiceTest extends AbstractTest {
 
+	private BaseEpisodeUrlService<AnidubApiTitle> anidubApiEpisodeUrlService;
+
 	@Override
 	@Before
 	public void setUp() {
 		super.setUp();
 		mockGitHubResourcesService(buildAnidubApiTitles());
+		anidubApiEpisodeUrlService = new AnidubApiEpisodeUrlService(anidubApiFeignClient,
+				new AnidubApiTitleService(githubResourcesService, gitHubResourceProps),
+				anidubParser);
 	}
 
 	@Test

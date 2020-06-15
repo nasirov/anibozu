@@ -13,14 +13,13 @@ import static nasirov.yv.util.MalUtils.getNextEpisodeForWatch;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
-import lombok.RequiredArgsConstructor;
 import nasirov.yv.data.animedia.AnimediaTitle;
 import nasirov.yv.data.constants.BaseConstants;
 import nasirov.yv.data.mal.MalTitle;
 import nasirov.yv.data.properties.UrlsNames;
 import nasirov.yv.service.AnimediaTitlesUpdateServiceI;
-import nasirov.yv.service.EpisodeUrlServiceI;
 import nasirov.yv.service.TitlesServiceI;
+import nasirov.yv.service.impl.common.BaseEpisodeUrlService;
 import nasirov.yv.util.AnimediaUtils;
 import org.springframework.stereotype.Service;
 
@@ -28,28 +27,31 @@ import org.springframework.stereotype.Service;
  * Created by nasirov.yv
  */
 @Service
-@RequiredArgsConstructor
-public class AnimediaEpisodeUrlService implements EpisodeUrlServiceI {
+public class AnimediaEpisodeUrlService extends BaseEpisodeUrlService<AnimediaTitle> {
 
 	private static final int UNDEFINED_MAX = 0;
 
 	private final UrlsNames urlsNames;
 
-	private final TitlesServiceI<AnimediaTitle> animediaGitHubResourcesService;
-
 	private final AnimediaTitlesUpdateServiceI animediaTitlesUpdateService;
 
+	public AnimediaEpisodeUrlService(UrlsNames urlsNames, TitlesServiceI<AnimediaTitle> animediaGitHubResourcesService,
+			AnimediaTitlesUpdateServiceI animediaTitlesUpdateService) {
+		super(animediaGitHubResourcesService);
+		this.urlsNames = urlsNames;
+		this.animediaTitlesUpdateService = animediaTitlesUpdateService;
+	}
+
 	@Override
-	public String getEpisodeUrl(MalTitle watchingTitle) {
+	protected String buildUrl(MalTitle watchingTitle, List<AnimediaTitle> matchedTitles) {
 		String result = NOT_FOUND_ON_FANDUB_SITE_URL;
-		List<AnimediaTitle> animediaTitles = getMatchedAnimediaTitles(watchingTitle);
-		animediaTitlesUpdateService.updateAnimediaTitles(animediaTitles);
-		if (animediaTitles.size() == 1) {
-			result = handleOneMatchedResult(animediaTitles, watchingTitle);
+		animediaTitlesUpdateService.updateAnimediaTitles(matchedTitles);
+		if (matchedTitles.size() == 1) {
+			result = handleOneMatchedResult(matchedTitles, watchingTitle);
 		}
-		if (animediaTitles.size() > 1) {
-			result = isMatchedAnimediaTitlesOnSameDataList(animediaTitles) ? handleMoreThanOneMatchedResultOnSameDataList(animediaTitles, watchingTitle)
-					: handleMoreThanOneMatchedResult(animediaTitles, watchingTitle);
+		if (matchedTitles.size() > 1) {
+			result = isMatchedAnimediaTitlesOnSameDataList(matchedTitles) ? handleMoreThanOneMatchedResultOnSameDataList(matchedTitles, watchingTitle)
+					: handleMoreThanOneMatchedResult(matchedTitles, watchingTitle);
 		}
 		return result;
 	}
@@ -106,11 +108,6 @@ public class AnimediaEpisodeUrlService implements EpisodeUrlServiceI {
 				.map(ref -> getFinalUrl(ref, getNextEpisodeForWatch(watchingTitle)))
 				.findFirst()
 				.orElse(NOT_FOUND_ON_FANDUB_SITE_URL);
-	}
-
-	private List<AnimediaTitle> getMatchedAnimediaTitles(MalTitle malTitle) {
-		return animediaGitHubResourcesService.getTitles()
-				.getOrDefault(malTitle.getId(), Collections.emptyList());
 	}
 
 	/**

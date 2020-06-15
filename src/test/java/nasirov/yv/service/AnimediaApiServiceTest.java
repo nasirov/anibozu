@@ -12,12 +12,23 @@ import java.util.List;
 import java.util.Set;
 import nasirov.yv.AbstractTest;
 import nasirov.yv.data.animedia.AnimediaSearchListTitle;
+import nasirov.yv.service.impl.fandub.animedia.AnimediaApiService;
+import org.junit.Before;
 import org.junit.Test;
 
 /**
  * Created by nasirov.yv
  */
 public class AnimediaApiServiceTest extends AbstractTest {
+
+	private AnimediaApiService animediaApiService;
+
+	@Override
+	@Before
+	public void setUp() {
+		super.setUp();
+		animediaApiService = new AnimediaApiService(animediaApiFeignClient);
+	}
 
 	@Test
 	public void getAnimediaSearchList() {

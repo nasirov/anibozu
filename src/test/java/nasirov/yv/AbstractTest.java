@@ -12,10 +12,6 @@ import static org.springframework.http.HttpHeaders.CONTENT_TYPE;
 import com.github.tomakehurst.wiremock.WireMockServer;
 import java.util.Map;
 import java.util.stream.Stream;
-import nasirov.yv.data.anidub.api.AnidubApiTitle;
-import nasirov.yv.data.anidub.site.AnidubSiteTitle;
-import nasirov.yv.data.anime_pik.api.AnimepikTitle;
-import nasirov.yv.data.jisedai.site.JisedaiSiteTitle;
 import nasirov.yv.data.properties.AnimediaProps;
 import nasirov.yv.data.properties.GitHubAuthProps;
 import nasirov.yv.data.properties.GitHubResourceProps;
@@ -32,25 +28,13 @@ import nasirov.yv.parser.AnidubParserI;
 import nasirov.yv.parser.AnimepikParserI;
 import nasirov.yv.parser.JisedaiParserI;
 import nasirov.yv.parser.WrappedObjectMapperI;
-import nasirov.yv.service.AnimeServiceI;
 import nasirov.yv.service.AnimediaServiceI;
 import nasirov.yv.service.AnimediaTitlesUpdateServiceI;
 import nasirov.yv.service.GitHubResourcesServiceI;
 import nasirov.yv.service.MALServiceI;
 import nasirov.yv.service.ResourcesCheckerServiceI;
 import nasirov.yv.service.SseEmitterExecutorServiceI;
-import nasirov.yv.service.TitlesServiceI;
-import nasirov.yv.service.impl.fandub.anidub.AnidubApiEpisodeUrlService;
-import nasirov.yv.service.impl.fandub.anidub.AnidubApiTitleService;
-import nasirov.yv.service.impl.fandub.anidub.AnidubSiteEpisodeUrlService;
-import nasirov.yv.service.impl.fandub.anidub.AnidubSiteTitleService;
-import nasirov.yv.service.impl.fandub.animedia.AnimediaApiService;
 import nasirov.yv.service.impl.fandub.animedia.AnimediaEpisodeUrlService;
-import nasirov.yv.service.impl.fandub.animedia.AnimediaSiteService;
-import nasirov.yv.service.impl.fandub.animepik.AnimepikEpisodeUrlService;
-import nasirov.yv.service.impl.fandub.animepik.AnimepikTitleService;
-import nasirov.yv.service.impl.fandub.jisedai.JisedaiEpisodeUrlService;
-import nasirov.yv.service.impl.fandub.jisedai.JisedaiSiteTitleService;
 import nasirov.yv.service.impl.fandub.nine_anime.NineAnimeEpisodeUrlService;
 import org.junit.After;
 import org.junit.Before;
@@ -90,16 +74,13 @@ public abstract class AbstractTest {
 	protected GitHubResourcesServiceI githubResourcesService;
 
 	@SpyBean
-	protected AnimeServiceI animeService;
+	protected SseEmitterExecutorServiceI sseEmitterExecutorService;
 
-	@SpyBean
+	@Autowired
 	protected AnimediaEpisodeUrlService animediaEpisodeUrlService;
 
-	@SpyBean
+	@Autowired
 	protected NineAnimeEpisodeUrlService nineAnimeEpisodeUrlService;
-
-	@SpyBean
-	protected SseEmitterExecutorServiceI sseEmitterExecutorService;
 
 	@Autowired
 	protected ResourcesNames resourcesNames;
@@ -158,39 +139,8 @@ public abstract class AbstractTest {
 	@Autowired
 	protected UrlsNames urlsNames;
 
-	protected AnimediaApiService animediaApiService;
-
-	protected AnimediaSiteService animediaSiteService;
-
-	protected TitlesServiceI<AnidubApiTitle> anidubApiTitleService;
-
-	protected TitlesServiceI<AnidubSiteTitle> anidubSiteTitleService;
-
-	protected AnidubApiEpisodeUrlService anidubApiEpisodeUrlService;
-
-	protected AnidubSiteEpisodeUrlService anidubSiteEpisodeUrlService;
-
-	protected TitlesServiceI<JisedaiSiteTitle> jisedaiSiteTitleService;
-
-	protected JisedaiEpisodeUrlService jisedaiSiteEpisodeUrlService;
-
-	protected TitlesServiceI<AnimepikTitle> animepikTitleTitlesService;
-
-	protected AnimepikEpisodeUrlService animepikEpisodeUrlService;
-
 	@Before
 	public void setUp() {
-		animediaApiService = new AnimediaApiService(animediaApiFeignClient);
-		animediaSiteService = new AnimediaSiteService(animediaSiteFeignClient, animediaProps);
-		animediaSiteService.init();
-		anidubApiTitleService = new AnidubApiTitleService(githubResourcesService, gitHubResourceProps);
-		anidubSiteTitleService = new AnidubSiteTitleService(githubResourcesService, gitHubResourceProps);
-		jisedaiSiteTitleService = new JisedaiSiteTitleService(githubResourcesService, gitHubResourceProps);
-		anidubApiEpisodeUrlService = new AnidubApiEpisodeUrlService(anidubApiFeignClient, anidubApiTitleService, anidubParser);
-		anidubSiteEpisodeUrlService = new AnidubSiteEpisodeUrlService(anidubSiteFeignClient, anidubSiteTitleService, anidubParser, urlsNames);
-		jisedaiSiteEpisodeUrlService = new JisedaiEpisodeUrlService(jisedaiSiteFeignClient, jisedaiSiteTitleService, jisedaiParser, urlsNames);
-		animepikTitleTitlesService = new AnimepikTitleService(githubResourcesService, gitHubResourceProps);
-		animepikEpisodeUrlService = new AnimepikEpisodeUrlService(animepikTitleTitlesService, animepikResourcesFeignClient, urlsNames, animepikParser);
 	}
 
 	@After

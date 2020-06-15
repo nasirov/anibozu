@@ -2,16 +2,13 @@ package nasirov.yv.service.impl.fandub.anidub;
 
 import static java.util.Objects.nonNull;
 import static nasirov.yv.data.constants.BaseConstants.FINAL_URL_VALUE_IF_EPISODE_IS_NOT_AVAILABLE;
-import static nasirov.yv.data.constants.BaseConstants.NOT_FOUND_ON_FANDUB_SITE_URL;
 import static nasirov.yv.data.constants.ServiceSourceType.API;
 import static nasirov.yv.util.MalUtils.getNextEpisodeForWatch;
 
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import java.util.stream.Collectors;
-import lombok.RequiredArgsConstructor;
 import nasirov.yv.data.anidub.api.AnidubApiTitle;
 import nasirov.yv.data.anidub.api.AnidubTitleEpisode;
 import nasirov.yv.data.anidub.api.AnidubTitleFandubSource;
@@ -20,6 +17,7 @@ import nasirov.yv.http.feign.AnidubApiFeignClient;
 import nasirov.yv.parser.AnidubParserI;
 import nasirov.yv.service.AnidubEpisodeUrlServiceI;
 import nasirov.yv.service.TitlesServiceI;
+import nasirov.yv.service.impl.common.BaseEpisodeUrlService;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Service;
@@ -28,9 +26,8 @@ import org.springframework.stereotype.Service;
  * Created by nasirov.yv
  */
 @Service
-@RequiredArgsConstructor
 @ConditionalOnProperty(name = "application.services.anidub-episode-url-service-source", havingValue = API)
-public class AnidubApiEpisodeUrlService implements AnidubEpisodeUrlServiceI {
+public class AnidubApiEpisodeUrlService extends BaseEpisodeUrlService<AnidubApiTitle> implements AnidubEpisodeUrlServiceI {
 
 	private static final String ANIDUB_FANDUB_NAME = "anidub";
 
@@ -44,33 +41,25 @@ public class AnidubApiEpisodeUrlService implements AnidubEpisodeUrlServiceI {
 
 	private final AnidubApiFeignClient anidubApiFeignClient;
 
-	private final TitlesServiceI<AnidubApiTitle> anidubApiTitleService;
-
 	private final AnidubParserI anidubParser;
 
-	@Override
-	public String getEpisodeUrl(MalTitle watchingTitle) {
-		String url = NOT_FOUND_ON_FANDUB_SITE_URL;
-		AnidubApiTitle matchedTitle = getMatchedTitle(watchingTitle);
-		if (nonNull(matchedTitle)) {
-			Integer titleId = matchedTitle.getId();
-			Integer anidubFandubId = getAnidubFandubId(titleId);
-			List<AnidubTitleFandubSource> anidubEpisodesSources = getAnidubEpisodesSources(titleId, anidubFandubId);
-			List<AnidubTitleEpisode> titleEpisodes = getValidEpisodes(titleId, anidubFandubId, anidubEpisodesSources);
-			Map<Integer, String> episodesAndUrls = extractEpisodesAndUrls(titleEpisodes);
-			url = anidubParser.fixBrokenUrl(episodesAndUrls.getOrDefault(getNextEpisodeForWatch(watchingTitle),
-					FINAL_URL_VALUE_IF_EPISODE_IS_NOT_AVAILABLE));
-		}
-		return url;
+	public AnidubApiEpisodeUrlService(AnidubApiFeignClient anidubApiFeignClient, TitlesServiceI<AnidubApiTitle> anidubApiTitleService,
+			AnidubParserI anidubParser) {
+		super(anidubApiTitleService);
+		this.anidubApiFeignClient = anidubApiFeignClient;
+		this.anidubParser = anidubParser;
 	}
 
-	private AnidubApiTitle getMatchedTitle(MalTitle watchingTitle) {
-		return Optional.ofNullable(anidubApiTitleService.getTitles()
-				.get(watchingTitle.getId()))
-				.orElseGet(Collections::emptyList)
-				.stream()
-				.findFirst()
-				.orElse(null);
+	@Override
+	protected String buildUrl(MalTitle watchingTitle, List<AnidubApiTitle> matchedTitles) {
+		AnidubApiTitle matchedTitle = matchedTitles.get(0);
+		Integer titleId = matchedTitle.getId();
+		Integer anidubFandubId = getAnidubFandubId(titleId);
+		List<AnidubTitleFandubSource> anidubEpisodesSources = getAnidubEpisodesSources(titleId, anidubFandubId);
+		List<AnidubTitleEpisode> titleEpisodes = getValidEpisodes(titleId, anidubFandubId, anidubEpisodesSources);
+		Map<Integer, String> episodesAndUrls = extractEpisodesAndUrls(titleEpisodes);
+		return anidubParser.fixBrokenUrl(episodesAndUrls.getOrDefault(getNextEpisodeForWatch(watchingTitle),
+				FINAL_URL_VALUE_IF_EPISODE_IS_NOT_AVAILABLE));
 	}
 
 	private Integer getAnidubFandubId(Integer titleId) {

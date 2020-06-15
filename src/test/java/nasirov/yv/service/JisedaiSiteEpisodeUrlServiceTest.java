@@ -19,6 +19,9 @@ import java.util.List;
 import nasirov.yv.AbstractTest;
 import nasirov.yv.data.jisedai.site.JisedaiSiteTitle;
 import nasirov.yv.data.mal.MalTitle;
+import nasirov.yv.service.impl.common.BaseEpisodeUrlService;
+import nasirov.yv.service.impl.fandub.jisedai.JisedaiEpisodeUrlService;
+import nasirov.yv.service.impl.fandub.jisedai.JisedaiSiteTitleService;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -27,11 +30,17 @@ import org.junit.Test;
  */
 public class JisedaiSiteEpisodeUrlServiceTest extends AbstractTest {
 
+	private BaseEpisodeUrlService<JisedaiSiteTitle> jisedaiSiteEpisodeUrlService;
+
 	@Override
 	@Before
 	public void setUp() {
 		super.setUp();
 		mockGitHubResourcesService(buildJesidaiSiteTitles());
+		jisedaiSiteEpisodeUrlService = new JisedaiEpisodeUrlService(jisedaiSiteFeignClient,
+				new JisedaiSiteTitleService(githubResourcesService, gitHubResourceProps),
+				jisedaiParser,
+				urlsNames);
 	}
 
 	@Test
