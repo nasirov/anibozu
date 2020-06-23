@@ -1,7 +1,7 @@
-package nasirov.yv.service.impl.fandub.jisedai.site;
+package nasirov.yv.service.impl.fandub.anilibria.site;
 
-import static nasirov.yv.utils.JisedaiTitleBuilder.buildJesidaiSiteTitles;
-import static nasirov.yv.utils.JisedaiTitleBuilder.buildRegularJesidaiSiteTitle;
+import static nasirov.yv.utils.AnilibriaTitleBuilder.buildAnilibriaTitles;
+import static nasirov.yv.utils.AnilibriaTitleBuilder.buildRegularAnilibriaTitle;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.doReturn;
@@ -9,7 +9,7 @@ import static org.mockito.Mockito.doReturn;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
-import nasirov.yv.data.fandub.jisedai.site.JisedaiSiteTitle;
+import nasirov.yv.data.fandub.anilibria.site.AnilibriaSiteTitle;
 import nasirov.yv.data.properties.GitHubResourceProps;
 import nasirov.yv.service.GitHubResourcesServiceI;
 import org.junit.Test;
@@ -22,7 +22,7 @@ import org.mockito.junit.MockitoJUnitRunner;
  * Created by nasirov.yv
  */
 @RunWith(MockitoJUnitRunner.class)
-public class JisedaiSiteTitleServiceTest {
+public class AnilibriaSiteTitleServiceTest {
 
 	@Mock
 	private GitHubResourcesServiceI gitHubResourcesService;
@@ -31,19 +31,19 @@ public class JisedaiSiteTitleServiceTest {
 	private GitHubResourceProps gitHubResourceProps;
 
 	@InjectMocks
-	private JisedaiSiteTitleService jisedaiSiteTitleService;
+	private AnilibriaSiteTitleService anilibriaSiteTitleService;
 
 	@Test
 	public void shouldReturnDistinctNonNull() {
 		//given
 		mockGitHubResourceProps();
-		mockGitHubResourcesService(buildJesidaiSiteTitles());
-		JisedaiSiteTitle expected = buildRegularJesidaiSiteTitle();
+		mockGitHubResourcesService(buildAnilibriaTitles());
+		AnilibriaSiteTitle expected = buildRegularAnilibriaTitle();
 		//when
-		Map<Integer, List<JisedaiSiteTitle>> result = jisedaiSiteTitleService.getTitles();
+		Map<Integer, List<AnilibriaSiteTitle>> result = anilibriaSiteTitleService.getTitles();
 		//then
 		assertEquals(1, result.size());
-		List<JisedaiSiteTitle> titles = result.get(expected.getTitleIdOnMal());
+		List<AnilibriaSiteTitle> titles = result.get(expected.getTitleIdOnMal());
 		assertEquals(1, titles.size());
 		assertEquals(expected, titles.get(0));
 	}
@@ -54,18 +54,18 @@ public class JisedaiSiteTitleServiceTest {
 		mockGitHubResourceProps();
 		mockGitHubResourcesService(Collections.emptyList());
 		//when
-		Map<Integer, List<JisedaiSiteTitle>> result = jisedaiSiteTitleService.getTitles();
+		Map<Integer, List<AnilibriaSiteTitle>> result = anilibriaSiteTitleService.getTitles();
 		//then
 		assertTrue(result.isEmpty());
 	}
 
 	private void mockGitHubResourceProps() {
-		doReturn("jisedaiSiteTitles.json").when(gitHubResourceProps)
-				.getJisedaiSiteTitles();
+		doReturn("anilibriaSiteTitles.json").when(gitHubResourceProps)
+				.getAnilibriaSiteTitles();
 	}
 
-	private void mockGitHubResourcesService(List<JisedaiSiteTitle> jisedaiSiteTitles) {
-		doReturn(jisedaiSiteTitles).when(gitHubResourcesService)
-				.getResource("jisedaiSiteTitles.json", JisedaiSiteTitle.class);
+	private void mockGitHubResourcesService(List<AnilibriaSiteTitle> anilibriaSiteTitles) {
+		doReturn(anilibriaSiteTitles).when(gitHubResourcesService)
+				.getResource("anilibriaSiteTitles.json", AnilibriaSiteTitle.class);
 	}
 }

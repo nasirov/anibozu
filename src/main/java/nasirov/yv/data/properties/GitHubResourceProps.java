@@ -29,4 +29,7 @@ public class GitHubResourceProps {
 
 	@NotBlank
 	private String animepikTitles;
+
+	@NotBlank
+	private String anilibriaSiteTitles;
 }

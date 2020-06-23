@@ -38,7 +38,7 @@ application:
     github:
       name: github
       ttl: 3600
-      max-entity-count: 4
+      max-entity-count: 5
     sse:
       name: sse
       ttl: 300
@@ -61,6 +61,7 @@ application:
       anidub-site-titles: anidubSiteTitles.json
       jisedai-site-titles: jisedaiSiteTitles.json
       animepik-titles: animepikTitles.json
+      anilibria-site-titles: anilibriaSiteTitles.json
 
 server:
   port: ${PORT}

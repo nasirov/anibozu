@@ -9,6 +9,7 @@ import lombok.experimental.UtilityClass;
 public class TestConstants {
 
 	public static final String ANNOUNCEMENT_TITLE_NAME = "announcement title name";
+	public static final String ANNOUNCEMENT_TITLE_NAME_RU = "название анонса на русском";
 	public static final String ANNOUNCEMENT_TITLE_ID = "1234";
 	public static final String ANNOUNCEMENT_TITLE_URL = "anime/announcement-url";
 	public static final String ANNOUNCEMENT_TITLE_POSTER_URL = "images/anime/1/announcement.jpg";
@@ -17,11 +18,13 @@ public class TestConstants {
 	public static final String ANNOUNCEMENT_TITLE_ANIDUB_SITE_URL = "anime/full/1234-announcement-url.html";
 	public static final String ANNOUNCEMENT_TITLE_JISEDAI_SITE_URL = "anime/0-announcement-url";
 	public static final String ANNOUNCEMENT_TITLE_ANIMEPIK_SITE_URL = "anime/0";
+	public static final String ANNOUNCEMENT_TITLE_ANILIBRIA_SITE_URL = "release/0-announcement-url.html";
 	public static final Integer ANNOUNCEMENT_TITLE_JESIDAI_ID = 0;
 	public static final Integer ANNOUNCEMENT_TITLE_ANIMEPIK_ID = 0;
 
 	public static final String REGULAR_TITLE_URL = "anime/regular-title-url";
 	public static final String REGULAR_TITLE_NAME = "regular title name";
+	public static final String REGULAR_TITLE_NAME_RU = "название обычного тайтла на русском";
 	public static final String REGULAR_TITLE_ID = "9480";
 	public static final String REGULAR_TITLE_POSTER_URL = "images/anime/2/regularTitle.jpg";
 	public static final String REGULAR_TITLE_MAL_ANIME_URL = "/anime/2/regular%20title%20name";
@@ -35,6 +38,7 @@ public class TestConstants {
 	public static final String REGULAR_TITLE_ANIDUB_SITE_URL = "anime/full/4321-regular-title-url.html";
 	public static final String REGULAR_TITLE_JISEDAI_SITE_URL = "anime/1-regular-title-url";
 	public static final String REGULAR_TITLE_ANIMEPIK_SITE_URL = "anime/1";
+	public static final String REGULAR_TITLE_ANILIBRIA_SITE_URL = "release/1-regular-title-url.html";
 	public static final String REGULAR_TITLE_ANIMEPIK_RESOURCES_URL = "/1.txt";
 	public static final String REGULAR_TITLE_NINE_ANIME_DATA_ID = "12rtm34";
 	public static final String REGULAR_TITLE_DUB_NINE_ANIME_DATA_ID = "56rtm78";
