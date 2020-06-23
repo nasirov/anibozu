@@ -3,12 +3,14 @@ package nasirov.yv.service.impl.common;
 import static nasirov.yv.data.constants.BaseConstants.FINAL_URL_VALUE_IF_EPISODE_IS_NOT_AVAILABLE;
 import static nasirov.yv.data.constants.BaseConstants.NOT_FOUND_ON_FANDUB_SITE_URL;
 import static nasirov.yv.data.constants.FanDubSource.ANIDUB;
+import static nasirov.yv.data.constants.FanDubSource.ANILIBRIA;
 import static nasirov.yv.data.constants.FanDubSource.ANIMEDIA;
 import static nasirov.yv.data.constants.FanDubSource.ANIMEPIK;
 import static nasirov.yv.data.constants.FanDubSource.JISEDAI;
 import static nasirov.yv.data.constants.FanDubSource.NINEANIME;
 import static nasirov.yv.util.MalUtils.getNextEpisodeForWatch;
 import static nasirov.yv.utils.TestConstants.ANIDUB_URL;
+import static nasirov.yv.utils.TestConstants.ANILIBRIA_URL;
 import static nasirov.yv.utils.TestConstants.ANIMEDIA_ONLINE_TV;
 import static nasirov.yv.utils.TestConstants.ANIMEPIK_URL;
 import static nasirov.yv.utils.TestConstants.CONCRETIZED_TITLE_MAL_ANIME_URL;
@@ -22,6 +24,7 @@ import static nasirov.yv.utils.TestConstants.NOT_FOUND_ON_ANIMEDIA_TITLE_MAL_ANI
 import static nasirov.yv.utils.TestConstants.NOT_FOUND_ON_ANIMEDIA_TITLE_NAME;
 import static nasirov.yv.utils.TestConstants.NOT_FOUND_ON_ANIMEDIA_TITLE_POSTER_URL;
 import static nasirov.yv.utils.TestConstants.REGULAR_TITLE_ANIDUB_SITE_URL;
+import static nasirov.yv.utils.TestConstants.REGULAR_TITLE_ANILIBRIA_SITE_URL;
 import static nasirov.yv.utils.TestConstants.REGULAR_TITLE_ANIMEPIK_SITE_URL;
 import static nasirov.yv.utils.TestConstants.REGULAR_TITLE_DUB_NINE_ANIME_URL;
 import static nasirov.yv.utils.TestConstants.REGULAR_TITLE_JISEDAI_SITE_URL;
@@ -42,6 +45,7 @@ import nasirov.yv.data.mal.MalTitle;
 import nasirov.yv.service.AnimeServiceI;
 import nasirov.yv.service.EpisodeUrlServiceI;
 import nasirov.yv.service.impl.fandub.anidub.site.AnidubSiteEpisodeUrlService;
+import nasirov.yv.service.impl.fandub.anilibria.site.AnilibiraEpisodeUrlService;
 import nasirov.yv.service.impl.fandub.animedia.AnimediaEpisodeUrlService;
 import nasirov.yv.service.impl.fandub.animepik.AnimepikEpisodeUrlService;
 import nasirov.yv.service.impl.fandub.jisedai.JisedaiEpisodeUrlService;
@@ -71,6 +75,8 @@ public class AnimeServiceTest {
 
 	private static final String EPISODE_URL_ON_ANIMEPIK = ANIMEPIK_URL + REGULAR_TITLE_ANIMEPIK_SITE_URL;
 
+	private static final String EPISODE_URL_ON_ANILIBRIA = ANILIBRIA_URL + REGULAR_TITLE_ANILIBRIA_SITE_URL;
+
 	private AnimediaEpisodeUrlService animediaEpisodeUrlService = PowerMockito.mock(AnimediaEpisodeUrlService.class);
 
 	private NineAnimeEpisodeUrlService nineAnimeEpisodeUrlService = PowerMockito.mock(NineAnimeEpisodeUrlService.class);
@@ -80,6 +86,8 @@ public class AnimeServiceTest {
 	private JisedaiEpisodeUrlService jisedaiEpisodeUrlService = PowerMockito.mock(JisedaiEpisodeUrlService.class);
 
 	private AnimepikEpisodeUrlService animepikEpisodeUrlService = PowerMockito.mock(AnimepikEpisodeUrlService.class);
+
+	private AnilibiraEpisodeUrlService anilibriaEpisodeUrlService = PowerMockito.mock(AnilibiraEpisodeUrlService.class);
 
 	private AnimeServiceI animeService;
 
@@ -91,6 +99,7 @@ public class AnimeServiceTest {
 		episodeUrlStrategy.put(ANIDUB, anidubEpisodeUrlService);
 		episodeUrlStrategy.put(JISEDAI, jisedaiEpisodeUrlService);
 		episodeUrlStrategy.put(ANIMEPIK, animepikEpisodeUrlService);
+		episodeUrlStrategy.put(ANILIBRIA, anilibriaEpisodeUrlService);
 		animeService = new AnimeService(episodeUrlStrategy);
 	}
 
@@ -110,19 +119,19 @@ public class AnimeServiceTest {
 				EPISODE_URL_ON_NINE_ANIME,
 				EPISODE_URL_ON_ANIDUB,
 				EPISODE_URL_ON_JISEDAI,
-				EPISODE_URL_ON_ANIMEPIK,
+				EPISODE_URL_ON_ANIMEPIK, EPISODE_URL_ON_ANILIBRIA,
 				buildRegularTitle());
 		mockEpisodeUrlServices(FINAL_URL_VALUE_IF_EPISODE_IS_NOT_AVAILABLE,
 				FINAL_URL_VALUE_IF_EPISODE_IS_NOT_AVAILABLE,
 				FINAL_URL_VALUE_IF_EPISODE_IS_NOT_AVAILABLE,
 				FINAL_URL_VALUE_IF_EPISODE_IS_NOT_AVAILABLE,
-				FINAL_URL_VALUE_IF_EPISODE_IS_NOT_AVAILABLE,
+				FINAL_URL_VALUE_IF_EPISODE_IS_NOT_AVAILABLE, FINAL_URL_VALUE_IF_EPISODE_IS_NOT_AVAILABLE,
 				buildConcretizedTitle());
 		mockEpisodeUrlServices(NOT_FOUND_ON_FANDUB_SITE_URL,
 				NOT_FOUND_ON_FANDUB_SITE_URL,
 				NOT_FOUND_ON_FANDUB_SITE_URL,
 				NOT_FOUND_ON_FANDUB_SITE_URL,
-				NOT_FOUND_ON_FANDUB_SITE_URL,
+				NOT_FOUND_ON_FANDUB_SITE_URL, NOT_FOUND_ON_FANDUB_SITE_URL,
 				buildNotFoundOnSiteTitle());
 	}
 
@@ -131,7 +140,7 @@ public class AnimeServiceTest {
 	}
 
 	private void mockEpisodeUrlServices(String episodeUrlOnAnimedia, String episodeUrlOnNineAnime, String episodeUrlOnAnidub,
-			String episodeUrlOnJisedai, String episodeUrlOnAnimepik, MalTitle watchingTitle) {
+			String episodeUrlOnJisedai, String episodeUrlOnAnimepik, String episodeUrlOnAnilibria, MalTitle watchingTitle) {
 		doReturn(episodeUrlOnAnimedia).when(animediaEpisodeUrlService)
 				.getEpisodeUrl(watchingTitle);
 		doReturn(episodeUrlOnNineAnime).when(nineAnimeEpisodeUrlService)
@@ -142,6 +151,8 @@ public class AnimeServiceTest {
 				.getEpisodeUrl(watchingTitle);
 		doReturn(episodeUrlOnAnimepik).when(animepikEpisodeUrlService)
 				.getEpisodeUrl(watchingTitle);
+		doReturn(episodeUrlOnAnilibria).when(anilibriaEpisodeUrlService)
+				.getEpisodeUrl(watchingTitle);
 	}
 
 	private Set<Anime> buildExpectedAnime() {
@@ -149,24 +160,23 @@ public class AnimeServiceTest {
 				EPISODE_URL_ON_ANIMEDIA,
 				EPISODE_URL_ON_NINE_ANIME,
 				EPISODE_URL_ON_ANIDUB,
-				EPISODE_URL_ON_JISEDAI,
-				EPISODE_URL_ON_ANIMEPIK),
+				EPISODE_URL_ON_JISEDAI, EPISODE_URL_ON_ANIMEPIK, EPISODE_URL_ON_ANILIBRIA),
 				buildAnime(buildConcretizedTitle(),
 						FINAL_URL_VALUE_IF_EPISODE_IS_NOT_AVAILABLE,
 						FINAL_URL_VALUE_IF_EPISODE_IS_NOT_AVAILABLE,
 						FINAL_URL_VALUE_IF_EPISODE_IS_NOT_AVAILABLE,
-						FINAL_URL_VALUE_IF_EPISODE_IS_NOT_AVAILABLE,
+						FINAL_URL_VALUE_IF_EPISODE_IS_NOT_AVAILABLE, FINAL_URL_VALUE_IF_EPISODE_IS_NOT_AVAILABLE,
 						FINAL_URL_VALUE_IF_EPISODE_IS_NOT_AVAILABLE),
 				buildAnime(buildNotFoundOnSiteTitle(),
 						NOT_FOUND_ON_FANDUB_SITE_URL,
 						NOT_FOUND_ON_FANDUB_SITE_URL,
 						NOT_FOUND_ON_FANDUB_SITE_URL,
-						NOT_FOUND_ON_FANDUB_SITE_URL,
+						NOT_FOUND_ON_FANDUB_SITE_URL, NOT_FOUND_ON_FANDUB_SITE_URL,
 						NOT_FOUND_ON_FANDUB_SITE_URL));
 	}
 
 	private Anime buildAnime(MalTitle watchingTitle, String episodeUrlOnAnimedia, String episodeUrlOnNineAnime, String episodeUrlOnAnidub,
-			String episodeUrlOnJisedai, String episodeUrlOnAnimepik) {
+			String episodeUrlOnJisedai, String episodeUrlOnAnimepik, String episodeUrlOnAnilibria) {
 		return Anime.builder()
 				.animeName(watchingTitle.getName())
 				.episode(getNextEpisodeForWatch(watchingTitle).toString())
@@ -177,6 +187,7 @@ public class AnimeServiceTest {
 				.fanDubUrl(ANIDUB, episodeUrlOnAnidub)
 				.fanDubUrl(JISEDAI, episodeUrlOnJisedai)
 				.fanDubUrl(ANIMEPIK, episodeUrlOnAnimepik)
+				.fanDubUrl(ANILIBRIA, episodeUrlOnAnilibria)
 				.build();
 	}
 

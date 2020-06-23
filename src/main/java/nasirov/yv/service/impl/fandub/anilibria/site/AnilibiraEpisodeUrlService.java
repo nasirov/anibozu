@@ -17,7 +17,7 @@ import org.springframework.stereotype.Service;
  * Created by nasirov.yv
  */
 @Service
-public class AnilibiraSiteEpisodeUrlService extends BaseEpisodeUrlService<AnilibriaSiteTitle> {
+public class AnilibiraEpisodeUrlService extends BaseEpisodeUrlService<AnilibriaSiteTitle> {
 
 	private final AnilibriaSiteFeignClient anilibriaSiteFeignClient;
 
@@ -25,7 +25,7 @@ public class AnilibiraSiteEpisodeUrlService extends BaseEpisodeUrlService<Anilib
 
 	private final AnilibriaParserI anilibriaParser;
 
-	public AnilibiraSiteEpisodeUrlService(TitlesServiceI<AnilibriaSiteTitle> titlesService, AnilibriaSiteFeignClient anilibriaSiteFeignClient,
+	public AnilibiraEpisodeUrlService(TitlesServiceI<AnilibriaSiteTitle> titlesService, AnilibriaSiteFeignClient anilibriaSiteFeignClient,
 			UrlsNames urlsNames, AnilibriaParserI anilibriaParser) {
 		super(titlesService);
 		this.anilibriaSiteFeignClient = anilibriaSiteFeignClient;

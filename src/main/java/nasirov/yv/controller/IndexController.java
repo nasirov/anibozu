@@ -1,6 +1,7 @@
 package nasirov.yv.controller;
 
 import static nasirov.yv.data.constants.FanDubSource.ANIDUB;
+import static nasirov.yv.data.constants.FanDubSource.ANILIBRIA;
 import static nasirov.yv.data.constants.FanDubSource.ANIMEDIA;
 import static nasirov.yv.data.constants.FanDubSource.ANIMEPIK;
 import static nasirov.yv.data.constants.FanDubSource.JISEDAI;
@@ -25,6 +26,7 @@ public class IndexController {
 		model.addAttribute(ANIDUB.getName(), ANIDUB);
 		model.addAttribute(JISEDAI.getName(), JISEDAI);
 		model.addAttribute(ANIMEPIK.getName(), ANIMEPIK);
+		model.addAttribute(ANILIBRIA.getName(), ANILIBRIA);
 		return "index";
 	}
 }

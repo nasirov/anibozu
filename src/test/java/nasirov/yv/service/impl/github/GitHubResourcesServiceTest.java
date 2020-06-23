@@ -4,6 +4,8 @@ import static nasirov.yv.utils.AnidubTitleBuilder.buildNotFoundOnMalAnidubApiTit
 import static nasirov.yv.utils.AnidubTitleBuilder.buildNotFoundOnMalAnidubSiteTitle;
 import static nasirov.yv.utils.AnidubTitleBuilder.buildRegularAnidubApiTitle;
 import static nasirov.yv.utils.AnidubTitleBuilder.buildRegularAnidubSiteTitle;
+import static nasirov.yv.utils.AnilibriaTitleBuilder.buildNotFoundOnMalAnilibriaTitle;
+import static nasirov.yv.utils.AnilibriaTitleBuilder.buildRegularAnilibriaTitle;
 import static nasirov.yv.utils.AnimediaTitlesTestBuilder.getAnimediaTitles;
 import static nasirov.yv.utils.AnimepikTitleBuilder.buildNotFoundOnMalAnimepikTitle;
 import static nasirov.yv.utils.AnimepikTitleBuilder.buildRegularAnimepikTitle;
@@ -17,6 +19,7 @@ import java.util.List;
 import nasirov.yv.AbstractTest;
 import nasirov.yv.data.fandub.anidub.api.AnidubApiTitle;
 import nasirov.yv.data.fandub.anidub.site.AnidubSiteTitle;
+import nasirov.yv.data.fandub.anilibria.site.AnilibriaSiteTitle;
 import nasirov.yv.data.fandub.anime_pik.api.AnimepikTitle;
 import nasirov.yv.data.fandub.animedia.AnimediaTitle;
 import nasirov.yv.data.fandub.jisedai.site.JisedaiSiteTitle;
@@ -85,6 +88,18 @@ public class GitHubResourcesServiceTest extends AbstractTest {
 		assertEquals(2, result.size());
 		assertTrue(result.contains(buildRegularAnimepikTitle()));
 		assertTrue(result.contains(buildNotFoundOnMalAnimepikTitle()));
+	}
+
+	@Test
+	public void shouldReturnAnilibriaSiteTitles() {
+		//given
+		stubGitHub("anilibriaSiteTitles.json");
+		//when
+		List<AnilibriaSiteTitle> result = githubResourcesService.getResource("anilibriaSiteTitles.json", AnilibriaSiteTitle.class);
+		//then
+		assertEquals(2, result.size());
+		assertTrue(result.contains(buildRegularAnilibriaTitle()));
+		assertTrue(result.contains(buildNotFoundOnMalAnilibriaTitle()));
 	}
 
 	private void stubGitHub(String resourceName) {

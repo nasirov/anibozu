@@ -26,7 +26,7 @@ import org.junit.Test;
 /**
  * Created by nasirov.yv
  */
-public class AnilibiraSiteEpisodeUrlServiceTest extends AbstractTest {
+public class AnilibiraEpisodeUrlServiceTest extends AbstractTest {
 
 	private BaseEpisodeUrlService<AnilibriaSiteTitle> anilibriaEpisodeUrlService;
 
@@ -35,7 +35,7 @@ public class AnilibiraSiteEpisodeUrlServiceTest extends AbstractTest {
 	public void setUp() {
 		super.setUp();
 		mockGitHubResourcesService(buildAnilibriaTitles());
-		anilibriaEpisodeUrlService = new AnilibiraSiteEpisodeUrlService(new AnilibriaSiteTitleService(githubResourcesService, gitHubResourceProps),
+		anilibriaEpisodeUrlService = new AnilibiraEpisodeUrlService(new AnilibriaSiteTitleService(githubResourcesService, gitHubResourceProps),
 				anilibriaSiteFeignClient,
 				urlsNames,
 				anilibriaParser);
