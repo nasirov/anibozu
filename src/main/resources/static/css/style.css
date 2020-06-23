@@ -43,6 +43,11 @@ img {
   background-size: 40px 40px;
 }
 
+.ANILIBRIA_background {
+  background: url('../img/fandub/anilibria-logo.png') no-repeat center;
+  background-size: 40px 40px;
+}
+
 .full_cover {
   position: absolute;
   top: 0;
