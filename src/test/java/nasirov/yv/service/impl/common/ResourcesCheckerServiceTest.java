@@ -107,6 +107,7 @@ public class ResourcesCheckerServiceTest extends AbstractTest {
 	private AnimediaTitle buildTempAnnouncementAnimediaTitle(AnimediaSearchListTitle titleSearchInfo) {
 		return AnimediaTitle.builder()
 				.urlOnAnimedia(titleSearchInfo.getUrl())
+				.animeIdOnAnimedia(titleSearchInfo.getAnimeId())
 				.dataListOnAnimedia(FIRST_DATA_LIST)
 				.minOnAnimedia(FIRST_EPISODE)
 				.build();
