@@ -45,7 +45,7 @@ import nasirov.yv.data.mal.MalTitle;
 import nasirov.yv.service.AnimeServiceI;
 import nasirov.yv.service.EpisodeUrlServiceI;
 import nasirov.yv.service.impl.fandub.anidub.site.AnidubSiteEpisodeUrlService;
-import nasirov.yv.service.impl.fandub.anilibria.site.AnilibiraEpisodeUrlService;
+import nasirov.yv.service.impl.fandub.anilibria.AnilibiraEpisodeUrlService;
 import nasirov.yv.service.impl.fandub.animedia.AnimediaEpisodeUrlService;
 import nasirov.yv.service.impl.fandub.animepik.AnimepikEpisodeUrlService;
 import nasirov.yv.service.impl.fandub.jisedai.JisedaiEpisodeUrlService;

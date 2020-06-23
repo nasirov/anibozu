@@ -1,4 +1,4 @@
-package nasirov.yv.service.impl.fandub.anilibria.site;
+package nasirov.yv.service.impl.fandub.anilibria;
 
 import static nasirov.yv.data.constants.BaseConstants.FINAL_URL_VALUE_IF_EPISODE_IS_NOT_AVAILABLE;
 import static nasirov.yv.util.MalUtils.getNextEpisodeForWatch;

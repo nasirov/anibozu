@@ -20,6 +20,7 @@ import nasirov.yv.AbstractTest;
 import nasirov.yv.data.fandub.anilibria.site.AnilibriaSiteTitle;
 import nasirov.yv.data.mal.MalTitle;
 import nasirov.yv.service.impl.common.BaseEpisodeUrlService;
+import nasirov.yv.service.impl.fandub.anilibria.AnilibiraEpisodeUrlService;
 import org.junit.Before;
 import org.junit.Test;
 
