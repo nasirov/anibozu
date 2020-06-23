@@ -48,3 +48,7 @@ anime-pik-api-feign-client:
 anime-pik-resources-feign-client:
   ribbon:
     listOfServers: localhost:${wiremock.server.port}
+
+anilibria-site-feign-client:
+  ribbon:
+    listOfServers: localhost:${wiremock.server.port}

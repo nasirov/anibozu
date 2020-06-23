@@ -34,6 +34,9 @@ public class UrlsNames {
 	@NotNull
 	private AnimepikUrls animepikUrls;
 
+	@NotNull
+	private AnilibriaUrls anilibriaUrls;
+
 	@Data
 	@Validated
 	public static class AnimediaUrls {
@@ -86,5 +89,13 @@ public class UrlsNames {
 
 		@NotBlank
 		private String animepikResourcesUrl;
+	}
+
+	@Data
+	@Validated
+	public static class AnilibriaUrls {
+
+		@NotBlank
+		private String anilibriaUrl;
 	}
 }

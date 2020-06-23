@@ -20,6 +20,8 @@ application:
     animepik-urls:
       animepik-url: https://animepik.org/
       animepik-resources-url: https://cdn.iss.one
+    anilibria-urls:
+      anilibria-url: https://www.anilibria.tv/
   services:
     applicationLogoPrinter-enabled: true
     animedia-service-source: site #api | site

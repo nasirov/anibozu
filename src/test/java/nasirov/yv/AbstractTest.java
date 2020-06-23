@@ -19,12 +19,14 @@ import nasirov.yv.data.properties.ResourcesNames;
 import nasirov.yv.data.properties.UrlsNames;
 import nasirov.yv.http.feign.fandub.anidub.api.AnidubApiFeignClient;
 import nasirov.yv.http.feign.fandub.anidub.site.AnidubSiteFeignClient;
+import nasirov.yv.http.feign.fandub.anilibria.site.AnilibriaSiteFeignClient;
 import nasirov.yv.http.feign.fandub.animedia.api.AnimediaApiFeignClient;
 import nasirov.yv.http.feign.fandub.animedia.site.AnimediaSiteFeignClient;
 import nasirov.yv.http.feign.fandub.animepik.api.AnimepikApiFeignClient;
 import nasirov.yv.http.feign.fandub.animepik.api.AnimepikResourcesFeignClient;
 import nasirov.yv.http.feign.fandub.jisedai.site.JisedaiSiteFeignClient;
 import nasirov.yv.parser.AnidubParserI;
+import nasirov.yv.parser.AnilibriaParserI;
 import nasirov.yv.parser.AnimepikParserI;
 import nasirov.yv.parser.JisedaiParserI;
 import nasirov.yv.parser.WrappedObjectMapperI;
@@ -128,6 +130,9 @@ public abstract class AbstractTest {
 	protected AnimepikResourcesFeignClient animepikResourcesFeignClient;
 
 	@Autowired
+	protected AnilibriaSiteFeignClient anilibriaSiteFeignClient;
+
+	@Autowired
 	protected AnidubParserI anidubParser;
 
 	@Autowired
@@ -135,6 +140,9 @@ public abstract class AbstractTest {
 
 	@Autowired
 	protected AnimepikParserI animepikParser;
+
+	@Autowired
+	protected AnilibriaParserI anilibriaParser;
 
 	@Autowired
 	protected UrlsNames urlsNames;
