@@ -32,9 +32,6 @@ public class TestConstants {
 	public static final Integer REGULAR_TITLE_ANIDUB_ID = 1;
 	public static final Integer REGULAR_TITLE_JESIDAI_ID = 1;
 	public static final Integer REGULAR_TITLE_ANIMEPIK_ID = 1;
-	public static final Integer REGULAR_TITLE_ANIDUB_TYPE_ID = 5;
-	public static final Integer REGULAR_TITLE_ANIDUB_TYPE_SUPPORTED_SOURCE_ID = 6;
-	public static final String REGULAR_TITLE_ANIDUB_API_URL = "https://video.sibnet.ru/shell.php?videoid=1234567";
 	public static final String REGULAR_TITLE_ANIDUB_SITE_URL = "anime/full/4321-regular-title-url.html";
 	public static final String REGULAR_TITLE_JISEDAI_SITE_URL = "anime/1-regular-title-url";
 	public static final String REGULAR_TITLE_ANIMEPIK_SITE_URL = "anime/1";

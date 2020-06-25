@@ -44,7 +44,7 @@ import nasirov.yv.data.front.Anime;
 import nasirov.yv.data.mal.MalTitle;
 import nasirov.yv.service.AnimeServiceI;
 import nasirov.yv.service.EpisodeUrlServiceI;
-import nasirov.yv.service.impl.fandub.anidub.site.AnidubSiteEpisodeUrlService;
+import nasirov.yv.service.impl.fandub.anidub.AnidubEpisodeUrlService;
 import nasirov.yv.service.impl.fandub.anilibria.AnilibiraEpisodeUrlService;
 import nasirov.yv.service.impl.fandub.animedia.AnimediaEpisodeUrlService;
 import nasirov.yv.service.impl.fandub.animepik.AnimepikEpisodeUrlService;
@@ -61,7 +61,7 @@ import org.powermock.modules.junit4.PowerMockRunner;
  * Created by nasirov.yv
  */
 @RunWith(PowerMockRunner.class)
-@PrepareForTest(value = {AnimediaEpisodeUrlService.class, NineAnimeEpisodeUrlService.class, AnidubSiteEpisodeUrlService.class,
+@PrepareForTest(value = {AnimediaEpisodeUrlService.class, NineAnimeEpisodeUrlService.class, AnidubEpisodeUrlService.class,
 		JisedaiEpisodeUrlService.class, AnimepikEpisodeUrlService.class})
 public class AnimeServiceTest {
 
@@ -81,7 +81,7 @@ public class AnimeServiceTest {
 
 	private NineAnimeEpisodeUrlService nineAnimeEpisodeUrlService = PowerMockito.mock(NineAnimeEpisodeUrlService.class);
 
-	private AnidubSiteEpisodeUrlService anidubEpisodeUrlService = PowerMockito.mock(AnidubSiteEpisodeUrlService.class);
+	private AnidubEpisodeUrlService anidubEpisodeUrlService = PowerMockito.mock(AnidubEpisodeUrlService.class);
 
 	private JisedaiEpisodeUrlService jisedaiEpisodeUrlService = PowerMockito.mock(JisedaiEpisodeUrlService.class);
 

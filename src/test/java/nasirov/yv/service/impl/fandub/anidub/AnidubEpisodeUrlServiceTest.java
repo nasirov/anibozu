@@ -1,23 +1,23 @@
-package nasirov.yv.service.impl.fandub.jisedai;
+package nasirov.yv.service.impl.fandub.anidub;
 
 import static nasirov.yv.data.constants.BaseConstants.FINAL_URL_VALUE_IF_EPISODE_IS_NOT_AVAILABLE;
 import static nasirov.yv.data.constants.BaseConstants.NOT_FOUND_ON_FANDUB_SITE_URL;
-import static nasirov.yv.utils.JisedaiTitleBuilder.buildJesidaiTitles;
-import static nasirov.yv.utils.TestConstants.JISEDAI_URL;
+import static nasirov.yv.utils.AnidubTitleBuilder.buildAnidubTitles;
+import static nasirov.yv.utils.TestConstants.ANIDUB_URL;
 import static nasirov.yv.utils.TestConstants.MY_ANIME_LIST_STATIC_CONTENT_URL;
 import static nasirov.yv.utils.TestConstants.MY_ANIME_LIST_URL;
-import static nasirov.yv.utils.TestConstants.REGULAR_TITLE_JISEDAI_SITE_URL;
+import static nasirov.yv.utils.TestConstants.REGULAR_TITLE_ANIDUB_SITE_URL;
 import static nasirov.yv.utils.TestConstants.REGULAR_TITLE_MAL_ANIME_ID;
 import static nasirov.yv.utils.TestConstants.REGULAR_TITLE_MAL_ANIME_URL;
 import static nasirov.yv.utils.TestConstants.REGULAR_TITLE_NAME;
 import static nasirov.yv.utils.TestConstants.REGULAR_TITLE_POSTER_URL;
-import static nasirov.yv.utils.TestConstants.TEXT_HTML_CHARSET_UTF_8_ALT;
+import static nasirov.yv.utils.TestConstants.TEXT_HTML_CHARSET_UTF_8;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.doReturn;
 
 import java.util.List;
 import nasirov.yv.AbstractTest;
-import nasirov.yv.data.fandub.jisedai.JisedaiTitle;
+import nasirov.yv.data.fandub.anidub.AnidubTitle;
 import nasirov.yv.data.mal.MalTitle;
 import nasirov.yv.service.impl.fandub.BaseEpisodeUrlService;
 import org.junit.Before;
@@ -26,38 +26,38 @@ import org.junit.Test;
 /**
  * Created by nasirov.yv
  */
-public class JisedaiEpisodeUrlServiceTest extends AbstractTest {
+public class AnidubEpisodeUrlServiceTest extends AbstractTest {
 
-	private BaseEpisodeUrlService<JisedaiTitle> jisedaiEpisodeUrlService;
+	private BaseEpisodeUrlService<AnidubTitle> anidubEpisodeUrlService;
 
 	@Override
 	@Before
 	public void setUp() {
 		super.setUp();
-		mockGitHubResourcesService(buildJesidaiTitles());
-		jisedaiEpisodeUrlService = new JisedaiEpisodeUrlService(jisedaiFeignClient, new JisedaiTitleService(githubResourcesService, gitHubResourceProps),
-				jisedaiParser,
+		mockGitHubResourcesService(buildAnidubTitles());
+		anidubEpisodeUrlService = new AnidubEpisodeUrlService(anidubFeignClient, new AnidubTitleService(githubResourcesService, gitHubResourceProps),
+				anidubParser,
 				urlsNames);
 	}
 
 	@Test
 	public void shouldReturnUrlWithAvailableEpisode() {
 		//given
-		mockJisedai();
+		mockAnidub();
 		MalTitle title = buildWatchingTitle(REGULAR_TITLE_MAL_ANIME_ID, 0);
 		//when
-		String actualUrl = jisedaiEpisodeUrlService.getEpisodeUrl(title);
+		String actualUrl = anidubEpisodeUrlService.getEpisodeUrl(title);
 		//then
-		assertEquals(JISEDAI_URL + REGULAR_TITLE_JISEDAI_SITE_URL, actualUrl);
+		assertEquals(ANIDUB_URL + REGULAR_TITLE_ANIDUB_SITE_URL, actualUrl);
 	}
 
 	@Test
 	public void shouldReturnNotAvailableUrlConstant() {
 		//given
-		mockJisedai();
+		mockAnidub();
 		MalTitle title = buildWatchingTitle(REGULAR_TITLE_MAL_ANIME_ID, 3);
 		//when
-		String actualUrl = jisedaiEpisodeUrlService.getEpisodeUrl(title);
+		String actualUrl = anidubEpisodeUrlService.getEpisodeUrl(title);
 		//then
 		assertEquals(FINAL_URL_VALUE_IF_EPISODE_IS_NOT_AVAILABLE, actualUrl);
 	}
@@ -65,22 +65,22 @@ public class JisedaiEpisodeUrlServiceTest extends AbstractTest {
 	@Test
 	public void shouldReturnNotFoundOnFandubSiteUrlConstant() {
 		//given
-		mockJisedai();
+		mockAnidub();
 		int notRegularTitleId = 5;
 		MalTitle title = buildWatchingTitle(notRegularTitleId, 0);
 		//when
-		String actualUrl = jisedaiEpisodeUrlService.getEpisodeUrl(title);
+		String actualUrl = anidubEpisodeUrlService.getEpisodeUrl(title);
 		//then
 		assertEquals(NOT_FOUND_ON_FANDUB_SITE_URL, actualUrl);
 	}
 
-	private void mockJisedai() {
-		createStubWithBodyFile("/" + REGULAR_TITLE_JISEDAI_SITE_URL, TEXT_HTML_CHARSET_UTF_8_ALT, "jisedai/siteRegularTitle.html");
+	private void mockAnidub() {
+		createStubWithBodyFile("/" + REGULAR_TITLE_ANIDUB_SITE_URL, TEXT_HTML_CHARSET_UTF_8, "anidub/siteRegularTitle.html");
 	}
 
-	private void mockGitHubResourcesService(List<JisedaiTitle> titles) {
+	private void mockGitHubResourcesService(List<AnidubTitle> titles) {
 		doReturn(titles).when(githubResourcesService)
-				.getResource("jisedaiSiteTitles.json", JisedaiTitle.class);
+				.getResource("anidubSiteTitles.json", AnidubTitle.class);
 	}
 
 	private MalTitle buildWatchingTitle(int animeId, int numWatchedEpisodes) {

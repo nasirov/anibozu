@@ -11,7 +11,7 @@ import static nasirov.yv.utils.TestConstants.REGULAR_TITLE_NAME_RU;
 import com.google.common.collect.Lists;
 import java.util.List;
 import lombok.experimental.UtilityClass;
-import nasirov.yv.data.fandub.anilibria.site.AnilibriaSiteTitle;
+import nasirov.yv.data.fandub.anilibria.AnilibriaTitle;
 
 /**
  * Created by nasirov.yv
@@ -21,12 +21,12 @@ public class AnilibriaTitleBuilder {
 
 	private static final String FULL_NAME_DELIMITER = " / ";
 
-	public static List<AnilibriaSiteTitle> buildAnilibriaTitles() {
+	public static List<AnilibriaTitle> buildAnilibriaTitles() {
 		return Lists.newArrayList(buildRegularAnilibriaTitle(), buildNotFoundOnMalAnilibriaTitle());
 	}
 
-	public static AnilibriaSiteTitle buildRegularAnilibriaTitle() {
-		return AnilibriaSiteTitle.builder()
+	public static AnilibriaTitle buildRegularAnilibriaTitle() {
+		return AnilibriaTitle.builder()
 				.url(REGULAR_TITLE_ANILIBRIA_SITE_URL)
 				.titleIdOnMal(REGULAR_TITLE_MAL_ANIME_ID)
 				.fullName(REGULAR_TITLE_NAME_RU + FULL_NAME_DELIMITER + REGULAR_TITLE_NAME)
@@ -35,8 +35,8 @@ public class AnilibriaTitleBuilder {
 				.build();
 	}
 
-	public static AnilibriaSiteTitle buildNotFoundOnMalAnilibriaTitle() {
-		return AnilibriaSiteTitle.builder()
+	public static AnilibriaTitle buildNotFoundOnMalAnilibriaTitle() {
+		return AnilibriaTitle.builder()
 				.url(ANNOUNCEMENT_TITLE_ANILIBRIA_SITE_URL)
 				.fullName(ANNOUNCEMENT_TITLE_NAME_RU + FULL_NAME_DELIMITER + ANNOUNCEMENT_TITLE_NAME)
 				.ruName(ANNOUNCEMENT_TITLE_NAME_RU)

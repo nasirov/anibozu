@@ -11,8 +11,8 @@ import static nasirov.yv.utils.TestConstants.REGULAR_TITLE_NAME;
 import com.google.common.collect.Lists;
 import java.util.List;
 import lombok.experimental.UtilityClass;
-import nasirov.yv.data.fandub.anime_pik.api.AnimepikTitle;
-import nasirov.yv.data.fandub.anime_pik.api.TitleName;
+import nasirov.yv.data.fandub.anime_pik.AnimepikTitle;
+import nasirov.yv.data.fandub.anime_pik.TitleName;
 
 /**
  * Created by nasirov.yv

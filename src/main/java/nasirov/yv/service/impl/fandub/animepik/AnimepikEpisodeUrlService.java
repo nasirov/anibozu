@@ -5,14 +5,14 @@ import static nasirov.yv.util.MalUtils.getNextEpisodeForWatch;
 
 import java.util.List;
 import java.util.stream.Collectors;
-import nasirov.yv.data.fandub.anime_pik.api.AnimepikEpisode;
-import nasirov.yv.data.fandub.anime_pik.api.AnimepikTitle;
+import nasirov.yv.data.fandub.anime_pik.AnimepikEpisode;
+import nasirov.yv.data.fandub.anime_pik.AnimepikTitle;
 import nasirov.yv.data.mal.MalTitle;
 import nasirov.yv.data.properties.UrlsNames;
-import nasirov.yv.http.feign.fandub.animepik.api.AnimepikResourcesFeignClient;
+import nasirov.yv.http.feign.fandub.animepik.AnimepikResourcesFeignClient;
 import nasirov.yv.parser.AnimepikParserI;
 import nasirov.yv.service.TitlesServiceI;
-import nasirov.yv.service.impl.common.BaseEpisodeUrlService;
+import nasirov.yv.service.impl.fandub.BaseEpisodeUrlService;
 import org.springframework.stereotype.Service;
 
 /**

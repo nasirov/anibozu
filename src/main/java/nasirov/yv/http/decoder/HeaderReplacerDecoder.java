@@ -12,8 +12,8 @@ import java.lang.reflect.Type;
 import java.util.Collection;
 import java.util.Map;
 import java.util.regex.Pattern;
-import nasirov.yv.data.fandub.anime_pik.api.AnimepikEpisode;
-import nasirov.yv.data.fandub.animedia.site.SiteEpisode;
+import nasirov.yv.data.fandub.anime_pik.AnimepikEpisode;
+import nasirov.yv.data.fandub.animedia.AnimediaEpisode;
 import org.springframework.http.MediaType;
 
 /**
@@ -24,7 +24,7 @@ public class HeaderReplacerDecoder implements Decoder {
 	/**
 	 * Url part of Animedia data list info endpoint
 	 * <p>
-	 * Should be replaced with {@link MediaType#APPLICATION_JSON_VALUE} in order deserialize json to {@link SiteEpisode}
+	 * Should be replaced with {@link MediaType#APPLICATION_JSON_VALUE} in order deserialize json to {@link AnimediaEpisode}
 	 */
 	private static final String ANIMEDIA_DATA_LIST_INFO_ENDPOINT = "/embeds/playlist-j.txt/";
 

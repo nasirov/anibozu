@@ -3,28 +3,23 @@ package nasirov.yv;
 import static com.github.tomakehurst.wiremock.client.WireMock.aResponse;
 import static com.github.tomakehurst.wiremock.client.WireMock.equalTo;
 import static com.github.tomakehurst.wiremock.client.WireMock.get;
-import static nasirov.yv.utils.TestConstants.APPLICATION_JSON_CHARSET_UTF_8;
 import static nasirov.yv.utils.TestConstants.REQUEST_ACCEPT_ENCODING;
 import static org.springframework.http.HttpHeaders.ACCEPT_ENCODING;
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 import static org.springframework.http.HttpHeaders.CONTENT_TYPE;
 
 import com.github.tomakehurst.wiremock.WireMockServer;
-import java.util.Map;
-import java.util.stream.Stream;
 import nasirov.yv.data.properties.AnimediaProps;
 import nasirov.yv.data.properties.GitHubAuthProps;
 import nasirov.yv.data.properties.GitHubResourceProps;
 import nasirov.yv.data.properties.ResourcesNames;
 import nasirov.yv.data.properties.UrlsNames;
-import nasirov.yv.http.feign.fandub.anidub.api.AnidubApiFeignClient;
-import nasirov.yv.http.feign.fandub.anidub.site.AnidubSiteFeignClient;
-import nasirov.yv.http.feign.fandub.anilibria.site.AnilibriaSiteFeignClient;
-import nasirov.yv.http.feign.fandub.animedia.api.AnimediaApiFeignClient;
-import nasirov.yv.http.feign.fandub.animedia.site.AnimediaSiteFeignClient;
-import nasirov.yv.http.feign.fandub.animepik.api.AnimepikApiFeignClient;
-import nasirov.yv.http.feign.fandub.animepik.api.AnimepikResourcesFeignClient;
-import nasirov.yv.http.feign.fandub.jisedai.site.JisedaiSiteFeignClient;
+import nasirov.yv.http.feign.fandub.anidub.AnidubFeignClient;
+import nasirov.yv.http.feign.fandub.anilibria.AnilibriaFeignClient;
+import nasirov.yv.http.feign.fandub.animedia.AnimediaFeignClient;
+import nasirov.yv.http.feign.fandub.animepik.AnimepikFeignClient;
+import nasirov.yv.http.feign.fandub.animepik.AnimepikResourcesFeignClient;
+import nasirov.yv.http.feign.fandub.jisedai.JisedaiFeignClient;
 import nasirov.yv.parser.AnidubParserI;
 import nasirov.yv.parser.AnilibriaParserI;
 import nasirov.yv.parser.AnimepikParserI;
@@ -103,10 +98,7 @@ public abstract class AbstractTest {
 	protected GitHubResourceProps gitHubResourceProps;
 
 	@Autowired
-	protected AnimediaApiFeignClient animediaApiFeignClient;
-
-	@Autowired
-	protected AnimediaSiteFeignClient animediaSiteFeignClient;
+	protected AnimediaFeignClient animediaFeignClient;
 
 	@Autowired
 	protected AnimediaProps animediaProps;
@@ -115,22 +107,19 @@ public abstract class AbstractTest {
 	protected AnimediaTitlesUpdateServiceI animediaTitlesUpdateService;
 
 	@Autowired
-	protected AnidubApiFeignClient anidubApiFeignClient;
+	protected AnidubFeignClient anidubFeignClient;
 
 	@Autowired
-	protected AnidubSiteFeignClient anidubSiteFeignClient;
+	protected JisedaiFeignClient jisedaiFeignClient;
 
 	@Autowired
-	protected JisedaiSiteFeignClient jisedaiSiteFeignClient;
-
-	@Autowired
-	protected AnimepikApiFeignClient animepikApiFeignClient;
+	protected AnimepikFeignClient animepikFeignClient;
 
 	@Autowired
 	protected AnimepikResourcesFeignClient animepikResourcesFeignClient;
 
 	@Autowired
-	protected AnilibriaSiteFeignClient anilibriaSiteFeignClient;
+	protected AnilibriaFeignClient anilibriaFeignClient;
 
 	@Autowired
 	protected AnidubParserI anidubParser;
@@ -177,14 +166,6 @@ public abstract class AbstractTest {
 						.withBody(content)
 						.withStatus(status))
 				.build());
-	}
-
-	protected void stubAnimeMainPageAndDataLists(String animeId, String bodyFilePathForMainPage, Map<String, String> dataListAndBodyFilePath) {
-		createStubWithBodyFile("/api/mobile-anime/" + animeId, APPLICATION_JSON_CHARSET_UTF_8, bodyFilePathForMainPage);
-		Stream.of(dataListAndBodyFilePath)
-				.flatMap(x -> x.entrySet()
-						.stream())
-				.forEach(x -> createStubWithBodyFile("/api/mobile-anime/" + animeId + "/" + x.getKey(), APPLICATION_JSON_CHARSET_UTF_8, x.getValue()));
 	}
 
 	private void clearResources() {

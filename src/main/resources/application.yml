@@ -24,8 +24,6 @@ application:
       anilibria-url: https://www.anilibria.tv/
   services:
     applicationLogoPrinter-enabled: true
-    animedia-service-source: site #api | site
-    anidub-episode-url-service-source: site #api | site
   cron:
     resources-check-cron-expression: 0 0/30 * * * ?
   cache:
@@ -59,20 +57,15 @@ application:
   github:
     resources:
       animedia-titles: animediaTitles.json
-      anidub-api-titles: anidubApiTitles.json
-      anidub-site-titles: anidubSiteTitles.json
-      jisedai-site-titles: jisedaiSiteTitles.json
+      anidub-titles: anidubSiteTitles.json
+      jisedai-titles: jisedaiSiteTitles.json
       animepik-titles: animepikTitles.json
-      anilibria-site-titles: anilibriaSiteTitles.json
+      anilibria-titles: anilibriaSiteTitles.json
 
 server:
   port: ${PORT}
 
-animedia-api-feign-client:
-  ribbon:
-    listOfServers: https://ios.animedia.tv
-
-animedia-site-feign-client:
+animedia-feign-client:
   ribbon:
     listOfServers: https://online.animedia.pro
 
@@ -92,27 +85,23 @@ nine-anime-feign-client:
     MaxAutoRetriesNextServer: 10
     listOfServers: https://9anime.to,https://9anime.tv,https://9anime.live,https://9anime.life,https://9anime.love,https://9anime.nl,https://9anime.one,https://9anime.page,https://9anime.ru,https://9anime.video
 
-anidub-api-feign-client:
-  ribbon:
-    listOfServers: ${ANIDUB-API-URL}
-
-anidub-site-feign-client:
+anidub-feign-client:
   ribbon:
     listOfServers: https://anime.anidub.life
 
-jisedai-site-feign-client:
+jisedai-feign-client:
   ribbon:
     listOfServers: https://jisedai.tv
 
-anime-pik-api-feign-client:
+animepik-feign-client:
   ribbon:
     listOfServers: https://animepik.org
 
-anime-pik-resources-feign-client:
+animepik-resources-feign-client:
   ribbon:
     listOfServers: https://cdn.iss.one
 
-anilibria-site-feign-client:
+anilibria-feign-client:
   ribbon:
     listOfServers: https://www.anilibria.tv
 

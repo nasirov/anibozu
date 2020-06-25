@@ -9,14 +9,6 @@ application:
   fandub:
     disabled:
 
-animedia-api-feign-client:
-  ribbon:
-    listOfServers: localhost:${wiremock.server.port}
-
-animedia-site-feign-client:
-  ribbon:
-    listOfServers: localhost:${wiremock.server.port}
-
 mal-feign-client:
   ribbon:
     listOfServers: localhost:${wiremock.server.port}
@@ -25,30 +17,30 @@ github-feign-client:
   ribbon:
     listOfServers: localhost:${wiremock.server.port}
 
+animedia-feign-client:
+  ribbon:
+    listOfServers: localhost:${wiremock.server.port}
+
 nine-anime-feign-client:
   ribbon:
     listOfServers: localhost:${wiremock.server.port}
 
-anidub-api-feign-client:
+anidub-feign-client:
   ribbon:
     listOfServers: localhost:${wiremock.server.port}
 
-anidub-site-feign-client:
+jisedai-feign-client:
   ribbon:
     listOfServers: localhost:${wiremock.server.port}
 
-jisedai-site-feign-client:
+animepik-feign-client:
   ribbon:
     listOfServers: localhost:${wiremock.server.port}
 
-anime-pik-api-feign-client:
+animepik-resources-feign-client:
   ribbon:
     listOfServers: localhost:${wiremock.server.port}
 
-anime-pik-resources-feign-client:
-  ribbon:
-    listOfServers: localhost:${wiremock.server.port}
-
-anilibria-site-feign-client:
+anilibria-feign-client:
   ribbon:
     listOfServers: localhost:${wiremock.server.port}

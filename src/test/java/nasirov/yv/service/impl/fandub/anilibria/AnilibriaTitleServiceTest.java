@@ -1,7 +1,7 @@
-package nasirov.yv.service.impl.fandub.animepik;
+package nasirov.yv.service.impl.fandub.anilibria;
 
-import static nasirov.yv.utils.AnimepikTitleBuilder.buildAnimepikTitles;
-import static nasirov.yv.utils.AnimepikTitleBuilder.buildRegularAnimepikTitle;
+import static nasirov.yv.utils.AnilibriaTitleBuilder.buildAnilibriaTitles;
+import static nasirov.yv.utils.AnilibriaTitleBuilder.buildRegularAnilibriaTitle;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.doReturn;
@@ -9,7 +9,7 @@ import static org.mockito.Mockito.doReturn;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
-import nasirov.yv.data.fandub.anime_pik.AnimepikTitle;
+import nasirov.yv.data.fandub.anilibria.AnilibriaTitle;
 import nasirov.yv.data.properties.GitHubResourceProps;
 import nasirov.yv.service.GitHubResourcesServiceI;
 import org.junit.Test;
@@ -22,7 +22,7 @@ import org.mockito.junit.MockitoJUnitRunner;
  * Created by nasirov.yv
  */
 @RunWith(MockitoJUnitRunner.class)
-public class AnimepikTitleServiceTest {
+public class AnilibriaTitleServiceTest {
 
 	@Mock
 	private GitHubResourcesServiceI gitHubResourcesService;
@@ -31,19 +31,19 @@ public class AnimepikTitleServiceTest {
 	private GitHubResourceProps gitHubResourceProps;
 
 	@InjectMocks
-	private AnimepikTitleService animePikTitleService;
+	private AnilibriaTitleService anilibriaTitleService;
 
 	@Test
 	public void shouldReturnDistinctNonNull() {
 		//given
 		mockGitHubResourceProps();
-		mockGitHubResourcesService(buildAnimepikTitles());
-		AnimepikTitle expected = buildRegularAnimepikTitle();
+		mockGitHubResourcesService(buildAnilibriaTitles());
+		AnilibriaTitle expected = buildRegularAnilibriaTitle();
 		//when
-		Map<Integer, List<AnimepikTitle>> result = animePikTitleService.getTitles();
+		Map<Integer, List<AnilibriaTitle>> result = anilibriaTitleService.getTitles();
 		//then
 		assertEquals(1, result.size());
-		List<AnimepikTitle> titles = result.get(expected.getTitleIdOnMal());
+		List<AnilibriaTitle> titles = result.get(expected.getTitleIdOnMal());
 		assertEquals(1, titles.size());
 		assertEquals(expected, titles.get(0));
 	}
@@ -54,18 +54,18 @@ public class AnimepikTitleServiceTest {
 		mockGitHubResourceProps();
 		mockGitHubResourcesService(Collections.emptyList());
 		//when
-		Map<Integer, List<AnimepikTitle>> result = animePikTitleService.getTitles();
+		Map<Integer, List<AnilibriaTitle>> result = anilibriaTitleService.getTitles();
 		//then
 		assertTrue(result.isEmpty());
 	}
 
 	private void mockGitHubResourceProps() {
-		doReturn("animepikTitles.json").when(gitHubResourceProps)
-				.getAnimepikTitles();
+		doReturn("anilibriaSiteTitles.json").when(gitHubResourceProps)
+				.getAnilibriaTitles();
 	}
 
-	private void mockGitHubResourcesService(List<AnimepikTitle> animepikTitles) {
-		doReturn(animepikTitles).when(gitHubResourcesService)
-				.getResource("animepikTitles.json", AnimepikTitle.class);
+	private void mockGitHubResourcesService(List<AnilibriaTitle> anilibriaTitles) {
+		doReturn(anilibriaTitles).when(gitHubResourcesService)
+				.getResource("anilibriaSiteTitles.json", AnilibriaTitle.class);
 	}
 }

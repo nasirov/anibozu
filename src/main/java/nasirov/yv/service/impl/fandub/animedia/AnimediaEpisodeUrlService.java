@@ -13,13 +13,13 @@ import static nasirov.yv.util.MalUtils.getNextEpisodeForWatch;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
-import nasirov.yv.data.fandub.animedia.AnimediaTitle;
 import nasirov.yv.data.constants.BaseConstants;
+import nasirov.yv.data.fandub.animedia.AnimediaTitle;
 import nasirov.yv.data.mal.MalTitle;
 import nasirov.yv.data.properties.UrlsNames;
 import nasirov.yv.service.AnimediaTitlesUpdateServiceI;
 import nasirov.yv.service.TitlesServiceI;
-import nasirov.yv.service.impl.common.BaseEpisodeUrlService;
+import nasirov.yv.service.impl.fandub.BaseEpisodeUrlService;
 import nasirov.yv.util.AnimediaUtils;
 import org.springframework.stereotype.Service;
 

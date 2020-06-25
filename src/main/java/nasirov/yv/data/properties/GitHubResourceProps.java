@@ -19,17 +19,14 @@ public class GitHubResourceProps {
 	private String animediaTitles;
 
 	@NotBlank
-	private String anidubApiTitles;
+	private String anidubTitles;
 
 	@NotBlank
-	private String anidubSiteTitles;
-
-	@NotBlank
-	private String jisedaiSiteTitles;
+	private String jisedaiTitles;
 
 	@NotBlank
 	private String animepikTitles;
 
 	@NotBlank
-	private String anilibriaSiteTitles;
+	private String anilibriaTitles;
 }
