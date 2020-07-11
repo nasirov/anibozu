@@ -7,7 +7,7 @@ application:
     tempExAnnouncements: exAnnouncements.json
   urls:
     animedia-urls:
-      online-animedia-tv: https://online.animedia.pro/
+      online-animedia-tv: https://online.animedia.tv/
     mal-urls:
       myAnimeList-net: https://myanimelist.net
       cdn-myAnimeList-net: https://cdn.myanimelist.net/
@@ -67,7 +67,7 @@ server:
 
 animedia-feign-client:
   ribbon:
-    listOfServers: https://online.animedia.pro
+    listOfServers: https://online.animedia.tv
 
 mal-feign-client:
   ribbon:

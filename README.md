@@ -12,7 +12,7 @@ The application analyzes an user watching titles from **[MyAnimeList](https://my
 <table>
   <tbody>
   <tr>
-    <td><a href="https://online.animedia.pro"><img src="https://www.google.com/s2/favicons?domain=https://online.animedia.pro" alt="animedia"> Animedia</a></td>
+    <td><a href="https://online.animedia.tv"><img src="https://www.google.com/s2/favicons?domain=https://online.animedia.tv" alt="animedia"> Animedia</a></td>
   </tr>
   <tr>
     <td><a href="https://anime.anidub.life/"><img src="https://www.google.com/s2/favicons?domain=https://anime.anidub.life/" alt="anidub"> Anidub</a></td>
