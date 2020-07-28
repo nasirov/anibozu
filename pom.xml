@@ -33,7 +33,7 @@
     <jsoup.version>1.12.1</jsoup.version>
     <powermock-module-junit4.version>2.0.7</powermock-module-junit4.version>
     <powermock-api-mockito2.version>2.0.7</powermock-api-mockito2.version>
-    <fandub-service-spring-boot-starter.version>0.4.1</fandub-service-spring-boot-starter.version>
+    <fandub-service-spring-boot-starter.version>0.4.3</fandub-service-spring-boot-starter.version>
   </properties>
 
   <dependencies>
@@ -137,9 +137,11 @@
       <name>GitHub nasirov Apache Maven Packages</name>
       <url>https://maven.pkg.github.com/nasirov/fandub-service-spring-boot-starter</url>
       <releases>
+        <updatePolicy>always</updatePolicy>
         <enabled>true</enabled>
       </releases>
       <snapshots>
+        <updatePolicy>always</updatePolicy>
         <enabled>true</enabled>
       </snapshots>
     </repository>
