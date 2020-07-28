@@ -1,8 +1,7 @@
 package nasirov.yv.service.impl.mal;
 
 import static java.util.Optional.ofNullable;
-import static nasirov.yv.data.mal.MALAnimeStatus.WATCHING;
-import static nasirov.yv.data.mal.MALCategories.ANIME;
+import static nasirov.yv.fandub.dto.mal.MalTitleStatus.WATCHING;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -13,19 +12,18 @@ import java.util.stream.Collectors;
 import javax.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import nasirov.yv.data.mal.MALSearchCategories;
-import nasirov.yv.data.mal.MALSearchTitleInfo;
-import nasirov.yv.data.mal.MalTitle;
 import nasirov.yv.data.properties.MalProps;
 import nasirov.yv.data.properties.UrlsNames;
-import nasirov.yv.exception.mal.MALForbiddenException;
-import nasirov.yv.exception.mal.MALUserAccountNotFoundException;
-import nasirov.yv.exception.mal.MALUserAnimeListAccessException;
 import nasirov.yv.exception.mal.MalException;
+import nasirov.yv.exception.mal.MalForbiddenException;
+import nasirov.yv.exception.mal.MalUserAccountNotFoundException;
+import nasirov.yv.exception.mal.MalUserAnimeListAccessException;
+import nasirov.yv.exception.mal.UnexpectedCallingException;
 import nasirov.yv.exception.mal.WatchingTitlesNotFoundException;
-import nasirov.yv.http.feign.mal.MALFeignClient;
+import nasirov.yv.fandub.dto.mal.MalTitle;
+import nasirov.yv.fandub.service.spring.boot.starter.feign.mal.MalFeignClient;
 import nasirov.yv.parser.MALParserI;
-import nasirov.yv.service.MALServiceI;
+import nasirov.yv.service.MalServiceI;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -38,13 +36,13 @@ import org.springframework.web.util.HtmlUtils;
 @Service
 @Slf4j
 @RequiredArgsConstructor
-public class MALService implements MALServiceI {
+public class MalService implements MalServiceI {
 
 	private static final Pattern POSTER_URL_RESOLUTION_PATTERN = Pattern.compile("(/r/\\d{1,3}x\\d{1,3})");
 
 	private static final Pattern S_VARIABLE_PATTERN = Pattern.compile("(\\?s=.+)");
 
-	private final MALFeignClient malFeignClient;
+	private final MalFeignClient malFeignClient;
 
 	private final MALParserI malParser;
 
@@ -65,7 +63,7 @@ public class MALService implements MALServiceI {
 	 * @param username the MAL username
 	 * @return user watching titles
 	 * @throws WatchingTitlesNotFoundException if number of watching titles is not found or == 0
-	 * @throws MALUserAccountNotFoundException if username doesn't exist
+	 * @throws MalUserAccountNotFoundException if username doesn't exist
 	 */
 	@Override
 	@Cacheable(value = "mal", key = "#username", unless = "#result?.isEmpty()")
@@ -82,25 +80,7 @@ public class MALService implements MALServiceI {
 		return result;
 	}
 
-	/**
-	 * Checks MAL title name for existence
-	 *
-	 * @param titleNameOnMal MAL title name
-	 * @param titleIdOnMal   title id in MAL db
-	 * @return true if MAL response contain one anime title with equals titleNameOnMal and titleIdOnMal, else false
-	 */
-	@Override
-	public boolean isTitleExist(String titleNameOnMal, Integer titleIdOnMal) {
-		return malFeignClient.searchTitleByName(titleNameOnMal)
-				.getCategories()
-				.stream()
-				.filter(this::isAnimeCategory)
-				.map(MALSearchCategories::getItems)
-				.flatMap(List::stream)
-				.anyMatch(title -> isTargetTitle(titleNameOnMal, titleIdOnMal, title));
-	}
-
-	private String extractUserProfile(String username) throws MALUserAccountNotFoundException, MALForbiddenException {
+	private String extractUserProfile(String username) throws MalUserAccountNotFoundException, MalForbiddenException {
 		ResponseEntity<String> malResponseWithUserProfile = malFeignClient.getUserProfile(username);
 		validateMalResponse(malResponseWithUserProfile, username);
 		return malResponseWithUserProfile.getBody();
@@ -118,18 +98,6 @@ public class MALService implements MALServiceI {
 				.map(this::changeAnimeUrl)
 				.map(this::changeTitleName)
 				.collect(Collectors.toList());
-	}
-
-	private boolean isAnimeCategory(MALSearchCategories categories) {
-		return categories.getType()
-				.equals(ANIME.getDescription());
-	}
-
-	private boolean isTargetTitle(String titleNameOnMal, Integer titleIdOnMal, MALSearchTitleInfo malSearchTitleInfo) {
-		return malSearchTitleInfo.getType()
-				.equals(ANIME.getDescription()) && malSearchTitleInfo.getName()
-				.equalsIgnoreCase(titleNameOnMal) && malSearchTitleInfo.getAnimeId()
-				.equals(titleIdOnMal);
 	}
 
 	/**
@@ -183,17 +151,18 @@ public class MALService implements MALServiceI {
 	 * @param username      the MAL username
 	 * @return the set with the user anime titles
 	 */
-	private List<MalTitle> getJsonTitlesAndUnmarshal(Integer currentOffset, String username) throws MALUserAnimeListAccessException {
+	private List<MalTitle> getJsonTitlesAndUnmarshal(Integer currentOffset, String username) throws MalUserAnimeListAccessException {
 		ResponseEntity<List<MalTitle>> malResponse = malFeignClient.getUserAnimeList(username, currentOffset, WATCHING.getCode());
 		checkUserAnimeListAccess(malResponse, username);
 		return ofNullable(malResponse.getBody()).orElseGet(Collections::emptyList);
 	}
 
-	private void checkUserAnimeListAccess(ResponseEntity<List<MalTitle>> malResponse, String username) throws MALUserAnimeListAccessException {
+	private void checkUserAnimeListAccess(ResponseEntity<List<MalTitle>> malResponse, String username) throws MalUserAnimeListAccessException {
 		if (malResponse.getStatusCode()
 				.equals(HttpStatus.BAD_REQUEST)) {
-			throw new MALUserAnimeListAccessException("Anime list " + username + " has private access!");
+			throw new MalUserAnimeListAccessException("Anime list " + username + " has private access!");
 		}
+		validateMalResponse(username, malResponse.getStatusCode());
 	}
 
 	/**
@@ -201,17 +170,24 @@ public class MALService implements MALServiceI {
 	 *
 	 * @param malResponseWithUserProfile a MAL response with an user profile
 	 * @param username                   the MAL username
-	 * @throws MALUserAccountNotFoundException if a response status == 404
-	 * @throws MALForbiddenException           if a response status == 403
+	 * @throws MalUserAccountNotFoundException if a response status == 404
+	 * @throws MalForbiddenException           if a response status == 403
 	 */
 	private void validateMalResponse(ResponseEntity<String> malResponseWithUserProfile, String username)
-			throws MALUserAccountNotFoundException, MALForbiddenException {
+			throws MalUserAccountNotFoundException, MalForbiddenException {
 		HttpStatus responseStatus = malResponseWithUserProfile.getStatusCode();
 		if (responseStatus.equals(HttpStatus.NOT_FOUND)) {
-			throw new MALUserAccountNotFoundException("MAL account " + username + " is not found");
+			throw new MalUserAccountNotFoundException("MAL account " + username + " is not found");
 		}
 		if (responseStatus.equals(HttpStatus.FORBIDDEN)) {
-			throw new MALForbiddenException("Sorry, " + username + ", but MAL rejected our requests with status 403.");
+			throw new MalForbiddenException("Sorry, " + username + ", but MAL rejected our requests with status 403.");
+		}
+		validateMalResponse(username, responseStatus);
+	}
+
+	private void validateMalResponse(String username, HttpStatus responseStatus) {
+		if (!responseStatus.equals(HttpStatus.OK)) {
+			throw new UnexpectedCallingException("Sorry, " + username + ", unexpected error has occurred.");
 		}
 	}
 

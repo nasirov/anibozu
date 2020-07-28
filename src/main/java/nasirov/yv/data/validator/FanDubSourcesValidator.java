@@ -6,8 +6,8 @@ import java.util.Set;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 import lombok.RequiredArgsConstructor;
-import nasirov.yv.data.constants.FanDubSource;
 import nasirov.yv.data.properties.FanDubProps;
+import nasirov.yv.fandub.dto.constant.FanDubSource;
 import org.springframework.stereotype.Component;
 
 /**

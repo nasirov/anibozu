@@ -8,18 +8,18 @@ import static org.mockito.Mockito.doThrow;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import com.google.common.collect.Lists;
 import java.util.Map;
 import lombok.SneakyThrows;
 import nasirov.yv.AbstractTest;
-import nasirov.yv.data.mal.MalTitle;
-import nasirov.yv.exception.mal.MALUserAccountNotFoundException;
-import nasirov.yv.exception.mal.MALUserAnimeListAccessException;
+import nasirov.yv.exception.mal.MalUserAccountNotFoundException;
+import nasirov.yv.exception.mal.MalUserAnimeListAccessException;
 import nasirov.yv.exception.mal.WatchingTitlesNotFoundException;
+import nasirov.yv.fandub.dto.mal.MalTitle;
 import org.junit.Test;
 import org.springframework.http.HttpStatus;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.web.servlet.ModelAndView;
-import wiremock.com.google.common.collect.Lists;
 
 /**
  * Created by nasirov.yv
@@ -53,7 +53,7 @@ public class ResultViewControllerTest extends AbstractTest {
 	@Test
 	public void checkResultUsernameIsNotFound() {
 		String errorMsg = "MAL account " + TEST_ACC_FOR_DEV.toLowerCase() + " is not found";
-		mockMalService(new MALUserAccountNotFoundException(errorMsg));
+		mockMalService(new MalUserAccountNotFoundException(errorMsg));
 		checkErrorView(errorMsg);
 	}
 
@@ -67,7 +67,7 @@ public class ResultViewControllerTest extends AbstractTest {
 	@Test
 	public void checkResultUserAnimeListPrivateAccess() {
 		String errorMsg = "Anime list " + TEST_ACC_FOR_DEV.toLowerCase() + " has private access!";
-		mockMalService(new MALUserAnimeListAccessException(errorMsg));
+		mockMalService(new MalUserAnimeListAccessException(errorMsg));
 		checkErrorView(errorMsg);
 	}
 

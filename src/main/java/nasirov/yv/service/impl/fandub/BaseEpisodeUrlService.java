@@ -7,7 +7,7 @@ import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import nasirov.yv.data.constants.BaseConstants;
 import nasirov.yv.data.github.GitHubResource;
-import nasirov.yv.data.mal.MalTitle;
+import nasirov.yv.fandub.dto.mal.MalTitle;
 import nasirov.yv.service.EpisodeUrlServiceI;
 import nasirov.yv.service.TitlesServiceI;
 

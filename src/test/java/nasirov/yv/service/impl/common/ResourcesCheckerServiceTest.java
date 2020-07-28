@@ -7,14 +7,11 @@ import static nasirov.yv.utils.AnimediaSearchListTitleBuilder.getRegularTitle;
 import static nasirov.yv.utils.AnimediaTitlesTestBuilder.getNotFoundOnMalAnimediaTitle;
 import static nasirov.yv.utils.AnimediaTitlesTestBuilder.getRegularNotUpdatedAnimediaTitle;
 import static nasirov.yv.utils.TestConstants.REGULAR_TITLE_ID;
-import static nasirov.yv.utils.TestConstants.REGULAR_TITLE_MAL_ANIME_ID;
-import static nasirov.yv.utils.TestConstants.REGULAR_TITLE_NAME;
 import static nasirov.yv.utils.TestConstants.REGULAR_TITLE_URL;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.argThat;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.doReturn;
-import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
@@ -45,22 +42,6 @@ public class ResourcesCheckerServiceTest extends AbstractTest {
 	}
 
 	@Test
-	public void checkAnimediaTitlesExistOnMalOk() {
-		mockGetAnimediaTitles(getAllAnimediaTitles());
-		mockIsTitleExist(true);
-		resourcesCheckerService.checkAnimediaTitlesExistenceOnMal();
-		verify(wrappedObjectMapper, never()).marshal(any(), any());
-	}
-
-	@Test
-	public void checkAnimediaTitlesAreNotExistOnMal() {
-		mockGetAnimediaTitles(getAllAnimediaTitles());
-		mockIsTitleExist(false);
-		resourcesCheckerService.checkAnimediaTitlesExistenceOnMal();
-		checkMarshalledTempFiles(resourcesNames.getTempAnimediaTitlesNotFoundOnMal(), getRegularNotUpdatedAnimediaTitle());
-	}
-
-	@Test
 	public void checkAnimediaTitlesAreNotExistOnAnimedia() {
 		mockGetAnimediaSearchList(Sets.newHashSet(getRegularTitle(), getAnnouncement()));
 		mockGetAnimediaTitles(getAllAnimediaTitles());
@@ -80,11 +61,6 @@ public class ResourcesCheckerServiceTest extends AbstractTest {
 	private void mockGetAnimediaTitles(List<AnimediaTitle> allAnimediaTitles) {
 		doReturn(allAnimediaTitles).when(githubResourcesService)
 				.getResource("animediaTitles.json", AnimediaTitle.class);
-	}
-
-	private void mockIsTitleExist(boolean isTitleExist) {
-		doReturn(isTitleExist).when(malService)
-				.isTitleExist(REGULAR_TITLE_NAME, REGULAR_TITLE_MAL_ANIME_ID);
 	}
 
 	private void mockGetAnimediaSearchList(Set<AnimediaSearchListTitle> animediaSearchListFromAnimedia) {

@@ -4,7 +4,6 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 import static nasirov.yv.data.constants.BaseConstants.FIRST_DATA_LIST;
 import static nasirov.yv.data.constants.BaseConstants.FIRST_EPISODE;
 import static nasirov.yv.util.AnimediaUtils.isAnnouncement;
-import static nasirov.yv.util.AnimediaUtils.isTitleNotFoundOnMAL;
 
 import feign.template.UriUtils;
 import java.io.File;
@@ -19,10 +18,9 @@ import nasirov.yv.data.fandub.animedia.AnimediaSearchListTitle;
 import nasirov.yv.data.fandub.animedia.AnimediaTitle;
 import nasirov.yv.data.properties.GitHubResourceProps;
 import nasirov.yv.data.properties.ResourcesNames;
-import nasirov.yv.parser.WrappedObjectMapperI;
+import nasirov.yv.fandub.service.spring.boot.starter.service.WrappedObjectMapperI;
 import nasirov.yv.service.AnimediaServiceI;
 import nasirov.yv.service.GitHubResourcesServiceI;
-import nasirov.yv.service.MALServiceI;
 import nasirov.yv.service.ResourcesCheckerServiceI;
 import org.springframework.context.annotation.Profile;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -41,41 +39,11 @@ public class ResourcesCheckerService implements ResourcesCheckerServiceI {
 
 	private final AnimediaServiceI animediaService;
 
-	private final MALServiceI malService;
-
 	private final ResourcesNames resourcesNames;
 
 	private final WrappedObjectMapperI wrappedObjectMapper;
 
 	private final GitHubResourceProps githubResourceProps;
-
-	@Override
-	@Scheduled(cron = "${application.cron.resources-check-cron-expression}")
-	public void checkAnimediaTitlesExistenceOnMal() {
-		log.info("START CHECKING ANIMEDIA TITLES EXISTENCE ON MAL ...");
-		List<AnimediaTitle> animediaTitles = githubResourcesService.getResource(githubResourceProps.getAnimediaTitles(), AnimediaTitle.class);
-		List<AnimediaTitle> notFoundOnMal = new LinkedList<>();
-		for (AnimediaTitle animediaTitle : animediaTitles) {
-			String titleNameOnMal = animediaTitle.getTitleNameOnMAL();
-			Integer titleIdOnMal = animediaTitle.getTitleIdOnMal();
-			if (!isTitleNotFoundOnMAL(animediaTitle)) {
-				boolean titleExist = malService.isTitleExist(titleNameOnMal, titleIdOnMal);
-				if (!titleExist) {
-					log.error("NOT FOUND TITLE [{}] WITH ID [{}] ON MAL!", titleNameOnMal, titleIdOnMal);
-					notFoundOnMal.add(AnimediaTitle.builder()
-							.urlOnAnimedia(animediaTitle.getUrlOnAnimedia())
-							.animeIdOnAnimedia(animediaTitle.getAnimeIdOnAnimedia())
-							.dataListOnAnimedia(animediaTitle.getDataListOnAnimedia())
-							.minOnAnimedia(animediaTitle.getMinOnAnimedia())
-							.titleNameOnMAL(titleNameOnMal)
-							.titleIdOnMal(titleIdOnMal)
-							.build());
-				}
-			}
-		}
-		marshallToTempFolder(resourcesNames.getTempAnimediaTitlesNotFoundOnMal(), notFoundOnMal);
-		log.info("END CHECKING ANIMEDIA TITLES EXISTENCE ON MAL.");
-	}
 
 	@Override
 	@Scheduled(cron = "${application.cron.resources-check-cron-expression}")

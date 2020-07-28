@@ -15,9 +15,9 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import nasirov.yv.data.mal.MalTitle;
 import nasirov.yv.data.properties.UrlsNames;
-import nasirov.yv.http.feign.fandub.nine_anime.NineAnimeFeignClient;
+import nasirov.yv.fandub.dto.mal.MalTitle;
+import nasirov.yv.fandub.service.spring.boot.starter.feign.fandub.nine_anime.NineAnimeFeignClient;
 import nasirov.yv.service.EpisodeUrlServiceI;
 import org.apache.commons.lang.StringUtils;
 import org.jsoup.Jsoup;
@@ -73,7 +73,7 @@ public class NineAnimeEpisodeUrlService implements EpisodeUrlServiceI {
 	}
 
 	private String searchTitleByNameAndGetResultHtml(String titleName) {
-		return nineAnimeFeignClient.searchTitleByName(encodeTitleName(titleName))
+		return nineAnimeFeignClient.getTitleByName(encodeTitleName(titleName))
 				.getHtml();
 	}
 
@@ -97,7 +97,7 @@ public class NineAnimeEpisodeUrlService implements EpisodeUrlServiceI {
 	}
 
 	private String getTitleEpisodesInfoHtml(String dataId) {
-		return nineAnimeFeignClient.getTitleEpisodesInfo(dataId)
+		return nineAnimeFeignClient.getTitleEpisodes(dataId)
 				.getHtml();
 	}
 

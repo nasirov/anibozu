@@ -6,7 +6,7 @@ import static org.junit.Assert.assertFalse;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import lombok.SneakyThrows;
-import nasirov.yv.data.mal.MalTitle;
+import nasirov.yv.fandub.dto.mal.MalTitle;
 import org.junit.Test;
 
 /**

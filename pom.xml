@@ -27,26 +27,22 @@
     <org.eluder.coveralls>4.3.0</org.eluder.coveralls>
     <guava.version>28.2-jre</guava.version>
     <commons-io.version>2.6</commons-io.version>
-    <commons-lang3.version>3.10</commons-lang3.version>
     <commons-collections4.version>4.4</commons-collections4.version>
-    <spring-cloud-starter.version>2.1.0.RELEASE</spring-cloud-starter.version>
-    <spring-cloud-starter-feign.version>1.4.5.RELEASE</spring-cloud-starter-feign.version>
-    <spring-cloud-starter-netflix-ribbon.version>2.1.0.RELEASE</spring-cloud-starter-netflix-ribbon.version>
-    <spring-cloud-starter-openfeign.version>2.1.4.RELEASE</spring-cloud-starter-openfeign.version>
-    <feign-jackson.version>9.3.1</feign-jackson.version>
-    <spring-cloud.version>Greenwich.RELEASE</spring-cloud.version>
-    <spring-cloud-starter-contract-stub-runner.version>2.1.4.RELEASE</spring-cloud-starter-contract-stub-runner.version>
     <argLine>-Dfile.encoding=UTF-8</argLine>
     <docker.buildArg.JAR_FILE>target/${project.build.finalName}.jar</docker.buildArg.JAR_FILE>
-    <spring-retry.version>1.2.4.RELEASE</spring-retry.version>
-    <ehcache.version>3.6.3</ehcache.version>
     <jsoup.version>1.12.1</jsoup.version>
-    <dec>0.1.2</dec>
     <powermock-module-junit4.version>2.0.7</powermock-module-junit4.version>
     <powermock-api-mockito2.version>2.0.7</powermock-api-mockito2.version>
+    <fandub-service-spring-boot-starter.version>0.4.1</fandub-service-spring-boot-starter.version>
   </properties>
 
   <dependencies>
+
+    <dependency>
+      <groupId>nasirov.yv</groupId>
+      <artifactId>fandub-service-spring-boot-starter</artifactId>
+      <version>${fandub-service-spring-boot-starter.version}</version>
+    </dependency>
 
     <dependency>
       <groupId>org.springframework.boot</groupId>
@@ -64,38 +60,6 @@
     </dependency>
 
     <dependency>
-      <groupId>org.springframework.cloud</groupId>
-      <artifactId>spring-cloud-starter-openfeign</artifactId>
-      <version>${spring-cloud-starter-openfeign.version}</version>
-    </dependency>
-
-    <dependency>
-      <groupId>org.springframework.cloud</groupId>
-      <artifactId>spring-cloud-starter-netflix-ribbon</artifactId>
-      <version>${spring-cloud-starter-netflix-ribbon.version}</version>
-    </dependency>
-
-    <dependency>
-      <groupId>io.github.openfeign</groupId>
-      <artifactId>feign-jackson</artifactId>
-      <version>${feign-jackson.version}</version>
-    </dependency>
-
-    <dependency>
-      <groupId>org.springframework.cloud</groupId>
-      <artifactId>spring-cloud-dependencies</artifactId>
-      <version>${spring-cloud.version}</version>
-      <type>pom</type>
-      <scope>import</scope>
-    </dependency>
-
-    <dependency>
-      <groupId>org.springframework.retry</groupId>
-      <artifactId>spring-retry</artifactId>
-      <version>${spring-retry.version}</version>
-    </dependency>
-
-    <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-cache</artifactId>
     </dependency>
@@ -103,7 +67,6 @@
     <dependency>
       <groupId>org.ehcache</groupId>
       <artifactId>ehcache</artifactId>
-      <version>${ehcache.version}</version>
     </dependency>
 
     <dependency>
@@ -132,7 +95,6 @@
     <dependency>
       <groupId>org.apache.commons</groupId>
       <artifactId>commons-lang3</artifactId>
-      <version>${commons-lang3.version}</version>
     </dependency>
 
     <dependency>
@@ -145,12 +107,6 @@
       <groupId>org.jsoup</groupId>
       <artifactId>jsoup</artifactId>
       <version>${jsoup.version}</version>
-    </dependency>
-
-    <dependency>
-      <groupId>org.brotli</groupId>
-      <artifactId>dec</artifactId>
-      <version>${dec}</version>
     </dependency>
 
     <dependency>
@@ -173,22 +129,18 @@
       <scope>test</scope>
     </dependency>
 
-    <dependency>
-      <groupId>org.springframework.cloud</groupId>
-      <artifactId>spring-cloud-starter-contract-stub-runner</artifactId>
-      <version>${spring-cloud-starter-contract-stub-runner.version}</version>
-      <scope>test</scope>
-    </dependency>
-
   </dependencies>
 
   <repositories>
     <repository>
-      <id>spring-milestones</id>
-      <name>Spring Milestones</name>
-      <url>https://repo.spring.io/milestone</url>
+      <id>fandub-service-spring-boot-starter</id>
+      <name>GitHub nasirov Apache Maven Packages</name>
+      <url>https://maven.pkg.github.com/nasirov/fandub-service-spring-boot-starter</url>
+      <releases>
+        <enabled>true</enabled>
+      </releases>
       <snapshots>
-        <enabled>false</enabled>
+        <enabled>true</enabled>
       </snapshots>
     </repository>
   </repositories>
@@ -257,7 +209,6 @@
             <exclude>**/configuration/**</exclude>
             <exclude>**/data/**</exclude>
             <exclude>**/exception/**</exclude>
-            <exclude>**/http/**</exclude>
             <exclude>**/AnimeCheckerApplication**</exclude>
           </excludes>
         </configuration>

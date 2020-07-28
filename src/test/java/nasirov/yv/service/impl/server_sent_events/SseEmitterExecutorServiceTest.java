@@ -12,10 +12,10 @@ import static org.mockito.Mockito.verify;
 import com.google.common.collect.Sets;
 import java.util.concurrent.ForkJoinPool;
 import java.util.function.Consumer;
-import nasirov.yv.data.constants.FanDubSource;
-import nasirov.yv.data.mal.MALUser;
+import nasirov.yv.data.mal.MalUser;
 import nasirov.yv.data.properties.SseProps;
 import nasirov.yv.data.task.SseAction;
+import nasirov.yv.fandub.dto.constant.FanDubSource;
 import nasirov.yv.service.SseActionServiceI;
 import nasirov.yv.service.impl.common.CacheCleanerService;
 import org.junit.Test;
@@ -53,7 +53,7 @@ public class SseEmitterExecutorServiceTest {
 
 	@Test
 	public void buildAndExecuteSseEmitterOk() {
-		MALUser malUser = buildMalUser();
+		MalUser malUser = buildMalUser();
 		mockServices(malUser);
 		SseEmitter sseEmitter = sseEmitterExecutorService.buildAndExecuteSseEmitter(malUser);
 		checkTimeout(sseEmitter);
@@ -62,7 +62,7 @@ public class SseEmitterExecutorServiceTest {
 
 	@Test
 	public void onErrorConsumerOk() {
-		MALUser malUser = buildMalUser();
+		MalUser malUser = buildMalUser();
 		Consumer<Throwable> onErrorConsumer = ReflectionTestUtils.invokeMethod(sseEmitterExecutorService, "onErrorConsumer", malUser);
 		assertNotNull(onErrorConsumer);
 		onErrorConsumer.accept(new RuntimeException("Exception Message"));
@@ -71,7 +71,7 @@ public class SseEmitterExecutorServiceTest {
 
 	@Test
 	public void onTimeoutCallbackOk() {
-		MALUser malUser = buildMalUser();
+		MalUser malUser = buildMalUser();
 		Runnable onTimeoutCallback = ReflectionTestUtils.invokeMethod(sseEmitterExecutorService, "onTimeoutCallback", malUser);
 		assertNotNull(onTimeoutCallback);
 		onTimeoutCallback.run();
@@ -80,21 +80,21 @@ public class SseEmitterExecutorServiceTest {
 
 	@Test
 	public void onCompletionCallbackOk() {
-		MALUser malUser = buildMalUser();
+		MalUser malUser = buildMalUser();
 		Runnable onCompletionCallback = ReflectionTestUtils.invokeMethod(sseEmitterExecutorService, "onCompletionCallback", malUser);
 		assertNotNull(onCompletionCallback);
 		onCompletionCallback.run();
 		verify(cacheCleanerService).clearSseCache(malUser);
 	}
 
-	private MALUser buildMalUser() {
-		MALUser malUser = new MALUser();
+	private MalUser buildMalUser() {
+		MalUser malUser = new MalUser();
 		malUser.setUsername(TEST_ACC_FOR_DEV);
 		malUser.setFanDubSources(Sets.newHashSet(FanDubSource.ANIMEDIA, FanDubSource.NINEANIME));
 		return malUser;
 	}
 
-	private void mockServices(MALUser malUser) {
+	private void mockServices(MalUser malUser) {
 		doReturn(1).when(sseProps)
 				.getTimeoutInMin();
 		doReturn(sseAction).when(sseActionService)

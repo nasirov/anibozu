@@ -1,12 +1,13 @@
 package nasirov.yv.controller;
 
-import static nasirov.yv.data.constants.FanDubSource.ANIDUB;
-import static nasirov.yv.data.constants.FanDubSource.ANILIBRIA;
-import static nasirov.yv.data.constants.FanDubSource.ANIMEDIA;
-import static nasirov.yv.data.constants.FanDubSource.ANIMEPIK;
-import static nasirov.yv.data.constants.FanDubSource.JISEDAI;
 
-import nasirov.yv.data.mal.MALUser;
+import static nasirov.yv.fandub.dto.constant.FanDubSource.ANIDUB;
+import static nasirov.yv.fandub.dto.constant.FanDubSource.ANILIBRIA;
+import static nasirov.yv.fandub.dto.constant.FanDubSource.ANIMEDIA;
+import static nasirov.yv.fandub.dto.constant.FanDubSource.ANIMEPIK;
+import static nasirov.yv.fandub.dto.constant.FanDubSource.JISEDAI;
+
+import nasirov.yv.data.mal.MalUser;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,7 +22,7 @@ public class IndexController {
 
 	@GetMapping
 	public String index(Model model) {
-		model.addAttribute("malUser", new MALUser());
+		model.addAttribute("malUser", new MalUser());
 		model.addAttribute(ANIMEDIA.getName(), ANIMEDIA);
 		model.addAttribute(ANIDUB.getName(), ANIDUB);
 		model.addAttribute(JISEDAI.getName(), JISEDAI);

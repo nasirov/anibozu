@@ -3,7 +3,7 @@ package nasirov.yv.controller;
 import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import nasirov.yv.data.mal.MALUser;
+import nasirov.yv.data.mal.MalUser;
 import nasirov.yv.service.SseEmitterExecutorServiceI;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,7 +21,7 @@ public class SseEmitterController {
 	private final SseEmitterExecutorServiceI sseService;
 
 	@GetMapping("/sse")
-	public ResponseEntity<SseEmitter> getSseEmitter(@Valid MALUser malUser) {
+	public ResponseEntity<SseEmitter> getSseEmitter(@Valid MalUser malUser) {
 		String username = malUser.getUsername();
 		log.info("Received a request for Server-Sent Events processing by [{}]...", username);
 		SseEmitter sseEmitter = sseService.buildAndExecuteSseEmitter(malUser);

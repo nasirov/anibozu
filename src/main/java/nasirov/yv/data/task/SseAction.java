@@ -9,13 +9,13 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import nasirov.yv.data.constants.FanDubSource;
 import nasirov.yv.data.front.Anime;
 import nasirov.yv.data.front.EventType;
 import nasirov.yv.data.front.SseDto;
-import nasirov.yv.data.mal.MALUser;
-import nasirov.yv.data.mal.MalTitle;
-import nasirov.yv.service.MALServiceI;
+import nasirov.yv.data.mal.MalUser;
+import nasirov.yv.fandub.dto.constant.FanDubSource;
+import nasirov.yv.fandub.dto.mal.MalTitle;
+import nasirov.yv.service.MalServiceI;
 import nasirov.yv.service.impl.common.AnimeService;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter.SseEventBuilder;
@@ -29,11 +29,11 @@ public class SseAction extends RecursiveAction {
 
 	private final AnimeService animeService;
 
-	private final MALServiceI malService;
+	private final MalServiceI malService;
 
 	private final SseEmitter sseEmitter;
 
-	private final MALUser malUser;
+	private final MalUser malUser;
 
 	@Getter
 	private final AtomicBoolean isRunning = new AtomicBoolean(true);

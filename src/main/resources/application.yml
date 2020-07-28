@@ -65,46 +65,6 @@ application:
 server:
   port: ${PORT}
 
-animedia-feign-client:
-  ribbon:
-    listOfServers: https://online.animedia.tv
-
-mal-feign-client:
-  ribbon:
-    listOfServers: https://myanimelist.net
-
-github-feign-client:
-  ribbon:
-    listOfServers: https://raw.githubusercontent.com
-
-nine-anime-feign-client:
-  ribbon:
-    ConnectTimeout: 1000
-    ReadTimeout: 1000
-    MaxAutoRetries: 1
-    MaxAutoRetriesNextServer: 10
-    listOfServers: https://9anime.to,https://9anime.tv,https://9anime.live,https://9anime.life,https://9anime.love,https://9anime.nl,https://9anime.one,https://9anime.page,https://9anime.ru,https://9anime.video
-
-anidub-feign-client:
-  ribbon:
-    listOfServers: https://anime.anidub.life
-
-jisedai-feign-client:
-  ribbon:
-    listOfServers: https://jisedai.tv
-
-animepik-feign-client:
-  ribbon:
-    listOfServers: https://animepik.org
-
-animepik-resources-feign-client:
-  ribbon:
-    listOfServers: https://cdn.iss.one
-
-anilibria-feign-client:
-  ribbon:
-    listOfServers: https://www.anilibria.tv
-
 ribbon:
   eureka:
     enabled: false

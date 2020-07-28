@@ -6,11 +6,11 @@ import java.util.stream.Collectors;
 import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import nasirov.yv.data.constants.FanDubSource;
-import nasirov.yv.data.mal.MALUser;
-import nasirov.yv.data.mal.MalTitle;
+import nasirov.yv.data.mal.MalUser;
 import nasirov.yv.exception.mal.MalException;
-import nasirov.yv.service.MALServiceI;
+import nasirov.yv.fandub.dto.constant.FanDubSource;
+import nasirov.yv.fandub.dto.mal.MalTitle;
+import nasirov.yv.service.MalServiceI;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -23,10 +23,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 @RequiredArgsConstructor
 public class ResultViewController {
 
-	private final MALServiceI malService;
+	private final MalServiceI malService;
 
 	@PostMapping(value = "/result")
-	public String getResultView(@Valid MALUser malUser, Model model) {
+	public String getResultView(@Valid MalUser malUser, Model model) {
 		String username = malUser.getUsername();
 		log.info("Received a request for result view by [{}]...", username);
 		String resultView;
@@ -40,7 +40,7 @@ public class ResultViewController {
 		return resultView;
 	}
 
-	private String handleSuccess(int watchingTitlesSize, MALUser malUser, Model model) {
+	private String handleSuccess(int watchingTitlesSize, MalUser malUser, Model model) {
 		model.addAttribute("username", malUser.getUsername());
 		model.addAttribute("watchingTitlesSize", watchingTitlesSize);
 		model.addAttribute("fandubList", buildFanDubList(malUser.getFanDubSources()));

@@ -7,7 +7,7 @@ import java.util.Map;
 import lombok.Builder;
 import lombok.Data;
 import lombok.Singular;
-import nasirov.yv.data.constants.FanDubSource;
+import nasirov.yv.fandub.dto.constant.FanDubSource;
 
 /**
  * Dto holds processing result information and handles by freemarker via templates

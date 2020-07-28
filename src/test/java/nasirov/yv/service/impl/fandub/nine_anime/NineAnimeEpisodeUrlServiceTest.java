@@ -1,6 +1,5 @@
 package nasirov.yv.service.impl.fandub.nine_anime;
 
-import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 import static nasirov.yv.data.constants.BaseConstants.FINAL_URL_VALUE_IF_EPISODE_IS_NOT_AVAILABLE;
 import static nasirov.yv.data.constants.BaseConstants.NOT_FOUND_ON_FANDUB_SITE_URL;
 import static nasirov.yv.utils.TestConstants.MY_ANIME_LIST_STATIC_CONTENT_URL;
@@ -13,18 +12,26 @@ import static nasirov.yv.utils.TestConstants.REGULAR_TITLE_NAME;
 import static nasirov.yv.utils.TestConstants.REGULAR_TITLE_NINE_ANIME_DATA_ID;
 import static nasirov.yv.utils.TestConstants.REGULAR_TITLE_POSTER_URL;
 import static org.junit.Assert.assertEquals;
+import static org.mockito.Mockito.doReturn;
 
 import feign.template.UriUtils;
 import java.nio.charset.StandardCharsets;
 import nasirov.yv.AbstractTest;
-import nasirov.yv.data.mal.MalTitle;
+import nasirov.yv.fandub.dto.fandub.nine_anime.NineAnimeResponse;
+import nasirov.yv.fandub.dto.mal.MalTitle;
+import nasirov.yv.fandub.service.spring.boot.starter.feign.fandub.nine_anime.NineAnimeFeignClient;
+import nasirov.yv.utils.IOUtils;
 import org.apache.commons.lang.StringUtils;
 import org.junit.Test;
+import org.springframework.boot.test.mock.mockito.MockBean;
 
 /**
  * Created by nasirov.yv
  */
 public class NineAnimeEpisodeUrlServiceTest extends AbstractTest {
+
+	@MockBean
+	private NineAnimeFeignClient nineAnimeFeignClient;
 
 	@Test
 	public void dubAvailableNewEpisodeAvailable() {
@@ -88,10 +95,11 @@ public class NineAnimeEpisodeUrlServiceTest extends AbstractTest {
 	}
 
 	private void mockNineAnime(String titleSearchBodyFile, String episodesSearchBodyFile, String dataId) {
-		createStubWithBodyFile("/ajax/film/search?keyword=" + UriUtils.encode(buildTitleNameWithSemiColin(), StandardCharsets.UTF_8),
-				APPLICATION_JSON,
-				titleSearchBodyFile);
-		createStubWithBodyFile("/ajax/film/servers/" + dataId, APPLICATION_JSON, episodesSearchBodyFile);
+		doReturn(IOUtils.unmarshal(IOUtils.readFromFile("classpath:__files/" + titleSearchBodyFile), NineAnimeResponse.class)).when(nineAnimeFeignClient)
+				.getTitleByName(UriUtils.encode(buildTitleNameWithSemiColin(), StandardCharsets.UTF_8));
+		doReturn(IOUtils.unmarshal(IOUtils.readFromFile("classpath:__files/" + episodesSearchBodyFile), NineAnimeResponse.class)).when(
+				nineAnimeFeignClient)
+				.getTitleEpisodes(dataId);
 	}
 
 	private String buildTitleNameWithSemiColin() {

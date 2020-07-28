@@ -5,7 +5,6 @@ import static nasirov.yv.data.constants.BaseConstants.FIRST_EPISODE;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import lombok.extern.slf4j.Slf4j;
-import nasirov.yv.data.fandub.animedia.AnimediaEpisode;
 import nasirov.yv.parser.AnimediaEpisodeParserI;
 import org.springframework.stereotype.Component;
 

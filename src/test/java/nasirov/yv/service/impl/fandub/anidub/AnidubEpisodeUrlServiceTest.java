@@ -11,22 +11,27 @@ import static nasirov.yv.utils.TestConstants.REGULAR_TITLE_MAL_ANIME_ID;
 import static nasirov.yv.utils.TestConstants.REGULAR_TITLE_MAL_ANIME_URL;
 import static nasirov.yv.utils.TestConstants.REGULAR_TITLE_NAME;
 import static nasirov.yv.utils.TestConstants.REGULAR_TITLE_POSTER_URL;
-import static nasirov.yv.utils.TestConstants.TEXT_HTML_CHARSET_UTF_8;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.doReturn;
 
 import java.util.List;
 import nasirov.yv.AbstractTest;
 import nasirov.yv.data.fandub.anidub.AnidubTitle;
-import nasirov.yv.data.mal.MalTitle;
+import nasirov.yv.fandub.dto.mal.MalTitle;
+import nasirov.yv.fandub.service.spring.boot.starter.feign.fandub.anidub.AnidubFeignClient;
 import nasirov.yv.service.impl.fandub.BaseEpisodeUrlService;
+import nasirov.yv.utils.IOUtils;
 import org.junit.Before;
 import org.junit.Test;
+import org.springframework.boot.test.mock.mockito.MockBean;
 
 /**
  * Created by nasirov.yv
  */
 public class AnidubEpisodeUrlServiceTest extends AbstractTest {
+
+	@MockBean
+	protected AnidubFeignClient anidubFeignClient;
 
 	private BaseEpisodeUrlService<AnidubTitle> anidubEpisodeUrlService;
 
@@ -35,7 +40,8 @@ public class AnidubEpisodeUrlServiceTest extends AbstractTest {
 	public void setUp() {
 		super.setUp();
 		mockGitHubResourcesService(buildAnidubTitles());
-		anidubEpisodeUrlService = new AnidubEpisodeUrlService(anidubFeignClient, new AnidubTitleService(githubResourcesService, gitHubResourceProps),
+		anidubEpisodeUrlService = new AnidubEpisodeUrlService(anidubFeignClient,
+				new AnidubTitleService(githubResourcesService, gitHubResourceProps),
 				anidubParser,
 				urlsNames);
 	}
@@ -75,7 +81,8 @@ public class AnidubEpisodeUrlServiceTest extends AbstractTest {
 	}
 
 	private void mockAnidub() {
-		createStubWithBodyFile("/" + REGULAR_TITLE_ANIDUB_SITE_URL, TEXT_HTML_CHARSET_UTF_8, "anidub/siteRegularTitle.html");
+		doReturn(IOUtils.readFromFile("classpath:__files/anidub/siteRegularTitle.html")).when(anidubFeignClient)
+				.getTitlePage(REGULAR_TITLE_ANIDUB_SITE_URL);
 	}
 
 	private void mockGitHubResourcesService(List<AnidubTitle> titles) {

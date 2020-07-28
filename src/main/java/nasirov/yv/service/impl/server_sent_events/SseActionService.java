@@ -4,10 +4,10 @@ import static java.util.Objects.nonNull;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import nasirov.yv.data.mal.MALUser;
+import nasirov.yv.data.mal.MalUser;
 import nasirov.yv.data.properties.CacheProps;
 import nasirov.yv.data.task.SseAction;
-import nasirov.yv.service.MALServiceI;
+import nasirov.yv.service.MalServiceI;
 import nasirov.yv.service.SseActionServiceI;
 import nasirov.yv.service.impl.common.AnimeService;
 import org.springframework.cache.Cache;
@@ -25,7 +25,7 @@ public class SseActionService implements SseActionServiceI {
 
 	private final AnimeService animeService;
 
-	private final MALServiceI malService;
+	private final MalServiceI malService;
 
 	private final CacheProps cacheProps;
 
@@ -39,7 +39,7 @@ public class SseActionService implements SseActionServiceI {
 	 * @return an SseAction
 	 */
 	@Override
-	public SseAction buildSseAction(SseEmitter sseEmitter, MALUser malUser) {
+	public SseAction buildSseAction(SseEmitter sseEmitter, MalUser malUser) {
 		log.debug("Trying to build SseAction for [{}]...", malUser);
 		SseAction result = new SseAction(animeService, malService, sseEmitter, malUser);
 		Cache cache = cacheManager.getCache(cacheProps.getSse()

@@ -1,6 +1,7 @@
 package nasirov.yv.service;
 
-import nasirov.yv.data.mal.MalTitle;
+
+import nasirov.yv.fandub.dto.mal.MalTitle;
 
 /**
  * Created by nasirov.yv

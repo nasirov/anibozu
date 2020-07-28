@@ -9,9 +9,9 @@ import static nasirov.yv.utils.AnimepikTitleBuilder.buildNotFoundOnMalAnimepikTi
 import static nasirov.yv.utils.AnimepikTitleBuilder.buildRegularAnimepikTitle;
 import static nasirov.yv.utils.JisedaiTitleBuilder.buildNotFoundOnMalJesidaiTitle;
 import static nasirov.yv.utils.JisedaiTitleBuilder.buildRegularJesidaiTitle;
-import static nasirov.yv.utils.TestConstants.TEXT_PLAIN_CHARSET_UTF_8;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
+import static org.mockito.Mockito.doReturn;
 
 import java.util.List;
 import nasirov.yv.AbstractTest;
@@ -20,12 +20,18 @@ import nasirov.yv.data.fandub.anilibria.AnilibriaTitle;
 import nasirov.yv.data.fandub.anime_pik.AnimepikTitle;
 import nasirov.yv.data.fandub.animedia.AnimediaTitle;
 import nasirov.yv.data.fandub.jisedai.JisedaiTitle;
+import nasirov.yv.fandub.service.spring.boot.starter.feign.github.GitHubFeignClient;
+import nasirov.yv.utils.IOUtils;
 import org.junit.Test;
+import org.springframework.boot.test.mock.mockito.MockBean;
 
 /**
  * Created by nasirov.yv
  */
 public class GitHubResourcesServiceTest extends AbstractTest {
+
+	@MockBean
+	private GitHubFeignClient gitHubFeignClient;
 
 	@Test
 	public void shouldReturnAnimediaTitles() {
@@ -88,9 +94,7 @@ public class GitHubResourcesServiceTest extends AbstractTest {
 	}
 
 	private void stubGitHub(String resourceName) {
-		createStubWithBodyFile("/nasirov/anime-checker-resources/master/" + resourceName,
-				TEXT_PLAIN_CHARSET_UTF_8,
-				"github/" + resourceName,
-				gitHubAuthProps.getToken());
+		doReturn(IOUtils.readFromFile("classpath:__files/github/" + resourceName)).when(gitHubFeignClient)
+				.getResource("token " + gitHubAuthProps.getToken(), resourceName);
 	}
 }

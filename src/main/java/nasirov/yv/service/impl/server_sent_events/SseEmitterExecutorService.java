@@ -5,7 +5,7 @@ import java.util.concurrent.ForkJoinPool;
 import java.util.function.Consumer;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import nasirov.yv.data.mal.MALUser;
+import nasirov.yv.data.mal.MalUser;
 import nasirov.yv.data.properties.SseProps;
 import nasirov.yv.data.task.SseAction;
 import nasirov.yv.service.CacheCleanerServiceI;
@@ -37,7 +37,7 @@ public class SseEmitterExecutorService implements SseEmitterExecutorServiceI {
 	 * @return a SseEmitter
 	 */
 	@Override
-	public SseEmitter buildAndExecuteSseEmitter(MALUser malUser) {
+	public SseEmitter buildAndExecuteSseEmitter(MalUser malUser) {
 		log.debug("Trying to build SseEmitter for [{}]...", malUser);
 		SseEmitter sseEmitter = new SseEmitter(Duration.ofMinutes(sseProps.getTimeoutInMin())
 				.toMillis());
@@ -48,7 +48,7 @@ public class SseEmitterExecutorService implements SseEmitterExecutorServiceI {
 		return sseEmitter;
 	}
 
-	private void enrichSseEmitterWithCallbacks(SseEmitter sseEmitter, MALUser malUser) {
+	private void enrichSseEmitterWithCallbacks(SseEmitter sseEmitter, MalUser malUser) {
 		sseEmitter.onError(onErrorConsumer(malUser));
 		sseEmitter.onTimeout(onTimeoutCallback(malUser));
 		sseEmitter.onCompletion(onCompletionCallback(malUser));
@@ -60,14 +60,14 @@ public class SseEmitterExecutorService implements SseEmitterExecutorServiceI {
 	 * @param malUser sse cache key
 	 * @return consumer
 	 */
-	private Consumer<Throwable> onErrorConsumer(MALUser malUser) {
+	private Consumer<Throwable> onErrorConsumer(MalUser malUser) {
 		return e -> {
 			log.error("SseEmitter error callback for [{}]", malUser);
 			cacheCleanerService.clearSseCache(malUser);
 		};
 	}
 
-	private Runnable onTimeoutCallback(MALUser malUser) {
+	private Runnable onTimeoutCallback(MalUser malUser) {
 		return () -> log.error("SseEmitter timeout callback for [{}]", malUser);
 	}
 
@@ -77,7 +77,7 @@ public class SseEmitterExecutorService implements SseEmitterExecutorServiceI {
 	 * @param malUser sse cache key
 	 * @return task
 	 */
-	private Runnable onCompletionCallback(MALUser malUser) {
+	private Runnable onCompletionCallback(MalUser malUser) {
 		return () -> {
 			log.info("SseEmitter completed callback for [{}]", malUser);
 			cacheCleanerService.clearSseCache(malUser);

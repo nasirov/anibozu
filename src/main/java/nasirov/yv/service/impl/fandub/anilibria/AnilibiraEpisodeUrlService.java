@@ -5,9 +5,9 @@ import static nasirov.yv.util.MalUtils.getNextEpisodeForWatch;
 
 import java.util.List;
 import nasirov.yv.data.fandub.anilibria.AnilibriaTitle;
-import nasirov.yv.data.mal.MalTitle;
 import nasirov.yv.data.properties.UrlsNames;
-import nasirov.yv.http.feign.fandub.anilibria.AnilibriaFeignClient;
+import nasirov.yv.fandub.dto.mal.MalTitle;
+import nasirov.yv.fandub.service.spring.boot.starter.feign.fandub.anilibria.AnilibriaFeignClient;
 import nasirov.yv.parser.AnilibriaParserI;
 import nasirov.yv.service.TitlesServiceI;
 import nasirov.yv.service.impl.fandub.BaseEpisodeUrlService;
@@ -25,8 +25,8 @@ public class AnilibiraEpisodeUrlService extends BaseEpisodeUrlService<AnilibriaT
 
 	private final AnilibriaParserI anilibriaParser;
 
-	public AnilibiraEpisodeUrlService(TitlesServiceI<AnilibriaTitle> titlesService, AnilibriaFeignClient anilibriaFeignClient,
-			UrlsNames urlsNames, AnilibriaParserI anilibriaParser) {
+	public AnilibiraEpisodeUrlService(TitlesServiceI<AnilibriaTitle> titlesService, AnilibriaFeignClient anilibriaFeignClient, UrlsNames urlsNames,
+			AnilibriaParserI anilibriaParser) {
 		super(titlesService);
 		this.anilibriaFeignClient = anilibriaFeignClient;
 		this.urlsNames = urlsNames;

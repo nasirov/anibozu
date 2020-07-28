@@ -8,39 +8,3 @@ application:
     offset-step: 2
   fandub:
     disabled:
-
-mal-feign-client:
-  ribbon:
-    listOfServers: localhost:${wiremock.server.port}
-
-github-feign-client:
-  ribbon:
-    listOfServers: localhost:${wiremock.server.port}
-
-animedia-feign-client:
-  ribbon:
-    listOfServers: localhost:${wiremock.server.port}
-
-nine-anime-feign-client:
-  ribbon:
-    listOfServers: localhost:${wiremock.server.port}
-
-anidub-feign-client:
-  ribbon:
-    listOfServers: localhost:${wiremock.server.port}
-
-jisedai-feign-client:
-  ribbon:
-    listOfServers: localhost:${wiremock.server.port}
-
-animepik-feign-client:
-  ribbon:
-    listOfServers: localhost:${wiremock.server.port}
-
-animepik-resources-feign-client:
-  ribbon:
-    listOfServers: localhost:${wiremock.server.port}
-
-anilibria-feign-client:
-  ribbon:
-    listOfServers: localhost:${wiremock.server.port}

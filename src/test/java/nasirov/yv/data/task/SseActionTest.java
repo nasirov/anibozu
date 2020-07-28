@@ -17,13 +17,13 @@ import java.util.Map;
 import java.util.Set;
 import lombok.SneakyThrows;
 import nasirov.yv.data.constants.BaseConstants;
-import nasirov.yv.data.constants.FanDubSource;
 import nasirov.yv.data.front.Anime;
 import nasirov.yv.data.front.EventType;
 import nasirov.yv.data.front.SseDto;
-import nasirov.yv.data.mal.MALUser;
-import nasirov.yv.data.mal.MalTitle;
-import nasirov.yv.service.MALServiceI;
+import nasirov.yv.data.mal.MalUser;
+import nasirov.yv.fandub.dto.constant.FanDubSource;
+import nasirov.yv.fandub.dto.mal.MalTitle;
+import nasirov.yv.service.MalServiceI;
 import nasirov.yv.service.impl.common.AnimeService;
 import nasirov.yv.utils.TestConstants;
 import org.junit.Test;
@@ -45,13 +45,13 @@ public class SseActionTest {
 	private AnimeService animeService;
 
 	@Mock
-	private MALServiceI malService;
+	private MalServiceI malService;
 
 	@Mock
 	private SseEmitter sseEmitter;
 
 	@Mock
-	private MALUser malUser;
+	private MalUser malUser;
 
 	@InjectMocks
 	private SseAction sseAction;

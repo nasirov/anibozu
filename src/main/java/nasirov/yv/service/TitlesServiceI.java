@@ -4,7 +4,7 @@ package nasirov.yv.service;
 import java.util.List;
 import java.util.Map;
 import nasirov.yv.data.github.GitHubResource;
-import nasirov.yv.data.mal.MalTitle;
+import nasirov.yv.fandub.dto.mal.MalTitle;
 
 /**
  * Created by nasirov.yv

@@ -8,9 +8,9 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import nasirov.yv.data.fandub.anidub.AnidubTitle;
-import nasirov.yv.data.mal.MalTitle;
 import nasirov.yv.data.properties.UrlsNames;
-import nasirov.yv.http.feign.fandub.anidub.AnidubFeignClient;
+import nasirov.yv.fandub.dto.mal.MalTitle;
+import nasirov.yv.fandub.service.spring.boot.starter.feign.fandub.anidub.AnidubFeignClient;
 import nasirov.yv.parser.AnidubParserI;
 import nasirov.yv.service.TitlesServiceI;
 import nasirov.yv.service.impl.fandub.BaseEpisodeUrlService;
@@ -31,8 +31,8 @@ public class AnidubEpisodeUrlService extends BaseEpisodeUrlService<AnidubTitle> 
 
 	private final UrlsNames urlsNames;
 
-	public AnidubEpisodeUrlService(AnidubFeignClient anidubFeignClient, TitlesServiceI<AnidubTitle> anidubTitleService,
-			AnidubParserI anidubParser, UrlsNames urlsNames) {
+	public AnidubEpisodeUrlService(AnidubFeignClient anidubFeignClient, TitlesServiceI<AnidubTitle> anidubTitleService, AnidubParserI anidubParser,
+			UrlsNames urlsNames) {
 		super(anidubTitleService);
 		this.anidubFeignClient = anidubFeignClient;
 		this.anidubParser = anidubParser;

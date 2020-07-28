@@ -1,7 +1,7 @@
 package nasirov.yv.service.impl.common;
 
 import lombok.extern.slf4j.Slf4j;
-import nasirov.yv.data.mal.MALUser;
+import nasirov.yv.data.mal.MalUser;
 import nasirov.yv.service.CacheCleanerServiceI;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.stereotype.Service;
@@ -15,7 +15,7 @@ public class CacheCleanerService implements CacheCleanerServiceI {
 
 	@Override
 	@CacheEvict(cacheNames = "sse", key = "T(java.lang.String).valueOf(#malUser.hashCode())")
-	public void clearSseCache(MALUser malUser) {
+	public void clearSseCache(MalUser malUser) {
 		log.info("Received request for eviction sse cache for [{}] by key [{}].", malUser, malUser.hashCode());
 	}
 }

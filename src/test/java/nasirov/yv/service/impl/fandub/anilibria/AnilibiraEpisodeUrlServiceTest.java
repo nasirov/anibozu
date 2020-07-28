@@ -11,22 +11,27 @@ import static nasirov.yv.utils.TestConstants.REGULAR_TITLE_MAL_ANIME_ID;
 import static nasirov.yv.utils.TestConstants.REGULAR_TITLE_MAL_ANIME_URL;
 import static nasirov.yv.utils.TestConstants.REGULAR_TITLE_NAME;
 import static nasirov.yv.utils.TestConstants.REGULAR_TITLE_POSTER_URL;
-import static nasirov.yv.utils.TestConstants.TEXT_HTML_CHARSET_UTF_8;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.doReturn;
 
 import java.util.List;
 import nasirov.yv.AbstractTest;
 import nasirov.yv.data.fandub.anilibria.AnilibriaTitle;
-import nasirov.yv.data.mal.MalTitle;
+import nasirov.yv.fandub.dto.mal.MalTitle;
+import nasirov.yv.fandub.service.spring.boot.starter.feign.fandub.anilibria.AnilibriaFeignClient;
 import nasirov.yv.service.impl.fandub.BaseEpisodeUrlService;
+import nasirov.yv.utils.IOUtils;
 import org.junit.Before;
 import org.junit.Test;
+import org.springframework.boot.test.mock.mockito.MockBean;
 
 /**
  * Created by nasirov.yv
  */
 public class AnilibiraEpisodeUrlServiceTest extends AbstractTest {
+
+	@MockBean
+	protected AnilibriaFeignClient anilibriaFeignClient;
 
 	private BaseEpisodeUrlService<AnilibriaTitle> anilibriaEpisodeUrlService;
 
@@ -76,7 +81,8 @@ public class AnilibiraEpisodeUrlServiceTest extends AbstractTest {
 	}
 
 	private void mockAnilibria() {
-		createStubWithBodyFile("/" + REGULAR_TITLE_ANILIBRIA_SITE_URL, TEXT_HTML_CHARSET_UTF_8, "anilibria/regularTitlePage.html");
+		doReturn(IOUtils.readFromFile("classpath:__files/anilibria/regularTitlePage.html")).when(anilibriaFeignClient)
+				.getTitlePage(REGULAR_TITLE_ANILIBRIA_SITE_URL);
 	}
 
 	private void mockGitHubResourcesService(List<AnilibriaTitle> titles) {

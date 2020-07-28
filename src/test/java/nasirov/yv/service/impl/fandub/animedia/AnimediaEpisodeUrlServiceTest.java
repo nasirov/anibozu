@@ -51,7 +51,7 @@ import java.util.LinkedList;
 import java.util.List;
 import nasirov.yv.AbstractTest;
 import nasirov.yv.data.fandub.animedia.AnimediaTitle;
-import nasirov.yv.data.mal.MalTitle;
+import nasirov.yv.fandub.dto.mal.MalTitle;
 import org.assertj.core.util.Lists;
 import org.junit.Before;
 import org.junit.Test;
@@ -70,7 +70,8 @@ public class AnimediaEpisodeUrlServiceTest extends AbstractTest {
 
 	@Test
 	public void handleZeroMatchedResult() {
-		MalTitle notFoundOnAnimediaTitle = buildWatchingTitle(NOT_FOUND_ON_ANIMEDIA_MAL_ANIME_ID, NOT_FOUND_ON_ANIMEDIA_TITLE_NAME,
+		MalTitle notFoundOnAnimediaTitle = buildWatchingTitle(NOT_FOUND_ON_ANIMEDIA_MAL_ANIME_ID,
+				NOT_FOUND_ON_ANIMEDIA_TITLE_NAME,
 				0,
 				NOT_FOUND_ON_ANIMEDIA_TITLE_POSTER_URL,
 				NOT_FOUND_ON_ANIMEDIA_TITLE_MAL_ANIME_URL);
@@ -79,7 +80,8 @@ public class AnimediaEpisodeUrlServiceTest extends AbstractTest {
 
 	@Test
 	public void handleOneMatchedResultAnnouncement() {
-		MalTitle announcementTitle = buildWatchingTitle(ANNOUNCEMENT_TITLE_MAL_ANIME_ID, ANNOUNCEMENT_TITLE_NAME,
+		MalTitle announcementTitle = buildWatchingTitle(ANNOUNCEMENT_TITLE_MAL_ANIME_ID,
+				ANNOUNCEMENT_TITLE_NAME,
 				0,
 				ANNOUNCEMENT_TITLE_POSTER_URL,
 				ANNOUNCEMENT_TITLE_MAL_ANIME_URL);
@@ -88,27 +90,20 @@ public class AnimediaEpisodeUrlServiceTest extends AbstractTest {
 
 	@Test
 	public void handleOneMatchedResultNewEpisodeAvailable() {
-		MalTitle title = buildWatchingTitle(REGULAR_TITLE_MAL_ANIME_ID,
-				REGULAR_TITLE_NAME,
-				0,
-				REGULAR_TITLE_POSTER_URL,
-				REGULAR_TITLE_MAL_ANIME_URL);
+		MalTitle title = buildWatchingTitle(REGULAR_TITLE_MAL_ANIME_ID, REGULAR_TITLE_NAME, 0, REGULAR_TITLE_POSTER_URL, REGULAR_TITLE_MAL_ANIME_URL);
 		performAndCheck(title, urlForAnimediaTitle("1", null));
 	}
 
 	@Test
 	public void handleOneMatchedResultNewEpisodeNotAvailable() {
-		MalTitle title = buildWatchingTitle(REGULAR_TITLE_MAL_ANIME_ID,
-				REGULAR_TITLE_NAME,
-				12,
-				REGULAR_TITLE_POSTER_URL,
-				REGULAR_TITLE_MAL_ANIME_URL);
+		MalTitle title = buildWatchingTitle(REGULAR_TITLE_MAL_ANIME_ID, REGULAR_TITLE_NAME, 12, REGULAR_TITLE_POSTER_URL, REGULAR_TITLE_MAL_ANIME_URL);
 		performAndCheck(title, urlForAnimediaTitle(null, FINAL_URL_VALUE_IF_EPISODE_IS_NOT_AVAILABLE));
 	}
 
 	@Test
 	public void handleOneMatchedResultIsConcretizedTitleWithSingleEpisodeAvailable() {
-		MalTitle title = buildWatchingTitle(CONCRETIZED_TITLE_WITH_SINGLE_EPISODE_MAL_ANIME_ID, CONCRETIZED_TITLE_WITH_SINGLE_EPISODE_NAME,
+		MalTitle title = buildWatchingTitle(CONCRETIZED_TITLE_WITH_SINGLE_EPISODE_MAL_ANIME_ID,
+				CONCRETIZED_TITLE_WITH_SINGLE_EPISODE_NAME,
 				0,
 				CONCRETIZED_TITLE_POSTER_URL,
 				CONCRETIZED_TITLE_MAL_ANIME_URL);
@@ -117,7 +112,8 @@ public class AnimediaEpisodeUrlServiceTest extends AbstractTest {
 
 	@Test
 	public void handleOneMatchedResultIsConcretizedTitleWithSingleEpisodeNotAvailable() {
-		MalTitle title = buildWatchingTitle(CONCRETIZED_TITLE_WITH_SINGLE_EPISODE_MAL_ANIME_ID, CONCRETIZED_TITLE_WITH_SINGLE_EPISODE_NAME,
+		MalTitle title = buildWatchingTitle(CONCRETIZED_TITLE_WITH_SINGLE_EPISODE_MAL_ANIME_ID,
+				CONCRETIZED_TITLE_WITH_SINGLE_EPISODE_NAME,
 				1,
 				CONCRETIZED_TITLE_POSTER_URL,
 				CONCRETIZED_TITLE_MAL_ANIME_URL);
@@ -126,7 +122,8 @@ public class AnimediaEpisodeUrlServiceTest extends AbstractTest {
 
 	@Test
 	public void handleOneMatchedResultIsConcretizedTitleWithEpisodesRange() {
-		MalTitle title = buildWatchingTitle(CONCRETIZED_TITLE_WITH_WITH_EPISODES_RANGE_MAL_ANIME_ID, CONCRETIZED_TITLE_WITH_EPISODES_RANGE_NAME,
+		MalTitle title = buildWatchingTitle(CONCRETIZED_TITLE_WITH_WITH_EPISODES_RANGE_MAL_ANIME_ID,
+				CONCRETIZED_TITLE_WITH_EPISODES_RANGE_NAME,
 				0,
 				CONCRETIZED_TITLE_POSTER_URL,
 				CONCRETIZED_TITLE_MAL_ANIME_URL);
@@ -135,7 +132,8 @@ public class AnimediaEpisodeUrlServiceTest extends AbstractTest {
 
 	@Test
 	public void handleMoreThanOneMatchedResultOnSameDataListOneMatch() {
-		MalTitle title = buildWatchingTitle(CONCRETIZED_TITLE_WITH_JOINED_EPISODES_MAL_ANIME_ID, CONCRETIZED_TITLE_WITH_JOINED_EPISODES_NAME,
+		MalTitle title = buildWatchingTitle(CONCRETIZED_TITLE_WITH_JOINED_EPISODES_MAL_ANIME_ID,
+				CONCRETIZED_TITLE_WITH_JOINED_EPISODES_NAME,
 				1,
 				CONCRETIZED_TITLE_WITH_JOINED_EPISODES_POSTER_URL,
 				CONCRETIZED_TITLE_MAL_ANIME_URL);
@@ -144,7 +142,8 @@ public class AnimediaEpisodeUrlServiceTest extends AbstractTest {
 
 	@Test
 	public void handleMoreThanOneMatchedResultOnSameDataListSeveralMatches() {
-		MalTitle title = buildWatchingTitle(CONCRETIZED_TITLE_WITH_JOINED_EPISODES_MAL_ANIME_ID, CONCRETIZED_TITLE_WITH_JOINED_EPISODES_NAME,
+		MalTitle title = buildWatchingTitle(CONCRETIZED_TITLE_WITH_JOINED_EPISODES_MAL_ANIME_ID,
+				CONCRETIZED_TITLE_WITH_JOINED_EPISODES_NAME,
 				3,
 				CONCRETIZED_TITLE_WITH_JOINED_EPISODES_POSTER_URL,
 				CONCRETIZED_TITLE_MAL_ANIME_URL);
@@ -153,7 +152,8 @@ public class AnimediaEpisodeUrlServiceTest extends AbstractTest {
 
 	@Test
 	public void handleMoreThanOneMatchedResult() {
-		MalTitle title = buildWatchingTitle(TITLE_ON_SEVERAL_DATA_LISTS_MAL_ANIME_ID, TITLE_ON_SEVERAL_DATA_LISTS_NAME,
+		MalTitle title = buildWatchingTitle(TITLE_ON_SEVERAL_DATA_LISTS_MAL_ANIME_ID,
+				TITLE_ON_SEVERAL_DATA_LISTS_NAME,
 				9,
 				TITLE_ON_SEVERAL_DATA_LISTS_POSTER_URL,
 				TITLE_ON_SEVERAL_DATA_LISTS_MAL_ANIME_URL);
@@ -162,7 +162,8 @@ public class AnimediaEpisodeUrlServiceTest extends AbstractTest {
 
 	@Test
 	public void handleMoreThanOneMatchedResultJoinedEpisode() {
-		MalTitle title = buildWatchingTitle(TITLE_WITH_JOINED_EPISODES_MAL_ANIME_ID, TITLE_WITH_JOINED_EPISODES_NAME,
+		MalTitle title = buildWatchingTitle(TITLE_WITH_JOINED_EPISODES_MAL_ANIME_ID,
+				TITLE_WITH_JOINED_EPISODES_NAME,
 				2,
 				TITLE_WITH_JOINED_EPISODES_POSTER_URL,
 				TITLE_WITH_JOINED_EPISODES_MAL_ANIME_URL);

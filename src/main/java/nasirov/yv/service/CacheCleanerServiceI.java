@@ -1,6 +1,6 @@
 package nasirov.yv.service;
 
-import nasirov.yv.data.mal.MALUser;
+import nasirov.yv.data.mal.MalUser;
 
 /**
  * Created by nasirov.yv
@@ -12,5 +12,5 @@ public interface CacheCleanerServiceI {
 	 *
 	 * @param malUser cache key
 	 */
-	void clearSseCache(MALUser malUser);
+	void clearSseCache(MalUser malUser);
 }

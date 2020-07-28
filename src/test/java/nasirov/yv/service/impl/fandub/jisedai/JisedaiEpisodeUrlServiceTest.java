@@ -11,22 +11,27 @@ import static nasirov.yv.utils.TestConstants.REGULAR_TITLE_MAL_ANIME_ID;
 import static nasirov.yv.utils.TestConstants.REGULAR_TITLE_MAL_ANIME_URL;
 import static nasirov.yv.utils.TestConstants.REGULAR_TITLE_NAME;
 import static nasirov.yv.utils.TestConstants.REGULAR_TITLE_POSTER_URL;
-import static nasirov.yv.utils.TestConstants.TEXT_HTML_CHARSET_UTF_8_ALT;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.doReturn;
 
 import java.util.List;
 import nasirov.yv.AbstractTest;
 import nasirov.yv.data.fandub.jisedai.JisedaiTitle;
-import nasirov.yv.data.mal.MalTitle;
+import nasirov.yv.fandub.dto.mal.MalTitle;
+import nasirov.yv.fandub.service.spring.boot.starter.feign.fandub.jisedai.JisedaiFeignClient;
 import nasirov.yv.service.impl.fandub.BaseEpisodeUrlService;
+import nasirov.yv.utils.IOUtils;
 import org.junit.Before;
 import org.junit.Test;
+import org.springframework.boot.test.mock.mockito.MockBean;
 
 /**
  * Created by nasirov.yv
  */
 public class JisedaiEpisodeUrlServiceTest extends AbstractTest {
+
+	@MockBean
+	private JisedaiFeignClient jisedaiFeignClient;
 
 	private BaseEpisodeUrlService<JisedaiTitle> jisedaiEpisodeUrlService;
 
@@ -35,7 +40,8 @@ public class JisedaiEpisodeUrlServiceTest extends AbstractTest {
 	public void setUp() {
 		super.setUp();
 		mockGitHubResourcesService(buildJesidaiTitles());
-		jisedaiEpisodeUrlService = new JisedaiEpisodeUrlService(jisedaiFeignClient, new JisedaiTitleService(githubResourcesService, gitHubResourceProps),
+		jisedaiEpisodeUrlService = new JisedaiEpisodeUrlService(jisedaiFeignClient,
+				new JisedaiTitleService(githubResourcesService, gitHubResourceProps),
 				jisedaiParser,
 				urlsNames);
 	}
@@ -75,7 +81,8 @@ public class JisedaiEpisodeUrlServiceTest extends AbstractTest {
 	}
 
 	private void mockJisedai() {
-		createStubWithBodyFile("/" + REGULAR_TITLE_JISEDAI_SITE_URL, TEXT_HTML_CHARSET_UTF_8_ALT, "jisedai/siteRegularTitle.html");
+		doReturn(IOUtils.readFromFile("classpath:__files/jisedai/siteRegularTitle.html")).when(jisedaiFeignClient)
+				.getTitlePage(REGULAR_TITLE_JISEDAI_SITE_URL);
 	}
 
 	private void mockGitHubResourcesService(List<JisedaiTitle> titles) {

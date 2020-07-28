@@ -2,12 +2,12 @@ package nasirov.yv.service.impl.common;
 
 import static nasirov.yv.data.constants.BaseConstants.FINAL_URL_VALUE_IF_EPISODE_IS_NOT_AVAILABLE;
 import static nasirov.yv.data.constants.BaseConstants.NOT_FOUND_ON_FANDUB_SITE_URL;
-import static nasirov.yv.data.constants.FanDubSource.ANIDUB;
-import static nasirov.yv.data.constants.FanDubSource.ANILIBRIA;
-import static nasirov.yv.data.constants.FanDubSource.ANIMEDIA;
-import static nasirov.yv.data.constants.FanDubSource.ANIMEPIK;
-import static nasirov.yv.data.constants.FanDubSource.JISEDAI;
-import static nasirov.yv.data.constants.FanDubSource.NINEANIME;
+import static nasirov.yv.fandub.dto.constant.FanDubSource.ANIDUB;
+import static nasirov.yv.fandub.dto.constant.FanDubSource.ANILIBRIA;
+import static nasirov.yv.fandub.dto.constant.FanDubSource.ANIMEDIA;
+import static nasirov.yv.fandub.dto.constant.FanDubSource.ANIMEPIK;
+import static nasirov.yv.fandub.dto.constant.FanDubSource.JISEDAI;
+import static nasirov.yv.fandub.dto.constant.FanDubSource.NINEANIME;
 import static nasirov.yv.util.MalUtils.getNextEpisodeForWatch;
 import static nasirov.yv.utils.TestConstants.ANIDUB_URL;
 import static nasirov.yv.utils.TestConstants.ANILIBRIA_URL;
@@ -39,9 +39,9 @@ import com.google.common.collect.Sets;
 import java.util.EnumMap;
 import java.util.Map;
 import java.util.Set;
-import nasirov.yv.data.constants.FanDubSource;
 import nasirov.yv.data.front.Anime;
-import nasirov.yv.data.mal.MalTitle;
+import nasirov.yv.fandub.dto.constant.FanDubSource;
+import nasirov.yv.fandub.dto.mal.MalTitle;
 import nasirov.yv.service.AnimeServiceI;
 import nasirov.yv.service.EpisodeUrlServiceI;
 import nasirov.yv.service.impl.fandub.anidub.AnidubEpisodeUrlService;
@@ -119,19 +119,22 @@ public class AnimeServiceTest {
 				EPISODE_URL_ON_NINE_ANIME,
 				EPISODE_URL_ON_ANIDUB,
 				EPISODE_URL_ON_JISEDAI,
-				EPISODE_URL_ON_ANIMEPIK, EPISODE_URL_ON_ANILIBRIA,
+				EPISODE_URL_ON_ANIMEPIK,
+				EPISODE_URL_ON_ANILIBRIA,
 				buildRegularTitle());
 		mockEpisodeUrlServices(FINAL_URL_VALUE_IF_EPISODE_IS_NOT_AVAILABLE,
 				FINAL_URL_VALUE_IF_EPISODE_IS_NOT_AVAILABLE,
 				FINAL_URL_VALUE_IF_EPISODE_IS_NOT_AVAILABLE,
 				FINAL_URL_VALUE_IF_EPISODE_IS_NOT_AVAILABLE,
-				FINAL_URL_VALUE_IF_EPISODE_IS_NOT_AVAILABLE, FINAL_URL_VALUE_IF_EPISODE_IS_NOT_AVAILABLE,
+				FINAL_URL_VALUE_IF_EPISODE_IS_NOT_AVAILABLE,
+				FINAL_URL_VALUE_IF_EPISODE_IS_NOT_AVAILABLE,
 				buildConcretizedTitle());
 		mockEpisodeUrlServices(NOT_FOUND_ON_FANDUB_SITE_URL,
 				NOT_FOUND_ON_FANDUB_SITE_URL,
 				NOT_FOUND_ON_FANDUB_SITE_URL,
 				NOT_FOUND_ON_FANDUB_SITE_URL,
-				NOT_FOUND_ON_FANDUB_SITE_URL, NOT_FOUND_ON_FANDUB_SITE_URL,
+				NOT_FOUND_ON_FANDUB_SITE_URL,
+				NOT_FOUND_ON_FANDUB_SITE_URL,
 				buildNotFoundOnSiteTitle());
 	}
 
@@ -160,18 +163,22 @@ public class AnimeServiceTest {
 				EPISODE_URL_ON_ANIMEDIA,
 				EPISODE_URL_ON_NINE_ANIME,
 				EPISODE_URL_ON_ANIDUB,
-				EPISODE_URL_ON_JISEDAI, EPISODE_URL_ON_ANIMEPIK, EPISODE_URL_ON_ANILIBRIA),
+				EPISODE_URL_ON_JISEDAI,
+				EPISODE_URL_ON_ANIMEPIK,
+				EPISODE_URL_ON_ANILIBRIA),
 				buildAnime(buildConcretizedTitle(),
 						FINAL_URL_VALUE_IF_EPISODE_IS_NOT_AVAILABLE,
 						FINAL_URL_VALUE_IF_EPISODE_IS_NOT_AVAILABLE,
 						FINAL_URL_VALUE_IF_EPISODE_IS_NOT_AVAILABLE,
-						FINAL_URL_VALUE_IF_EPISODE_IS_NOT_AVAILABLE, FINAL_URL_VALUE_IF_EPISODE_IS_NOT_AVAILABLE,
+						FINAL_URL_VALUE_IF_EPISODE_IS_NOT_AVAILABLE,
+						FINAL_URL_VALUE_IF_EPISODE_IS_NOT_AVAILABLE,
 						FINAL_URL_VALUE_IF_EPISODE_IS_NOT_AVAILABLE),
 				buildAnime(buildNotFoundOnSiteTitle(),
 						NOT_FOUND_ON_FANDUB_SITE_URL,
 						NOT_FOUND_ON_FANDUB_SITE_URL,
 						NOT_FOUND_ON_FANDUB_SITE_URL,
-						NOT_FOUND_ON_FANDUB_SITE_URL, NOT_FOUND_ON_FANDUB_SITE_URL,
+						NOT_FOUND_ON_FANDUB_SITE_URL,
+						NOT_FOUND_ON_FANDUB_SITE_URL,
 						NOT_FOUND_ON_FANDUB_SITE_URL));
 	}
 

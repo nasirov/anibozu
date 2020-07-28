@@ -10,10 +10,10 @@ import java.util.stream.Collectors;
 import javax.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import nasirov.yv.data.fandub.animedia.AnimediaEpisode;
 import nasirov.yv.data.fandub.animedia.AnimediaSearchListTitle;
 import nasirov.yv.data.properties.AnimediaProps;
-import nasirov.yv.http.feign.fandub.animedia.AnimediaFeignClient;
+import nasirov.yv.fandub.dto.fandub.animedia.AnimediaEpisode;
+import nasirov.yv.fandub.service.spring.boot.starter.feign.fandub.animedia.AnimediaFeignClient;
 import nasirov.yv.service.AnimediaServiceI;
 import org.apache.commons.lang.StringUtils;
 import org.jsoup.Jsoup;
@@ -52,7 +52,7 @@ public class AnimediaService implements AnimediaServiceI {
 	public Set<AnimediaSearchListTitle> getAnimediaSearchList() {
 		Set<AnimediaSearchListTitle> animediaSearchList = new LinkedHashSet<>(maxSize);
 		for (int offset = 0; offset < maxSize; offset += limit) {
-			String rawPageWithTitles = animediaFeignClient.getAnimediaSearchList(offset, limit);
+			String rawPageWithTitles = animediaFeignClient.getTitles(offset, limit);
 			Elements titles = extractTitlesElements(rawPageWithTitles);
 			titles.stream()
 					.map(this::buildAnimediaSearchListTitle)
@@ -64,7 +64,7 @@ public class AnimediaService implements AnimediaServiceI {
 
 	@Override
 	public List<String> getDataLists(AnimediaSearchListTitle animediaSearchTitle) {
-		String animePageWithDataLists = animediaFeignClient.getAnimePage(animediaSearchTitle.getUrl());
+		String animePageWithDataLists = animediaFeignClient.getTitlePage(animediaSearchTitle.getUrl());
 		Elements tabsElements = extractTabsElements(animePageWithDataLists);
 		return tabsElements.stream()
 				.filter(this::isFilledDataList)
@@ -74,7 +74,7 @@ public class AnimediaService implements AnimediaServiceI {
 
 	@Override
 	public List<String> getEpisodes(String animeId, String dataList) {
-		List<AnimediaEpisode> episodes = animediaFeignClient.getEpisodes(animeId, dataList);
+		List<AnimediaEpisode> episodes = animediaFeignClient.getTitleEpisodesByPlaylist(Integer.parseInt(animeId), Integer.parseInt(dataList));
 		return episodes.stream()
 				.map(AnimediaEpisode::getEpisodeName)
 				.collect(Collectors.toList());

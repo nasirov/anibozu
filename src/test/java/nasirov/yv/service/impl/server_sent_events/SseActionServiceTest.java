@@ -7,12 +7,12 @@ import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.verify;
 
 import com.google.common.collect.Sets;
-import nasirov.yv.data.constants.FanDubSource;
-import nasirov.yv.data.mal.MALUser;
+import nasirov.yv.data.mal.MalUser;
 import nasirov.yv.data.properties.CacheProps;
 import nasirov.yv.data.properties.CacheProps.ConfigurableCacheProps;
 import nasirov.yv.data.task.SseAction;
-import nasirov.yv.service.MALServiceI;
+import nasirov.yv.fandub.dto.constant.FanDubSource;
+import nasirov.yv.service.MalServiceI;
 import nasirov.yv.service.impl.common.AnimeService;
 import org.junit.Before;
 import org.junit.Test;
@@ -34,7 +34,7 @@ public class SseActionServiceTest {
 	private AnimeService animeService;
 
 	@Mock
-	private MALServiceI malService;
+	private MalServiceI malService;
 
 	@Mock
 	private CacheProps cacheProps;
@@ -57,7 +57,7 @@ public class SseActionServiceTest {
 
 	@Test
 	public void buildSseActionOk() {
-		MALUser malUser = buildMalUser();
+		MalUser malUser = buildMalUser();
 		String cacheKey = String.valueOf(malUser.hashCode());
 		mockServices(cacheKey);
 		SseAction sseAction = sseActionService.buildSseAction(new SseEmitter(), malUser);
@@ -77,8 +77,8 @@ public class SseActionServiceTest {
 				.get(cacheKey, SseAction.class);
 	}
 
-	private MALUser buildMalUser() {
-		MALUser malUser = new MALUser();
+	private MalUser buildMalUser() {
+		MalUser malUser = new MalUser();
 		malUser.setUsername(TEST_ACC_FOR_DEV);
 		malUser.setFanDubSources(Sets.newHashSet(FanDubSource.ANIMEDIA, FanDubSource.NINEANIME));
 		return malUser;

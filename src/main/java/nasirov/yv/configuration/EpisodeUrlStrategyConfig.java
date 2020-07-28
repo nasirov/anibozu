@@ -1,20 +1,21 @@
 package nasirov.yv.configuration;
 
-import static nasirov.yv.data.constants.FanDubSource.ANIDUB;
-import static nasirov.yv.data.constants.FanDubSource.ANILIBRIA;
-import static nasirov.yv.data.constants.FanDubSource.ANIMEDIA;
-import static nasirov.yv.data.constants.FanDubSource.ANIMEPIK;
-import static nasirov.yv.data.constants.FanDubSource.JISEDAI;
-import static nasirov.yv.data.constants.FanDubSource.NINEANIME;
+
+import static nasirov.yv.fandub.dto.constant.FanDubSource.ANIDUB;
+import static nasirov.yv.fandub.dto.constant.FanDubSource.ANILIBRIA;
+import static nasirov.yv.fandub.dto.constant.FanDubSource.ANIMEDIA;
+import static nasirov.yv.fandub.dto.constant.FanDubSource.ANIMEPIK;
+import static nasirov.yv.fandub.dto.constant.FanDubSource.JISEDAI;
+import static nasirov.yv.fandub.dto.constant.FanDubSource.NINEANIME;
 
 import java.util.EnumMap;
 import java.util.Map;
-import nasirov.yv.data.constants.FanDubSource;
 import nasirov.yv.data.fandub.anidub.AnidubTitle;
 import nasirov.yv.data.fandub.anilibria.AnilibriaTitle;
 import nasirov.yv.data.fandub.anime_pik.AnimepikTitle;
 import nasirov.yv.data.fandub.animedia.AnimediaTitle;
 import nasirov.yv.data.fandub.jisedai.JisedaiTitle;
+import nasirov.yv.fandub.dto.constant.FanDubSource;
 import nasirov.yv.service.EpisodeUrlServiceI;
 import nasirov.yv.service.impl.fandub.BaseEpisodeUrlService;
 import nasirov.yv.service.impl.fandub.nine_anime.NineAnimeEpisodeUrlService;

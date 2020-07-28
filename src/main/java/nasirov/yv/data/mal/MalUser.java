@@ -4,8 +4,8 @@ import java.util.Set;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Pattern;
 import lombok.Data;
-import nasirov.yv.data.constants.FanDubSource;
 import nasirov.yv.data.validator.ValidFanDubSources;
+import nasirov.yv.fandub.dto.constant.FanDubSource;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.validation.annotation.Validated;
 
@@ -14,7 +14,7 @@ import org.springframework.validation.annotation.Validated;
  */
 @Data
 @Validated
-public class MALUser {
+public class MalUser {
 
 	@Pattern(regexp = "^[\\w-_]{2,16}$", message = "Please enter a valid mal username between 2 and 16 characters(latin letters, numbers, underscores "
 			+ "and dashes only)")

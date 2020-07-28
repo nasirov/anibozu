@@ -6,28 +6,34 @@ import static nasirov.yv.utils.AnimepikTitleBuilder.buildAnimepikTitles;
 import static nasirov.yv.utils.TestConstants.ANIMEPIK_URL;
 import static nasirov.yv.utils.TestConstants.MY_ANIME_LIST_STATIC_CONTENT_URL;
 import static nasirov.yv.utils.TestConstants.MY_ANIME_LIST_URL;
-import static nasirov.yv.utils.TestConstants.REGULAR_TITLE_ANIMEPIK_RESOURCES_URL;
 import static nasirov.yv.utils.TestConstants.REGULAR_TITLE_ANIMEPIK_SITE_URL;
 import static nasirov.yv.utils.TestConstants.REGULAR_TITLE_MAL_ANIME_ID;
 import static nasirov.yv.utils.TestConstants.REGULAR_TITLE_MAL_ANIME_URL;
 import static nasirov.yv.utils.TestConstants.REGULAR_TITLE_NAME;
 import static nasirov.yv.utils.TestConstants.REGULAR_TITLE_POSTER_URL;
-import static nasirov.yv.utils.TestConstants.TEXT_HTML_CHARSET_UTF_8;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.doReturn;
 
+import java.util.ArrayList;
 import java.util.List;
 import nasirov.yv.AbstractTest;
 import nasirov.yv.data.fandub.anime_pik.AnimepikTitle;
-import nasirov.yv.data.mal.MalTitle;
+import nasirov.yv.fandub.dto.fandub.animepik.AnimepikEpisode;
+import nasirov.yv.fandub.dto.mal.MalTitle;
+import nasirov.yv.fandub.service.spring.boot.starter.feign.fandub.animepik.AnimepikResourcesFeignClient;
 import nasirov.yv.service.impl.fandub.BaseEpisodeUrlService;
+import nasirov.yv.utils.IOUtils;
 import org.junit.Before;
 import org.junit.Test;
+import org.springframework.boot.test.mock.mockito.MockBean;
 
 /**
  * Created by nasirov.yv
  */
 public class AnimepikEpisodeUrlServiceTest extends AbstractTest {
+
+	@MockBean
+	private AnimepikResourcesFeignClient animepikResourcesFeignClient;
 
 	private BaseEpisodeUrlService<AnimepikTitle> animepikEpisodeUrlService;
 
@@ -77,7 +83,10 @@ public class AnimepikEpisodeUrlServiceTest extends AbstractTest {
 	}
 
 	private void mockAnimepikResources() {
-		createStubWithBodyFile(REGULAR_TITLE_ANIMEPIK_RESOURCES_URL, TEXT_HTML_CHARSET_UTF_8, "animepik/episodesForRegularTitle.html");
+		doReturn(IOUtils.unmarshal(IOUtils.readFromFile("classpath:__files/animepik/episodesForRegularTitle.html"),
+				AnimepikEpisode.class,
+				ArrayList.class)).when(animepikResourcesFeignClient)
+				.getTitleEpisodes(1);
 	}
 
 	private void mockGitHubResourcesService(List<AnimepikTitle> titles) {
