@@ -10,14 +10,13 @@ import static nasirov.yv.fandub.dto.constant.FanDubSource.NINEANIME;
 
 import java.util.EnumMap;
 import java.util.Map;
-import nasirov.yv.data.fandub.anidub.AnidubTitle;
-import nasirov.yv.data.fandub.anilibria.AnilibriaTitle;
-import nasirov.yv.data.fandub.anime_pik.AnimepikTitle;
-import nasirov.yv.data.fandub.animedia.AnimediaTitle;
-import nasirov.yv.data.fandub.jisedai.JisedaiTitle;
 import nasirov.yv.fandub.dto.constant.FanDubSource;
 import nasirov.yv.service.EpisodeUrlServiceI;
-import nasirov.yv.service.impl.fandub.BaseEpisodeUrlService;
+import nasirov.yv.service.impl.fandub.anidub.AnidubEpisodeUrlService;
+import nasirov.yv.service.impl.fandub.anilibria.AnilibriaEpisodeUrlService;
+import nasirov.yv.service.impl.fandub.animedia.AnimediaEpisodeUrlService;
+import nasirov.yv.service.impl.fandub.animepik.AnimepikEpisodeUrlService;
+import nasirov.yv.service.impl.fandub.jisedai.JisedaiEpisodeUrlService;
 import nasirov.yv.service.impl.fandub.nine_anime.NineAnimeEpisodeUrlService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -29,10 +28,10 @@ import org.springframework.context.annotation.Configuration;
 public class EpisodeUrlStrategyConfig {
 
 	@Bean
-	public Map<FanDubSource, EpisodeUrlServiceI> episodeUrlStrategy(BaseEpisodeUrlService<AnimediaTitle> animediaEpisodeUrlService,
-			NineAnimeEpisodeUrlService nineAnimeEpisodeUrlService, BaseEpisodeUrlService<AnidubTitle> anidubEpisodeUrlService,
-			BaseEpisodeUrlService<JisedaiTitle> jisedaiEpisodeUrlService, BaseEpisodeUrlService<AnimepikTitle> animepikEpisodeUrlService,
-			BaseEpisodeUrlService<AnilibriaTitle> anilibriaEpisodeUrlService) {
+	public Map<FanDubSource, EpisodeUrlServiceI> episodeUrlStrategy(AnimediaEpisodeUrlService animediaEpisodeUrlService,
+			NineAnimeEpisodeUrlService nineAnimeEpisodeUrlService, AnidubEpisodeUrlService anidubEpisodeUrlService,
+			JisedaiEpisodeUrlService jisedaiEpisodeUrlService, AnimepikEpisodeUrlService animepikEpisodeUrlService,
+			AnilibriaEpisodeUrlService anilibriaEpisodeUrlService) {
 		EnumMap<FanDubSource, EpisodeUrlServiceI> map = new EnumMap<>(FanDubSource.class);
 		map.put(ANIMEDIA, animediaEpisodeUrlService);
 		map.put(NINEANIME, nineAnimeEpisodeUrlService);

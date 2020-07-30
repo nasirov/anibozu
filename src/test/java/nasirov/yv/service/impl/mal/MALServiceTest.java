@@ -24,19 +24,14 @@ import nasirov.yv.exception.mal.MalUserAnimeListAccessException;
 import nasirov.yv.exception.mal.UnexpectedCallingException;
 import nasirov.yv.exception.mal.WatchingTitlesNotFoundException;
 import nasirov.yv.fandub.dto.mal.MalTitle;
-import nasirov.yv.fandub.service.spring.boot.starter.feign.mal.MalFeignClient;
 import nasirov.yv.utils.IOUtils;
 import org.junit.Test;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.ResponseEntity;
 
 /**
  * Created by nasirov.yv
  */
 public class MALServiceTest extends AbstractTest {
-
-	@MockBean
-	private MalFeignClient malFeignClient;
 
 	@Test
 	@SneakyThrows

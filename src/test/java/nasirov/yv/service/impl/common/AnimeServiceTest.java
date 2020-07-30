@@ -14,38 +14,41 @@ import static nasirov.yv.utils.TestConstants.ANILIBRIA_URL;
 import static nasirov.yv.utils.TestConstants.ANIMEDIA_ONLINE_TV;
 import static nasirov.yv.utils.TestConstants.ANIMEPIK_URL;
 import static nasirov.yv.utils.TestConstants.CONCRETIZED_TITLE_MAL_ANIME_URL;
+import static nasirov.yv.utils.TestConstants.CONCRETIZED_TITLE_ORIGINAL_NAME;
 import static nasirov.yv.utils.TestConstants.CONCRETIZED_TITLE_POSTER_URL;
-import static nasirov.yv.utils.TestConstants.CONCRETIZED_TITLE_WITH_SINGLE_EPISODE_NAME;
 import static nasirov.yv.utils.TestConstants.JISEDAI_URL;
 import static nasirov.yv.utils.TestConstants.MY_ANIME_LIST_STATIC_CONTENT_URL;
 import static nasirov.yv.utils.TestConstants.MY_ANIME_LIST_URL;
 import static nasirov.yv.utils.TestConstants.NINE_ANIME_TO;
-import static nasirov.yv.utils.TestConstants.NOT_FOUND_ON_ANIMEDIA_TITLE_MAL_ANIME_URL;
-import static nasirov.yv.utils.TestConstants.NOT_FOUND_ON_ANIMEDIA_TITLE_NAME;
-import static nasirov.yv.utils.TestConstants.NOT_FOUND_ON_ANIMEDIA_TITLE_POSTER_URL;
-import static nasirov.yv.utils.TestConstants.REGULAR_TITLE_ANIDUB_SITE_URL;
-import static nasirov.yv.utils.TestConstants.REGULAR_TITLE_ANILIBRIA_SITE_URL;
-import static nasirov.yv.utils.TestConstants.REGULAR_TITLE_ANIMEPIK_SITE_URL;
+import static nasirov.yv.utils.TestConstants.NOT_FOUND_ON_MAL_TITLE_MAL_ANIME_URL;
+import static nasirov.yv.utils.TestConstants.NOT_FOUND_ON_MAL_TITLE_ORIGINAL_NAME;
+import static nasirov.yv.utils.TestConstants.NOT_FOUND_ON_MAL_TITLE_POSTER_URL;
+import static nasirov.yv.utils.TestConstants.REGULAR_TITLE_ANIDUB_URL;
+import static nasirov.yv.utils.TestConstants.REGULAR_TITLE_ANILIBRIA_URL;
+import static nasirov.yv.utils.TestConstants.REGULAR_TITLE_ANIMEDIA_URL;
+import static nasirov.yv.utils.TestConstants.REGULAR_TITLE_ANIMEPIK_URL;
 import static nasirov.yv.utils.TestConstants.REGULAR_TITLE_DUB_NINE_ANIME_URL;
-import static nasirov.yv.utils.TestConstants.REGULAR_TITLE_JISEDAI_SITE_URL;
+import static nasirov.yv.utils.TestConstants.REGULAR_TITLE_JISEDAI_URL;
 import static nasirov.yv.utils.TestConstants.REGULAR_TITLE_MAL_ANIME_URL;
-import static nasirov.yv.utils.TestConstants.REGULAR_TITLE_NAME;
+import static nasirov.yv.utils.TestConstants.REGULAR_TITLE_ORIGINAL_NAME;
 import static nasirov.yv.utils.TestConstants.REGULAR_TITLE_POSTER_URL;
-import static nasirov.yv.utils.TestConstants.REGULAR_TITLE_URL;
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.doReturn;
 
 import com.google.common.collect.Sets;
 import java.util.EnumMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 import nasirov.yv.data.front.Anime;
 import nasirov.yv.fandub.dto.constant.FanDubSource;
 import nasirov.yv.fandub.dto.mal.MalTitle;
 import nasirov.yv.service.AnimeServiceI;
 import nasirov.yv.service.EpisodeUrlServiceI;
 import nasirov.yv.service.impl.fandub.anidub.AnidubEpisodeUrlService;
-import nasirov.yv.service.impl.fandub.anilibria.AnilibiraEpisodeUrlService;
+import nasirov.yv.service.impl.fandub.anilibria.AnilibriaEpisodeUrlService;
 import nasirov.yv.service.impl.fandub.animedia.AnimediaEpisodeUrlService;
 import nasirov.yv.service.impl.fandub.animepik.AnimepikEpisodeUrlService;
 import nasirov.yv.service.impl.fandub.jisedai.JisedaiEpisodeUrlService;
@@ -65,17 +68,17 @@ import org.powermock.modules.junit4.PowerMockRunner;
 		JisedaiEpisodeUrlService.class, AnimepikEpisodeUrlService.class})
 public class AnimeServiceTest {
 
-	private static final String EPISODE_URL_ON_ANIMEDIA = ANIMEDIA_ONLINE_TV + REGULAR_TITLE_URL + "/1/1";
+	private static final String EPISODE_URL_ON_ANIMEDIA = ANIMEDIA_ONLINE_TV + REGULAR_TITLE_ANIMEDIA_URL + "/1/1";
 
 	private static final String EPISODE_URL_ON_NINE_ANIME = NINE_ANIME_TO + REGULAR_TITLE_DUB_NINE_ANIME_URL;
 
-	private static final String EPISODE_URL_ON_ANIDUB = ANIDUB_URL + REGULAR_TITLE_ANIDUB_SITE_URL;
+	private static final String EPISODE_URL_ON_ANIDUB = ANIDUB_URL + REGULAR_TITLE_ANIDUB_URL;
 
-	private static final String EPISODE_URL_ON_JISEDAI = JISEDAI_URL + REGULAR_TITLE_JISEDAI_SITE_URL;
+	private static final String EPISODE_URL_ON_JISEDAI = JISEDAI_URL + REGULAR_TITLE_JISEDAI_URL;
 
-	private static final String EPISODE_URL_ON_ANIMEPIK = ANIMEPIK_URL + REGULAR_TITLE_ANIMEPIK_SITE_URL;
+	private static final String EPISODE_URL_ON_ANIMEPIK = ANIMEPIK_URL + REGULAR_TITLE_ANIMEPIK_URL;
 
-	private static final String EPISODE_URL_ON_ANILIBRIA = ANILIBRIA_URL + REGULAR_TITLE_ANILIBRIA_SITE_URL;
+	private static final String EPISODE_URL_ON_ANILIBRIA = ANILIBRIA_URL + REGULAR_TITLE_ANILIBRIA_URL;
 
 	private AnimediaEpisodeUrlService animediaEpisodeUrlService = PowerMockito.mock(AnimediaEpisodeUrlService.class);
 
@@ -87,7 +90,7 @@ public class AnimeServiceTest {
 
 	private AnimepikEpisodeUrlService animepikEpisodeUrlService = PowerMockito.mock(AnimepikEpisodeUrlService.class);
 
-	private AnilibiraEpisodeUrlService anilibriaEpisodeUrlService = PowerMockito.mock(AnilibiraEpisodeUrlService.class);
+	private AnilibriaEpisodeUrlService anilibriaEpisodeUrlService = PowerMockito.mock(AnilibriaEpisodeUrlService.class);
 
 	private AnimeServiceI animeService;
 
@@ -104,14 +107,19 @@ public class AnimeServiceTest {
 	}
 
 	@Test
-	public void allTypesOfPossibleUrlsTest() {
+	public void shouldReturnAllTypesOfPossibleUrls() {
+		//given
 		mockEpisodeUrlServices();
 		Set<MalTitle> watchingTitles = buildWatchingTitles();
 		Set<Anime> expectedAnime = buildExpectedAnime();
-		for (MalTitle title : watchingTitles) {
-			Anime resultAnime = animeService.buildAnime(buildFanDubSources(), title);
-			assertTrue(expectedAnime.contains(resultAnime));
-		}
+		Set<FanDubSource> fanDubSources = buildFanDubSources();
+		//when
+		List<Anime> result = watchingTitles.stream()
+				.map(x -> animeService.buildAnime(fanDubSources, x))
+				.collect(Collectors.toList());
+		//then
+		assertEquals(expectedAnime.size(), result.size());
+		result.forEach(x -> assertTrue(expectedAnime.contains(x)));
 	}
 
 	private void mockEpisodeUrlServices() {
@@ -145,17 +153,17 @@ public class AnimeServiceTest {
 	private void mockEpisodeUrlServices(String episodeUrlOnAnimedia, String episodeUrlOnNineAnime, String episodeUrlOnAnidub,
 			String episodeUrlOnJisedai, String episodeUrlOnAnimepik, String episodeUrlOnAnilibria, MalTitle watchingTitle) {
 		doReturn(episodeUrlOnAnimedia).when(animediaEpisodeUrlService)
-				.getEpisodeUrl(watchingTitle);
+				.getEpisodeUrl(ANIMEDIA, watchingTitle);
 		doReturn(episodeUrlOnNineAnime).when(nineAnimeEpisodeUrlService)
-				.getEpisodeUrl(watchingTitle);
+				.getEpisodeUrl(NINEANIME, watchingTitle);
 		doReturn(episodeUrlOnAnidub).when(anidubEpisodeUrlService)
-				.getEpisodeUrl(watchingTitle);
+				.getEpisodeUrl(ANIDUB, watchingTitle);
 		doReturn(episodeUrlOnJisedai).when(jisedaiEpisodeUrlService)
-				.getEpisodeUrl(watchingTitle);
+				.getEpisodeUrl(JISEDAI, watchingTitle);
 		doReturn(episodeUrlOnAnimepik).when(animepikEpisodeUrlService)
-				.getEpisodeUrl(watchingTitle);
+				.getEpisodeUrl(ANIMEPIK, watchingTitle);
 		doReturn(episodeUrlOnAnilibria).when(anilibriaEpisodeUrlService)
-				.getEpisodeUrl(watchingTitle);
+				.getEpisodeUrl(ANILIBRIA, watchingTitle);
 	}
 
 	private Set<Anime> buildExpectedAnime() {
@@ -203,15 +211,15 @@ public class AnimeServiceTest {
 	}
 
 	private MalTitle buildRegularTitle() {
-		return buildWatchingTitle(REGULAR_TITLE_NAME, REGULAR_TITLE_POSTER_URL, REGULAR_TITLE_MAL_ANIME_URL);
+		return buildWatchingTitle(REGULAR_TITLE_ORIGINAL_NAME, REGULAR_TITLE_POSTER_URL, REGULAR_TITLE_MAL_ANIME_URL);
 	}
 
 	private MalTitle buildNotFoundOnSiteTitle() {
-		return buildWatchingTitle(NOT_FOUND_ON_ANIMEDIA_TITLE_NAME, NOT_FOUND_ON_ANIMEDIA_TITLE_POSTER_URL, NOT_FOUND_ON_ANIMEDIA_TITLE_MAL_ANIME_URL);
+		return buildWatchingTitle(NOT_FOUND_ON_MAL_TITLE_ORIGINAL_NAME, NOT_FOUND_ON_MAL_TITLE_POSTER_URL, NOT_FOUND_ON_MAL_TITLE_MAL_ANIME_URL);
 	}
 
 	private MalTitle buildConcretizedTitle() {
-		return buildWatchingTitle(CONCRETIZED_TITLE_WITH_SINGLE_EPISODE_NAME, CONCRETIZED_TITLE_POSTER_URL, CONCRETIZED_TITLE_MAL_ANIME_URL);
+		return buildWatchingTitle(CONCRETIZED_TITLE_ORIGINAL_NAME, CONCRETIZED_TITLE_POSTER_URL, CONCRETIZED_TITLE_MAL_ANIME_URL);
 	}
 
 	private MalTitle buildWatchingTitle(String titleName, String posterUrl, String animeUrl) {

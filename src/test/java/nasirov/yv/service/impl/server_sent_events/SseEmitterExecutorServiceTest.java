@@ -52,36 +52,48 @@ public class SseEmitterExecutorServiceTest {
 	private SseEmitterExecutorService sseEmitterExecutorService;
 
 	@Test
-	public void buildAndExecuteSseEmitterOk() {
+	public void shouldBuildAndExecuteSseEmitter() {
+		//given
 		MalUser malUser = buildMalUser();
 		mockServices(malUser);
+		//when
 		SseEmitter sseEmitter = sseEmitterExecutorService.buildAndExecuteSseEmitter(malUser);
+		//then
 		checkTimeout(sseEmitter);
 		verify(commonPool).execute(sseAction);
 	}
 
 	@Test
-	public void onErrorConsumerOk() {
+	public void shouldReturnOnErrorConsumer() {
+		//given
 		MalUser malUser = buildMalUser();
+		//when
 		Consumer<Throwable> onErrorConsumer = ReflectionTestUtils.invokeMethod(sseEmitterExecutorService, "onErrorConsumer", malUser);
+		//then
 		assertNotNull(onErrorConsumer);
 		onErrorConsumer.accept(new RuntimeException("Exception Message"));
 		verify(cacheCleanerService).clearSseCache(malUser);
 	}
 
 	@Test
-	public void onTimeoutCallbackOk() {
+	public void shouldReturnOnTimeoutCallback() {
+		//given
 		MalUser malUser = buildMalUser();
+		//when
 		Runnable onTimeoutCallback = ReflectionTestUtils.invokeMethod(sseEmitterExecutorService, "onTimeoutCallback", malUser);
+		//then
 		assertNotNull(onTimeoutCallback);
 		onTimeoutCallback.run();
 		verify(cacheCleanerService, never()).clearSseCache(malUser);
 	}
 
 	@Test
-	public void onCompletionCallbackOk() {
+	public void shouldReturnOnCompletionCallback() {
+		//given
 		MalUser malUser = buildMalUser();
+		//when
 		Runnable onCompletionCallback = ReflectionTestUtils.invokeMethod(sseEmitterExecutorService, "onCompletionCallback", malUser);
+		//then
 		assertNotNull(onCompletionCallback);
 		onCompletionCallback.run();
 		verify(cacheCleanerService).clearSseCache(malUser);

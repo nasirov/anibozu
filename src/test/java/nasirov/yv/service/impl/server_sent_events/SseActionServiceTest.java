@@ -56,11 +56,15 @@ public class SseActionServiceTest {
 	}
 
 	@Test
-	public void buildSseActionOk() {
+	public void shouldBuildSseAction() {
+		//given
 		MalUser malUser = buildMalUser();
 		String cacheKey = String.valueOf(malUser.hashCode());
 		mockServices(cacheKey);
-		SseAction sseAction = sseActionService.buildSseAction(new SseEmitter(), malUser);
+		SseEmitter sseEmitter = new SseEmitter();
+		//when
+		SseAction sseAction = sseActionService.buildSseAction(sseEmitter, malUser);
+		//then
 		assertNotEquals(cachedSseAction, sseAction);
 		assertFalse(cachedSseAction.getIsRunning()
 				.get());

@@ -1,0 +1,40 @@
+[
+  {
+    "id": 1,
+    "url": "anime/regular-title-url",
+    "dataList": 1,
+    "malId": 2,
+    "type": "REGULAR",
+    "episodes": [
+      {
+        "malEpisodeId": 1,
+        "id": 1,
+        "name": "Серия 1",
+        "url": "anime/regular-title-url/1/1"
+      }
+    ]
+  },
+  {
+    "id": 2,
+    "url": "anime/concretized-title-url",
+    "dataList": 1,
+    "malId": 3,
+    "type": "CONCRETIZED",
+    "episodes": [
+      {
+        "malEpisodeId": 1,
+        "id": 1,
+        "name": "Серия 1",
+        "url": "anime/concretized-title-url/1/1"
+      }
+    ]
+  },
+  {
+    "id": 3,
+    "url": "anime/not-found-on-mal-title-url",
+    "dataList": 1,
+    "malId": null,
+    "type": null,
+    "episodes": []
+  }
+]

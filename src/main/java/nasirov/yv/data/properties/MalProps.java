@@ -1,5 +1,6 @@
 package nasirov.yv.data.properties;
 
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -17,4 +18,7 @@ public class MalProps {
 
 	@NotNull
 	private Integer offsetStep;
+
+	@NotBlank
+	private String url;
 }

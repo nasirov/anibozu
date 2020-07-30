@@ -2,101 +2,165 @@ package nasirov.yv.service.impl.fandub.anidub;
 
 import static nasirov.yv.data.constants.BaseConstants.FINAL_URL_VALUE_IF_EPISODE_IS_NOT_AVAILABLE;
 import static nasirov.yv.data.constants.BaseConstants.NOT_FOUND_ON_FANDUB_SITE_URL;
-import static nasirov.yv.utils.AnidubTitleBuilder.buildAnidubTitles;
 import static nasirov.yv.utils.TestConstants.ANIDUB_URL;
-import static nasirov.yv.utils.TestConstants.MY_ANIME_LIST_STATIC_CONTENT_URL;
-import static nasirov.yv.utils.TestConstants.MY_ANIME_LIST_URL;
-import static nasirov.yv.utils.TestConstants.REGULAR_TITLE_ANIDUB_SITE_URL;
-import static nasirov.yv.utils.TestConstants.REGULAR_TITLE_MAL_ANIME_ID;
-import static nasirov.yv.utils.TestConstants.REGULAR_TITLE_MAL_ANIME_URL;
-import static nasirov.yv.utils.TestConstants.REGULAR_TITLE_NAME;
-import static nasirov.yv.utils.TestConstants.REGULAR_TITLE_POSTER_URL;
+import static nasirov.yv.utils.TestConstants.REGULAR_TITLE_ANIDUB_URL;
+import static nasirov.yv.utils.TestConstants.REGULAR_TITLE_MAL_ID;
 import static org.junit.Assert.assertEquals;
+import static org.mockito.ArgumentMatchers.argThat;
 import static org.mockito.Mockito.doReturn;
 
+import com.google.common.collect.Lists;
+import java.util.HashMap;
 import java.util.List;
-import nasirov.yv.AbstractTest;
-import nasirov.yv.data.fandub.anidub.AnidubTitle;
+import java.util.Map;
+import nasirov.yv.data.properties.FanDubProps;
+import nasirov.yv.fandub.dto.constant.FanDubSource;
+import nasirov.yv.fandub.dto.fandub.common.CommonTitle;
+import nasirov.yv.fandub.dto.fandub.common.FandubEpisode;
 import nasirov.yv.fandub.dto.mal.MalTitle;
+import nasirov.yv.fandub.service.spring.boot.starter.extractor.parser.AnidubParserI;
 import nasirov.yv.fandub.service.spring.boot.starter.feign.fandub.anidub.AnidubFeignClient;
-import nasirov.yv.service.impl.fandub.BaseEpisodeUrlService;
-import nasirov.yv.utils.IOUtils;
-import org.junit.Before;
+import nasirov.yv.service.TitlesServiceI;
+import nasirov.yv.utils.CommonTitleTestBuilder;
+import org.assertj.core.util.Maps;
 import org.junit.Test;
-import org.springframework.boot.test.mock.mockito.MockBean;
+import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.MockitoJUnitRunner;
 
 /**
  * Created by nasirov.yv
  */
-public class AnidubEpisodeUrlServiceTest extends AbstractTest {
+@RunWith(MockitoJUnitRunner.class)
+public class AnidubEpisodeUrlServiceTest {
 
-	@MockBean
-	protected AnidubFeignClient anidubFeignClient;
+	@Mock
+	private TitlesServiceI titlesService;
 
-	private BaseEpisodeUrlService<AnidubTitle> anidubEpisodeUrlService;
+	@Mock
+	private FanDubProps fanDubProps;
 
-	@Override
-	@Before
-	public void setUp() {
-		super.setUp();
-		mockGitHubResourcesService(buildAnidubTitles());
-		anidubEpisodeUrlService = new AnidubEpisodeUrlService(anidubFeignClient,
-				new AnidubTitleService(githubResourcesService, gitHubResourceProps),
-				anidubParser,
-				urlsNames);
-	}
+	@Mock
+	private AnidubFeignClient anidubFeignClient;
+
+	@Mock
+	private AnidubParserI anidubParser;
+
+	@InjectMocks
+	private AnidubEpisodeUrlService anidubEpisodeUrlService;
 
 	@Test
 	public void shouldReturnUrlWithAvailableEpisode() {
 		//given
-		mockAnidub();
-		MalTitle title = buildWatchingTitle(REGULAR_TITLE_MAL_ANIME_ID, 0);
+		mockFandubUrlsMap();
+		mockTitleService(getMappedTitlesByMalId(Lists.newArrayList(CommonTitleTestBuilder.getAnidubRegular())));
+		MalTitle malTitle = buildWatchingTitle(REGULAR_TITLE_MAL_ID, 0);
 		//when
-		String actualUrl = anidubEpisodeUrlService.getEpisodeUrl(title);
+		String actualUrl = anidubEpisodeUrlService.getEpisodeUrl(FanDubSource.ANIDUB, malTitle);
 		//then
-		assertEquals(ANIDUB_URL + REGULAR_TITLE_ANIDUB_SITE_URL, actualUrl);
+		assertEquals(ANIDUB_URL + REGULAR_TITLE_ANIDUB_URL, actualUrl);
 	}
 
 	@Test
-	public void shouldReturnNotAvailableUrlConstant() {
+	public void shouldReturnUrlWithAvailableEpisodeInRuntime() {
 		//given
-		mockAnidub();
-		MalTitle title = buildWatchingTitle(REGULAR_TITLE_MAL_ANIME_ID, 3);
+		mockFandubUrlsMap();
+		mockTitleService(getMappedTitlesByMalId(Lists.newArrayList(CommonTitleTestBuilder.getAnidubRegular())));
+		String titlePageContent = "foobar";
+		mockGetTitlePage(titlePageContent);
+		mockParser(titlePageContent);
+		MalTitle malTitle = buildWatchingTitle(REGULAR_TITLE_MAL_ID, 1);
 		//when
-		String actualUrl = anidubEpisodeUrlService.getEpisodeUrl(title);
+		String actualUrl = anidubEpisodeUrlService.getEpisodeUrl(FanDubSource.ANIDUB, malTitle);
+		//then
+		assertEquals(ANIDUB_URL + REGULAR_TITLE_ANIDUB_URL, actualUrl);
+	}
+
+	@Test
+	public void shouldReturnNotFoundOnFandubSiteUrl() {
+		//given
+		mockFandubUrlsMap();
+		int notFoundOnFandubMalId = 42;
+		MalTitle malTitle = buildWatchingTitle(notFoundOnFandubMalId, 0);
+		//when
+		String actualUrl = anidubEpisodeUrlService.getEpisodeUrl(FanDubSource.ANIDUB, malTitle);
+		//then
+		assertEquals(NOT_FOUND_ON_FANDUB_SITE_URL, actualUrl);
+	}
+
+	@Test
+	public void shouldReturnFinalUrlValueIfEpisodeIsNotAvailable() {
+		//given
+		mockFandubUrlsMap();
+		mockTitleService(getMappedTitlesByMalId(Lists.newArrayList(CommonTitleTestBuilder.getAnidubConcretized())));
+		MalTitle malTitle = buildWatchingTitle(REGULAR_TITLE_MAL_ID, 1);
+		//when
+		String actualUrl = anidubEpisodeUrlService.getEpisodeUrl(FanDubSource.ANIDUB, malTitle);
 		//then
 		assertEquals(FINAL_URL_VALUE_IF_EPISODE_IS_NOT_AVAILABLE, actualUrl);
 	}
 
 	@Test
-	public void shouldReturnNotFoundOnFandubSiteUrlConstant() {
+	public void shouldReturnFinalUrlValueIfEpisodeIsNotAvailableInRuntime() {
 		//given
-		mockAnidub();
-		int notRegularTitleId = 5;
-		MalTitle title = buildWatchingTitle(notRegularTitleId, 0);
+		mockFandubUrlsMap();
+		mockTitleService(getMappedTitlesByMalId(Lists.newArrayList(CommonTitleTestBuilder.getAnidubRegular(),
+				CommonTitleTestBuilder.getAnidubConcretized())));
+		String titlePageContent = "foobar";
+		mockGetTitlePage(titlePageContent);
+		mockParser(titlePageContent);
+		MalTitle malTitle = buildWatchingTitle(REGULAR_TITLE_MAL_ID, 2);
 		//when
-		String actualUrl = anidubEpisodeUrlService.getEpisodeUrl(title);
+		String actualUrl = anidubEpisodeUrlService.getEpisodeUrl(FanDubSource.ANIDUB, malTitle);
 		//then
-		assertEquals(NOT_FOUND_ON_FANDUB_SITE_URL, actualUrl);
+		assertEquals(FINAL_URL_VALUE_IF_EPISODE_IS_NOT_AVAILABLE, actualUrl);
 	}
 
-	private void mockAnidub() {
-		doReturn(IOUtils.readFromFile("classpath:__files/anidub/siteRegularTitle.html")).when(anidubFeignClient)
-				.getTitlePage(REGULAR_TITLE_ANIDUB_SITE_URL);
+	private void mockFandubUrlsMap() {
+		doReturn(Maps.newHashMap(FanDubSource.ANIDUB, ANIDUB_URL)).when(fanDubProps)
+				.getUrls();
+	}
+	private void mockParser(String titlePage) {
+		List<FandubEpisode> fandubEpisodes = getFandubEpisodes();
+		doReturn(fandubEpisodes).when(anidubParser)
+				.extractEpisodes(argThat(x -> x.text()
+						.equals(titlePage)));
 	}
 
-	private void mockGitHubResourcesService(List<AnidubTitle> titles) {
-		doReturn(titles).when(githubResourcesService)
-				.getResource("anidubSiteTitles.json", AnidubTitle.class);
+	private void mockTitleService(Map<Integer, List<CommonTitle>> mappedTitlesByMalId) {
+		doReturn(mappedTitlesByMalId).when(titlesService)
+				.getTitles(FanDubSource.ANIDUB);
+	}
+
+	private void mockGetTitlePage(String titlePageContent) {
+		doReturn(titlePageContent).when(anidubFeignClient)
+				.getTitlePage(REGULAR_TITLE_ANIDUB_URL);
+	}
+
+	private Map<Integer, List<CommonTitle>> getMappedTitlesByMalId(List<CommonTitle> commonTitles) {
+		Map<Integer, List<CommonTitle>> map = new HashMap<>();
+		map.put(REGULAR_TITLE_MAL_ID, commonTitles);
+		return map;
+	}
+
+	private List<FandubEpisode> getFandubEpisodes() {
+		return Lists.newArrayList(FandubEpisode.builder()
+						.episodeName("1 серия")
+						.id(1)
+						.number("1")
+						.build(),
+				FandubEpisode.builder()
+						.episodeName("2 серия")
+						.id(2)
+						.number("2")
+						.build());
 	}
 
 	private MalTitle buildWatchingTitle(int animeId, int numWatchedEpisodes) {
 		return MalTitle.builder()
 				.id(animeId)
 				.numWatchedEpisodes(numWatchedEpisodes)
-				.name(REGULAR_TITLE_NAME)
-				.posterUrl(MY_ANIME_LIST_STATIC_CONTENT_URL + REGULAR_TITLE_POSTER_URL)
-				.animeUrl(MY_ANIME_LIST_URL + REGULAR_TITLE_MAL_ANIME_URL)
 				.build();
 	}
 }

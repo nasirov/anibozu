@@ -1,6 +1,7 @@
 package nasirov.yv.service;
 
 
+import nasirov.yv.fandub.dto.constant.FanDubSource;
 import nasirov.yv.fandub.dto.mal.MalTitle;
 
 /**
@@ -18,5 +19,5 @@ public interface EpisodeUrlServiceI {
 	 * <p>
 	 * 3. a title is not found - {@link nasirov.yv.data.constants.BaseConstants#NOT_FOUND_ON_FANDUB_SITE_URL}
 	 */
-	String getEpisodeUrl(MalTitle watchingTitle);
+	String getEpisodeUrl(FanDubSource fanDubSource, MalTitle watchingTitle);
 }

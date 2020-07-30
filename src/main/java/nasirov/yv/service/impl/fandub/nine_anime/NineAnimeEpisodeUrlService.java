@@ -15,7 +15,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import nasirov.yv.data.properties.UrlsNames;
+import nasirov.yv.data.properties.FanDubProps;
+import nasirov.yv.fandub.dto.constant.FanDubSource;
 import nasirov.yv.fandub.dto.mal.MalTitle;
 import nasirov.yv.fandub.service.spring.boot.starter.feign.fandub.nine_anime.NineAnimeFeignClient;
 import nasirov.yv.service.EpisodeUrlServiceI;
@@ -41,10 +42,10 @@ public class NineAnimeEpisodeUrlService implements EpisodeUrlServiceI {
 
 	private final NineAnimeFeignClient nineAnimeFeignClient;
 
-	private final UrlsNames urlsNames;
+	private final FanDubProps fanDubProps;
 
 	@Override
-	public String getEpisodeUrl(MalTitle watchingTitle) {
+	public String getEpisodeUrl(FanDubSource fanDubSource, MalTitle watchingTitle) {
 		return buildEpisodeUrl(watchingTitle);
 	}
 
@@ -106,8 +107,8 @@ public class NineAnimeEpisodeUrlService implements EpisodeUrlServiceI {
 		return document.select(".episodes.range > li > a")
 				.stream()
 				.filter(x -> isNewEpisodeAvailable(nextEpisodeForWatch, x))
-				.map(x -> urlsNames.getNineAnimeUrls()
-						.getNineAnimeTo() + x.attr("href"))
+				.map(x -> fanDubProps.getUrls()
+						.get(FanDubSource.NINEANIME) + x.attr("href"))
 				.findFirst()
 				.orElse(FINAL_URL_VALUE_IF_EPISODE_IS_NOT_AVAILABLE);
 	}

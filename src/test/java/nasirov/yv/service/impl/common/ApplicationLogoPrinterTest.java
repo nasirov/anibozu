@@ -30,15 +30,19 @@ public class ApplicationLogoPrinterTest {
 	@Before
 	public void setUp() {
 		ResourcesNames resourcesNames = mock(ResourcesNames.class);
-		doReturn(APPLICATION_LOGO_FILENAME).when(resourcesNames).getApplicationLogo();
+		doReturn(APPLICATION_LOGO_FILENAME).when(resourcesNames)
+				.getName();
 		applicationLogoPrinter = new ApplicationLogoPrinter();
 		ReflectionTestUtils.setField(applicationLogoPrinter, "applicationLogoResource", new ClassPathResource(APPLICATION_LOGO_FILENAME));
 	}
 
 	@Test
-	public void printApplicationLogoTest() {
+	public void shouldPrintApplicationLogo() {
+		//given
 		mockPrintStream();
+		//when
 		applicationLogoPrinter.printApplicationLogo();
+		//then
 		assertEquals(applicationLogo, logoFromBean.toString());
 	}
 
@@ -50,6 +54,7 @@ public class ApplicationLogoPrinterTest {
 		doAnswer(x -> {
 			logoFromBean.append((String) x.getArgument(0));
 			return x.callRealMethod();
-		}).when(mockPrintStream).println(applicationLogo);
+		}).when(mockPrintStream)
+				.println(applicationLogo);
 	}
 }

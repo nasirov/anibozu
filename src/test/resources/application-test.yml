@@ -1,9 +1,6 @@
 application:
   github-auth:
     token: testAccessToken
-  animedia:
-    search-list-max-size: 2
-    request-limit: 2
   mal:
     offset-step: 2
   fandub:

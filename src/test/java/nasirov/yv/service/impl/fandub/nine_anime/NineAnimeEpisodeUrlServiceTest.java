@@ -8,8 +8,8 @@ import static nasirov.yv.utils.TestConstants.NINE_ANIME_TO;
 import static nasirov.yv.utils.TestConstants.REGULAR_TITLE_DUB_NINE_ANIME_DATA_ID;
 import static nasirov.yv.utils.TestConstants.REGULAR_TITLE_DUB_NINE_ANIME_URL;
 import static nasirov.yv.utils.TestConstants.REGULAR_TITLE_MAL_ANIME_URL;
-import static nasirov.yv.utils.TestConstants.REGULAR_TITLE_NAME;
 import static nasirov.yv.utils.TestConstants.REGULAR_TITLE_NINE_ANIME_DATA_ID;
+import static nasirov.yv.utils.TestConstants.REGULAR_TITLE_ORIGINAL_NAME;
 import static nasirov.yv.utils.TestConstants.REGULAR_TITLE_POSTER_URL;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.doReturn;
@@ -17,21 +17,17 @@ import static org.mockito.Mockito.doReturn;
 import feign.template.UriUtils;
 import java.nio.charset.StandardCharsets;
 import nasirov.yv.AbstractTest;
+import nasirov.yv.fandub.dto.constant.FanDubSource;
 import nasirov.yv.fandub.dto.fandub.nine_anime.NineAnimeResponse;
 import nasirov.yv.fandub.dto.mal.MalTitle;
-import nasirov.yv.fandub.service.spring.boot.starter.feign.fandub.nine_anime.NineAnimeFeignClient;
 import nasirov.yv.utils.IOUtils;
 import org.apache.commons.lang.StringUtils;
 import org.junit.Test;
-import org.springframework.boot.test.mock.mockito.MockBean;
 
 /**
  * Created by nasirov.yv
  */
 public class NineAnimeEpisodeUrlServiceTest extends AbstractTest {
-
-	@MockBean
-	private NineAnimeFeignClient nineAnimeFeignClient;
 
 	@Test
 	public void dubAvailableNewEpisodeAvailable() {
@@ -90,7 +86,7 @@ public class NineAnimeEpisodeUrlServiceTest extends AbstractTest {
 	}
 
 	private void performAndCheck(String expectedUrl) {
-		String actualUrl = nineAnimeEpisodeUrlService.getEpisodeUrl(buildWatchingTitle());
+		String actualUrl = nineAnimeEpisodeUrlService.getEpisodeUrl(FanDubSource.NINEANIME, buildWatchingTitle());
 		assertEquals(expectedUrl, actualUrl);
 	}
 
@@ -103,7 +99,7 @@ public class NineAnimeEpisodeUrlServiceTest extends AbstractTest {
 	}
 
 	private String buildTitleNameWithSemiColin() {
-		return StringUtils.join(REGULAR_TITLE_NAME.split(" "), ";");
+		return StringUtils.join(REGULAR_TITLE_ORIGINAL_NAME.split(" "), ";");
 	}
 
 	private MalTitle buildWatchingTitle() {

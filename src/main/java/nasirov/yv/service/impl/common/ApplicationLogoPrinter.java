@@ -3,7 +3,6 @@ package nasirov.yv.service.impl.common;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.springframework.util.StreamUtils.copyToString;
 
-import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import nasirov.yv.service.ApplicationLogoPrinterI;
 import org.springframework.beans.factory.annotation.Value;
@@ -17,11 +16,10 @@ import org.springframework.stereotype.Service;
  * Created by nasirov.yv
  */
 @Service
-@RequiredArgsConstructor
 @ConditionalOnProperty(name = "application.services.applicationLogoPrinter-enabled", havingValue = "true")
 public class ApplicationLogoPrinter implements ApplicationLogoPrinterI {
 
-	@Value("classpath:${application.resources.applicationLogo}")
+	@Value("classpath:${application.logo.name}")
 	private Resource applicationLogoResource;
 
 	@Override

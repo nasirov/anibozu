@@ -1,5 +1,11 @@
 package nasirov.yv.data.task;
 
+import static nasirov.yv.utils.TestConstants.ANIMEDIA_ONLINE_TV;
+import static nasirov.yv.utils.TestConstants.MY_ANIME_LIST_STATIC_CONTENT_URL;
+import static nasirov.yv.utils.TestConstants.MY_ANIME_LIST_URL;
+import static nasirov.yv.utils.TestConstants.REGULAR_TITLE_MAL_ANIME_URL;
+import static nasirov.yv.utils.TestConstants.REGULAR_TITLE_ORIGINAL_NAME;
+import static nasirov.yv.utils.TestConstants.REGULAR_TITLE_POSTER_URL;
 import static nasirov.yv.utils.TestConstants.TEST_ACC_FOR_DEV;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.argThat;
@@ -11,7 +17,6 @@ import static org.mockito.Mockito.verify;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
-import java.io.IOException;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
@@ -25,7 +30,6 @@ import nasirov.yv.fandub.dto.constant.FanDubSource;
 import nasirov.yv.fandub.dto.mal.MalTitle;
 import nasirov.yv.service.MalServiceI;
 import nasirov.yv.service.impl.common.AnimeService;
-import nasirov.yv.utils.TestConstants;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -57,21 +61,24 @@ public class SseActionTest {
 	private SseAction sseAction;
 
 	@Test
-	@SneakyThrows
-	public void completeOk() {
+	public void shouldCompleteOk() {
+		//given
 		mockServicesOk();
+		//when
 		sseAction.compute();
+		//then
 		verifySse(1, 1, 1, 1, 1, 0);
 	}
 
 	@Test
-	@SneakyThrows
-	public void completeWithError() {
+	public void shouldCompleteWithError() {
+		//given
 		mockServicesException();
+		//when
 		sseAction.compute();
+		//then
 		verifySse(1, 0, 0, 0, 0, 1);
 	}
-
 
 	@SneakyThrows
 	private void mockServicesOk() {
@@ -94,17 +101,18 @@ public class SseActionTest {
 
 	@SneakyThrows
 	private Set<FanDubSource> mockMal() {
-		doReturn(TEST_ACC_FOR_DEV.toLowerCase()).when(malUser)
+		doReturn(TEST_ACC_FOR_DEV).when(malUser)
 				.getUsername();
 		Set<FanDubSource> fanDubSources = Sets.newHashSet(FanDubSource.ANIMEDIA, FanDubSource.NINEANIME);
 		doReturn(fanDubSources).when(malUser)
 				.getFanDubSources();
 		doReturn(Lists.newArrayList(new MalTitle(), new MalTitle(), new MalTitle())).when(malService)
-				.getWatchingTitles(eq(TEST_ACC_FOR_DEV.toLowerCase()));
+				.getWatchingTitles(eq(TEST_ACC_FOR_DEV));
 		return fanDubSources;
 	}
 
-	private void verifySse(int available, int notAvailable, int notFound, int done, int complete, int completeWithError) throws IOException {
+	@SneakyThrows
+	private void verifySse(int available, int notAvailable, int notFound, int done, int complete, int completeWithError) {
 		verify(sseEmitter, times(available)).send(argThat(x -> wasHandled(buildSseEvent(0,
 				buildSseDto(buildAnime(buildFanDubUrls(EventType.AVAILABLE)), EventType.AVAILABLE)), x)));
 		verify(sseEmitter, times(notAvailable)).send(argThat(x -> wasHandled(buildSseEvent(1,
@@ -127,7 +135,7 @@ public class SseActionTest {
 		LinkedHashMap<FanDubSource, String> result = new LinkedHashMap<>();
 		switch (eventType) {
 			case AVAILABLE:
-				result.put(FanDubSource.ANIMEDIA, TestConstants.ANIMEDIA_ONLINE_TV + TestConstants.REGULAR_TITLE_URL + "/1/1");
+				result.put(FanDubSource.ANIMEDIA, ANIMEDIA_ONLINE_TV + REGULAR_TITLE_ORIGINAL_NAME + "/1/1");
 				result.put(FanDubSource.NINEANIME, BaseConstants.FINAL_URL_VALUE_IF_EPISODE_IS_NOT_AVAILABLE);
 				break;
 			case NOT_AVAILABLE:
@@ -144,10 +152,10 @@ public class SseActionTest {
 
 	private Anime buildAnime(Map<FanDubSource, String> fanDubUrls) {
 		return Anime.builder()
-				.animeName(TestConstants.REGULAR_TITLE_NAME)
+				.animeName(REGULAR_TITLE_ORIGINAL_NAME)
 				.episode("1")
-				.posterUrlOnMAL(TestConstants.MY_ANIME_LIST_STATIC_CONTENT_URL + TestConstants.REGULAR_TITLE_POSTER_URL)
-				.animeUrlOnMAL(TestConstants.MY_ANIME_LIST_URL + TestConstants.REGULAR_TITLE_MAL_ANIME_URL)
+				.posterUrlOnMAL(MY_ANIME_LIST_STATIC_CONTENT_URL + REGULAR_TITLE_POSTER_URL)
+				.animeUrlOnMAL(MY_ANIME_LIST_URL + REGULAR_TITLE_MAL_ANIME_URL)
 				.fanDubUrls(fanDubUrls)
 				.build();
 	}

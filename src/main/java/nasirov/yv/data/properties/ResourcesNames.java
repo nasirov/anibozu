@@ -12,22 +12,9 @@ import org.springframework.validation.annotation.Validated;
 @Data
 @Validated
 @Configuration
-@ConfigurationProperties(prefix = "application.resources")
+@ConfigurationProperties(prefix = "application.logo")
 public class ResourcesNames {
 
 	@NotBlank
-	private String applicationLogo;
-
-	@NotBlank
-	private String tempFolder;
-
-	@NotBlank
-	private String tempMissedAnimediaTitles;
-
-	@NotBlank
-	private String tempAnimediaTitlesNotFoundOnMal;
-
-	@NotBlank
-	private String tempExAnnouncements;
-
+	private String name;
 }

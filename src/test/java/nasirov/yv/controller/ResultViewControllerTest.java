@@ -6,10 +6,12 @@ import static org.junit.Assert.assertNotNull;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.doThrow;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.google.common.collect.Lists;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 import lombok.SneakyThrows;
 import nasirov.yv.AbstractTest;
 import nasirov.yv.exception.mal.MalUserAccountNotFoundException;
@@ -35,62 +37,63 @@ public class ResultViewControllerTest extends AbstractTest {
 	private static final String[] VALID_FANDUBS = {"ANIMEDIA", "NINEANIME"};
 
 	@Test
-	public void checkResultInvalidUsername() {
-		String[] invalidUsernameArray = {"", "moreThan16Charssss", "space between ", "@#!sd"};
-		for (String invalidUsername : invalidUsernameArray) {
-			call(HttpStatus.BAD_REQUEST, invalidUsername, VALID_FANDUBS);
-		}
-	}
-
-	@Test
-	public void checkResultInvalidFanDubSources() {
-		String[] invalidFandubSourceArray = {"animedia", "nineanime", ""};
-		for (String invalidFandubSource : invalidFandubSourceArray) {
-			call(HttpStatus.BAD_REQUEST, TEST_ACC_FOR_DEV.toLowerCase(), invalidFandubSource);
-		}
-	}
-
-	@Test
-	public void checkResultUsernameIsNotFound() {
-		String errorMsg = "MAL account " + TEST_ACC_FOR_DEV.toLowerCase() + " is not found";
-		mockMalService(new MalUserAccountNotFoundException(errorMsg));
-		checkErrorView(errorMsg);
-	}
-
-	@Test
-	public void checkResultWatchingTitlesNotFound() {
-		String errorMsg = "Not found watching titles for " + TEST_ACC_FOR_DEV.toLowerCase() + " !";
-		mockMalService(new WatchingTitlesNotFoundException(errorMsg));
-		checkErrorView(errorMsg);
-	}
-
-	@Test
-	public void checkResultUserAnimeListPrivateAccess() {
-		String errorMsg = "Anime list " + TEST_ACC_FOR_DEV.toLowerCase() + " has private access!";
-		mockMalService(new MalUserAnimeListAccessException(errorMsg));
-		checkErrorView(errorMsg);
-	}
-
-	@Test
-	public void resultOk() {
+	public void shouldReturnResultView() {
+		//given
 		mockMalServiceOk();
-		checkResultView();
+		//when
+		MvcResult result = getMvcResult(TEST_ACC_FOR_DEV, VALID_FANDUBS);
+		//then
+		assertEquals(HttpStatus.OK.value(),
+				result.getResponse()
+						.getStatus());
+		ModelAndView modelAndView = result.getModelAndView();
+		assertNotNull(modelAndView);
+		assertEquals(RESULT_VIEW, modelAndView.getViewName());
+		Map<String, Object> model = modelAndView.getModel();
+		assertEquals(TEST_ACC_FOR_DEV, model.get("username"));
+		assertEquals(1, model.get("watchingTitlesSize"));
+		assertEquals("ANIMEDIA,NINEANIME", model.get("fandubList"));
 	}
 
-	@SneakyThrows
-	private void mockMalService(Exception toBeThrown) {
-		doThrow(toBeThrown).when(malService)
-				.getWatchingTitles(TEST_ACC_FOR_DEV.toLowerCase());
+	@Test
+	public void shouldReturn400ForInvalidUsernames() {
+		//given
+		String[] invalidUsernameArray = {"", "moreThan16Charssss", "space between ", "@#!sd"};
+		//when
+		List<MvcResult> result = Arrays.stream(invalidUsernameArray)
+				.map(x -> getMvcResult(x, VALID_FANDUBS))
+				.collect(Collectors.toList());
+		//then
+		result.forEach(x -> assertEquals(HttpStatus.BAD_REQUEST.value(),
+				x.getResponse()
+						.getStatus()));
 	}
 
-	@SneakyThrows
-	private void mockMalServiceOk() {
-		doReturn(Lists.newArrayList(new MalTitle())).when(malService)
-				.getWatchingTitles(TEST_ACC_FOR_DEV.toLowerCase());
+	@Test
+	public void shouldReturn400ForInvalidFandubSources() {
+		//given
+		String[] invalidFandubSourceArray = {"animedia", "nineanime", ""};
+		//when
+		List<MvcResult> result = Arrays.stream(invalidFandubSourceArray)
+				.map(x -> getMvcResult(TEST_ACC_FOR_DEV, x))
+				.collect(Collectors.toList());
+		//then
+		result.forEach(x -> assertEquals(HttpStatus.BAD_REQUEST.value(),
+				x.getResponse()
+						.getStatus()));
 	}
 
-	private void checkErrorView(String errorMsg) {
-		MvcResult result = call(HttpStatus.OK, TEST_ACC_FOR_DEV.toLowerCase(), VALID_FANDUBS);
+	@Test
+	public void shouldReturnErrorViewForMalUserAccountNotFoundException() {
+		//given
+		String errorMsg = "MAL account " + TEST_ACC_FOR_DEV + " is not found";
+		mockMalService(new MalUserAccountNotFoundException(errorMsg));
+		//when
+		MvcResult result = getMvcResult(TEST_ACC_FOR_DEV, VALID_FANDUBS);
+		//then
+		assertEquals(HttpStatus.OK.value(),
+				result.getResponse()
+						.getStatus());
 		ModelAndView modelAndView = result.getModelAndView();
 		assertNotNull(modelAndView);
 		assertEquals(ERROR_VIEW, modelAndView.getViewName());
@@ -99,22 +102,60 @@ public class ResultViewControllerTest extends AbstractTest {
 						.get("errorMsg"));
 	}
 
-	private void checkResultView() {
-		MvcResult result = call(HttpStatus.OK, TEST_ACC_FOR_DEV.toLowerCase(), VALID_FANDUBS);
+	@Test
+	public void shouldReturnErrorViewForWatchingTitlesNotFoundException() {
+		//given
+		String errorMsg = "Not found watching titles for " + TEST_ACC_FOR_DEV + " !";
+		mockMalService(new WatchingTitlesNotFoundException(errorMsg));
+		//when
+		MvcResult result = getMvcResult(TEST_ACC_FOR_DEV, VALID_FANDUBS);
+		//then
+		assertEquals(HttpStatus.OK.value(),
+				result.getResponse()
+						.getStatus());
 		ModelAndView modelAndView = result.getModelAndView();
 		assertNotNull(modelAndView);
-		assertEquals(RESULT_VIEW, modelAndView.getViewName());
-		Map<String, Object> model = modelAndView.getModel();
-		assertEquals(TEST_ACC_FOR_DEV.toLowerCase(), model.get("username"));
-		assertEquals(1, model.get("watchingTitlesSize"));
-		assertEquals("ANIMEDIA,NINEANIME", model.get("fandubList"));
+		assertEquals(ERROR_VIEW, modelAndView.getViewName());
+		assertEquals(errorMsg,
+				modelAndView.getModel()
+						.get("errorMsg"));
+	}
+
+	@Test
+	public void shouldReturnErrorViewForMalUserAnimeListAccessException() {
+		//given
+		String errorMsg = "Anime list " + TEST_ACC_FOR_DEV + " has private access!";
+		mockMalService(new MalUserAnimeListAccessException(errorMsg));
+		//when
+		MvcResult result = getMvcResult(TEST_ACC_FOR_DEV, VALID_FANDUBS);
+		//then
+		assertEquals(HttpStatus.OK.value(),
+				result.getResponse()
+						.getStatus());
+		ModelAndView modelAndView = result.getModelAndView();
+		assertNotNull(modelAndView);
+		assertEquals(ERROR_VIEW, modelAndView.getViewName());
+		assertEquals(errorMsg,
+				modelAndView.getModel()
+						.get("errorMsg"));
 	}
 
 	@SneakyThrows
-	private MvcResult call(HttpStatus expectedStatus, String username, String... fanDubSources) {
+	private void mockMalService(Exception toBeThrown) {
+		doThrow(toBeThrown).when(malService)
+				.getWatchingTitles(TEST_ACC_FOR_DEV);
+	}
+
+	@SneakyThrows
+	private void mockMalServiceOk() {
+		doReturn(Lists.newArrayList(new MalTitle())).when(malService)
+				.getWatchingTitles(TEST_ACC_FOR_DEV);
+	}
+
+	@SneakyThrows
+	private MvcResult getMvcResult(String username, String... fanDubSources) {
 		return mockMvc.perform(post(RESULT_VIEW_PATH).param("username", username)
 				.param("fanDubSources", fanDubSources))
-				.andExpect(status().is(expectedStatus.value()))
 				.andReturn();
 	}
 }

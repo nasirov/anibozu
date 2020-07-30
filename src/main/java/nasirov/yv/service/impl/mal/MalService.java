@@ -13,7 +13,6 @@ import javax.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import nasirov.yv.data.properties.MalProps;
-import nasirov.yv.data.properties.UrlsNames;
 import nasirov.yv.exception.mal.MalException;
 import nasirov.yv.exception.mal.MalForbiddenException;
 import nasirov.yv.exception.mal.MalUserAccountNotFoundException;
@@ -46,8 +45,6 @@ public class MalService implements MalServiceI {
 
 	private final MALParserI malParser;
 
-	private final UrlsNames urlsNames;
-
 	private final MalProps malProps;
 
 	private int offsetStep;
@@ -66,7 +63,7 @@ public class MalService implements MalServiceI {
 	 * @throws MalUserAccountNotFoundException if username doesn't exist
 	 */
 	@Override
-	@Cacheable(value = "mal", key = "#username", unless = "#result?.isEmpty()")
+	@Cacheable(value = "mal", key = "#username", unless = "#result == null || #result.isEmpty()")
 	public List<MalTitle> getWatchingTitles(String username) throws MalException {
 		log.debug("Trying to get watching titles for [{}]...", username);
 		String userProfile = extractUserProfile(username);
@@ -129,8 +126,7 @@ public class MalService implements MalServiceI {
 	 * @param title a MAL title
 	 */
 	private MalTitle changeAnimeUrl(MalTitle title) {
-		title.setAnimeUrl(urlsNames.getMalUrls()
-				.getMyAnimeListNet() + title.getAnimeUrl());
+		title.setAnimeUrl(malProps.getUrl() + title.getAnimeUrl());
 		return title;
 	}
 

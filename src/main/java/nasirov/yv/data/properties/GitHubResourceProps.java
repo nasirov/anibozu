@@ -1,7 +1,9 @@
 package nasirov.yv.data.properties;
 
-import javax.validation.constraints.NotBlank;
+import java.util.Map;
+import javax.validation.constraints.NotEmpty;
 import lombok.Data;
+import nasirov.yv.fandub.dto.constant.FanDubSource;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.validation.annotation.Validated;
@@ -12,21 +14,9 @@ import org.springframework.validation.annotation.Validated;
 @Data
 @Validated
 @Configuration
-@ConfigurationProperties(prefix = "application.github.resources")
+@ConfigurationProperties(prefix = "application.github")
 public class GitHubResourceProps {
 
-	@NotBlank
-	private String animediaTitles;
-
-	@NotBlank
-	private String anidubTitles;
-
-	@NotBlank
-	private String jisedaiTitles;
-
-	@NotBlank
-	private String animepikTitles;
-
-	@NotBlank
-	private String anilibriaTitles;
+	@NotEmpty
+	private Map<FanDubSource, String> resourcesNames;
 }

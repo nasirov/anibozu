@@ -34,7 +34,6 @@ public class CacheConfig implements JCacheManagerCustomizer {
 
 	@Override
 	public void customize(CacheManager cacheManager) {
-		buildCache(cacheManager, cacheProps.getDataListInfo(), ArrayList.class);
 		buildCache(cacheManager, cacheProps.getMal(), ArrayList.class);
 		buildCache(cacheManager, cacheProps.getGithub(), HashMap.class);
 		buildCache(cacheManager, cacheProps.getSse(), SseAction.class);

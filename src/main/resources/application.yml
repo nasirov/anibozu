@@ -1,36 +1,9 @@
 application:
-  resources:
-    applicationLogo: anime-checker-logo.txt
-    tempFolder: temp
-    tempMissedAnimediaTitles: tempMissedAnimediaTitles.json
-    tempAnimediaTitlesNotFoundOnMal: tempAnimediaTitlesNotFoundOnMal.json
-    tempExAnnouncements: exAnnouncements.json
-  urls:
-    animedia-urls:
-      online-animedia-tv: https://online.animedia.tv/
-    mal-urls:
-      myAnimeList-net: https://myanimelist.net
-      cdn-myAnimeList-net: https://cdn.myanimelist.net/
-    nine-anime-urls:
-      nine-anime-to: https://9anime.to
-    anidub-urls:
-      anidub-site-url: https://anime.anidub.life/
-    jisedai-urls:
-      jisedai-site-url: https://jisedai.tv/
-    animepik-urls:
-      animepik-url: https://animepik.org/
-      animepik-resources-url: https://cdn.iss.one
-    anilibria-urls:
-      anilibria-url: https://www.anilibria.tv/
+  logo:
+    name: anime-checker-logo.txt
   services:
     applicationLogoPrinter-enabled: true
-  cron:
-    resources-check-cron-expression: 0 0/30 * * * ?
   cache:
-    data-list-info:
-      name: dataListInfo
-      ttl: 300
-      max-entity-count: 200
     mal:
       name: mal
       ttl: 300
@@ -47,20 +20,25 @@ application:
     token: ${GITHUB_ACCESS_TOKEN}
   sse:
     timeout-in-min: 5
-  animedia:
-    search-list-max-size: 900
-    request-limit: 100
   mal:
     offset-step: 300
+    url: https://myanimelist.net
   fandub:
     disabled: NINEANIME
+    urls:
+      ANIMEDIA: https://online.animedia.tv/
+      ANIDUB: https://anime.anidub.life/
+      ANILIBRIA: https://www.anilibria.tv/
+      ANIMEPIK: https://animepik.org/
+      JISEDAI: https://jisedai.tv/
+      NINEANIME: https://9anime.to
   github:
-    resources:
-      animedia-titles: animediaTitles.json
-      anidub-titles: anidubSiteTitles.json
-      jisedai-titles: jisedaiSiteTitles.json
-      animepik-titles: animepikTitles.json
-      anilibria-titles: anilibriaSiteTitles.json
+    resources-names:
+      ANIMEDIA: animediaTitles.json
+      ANIDUB: anidubSiteTitles.json
+      ANILIBRIA: anilibriaSiteTitles.json
+      ANIMEPIK: animepikTitles.json
+      JISEDAI: jisedaiSiteTitles.json
 
 server:
   port: ${PORT}

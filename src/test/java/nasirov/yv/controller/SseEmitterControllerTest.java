@@ -40,7 +40,7 @@ public class SseEmitterControllerTest extends AbstractTest {
 
 	@SneakyThrows
 	private MvcResult call() {
-		return mockMvc.perform(get(SSE_PATH).param("username", TEST_ACC_FOR_DEV.toLowerCase())
+		return mockMvc.perform(get(SSE_PATH).param("username", TEST_ACC_FOR_DEV)
 				.param("fanDubSources", "ANIMEDIA", "NINEANIME"))
 				.andReturn();
 	}

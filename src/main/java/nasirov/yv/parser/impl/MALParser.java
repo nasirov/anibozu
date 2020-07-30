@@ -9,7 +9,6 @@ import org.jsoup.select.Elements;
 import org.springframework.stereotype.Component;
 
 /**
- * MAL html parser
  * <p>
  * Created by nasirov.yv
  */
@@ -25,18 +24,15 @@ public class MALParser implements MALParserI {
 	 */
 	@Override
 	public int getNumWatchingTitles(String userProfile) {
-		return Integer.parseInt(extractNumberOfWatchingTitles(userProfile));
-	}
-
-	private String extractNumberOfWatchingTitles(String userProfile) {
 		Document html = Jsoup.parse(userProfile);
 		Elements spansAnimeAndMangaStats = html.select(".di-ib.fl-r.lh10");
 		return spansAnimeAndMangaStats.stream()
 				.filter(this::isTargetSpan)
 				.map(Element::text)
 				.findFirst()
-				.orElse("0")
-				.replace(",", "");
+				.map(x -> x.replace(",", ""))
+				.map(Integer::valueOf)
+				.orElse(0);
 	}
 
 	private boolean isTargetSpan(Element span) {

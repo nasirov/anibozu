@@ -1,6 +1,8 @@
 package nasirov.yv.data.properties;
 
+import java.util.Map;
 import java.util.Set;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import lombok.Data;
 import nasirov.yv.fandub.dto.constant.FanDubSource;
@@ -19,4 +21,7 @@ public class FanDubProps {
 
 	@NotNull
 	private Set<FanDubSource> disabled;
+
+	@NotEmpty
+	private Map<FanDubSource, String> urls;
 }
