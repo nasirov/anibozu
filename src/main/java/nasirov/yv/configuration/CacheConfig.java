@@ -47,7 +47,7 @@ public class CacheConfig implements JCacheManagerCustomizer {
 		return fromEhcacheCacheConfiguration(newCacheConfigurationBuilder(String.class,
 				valueClass,
 				ResourcePoolsBuilder.heap(configurableCacheProps.getMaxEntityCount())).withExpiry(timeToLiveExpiration(ofSeconds(configurableCacheProps.getTtl())))
-				.add(newEventListenerConfiguration(customCacheEventLogger,
+				.withService(newEventListenerConfiguration(customCacheEventLogger,
 						Sets.newHashSet(EventType.CREATED, EventType.EXPIRED, EventType.EVICTED, EventType.REMOVED, EventType.UPDATED)).asynchronous()
 						.unordered()
 						.build()));
