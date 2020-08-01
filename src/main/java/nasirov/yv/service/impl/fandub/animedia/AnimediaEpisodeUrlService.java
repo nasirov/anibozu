@@ -14,6 +14,7 @@ import nasirov.yv.fandub.service.spring.boot.starter.extractor.parser.AnimediaPa
 import nasirov.yv.fandub.service.spring.boot.starter.feign.fandub.animedia.AnimediaFeignClient;
 import nasirov.yv.service.TitlesServiceI;
 import nasirov.yv.service.impl.fandub.BaseEpisodeUrlService;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
 /**
@@ -40,7 +41,7 @@ public class AnimediaEpisodeUrlService extends BaseEpisodeUrlService {
 		CommonTitle commonTitle = Collections.max(matchedTitles, Comparator.comparing(CommonTitle::getDataList));
 		List<FandubEpisode> episodes = getEpisodes(commonTitle);
 		return episodes.stream()
-				.filter(x -> nextEpisodeForWatch.equals(x.getId()))
+				.filter(x -> StringUtils.equals(nextEpisodeForWatch.toString(), x.getNumber()))
 				.findFirst()
 				.map(x -> fandubUrl + commonTitle.getUrl() + "/" + commonTitle.getDataList() + "/" + x.getId())
 				.orElse(FINAL_URL_VALUE_IF_EPISODE_IS_NOT_AVAILABLE);

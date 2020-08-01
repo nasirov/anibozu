@@ -76,7 +76,7 @@ public class AnimediaEpisodeUrlServiceTest {
 		//when
 		String actualUrl = animediaEpisodeUrlService.getEpisodeUrl(FanDubSource.ANIMEDIA, malTitle);
 		//then
-		assertEquals(ANIMEDIA_ONLINE_TV + REGULAR_TITLE_ANIMEDIA_URL + "/1/2", actualUrl);
+		assertEquals(ANIMEDIA_ONLINE_TV + REGULAR_TITLE_ANIMEDIA_URL + "/1/3", actualUrl);
 	}
 
 	@Test
@@ -165,7 +165,7 @@ public class AnimediaEpisodeUrlServiceTest {
 						.build(),
 				FandubEpisode.builder()
 						.episodeName("Серия 2")
-						.id(2)
+						.id(3)
 						.number("2")
 						.build());
 	}
