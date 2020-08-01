@@ -16,7 +16,8 @@ application:
       name: sse
       ttl: 300
       max-entity-count: 50
-  github-auth:
+  github:
+    enabled: true
     token: ${GITHUB_ACCESS_TOKEN}
   sse:
     timeout-in-min: 5
@@ -32,13 +33,6 @@ application:
       ANIMEPIK: https://animepik.org/
       JISEDAI: https://jisedai.tv/
       NINEANIME: https://9anime.to
-  github:
-    resources-names:
-      ANIMEDIA: animediaTitles.json
-      ANIDUB: anidubSiteTitles.json
-      ANILIBRIA: anilibriaSiteTitles.json
-      ANIMEPIK: animepikTitles.json
-      JISEDAI: jisedaiSiteTitles.json
 
 server:
   port: ${PORT}

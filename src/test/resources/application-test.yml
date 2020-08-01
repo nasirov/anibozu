@@ -1,6 +1,4 @@
 application:
-  github-auth:
-    token: testAccessToken
   mal:
     offset-step: 2
   fandub:

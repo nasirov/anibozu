@@ -6,10 +6,9 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import nasirov.yv.data.properties.GitHubResourceProps;
 import nasirov.yv.fandub.dto.constant.FanDubSource;
 import nasirov.yv.fandub.dto.fandub.common.CommonTitle;
-import nasirov.yv.service.GitHubResourcesServiceI;
+import nasirov.yv.fandub.service.spring.boot.starter.service.GitHubResourcesServiceI;
 import nasirov.yv.service.TitlesServiceI;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
@@ -24,15 +23,11 @@ public class TitlesService implements TitlesServiceI {
 
 	private final GitHubResourcesServiceI gitHubResourcesService;
 
-	private final GitHubResourceProps gitHubResourceProps;
-
 	@Override
 	@Cacheable(value = "github", key = "#fanDubSource.name()", unless = "#result == null || #result.isEmpty()")
 	public Map<Integer, List<CommonTitle>> getTitles(FanDubSource fanDubSource) {
-		String resourceName = gitHubResourceProps.getResourcesNames()
-				.get(fanDubSource);
 		log.debug("Trying to convert List<CommonTitle> from GitHub to Map<Integer, List<CommonTitle>>...");
-		List<CommonTitle> titles = gitHubResourcesService.getResource(resourceName);
+		List<CommonTitle> titles = gitHubResourcesService.getResource(fanDubSource);
 		Map<Integer, List<CommonTitle>> result = convertToMap(titles);
 		log.debug("Got Map<Integer, List<CommonTitle>> with size [{}].", result.size());
 		return result;
