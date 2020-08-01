@@ -4,7 +4,7 @@ spring:
 
 animedia-feign-client:
   ribbon:
-    listOfServers: https://m2.animedia.pro
+    listOfServers: https://online.animedia.tv
 
 anidub-feign-client:
   ribbon:
