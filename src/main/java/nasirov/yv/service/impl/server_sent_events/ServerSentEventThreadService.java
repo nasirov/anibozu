@@ -6,9 +6,9 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import nasirov.yv.data.mal.MalUser;
 import nasirov.yv.data.properties.CacheProps;
-import nasirov.yv.data.task.SseAction;
+import nasirov.yv.data.task.ServerSentEventThread;
 import nasirov.yv.service.MalServiceI;
-import nasirov.yv.service.SseActionServiceI;
+import nasirov.yv.service.ServerSentEventThreadServiceI;
 import nasirov.yv.service.impl.common.AnimeService;
 import org.springframework.cache.Cache;
 import org.springframework.cache.CacheManager;
@@ -21,7 +21,7 @@ import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class SseActionService implements SseActionServiceI {
+public class ServerSentEventThreadService implements ServerSentEventThreadServiceI {
 
 	private final AnimeService animeService;
 
@@ -32,36 +32,36 @@ public class SseActionService implements SseActionServiceI {
 	private final CacheManager cacheManager;
 
 	/**
-	 * Builds and caches a SseAction
+	 * Builds and caches a ServerSentEventThread
 	 *
 	 * @param sseEmitter a SseEmitter for Server-Sent Events
 	 * @param malUser    a MALUser from front
-	 * @return an SseAction
+	 * @return ServerSentEventThread
 	 */
 	@Override
-	public SseAction buildSseAction(SseEmitter sseEmitter, MalUser malUser) {
-		log.debug("Trying to build SseAction for [{}]...", malUser);
-		SseAction result = new SseAction(animeService, malService, sseEmitter, malUser);
+	public ServerSentEventThread buildServerSentEventThread(SseEmitter sseEmitter, MalUser malUser) {
+		log.debug("Trying to build ServerSentEventThread for [{}]...", malUser);
+		ServerSentEventThread result = new ServerSentEventThread(animeService, malService, sseEmitter, malUser);
 		Cache cache = cacheManager.getCache(cacheProps.getSse()
 				.getName());
 		String key = String.valueOf(malUser.hashCode());
 		stopCachedTask(key, cache);
 		cache.put(key, result);
-		log.debug("Successfully built and cached SseAction for [{}].", malUser);
+		log.debug("Successfully built and cached ServerSentEventThread for [{}].", malUser);
 		return result;
 	}
 
 	/**
-	 * Stops cached SseAction in order to avoid duplicating and resources leak
+	 * Stops cached ServerSentEventThread in order to avoid duplicating and resources leak
 	 *
 	 * @param key   sse cache key
 	 * @param cache sse cache
 	 */
 	private void stopCachedTask(String key, Cache cache) {
-		SseAction cachedSseAction = cache.get(key, SseAction.class);
-		if (nonNull(cachedSseAction)) {
-			log.info("SseAction with key [{}] will be stopped!", key);
-			cachedSseAction.getIsRunning()
+		ServerSentEventThread cachedServerSentEventThread = cache.get(key, ServerSentEventThread.class);
+		if (nonNull(cachedServerSentEventThread)) {
+			log.info("ServerSentEventThread with key [{}] will be stopped!", key);
+			cachedServerSentEventThread.getRunning()
 					.set(false);
 		}
 	}

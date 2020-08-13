@@ -1,15 +1,15 @@
 package nasirov.yv.service.impl.server_sent_events;
 
 import java.time.Duration;
-import java.util.concurrent.ForkJoinPool;
+import java.util.concurrent.ExecutorService;
 import java.util.function.Consumer;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import nasirov.yv.data.mal.MalUser;
 import nasirov.yv.data.properties.SseProps;
-import nasirov.yv.data.task.SseAction;
+import nasirov.yv.data.task.ServerSentEventThread;
 import nasirov.yv.service.CacheCleanerServiceI;
-import nasirov.yv.service.SseActionServiceI;
+import nasirov.yv.service.ServerSentEventThreadServiceI;
 import nasirov.yv.service.SseEmitterExecutorServiceI;
 import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
@@ -22,11 +22,11 @@ import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 @RequiredArgsConstructor
 public class SseEmitterExecutorService implements SseEmitterExecutorServiceI {
 
-	private final ForkJoinPool commonPool;
+	private final ExecutorService executorService;
 
 	private final CacheCleanerServiceI cacheCleanerService;
 
-	private final SseActionServiceI sseActionService;
+	private final ServerSentEventThreadServiceI sseActionService;
 
 	private final SseProps sseProps;
 
@@ -42,8 +42,8 @@ public class SseEmitterExecutorService implements SseEmitterExecutorServiceI {
 		SseEmitter sseEmitter = new SseEmitter(Duration.ofMinutes(sseProps.getTimeoutInMin())
 				.toMillis());
 		enrichSseEmitterWithCallbacks(sseEmitter, malUser);
-		SseAction task = sseActionService.buildSseAction(sseEmitter, malUser);
-		commonPool.execute(task);
+		ServerSentEventThread serverSentEventThread = sseActionService.buildServerSentEventThread(sseEmitter, malUser);
+		executorService.execute(serverSentEventThread);
 		log.debug("Successfully built SseEmitter for [{}].", malUser);
 		return sseEmitter;
 	}

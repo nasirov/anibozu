@@ -10,13 +10,13 @@ import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 
 import com.google.common.collect.Sets;
-import java.util.concurrent.ForkJoinPool;
+import java.util.concurrent.ExecutorService;
 import java.util.function.Consumer;
 import nasirov.yv.data.mal.MalUser;
 import nasirov.yv.data.properties.SseProps;
-import nasirov.yv.data.task.SseAction;
+import nasirov.yv.data.task.ServerSentEventThread;
 import nasirov.yv.fandub.dto.constant.FanDubSource;
-import nasirov.yv.service.SseActionServiceI;
+import nasirov.yv.service.ServerSentEventThreadServiceI;
 import nasirov.yv.service.impl.common.CacheCleanerService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -34,19 +34,19 @@ import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 public class SseEmitterExecutorServiceTest {
 
 	@Mock
-	private ForkJoinPool commonPool;
+	private ExecutorService executorService;
 
 	@Spy
 	private CacheCleanerService cacheCleanerService = new CacheCleanerService();
 
 	@Mock
-	private SseActionServiceI sseActionService;
+	private ServerSentEventThreadServiceI sseActionService;
 
 	@Mock
 	private SseProps sseProps;
 
 	@Mock
-	private SseAction sseAction;
+	private ServerSentEventThread serverSentEventThread;
 
 	@InjectMocks
 	private SseEmitterExecutorService sseEmitterExecutorService;
@@ -60,7 +60,7 @@ public class SseEmitterExecutorServiceTest {
 		SseEmitter sseEmitter = sseEmitterExecutorService.buildAndExecuteSseEmitter(malUser);
 		//then
 		checkTimeout(sseEmitter);
-		verify(commonPool).execute(sseAction);
+		verify(executorService).execute(serverSentEventThread);
 	}
 
 	@Test
@@ -109,8 +109,8 @@ public class SseEmitterExecutorServiceTest {
 	private void mockServices(MalUser malUser) {
 		doReturn(1).when(sseProps)
 				.getTimeoutInMin();
-		doReturn(sseAction).when(sseActionService)
-				.buildSseAction(any(SseEmitter.class), eq(malUser));
+		doReturn(serverSentEventThread).when(sseActionService)
+				.buildServerSentEventThread(any(SseEmitter.class), eq(malUser));
 	}
 
 	private void checkTimeout(SseEmitter sseEmitter) {

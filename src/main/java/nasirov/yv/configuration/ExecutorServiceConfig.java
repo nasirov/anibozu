@@ -1,6 +1,7 @@
 package nasirov.yv.configuration;
 
-import java.util.concurrent.ForkJoinPool;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -8,10 +9,10 @@ import org.springframework.context.annotation.Configuration;
  * Created by nasirov.yv
  */
 @Configuration
-public class ForkJoinPoolConfig {
+public class ExecutorServiceConfig {
 
 	@Bean
-	public ForkJoinPool commonPool() {
-		return ForkJoinPool.commonPool();
+	public ExecutorService executorService() {
+		return Executors.newCachedThreadPool();
 	}
 }

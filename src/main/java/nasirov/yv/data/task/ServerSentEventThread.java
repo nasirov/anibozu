@@ -4,10 +4,8 @@ import static nasirov.yv.data.front.EventType.DONE;
 
 import java.util.List;
 import java.util.Set;
-import java.util.concurrent.RecursiveAction;
 import java.util.concurrent.atomic.AtomicBoolean;
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import nasirov.yv.data.front.Anime;
 import nasirov.yv.data.front.EventType;
@@ -24,8 +22,7 @@ import org.springframework.web.servlet.mvc.method.annotation.SseEmitter.SseEvent
  * Created by nasirov.yv
  */
 @Slf4j
-@RequiredArgsConstructor
-public class SseAction extends RecursiveAction {
+public class ServerSentEventThread implements Runnable {
 
 	private final AnimeService animeService;
 
@@ -36,25 +33,35 @@ public class SseAction extends RecursiveAction {
 	private final MalUser malUser;
 
 	@Getter
-	private final AtomicBoolean isRunning = new AtomicBoolean(true);
+	private final AtomicBoolean running;
+
+	public ServerSentEventThread(AnimeService animeService, MalServiceI malService, SseEmitter sseEmitter, MalUser malUser) {
+		this.animeService = animeService;
+		this.malService = malService;
+		this.sseEmitter = sseEmitter;
+		this.malUser = malUser;
+		this.running = new AtomicBoolean(false);
+	}
 
 	@Override
-	protected void compute() {
-		try {
-			log.info("Start process SseAction for [{}]", malUser);
-			List<MalTitle> watchingTitles = malService.getWatchingTitles(malUser.getUsername());
-			for (int i = 0; i < watchingTitles.size() && isRunning.get(); i++) {
-				Set<FanDubSource> fanDubSources = malUser.getFanDubSources();
-				Anime anime = animeService.buildAnime(fanDubSources, watchingTitles.get(i));
-				SseDto sseDto = buildSseDto(fanDubSources, anime);
-				sseEmitter.send(buildSseEvent(i, sseDto));
+	public void run() {
+		if (running.compareAndSet(false, true)) {
+			try {
+				log.info("Start process ServerSentEventThread for [{}]", malUser);
+				List<MalTitle> watchingTitles = malService.getWatchingTitles(malUser.getUsername());
+				for (int i = 0; i < watchingTitles.size() && running.get(); i++) {
+					Set<FanDubSource> fanDubSources = malUser.getFanDubSources();
+					Anime anime = animeService.buildAnime(fanDubSources, watchingTitles.get(i));
+					SseDto sseDto = buildSseDto(fanDubSources, anime);
+					sseEmitter.send(buildSseEvent(i, sseDto));
+				}
+				sseEmitter.send(buildSseEvent(-1, buildDtoWithFinalEvent()));
+				sseEmitter.complete();
+				log.info("End process ServerSentEventThread for [{}]", malUser);
+			} catch (Exception e) {
+				log.error("Exception has occurred during process ServerSentEventThread for [{}]", malUser, e);
+				sseEmitter.completeWithError(e);
 			}
-			sseEmitter.send(buildSseEvent(-1, buildDtoWithFinalEvent()));
-			sseEmitter.complete();
-			log.info("End process SseAction for [{}]", malUser);
-		} catch (Exception e) {
-			log.error("Exception has been occurred during process SseAction for [{}]", malUser, e);
-			sseEmitter.completeWithError(e);
 		}
 	}
 

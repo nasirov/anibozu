@@ -10,7 +10,7 @@ import com.google.common.collect.Sets;
 import nasirov.yv.data.mal.MalUser;
 import nasirov.yv.data.properties.CacheProps;
 import nasirov.yv.data.properties.CacheProps.ConfigurableCacheProps;
-import nasirov.yv.data.task.SseAction;
+import nasirov.yv.data.task.ServerSentEventThread;
 import nasirov.yv.fandub.dto.constant.FanDubSource;
 import nasirov.yv.service.MalServiceI;
 import nasirov.yv.service.impl.common.AnimeService;
@@ -28,7 +28,7 @@ import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
  * Created by nasirov.yv
  */
 @RunWith(MockitoJUnitRunner.class)
-public class SseActionServiceTest {
+public class ServerSentEventThreadServiceTest {
 
 	@Mock
 	private AnimeService animeService;
@@ -46,13 +46,13 @@ public class SseActionServiceTest {
 	private Cache sseCache;
 
 	@InjectMocks
-	private SseActionService sseActionService;
+	private ServerSentEventThreadService sseActionService;
 
-	private SseAction cachedSseAction;
+	private ServerSentEventThread cachedServerSentEventThread;
 
 	@Before
 	public void setUp() {
-		cachedSseAction = new SseAction(animeService, malService, new SseEmitter(), buildMalUser());
+		cachedServerSentEventThread = new ServerSentEventThread(animeService, malService, new SseEmitter(), buildMalUser());
 	}
 
 	@Test
@@ -63,12 +63,12 @@ public class SseActionServiceTest {
 		mockServices(cacheKey);
 		SseEmitter sseEmitter = new SseEmitter();
 		//when
-		SseAction sseAction = sseActionService.buildSseAction(sseEmitter, malUser);
+		ServerSentEventThread serverSentEventThread = sseActionService.buildServerSentEventThread(sseEmitter, malUser);
 		//then
-		assertNotEquals(cachedSseAction, sseAction);
-		assertFalse(cachedSseAction.getIsRunning()
+		assertNotEquals(cachedServerSentEventThread, serverSentEventThread);
+		assertFalse(cachedServerSentEventThread.getRunning()
 				.get());
-		verify(sseCache).put(cacheKey, sseAction);
+		verify(sseCache).put(cacheKey, serverSentEventThread);
 	}
 
 	private void mockServices(String cacheKey) {
@@ -77,8 +77,8 @@ public class SseActionServiceTest {
 				.getSse();
 		doReturn(sseCache).when(cacheManager)
 				.getCache(sseCacheProps.getName());
-		doReturn(cachedSseAction).when(sseCache)
-				.get(cacheKey, SseAction.class);
+		doReturn(cachedServerSentEventThread).when(sseCache)
+				.get(cacheKey, ServerSentEventThread.class);
 	}
 
 	private MalUser buildMalUser() {

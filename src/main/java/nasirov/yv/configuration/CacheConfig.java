@@ -14,7 +14,7 @@ import javax.cache.configuration.Configuration;
 import lombok.RequiredArgsConstructor;
 import nasirov.yv.data.properties.CacheProps;
 import nasirov.yv.data.properties.CacheProps.ConfigurableCacheProps;
-import nasirov.yv.data.task.SseAction;
+import nasirov.yv.data.task.ServerSentEventThread;
 import org.ehcache.config.builders.ResourcePoolsBuilder;
 import org.ehcache.event.CacheEventListener;
 import org.ehcache.event.EventType;
@@ -36,7 +36,7 @@ public class CacheConfig implements JCacheManagerCustomizer {
 	public void customize(CacheManager cacheManager) {
 		buildCache(cacheManager, cacheProps.getMal(), ArrayList.class);
 		buildCache(cacheManager, cacheProps.getGithub(), HashMap.class);
-		buildCache(cacheManager, cacheProps.getSse(), SseAction.class);
+		buildCache(cacheManager, cacheProps.getSse(), ServerSentEventThread.class);
 	}
 
 	private void buildCache(CacheManager cacheManager, ConfigurableCacheProps configurableCacheProps, Class<?> valueClass) {

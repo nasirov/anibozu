@@ -43,7 +43,7 @@ import org.springframework.web.servlet.mvc.method.annotation.SseEmitter.SseEvent
  * Created by nasirov.yv
  */
 @RunWith(MockitoJUnitRunner.class)
-public class SseActionTest {
+public class ServerSentEventThreadTest {
 
 	@Mock
 	private AnimeService animeService;
@@ -58,14 +58,14 @@ public class SseActionTest {
 	private MalUser malUser;
 
 	@InjectMocks
-	private SseAction sseAction;
+	private ServerSentEventThread serverSentEventThread;
 
 	@Test
 	public void shouldCompleteOk() {
 		//given
 		mockServicesOk();
 		//when
-		sseAction.compute();
+		serverSentEventThread.run();
 		//then
 		verifySse(1, 1, 1, 1, 1, 0);
 	}
@@ -75,7 +75,7 @@ public class SseActionTest {
 		//given
 		mockServicesException();
 		//when
-		sseAction.compute();
+		serverSentEventThread.run();
 		//then
 		verifySse(1, 0, 0, 0, 0, 1);
 	}
