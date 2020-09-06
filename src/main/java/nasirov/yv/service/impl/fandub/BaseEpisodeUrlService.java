@@ -52,9 +52,11 @@ public abstract class BaseEpisodeUrlService implements EpisodeUrlServiceI {
 		log.debug("Building url in runtime...");
 		CommonTitle commonTitle = Iterables.get(matchedTitles, 0);
 		List<FandubEpisode> episodes = getEpisodes(commonTitle);
-		boolean isFoundAvailableEpisode = episodes.stream()
-				.anyMatch(x -> nextEpisodeForWatch.equals(x.getId()));
-		return isFoundAvailableEpisode ? fandubUrl + commonTitle.getUrl() : FINAL_URL_VALUE_IF_EPISODE_IS_NOT_AVAILABLE;
+		FandubEpisode availableEpisode = episodes.stream()
+				.filter(x -> nextEpisodeForWatch.equals(x.getId()))
+				.findFirst()
+				.orElse(null);
+		return Objects.nonNull(availableEpisode) ? fandubUrl + availableEpisode.getUrl() : FINAL_URL_VALUE_IF_EPISODE_IS_NOT_AVAILABLE;
 	}
 
 	protected abstract List<FandubEpisode> getEpisodes(CommonTitle commonTitle);

@@ -43,7 +43,7 @@ public class AnimediaEpisodeUrlService extends BaseEpisodeUrlService {
 		return episodes.stream()
 				.filter(x -> StringUtils.equals(nextEpisodeForWatch.toString(), x.getNumber()))
 				.findFirst()
-				.map(x -> fandubUrl + commonTitle.getUrl() + "/" + commonTitle.getDataList() + "/" + x.getId())
+				.map(x -> fandubUrl + x.getUrl())
 				.orElse(FINAL_URL_VALUE_IF_EPISODE_IS_NOT_AVAILABLE);
 	}
 

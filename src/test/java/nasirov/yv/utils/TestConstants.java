@@ -13,6 +13,7 @@ public class TestConstants {
 	public static final String REGULAR_TITLE_ANIMEPIK_URL = "anime/1";
 	public static final String REGULAR_TITLE_ANILIBRIA_URL = "release/1-regular-title-url.html";
 	public static final String REGULAR_TITLE_JISEDAI_URL = "anime/1-regular-title-url";
+	public static final String REGULAR_TITLE_JUTSU_URL = "1-regular-title-url";
 	public static final String REGULAR_TITLE_NINE_ANIME_DATA_ID = "12rtm34";
 	public static final String REGULAR_TITLE_DUB_NINE_ANIME_DATA_ID = "56rtm78";
 	public static final String REGULAR_TITLE_DUB_AVAILABLE_EPISODE_ID = "1efrtm";
@@ -32,6 +33,7 @@ public class TestConstants {
 	public static final String CONCRETIZED_TITLE_ANIMEPIK_URL = "anime/2";
 	public static final String CONCRETIZED_TITLE_ANILIBRIA_URL = "release/2-concretized-title-url.html";
 	public static final String CONCRETIZED_TITLE_JISEDAI_URL = "anime/2-concretized-title-url";
+	public static final String CONCRETIZED_TITLE_JUTSU_URL = "2-concretized-title-url";
 	public static final String CONCRETIZED_TITLE_POSTER_URL = "images/anime/3/concretizedTitle.jpg";
 	public static final String CONCRETIZED_TITLE_MAL_ANIME_URL = "/anime/3/concretizedTitle";
 
@@ -46,6 +48,7 @@ public class TestConstants {
 	public static final String NOT_FOUND_ON_MAL_TITLE_ANIMEPIK_URL = "anime/3";
 	public static final String NOT_FOUND_ON_MAL_TITLE_ANILIBRIA_URL = "release/3-not-found-on-mal-title-url.html";
 	public static final String NOT_FOUND_ON_MAL_TITLE_JISEDAI_URL = "anime/3-not-found-on-mal-title-url";
+	public static final String NOT_FOUND_ON_MAL_TITLE_JUTSU_URL = "3-not-found-on-mal-title-url";
 	public static final String NOT_FOUND_ON_MAL_TITLE_POSTER_URL = "images/anime/4/notFoundOnMalTitle.jpg";
 	public static final String NOT_FOUND_ON_MAL_TITLE_MAL_ANIME_URL = "/anime/4/notFoundOnMalTitle";
 
@@ -62,6 +65,7 @@ public class TestConstants {
 	public static final String JISEDAI_URL = "https://jisedai.tv/";
 	public static final String ANIMEPIK_URL = "https://animepik.org/";
 	public static final String ANILIBRIA_URL = "https://www.anilibria.tv/";
+	public static final String JUTSU_URL = "https://jut.su/";
 
 	public static final int TEST_ACC_WATCHING_TITLES = 2;
 	public static final String TEST_ACC_FOR_DEV = "testaccfordev";

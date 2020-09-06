@@ -6,6 +6,7 @@ import static nasirov.yv.fandub.dto.constant.FanDubSource.ANILIBRIA;
 import static nasirov.yv.fandub.dto.constant.FanDubSource.ANIMEDIA;
 import static nasirov.yv.fandub.dto.constant.FanDubSource.ANIMEPIK;
 import static nasirov.yv.fandub.dto.constant.FanDubSource.JISEDAI;
+import static nasirov.yv.fandub.dto.constant.FanDubSource.JUTSU;
 
 import nasirov.yv.data.mal.MalUser;
 import org.springframework.stereotype.Controller;
@@ -28,6 +29,7 @@ public class IndexController {
 		model.addAttribute(JISEDAI.getName(), JISEDAI);
 		model.addAttribute(ANIMEPIK.getName(), ANIMEPIK);
 		model.addAttribute(ANILIBRIA.getName(), ANILIBRIA);
+		model.addAttribute(JUTSU.getName(), JUTSU);
 		return "index";
 	}
 }

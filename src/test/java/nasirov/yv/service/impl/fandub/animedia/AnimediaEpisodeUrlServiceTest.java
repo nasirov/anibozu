@@ -159,14 +159,16 @@ public class AnimediaEpisodeUrlServiceTest {
 
 	private List<FandubEpisode> getFandubEpisodes() {
 		return Lists.newArrayList(FandubEpisode.builder()
-						.episodeName("Серия 1")
+						.name("Серия 1")
 						.id(1)
 						.number("1")
+						.url(REGULAR_TITLE_ANIMEDIA_URL + "/1/1")
 						.build(),
 				FandubEpisode.builder()
-						.episodeName("Серия 2")
+						.name("Серия 2")
 						.id(3)
 						.number("2")
+						.url(REGULAR_TITLE_ANIMEDIA_URL + "/1/3")
 						.build());
 	}
 

@@ -11,7 +11,7 @@ application:
     github:
       name: github
       ttl: 3600
-      max-entity-count: 5
+      max-entity-count: 6
     sse:
       name: sse
       ttl: 300
@@ -33,6 +33,7 @@ application:
       ANIMEPIK: https://animepik.org/
       JISEDAI: https://jisedai.tv/
       NINEANIME: https://9anime.to
+      JUTSU: https://jut.su/
 
 server:
   port: ${PORT}

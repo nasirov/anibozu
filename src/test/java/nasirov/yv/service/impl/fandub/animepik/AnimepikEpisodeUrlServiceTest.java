@@ -147,14 +147,16 @@ public class AnimepikEpisodeUrlServiceTest {
 
 	private List<FandubEpisode> getFandubEpisodes() {
 		return Lists.newArrayList(FandubEpisode.builder()
-						.episodeName("1 серия")
+						.name("1 серия")
 						.id(1)
 						.number("1")
+						.url(REGULAR_TITLE_ANIMEPIK_URL)
 						.build(),
 				FandubEpisode.builder()
-						.episodeName("2 серия")
+						.name("2 серия")
 						.id(2)
 						.number("2")
+						.url(REGULAR_TITLE_ANIMEPIK_URL)
 						.build());
 	}
 

@@ -34,6 +34,10 @@ nine-anime-feign-client:
     MaxAutoRetriesNextServer: 10
     listOfServers: https://9anime.to,https://9anime.tv,https://9anime.live,https://9anime.life,https://9anime.love,https://9anime.nl,https://9anime.one,https://9anime.page,https://9anime.ru,https://9anime.video
 
+jutsu-feign-client:
+  ribbon:
+    listOfServers: https://jut.su
+
 github-feign-client:
   ribbon:
     listOfServers: https://raw.githubusercontent.com

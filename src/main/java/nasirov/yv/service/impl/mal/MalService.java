@@ -1,7 +1,7 @@
 package nasirov.yv.service.impl.mal;
 
 import static java.util.Optional.ofNullable;
-import static nasirov.yv.fandub.dto.mal.MalTitleStatus.WATCHING;
+import static nasirov.yv.fandub.dto.mal.MalTitleWatchingStatus.WATCHING;
 
 import java.util.ArrayList;
 import java.util.Collections;

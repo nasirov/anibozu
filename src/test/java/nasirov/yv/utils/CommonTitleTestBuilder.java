@@ -6,6 +6,7 @@ import static nasirov.yv.utils.TestConstants.CONCRETIZED_TITLE_ANIMEDIA_URL;
 import static nasirov.yv.utils.TestConstants.CONCRETIZED_TITLE_ANIMEPIK_URL;
 import static nasirov.yv.utils.TestConstants.CONCRETIZED_TITLE_ID;
 import static nasirov.yv.utils.TestConstants.CONCRETIZED_TITLE_JISEDAI_URL;
+import static nasirov.yv.utils.TestConstants.CONCRETIZED_TITLE_JUTSU_URL;
 import static nasirov.yv.utils.TestConstants.CONCRETIZED_TITLE_MAL_ID;
 import static nasirov.yv.utils.TestConstants.NOT_FOUND_ON_MAL_TITLE_ANIDUB_URL;
 import static nasirov.yv.utils.TestConstants.NOT_FOUND_ON_MAL_TITLE_ANILIBRIA_URL;
@@ -13,12 +14,14 @@ import static nasirov.yv.utils.TestConstants.NOT_FOUND_ON_MAL_TITLE_ANIMEDIA_URL
 import static nasirov.yv.utils.TestConstants.NOT_FOUND_ON_MAL_TITLE_ANIMEPIK_URL;
 import static nasirov.yv.utils.TestConstants.NOT_FOUND_ON_MAL_TITLE_ID;
 import static nasirov.yv.utils.TestConstants.NOT_FOUND_ON_MAL_TITLE_JISEDAI_URL;
+import static nasirov.yv.utils.TestConstants.NOT_FOUND_ON_MAL_TITLE_JUTSU_URL;
 import static nasirov.yv.utils.TestConstants.REGULAR_TITLE_ANIDUB_URL;
 import static nasirov.yv.utils.TestConstants.REGULAR_TITLE_ANILIBRIA_URL;
 import static nasirov.yv.utils.TestConstants.REGULAR_TITLE_ANIMEDIA_URL;
 import static nasirov.yv.utils.TestConstants.REGULAR_TITLE_ANIMEPIK_URL;
 import static nasirov.yv.utils.TestConstants.REGULAR_TITLE_ID;
 import static nasirov.yv.utils.TestConstants.REGULAR_TITLE_JISEDAI_URL;
+import static nasirov.yv.utils.TestConstants.REGULAR_TITLE_JUTSU_URL;
 import static nasirov.yv.utils.TestConstants.REGULAR_TITLE_MAL_ID;
 
 import com.google.common.collect.Lists;
@@ -65,6 +68,11 @@ public class CommonTitleTestBuilder {
 				regular = getJisedaiRegular();
 				concretized = getJisedaiConcretized();
 				notFoundOnMal = getJisedaiNotFoundOnMal();
+				break;
+			case JUTSU:
+				regular = getJutsuRegular();
+				concretized = getJutsuConcretized();
+				notFoundOnMal = getJutsuNotFoundOnMal();
 				break;
 			default:
 				break;
@@ -122,6 +130,16 @@ public class CommonTitleTestBuilder {
 	}
 	public static CommonTitle getJisedaiNotFoundOnMal() {
 		return getNotFoundOnMal(NOT_FOUND_ON_MAL_TITLE_JISEDAI_URL, null);
+	}
+
+	public static CommonTitle getJutsuRegular() {
+		return getRegular(REGULAR_TITLE_JUTSU_URL, null);
+	}
+	public static CommonTitle getJutsuConcretized() {
+		return getConcretized(CONCRETIZED_TITLE_JUTSU_URL, null);
+	}
+	public static CommonTitle getJutsuNotFoundOnMal() {
+		return getNotFoundOnMal(NOT_FOUND_ON_MAL_TITLE_JUTSU_URL, null);
 	}
 
 	public static CommonTitle getRegular(String url, Integer dataList) {
