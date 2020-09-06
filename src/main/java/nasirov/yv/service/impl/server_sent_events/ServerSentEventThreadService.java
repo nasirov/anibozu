@@ -44,9 +44,11 @@ public class ServerSentEventThreadService implements ServerSentEventThreadServic
 		ServerSentEventThread result = new ServerSentEventThread(animeService, malService, sseEmitter, malUser);
 		Cache cache = cacheManager.getCache(cacheProps.getSse()
 				.getName());
-		String key = String.valueOf(malUser.hashCode());
-		stopCachedTask(key, cache);
-		cache.put(key, result);
+		if (nonNull(cache)) {
+			String key = String.valueOf(malUser.hashCode());
+			stopCachedTask(key, cache);
+			cache.put(key, result);
+		}
 		log.debug("Successfully built and cached ServerSentEventThread for [{}].", malUser);
 		return result;
 	}
