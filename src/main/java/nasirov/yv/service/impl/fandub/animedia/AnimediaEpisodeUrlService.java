@@ -49,7 +49,12 @@ public class AnimediaEpisodeUrlService extends BaseEpisodeUrlService {
 
 	@Override
 	protected List<FandubEpisode> getEpisodes(CommonTitle commonTitle) {
-		List<AnimediaEpisode> titlePage = animediaFeignClient.getTitleEpisodesByPlaylist(commonTitle.getId(), commonTitle.getDataList());
-		return animediaParser.extractEpisodes(titlePage);
+		List<AnimediaEpisode> animediaEpisodes = animediaFeignClient.getTitleEpisodesByPlaylist(commonTitle.getId(), commonTitle.getDataList());
+		fillAnimediaEpisodesWithTitleUrl(animediaEpisodes, commonTitle.getUrl());
+		return animediaParser.extractEpisodes(animediaEpisodes);
+	}
+
+	private void fillAnimediaEpisodesWithTitleUrl(List<AnimediaEpisode> animediaEpisodes, String titleUrl) {
+		animediaEpisodes.forEach(x -> x.setTitleUrl(titleUrl));
 	}
 }

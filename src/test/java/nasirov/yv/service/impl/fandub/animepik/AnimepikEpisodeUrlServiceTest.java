@@ -69,9 +69,8 @@ public class AnimepikEpisodeUrlServiceTest {
 		//given
 		mockFandubUrlsMap();
 		mockTitleService(getMappedTitlesByMalId(Lists.newArrayList(CommonTitleTestBuilder.getAnimepikRegular())));
-		List<AnimepikEpisode> animepikEpisodesStub = Collections.emptyList();
-		mockGetTitlePage(animepikEpisodesStub);
-		mockParser(animepikEpisodesStub);
+		mockGetTitlePage(getAnimepikEpisodes());
+		mockParser(getAnimepikEpisodesWithFilledTitleUrlField());
 		MalTitle malTitle = buildWatchingTitle(REGULAR_TITLE_MAL_ID, 1);
 		//when
 		String actualUrl = animepikEpisodeUrlService.getEpisodeUrl(FanDubSource.ANIMEPIK, malTitle);
@@ -145,6 +144,22 @@ public class AnimepikEpisodeUrlServiceTest {
 		return map;
 	}
 
+	private List<AnimepikEpisode> getAnimepikEpisodes() {
+		return Lists.newArrayList(buildAnimepikEpisode("1 серия", null), buildAnimepikEpisode("2 серия", null));
+	}
+
+	private List<AnimepikEpisode> getAnimepikEpisodesWithFilledTitleUrlField() {
+		return Lists.newArrayList(buildAnimepikEpisode("1 серия", REGULAR_TITLE_ANIMEPIK_URL),
+				buildAnimepikEpisode("2 серия", REGULAR_TITLE_ANIMEPIK_URL));
+	}
+
+	private AnimepikEpisode buildAnimepikEpisode(String name, String titleUrl) {
+		return AnimepikEpisode.builder()
+				.name(name)
+				.titleUrl(titleUrl)
+				.build();
+	}
+
 	private List<FandubEpisode> getFandubEpisodes() {
 		return Lists.newArrayList(FandubEpisode.builder()
 						.name("1 серия")
@@ -163,6 +178,7 @@ public class AnimepikEpisodeUrlServiceTest {
 	private MalTitle buildWatchingTitle(int animeId, int numWatchedEpisodes) {
 		return MalTitle.builder()
 				.id(animeId)
+				.animeUrl("https://myanimelist.net/anime/" + animeId + "/name")
 				.numWatchedEpisodes(numWatchedEpisodes)
 				.build();
 	}

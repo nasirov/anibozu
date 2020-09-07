@@ -31,6 +31,11 @@ public class AnimepikEpisodeUrlService extends BaseEpisodeUrlService {
 	@Override
 	protected List<FandubEpisode> getEpisodes(CommonTitle commonTitle) {
 		List<AnimepikEpisode> animepikEpisodes = animepikResourcesFeignClient.getTitleEpisodes(commonTitle.getId());
+		fillAnimepikEpisodesWithTitleUrl(animepikEpisodes, commonTitle.getUrl());
 		return animepikParser.extractEpisodes(animepikEpisodes);
+	}
+
+	private void fillAnimepikEpisodesWithTitleUrl(List<AnimepikEpisode> animepikEpisodes, String titleUrl) {
+		animepikEpisodes.forEach(x -> x.setTitleUrl(titleUrl));
 	}
 }

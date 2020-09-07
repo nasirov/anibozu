@@ -69,9 +69,8 @@ public class AnimediaEpisodeUrlServiceTest {
 		//given
 		mockFandubUrlsMap();
 		mockTitleService(getMappedTitlesByMalId());
-		List<AnimediaEpisode> animediaEpisodesStub = Collections.emptyList();
-		mockGetTitleEpisodesByPlaylist(animediaEpisodesStub);
-		mockParser(animediaEpisodesStub);
+		mockGetTitleEpisodesByPlaylist(getAnimediaEpisodes());
+		mockParser(getAnimediaEpisodesWithFilledTitleUrlField());
 		MalTitle malTitle = buildWatchingTitle(REGULAR_TITLE_MAL_ID, 1);
 		//when
 		String actualUrl = animediaEpisodeUrlService.getEpisodeUrl(FanDubSource.ANIMEDIA, malTitle);
@@ -157,6 +156,23 @@ public class AnimediaEpisodeUrlServiceTest {
 		return map;
 	}
 
+	private List<AnimediaEpisode> getAnimediaEpisodes() {
+		return Lists.newArrayList(buildAnimediaEpisode("s1e1", "Серия 1", null), buildAnimediaEpisode("s1e3", "Серия 2", null));
+	}
+
+	private List<AnimediaEpisode> getAnimediaEpisodesWithFilledTitleUrlField() {
+		return Lists.newArrayList(buildAnimediaEpisode("s1e1", "Серия 1", REGULAR_TITLE_ANIMEDIA_URL),
+				buildAnimediaEpisode("s1e3", "Серия 2", REGULAR_TITLE_ANIMEDIA_URL));
+	}
+
+	private AnimediaEpisode buildAnimediaEpisode(String id, String name, String titleUrl) {
+		return AnimediaEpisode.builder()
+				.id(id)
+				.episodeName(name)
+				.titleUrl(titleUrl)
+				.build();
+	}
+
 	private List<FandubEpisode> getFandubEpisodes() {
 		return Lists.newArrayList(FandubEpisode.builder()
 						.name("Серия 1")
@@ -175,6 +191,7 @@ public class AnimediaEpisodeUrlServiceTest {
 	private MalTitle buildWatchingTitle(int animeId, int numWatchedEpisodes) {
 		return MalTitle.builder()
 				.id(animeId)
+				.animeUrl("https://myanimelist.net/anime/" + animeId + "/name")
 				.numWatchedEpisodes(numWatchedEpisodes)
 				.build();
 	}
