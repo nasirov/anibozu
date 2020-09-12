@@ -24,5 +24,6 @@ public class FanDubPropsTest extends AbstractTest {
 		assertEquals("https://animepik.org/", result.get(FanDubSource.ANIMEPIK));
 		assertEquals("https://jisedai.tv/", result.get(FanDubSource.JISEDAI));
 		assertEquals("https://9anime.to", result.get(FanDubSource.NINEANIME));
+		assertEquals("https://jut.su/", result.get(FanDubSource.JUTSU));
 	}
 }
