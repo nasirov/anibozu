@@ -28,11 +28,7 @@ anilibria-feign-client:
 
 nine-anime-feign-client:
   ribbon:
-    ConnectTimeout: 1000
-    ReadTimeout: 1000
-    MaxAutoRetries: 1
-    MaxAutoRetriesNextServer: 10
-    listOfServers: https://9anime.to,https://9anime.tv,https://9anime.live,https://9anime.life,https://9anime.love,https://9anime.nl,https://9anime.one,https://9anime.page,https://9anime.ru,https://9anime.video
+    listOfServers: https://www12.9anime.to
 
 jutsu-feign-client:
   ribbon:

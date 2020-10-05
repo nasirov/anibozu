@@ -52,6 +52,11 @@
             <input id="jutsu-checkbox" type="checkbox" class="nes-checkbox" name="fanDubSources" checked="checked" value="${jutsu}"/>
             <span>Jutsu</span>
           </label>
+          <label>
+              <@spring.bind "malUser.fanDubSources"/>
+            <input id="nineAnime-checkbox" type="checkbox" class="nes-checkbox" name="fanDubSources" checked="checked" value="${nineAnime}"/>
+            <span>9Anime</span>
+          </label>
           <button type="submit" class="nes-btn is-primary">Search for new episodes</button>
         </form>
       </div>

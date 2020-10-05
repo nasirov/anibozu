@@ -2,113 +2,171 @@ package nasirov.yv.service.impl.fandub.nine_anime;
 
 import static nasirov.yv.data.constants.BaseConstants.FINAL_URL_VALUE_IF_EPISODE_IS_NOT_AVAILABLE;
 import static nasirov.yv.data.constants.BaseConstants.NOT_FOUND_ON_FANDUB_SITE_URL;
-import static nasirov.yv.utils.TestConstants.MY_ANIME_LIST_STATIC_CONTENT_URL;
-import static nasirov.yv.utils.TestConstants.MY_ANIME_LIST_URL;
 import static nasirov.yv.utils.TestConstants.NINE_ANIME_TO;
-import static nasirov.yv.utils.TestConstants.REGULAR_TITLE_DUB_NINE_ANIME_DATA_ID;
-import static nasirov.yv.utils.TestConstants.REGULAR_TITLE_DUB_NINE_ANIME_URL;
-import static nasirov.yv.utils.TestConstants.REGULAR_TITLE_MAL_ANIME_URL;
-import static nasirov.yv.utils.TestConstants.REGULAR_TITLE_NINE_ANIME_DATA_ID;
-import static nasirov.yv.utils.TestConstants.REGULAR_TITLE_ORIGINAL_NAME;
-import static nasirov.yv.utils.TestConstants.REGULAR_TITLE_POSTER_URL;
+import static nasirov.yv.utils.TestConstants.REGULAR_TITLE_MAL_ID;
+import static nasirov.yv.utils.TestConstants.REGULAR_TITLE_NINE_ANIME_ID;
+import static nasirov.yv.utils.TestConstants.REGULAR_TITLE_NINE_ANIME_URL;
 import static org.junit.Assert.assertEquals;
+import static org.mockito.ArgumentMatchers.argThat;
 import static org.mockito.Mockito.doReturn;
 
-import feign.template.UriUtils;
-import java.nio.charset.StandardCharsets;
-import nasirov.yv.AbstractTest;
+import com.google.common.collect.Lists;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import nasirov.yv.data.properties.FanDubProps;
 import nasirov.yv.fandub.dto.constant.FanDubSource;
-import nasirov.yv.fandub.dto.fandub.nine_anime.NineAnimeResponse;
+import nasirov.yv.fandub.dto.fandub.common.CommonTitle;
+import nasirov.yv.fandub.dto.fandub.common.FandubEpisode;
 import nasirov.yv.fandub.dto.mal.MalTitle;
-import nasirov.yv.utils.IOUtils;
-import org.apache.commons.lang.StringUtils;
+import nasirov.yv.fandub.service.spring.boot.starter.extractor.parser.NineAnimeParserI;
+import nasirov.yv.fandub.service.spring.boot.starter.feign.fandub.nine_anime.NineAnimeFeignClient;
+import nasirov.yv.service.TitlesServiceI;
+import nasirov.yv.utils.CommonTitleTestBuilder;
+import org.assertj.core.util.Maps;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.MockitoJUnitRunner;
 
 /**
  * Created by nasirov.yv
  */
-public class NineAnimeEpisodeUrlServiceTest extends AbstractTest {
+@RunWith(MockitoJUnitRunner.class)
+public class NineAnimeEpisodeUrlServiceTest {
+
+	@Mock
+	private TitlesServiceI titlesService;
+
+	@Mock
+	private FanDubProps fanDubProps;
+
+	@Mock
+	private NineAnimeFeignClient nineAnimeFeignClient;
+
+	@Mock
+	private NineAnimeParserI nineAnimeParserI;
+
+	@InjectMocks
+	private NineAnimeEpisodeUrlService nineAnimeEpisodeUrlService;
 
 	@Test
-	public void dubAvailableNewEpisodeAvailable() {
-		mockNineAnime("nine_anime/title_search/regularTitleDubAvailable.json",
-				"nine_anime/episodes_search/newEpisodeAvailable.json",
-				REGULAR_TITLE_DUB_NINE_ANIME_DATA_ID);
-		performAndCheck(NINE_ANIME_TO + REGULAR_TITLE_DUB_NINE_ANIME_URL);
-	}
-
-	@Test
-	public void dubAvailableNewEpisodeAvailableAndMixedWithWords() {
-		mockNineAnime("nine_anime/title_search/regularTitleDubAvailable.json",
-				"nine_anime/episodes_search/newEpisodeAvailableAndMixedWithWords.json",
-				REGULAR_TITLE_DUB_NINE_ANIME_DATA_ID);
-		performAndCheck(NINE_ANIME_TO + REGULAR_TITLE_DUB_NINE_ANIME_URL);
-	}
-
-	@Test
-	public void dubAvailableNewEpisodeAvailableAndStubConstant() {
-		mockNineAnime("nine_anime/title_search/regularTitleDubAvailable.json",
-				"nine_anime/episodes_search/newEpisodeAvailableAndStubConstant.json",
-				REGULAR_TITLE_DUB_NINE_ANIME_DATA_ID);
-		performAndCheck(NINE_ANIME_TO + REGULAR_TITLE_DUB_NINE_ANIME_URL);
-	}
-
-	@Test
-	public void dubAvailableNewEpisodeNotAvailableAndUnknownStubConstant() {
-		mockNineAnime("nine_anime/title_search/regularTitleDubAvailable.json",
-				"nine_anime/episodes_search/newEpisodeAvailableAndUnknownStubConstant.json",
-				REGULAR_TITLE_DUB_NINE_ANIME_DATA_ID);
-		performAndCheck(FINAL_URL_VALUE_IF_EPISODE_IS_NOT_AVAILABLE);
+	public void shouldReturnUrlWithAvailableEpisode() {
+		//given
+		mockFandubUrlsMap();
+		mockTitleService(getMappedTitlesByMalId(Lists.newArrayList(CommonTitleTestBuilder.getNineAnimeRegular())));
+		MalTitle malTitle = buildWatchingTitle(REGULAR_TITLE_MAL_ID, 0);
+		//when
+		String actualUrl = nineAnimeEpisodeUrlService.getEpisodeUrl(FanDubSource.NINEANIME, malTitle);
+		//then
+		assertEquals(NINE_ANIME_TO + REGULAR_TITLE_NINE_ANIME_URL + "/ep-1", actualUrl);
 	}
 
 	@Test
-	public void dubAvailableNewEpisodeNotAvailable() {
-		mockNineAnime("nine_anime/title_search/regularTitleDubAvailable.json",
-				"nine_anime/episodes_search/newEpisodeNotAvailable.json",
-				REGULAR_TITLE_DUB_NINE_ANIME_DATA_ID);
-		performAndCheck(FINAL_URL_VALUE_IF_EPISODE_IS_NOT_AVAILABLE);
+	public void shouldReturnUrlWithAvailableEpisodeInRuntime() {
+		//given
+		mockFandubUrlsMap();
+		mockTitleService(getMappedTitlesByMalId(Lists.newArrayList(CommonTitleTestBuilder.getNineAnimeRegular())));
+		String htmlWithTitleEpisodes = "foobar";
+		mockGetTitleEpisodes(htmlWithTitleEpisodes);
+		mockParser(htmlWithTitleEpisodes);
+		MalTitle malTitle = buildWatchingTitle(REGULAR_TITLE_MAL_ID, 1);
+		//when
+		String actualUrl = nineAnimeEpisodeUrlService.getEpisodeUrl(FanDubSource.NINEANIME, malTitle);
+		//then
+		assertEquals(NINE_ANIME_TO + REGULAR_TITLE_NINE_ANIME_URL + "/ep-2", actualUrl);
 	}
 
 	@Test
-	public void dubNotAvailableNewEpisodeAvailable() {
-		mockNineAnime("nine_anime/title_search/regularTitleDubNotAvailable.json",
-				"nine_anime/episodes_search/newEpisodeAvailable.json",
-				REGULAR_TITLE_NINE_ANIME_DATA_ID);
-		performAndCheck(NINE_ANIME_TO + REGULAR_TITLE_DUB_NINE_ANIME_URL);
+	public void shouldReturnNotFoundOnFandubSiteUrl() {
+		//given
+		mockFandubUrlsMap();
+		int notFoundOnFandubMalId = 42;
+		MalTitle malTitle = buildWatchingTitle(notFoundOnFandubMalId, 0);
+		//when
+		String actualUrl = nineAnimeEpisodeUrlService.getEpisodeUrl(FanDubSource.NINEANIME, malTitle);
+		//then
+		assertEquals(NOT_FOUND_ON_FANDUB_SITE_URL, actualUrl);
 	}
 
 	@Test
-	public void titleNotFound() {
-		mockNineAnime("nine_anime/title_search/regularTitleNotFound.json",
-				"nine_anime/episodes_search/newEpisodeAvailable.json",
-				REGULAR_TITLE_DUB_NINE_ANIME_DATA_ID);
-		performAndCheck(NOT_FOUND_ON_FANDUB_SITE_URL);
+	public void shouldReturnFinalUrlValueIfEpisodeIsNotAvailable() {
+		//given
+		mockFandubUrlsMap();
+		mockTitleService(getMappedTitlesByMalId(Lists.newArrayList(CommonTitleTestBuilder.getNineAnimeConcretized())));
+		MalTitle malTitle = buildWatchingTitle(REGULAR_TITLE_MAL_ID, 1);
+		//when
+		String actualUrl = nineAnimeEpisodeUrlService.getEpisodeUrl(FanDubSource.NINEANIME, malTitle);
+		//then
+		assertEquals(FINAL_URL_VALUE_IF_EPISODE_IS_NOT_AVAILABLE, actualUrl);
 	}
 
-	private void performAndCheck(String expectedUrl) {
-		String actualUrl = nineAnimeEpisodeUrlService.getEpisodeUrl(FanDubSource.NINEANIME, buildWatchingTitle());
-		assertEquals(expectedUrl, actualUrl);
+	@Test
+	public void shouldReturnFinalUrlValueIfEpisodeIsNotAvailableInRuntime() {
+		//given
+		mockFandubUrlsMap();
+		mockTitleService(getMappedTitlesByMalId(Lists.newArrayList(CommonTitleTestBuilder.getNineAnimeRegular(),
+				CommonTitleTestBuilder.getNineAnimeConcretized())));
+		String htmlWithTitleEpisodes = "foobar";
+		mockGetTitleEpisodes(htmlWithTitleEpisodes);
+		mockParser(htmlWithTitleEpisodes);
+		MalTitle malTitle = buildWatchingTitle(REGULAR_TITLE_MAL_ID, 2);
+		//when
+		String actualUrl = nineAnimeEpisodeUrlService.getEpisodeUrl(FanDubSource.NINEANIME, malTitle);
+		//then
+		assertEquals(FINAL_URL_VALUE_IF_EPISODE_IS_NOT_AVAILABLE, actualUrl);
 	}
 
-	private void mockNineAnime(String titleSearchBodyFile, String episodesSearchBodyFile, String dataId) {
-		doReturn(IOUtils.unmarshal(IOUtils.readFromFile("classpath:__files/" + titleSearchBodyFile), NineAnimeResponse.class)).when(nineAnimeFeignClient)
-				.getTitleByName(UriUtils.encode(buildTitleNameWithSemiColin(), StandardCharsets.UTF_8));
-		doReturn(IOUtils.unmarshal(IOUtils.readFromFile("classpath:__files/" + episodesSearchBodyFile), NineAnimeResponse.class)).when(
-				nineAnimeFeignClient)
-				.getTitleEpisodes(dataId);
+	private void mockFandubUrlsMap() {
+		doReturn(Maps.newHashMap(FanDubSource.NINEANIME, NINE_ANIME_TO)).when(fanDubProps)
+				.getUrls();
 	}
 
-	private String buildTitleNameWithSemiColin() {
-		return StringUtils.join(REGULAR_TITLE_ORIGINAL_NAME.split(" "), ";");
+	private void mockParser(String htmlWithTitleEpisodes) {
+		List<FandubEpisode> fandubEpisodes = getFandubEpisodes();
+		doReturn(fandubEpisodes).when(nineAnimeParserI)
+				.extractEpisodes(argThat(x -> x.text()
+						.equals(htmlWithTitleEpisodes)));
+		doReturn(REGULAR_TITLE_NINE_ANIME_ID).when(nineAnimeParserI)
+				.extractDataId(REGULAR_TITLE_NINE_ANIME_URL);
 	}
 
-	private MalTitle buildWatchingTitle() {
+	private void mockTitleService(Map<Integer, List<CommonTitle>> mappedTitlesByMalId) {
+		doReturn(mappedTitlesByMalId).when(titlesService)
+				.getTitles(FanDubSource.NINEANIME);
+	}
+
+	private void mockGetTitleEpisodes(String htmlWithTitleEpisodes) {
+		doReturn(htmlWithTitleEpisodes).when(nineAnimeFeignClient)
+				.getTitleEpisodes(REGULAR_TITLE_NINE_ANIME_ID);
+	}
+
+	private Map<Integer, List<CommonTitle>> getMappedTitlesByMalId(List<CommonTitle> commonTitles) {
+		Map<Integer, List<CommonTitle>> map = new HashMap<>();
+		map.put(REGULAR_TITLE_MAL_ID, commonTitles);
+		return map;
+	}
+
+	private List<FandubEpisode> getFandubEpisodes() {
+		return Lists.newArrayList(FandubEpisode.builder()
+						.name("1")
+						.id(1)
+						.number("1")
+						.url(REGULAR_TITLE_NINE_ANIME_URL + "/ep-1")
+						.build(),
+				FandubEpisode.builder()
+						.name("2")
+						.id(2)
+						.number("2")
+						.url(REGULAR_TITLE_NINE_ANIME_URL + "/ep-2")
+						.build());
+	}
+
+	private MalTitle buildWatchingTitle(int animeId, int numWatchedEpisodes) {
 		return MalTitle.builder()
-				.id(1)
-				.numWatchedEpisodes(0)
-				.name(buildTitleNameWithSemiColin())
-				.posterUrl(MY_ANIME_LIST_STATIC_CONTENT_URL + REGULAR_TITLE_POSTER_URL)
-				.animeUrl(MY_ANIME_LIST_URL + REGULAR_TITLE_MAL_ANIME_URL)
+				.id(animeId)
+				.numWatchedEpisodes(numWatchedEpisodes)
 				.build();
 	}
 }

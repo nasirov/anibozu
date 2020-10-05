@@ -59,7 +59,7 @@ public class JutsuEpisodeUrlServiceTest {
 		//when
 		String actualUrl = jutsuEpisodeUrlService.getEpisodeUrl(FanDubSource.JUTSU, malTitle);
 		//then
-		assertEquals(JUTSU_URL + REGULAR_TITLE_JUTSU_URL, actualUrl);
+		assertEquals(JUTSU_URL + REGULAR_TITLE_JUTSU_URL + "/episode-1.html", actualUrl);
 	}
 
 	@Test

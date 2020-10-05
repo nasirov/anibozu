@@ -2,6 +2,7 @@ package nasirov.yv.service.impl.fandub.animedia;
 
 import static nasirov.yv.data.constants.BaseConstants.FINAL_URL_VALUE_IF_EPISODE_IS_NOT_AVAILABLE;
 import static nasirov.yv.data.constants.BaseConstants.NOT_FOUND_ON_FANDUB_SITE_URL;
+import static nasirov.yv.utils.CommonTitleTestBuilder.buildEpisodeUrl;
 import static nasirov.yv.utils.TestConstants.ANIMEDIA_ONLINE_TV;
 import static nasirov.yv.utils.TestConstants.REGULAR_TITLE_ANIMEDIA_URL;
 import static nasirov.yv.utils.TestConstants.REGULAR_TITLE_ID;
@@ -142,8 +143,8 @@ public class AnimediaEpisodeUrlServiceTest {
 		Map<Integer, List<CommonTitle>> map = new HashMap<>();
 		map.put(REGULAR_TITLE_MAL_ID,
 				Lists.newArrayList(CommonTitleTestBuilder.getAnimediaRegular(),
-						CommonTitleTestBuilder.getRegular(REGULAR_TITLE_ANIMEDIA_URL, 0),
-						CommonTitleTestBuilder.getConcretized(REGULAR_TITLE_ANIMEDIA_URL, 2)));
+						CommonTitleTestBuilder.getRegular(REGULAR_TITLE_ANIMEDIA_URL, 0, buildEpisodeUrl(REGULAR_TITLE_ANIMEDIA_URL, 0)),
+						CommonTitleTestBuilder.getConcretized(REGULAR_TITLE_ANIMEDIA_URL, 2, buildEpisodeUrl(REGULAR_TITLE_ANIMEDIA_URL, 2))));
 		return map;
 	}
 
@@ -151,8 +152,8 @@ public class AnimediaEpisodeUrlServiceTest {
 		Map<Integer, List<CommonTitle>> map = new HashMap<>();
 		map.put(REGULAR_TITLE_MAL_ID,
 				Lists.newArrayList(CommonTitleTestBuilder.getAnimediaConcretized(),
-						CommonTitleTestBuilder.getConcretized(REGULAR_TITLE_ANIMEDIA_URL, 0),
-						CommonTitleTestBuilder.getConcretized(REGULAR_TITLE_ANIMEDIA_URL, 2)));
+						CommonTitleTestBuilder.getConcretized(REGULAR_TITLE_ANIMEDIA_URL, 0, buildEpisodeUrl(REGULAR_TITLE_ANIMEDIA_URL, 0)),
+						CommonTitleTestBuilder.getConcretized(REGULAR_TITLE_ANIMEDIA_URL, 2, buildEpisodeUrl(REGULAR_TITLE_ANIMEDIA_URL, 2))));
 		return map;
 	}
 

@@ -11,7 +11,7 @@ application:
     github:
       name: github
       ttl: 3600
-      max-entity-count: 6
+      max-entity-count: 7
     sse:
       name: sse
       ttl: 300
@@ -25,14 +25,13 @@ application:
     offset-step: 300
     url: https://myanimelist.net
   fandub:
-    disabled: NINEANIME
     urls:
       ANIMEDIA: https://online.animedia.tv/
       ANIDUB: https://anime.anidub.life/
       ANILIBRIA: https://www.anilibria.tv/
       ANIMEPIK: https://animepik.org/
       JISEDAI: https://jisedai.tv/
-      NINEANIME: https://9anime.to
+      NINEANIME: https://www12.9anime.to/
       JUTSU: https://jut.su/
 
 server:

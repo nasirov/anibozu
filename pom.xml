@@ -32,7 +32,7 @@
     <docker.buildArg.JAR_FILE>target/${project.build.finalName}.jar</docker.buildArg.JAR_FILE>
     <powermock-module-junit4.version>2.0.7</powermock-module-junit4.version>
     <powermock-api-mockito2.version>2.0.7</powermock-api-mockito2.version>
-    <fandub-service-spring-boot-starter.version>5.0.3</fandub-service-spring-boot-starter.version>
+    <fandub-service-spring-boot-starter.version>6.0.0</fandub-service-spring-boot-starter.version>
   </properties>
 
   <dependencies>

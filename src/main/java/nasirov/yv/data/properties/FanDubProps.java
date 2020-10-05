@@ -1,9 +1,9 @@
 package nasirov.yv.data.properties;
 
+import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Set;
 import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
 import lombok.Data;
 import nasirov.yv.fandub.dto.constant.FanDubSource;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -19,8 +19,7 @@ import org.springframework.validation.annotation.Validated;
 @ConfigurationProperties(prefix = "application.fandub")
 public class FanDubProps {
 
-	@NotNull
-	private Set<FanDubSource> disabled;
+	private Set<FanDubSource> disabled = new LinkedHashSet<>();
 
 	@NotEmpty
 	private Map<FanDubSource, String> urls;
