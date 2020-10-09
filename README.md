@@ -30,16 +30,19 @@ The application analyzes an user watching titles from **[MyAnimeList](https://my
     <td><a href="https://jut.su/"><img src="https://www.google.com/s2/favicons?domain=https://jut.su/" alt="jutsu"> Jutsu</a></td>
   </tr>
   <tr>
-    <td><a href="https://www12.9anime.to/"><img src="https://www.google.com/s2/favicons?domain=https://www12.9anime.to/" alt="9anime"> 9anime</a></td>
+    <td><a href="https://www12.9anime.to/"><img src="https://www.google.com/s2/favicons?domain=https://www12.9anime.to/" alt="9anime"> 9Anime</a></td>
   </tr>
   </tbody>
 </table>
 
-# Try It Out On Heroku
+# Try It Out
 
-https://anime-checker.herokuapp.com/
+![Flow](/images/flow.gif)
 
-# Flow
-
-![Submit form](/images/flow.gif)
-*Submit a MAL username and wait a while*
+- Open **[anime-checker application](https://anime-checker.herokuapp.com/)**
+- Enter MAL username
+- Choose FanDub sites
+- Submit
+- Your will receive your anime check result in real time title by title
+- Titles from "Available" section have links to fandub sites
+- Titles from "Not Available" and "Not Found" sections have links to MAL
