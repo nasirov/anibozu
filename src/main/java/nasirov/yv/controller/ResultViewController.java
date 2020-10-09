@@ -7,7 +7,7 @@ import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import nasirov.yv.data.mal.MalUser;
-import nasirov.yv.exception.mal.MalException;
+import nasirov.yv.exception.mal.AbstractMalException;
 import nasirov.yv.fandub.dto.constant.FanDubSource;
 import nasirov.yv.fandub.dto.mal.MalTitle;
 import nasirov.yv.service.MalServiceI;
@@ -33,7 +33,7 @@ public class ResultViewController {
 		try {
 			List<MalTitle> watchingTitles = malService.getWatchingTitles(username);
 			resultView = handleSuccess(watchingTitles.size(), malUser, model);
-		} catch (MalException malException) {
+		} catch (AbstractMalException malException) {
 			resultView = handleError(malException.getMessage(), model);
 		}
 		log.info("Got result view [{}]. End of a request for [{}].", resultView, username);

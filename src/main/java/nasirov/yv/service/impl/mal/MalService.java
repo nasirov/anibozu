@@ -13,7 +13,7 @@ import javax.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import nasirov.yv.data.properties.MalProps;
-import nasirov.yv.exception.mal.MalException;
+import nasirov.yv.exception.mal.AbstractMalException;
 import nasirov.yv.exception.mal.MalForbiddenException;
 import nasirov.yv.exception.mal.MalUserAccountNotFoundException;
 import nasirov.yv.exception.mal.MalUserAnimeListAccessException;
@@ -64,7 +64,7 @@ public class MalService implements MalServiceI {
 	 */
 	@Override
 	@Cacheable(value = "mal", key = "#username", unless = "#result == null || #result.isEmpty()")
-	public List<MalTitle> getWatchingTitles(String username) throws MalException {
+	public List<MalTitle> getWatchingTitles(String username) throws AbstractMalException {
 		log.debug("Trying to get watching titles for [{}]...", username);
 		String userProfile = extractUserProfile(username);
 		int numberOfUserWatchingTitles = extractNumberOfWatchingTitles(userProfile, username);
