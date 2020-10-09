@@ -5,7 +5,7 @@
 [![Coverage Status](https://coveralls.io/repos/github/nasirov/anime-checker/badge.svg?branch=master)](https://coveralls.io/github/nasirov/anime-checker?branch=master)
 [![Apache License 2](https://img.shields.io/badge/license-ASF2-blue.svg)](https://www.apache.org/licenses/LICENSE-2.0.txt)
 
-The application analyzes an user watching titles from **[MyAnimeList](https://myanimelist.net/)** and searches for new episodes on FanDub Sites.
+The application analyzes an user watching titles list from **[MyAnimeList](https://myanimelist.net/)** and searches for new episodes on FanDub Sites.
 
 # Supported FanDub Sites
 
@@ -39,10 +39,11 @@ The application analyzes an user watching titles from **[MyAnimeList](https://my
 
 ![Flow](/images/flow.gif)
 
-- Open **[anime-checker application](https://anime-checker.herokuapp.com/)**
-- Enter MAL username
-- Choose FanDub sites
-- Submit
-- Your will receive your anime check result in real time title by title
-- Titles from "Available" section have links to fandub sites
-- Titles from "Not Available" and "Not Found" sections have links to MAL
+1. Open **[anime-checker application](https://anime-checker.herokuapp.com/)**
+2. Enter MyAnimeList username
+3. Choose FanDub sites
+4. Submit
+
+- You will receive your anime check result in real time title by title
+- Titles from "Available" section have links to FanDub sites
+- Titles from "Not Available" and "Not Found" sections have links to MyAnimeList site
