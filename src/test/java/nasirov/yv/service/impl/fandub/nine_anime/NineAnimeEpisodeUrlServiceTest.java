@@ -20,7 +20,7 @@ import nasirov.yv.fandub.dto.fandub.common.CommonTitle;
 import nasirov.yv.fandub.dto.fandub.common.FandubEpisode;
 import nasirov.yv.fandub.dto.mal.MalTitle;
 import nasirov.yv.fandub.service.spring.boot.starter.extractor.parser.NineAnimeParserI;
-import nasirov.yv.fandub.service.spring.boot.starter.feign.fandub.nine_anime.NineAnimeFeignClient;
+import nasirov.yv.fandub.service.spring.boot.starter.service.NineAnimeServiceI;
 import nasirov.yv.service.TitlesServiceI;
 import nasirov.yv.utils.CommonTitleTestBuilder;
 import org.assertj.core.util.Maps;
@@ -43,7 +43,7 @@ public class NineAnimeEpisodeUrlServiceTest {
 	private FanDubProps fanDubProps;
 
 	@Mock
-	private NineAnimeFeignClient nineAnimeFeignClient;
+	private NineAnimeServiceI nineAnimeService;
 
 	@Mock
 	private NineAnimeParserI nineAnimeParserI;
@@ -138,7 +138,7 @@ public class NineAnimeEpisodeUrlServiceTest {
 	}
 
 	private void mockGetTitleEpisodes(String htmlWithTitleEpisodes) {
-		doReturn(htmlWithTitleEpisodes).when(nineAnimeFeignClient)
+		doReturn(htmlWithTitleEpisodes).when(nineAnimeService)
 				.getTitleEpisodes(REGULAR_TITLE_NINE_ANIME_ID);
 	}
 
