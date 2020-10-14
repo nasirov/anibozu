@@ -1,6 +1,5 @@
 package nasirov.yv;
 
-import nasirov.yv.data.properties.FanDubProps;
 import nasirov.yv.fandub.service.spring.boot.starter.feign.fandub.nine_anime.NineAnimeFeignClient;
 import nasirov.yv.fandub.service.spring.boot.starter.feign.mal.MalFeignClient;
 import nasirov.yv.service.MalServiceI;
@@ -44,7 +43,4 @@ public abstract class AbstractTest {
 
 	@Autowired
 	protected MockMvc mockMvc;
-
-	@Autowired
-	protected FanDubProps fanDubProps;
 }

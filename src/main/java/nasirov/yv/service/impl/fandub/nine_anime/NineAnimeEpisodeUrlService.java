@@ -4,10 +4,10 @@ import static nasirov.yv.data.constants.BaseConstants.FINAL_URL_VALUE_IF_EPISODE
 
 import java.util.List;
 import lombok.extern.slf4j.Slf4j;
-import nasirov.yv.data.properties.FanDubProps;
 import nasirov.yv.fandub.dto.fandub.common.CommonTitle;
 import nasirov.yv.fandub.dto.fandub.common.FandubEpisode;
 import nasirov.yv.fandub.service.spring.boot.starter.extractor.parser.NineAnimeParserI;
+import nasirov.yv.fandub.service.spring.boot.starter.properties.FanDubProps;
 import nasirov.yv.fandub.service.spring.boot.starter.service.NineAnimeServiceI;
 import nasirov.yv.service.TitlesServiceI;
 import nasirov.yv.service.impl.fandub.BaseEpisodeUrlService;

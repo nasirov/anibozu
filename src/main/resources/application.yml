@@ -24,15 +24,6 @@ application:
   mal:
     offset-step: 300
     url: https://myanimelist.net
-  fandub:
-    urls:
-      ANIMEDIA: https://online.animedia.tv/
-      ANIDUB: https://anime.anidub.life/
-      ANILIBRIA: https://www.anilibria.tv/
-      ANIMEPIK: https://animepik.org/
-      JISEDAI: https://jisedai.tv/
-      NINEANIME: https://www12.9anime.to/
-      JUTSU: https://jut.su/
 
 server:
   port: ${PORT}

@@ -6,7 +6,7 @@ import java.util.Set;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 import lombok.RequiredArgsConstructor;
-import nasirov.yv.data.properties.FanDubProps;
+import nasirov.yv.data.properties.FanDubSupportProps;
 import nasirov.yv.fandub.dto.constant.FanDubSource;
 import org.springframework.stereotype.Component;
 
@@ -17,12 +17,12 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class FanDubSourcesValidator implements ConstraintValidator<ValidFanDubSources, Set<FanDubSource>> {
 
-	private final FanDubProps fanDubProps;
+	private final FanDubSupportProps fanDubSupportProps;
 
 	@Override
 	public boolean isValid(Set<FanDubSource> input, ConstraintValidatorContext context) {
-		Set<FanDubSource> disabled = fanDubProps.getDisabled();
-		return nonNull(input) && disabled.stream()
+		Set<FanDubSource> disabledFandub = fanDubSupportProps.getDisabledFandub();
+		return nonNull(input) && disabledFandub.stream()
 				.noneMatch(input::contains);
 	}
 }

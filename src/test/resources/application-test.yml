@@ -1,5 +1,5 @@
 application:
   mal:
     offset-step: 2
-  fandub:
-    disabled:
+  fandub-support:
+    disabled-fandub:
