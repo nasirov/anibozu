@@ -31,22 +31,24 @@ public class IndexControllerTest extends AbstractTest {
 				.map(this::getMvcResult)
 				.collect(Collectors.toList());
 		//then
-		result.forEach(x -> {
-			assertEquals(HttpStatus.OK.value(),
-					x.getResponse()
-							.getStatus());
-			ModelAndView modelAndView = x.getModelAndView();
-			assertNotNull(modelAndView);
-			assertEquals(INDEX, modelAndView.getViewName());
-			assertEquals("no-cache, no-store, must-revalidate",
-					x.getResponse()
-							.getHeader(HttpHeaders.CACHE_CONTROL));
-		});
+		result.forEach(this::checkResponses);
 	}
 
 	@SneakyThrows
 	private MvcResult getMvcResult(String url) {
 		return mockMvc.perform(get(url))
 				.andReturn();
+	}
+
+	private void checkResponses(MvcResult x) {
+		assertEquals(HttpStatus.OK.value(),
+				x.getResponse()
+						.getStatus());
+		ModelAndView modelAndView = x.getModelAndView();
+		assertNotNull(modelAndView);
+		assertEquals(INDEX, modelAndView.getViewName());
+		assertEquals("no-cache, no-store, must-revalidate",
+				x.getResponse()
+						.getHeader(HttpHeaders.CACHE_CONTROL));
 	}
 }
