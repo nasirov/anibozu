@@ -39,10 +39,10 @@ The application analyzes an user watching titles list from **[MyAnimeList](https
 
 ![Flow](/images/flow.gif)
 
-1. Open **[anime-checker application](https://anime-checker.herokuapp.com/)**
-2. Enter MyAnimeList username
-3. Choose FanDub sites
-4. Submit
+1. Open **[Anime Checker](https://anime-checker.herokuapp.com/)**
+2. Enter an username from **[MyAnimeList](https://myanimelist.net/)**
+3. Choose at least one FanDub site
+4. Submit form
 
 - You will receive your anime check result in real time title by title
 - Titles from "Available" section have links to FanDub sites
