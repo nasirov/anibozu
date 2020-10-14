@@ -28,6 +28,10 @@ application:
 server:
   port: ${PORT}
 
+github-feign-client:
+  ribbon:
+    retryableStatusCodes: 404, 500, 502, 503, 504
+
 ribbon:
   eureka:
     enabled: false
