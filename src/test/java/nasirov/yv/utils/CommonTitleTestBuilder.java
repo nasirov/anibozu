@@ -31,10 +31,10 @@ import com.google.common.collect.Lists;
 import java.util.Collections;
 import java.util.List;
 import lombok.experimental.UtilityClass;
-import nasirov.yv.fandub.dto.constant.FanDubSource;
-import nasirov.yv.fandub.dto.fandub.common.CommonEpisode;
-import nasirov.yv.fandub.dto.fandub.common.CommonTitle;
-import nasirov.yv.fandub.dto.fandub.common.TitleType;
+import nasirov.yv.fandub.service.spring.boot.starter.constant.FanDubSource;
+import nasirov.yv.fandub.service.spring.boot.starter.dto.fandub.common.CommonEpisode;
+import nasirov.yv.fandub.service.spring.boot.starter.dto.fandub.common.CommonTitle;
+import nasirov.yv.fandub.service.spring.boot.starter.dto.fandub.common.TitleType;
 
 /**
  * Created by nasirov.yv

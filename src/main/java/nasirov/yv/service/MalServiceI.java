@@ -2,7 +2,7 @@ package nasirov.yv.service;
 
 import java.util.List;
 import nasirov.yv.exception.mal.AbstractMalException;
-import nasirov.yv.fandub.dto.mal.MalTitle;
+import nasirov.yv.fandub.service.spring.boot.starter.dto.mal.MalTitle;
 
 /**
  * Created by nasirov.yv

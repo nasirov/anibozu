@@ -2,8 +2,8 @@ package nasirov.yv.service;
 
 import java.util.Set;
 import nasirov.yv.data.front.Anime;
-import nasirov.yv.fandub.dto.constant.FanDubSource;
-import nasirov.yv.fandub.dto.mal.MalTitle;
+import nasirov.yv.fandub.service.spring.boot.starter.constant.FanDubSource;
+import nasirov.yv.fandub.service.spring.boot.starter.dto.mal.MalTitle;
 
 /**
  * Created by nasirov.yv

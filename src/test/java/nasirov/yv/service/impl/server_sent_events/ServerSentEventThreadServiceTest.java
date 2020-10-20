@@ -11,7 +11,7 @@ import nasirov.yv.data.mal.MalUser;
 import nasirov.yv.data.properties.CacheProps;
 import nasirov.yv.data.properties.CacheProps.ConfigurableCacheProps;
 import nasirov.yv.data.task.ServerSentEventThread;
-import nasirov.yv.fandub.dto.constant.FanDubSource;
+import nasirov.yv.fandub.service.spring.boot.starter.constant.FanDubSource;
 import nasirov.yv.service.MalServiceI;
 import nasirov.yv.service.impl.common.AnimeService;
 import org.junit.Before;

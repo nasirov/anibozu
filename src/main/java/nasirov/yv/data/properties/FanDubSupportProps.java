@@ -3,7 +3,7 @@ package nasirov.yv.data.properties;
 import java.util.LinkedHashSet;
 import java.util.Set;
 import lombok.Data;
-import nasirov.yv.fandub.dto.constant.FanDubSource;
+import nasirov.yv.fandub.service.spring.boot.starter.constant.FanDubSource;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 

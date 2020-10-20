@@ -1,7 +1,7 @@
 package nasirov.yv.service.impl.mal;
 
 import static java.util.Optional.ofNullable;
-import static nasirov.yv.fandub.dto.mal.MalTitleWatchingStatus.WATCHING;
+import static nasirov.yv.fandub.service.spring.boot.starter.dto.mal.MalTitleWatchingStatus.WATCHING;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -19,7 +19,7 @@ import nasirov.yv.exception.mal.MalUserAccountNotFoundException;
 import nasirov.yv.exception.mal.MalUserAnimeListAccessException;
 import nasirov.yv.exception.mal.UnexpectedCallingException;
 import nasirov.yv.exception.mal.WatchingTitlesNotFoundException;
-import nasirov.yv.fandub.dto.mal.MalTitle;
+import nasirov.yv.fandub.service.spring.boot.starter.dto.mal.MalTitle;
 import nasirov.yv.fandub.service.spring.boot.starter.feign.mal.MalFeignClient;
 import nasirov.yv.parser.MALParserI;
 import nasirov.yv.service.MalServiceI;

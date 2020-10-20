@@ -3,9 +3,9 @@ package nasirov.yv.service;
 
 import java.util.List;
 import java.util.Map;
-import nasirov.yv.fandub.dto.constant.FanDubSource;
-import nasirov.yv.fandub.dto.fandub.common.CommonTitle;
-import nasirov.yv.fandub.dto.mal.MalTitle;
+import nasirov.yv.fandub.service.spring.boot.starter.constant.FanDubSource;
+import nasirov.yv.fandub.service.spring.boot.starter.dto.fandub.common.CommonTitle;
+import nasirov.yv.fandub.service.spring.boot.starter.dto.mal.MalTitle;
 
 /**
  * Created by nasirov.yv

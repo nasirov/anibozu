@@ -1,9 +1,9 @@
 package nasirov.yv.service.impl.fandub.animepik;
 
 import java.util.List;
-import nasirov.yv.fandub.dto.fandub.animepik.AnimepikEpisode;
-import nasirov.yv.fandub.dto.fandub.common.CommonTitle;
-import nasirov.yv.fandub.dto.fandub.common.FandubEpisode;
+import nasirov.yv.fandub.service.spring.boot.starter.dto.fandub.animepik.AnimepikEpisode;
+import nasirov.yv.fandub.service.spring.boot.starter.dto.fandub.common.CommonTitle;
+import nasirov.yv.fandub.service.spring.boot.starter.dto.fandub.common.FandubEpisode;
 import nasirov.yv.fandub.service.spring.boot.starter.extractor.parser.AnimepikParserI;
 import nasirov.yv.fandub.service.spring.boot.starter.feign.fandub.animepik.AnimepikResourcesFeignClient;
 import nasirov.yv.fandub.service.spring.boot.starter.properties.FanDubProps;

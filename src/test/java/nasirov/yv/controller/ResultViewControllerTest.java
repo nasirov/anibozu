@@ -17,7 +17,7 @@ import nasirov.yv.AbstractTest;
 import nasirov.yv.exception.mal.MalUserAccountNotFoundException;
 import nasirov.yv.exception.mal.MalUserAnimeListAccessException;
 import nasirov.yv.exception.mal.WatchingTitlesNotFoundException;
-import nasirov.yv.fandub.dto.mal.MalTitle;
+import nasirov.yv.fandub.service.spring.boot.starter.dto.mal.MalTitle;
 import org.junit.Test;
 import org.springframework.http.HttpStatus;
 import org.springframework.test.web.servlet.MvcResult;

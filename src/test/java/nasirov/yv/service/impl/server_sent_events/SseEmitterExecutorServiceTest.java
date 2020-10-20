@@ -15,7 +15,7 @@ import java.util.function.Consumer;
 import nasirov.yv.data.mal.MalUser;
 import nasirov.yv.data.properties.SseProps;
 import nasirov.yv.data.task.ServerSentEventThread;
-import nasirov.yv.fandub.dto.constant.FanDubSource;
+import nasirov.yv.fandub.service.spring.boot.starter.constant.FanDubSource;
 import nasirov.yv.service.ServerSentEventThreadServiceI;
 import nasirov.yv.service.impl.common.CacheCleanerService;
 import org.junit.Test;

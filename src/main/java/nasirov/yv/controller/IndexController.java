@@ -1,13 +1,13 @@
 package nasirov.yv.controller;
 
 
-import static nasirov.yv.fandub.dto.constant.FanDubSource.ANIDUB;
-import static nasirov.yv.fandub.dto.constant.FanDubSource.ANILIBRIA;
-import static nasirov.yv.fandub.dto.constant.FanDubSource.ANIMEDIA;
-import static nasirov.yv.fandub.dto.constant.FanDubSource.ANIMEPIK;
-import static nasirov.yv.fandub.dto.constant.FanDubSource.JISEDAI;
-import static nasirov.yv.fandub.dto.constant.FanDubSource.JUTSU;
-import static nasirov.yv.fandub.dto.constant.FanDubSource.NINEANIME;
+import static nasirov.yv.fandub.service.spring.boot.starter.constant.FanDubSource.ANIDUB;
+import static nasirov.yv.fandub.service.spring.boot.starter.constant.FanDubSource.ANILIBRIA;
+import static nasirov.yv.fandub.service.spring.boot.starter.constant.FanDubSource.ANIMEDIA;
+import static nasirov.yv.fandub.service.spring.boot.starter.constant.FanDubSource.ANIMEPIK;
+import static nasirov.yv.fandub.service.spring.boot.starter.constant.FanDubSource.JISEDAI;
+import static nasirov.yv.fandub.service.spring.boot.starter.constant.FanDubSource.JUTSU;
+import static nasirov.yv.fandub.service.spring.boot.starter.constant.FanDubSource.NINEANIME;
 
 import nasirov.yv.data.mal.MalUser;
 import org.springframework.stereotype.Controller;

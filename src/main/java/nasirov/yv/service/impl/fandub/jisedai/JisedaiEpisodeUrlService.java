@@ -1,8 +1,8 @@
 package nasirov.yv.service.impl.fandub.jisedai;
 
 import java.util.List;
-import nasirov.yv.fandub.dto.fandub.common.CommonTitle;
-import nasirov.yv.fandub.dto.fandub.common.FandubEpisode;
+import nasirov.yv.fandub.service.spring.boot.starter.dto.fandub.common.CommonTitle;
+import nasirov.yv.fandub.service.spring.boot.starter.dto.fandub.common.FandubEpisode;
 import nasirov.yv.fandub.service.spring.boot.starter.extractor.parser.JisedaiParserI;
 import nasirov.yv.fandub.service.spring.boot.starter.feign.fandub.jisedai.JisedaiFeignClient;
 import nasirov.yv.fandub.service.spring.boot.starter.properties.FanDubProps;

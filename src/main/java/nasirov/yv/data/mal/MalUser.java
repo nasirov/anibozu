@@ -5,7 +5,7 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Pattern;
 import lombok.Data;
 import nasirov.yv.data.validator.ValidFanDubSources;
-import nasirov.yv.fandub.dto.constant.FanDubSource;
+import nasirov.yv.fandub.service.spring.boot.starter.constant.FanDubSource;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.validation.annotation.Validated;
 
