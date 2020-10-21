@@ -53,6 +53,11 @@ img {
   background-size: 40px 40px;
 }
 
+.SOVETROMANTICA_background {
+  background: url('../img/fandub/sovet-romantica-logo.png') no-repeat center;
+  background-size: 40px 40px;
+}
+
 .full_cover {
   position: absolute;
   top: 0;

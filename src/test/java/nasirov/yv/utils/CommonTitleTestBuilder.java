@@ -9,6 +9,7 @@ import static nasirov.yv.utils.TestConstants.CONCRETIZED_TITLE_JISEDAI_URL;
 import static nasirov.yv.utils.TestConstants.CONCRETIZED_TITLE_JUTSU_URL;
 import static nasirov.yv.utils.TestConstants.CONCRETIZED_TITLE_MAL_ID;
 import static nasirov.yv.utils.TestConstants.CONCRETIZED_TITLE_NINE_ANIME_URL;
+import static nasirov.yv.utils.TestConstants.CONCRETIZED_TITLE_SOVET_ROMANTICA_URL;
 import static nasirov.yv.utils.TestConstants.NOT_FOUND_ON_MAL_TITLE_ANIDUB_URL;
 import static nasirov.yv.utils.TestConstants.NOT_FOUND_ON_MAL_TITLE_ANILIBRIA_URL;
 import static nasirov.yv.utils.TestConstants.NOT_FOUND_ON_MAL_TITLE_ANIMEDIA_URL;
@@ -17,6 +18,7 @@ import static nasirov.yv.utils.TestConstants.NOT_FOUND_ON_MAL_TITLE_ID;
 import static nasirov.yv.utils.TestConstants.NOT_FOUND_ON_MAL_TITLE_JISEDAI_URL;
 import static nasirov.yv.utils.TestConstants.NOT_FOUND_ON_MAL_TITLE_JUTSU_URL;
 import static nasirov.yv.utils.TestConstants.NOT_FOUND_ON_MAL_TITLE_NINE_ANIME_URL;
+import static nasirov.yv.utils.TestConstants.NOT_FOUND_ON_MAL_TITLE_SOVET_ROMANTICA_URL;
 import static nasirov.yv.utils.TestConstants.REGULAR_TITLE_ANIDUB_URL;
 import static nasirov.yv.utils.TestConstants.REGULAR_TITLE_ANILIBRIA_URL;
 import static nasirov.yv.utils.TestConstants.REGULAR_TITLE_ANIMEDIA_URL;
@@ -26,6 +28,7 @@ import static nasirov.yv.utils.TestConstants.REGULAR_TITLE_JISEDAI_URL;
 import static nasirov.yv.utils.TestConstants.REGULAR_TITLE_JUTSU_URL;
 import static nasirov.yv.utils.TestConstants.REGULAR_TITLE_MAL_ID;
 import static nasirov.yv.utils.TestConstants.REGULAR_TITLE_NINE_ANIME_URL;
+import static nasirov.yv.utils.TestConstants.REGULAR_TITLE_SOVET_ROMANTICA_URL;
 
 import com.google.common.collect.Lists;
 import java.util.Collections;
@@ -81,6 +84,11 @@ public class CommonTitleTestBuilder {
 				regular = getNineAnimeRegular();
 				concretized = getNineAnimeConcretized();
 				notFoundOnMal = getNineAnimeNotFoundOnMal();
+				break;
+			case SOVETROMANTICA:
+				regular = getSovetRomanticaRegular();
+				concretized = getSovetRomanticaConcretized();
+				notFoundOnMal = getSovetRomanticaNotFoundOnMal();
 				break;
 			default:
 				break;
@@ -158,6 +166,18 @@ public class CommonTitleTestBuilder {
 	}
 	public static CommonTitle getNineAnimeNotFoundOnMal() {
 		return getNotFoundOnMal(NOT_FOUND_ON_MAL_TITLE_NINE_ANIME_URL, null);
+	}
+
+	public static CommonTitle getSovetRomanticaRegular() {
+		return getRegular(REGULAR_TITLE_SOVET_ROMANTICA_URL, null, buildEpisodeUrl(REGULAR_TITLE_SOVET_ROMANTICA_URL + "/episode_1-subtitles", null));
+	}
+	public static CommonTitle getSovetRomanticaConcretized() {
+		return getConcretized(CONCRETIZED_TITLE_SOVET_ROMANTICA_URL,
+				null,
+				buildEpisodeUrl(CONCRETIZED_TITLE_SOVET_ROMANTICA_URL + "/episode_1-subtitles", null));
+	}
+	public static CommonTitle getSovetRomanticaNotFoundOnMal() {
+		return getNotFoundOnMal(NOT_FOUND_ON_MAL_TITLE_SOVET_ROMANTICA_URL, null);
 	}
 
 	public static CommonTitle getRegular(String url, Integer dataList, String episodeUrl) {

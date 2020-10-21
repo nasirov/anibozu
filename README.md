@@ -32,6 +32,9 @@ The application analyzes an user watching titles list from **[MyAnimeList](https
   <tr>
     <td><a href="https://www12.9anime.to/"><img src="https://www.google.com/s2/favicons?domain=https://www12.9anime.to/" alt="9anime"> 9Anime</a></td>
   </tr>
+  <tr>
+    <td><a href="https://sovetromantica.com/"><img src="https://www.google.com/s2/favicons?domain=https://sovetromantica.com/" alt="sovetRomantica"> SovetRomantica</a></td>
+  </tr>
   </tbody>
 </table>
 
