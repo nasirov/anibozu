@@ -32,12 +32,21 @@ github-feign-client:
   ribbon:
     retryableStatusCodes: 404, 500, 502, 503, 504
 
+sovet-romantica-feign-client:
+  ribbon:
+    ReadTimeout: 10000
+
+shiza-project-feign-client:
+  ribbon:
+    ReadTimeout: 10000
+
 ribbon:
   eureka:
     enabled: false
   ConnectTimeout: 5000
   ReadTimeout: 5000
-  MaxAutoRetries: 2
+  MaxAutoRetries: 4
+  MaxAutoRetriesNextServer: 0
 
 feign:
   hystrix:
@@ -47,9 +56,8 @@ hystrix:
   command:
     default:
       execution:
-        isolation:
-          thread:
-            timeoutInMilliseconds: 5000
+        timeout:
+          enabled: false
 
 spring:
   application:
