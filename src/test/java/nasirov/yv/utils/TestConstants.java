@@ -17,6 +17,7 @@ public class TestConstants {
 	public static final String REGULAR_TITLE_NINE_ANIME_ID = "1rtu";
 	public static final String REGULAR_TITLE_NINE_ANIME_URL = "watch/regular-title-url." + REGULAR_TITLE_NINE_ANIME_ID;
 	public static final String REGULAR_TITLE_SOVET_ROMANTICA_URL = "anime/1-regular-title-url";
+	public static final String REGULAR_TITLE_SHIZA_PROJECT_URL = "releases/view/1";
 	public static final String REGULAR_TITLE_POSTER_URL = "images/anime/2/regularTitle.jpg";
 	public static final String REGULAR_TITLE_MAL_ANIME_URL = "/anime/2/regular%20title%20name";
 
@@ -34,6 +35,7 @@ public class TestConstants {
 	public static final String CONCRETIZED_TITLE_JUTSU_URL = "2-concretized-title-url";
 	public static final String CONCRETIZED_TITLE_NINE_ANIME_URL = "watch/concretized-title-url.2ctu";
 	public static final String CONCRETIZED_TITLE_SOVET_ROMANTICA_URL = "anime/2-concretized-title-url";
+	public static final String CONCRETIZED_TITLE_SHIZA_PROJECT_URL = "releases/view/2";
 	public static final String CONCRETIZED_TITLE_POSTER_URL = "images/anime/3/concretizedTitle.jpg";
 	public static final String CONCRETIZED_TITLE_MAL_ANIME_URL = "/anime/3/concretizedTitle";
 
@@ -51,6 +53,7 @@ public class TestConstants {
 	public static final String NOT_FOUND_ON_MAL_TITLE_JUTSU_URL = "3-not-found-on-mal-title-url";
 	public static final String NOT_FOUND_ON_MAL_TITLE_NINE_ANIME_URL = "watch/not-found-on-mal-title-url.3nfomtu";
 	public static final String NOT_FOUND_ON_MAL_TITLE_SOVET_ROMANTICA_URL = "anime/3-not-found-on-mal-title-url";
+	public static final String NOT_FOUND_ON_MAL_TITLE_SHIZA_PROJECT_URL = "releases/view/3";
 	public static final String NOT_FOUND_ON_MAL_TITLE_POSTER_URL = "images/anime/4/notFoundOnMalTitle.jpg";
 	public static final String NOT_FOUND_ON_MAL_TITLE_MAL_ANIME_URL = "/anime/4/notFoundOnMalTitle";
 
@@ -69,6 +72,7 @@ public class TestConstants {
 	public static final String ANILIBRIA_URL = "https://www.anilibria.tv/";
 	public static final String JUTSU_URL = "https://jut.su/";
 	public static final String SOVET_ROMANTICA_URL = "https://sovetromantica.com/";
+	public static final String SHIZA_PROJECT_URL = "http://shiza-project.com/";
 
 	public static final int TEST_ACC_WATCHING_TITLES = 2;
 	public static final String TEST_ACC_FOR_DEV = "testaccfordev";

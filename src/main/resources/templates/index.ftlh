@@ -63,6 +63,11 @@
                    value="${sovetRomantica}"/>
             <span>SovetRomantica</span>
           </label>
+          <label>
+              <@spring.bind "malUser.fanDubSources"/>
+            <input id="shizaProject-checkbox" type="checkbox" class="nes-checkbox" name="fanDubSources" checked="checked" value="${shizaProject}"/>
+            <span>ShizaProject</span>
+          </label>
           <button type="submit" class="nes-btn is-primary">Search for new episodes</button>
         </form>
       </div>

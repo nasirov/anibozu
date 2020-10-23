@@ -9,6 +9,7 @@ import static nasirov.yv.fandub.service.spring.boot.starter.constant.FanDubSourc
 import static nasirov.yv.fandub.service.spring.boot.starter.constant.FanDubSource.JISEDAI;
 import static nasirov.yv.fandub.service.spring.boot.starter.constant.FanDubSource.JUTSU;
 import static nasirov.yv.fandub.service.spring.boot.starter.constant.FanDubSource.NINEANIME;
+import static nasirov.yv.fandub.service.spring.boot.starter.constant.FanDubSource.SHIZAPROJECT;
 import static nasirov.yv.fandub.service.spring.boot.starter.constant.FanDubSource.SOVETROMANTICA;
 import static nasirov.yv.util.MalUtils.getNextEpisodeForWatch;
 import static nasirov.yv.utils.TestConstants.ANIDUB_URL;
@@ -60,6 +61,7 @@ import nasirov.yv.service.impl.fandub.animepik.AnimepikEpisodeUrlService;
 import nasirov.yv.service.impl.fandub.jisedai.JisedaiEpisodeUrlService;
 import nasirov.yv.service.impl.fandub.jutsu.JutsuEpisodeUrlService;
 import nasirov.yv.service.impl.fandub.nine_anime.NineAnimeEpisodeUrlService;
+import nasirov.yv.service.impl.fandub.shiza_project.ShizaProjectEpisodeUrlService;
 import nasirov.yv.service.impl.fandub.sovet_romantica.SovetRomanticaEpisodeUrlService;
 import org.junit.Before;
 import org.junit.Test;
@@ -92,6 +94,8 @@ public class AnimeServiceTest {
 
 	private static final String EPISODE_URL_ON_SOVET_ROMANTICA = SOVET_ROMANTICA_URL + REGULAR_TITLE_SOVET_ROMANTICA_URL + "/episode_1-subtitles";
 
+	private static final String EPISODE_URL_ON_SHIZA_PROJECT = "https://video.sibnet.ru/shell.php?videoid=123";
+
 	private AnimediaEpisodeUrlService animediaEpisodeUrlService = PowerMockito.mock(AnimediaEpisodeUrlService.class);
 
 	private NineAnimeEpisodeUrlService nineAnimeEpisodeUrlService = PowerMockito.mock(NineAnimeEpisodeUrlService.class);
@@ -108,6 +112,8 @@ public class AnimeServiceTest {
 
 	private SovetRomanticaEpisodeUrlService sovetRomanticaEpisodeUrlService = PowerMockito.mock(SovetRomanticaEpisodeUrlService.class);
 
+	private ShizaProjectEpisodeUrlService shizaProjectEpisodeUrlService = PowerMockito.mock(ShizaProjectEpisodeUrlService.class);
+
 	private AnimeServiceI animeService;
 
 	@Before
@@ -121,6 +127,7 @@ public class AnimeServiceTest {
 		episodeUrlStrategy.put(ANILIBRIA, anilibriaEpisodeUrlService);
 		episodeUrlStrategy.put(JUTSU, jutsuEpisodeUrlService);
 		episodeUrlStrategy.put(SOVETROMANTICA, sovetRomanticaEpisodeUrlService);
+		episodeUrlStrategy.put(SHIZAPROJECT, shizaProjectEpisodeUrlService);
 		animeService = new AnimeService(episodeUrlStrategy);
 	}
 
@@ -149,8 +156,10 @@ public class AnimeServiceTest {
 				EPISODE_URL_ON_ANIMEPIK,
 				EPISODE_URL_ON_ANILIBRIA,
 				EPISODE_URL_ON_JUTSU,
-				EPISODE_URL_ON_SOVET_ROMANTICA);
+				EPISODE_URL_ON_SOVET_ROMANTICA,
+				EPISODE_URL_ON_SHIZA_PROJECT);
 		mockEpisodeUrlServices(buildConcretizedTitle(),
+				FINAL_URL_VALUE_IF_EPISODE_IS_NOT_AVAILABLE,
 				FINAL_URL_VALUE_IF_EPISODE_IS_NOT_AVAILABLE,
 				FINAL_URL_VALUE_IF_EPISODE_IS_NOT_AVAILABLE,
 				FINAL_URL_VALUE_IF_EPISODE_IS_NOT_AVAILABLE,
@@ -167,6 +176,7 @@ public class AnimeServiceTest {
 				NOT_FOUND_ON_FANDUB_SITE_URL,
 				NOT_FOUND_ON_FANDUB_SITE_URL,
 				NOT_FOUND_ON_FANDUB_SITE_URL,
+				NOT_FOUND_ON_FANDUB_SITE_URL,
 				NOT_FOUND_ON_FANDUB_SITE_URL);
 	}
 
@@ -176,7 +186,7 @@ public class AnimeServiceTest {
 
 	private void mockEpisodeUrlServices(MalTitle watchingTitle, String episodeUrlOnAnimedia, String episodeUrlOnNineAnime, String episodeUrlOnAnidub,
 			String episodeUrlOnJisedai, String episodeUrlOnAnimepik, String episodeUrlOnAnilibria, String episodeUrlOnJutsu,
-			String episodeUrlOnSovetRomantica) {
+			String episodeUrlOnSovetRomantica, String episodeUrlOnShizaProject) {
 		doReturn(episodeUrlOnAnimedia).when(animediaEpisodeUrlService)
 				.getEpisodeUrl(ANIMEDIA, watchingTitle);
 		doReturn(episodeUrlOnNineAnime).when(nineAnimeEpisodeUrlService)
@@ -193,6 +203,8 @@ public class AnimeServiceTest {
 				.getEpisodeUrl(JUTSU, watchingTitle);
 		doReturn(episodeUrlOnSovetRomantica).when(sovetRomanticaEpisodeUrlService)
 				.getEpisodeUrl(SOVETROMANTICA, watchingTitle);
+		doReturn(episodeUrlOnShizaProject).when(shizaProjectEpisodeUrlService)
+				.getEpisodeUrl(SHIZAPROJECT, watchingTitle);
 	}
 
 	private Set<Anime> buildExpectedAnime() {
@@ -204,8 +216,10 @@ public class AnimeServiceTest {
 				EPISODE_URL_ON_ANIMEPIK,
 				EPISODE_URL_ON_ANILIBRIA,
 				EPISODE_URL_ON_JUTSU,
-				EPISODE_URL_ON_SOVET_ROMANTICA),
+				EPISODE_URL_ON_SOVET_ROMANTICA,
+				EPISODE_URL_ON_SHIZA_PROJECT),
 				buildAnime(buildConcretizedTitle(),
+						FINAL_URL_VALUE_IF_EPISODE_IS_NOT_AVAILABLE,
 						FINAL_URL_VALUE_IF_EPISODE_IS_NOT_AVAILABLE,
 						FINAL_URL_VALUE_IF_EPISODE_IS_NOT_AVAILABLE,
 						FINAL_URL_VALUE_IF_EPISODE_IS_NOT_AVAILABLE,
@@ -222,12 +236,13 @@ public class AnimeServiceTest {
 						NOT_FOUND_ON_FANDUB_SITE_URL,
 						NOT_FOUND_ON_FANDUB_SITE_URL,
 						NOT_FOUND_ON_FANDUB_SITE_URL,
+						NOT_FOUND_ON_FANDUB_SITE_URL,
 						NOT_FOUND_ON_FANDUB_SITE_URL));
 	}
 
 	private Anime buildAnime(MalTitle watchingTitle, String episodeUrlOnAnimedia, String episodeUrlOnNineAnime, String episodeUrlOnAnidub,
 			String episodeUrlOnJisedai, String episodeUrlOnAnimepik, String episodeUrlOnAnilibria, String episodeUrlOnJutsu,
-			String episodeUrlOnSovetRomantica) {
+			String episodeUrlOnSovetRomantica, String episodeUrlOnShizaProject) {
 		return Anime.builder()
 				.animeName(watchingTitle.getName())
 				.episode(getNextEpisodeForWatch(watchingTitle).toString())
@@ -241,6 +256,7 @@ public class AnimeServiceTest {
 				.fanDubUrl(ANILIBRIA, episodeUrlOnAnilibria)
 				.fanDubUrl(JUTSU, episodeUrlOnJutsu)
 				.fanDubUrl(SOVETROMANTICA, episodeUrlOnSovetRomantica)
+				.fanDubUrl(SHIZAPROJECT, episodeUrlOnShizaProject)
 				.build();
 	}
 

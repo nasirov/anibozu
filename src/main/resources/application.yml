@@ -11,7 +11,7 @@ application:
     github:
       name: github
       ttl: 3600
-      max-entity-count: 8
+      max-entity-count: 9
     sse:
       name: sse
       ttl: 300

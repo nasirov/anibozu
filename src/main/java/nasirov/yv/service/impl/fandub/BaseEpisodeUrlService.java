@@ -61,7 +61,7 @@ public abstract class BaseEpisodeUrlService implements EpisodeUrlServiceI {
 
 	protected abstract List<FandubEpisode> getEpisodes(CommonTitle commonTitle);
 
-	private String buildUrl(Integer nextEpisodeForWatch, List<CommonTitle> matchedTitles, String fandubUrl) {
+	protected String buildUrl(Integer nextEpisodeForWatch, List<CommonTitle> matchedTitles, String fandubUrl) {
 		return matchedTitles.stream()
 				.map(CommonTitle::getEpisodes)
 				.flatMap(List::stream)
@@ -71,7 +71,7 @@ public abstract class BaseEpisodeUrlService implements EpisodeUrlServiceI {
 				.orElseGet(() -> buildUrlAlt(nextEpisodeForWatch, matchedTitles, fandubUrl));
 	}
 
-	private String buildUrlAlt(Integer nextEpisodeForWatch, List<CommonTitle> matchedTitles, String fandubUrl) {
+	protected String buildUrlAlt(Integer nextEpisodeForWatch, List<CommonTitle> matchedTitles, String fandubUrl) {
 		return Optional.of(matchedTitles)
 				.map(this::extractRegularTitles)
 				.filter(CollectionUtils::isNotEmpty)

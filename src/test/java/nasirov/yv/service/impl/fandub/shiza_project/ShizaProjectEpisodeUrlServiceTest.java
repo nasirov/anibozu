@@ -1,10 +1,10 @@
-package nasirov.yv.service.impl.fandub.sovet_romantica;
+package nasirov.yv.service.impl.fandub.shiza_project;
 
 import static nasirov.yv.data.constants.BaseConstants.FINAL_URL_VALUE_IF_EPISODE_IS_NOT_AVAILABLE;
 import static nasirov.yv.data.constants.BaseConstants.NOT_FOUND_ON_FANDUB_SITE_URL;
 import static nasirov.yv.utils.TestConstants.REGULAR_TITLE_MAL_ID;
-import static nasirov.yv.utils.TestConstants.REGULAR_TITLE_SOVET_ROMANTICA_URL;
-import static nasirov.yv.utils.TestConstants.SOVET_ROMANTICA_URL;
+import static nasirov.yv.utils.TestConstants.REGULAR_TITLE_SHIZA_PROJECT_URL;
+import static nasirov.yv.utils.TestConstants.SHIZA_PROJECT_URL;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.ArgumentMatchers.argThat;
 import static org.mockito.Mockito.doReturn;
@@ -17,8 +17,8 @@ import nasirov.yv.fandub.service.spring.boot.starter.constant.FanDubSource;
 import nasirov.yv.fandub.service.spring.boot.starter.dto.fandub.common.CommonTitle;
 import nasirov.yv.fandub.service.spring.boot.starter.dto.fandub.common.FandubEpisode;
 import nasirov.yv.fandub.service.spring.boot.starter.dto.mal.MalTitle;
-import nasirov.yv.fandub.service.spring.boot.starter.extractor.parser.SovetRomanticaParserI;
-import nasirov.yv.fandub.service.spring.boot.starter.feign.fandub.sovet_romantica.SovetRomanticaFeignClient;
+import nasirov.yv.fandub.service.spring.boot.starter.extractor.parser.ShizaProjectParserI;
+import nasirov.yv.fandub.service.spring.boot.starter.feign.fandub.shiza_project.ShizaProjectFeignClient;
 import nasirov.yv.fandub.service.spring.boot.starter.properties.FanDubProps;
 import nasirov.yv.service.TitlesServiceI;
 import nasirov.yv.utils.CommonTitleTestBuilder;
@@ -33,7 +33,7 @@ import org.mockito.junit.MockitoJUnitRunner;
  * Created by nasirov.yv
  */
 @RunWith(MockitoJUnitRunner.class)
-public class SovetRomanticaEpisodeUrlServiceTest {
+public class ShizaProjectEpisodeUrlServiceTest {
 
 	@Mock
 	private TitlesServiceI titlesService;
@@ -42,39 +42,39 @@ public class SovetRomanticaEpisodeUrlServiceTest {
 	private FanDubProps fanDubProps;
 
 	@Mock
-	private SovetRomanticaFeignClient sovetRomanticaFeignClient;
+	private ShizaProjectFeignClient shizaProjectFeignClient;
 
 	@Mock
-	private SovetRomanticaParserI sovetRomanticaParser;
+	private ShizaProjectParserI shizaProjectParser;
 
 	@InjectMocks
-	private SovetRomanticaEpisodeUrlService sovetRomanticaEpisodeUrlService;
+	private ShizaProjectEpisodeUrlService shizaProjectEpisodeUrlService;
 
 	@Test
 	public void shouldReturnUrlWithAvailableEpisode() {
 		//given
 		mockFandubUrlsMap();
-		mockTitleService(getMappedTitlesByMalId(Lists.newArrayList(CommonTitleTestBuilder.getSovetRomanticaRegular())));
+		mockTitleService(getMappedTitlesByMalId(Lists.newArrayList(CommonTitleTestBuilder.getShizaProjectRegular())));
 		MalTitle malTitle = buildWatchingTitle(REGULAR_TITLE_MAL_ID, 0);
 		//when
-		String actualUrl = sovetRomanticaEpisodeUrlService.getEpisodeUrl(FanDubSource.SOVETROMANTICA, malTitle);
+		String actualUrl = shizaProjectEpisodeUrlService.getEpisodeUrl(FanDubSource.SHIZAPROJECT, malTitle);
 		//then
-		assertEquals(SOVET_ROMANTICA_URL + REGULAR_TITLE_SOVET_ROMANTICA_URL + "/episode_1-subtitles", actualUrl);
+		assertEquals("https://video.sibnet.ru/shell.php?videoid=123", actualUrl);
 	}
 
 	@Test
 	public void shouldReturnUrlWithAvailableEpisodeInRuntime() {
 		//given
 		mockFandubUrlsMap();
-		mockTitleService(getMappedTitlesByMalId(Lists.newArrayList(CommonTitleTestBuilder.getSovetRomanticaRegular())));
+		mockTitleService(getMappedTitlesByMalId(Lists.newArrayList(CommonTitleTestBuilder.getShizaProjectRegular())));
 		String htmlWithTitleEpisodes = "foobar";
 		mockGetTitleEpisodes(htmlWithTitleEpisodes);
 		mockParser(htmlWithTitleEpisodes);
 		MalTitle malTitle = buildWatchingTitle(REGULAR_TITLE_MAL_ID, 1);
 		//when
-		String actualUrl = sovetRomanticaEpisodeUrlService.getEpisodeUrl(FanDubSource.SOVETROMANTICA, malTitle);
+		String actualUrl = shizaProjectEpisodeUrlService.getEpisodeUrl(FanDubSource.SHIZAPROJECT, malTitle);
 		//then
-		assertEquals(SOVET_ROMANTICA_URL + REGULAR_TITLE_SOVET_ROMANTICA_URL + "/episode_2-subtitles", actualUrl);
+		assertEquals("https://video.sibnet.ru/shell.php?videoid=456", actualUrl);
 	}
 
 	@Test
@@ -84,7 +84,7 @@ public class SovetRomanticaEpisodeUrlServiceTest {
 		int notFoundOnFandubMalId = 42;
 		MalTitle malTitle = buildWatchingTitle(notFoundOnFandubMalId, 0);
 		//when
-		String actualUrl = sovetRomanticaEpisodeUrlService.getEpisodeUrl(FanDubSource.SOVETROMANTICA, malTitle);
+		String actualUrl = shizaProjectEpisodeUrlService.getEpisodeUrl(FanDubSource.SHIZAPROJECT, malTitle);
 		//then
 		assertEquals(NOT_FOUND_ON_FANDUB_SITE_URL, actualUrl);
 	}
@@ -93,10 +93,10 @@ public class SovetRomanticaEpisodeUrlServiceTest {
 	public void shouldReturnFinalUrlValueIfEpisodeIsNotAvailable() {
 		//given
 		mockFandubUrlsMap();
-		mockTitleService(getMappedTitlesByMalId(Lists.newArrayList(CommonTitleTestBuilder.getSovetRomanticaConcretized())));
+		mockTitleService(getMappedTitlesByMalId(Lists.newArrayList(CommonTitleTestBuilder.getShizaProjectConcretized())));
 		MalTitle malTitle = buildWatchingTitle(REGULAR_TITLE_MAL_ID, 1);
 		//when
-		String actualUrl = sovetRomanticaEpisodeUrlService.getEpisodeUrl(FanDubSource.SOVETROMANTICA, malTitle);
+		String actualUrl = shizaProjectEpisodeUrlService.getEpisodeUrl(FanDubSource.SHIZAPROJECT, malTitle);
 		//then
 		assertEquals(FINAL_URL_VALUE_IF_EPISODE_IS_NOT_AVAILABLE, actualUrl);
 	}
@@ -105,38 +105,38 @@ public class SovetRomanticaEpisodeUrlServiceTest {
 	public void shouldReturnFinalUrlValueIfEpisodeIsNotAvailableInRuntime() {
 		//given
 		mockFandubUrlsMap();
-		mockTitleService(getMappedTitlesByMalId(Lists.newArrayList(CommonTitleTestBuilder.getSovetRomanticaRegular(),
-				CommonTitleTestBuilder.getSovetRomanticaConcretized())));
+		mockTitleService(getMappedTitlesByMalId(Lists.newArrayList(CommonTitleTestBuilder.getShizaProjectRegular(),
+				CommonTitleTestBuilder.getShizaProjectConcretized())));
 		String htmlWithTitleEpisodes = "foobar";
 		mockGetTitleEpisodes(htmlWithTitleEpisodes);
 		mockParser(htmlWithTitleEpisodes);
 		MalTitle malTitle = buildWatchingTitle(REGULAR_TITLE_MAL_ID, 2);
 		//when
-		String actualUrl = sovetRomanticaEpisodeUrlService.getEpisodeUrl(FanDubSource.SOVETROMANTICA, malTitle);
+		String actualUrl = shizaProjectEpisodeUrlService.getEpisodeUrl(FanDubSource.SHIZAPROJECT, malTitle);
 		//then
 		assertEquals(FINAL_URL_VALUE_IF_EPISODE_IS_NOT_AVAILABLE, actualUrl);
 	}
 
 	private void mockFandubUrlsMap() {
-		doReturn(Maps.newHashMap(FanDubSource.SOVETROMANTICA, SOVET_ROMANTICA_URL)).when(fanDubProps)
+		doReturn(Maps.newHashMap(FanDubSource.SHIZAPROJECT, SHIZA_PROJECT_URL)).when(fanDubProps)
 				.getUrls();
 	}
 
 	private void mockParser(String htmlWithTitleEpisodes) {
 		List<FandubEpisode> fandubEpisodes = getFandubEpisodes();
-		doReturn(fandubEpisodes).when(sovetRomanticaParser)
+		doReturn(fandubEpisodes).when(shizaProjectParser)
 				.extractEpisodes(argThat(x -> x.text()
 						.equals(htmlWithTitleEpisodes)));
 	}
 
 	private void mockTitleService(Map<Integer, List<CommonTitle>> mappedTitlesByMalId) {
 		doReturn(mappedTitlesByMalId).when(titlesService)
-				.getTitles(FanDubSource.SOVETROMANTICA);
+				.getTitles(FanDubSource.SHIZAPROJECT);
 	}
 
 	private void mockGetTitleEpisodes(String htmlWithTitleEpisodes) {
-		doReturn(htmlWithTitleEpisodes).when(sovetRomanticaFeignClient)
-				.getTitlePage(REGULAR_TITLE_SOVET_ROMANTICA_URL);
+		doReturn(htmlWithTitleEpisodes).when(shizaProjectFeignClient)
+				.getTitlePage(REGULAR_TITLE_SHIZA_PROJECT_URL);
 	}
 
 	private Map<Integer, List<CommonTitle>> getMappedTitlesByMalId(List<CommonTitle> commonTitles) {
@@ -147,16 +147,16 @@ public class SovetRomanticaEpisodeUrlServiceTest {
 
 	private List<FandubEpisode> getFandubEpisodes() {
 		return Lists.newArrayList(FandubEpisode.builder()
-						.name("Эпизод 1")
+						.name("01, video.sibnet.ru")
 						.id(1)
 						.number("1")
-						.url(REGULAR_TITLE_SOVET_ROMANTICA_URL + "/episode_1-subtitles")
+						.url("https://video.sibnet.ru/shell.php?videoid=123")
 						.build(),
 				FandubEpisode.builder()
-						.name("Эпизод 2")
+						.name("02, video.sibnet.ru")
 						.id(2)
 						.number("2")
-						.url(REGULAR_TITLE_SOVET_ROMANTICA_URL + "/episode_2-subtitles")
+						.url("https://video.sibnet.ru/shell.php?videoid=456")
 						.build());
 	}
 

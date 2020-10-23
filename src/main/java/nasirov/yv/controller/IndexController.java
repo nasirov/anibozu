@@ -8,6 +8,7 @@ import static nasirov.yv.fandub.service.spring.boot.starter.constant.FanDubSourc
 import static nasirov.yv.fandub.service.spring.boot.starter.constant.FanDubSource.JISEDAI;
 import static nasirov.yv.fandub.service.spring.boot.starter.constant.FanDubSource.JUTSU;
 import static nasirov.yv.fandub.service.spring.boot.starter.constant.FanDubSource.NINEANIME;
+import static nasirov.yv.fandub.service.spring.boot.starter.constant.FanDubSource.SHIZAPROJECT;
 import static nasirov.yv.fandub.service.spring.boot.starter.constant.FanDubSource.SOVETROMANTICA;
 
 import nasirov.yv.data.mal.MalUser;
@@ -34,6 +35,7 @@ public class IndexController {
 		model.addAttribute(JUTSU.getName(), JUTSU);
 		model.addAttribute(NINEANIME.getName(), NINEANIME);
 		model.addAttribute(SOVETROMANTICA.getName(), SOVETROMANTICA);
+		model.addAttribute(SHIZAPROJECT.getName(), SHIZAPROJECT);
 		return "index";
 	}
 }
