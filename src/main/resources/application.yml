@@ -2,7 +2,10 @@ application:
   logo:
     name: anime-checker-logo.txt
   services:
-    applicationLogoPrinter-enabled: true
+    applicationLogoPrinter:
+      enabled: true
+    cacheFillerService:
+      enabled: true
   cache:
     mal:
       name: mal

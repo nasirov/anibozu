@@ -12,7 +12,7 @@
 
   <groupId>nasirov.yv</groupId>
   <artifactId>anime-checker</artifactId>
-  <version>3.2.1</version>
+  <version>3.2.2</version>
   <name>anime-checker</name>
   <description>The application analyzes an user watching titles list from MyAnimeList(https://myanimelist.net/) and searches for new episodes on
     FanDub Sites

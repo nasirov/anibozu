@@ -16,7 +16,7 @@ import org.springframework.stereotype.Service;
  * Created by nasirov.yv
  */
 @Service
-@ConditionalOnProperty(name = "application.services.applicationLogoPrinter-enabled", havingValue = "true")
+@ConditionalOnProperty(name = "application.services.applicationLogoPrinter.enabled", havingValue = "true")
 public class ApplicationLogoPrinter implements ApplicationLogoPrinterI {
 
 	@Value("classpath:${application.logo.name}")

@@ -3,3 +3,6 @@ application:
     offset-step: 2
   fandub-support:
     disabled-fandub:
+  services:
+    cacheFillerService:
+      enabled: false
