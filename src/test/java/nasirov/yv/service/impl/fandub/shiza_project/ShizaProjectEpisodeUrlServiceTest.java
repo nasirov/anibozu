@@ -59,7 +59,7 @@ public class ShizaProjectEpisodeUrlServiceTest {
 		//when
 		String actualUrl = shizaProjectEpisodeUrlService.getEpisodeUrl(FanDubSource.SHIZAPROJECT, malTitle);
 		//then
-		assertEquals("https://video.sibnet.ru/shell.php?videoid=123", actualUrl);
+		assertEquals(SHIZA_PROJECT_URL + REGULAR_TITLE_SHIZA_PROJECT_URL + "#online-1", actualUrl);
 	}
 
 	@Test
@@ -74,7 +74,7 @@ public class ShizaProjectEpisodeUrlServiceTest {
 		//when
 		String actualUrl = shizaProjectEpisodeUrlService.getEpisodeUrl(FanDubSource.SHIZAPROJECT, malTitle);
 		//then
-		assertEquals("https://video.sibnet.ru/shell.php?videoid=456", actualUrl);
+		assertEquals(SHIZA_PROJECT_URL + REGULAR_TITLE_SHIZA_PROJECT_URL + "#online-2", actualUrl);
 	}
 
 	@Test
@@ -150,13 +150,13 @@ public class ShizaProjectEpisodeUrlServiceTest {
 						.name("01, video.sibnet.ru")
 						.id(1)
 						.number("1")
-						.url("https://video.sibnet.ru/shell.php?videoid=123")
+						.url(REGULAR_TITLE_SHIZA_PROJECT_URL + "#online-1")
 						.build(),
 				FandubEpisode.builder()
 						.name("02, video.sibnet.ru")
 						.id(2)
 						.number("2")
-						.url("https://video.sibnet.ru/shell.php?videoid=456")
+						.url(REGULAR_TITLE_SHIZA_PROJECT_URL + "#online-2")
 						.build());
 	}
 

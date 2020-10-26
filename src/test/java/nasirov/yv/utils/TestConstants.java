@@ -33,7 +33,8 @@ public class TestConstants {
 	public static final String CONCRETIZED_TITLE_ANILIBRIA_URL = "release/2-concretized-title-url.html";
 	public static final String CONCRETIZED_TITLE_JISEDAI_URL = "anime/2-concretized-title-url";
 	public static final String CONCRETIZED_TITLE_JUTSU_URL = "2-concretized-title-url";
-	public static final String CONCRETIZED_TITLE_NINE_ANIME_URL = "watch/concretized-title-url.2ctu";
+	public static final String CONCRETIZED_TITLE_NINE_ANIME_ID = "2ctu";
+	public static final String CONCRETIZED_TITLE_NINE_ANIME_URL = "watch/concretized-title-url." + CONCRETIZED_TITLE_NINE_ANIME_ID;
 	public static final String CONCRETIZED_TITLE_SOVET_ROMANTICA_URL = "anime/2-concretized-title-url";
 	public static final String CONCRETIZED_TITLE_SHIZA_PROJECT_URL = "releases/view/2";
 	public static final String CONCRETIZED_TITLE_POSTER_URL = "images/anime/3/concretizedTitle.jpg";
@@ -51,7 +52,8 @@ public class TestConstants {
 	public static final String NOT_FOUND_ON_MAL_TITLE_ANILIBRIA_URL = "release/3-not-found-on-mal-title-url.html";
 	public static final String NOT_FOUND_ON_MAL_TITLE_JISEDAI_URL = "anime/3-not-found-on-mal-title-url";
 	public static final String NOT_FOUND_ON_MAL_TITLE_JUTSU_URL = "3-not-found-on-mal-title-url";
-	public static final String NOT_FOUND_ON_MAL_TITLE_NINE_ANIME_URL = "watch/not-found-on-mal-title-url.3nfomtu";
+	public static final String NOT_FOUND_ON_MAL_TITLE_NINE_ANIME_ID = "3nfomtu";
+	public static final String NOT_FOUND_ON_MAL_TITLE_NINE_ANIME_URL = "watch/not-found-on-mal-title-url." + NOT_FOUND_ON_MAL_TITLE_NINE_ANIME_ID;
 	public static final String NOT_FOUND_ON_MAL_TITLE_SOVET_ROMANTICA_URL = "anime/3-not-found-on-mal-title-url";
 	public static final String NOT_FOUND_ON_MAL_TITLE_SHIZA_PROJECT_URL = "releases/view/3";
 	public static final String NOT_FOUND_ON_MAL_TITLE_POSTER_URL = "images/anime/4/notFoundOnMalTitle.jpg";

@@ -47,8 +47,7 @@ public class NineAnimeEpisodeUrlService extends BaseEpisodeUrlService {
 
 	@Override
 	protected List<FandubEpisode> getEpisodes(CommonTitle commonTitle) {
-		String dataId = nineAnimeParser.extractDataId(commonTitle.getUrl());
-		String htmlWithTitleEpisodes = nineAnimeService.getTitleEpisodes(dataId);
+		String htmlWithTitleEpisodes = nineAnimeService.getTitleEpisodes(commonTitle.getDataId());
 		Document document = Jsoup.parse(htmlWithTitleEpisodes);
 		return nineAnimeParser.extractEpisodes(document);
 	}

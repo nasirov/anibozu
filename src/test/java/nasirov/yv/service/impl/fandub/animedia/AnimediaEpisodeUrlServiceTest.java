@@ -143,8 +143,8 @@ public class AnimediaEpisodeUrlServiceTest {
 		Map<Integer, List<CommonTitle>> map = new HashMap<>();
 		map.put(REGULAR_TITLE_MAL_ID,
 				Lists.newArrayList(CommonTitleTestBuilder.getAnimediaRegular(),
-						CommonTitleTestBuilder.getRegular(REGULAR_TITLE_ANIMEDIA_URL, 0, buildEpisodeUrl(REGULAR_TITLE_ANIMEDIA_URL, 0)),
-						CommonTitleTestBuilder.getConcretized(REGULAR_TITLE_ANIMEDIA_URL, 2, buildEpisodeUrl(REGULAR_TITLE_ANIMEDIA_URL, 2))));
+						CommonTitleTestBuilder.getRegular(REGULAR_TITLE_ANIMEDIA_URL, 0, buildEpisodeUrl(REGULAR_TITLE_ANIMEDIA_URL, 0), null),
+						CommonTitleTestBuilder.getConcretized(REGULAR_TITLE_ANIMEDIA_URL, 2, buildEpisodeUrl(REGULAR_TITLE_ANIMEDIA_URL, 2), null)));
 		return map;
 	}
 
@@ -152,8 +152,8 @@ public class AnimediaEpisodeUrlServiceTest {
 		Map<Integer, List<CommonTitle>> map = new HashMap<>();
 		map.put(REGULAR_TITLE_MAL_ID,
 				Lists.newArrayList(CommonTitleTestBuilder.getAnimediaConcretized(),
-						CommonTitleTestBuilder.getConcretized(REGULAR_TITLE_ANIMEDIA_URL, 0, buildEpisodeUrl(REGULAR_TITLE_ANIMEDIA_URL, 0)),
-						CommonTitleTestBuilder.getConcretized(REGULAR_TITLE_ANIMEDIA_URL, 2, buildEpisodeUrl(REGULAR_TITLE_ANIMEDIA_URL, 2))));
+						CommonTitleTestBuilder.getConcretized(REGULAR_TITLE_ANIMEDIA_URL, 0, buildEpisodeUrl(REGULAR_TITLE_ANIMEDIA_URL, 0), null),
+						CommonTitleTestBuilder.getConcretized(REGULAR_TITLE_ANIMEDIA_URL, 2, buildEpisodeUrl(REGULAR_TITLE_ANIMEDIA_URL, 2), null)));
 		return map;
 	}
 

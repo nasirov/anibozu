@@ -128,8 +128,6 @@ public class NineAnimeEpisodeUrlServiceTest {
 		doReturn(fandubEpisodes).when(nineAnimeParserI)
 				.extractEpisodes(argThat(x -> x.text()
 						.equals(htmlWithTitleEpisodes)));
-		doReturn(REGULAR_TITLE_NINE_ANIME_ID).when(nineAnimeParserI)
-				.extractDataId(REGULAR_TITLE_NINE_ANIME_URL);
 	}
 
 	private void mockTitleService(Map<Integer, List<CommonTitle>> mappedTitlesByMalId) {
