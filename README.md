@@ -7,39 +7,55 @@
 
 The application analyzes an user watching titles list from **[MyAnimeList](https://myanimelist.net/)** and searches for new episodes on FanDub Sites.
 
-# Supported FanDub Sites
-
 <table>
   <tbody>
   <tr>
-    <td><a href="https://online.animedia.tv"><img src="https://www.google.com/s2/favicons?domain=https://online.animedia.tv" alt="animedia"> Animedia</a></td>
-  </tr>
-  <tr>
-    <td><a href="https://anime.anidub.life/"><img src="https://www.google.com/s2/favicons?domain=https://anime.anidub.life/" alt="anidub"> Anidub</a></td>
-  </tr>
-  <tr>
-    <td><a href="https://jisedai.tv/"><img src="https://www.google.com/s2/favicons?domain=https://jisedai.tv/" alt="jesidai"> Jesidai</a></td>
-  </tr>
-  <tr>
-    <td><a href="https://animepik.org/"><img src="https://www.google.com/s2/favicons?domain=https://animepik.org/" alt="animepik"> AnimePiK</a></td>
-  </tr>
-  <tr>
-    <td><a href="https://www.anilibria.tv/"><img src="https://www.google.com/s2/favicons?domain=https://www.anilibria.tv/" alt="anilibria"> Anilibria</a></td>
-  </tr>
-  <tr>
-    <td><a href="https://jut.su/"><img src="https://www.google.com/s2/favicons?domain=https://jut.su/" alt="jutsu"> Jutsu</a></td>
+    <th>Supported FanDub Sites</th>
+    <th>Link Contains New Episode</th>
   </tr>
   <tr>
     <td><a href="https://www12.9anime.to/"><img src="https://www.google.com/s2/favicons?domain=https://www12.9anime.to/" alt="9anime"> 9Anime</a></td>
+    <td>:heavy_plus_sign:</td>
   </tr>
   <tr>
-    <td><a href="https://sovetromantica.com/"><img src="https://www.google.com/s2/favicons?domain=https://sovetromantica.com/" alt="sovetRomantica"> SovetRomantica</a></td>
+    <td><a href="https://anime.anidub.life/"><img src="https://www.google.com/s2/favicons?domain=https://anime.anidub.life/" alt="anidub"> Anidub</a></td>
+    <td>:heavy_minus_sign:</td>
+  </tr>
+  <tr>
+    <td><a href="https://www.anilibria.tv/"><img src="https://www.google.com/s2/favicons?domain=https://www.anilibria.tv/" alt="anilibria"> Anilibria</a></td>
+    <td>:heavy_minus_sign:</td>
+  </tr>
+  <tr>
+    <td><a href="https://animepik.org/"><img src="https://www.google.com/s2/favicons?domain=https://animepik.org/" alt="animepik"> AnimePiK</a></td>
+    <td>:heavy_minus_sign:</td>
+  </tr>
+  <tr>
+    <td><a href="https://online.animedia.tv"><img src="https://www.google.com/s2/favicons?domain=https://online.animedia.tv" alt="animedia"> Animedia</a></td>
+    <td>:heavy_plus_sign:</td>
+  </tr>
+  <tr>
+    <td><a href="https://jisedai.tv/"><img src="https://www.google.com/s2/favicons?domain=https://jisedai.tv/" alt="jesidai"> Jesidai</a></td>
+    <td>:heavy_minus_sign:</td>
+  </tr>
+  <tr>
+    <td><a href="https://jut.su/"><img src="https://www.google.com/s2/favicons?domain=https://jut.su/" alt="jutsu"> Jutsu</a></td>
+    <td>:heavy_plus_sign:</td>
   </tr>
   <tr>
     <td><a href="http://shiza-project.com/"><img src="https://www.google.com/s2/favicons?domain=http://shiza-project.com/" alt="shizaProject"> ShizaProject</a></td>
+    <td>:heavy_plus_sign:</td>
+  </tr>
+  <tr>
+    <td><a href="https://sovetromantica.com/"><img src="https://www.google.com/s2/favicons?domain=https://sovetromantica.com/" alt="sovetRomantica"> SovetRomantica</a></td>
+    <td>:heavy_plus_sign:</td>
   </tr>
   </tbody>
 </table>
+
+**There are two types of result links:**
+
+- a link that contains a new episode
+- a link to a whole title page which contains a new episode but needs to be chosen manually
 
 # Try It Out
 
