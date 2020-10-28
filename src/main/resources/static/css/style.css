@@ -8,12 +8,6 @@ a {
   outline: 0;
 }
 
-img {
-  display: block;
-  width: 100%;
-  height: 100%;
-}
-
 .nes-container:not(:last-child) {
   margin-bottom: 1rem;
 }
@@ -126,4 +120,24 @@ img {
 .outbound_link:hover {
   background-color: rgb(255, 192, 203);
   transform: scale(1.1);
+}
+
+.is_centered {
+  text-align: center;
+}
+
+.width_full {
+  width: 100%;
+}
+
+.height_full {
+  height: 100%;
+}
+
+.font_x-small {
+  font-size: x-small;
+}
+
+.is_left {
+  text-align: left;
 }

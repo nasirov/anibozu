@@ -21,7 +21,7 @@
   </#if>
     <span>
             <a href="/">
-                <button type="button" class="nes-btn is-primary">Home</button>
+                <button type="button" class="nes-btn is-primary width_full">Home</button>
             </a>
         </span>
   </div>

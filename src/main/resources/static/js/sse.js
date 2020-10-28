@@ -142,7 +142,7 @@ function buildItem() {
 }
 
 function buildImg(src, alt, title) {
-  return $('<img>')
+  return $('<img class="width_full height_full">')
   .attr('src', src)
   .attr('alt', alt)
   .attr('title', title);
