@@ -4,15 +4,14 @@
   <modelVersion>4.0.0</modelVersion>
 
   <parent>
-    <groupId>org.springframework.boot</groupId>
-    <artifactId>spring-boot-starter-parent</artifactId>
-    <version>2.2.2.RELEASE</version>
+    <groupId>nasirov.yv</groupId>
+    <artifactId>fandub-service-parent</artifactId>
+    <version>0.3.0</version>
     <relativePath/>
   </parent>
 
-  <groupId>nasirov.yv</groupId>
   <artifactId>anime-checker</artifactId>
-  <version>3.3.0</version>
+  <version>3.3.1</version>
   <name>anime-checker</name>
   <description>The application analyzes an user watching titles list from MyAnimeList(https://myanimelist.net/) and searches for new episodes on
     FanDub Sites
@@ -20,19 +19,8 @@
   <packaging>jar</packaging>
 
   <properties>
-    <java.version>1.8</java.version>
-    <docker-maven-version>0.31.0</docker-maven-version>
-    <org.jacoco>0.8.3</org.jacoco>
-    <org.sonarsource.scanner.maven>3.6.0.1398</org.sonarsource.scanner.maven>
-    <org.eluder.coveralls>4.3.0</org.eluder.coveralls>
-    <guava.version>28.2-jre</guava.version>
-    <commons-io.version>2.6</commons-io.version>
-    <commons-collections4.version>4.4</commons-collections4.version>
-    <argLine>-Dfile.encoding=UTF-8</argLine>
     <docker.buildArg.JAR_FILE>target/${project.build.finalName}.jar</docker.buildArg.JAR_FILE>
-    <powermock-module-junit4.version>2.0.7</powermock-module-junit4.version>
-    <powermock-api-mockito2.version>2.0.7</powermock-api-mockito2.version>
-    <fandub-service-spring-boot-starter.version>9.0.0</fandub-service-spring-boot-starter.version>
+    <fandub-service-spring-boot-starter.version>9.1.4</fandub-service-spring-boot-starter.version>
   </properties>
 
   <dependencies>
@@ -82,13 +70,11 @@
     <dependency>
       <groupId>com.google.guava</groupId>
       <artifactId>guava</artifactId>
-      <version>${guava.version}</version>
     </dependency>
 
     <dependency>
       <groupId>commons-io</groupId>
       <artifactId>commons-io</artifactId>
-      <version>${commons-io.version}</version>
     </dependency>
 
     <dependency>
@@ -99,20 +85,17 @@
     <dependency>
       <groupId>org.apache.commons</groupId>
       <artifactId>commons-collections4</artifactId>
-      <version>${commons-collections4.version}</version>
     </dependency>
 
     <dependency>
       <groupId>org.powermock</groupId>
       <artifactId>powermock-module-junit4</artifactId>
-      <version>${powermock-module-junit4.version}</version>
       <scope>test</scope>
     </dependency>
 
     <dependency>
       <groupId>org.powermock</groupId>
       <artifactId>powermock-api-mockito2</artifactId>
-      <version>${powermock-api-mockito2.version}</version>
       <scope>test</scope>
     </dependency>
 
@@ -125,9 +108,24 @@
   </dependencies>
 
   <repositories>
+
+    <repository>
+      <id>fandub-service-parent</id>
+      <name>GitHub nasirov/fandub-service-parent Apache Maven Packages</name>
+      <url>https://maven.pkg.github.com/nasirov/fandub-service-parent</url>
+      <releases>
+        <updatePolicy>always</updatePolicy>
+        <enabled>true</enabled>
+      </releases>
+      <snapshots>
+        <updatePolicy>always</updatePolicy>
+        <enabled>true</enabled>
+      </snapshots>
+    </repository>
+
     <repository>
       <id>fandub-service-spring-boot-starter</id>
-      <name>GitHub nasirov Apache Maven Packages</name>
+      <name>GitHub nasirov/fandub-service-spring-boot-starter Apache Maven Packages</name>
       <url>https://maven.pkg.github.com/nasirov/fandub-service-spring-boot-starter</url>
       <releases>
         <updatePolicy>always</updatePolicy>
@@ -138,10 +136,13 @@
         <enabled>true</enabled>
       </snapshots>
     </repository>
+
   </repositories>
 
   <build>
+
     <plugins>
+
       <plugin>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-maven-plugin</artifactId>
@@ -159,7 +160,6 @@
       <plugin>
         <groupId>io.fabric8</groupId>
         <artifactId>docker-maven-plugin</artifactId>
-        <version>${docker-maven-version}</version>
         <configuration>
           <images>
             <image>
@@ -212,16 +212,15 @@
       <plugin>
         <groupId>org.sonarsource.scanner.maven</groupId>
         <artifactId>sonar-maven-plugin</artifactId>
-        <version>${org.sonarsource.scanner.maven}</version>
       </plugin>
 
       <plugin>
         <groupId>org.eluder.coveralls</groupId>
         <artifactId>coveralls-maven-plugin</artifactId>
-        <version>${org.eluder.coveralls}</version>
       </plugin>
 
     </plugins>
+
   </build>
 
 </project>

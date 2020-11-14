@@ -6,6 +6,12 @@
   <servers>
 
     <server>
+      <id>fandub-service-parent</id>
+      <username>${USERNAME_GIT}</username>
+      <password>${TOKEN_GIT}</password>
+    </server>
+
+    <server>
       <id>fandub-service-spring-boot-starter</id>
       <username>${USERNAME_GIT}</username>
       <password>${TOKEN_GIT}</password>
