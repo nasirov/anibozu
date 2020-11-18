@@ -13,7 +13,7 @@ import nasirov.yv.fandub.service.spring.boot.starter.dto.mal.MalTitle;
 import nasirov.yv.service.MalServiceI;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 
 /**
  * Created by nasirov.yv
@@ -25,7 +25,7 @@ public class ResultViewController {
 
 	private final MalServiceI malService;
 
-	@PostMapping(value = "/result")
+	@GetMapping(value = "/result")
 	public String getResultView(@Valid MalUser malUser, Model model) {
 		String username = malUser.getUsername();
 		log.info("Received a request for result view by [{}]...", username);

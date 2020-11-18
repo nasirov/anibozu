@@ -17,7 +17,7 @@
     <h1 class="is_centered">Anime Checker</h1>
     <section class="nes-container is-centered">
       <div class="nes-field">
-        <form id="username-submit-form" action="/result/" method="post">
+        <form id="username-submit-form" action="/result" method="get">
             <@spring.bind "malUser"/>
             <@spring.formInput "malUser.username",'class="nes-input"
                  placeholder="Enter MAL username..."

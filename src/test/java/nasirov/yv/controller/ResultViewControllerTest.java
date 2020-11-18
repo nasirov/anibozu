@@ -5,7 +5,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.doThrow;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 
 import com.google.common.collect.Lists;
 import java.util.Arrays;
@@ -154,8 +154,8 @@ public class ResultViewControllerTest extends AbstractTest {
 
 	@SneakyThrows
 	private MvcResult getMvcResult(String username, String... fanDubSources) {
-		return mockMvc.perform(post(RESULT_VIEW_PATH).param("username", username)
-				.param("fanDubSources", fanDubSources))
+		return mockMvc.perform(get(RESULT_VIEW_PATH).queryParam("username", username)
+				.queryParam("fanDubSources", fanDubSources))
 				.andReturn();
 	}
 }
