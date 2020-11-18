@@ -11,7 +11,7 @@ import static nasirov.yv.fandub.service.spring.boot.starter.constant.FanDubSourc
 import static nasirov.yv.fandub.service.spring.boot.starter.constant.FanDubSource.SHIZAPROJECT;
 import static nasirov.yv.fandub.service.spring.boot.starter.constant.FanDubSource.SOVETROMANTICA;
 
-import nasirov.yv.data.mal.MalUser;
+import nasirov.yv.data.front.UserInputDto;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,7 +26,7 @@ public class IndexController {
 
 	@GetMapping
 	public String index(Model model) {
-		model.addAttribute("malUser", new MalUser());
+		model.addAttribute("userInputDto", new UserInputDto());
 		model.addAttribute(ANIMEDIA.getName(), ANIMEDIA);
 		model.addAttribute(ANIDUB.getName(), ANIDUB);
 		model.addAttribute(JISEDAI.getName(), JISEDAI);

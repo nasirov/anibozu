@@ -1,6 +1,6 @@
 package nasirov.yv.service;
 
-import nasirov.yv.data.mal.MalUser;
+import nasirov.yv.data.front.UserInputDto;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
 /**
@@ -8,5 +8,5 @@ import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
  */
 public interface SseEmitterExecutorServiceI {
 
-	SseEmitter buildAndExecuteSseEmitter(MalUser malUser);
+	SseEmitter buildAndExecuteSseEmitter(UserInputDto userInputDto);
 }

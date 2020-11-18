@@ -6,12 +6,15 @@ import static nasirov.yv.fandub.service.spring.boot.starter.dto.mal.MalTitleWatc
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import javax.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import nasirov.yv.data.mal.MalUserInfo;
+import nasirov.yv.data.mal.MalUserInfo.MalUserInfoBuilder;
 import nasirov.yv.data.properties.MalProps;
 import nasirov.yv.exception.mal.AbstractMalException;
 import nasirov.yv.exception.mal.MalForbiddenException;
@@ -63,7 +66,6 @@ public class MalService implements MalServiceI {
 	 * @throws MalUserAccountNotFoundException if username doesn't exist
 	 */
 	@Override
-	@Cacheable(value = "mal", key = "#username", unless = "#result == null || #result.isEmpty()")
 	public List<MalTitle> getWatchingTitles(String username) throws AbstractMalException {
 		log.debug("Trying to get watching titles for [{}]...", username);
 		String userProfile = extractUserProfile(username);
@@ -75,6 +77,36 @@ public class MalService implements MalServiceI {
 		List<MalTitle> result = formatWatchingTitles(watchingTitles);
 		log.debug("Got [{}] watching titles for [{}].", result.size(), username);
 		return result;
+	}
+
+	/**
+	 * Builds dto with a MAL user info
+	 *
+	 * @param username a MAL username
+	 * @return dto with a mal user info
+	 */
+	@Override
+	@Cacheable(value = "mal", key = "#username", sync = true)
+	public MalUserInfo getMalUserInfo(String username) {
+		log.debug("Trying to build MalUserInfo for [{}]", username);
+		MalUserInfoBuilder malUserInfoBuilder = MalUserInfo.builder()
+				.username(username);
+		List<MalTitle> watchingTitles = Collections.emptyList();
+		String errorMessage = null;
+		try {
+			watchingTitles = getWatchingTitles(username);
+		} catch (AbstractMalException e) {
+			errorMessage = e.getMessage();
+		} catch (Exception e) {
+			errorMessage = "Sorry, " + username + ", unexpected error has occurred.";
+		}
+		if (Objects.nonNull(errorMessage)) {
+			log.error(errorMessage);
+		}
+		malUserInfoBuilder.malTitles(watchingTitles);
+		malUserInfoBuilder.errorMessage(errorMessage);
+		log.debug("Built MalUserInfo for [{}]", username);
+		return malUserInfoBuilder.build();
 	}
 
 	private String extractUserProfile(String username) throws MalUserAccountNotFoundException, MalForbiddenException {

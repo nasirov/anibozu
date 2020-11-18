@@ -4,19 +4,17 @@ import static nasirov.yv.utils.TestConstants.TEST_ACC_FOR_DEV;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.mockito.Mockito.doReturn;
-import static org.mockito.Mockito.doThrow;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 
 import com.google.common.collect.Lists;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 import lombok.SneakyThrows;
 import nasirov.yv.AbstractTest;
-import nasirov.yv.exception.mal.MalUserAccountNotFoundException;
-import nasirov.yv.exception.mal.MalUserAnimeListAccessException;
-import nasirov.yv.exception.mal.WatchingTitlesNotFoundException;
+import nasirov.yv.data.mal.MalUserInfo;
 import nasirov.yv.fandub.service.spring.boot.starter.dto.mal.MalTitle;
 import org.junit.Test;
 import org.springframework.http.HttpStatus;
@@ -39,7 +37,7 @@ public class ResultViewControllerTest extends AbstractTest {
 	@Test
 	public void shouldReturnResultView() {
 		//given
-		mockMalServiceOk();
+		mockMalService(buildMalUserInfo(Lists.newArrayList(new MalTitle()), null));
 		//when
 		MvcResult result = getMvcResult(TEST_ACC_FOR_DEV, VALID_FANDUBS);
 		//then
@@ -84,10 +82,10 @@ public class ResultViewControllerTest extends AbstractTest {
 	}
 
 	@Test
-	public void shouldReturnErrorViewForMalUserAccountNotFoundException() {
+	public void shouldReturnErrorViewWithErrorMessage() {
 		//given
-		String errorMsg = "MAL account " + TEST_ACC_FOR_DEV + " is not found";
-		mockMalService(new MalUserAccountNotFoundException(errorMsg));
+		String errorMsg = "Foo Bar";
+		mockMalService(buildMalUserInfo(Collections.emptyList(), errorMsg));
 		//when
 		MvcResult result = getMvcResult(TEST_ACC_FOR_DEV, VALID_FANDUBS);
 		//then
@@ -102,54 +100,17 @@ public class ResultViewControllerTest extends AbstractTest {
 						.get("errorMsg"));
 	}
 
-	@Test
-	public void shouldReturnErrorViewForWatchingTitlesNotFoundException() {
-		//given
-		String errorMsg = "Not found watching titles for " + TEST_ACC_FOR_DEV + " !";
-		mockMalService(new WatchingTitlesNotFoundException(errorMsg));
-		//when
-		MvcResult result = getMvcResult(TEST_ACC_FOR_DEV, VALID_FANDUBS);
-		//then
-		assertEquals(HttpStatus.OK.value(),
-				result.getResponse()
-						.getStatus());
-		ModelAndView modelAndView = result.getModelAndView();
-		assertNotNull(modelAndView);
-		assertEquals(ERROR_VIEW, modelAndView.getViewName());
-		assertEquals(errorMsg,
-				modelAndView.getModel()
-						.get("errorMsg"));
+	private void mockMalService(MalUserInfo malUserInfo) {
+		doReturn(malUserInfo).when(malService)
+				.getMalUserInfo(TEST_ACC_FOR_DEV);
 	}
 
-	@Test
-	public void shouldReturnErrorViewForMalUserAnimeListAccessException() {
-		//given
-		String errorMsg = "Anime list " + TEST_ACC_FOR_DEV + " has private access!";
-		mockMalService(new MalUserAnimeListAccessException(errorMsg));
-		//when
-		MvcResult result = getMvcResult(TEST_ACC_FOR_DEV, VALID_FANDUBS);
-		//then
-		assertEquals(HttpStatus.OK.value(),
-				result.getResponse()
-						.getStatus());
-		ModelAndView modelAndView = result.getModelAndView();
-		assertNotNull(modelAndView);
-		assertEquals(ERROR_VIEW, modelAndView.getViewName());
-		assertEquals(errorMsg,
-				modelAndView.getModel()
-						.get("errorMsg"));
-	}
-
-	@SneakyThrows
-	private void mockMalService(Exception toBeThrown) {
-		doThrow(toBeThrown).when(malService)
-				.getWatchingTitles(TEST_ACC_FOR_DEV);
-	}
-
-	@SneakyThrows
-	private void mockMalServiceOk() {
-		doReturn(Lists.newArrayList(new MalTitle())).when(malService)
-				.getWatchingTitles(TEST_ACC_FOR_DEV);
+	private MalUserInfo buildMalUserInfo(List<MalTitle> malTitles, String errorMessage) {
+		return MalUserInfo.builder()
+				.username(TEST_ACC_FOR_DEV)
+				.malTitles(malTitles)
+				.errorMessage(errorMessage)
+				.build();
 	}
 
 	@SneakyThrows

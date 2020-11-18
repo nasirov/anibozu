@@ -1,15 +1,14 @@
 package nasirov.yv.controller;
 
-import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import nasirov.yv.data.mal.MalUser;
-import nasirov.yv.exception.mal.AbstractMalException;
+import nasirov.yv.data.front.UserInputDto;
+import nasirov.yv.data.mal.MalUserInfo;
 import nasirov.yv.fandub.service.spring.boot.starter.constant.FanDubSource;
-import nasirov.yv.fandub.service.spring.boot.starter.dto.mal.MalTitle;
 import nasirov.yv.service.MalServiceI;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -26,29 +25,31 @@ public class ResultViewController {
 	private final MalServiceI malService;
 
 	@GetMapping(value = "/result")
-	public String getResultView(@Valid MalUser malUser, Model model) {
-		String username = malUser.getUsername();
+	public String getResultView(@Valid UserInputDto userInputDto, Model model) {
+		String username = userInputDto.getUsername();
 		log.info("Received a request for result view by [{}]...", username);
 		String resultView;
-		try {
-			List<MalTitle> watchingTitles = malService.getWatchingTitles(username);
-			resultView = handleSuccess(watchingTitles.size(), malUser, model);
-		} catch (AbstractMalException malException) {
-			resultView = handleError(malException.getMessage(), model);
+		MalUserInfo malUserInfo = malService.getMalUserInfo(username);
+		String errorMessage = malUserInfo.getErrorMessage();
+		if (Objects.isNull(errorMessage)) {
+			resultView = handleSuccess(malUserInfo, userInputDto, model);
+		} else {
+			resultView = handleError(errorMessage, model);
 		}
 		log.info("Got result view [{}]. End of a request for [{}].", resultView, username);
 		return resultView;
 	}
 
-	private String handleSuccess(int watchingTitlesSize, MalUser malUser, Model model) {
-		model.addAttribute("username", malUser.getUsername());
-		model.addAttribute("watchingTitlesSize", watchingTitlesSize);
-		model.addAttribute("fandubList", buildFanDubList(malUser.getFanDubSources()));
+	private String handleSuccess(MalUserInfo malUserInfo, UserInputDto userInputDto, Model model) {
+		model.addAttribute("username", malUserInfo.getUsername());
+		model.addAttribute("watchingTitlesSize",
+				malUserInfo.getMalTitles()
+						.size());
+		model.addAttribute("fandubList", buildFanDubList(userInputDto.getFanDubSources()));
 		return "result";
 	}
 
 	private String handleError(String errorMsg, Model model) {
-		log.error(errorMsg);
 		model.addAttribute("errorMsg", errorMsg);
 		return "error";
 	}

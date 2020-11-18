@@ -7,7 +7,7 @@ import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.verify;
 
 import com.google.common.collect.Sets;
-import nasirov.yv.data.mal.MalUser;
+import nasirov.yv.data.front.UserInputDto;
 import nasirov.yv.data.properties.CacheProps;
 import nasirov.yv.data.properties.CacheProps.ConfigurableCacheProps;
 import nasirov.yv.data.task.ServerSentEventThread;
@@ -52,18 +52,18 @@ public class ServerSentEventThreadServiceTest {
 
 	@Before
 	public void setUp() {
-		cachedServerSentEventThread = new ServerSentEventThread(animeService, malService, new SseEmitter(), buildMalUser());
+		cachedServerSentEventThread = new ServerSentEventThread(animeService, malService, new SseEmitter(), buildUserInputDto());
 	}
 
 	@Test
 	public void shouldBuildSseAction() {
 		//given
-		MalUser malUser = buildMalUser();
-		String cacheKey = String.valueOf(malUser.hashCode());
+		UserInputDto userInputDto = buildUserInputDto();
+		String cacheKey = String.valueOf(userInputDto.hashCode());
 		mockServices(cacheKey);
 		SseEmitter sseEmitter = new SseEmitter();
 		//when
-		ServerSentEventThread serverSentEventThread = sseActionService.buildServerSentEventThread(sseEmitter, malUser);
+		ServerSentEventThread serverSentEventThread = sseActionService.buildServerSentEventThread(sseEmitter, userInputDto);
 		//then
 		assertNotEquals(cachedServerSentEventThread, serverSentEventThread);
 		assertFalse(cachedServerSentEventThread.getRunning()
@@ -81,11 +81,11 @@ public class ServerSentEventThreadServiceTest {
 				.get(cacheKey, ServerSentEventThread.class);
 	}
 
-	private MalUser buildMalUser() {
-		MalUser malUser = new MalUser();
-		malUser.setUsername(TEST_ACC_FOR_DEV);
-		malUser.setFanDubSources(Sets.newHashSet(FanDubSource.ANIMEDIA, FanDubSource.NINEANIME));
-		return malUser;
+	private UserInputDto buildUserInputDto() {
+		UserInputDto userInputDto = new UserInputDto();
+		userInputDto.setUsername(TEST_ACC_FOR_DEV);
+		userInputDto.setFanDubSources(Sets.newHashSet(FanDubSource.ANIMEDIA, FanDubSource.NINEANIME));
+		return userInputDto;
 	}
 
 	private ConfigurableCacheProps buildSseCacheProps() {

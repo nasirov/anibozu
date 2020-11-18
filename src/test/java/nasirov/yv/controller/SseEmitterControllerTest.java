@@ -8,7 +8,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 
 import lombok.SneakyThrows;
 import nasirov.yv.AbstractTest;
-import nasirov.yv.data.mal.MalUser;
+import nasirov.yv.data.front.UserInputDto;
 import org.junit.Test;
 import org.springframework.http.HttpStatus;
 import org.springframework.test.web.servlet.MvcResult;
@@ -35,7 +35,7 @@ public class SseEmitterControllerTest extends AbstractTest {
 
 	private void mockSseEmitterExecutorServiceOk() {
 		doReturn(new SseEmitter()).when(sseEmitterExecutorService)
-				.buildAndExecuteSseEmitter(any(MalUser.class));
+				.buildAndExecuteSseEmitter(any(UserInputDto.class));
 	}
 
 	@SneakyThrows

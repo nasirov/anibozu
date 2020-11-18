@@ -1,6 +1,6 @@
 package nasirov.yv.service;
 
-import nasirov.yv.data.mal.MalUser;
+import nasirov.yv.data.front.UserInputDto;
 
 /**
  * Created by nasirov.yv
@@ -10,7 +10,7 @@ public interface CacheCleanerServiceI {
 	/**
 	 * Evicts sse cache
 	 *
-	 * @param malUser cache key
+	 * @param userInputDto cache key
 	 */
-	void clearSseCache(MalUser malUser);
+	void clearSseCache(UserInputDto userInputDto);
 }

@@ -25,7 +25,8 @@ import nasirov.yv.data.constants.BaseConstants;
 import nasirov.yv.data.front.Anime;
 import nasirov.yv.data.front.EventType;
 import nasirov.yv.data.front.SseDto;
-import nasirov.yv.data.mal.MalUser;
+import nasirov.yv.data.front.UserInputDto;
+import nasirov.yv.data.mal.MalUserInfo;
 import nasirov.yv.fandub.service.spring.boot.starter.constant.FanDubSource;
 import nasirov.yv.fandub.service.spring.boot.starter.dto.mal.MalTitle;
 import nasirov.yv.service.MalServiceI;
@@ -55,7 +56,7 @@ public class ServerSentEventThreadTest {
 	private SseEmitter sseEmitter;
 
 	@Mock
-	private MalUser malUser;
+	private UserInputDto userInputDto;
 
 	@InjectMocks
 	private ServerSentEventThread serverSentEventThread;
@@ -80,9 +81,10 @@ public class ServerSentEventThreadTest {
 		verifySse(1, 0, 0, 0, 0, 1);
 	}
 
-	@SneakyThrows
 	private void mockServicesOk() {
-		Set<FanDubSource> fanDubSources = mockMal();
+		Set<FanDubSource> fanDubSources = Sets.newHashSet(FanDubSource.ANIMEDIA, FanDubSource.NINEANIME);
+		mockUserInputDto(fanDubSources);
+		mockMalService();
 		Anime available = buildAnime(buildFanDubUrls(EventType.AVAILABLE));
 		Anime notAvailable = buildAnime(buildFanDubUrls(EventType.NOT_AVAILABLE));
 		Anime notFound = buildAnime(buildFanDubUrls(EventType.NOT_FOUND));
@@ -90,25 +92,29 @@ public class ServerSentEventThreadTest {
 				.buildAnime(eq(fanDubSources), any(MalTitle.class));
 	}
 
-	@SneakyThrows
 	private void mockServicesException() {
-		Set<FanDubSource> fanDubSources = mockMal();
+		Set<FanDubSource> fanDubSources = Sets.newHashSet(FanDubSource.ANIMEDIA, FanDubSource.NINEANIME);
+		mockUserInputDto(fanDubSources);
+		mockMalService();
 		Anime available = buildAnime(buildFanDubUrls(EventType.AVAILABLE));
 		doReturn(available).doThrow(new RuntimeException("Exception message"))
 				.when(animeService)
 				.buildAnime(eq(fanDubSources), any(MalTitle.class));
 	}
 
-	@SneakyThrows
-	private Set<FanDubSource> mockMal() {
-		doReturn(TEST_ACC_FOR_DEV).when(malUser)
+	private void mockUserInputDto(Set<FanDubSource> fanDubSources) {
+		doReturn(TEST_ACC_FOR_DEV).when(userInputDto)
 				.getUsername();
-		Set<FanDubSource> fanDubSources = Sets.newHashSet(FanDubSource.ANIMEDIA, FanDubSource.NINEANIME);
-		doReturn(fanDubSources).when(malUser)
+		doReturn(fanDubSources).when(userInputDto)
 				.getFanDubSources();
-		doReturn(Lists.newArrayList(new MalTitle(), new MalTitle(), new MalTitle())).when(malService)
-				.getWatchingTitles(eq(TEST_ACC_FOR_DEV));
-		return fanDubSources;
+	}
+
+	private void mockMalService() {
+		doReturn(MalUserInfo.builder()
+				.username(TEST_ACC_FOR_DEV)
+				.malTitles(Lists.newArrayList(new MalTitle(), new MalTitle(), new MalTitle()))
+				.build()).when(malService)
+				.getMalUserInfo(TEST_ACC_FOR_DEV);
 	}
 
 	@SneakyThrows

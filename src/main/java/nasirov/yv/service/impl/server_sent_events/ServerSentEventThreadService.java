@@ -4,7 +4,7 @@ import static java.util.Objects.nonNull;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import nasirov.yv.data.mal.MalUser;
+import nasirov.yv.data.front.UserInputDto;
 import nasirov.yv.data.properties.CacheProps;
 import nasirov.yv.data.task.ServerSentEventThread;
 import nasirov.yv.service.MalServiceI;
@@ -35,21 +35,21 @@ public class ServerSentEventThreadService implements ServerSentEventThreadServic
 	 * Builds and caches a ServerSentEventThread
 	 *
 	 * @param sseEmitter a SseEmitter for Server-Sent Events
-	 * @param malUser    a MALUser from front
+	 * @param userInputDto    an user input from front
 	 * @return ServerSentEventThread
 	 */
 	@Override
-	public ServerSentEventThread buildServerSentEventThread(SseEmitter sseEmitter, MalUser malUser) {
-		log.debug("Trying to build ServerSentEventThread for [{}]...", malUser);
-		ServerSentEventThread result = new ServerSentEventThread(animeService, malService, sseEmitter, malUser);
+	public ServerSentEventThread buildServerSentEventThread(SseEmitter sseEmitter, UserInputDto userInputDto) {
+		log.debug("Trying to build ServerSentEventThread for [{}]...", userInputDto);
+		ServerSentEventThread result = new ServerSentEventThread(animeService, malService, sseEmitter, userInputDto);
 		Cache cache = cacheManager.getCache(cacheProps.getSse()
 				.getName());
 		if (nonNull(cache)) {
-			String key = String.valueOf(malUser.hashCode());
+			String key = String.valueOf(userInputDto.hashCode());
 			stopCachedTask(key, cache);
 			cache.put(key, result);
 		}
-		log.debug("Successfully built and cached ServerSentEventThread for [{}].", malUser);
+		log.debug("Successfully built and cached ServerSentEventThread for [{}].", userInputDto);
 		return result;
 	}
 

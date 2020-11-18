@@ -1,4 +1,4 @@
-package nasirov.yv.data.mal;
+package nasirov.yv.data.front;
 
 import java.util.Set;
 import javax.validation.constraints.NotEmpty;
@@ -14,7 +14,7 @@ import org.springframework.validation.annotation.Validated;
  */
 @Data
 @Validated
-public class MalUser {
+public class UserInputDto {
 
 	@Pattern(regexp = "^[\\w-_]{2,16}$", message = "Please enter a valid mal username between 2 and 16 characters(latin letters, numbers, underscores "
 			+ "and dashes only)")

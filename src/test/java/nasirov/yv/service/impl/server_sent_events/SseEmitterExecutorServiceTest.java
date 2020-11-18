@@ -12,7 +12,7 @@ import static org.mockito.Mockito.verify;
 import com.google.common.collect.Sets;
 import java.util.concurrent.ExecutorService;
 import java.util.function.Consumer;
-import nasirov.yv.data.mal.MalUser;
+import nasirov.yv.data.front.UserInputDto;
 import nasirov.yv.data.properties.SseProps;
 import nasirov.yv.data.task.ServerSentEventThread;
 import nasirov.yv.fandub.service.spring.boot.starter.constant.FanDubSource;
@@ -54,10 +54,10 @@ public class SseEmitterExecutorServiceTest {
 	@Test
 	public void shouldBuildAndExecuteSseEmitter() {
 		//given
-		MalUser malUser = buildMalUser();
-		mockServices(malUser);
+		UserInputDto userInputDto = buildMalUser();
+		mockServices(userInputDto);
 		//when
-		SseEmitter sseEmitter = sseEmitterExecutorService.buildAndExecuteSseEmitter(malUser);
+		SseEmitter sseEmitter = sseEmitterExecutorService.buildAndExecuteSseEmitter(userInputDto);
 		//then
 		checkTimeout(sseEmitter);
 		verify(executorService).execute(serverSentEventThread);
@@ -66,51 +66,51 @@ public class SseEmitterExecutorServiceTest {
 	@Test
 	public void shouldReturnOnErrorConsumer() {
 		//given
-		MalUser malUser = buildMalUser();
+		UserInputDto userInputDto = buildMalUser();
 		//when
-		Consumer<Throwable> onErrorConsumer = ReflectionTestUtils.invokeMethod(sseEmitterExecutorService, "onErrorConsumer", malUser);
+		Consumer<Throwable> onErrorConsumer = ReflectionTestUtils.invokeMethod(sseEmitterExecutorService, "onErrorConsumer", userInputDto);
 		//then
 		assertNotNull(onErrorConsumer);
 		onErrorConsumer.accept(new RuntimeException("Exception Message"));
-		verify(cacheCleanerService).clearSseCache(malUser);
+		verify(cacheCleanerService).clearSseCache(userInputDto);
 	}
 
 	@Test
 	public void shouldReturnOnTimeoutCallback() {
 		//given
-		MalUser malUser = buildMalUser();
+		UserInputDto userInputDto = buildMalUser();
 		//when
-		Runnable onTimeoutCallback = ReflectionTestUtils.invokeMethod(sseEmitterExecutorService, "onTimeoutCallback", malUser);
+		Runnable onTimeoutCallback = ReflectionTestUtils.invokeMethod(sseEmitterExecutorService, "onTimeoutCallback", userInputDto);
 		//then
 		assertNotNull(onTimeoutCallback);
 		onTimeoutCallback.run();
-		verify(cacheCleanerService, never()).clearSseCache(malUser);
+		verify(cacheCleanerService, never()).clearSseCache(userInputDto);
 	}
 
 	@Test
 	public void shouldReturnOnCompletionCallback() {
 		//given
-		MalUser malUser = buildMalUser();
+		UserInputDto userInputDto = buildMalUser();
 		//when
-		Runnable onCompletionCallback = ReflectionTestUtils.invokeMethod(sseEmitterExecutorService, "onCompletionCallback", malUser);
+		Runnable onCompletionCallback = ReflectionTestUtils.invokeMethod(sseEmitterExecutorService, "onCompletionCallback", userInputDto);
 		//then
 		assertNotNull(onCompletionCallback);
 		onCompletionCallback.run();
-		verify(cacheCleanerService).clearSseCache(malUser);
+		verify(cacheCleanerService).clearSseCache(userInputDto);
 	}
 
-	private MalUser buildMalUser() {
-		MalUser malUser = new MalUser();
-		malUser.setUsername(TEST_ACC_FOR_DEV);
-		malUser.setFanDubSources(Sets.newHashSet(FanDubSource.ANIMEDIA, FanDubSource.NINEANIME));
-		return malUser;
+	private UserInputDto buildMalUser() {
+		UserInputDto userInputDto = new UserInputDto();
+		userInputDto.setUsername(TEST_ACC_FOR_DEV);
+		userInputDto.setFanDubSources(Sets.newHashSet(FanDubSource.ANIMEDIA, FanDubSource.NINEANIME));
+		return userInputDto;
 	}
 
-	private void mockServices(MalUser malUser) {
+	private void mockServices(UserInputDto userInputDto) {
 		doReturn(1).when(sseProps)
 				.getTimeoutInMin();
 		doReturn(serverSentEventThread).when(sseActionService)
-				.buildServerSentEventThread(any(SseEmitter.class), eq(malUser));
+				.buildServerSentEventThread(any(SseEmitter.class), eq(userInputDto));
 	}
 
 	private void checkTimeout(SseEmitter sseEmitter) {

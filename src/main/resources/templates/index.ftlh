@@ -18,8 +18,8 @@
     <section class="nes-container is-centered">
       <div class="nes-field">
         <form id="username-submit-form" action="/result" method="get">
-            <@spring.bind "malUser"/>
-            <@spring.formInput "malUser.username",'class="nes-input"
+            <@spring.bind "userInputDto"/>
+            <@spring.formInput "userInputDto.username",'class="nes-input"
                  placeholder="Enter MAL username..."
                  title="Please enter a valid mal username between 2 and 16 characters(latin letters, numbers, underscores and dashes only)"
                  autofocus'/>
@@ -29,21 +29,21 @@
             <tr>
               <td>
                 <label>
-                    <@spring.bind "malUser.fanDubSources"/>
+                    <@spring.bind "userInputDto.fanDubSources"/>
                   <input id="nineAnime-checkbox" type="checkbox" class="nes-checkbox" name="fanDubSources" value="${nineAnime}"/>
                   <span>9Anime</span>
                 </label>
               </td>
               <td>
                 <label>
-                    <@spring.bind "malUser.fanDubSources"/>
+                    <@spring.bind "userInputDto.fanDubSources"/>
                   <input id="anidub-checkbox" type="checkbox" class="nes-checkbox" name="fanDubSources" value="${anidub}"/>
                   <span>Anidub</span>
                 </label>
               </td>
               <td>
                 <label>
-                    <@spring.bind "malUser.fanDubSources"/>
+                    <@spring.bind "userInputDto.fanDubSources"/>
                   <input id="anilibria-checkbox" type="checkbox" class="nes-checkbox" name="fanDubSources" value="${anilibria}"/>
                   <span>Anilibria</span>
                 </label>
@@ -52,21 +52,21 @@
             <tr>
               <td>
                 <label>
-                    <@spring.bind "malUser.fanDubSources"/>
+                    <@spring.bind "userInputDto.fanDubSources"/>
                   <input id="animepik-checkbox" type="checkbox" class="nes-checkbox" name="fanDubSources" value="${animepik}"/>
                   <span>AnimePiK</span>
                 </label>
               </td>
               <td>
                 <label>
-                    <@spring.bind "malUser.fanDubSources"/>
+                    <@spring.bind "userInputDto.fanDubSources"/>
                   <input id="animedia-checkbox" type="checkbox" class="nes-checkbox" name="fanDubSources" value="${animedia}"/>
                   <span>Animedia</span>
                 </label>
               </td>
               <td>
                 <label>
-                    <@spring.bind "malUser.fanDubSources"/>
+                    <@spring.bind "userInputDto.fanDubSources"/>
                   <input id="jisedai-checkbox" type="checkbox" class="nes-checkbox" name="fanDubSources" value="${jisedai}"/>
                   <span>Jisedai</span>
                 </label>
@@ -75,21 +75,21 @@
             <tr>
               <td>
                 <label>
-                    <@spring.bind "malUser.fanDubSources"/>
+                    <@spring.bind "userInputDto.fanDubSources"/>
                   <input id="jutsu-checkbox" type="checkbox" class="nes-checkbox" name="fanDubSources" value="${jutsu}"/>
                   <span>Jutsu</span>
                 </label>
               </td>
               <td>
                 <label>
-                    <@spring.bind "malUser.fanDubSources"/>
+                    <@spring.bind "userInputDto.fanDubSources"/>
                   <input id="shizaProject-checkbox" type="checkbox" class="nes-checkbox" name="fanDubSources" value="${shizaProject}"/>
                   <span>ShizaProject</span>
                 </label>
               </td>
               <td>
                 <label>
-                    <@spring.bind "malUser.fanDubSources"/>
+                    <@spring.bind "userInputDto.fanDubSources"/>
                   <input id="sovetRomantica-checkbox" type="checkbox" class="nes-checkbox" name="fanDubSources" value="${sovetRomantica}"/>
                   <span>SovetRomantica</span>
                 </label>
