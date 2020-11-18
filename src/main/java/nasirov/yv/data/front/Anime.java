@@ -31,12 +31,12 @@ public class Anime {
 	/**
 	 * Poster URL on MyAnimeList
 	 */
-	private String posterUrlOnMAL;
+	private String posterUrlOnMal;
 
 	/**
 	 * Anime URL on MyAnimeList
 	 */
-	private String animeUrlOnMAL;
+	private String animeUrlOnMal;
 
 	/**
 	 * Map with URLs to fandub sites

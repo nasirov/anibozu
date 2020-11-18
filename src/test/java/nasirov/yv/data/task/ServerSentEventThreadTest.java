@@ -154,8 +154,8 @@ public class ServerSentEventThreadTest {
 		return Anime.builder()
 				.animeName(REGULAR_TITLE_ORIGINAL_NAME)
 				.episode("1")
-				.posterUrlOnMAL(MY_ANIME_LIST_STATIC_CONTENT_URL + REGULAR_TITLE_POSTER_URL)
-				.animeUrlOnMAL(MY_ANIME_LIST_URL + REGULAR_TITLE_MAL_ANIME_URL)
+				.posterUrlOnMal(MY_ANIME_LIST_STATIC_CONTENT_URL + REGULAR_TITLE_POSTER_URL)
+				.animeUrlOnMal(MY_ANIME_LIST_URL + REGULAR_TITLE_MAL_ANIME_URL)
 				.fanDubUrls(fanDubUrls)
 				.build();
 	}

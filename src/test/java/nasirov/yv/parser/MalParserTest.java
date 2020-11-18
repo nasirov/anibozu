@@ -3,16 +3,16 @@ package nasirov.yv.parser;
 import static nasirov.yv.utils.TestConstants.TEST_ACC_WATCHING_TITLES;
 import static org.junit.Assert.assertEquals;
 
-import nasirov.yv.parser.impl.MALParser;
+import nasirov.yv.parser.impl.MalParser;
 import nasirov.yv.utils.IOUtils;
 import org.junit.Test;
 
 /**
  * Created by nasirov.yv
  */
-public class MALParserTest {
+public class MalParserTest {
 
-	private final MALParserI malParser = new MALParser();
+	private final MalParserI malParser = new MalParser();
 
 	@Test
 	public void shouldReturnNumWatchingTitles() {

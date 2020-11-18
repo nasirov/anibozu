@@ -30,8 +30,8 @@ public class AnimeService implements AnimeServiceI {
 		AnimeBuilder animeBuilder = Anime.builder()
 				.animeName(watchingTitle.getName())
 				.episode(getNextEpisodeForWatch(watchingTitle).toString())
-				.posterUrlOnMAL(watchingTitle.getPosterUrl())
-				.animeUrlOnMAL(watchingTitle.getAnimeUrl());
+				.posterUrlOnMal(watchingTitle.getPosterUrl())
+				.animeUrlOnMal(watchingTitle.getAnimeUrl());
 		fanDubSources.forEach(x -> animeBuilder.fanDubUrl(x, buildEpisodeUrlViaEpisodeUrlService(watchingTitle, x)));
 		Anime result = animeBuilder.build();
 		log.debug("Successfully built {}", result);

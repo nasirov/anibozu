@@ -31,7 +31,7 @@ import org.springframework.http.ResponseEntity;
 /**
  * Created by nasirov.yv
  */
-public class MALServiceTest extends AbstractTest {
+public class MalServiceTest extends AbstractTest {
 
 	@Test
 	@SneakyThrows
@@ -81,7 +81,7 @@ public class MALServiceTest extends AbstractTest {
 
 	@Test(expected = MalForbiddenException.class)
 	@SneakyThrows
-	public void shouldFailOnMALForbiddenException() {
+	public void shouldFailOnMalForbiddenException() {
 		//given
 		stubGetUserProfile(ResponseEntity.status(FORBIDDEN)
 				.body(""));

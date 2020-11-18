@@ -1,7 +1,7 @@
 package nasirov.yv.parser.impl;
 
 import lombok.extern.slf4j.Slf4j;
-import nasirov.yv.parser.MALParserI;
+import nasirov.yv.parser.MalParserI;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -14,7 +14,7 @@ import org.springframework.stereotype.Component;
  */
 @Component
 @Slf4j
-public class MALParser implements MALParserI {
+public class MalParser implements MalParserI {
 
 	/**
 	 * Searches for "Currently Watching" titles in an user profile html

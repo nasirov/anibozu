@@ -21,7 +21,7 @@ import nasirov.yv.exception.mal.UnexpectedCallingException;
 import nasirov.yv.exception.mal.WatchingTitlesNotFoundException;
 import nasirov.yv.fandub.service.spring.boot.starter.dto.mal.MalTitle;
 import nasirov.yv.fandub.service.spring.boot.starter.feign.mal.MalFeignClient;
-import nasirov.yv.parser.MALParserI;
+import nasirov.yv.parser.MalParserI;
 import nasirov.yv.service.MalServiceI;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.HttpStatus;
@@ -43,7 +43,7 @@ public class MalService implements MalServiceI {
 
 	private final MalFeignClient malFeignClient;
 
-	private final MALParserI malParser;
+	private final MalParserI malParser;
 
 	private final MalProps malProps;
 

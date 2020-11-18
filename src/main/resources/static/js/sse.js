@@ -79,7 +79,7 @@ function addAfter(topElement, afterElement) {
 
 function buildAvailable(anime, fandubList) {
   var item = buildItem();
-  var img = buildImg(anime.posterUrlOnMAL, anime.animeName,
+  var img = buildImg(anime.posterUrlOnMal, anime.animeName,
       anime.animeName + ' episode ' + anime.episode);
   var episodeOverlay = buildEpisodeOverlay(anime.episode);
   var overlayFullCover = buildOverlayFullCover();
@@ -93,10 +93,10 @@ function buildAvailable(anime, fandubList) {
 
 function buildNotAvailable(anime) {
   var item = buildItem();
-  var img = buildImg(anime.posterUrlOnMAL, anime.animeName, anime.animeName);
+  var img = buildImg(anime.posterUrlOnMal, anime.animeName, anime.animeName);
   var episodeOverlay = buildEpisodeOverlay(anime.episode);
   var overlayFullCover = buildOverlayFullCover();
-  var link = buildLink('full_cover', anime.animeUrlOnMAL);
+  var link = buildLink('full_cover', anime.animeUrlOnMal);
   overlayFullCover.append(link);
   item.append(img, episodeOverlay, overlayFullCover);
   var notAvailableSection = $('#not-available-section');
@@ -105,9 +105,9 @@ function buildNotAvailable(anime) {
 
 function buildNotFound(anime) {
   var item = buildItem();
-  var img = buildImg(anime.posterUrlOnMAL, anime.animeName, anime.animeName);
+  var img = buildImg(anime.posterUrlOnMal, anime.animeName, anime.animeName);
   var overlayFullCover = buildOverlayFullCover();
-  var link = buildLink('full_cover', anime.animeUrlOnMAL);
+  var link = buildLink('full_cover', anime.animeUrlOnMal);
   overlayFullCover.append(link);
   item.append(img, overlayFullCover);
   var notFoundSection = $('#not-found-section');
