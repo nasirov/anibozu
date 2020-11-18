@@ -24,12 +24,12 @@ public class TitlesService implements TitlesServiceI {
 	private final GitHubResourcesServiceI gitHubResourcesService;
 
 	@Override
-	@Cacheable(value = "github", key = "#fanDubSource.name()", unless = "#result == null || #result.isEmpty()")
+	@Cacheable(value = "github", key = "#fanDubSource.name()", sync = true)
 	public Map<Integer, List<CommonTitle>> getTitles(FanDubSource fanDubSource) {
-		log.debug("Trying to convert List<CommonTitle> from GitHub to Map<Integer, List<CommonTitle>>...");
+		log.debug("Trying to convert [{}] List<CommonTitle> from GitHub to Map<Integer, List<CommonTitle>>...", fanDubSource);
 		List<CommonTitle> titles = gitHubResourcesService.getResource(fanDubSource);
 		Map<Integer, List<CommonTitle>> result = convertToMap(titles);
-		log.debug("Got Map<Integer, List<CommonTitle>> with size [{}].", result.size());
+		log.debug("Got [{}] Map<Integer, List<CommonTitle>> with size [{}].", fanDubSource, result.size());
 		return result;
 	}
 
