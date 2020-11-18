@@ -3,6 +3,7 @@
 <head>
   <title>Sorry, something went wrong</title>
   <link rel="stylesheet" type="text/css" href="${versionedUrls.getForLookupPath('/css/center-style.css')}"/>
+  <link rel="stylesheet" type="text/css" href="${versionedUrls.getForLookupPath('/css/style.css')}"/>
   <link rel="stylesheet" type="text/css" href="${versionedUrls.getForLookupPath('/css/nes.min.css')}"/>
   <link rel="stylesheet" type="text/css" href="${versionedUrls.getForLookupPath('/css/ps2p.css')}"/>
   <link rel="shortcut icon" type="image/x-icon" href="${versionedUrls.getForLookupPath('/img/faviconError.ico')}"/>
