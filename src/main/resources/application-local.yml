@@ -38,10 +38,6 @@ jutsu-feign-client:
   ribbon:
     listOfServers: https://jut.su
 
-github-feign-client:
-  ribbon:
-    listOfServers: https://raw.githubusercontent.com
-
 mal-feign-client:
   ribbon:
     listOfServers: https://myanimelist.net

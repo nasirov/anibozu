@@ -9,17 +9,10 @@ application:
       name: mal
       ttl: 300
       max-entity-count: 50
-    github:
-      name: github
-      ttl: 3600
-      max-entity-count: 9
     sse:
       name: sse
       ttl: 300
       max-entity-count: 50
-  github:
-    enabled: true
-    token: ${GITHUB_ACCESS_TOKEN}
   sse:
     timeout-in-min: 5
   mal:
@@ -32,10 +25,6 @@ application:
 
 server:
   port: ${PORT}
-
-github-feign-client:
-  ribbon:
-    retryableStatusCodes: 404, 500, 502, 503, 504
 
 sovet-romantica-feign-client:
   ribbon:
