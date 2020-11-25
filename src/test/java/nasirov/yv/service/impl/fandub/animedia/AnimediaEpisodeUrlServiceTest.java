@@ -14,6 +14,7 @@ import com.google.common.collect.Lists;
 import java.util.Collections;
 import java.util.List;
 import nasirov.yv.data.properties.AuthProps;
+import nasirov.yv.data.properties.CommonProps;
 import nasirov.yv.fandub.service.spring.boot.starter.constant.FanDubSource;
 import nasirov.yv.fandub.service.spring.boot.starter.dto.fandub.animedia.AnimediaEpisode;
 import nasirov.yv.fandub.service.spring.boot.starter.dto.fandub.common.CommonTitle;
@@ -49,6 +50,9 @@ public class AnimediaEpisodeUrlServiceTest {
 	private FanDubProps fanDubProps;
 
 	@Mock
+	protected CommonProps commonProps;
+
+	@Mock
 	private AnimediaFeignClient animediaFeignClient;
 
 	@Mock
@@ -60,6 +64,7 @@ public class AnimediaEpisodeUrlServiceTest {
 	@Test
 	public void shouldReturnUrlWithAvailableEpisode() {
 		//given
+		mockCommonProps();
 		mockAuthProps();
 		mockFandubUrlsMap();
 		mockTitleService(Lists.newArrayList(CommonTitleTestBuilder.getAnimediaRegular(),
@@ -75,6 +80,7 @@ public class AnimediaEpisodeUrlServiceTest {
 	@Test
 	public void shouldReturnUrlWithAvailableEpisodeInRuntime() {
 		//given
+		mockCommonProps();
 		mockAuthProps();
 		mockFandubUrlsMap();
 		mockTitleService(Lists.newArrayList(CommonTitleTestBuilder.getAnimediaRegular(),
@@ -92,6 +98,7 @@ public class AnimediaEpisodeUrlServiceTest {
 	@Test
 	public void shouldReturnNotFoundOnFandubSiteUrl() {
 		//given
+		mockCommonProps();
 		mockAuthProps();
 		mockFandubUrlsMap();
 		int notFoundOnFandubMalId = 42;
@@ -105,6 +112,7 @@ public class AnimediaEpisodeUrlServiceTest {
 	@Test
 	public void shouldReturnFinalUrlValueIfEpisodeIsNotAvailable() {
 		//given
+		mockCommonProps();
 		mockAuthProps();
 		mockFandubUrlsMap();
 		mockTitleService(Lists.newArrayList(CommonTitleTestBuilder.getAnimediaConcretized(),
@@ -120,6 +128,7 @@ public class AnimediaEpisodeUrlServiceTest {
 	@Test
 	public void shouldReturnFinalUrlValueIfEpisodeIsNotAvailableInRuntime() {
 		//given
+		mockCommonProps();
 		mockAuthProps();
 		mockFandubUrlsMap();
 		mockTitleService(Lists.newArrayList(CommonTitleTestBuilder.getAnimediaRegular(),
@@ -149,6 +158,11 @@ public class AnimediaEpisodeUrlServiceTest {
 	private void mockTitleService(List<CommonTitle> commonTitles, int malEpisodeId) {
 		doReturn(commonTitles).when(fandubTitlesServiceFeignClient)
 				.getCommonTitles(BASIC_AUTH, FanDubSource.ANIMEDIA, REGULAR_TITLE_MAL_ID, malEpisodeId);
+	}
+
+	protected void mockCommonProps() {
+		doReturn(true).when(commonProps)
+				.getEnableBuildUrlInRuntime();
 	}
 
 	private void mockAuthProps() {

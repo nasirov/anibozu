@@ -10,6 +10,7 @@ import static org.mockito.Mockito.doReturn;
 import com.google.common.collect.Lists;
 import java.util.List;
 import nasirov.yv.data.properties.AuthProps;
+import nasirov.yv.data.properties.CommonProps;
 import nasirov.yv.fandub.service.spring.boot.starter.constant.FanDubSource;
 import nasirov.yv.fandub.service.spring.boot.starter.dto.fandub.common.CommonTitle;
 import nasirov.yv.fandub.service.spring.boot.starter.dto.fandub.common.FandubEpisode;
@@ -40,6 +41,9 @@ public abstract class BaseEpisodeUrlsServiceTest {
 	@Mock
 	protected FanDubProps fanDubProps;
 
+	@Mock
+	protected CommonProps commonProps;
+
 	private CommonTitle regularCommonTitle;
 
 	private CommonTitle concretizedCommonTitle;
@@ -53,6 +57,7 @@ public abstract class BaseEpisodeUrlsServiceTest {
 
 	protected void shouldReturnUrlWithAvailableEpisode() {
 		//given
+		mockCommonProps();
 		mockAuthProps();
 		mockFandubUrlsMap();
 		mockTitleService(getRegularCommonTitles(), 1);
@@ -65,6 +70,7 @@ public abstract class BaseEpisodeUrlsServiceTest {
 
 	protected void shouldReturnUrlWithAvailableEpisodeInRuntime() {
 		//given
+		mockCommonProps();
 		mockAuthProps();
 		mockFandubUrlsMap();
 		mockTitleService(getRegularCommonTitles(), 2);
@@ -80,6 +86,7 @@ public abstract class BaseEpisodeUrlsServiceTest {
 
 	protected void shouldReturnNotFoundOnFandubSiteUrl() {
 		//given
+		mockCommonProps();
 		mockAuthProps();
 		mockFandubUrlsMap();
 		int notFoundOnFandubMalId = 42;
@@ -92,6 +99,7 @@ public abstract class BaseEpisodeUrlsServiceTest {
 
 	protected void shouldReturnFinalUrlValueIfEpisodeIsNotAvailable() {
 		//given
+		mockCommonProps();
 		mockAuthProps();
 		mockFandubUrlsMap();
 		mockTitleService(getConcretizedCommonTitles(), 2);
@@ -104,6 +112,7 @@ public abstract class BaseEpisodeUrlsServiceTest {
 
 	protected void shouldReturnFinalUrlValueIfEpisodeIsNotAvailableInRuntime() {
 		//given
+		mockCommonProps();
 		mockAuthProps();
 		mockFandubUrlsMap();
 		mockTitleService(getRegularAndConcretizedCommonTitles(), 3);
@@ -136,6 +145,11 @@ public abstract class BaseEpisodeUrlsServiceTest {
 	protected void mockAuthProps() {
 		doReturn(BASIC_AUTH).when(authProps)
 				.getFandubTitlesServiceBasicAuth();
+	}
+
+	protected void mockCommonProps() {
+		doReturn(true).when(commonProps)
+				.getEnableBuildUrlInRuntime();
 	}
 
 	protected void mockFandubUrlsMap() {

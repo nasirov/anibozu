@@ -2,6 +2,7 @@ package nasirov.yv.service.impl.fandub.anidub;
 
 import java.util.List;
 import nasirov.yv.data.properties.AuthProps;
+import nasirov.yv.data.properties.CommonProps;
 import nasirov.yv.fandub.service.spring.boot.starter.dto.fandub.common.CommonTitle;
 import nasirov.yv.fandub.service.spring.boot.starter.dto.fandub.common.FandubEpisode;
 import nasirov.yv.fandub.service.spring.boot.starter.extractor.parser.AnidubParserI;
@@ -24,8 +25,8 @@ public class AnidubEpisodeUrlService extends BaseEpisodeUrlService {
 	private final AnidubParserI anidubParser;
 
 	public AnidubEpisodeUrlService(FanDubProps fanDubProps, FandubTitlesServiceFeignClient fandubTitlesServiceFeignClient, AuthProps authProps,
-			AnidubFeignClient anidubFeignClient, AnidubParserI anidubParser) {
-		super(fanDubProps, fandubTitlesServiceFeignClient, authProps);
+			CommonProps commonProps, AnidubFeignClient anidubFeignClient, AnidubParserI anidubParser) {
+		super(fanDubProps, fandubTitlesServiceFeignClient, authProps, commonProps);
 		this.anidubFeignClient = anidubFeignClient;
 		this.anidubParser = anidubParser;
 	}

@@ -5,3 +5,5 @@ application:
     disabled-fandub:
   auth:
     fandub-titles-service-basic-auth: Basic foobar
+  common:
+    enable-build-url-in-runtime: true

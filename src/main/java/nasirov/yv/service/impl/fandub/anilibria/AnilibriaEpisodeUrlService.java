@@ -2,6 +2,7 @@ package nasirov.yv.service.impl.fandub.anilibria;
 
 import java.util.List;
 import nasirov.yv.data.properties.AuthProps;
+import nasirov.yv.data.properties.CommonProps;
 import nasirov.yv.fandub.service.spring.boot.starter.dto.fandub.common.CommonTitle;
 import nasirov.yv.fandub.service.spring.boot.starter.dto.fandub.common.FandubEpisode;
 import nasirov.yv.fandub.service.spring.boot.starter.extractor.parser.AnilibriaParserI;
@@ -24,9 +25,10 @@ public class AnilibriaEpisodeUrlService extends BaseEpisodeUrlService {
 	private final AnilibriaParserI anilibriaParser;
 
 	public AnilibriaEpisodeUrlService(FanDubProps fanDubProps, FandubTitlesServiceFeignClient fandubTitlesServiceFeignClient, AuthProps authProps,
+			CommonProps commonProps,
 			AnilibriaFeignClient anilibriaFeignClient,
 			AnilibriaParserI anilibriaParser) {
-		super(fanDubProps, fandubTitlesServiceFeignClient, authProps);
+		super(fanDubProps, fandubTitlesServiceFeignClient, authProps, commonProps);
 		this.anilibriaFeignClient = anilibriaFeignClient;
 		this.anilibriaParser = anilibriaParser;
 	}

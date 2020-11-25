@@ -7,6 +7,7 @@ import java.util.Comparator;
 import java.util.List;
 import lombok.extern.slf4j.Slf4j;
 import nasirov.yv.data.properties.AuthProps;
+import nasirov.yv.data.properties.CommonProps;
 import nasirov.yv.fandub.service.spring.boot.starter.dto.fandub.animedia.AnimediaEpisode;
 import nasirov.yv.fandub.service.spring.boot.starter.dto.fandub.common.CommonTitle;
 import nasirov.yv.fandub.service.spring.boot.starter.dto.fandub.common.FandubEpisode;
@@ -30,9 +31,10 @@ public class AnimediaEpisodeUrlService extends BaseEpisodeUrlService {
 	private final AnimediaParserI animediaParser;
 
 	public AnimediaEpisodeUrlService(FanDubProps fanDubProps, FandubTitlesServiceFeignClient fandubTitlesServiceFeignClient, AuthProps authProps,
+			CommonProps commonProps,
 			AnimediaFeignClient animediaFeignClient,
 			AnimediaParserI animediaParser) {
-		super(fanDubProps, fandubTitlesServiceFeignClient, authProps);
+		super(fanDubProps, fandubTitlesServiceFeignClient, authProps, commonProps);
 		this.animediaFeignClient = animediaFeignClient;
 		this.animediaParser = animediaParser;
 	}

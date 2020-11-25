@@ -2,6 +2,7 @@ package nasirov.yv.service.impl.fandub.sovet_romantica;
 
 import java.util.List;
 import nasirov.yv.data.properties.AuthProps;
+import nasirov.yv.data.properties.CommonProps;
 import nasirov.yv.fandub.service.spring.boot.starter.dto.fandub.common.CommonTitle;
 import nasirov.yv.fandub.service.spring.boot.starter.dto.fandub.common.FandubEpisode;
 import nasirov.yv.fandub.service.spring.boot.starter.extractor.parser.SovetRomanticaParserI;
@@ -24,9 +25,10 @@ public class SovetRomanticaEpisodeUrlService extends BaseEpisodeUrlService {
 	private final SovetRomanticaParserI sovetRomanticaParser;
 
 	public SovetRomanticaEpisodeUrlService(FanDubProps fanDubProps, FandubTitlesServiceFeignClient fandubTitlesServiceFeignClient, AuthProps authProps,
+			CommonProps commonProps,
 			SovetRomanticaFeignClient sovetRomanticaFeignClient,
 			SovetRomanticaParserI sovetRomanticaParser) {
-		super(fanDubProps, fandubTitlesServiceFeignClient, authProps);
+		super(fanDubProps, fandubTitlesServiceFeignClient, authProps, commonProps);
 		this.sovetRomanticaFeignClient = sovetRomanticaFeignClient;
 		this.sovetRomanticaParser = sovetRomanticaParser;
 	}

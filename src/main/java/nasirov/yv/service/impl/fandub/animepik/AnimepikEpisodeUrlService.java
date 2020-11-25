@@ -2,6 +2,7 @@ package nasirov.yv.service.impl.fandub.animepik;
 
 import java.util.List;
 import nasirov.yv.data.properties.AuthProps;
+import nasirov.yv.data.properties.CommonProps;
 import nasirov.yv.fandub.service.spring.boot.starter.dto.fandub.animepik.AnimepikEpisode;
 import nasirov.yv.fandub.service.spring.boot.starter.dto.fandub.common.CommonTitle;
 import nasirov.yv.fandub.service.spring.boot.starter.dto.fandub.common.FandubEpisode;
@@ -23,9 +24,10 @@ public class AnimepikEpisodeUrlService extends BaseEpisodeUrlService {
 	private final AnimepikParserI animepikParser;
 
 	public AnimepikEpisodeUrlService(FanDubProps fanDubProps, FandubTitlesServiceFeignClient fandubTitlesServiceFeignClient, AuthProps authProps,
+			CommonProps commonProps,
 			AnimepikResourcesFeignClient animepikResourcesFeignClient,
 			AnimepikParserI animepikParser) {
-		super(fanDubProps, fandubTitlesServiceFeignClient, authProps);
+		super(fanDubProps, fandubTitlesServiceFeignClient, authProps, commonProps);
 		this.animepikResourcesFeignClient = animepikResourcesFeignClient;
 		this.animepikParser = animepikParser;
 	}

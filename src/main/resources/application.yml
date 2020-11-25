@@ -27,6 +27,8 @@ application:
     url: https://myanimelist.net
   auth:
     fandub-titles-service-basic-auth: ${FTS_BASIC_AUTH}
+  common:
+    enable-build-url-in-runtime: true
 
 server:
   port: ${PORT}

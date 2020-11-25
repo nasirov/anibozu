@@ -5,6 +5,7 @@ import static nasirov.yv.data.constants.BaseConstants.FINAL_URL_VALUE_IF_EPISODE
 import java.util.List;
 import lombok.extern.slf4j.Slf4j;
 import nasirov.yv.data.properties.AuthProps;
+import nasirov.yv.data.properties.CommonProps;
 import nasirov.yv.fandub.service.spring.boot.starter.dto.fandub.common.CommonTitle;
 import nasirov.yv.fandub.service.spring.boot.starter.dto.fandub.common.FandubEpisode;
 import nasirov.yv.fandub.service.spring.boot.starter.extractor.parser.NineAnimeParserI;
@@ -28,9 +29,10 @@ public class NineAnimeEpisodeUrlService extends BaseEpisodeUrlService {
 	private final NineAnimeParserI nineAnimeParser;
 
 	public NineAnimeEpisodeUrlService(FanDubProps fanDubProps, FandubTitlesServiceFeignClient fandubTitlesServiceFeignClient, AuthProps authProps,
+			CommonProps commonProps,
 			NineAnimeServiceI nineAnimeService,
 			NineAnimeParserI nineAnimeParser) {
-		super(fanDubProps, fandubTitlesServiceFeignClient, authProps);
+		super(fanDubProps, fandubTitlesServiceFeignClient, authProps, commonProps);
 		this.nineAnimeService = nineAnimeService;
 		this.nineAnimeParser = nineAnimeParser;
 	}

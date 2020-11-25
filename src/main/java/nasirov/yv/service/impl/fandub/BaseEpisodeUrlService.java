@@ -7,9 +7,9 @@ import com.google.common.collect.Iterables;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import nasirov.yv.data.properties.AuthProps;
+import nasirov.yv.data.properties.CommonProps;
 import nasirov.yv.fandub.service.spring.boot.starter.constant.FanDubSource;
 import nasirov.yv.fandub.service.spring.boot.starter.dto.fandub.common.CommonTitle;
 import nasirov.yv.fandub.service.spring.boot.starter.dto.fandub.common.FandubEpisode;
@@ -25,7 +25,6 @@ import org.apache.commons.collections4.CollectionUtils;
  * Created by nasirov.yv
  */
 @Slf4j
-@RequiredArgsConstructor
 public abstract class BaseEpisodeUrlService implements EpisodeUrlServiceI {
 
 	private final FanDubProps fanDubProps;
@@ -33,6 +32,16 @@ public abstract class BaseEpisodeUrlService implements EpisodeUrlServiceI {
 	private final FandubTitlesServiceFeignClient fandubTitlesServiceFeignClient;
 
 	private final AuthProps authProps;
+
+	private final CommonProps commonProps;
+
+	protected BaseEpisodeUrlService(FanDubProps fanDubProps, FandubTitlesServiceFeignClient fandubTitlesServiceFeignClient, AuthProps authProps,
+			CommonProps commonProps) {
+		this.fanDubProps = fanDubProps;
+		this.fandubTitlesServiceFeignClient = fandubTitlesServiceFeignClient;
+		this.authProps = authProps;
+		this.commonProps = commonProps;
+	}
 
 	@Override
 	public final String getEpisodeUrl(FanDubSource fanDubSource, MalTitle watchingTitle) {
@@ -77,6 +86,7 @@ public abstract class BaseEpisodeUrlService implements EpisodeUrlServiceI {
 
 	protected String buildUrlAlt(Integer nextEpisodeForWatch, List<CommonTitle> matchedTitles, String fandubUrl) {
 		return Optional.of(matchedTitles)
+				.filter(x -> commonProps.getEnableBuildUrlInRuntime())
 				.map(this::extractRegularTitles)
 				.filter(CollectionUtils::isNotEmpty)
 				.map(x -> buildUrlInRuntime(nextEpisodeForWatch, x, fandubUrl))

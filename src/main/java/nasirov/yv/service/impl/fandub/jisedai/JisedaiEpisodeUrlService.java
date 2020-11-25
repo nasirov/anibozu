@@ -2,6 +2,7 @@ package nasirov.yv.service.impl.fandub.jisedai;
 
 import java.util.List;
 import nasirov.yv.data.properties.AuthProps;
+import nasirov.yv.data.properties.CommonProps;
 import nasirov.yv.fandub.service.spring.boot.starter.dto.fandub.common.CommonTitle;
 import nasirov.yv.fandub.service.spring.boot.starter.dto.fandub.common.FandubEpisode;
 import nasirov.yv.fandub.service.spring.boot.starter.extractor.parser.JisedaiParserI;
@@ -24,9 +25,10 @@ public class JisedaiEpisodeUrlService extends BaseEpisodeUrlService {
 	private final JisedaiParserI jisedaiParser;
 
 	public JisedaiEpisodeUrlService(FanDubProps fanDubProps, FandubTitlesServiceFeignClient fandubTitlesServiceFeignClient, AuthProps authProps,
+			CommonProps commonProps,
 			JisedaiFeignClient jisedaiFeignClient,
 			JisedaiParserI jisedaiParser) {
-		super(fanDubProps, fandubTitlesServiceFeignClient, authProps);
+		super(fanDubProps, fandubTitlesServiceFeignClient, authProps, commonProps);
 		this.jisedaiFeignClient = jisedaiFeignClient;
 		this.jisedaiParser = jisedaiParser;
 	}
