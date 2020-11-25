@@ -20,9 +20,6 @@ public class CacheProps {
 	private ConfigurableCacheProps mal;
 
 	@NotNull
-	private ConfigurableCacheProps github;
-
-	@NotNull
 	private ConfigurableCacheProps sse;
 
 	@Data

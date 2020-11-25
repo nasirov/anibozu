@@ -4,12 +4,13 @@ import static nasirov.yv.data.constants.BaseConstants.FINAL_URL_VALUE_IF_EPISODE
 
 import java.util.List;
 import lombok.extern.slf4j.Slf4j;
+import nasirov.yv.data.properties.AuthProps;
 import nasirov.yv.fandub.service.spring.boot.starter.dto.fandub.common.CommonTitle;
 import nasirov.yv.fandub.service.spring.boot.starter.dto.fandub.common.FandubEpisode;
 import nasirov.yv.fandub.service.spring.boot.starter.extractor.parser.NineAnimeParserI;
+import nasirov.yv.fandub.service.spring.boot.starter.feign.fandub_titles_service.FandubTitlesServiceFeignClient;
 import nasirov.yv.fandub.service.spring.boot.starter.properties.FanDubProps;
 import nasirov.yv.fandub.service.spring.boot.starter.service.NineAnimeServiceI;
-import nasirov.yv.service.TitlesServiceI;
 import nasirov.yv.service.impl.fandub.BaseEpisodeUrlService;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -26,9 +27,10 @@ public class NineAnimeEpisodeUrlService extends BaseEpisodeUrlService {
 
 	private final NineAnimeParserI nineAnimeParser;
 
-	public NineAnimeEpisodeUrlService(TitlesServiceI titlesService, FanDubProps fanDubProps, NineAnimeServiceI nineAnimeService,
+	public NineAnimeEpisodeUrlService(FanDubProps fanDubProps, FandubTitlesServiceFeignClient fandubTitlesServiceFeignClient, AuthProps authProps,
+			NineAnimeServiceI nineAnimeService,
 			NineAnimeParserI nineAnimeParser) {
-		super(titlesService, fanDubProps);
+		super(fanDubProps, fandubTitlesServiceFeignClient, authProps);
 		this.nineAnimeService = nineAnimeService;
 		this.nineAnimeParser = nineAnimeParser;
 	}

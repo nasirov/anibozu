@@ -5,20 +5,19 @@ import static nasirov.yv.data.constants.BaseConstants.NOT_FOUND_ON_FANDUB_SITE_U
 
 import com.google.common.collect.Iterables;
 import java.util.List;
-import java.util.Map;
-import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import nasirov.yv.data.properties.AuthProps;
 import nasirov.yv.fandub.service.spring.boot.starter.constant.FanDubSource;
 import nasirov.yv.fandub.service.spring.boot.starter.dto.fandub.common.CommonTitle;
 import nasirov.yv.fandub.service.spring.boot.starter.dto.fandub.common.FandubEpisode;
 import nasirov.yv.fandub.service.spring.boot.starter.dto.fandub.common.TitleType;
 import nasirov.yv.fandub.service.spring.boot.starter.dto.mal.MalTitle;
+import nasirov.yv.fandub.service.spring.boot.starter.feign.fandub_titles_service.FandubTitlesServiceFeignClient;
 import nasirov.yv.fandub.service.spring.boot.starter.properties.FanDubProps;
 import nasirov.yv.service.EpisodeUrlServiceI;
-import nasirov.yv.service.TitlesServiceI;
 import nasirov.yv.util.MalUtils;
 import org.apache.commons.collections4.CollectionUtils;
 
@@ -29,9 +28,11 @@ import org.apache.commons.collections4.CollectionUtils;
 @RequiredArgsConstructor
 public abstract class BaseEpisodeUrlService implements EpisodeUrlServiceI {
 
-	private final TitlesServiceI titlesService;
-
 	private final FanDubProps fanDubProps;
+
+	private final FandubTitlesServiceFeignClient fandubTitlesServiceFeignClient;
+
+	private final AuthProps authProps;
 
 	@Override
 	public final String getEpisodeUrl(FanDubSource fanDubSource, MalTitle watchingTitle) {
@@ -40,8 +41,11 @@ public abstract class BaseEpisodeUrlService implements EpisodeUrlServiceI {
 		log.debug("Trying to build url for [{} - {} episode] by [{}]", watchingTitle.getAnimeUrl(), nextEpisodeForWatch, fanDubSource);
 		String fandubUrl = fanDubProps.getUrls()
 				.get(fanDubSource);
-		List<CommonTitle> matchedTitles = getMatchedTitles(fanDubSource, watchingTitle);
-		if (Objects.nonNull(matchedTitles)) {
+		List<CommonTitle> matchedTitles = getMatchedTitles(authProps.getFandubTitlesServiceBasicAuth(),
+				fanDubSource,
+				watchingTitle.getId(),
+				nextEpisodeForWatch);
+		if (CollectionUtils.isNotEmpty(matchedTitles)) {
 			result = buildUrl(nextEpisodeForWatch, matchedTitles, fandubUrl);
 		}
 		log.debug("Got url [{}] for [{} - {} episode] by [{}]", result, watchingTitle.getAnimeUrl(), nextEpisodeForWatch, fanDubSource);
@@ -79,9 +83,8 @@ public abstract class BaseEpisodeUrlService implements EpisodeUrlServiceI {
 				.orElse(FINAL_URL_VALUE_IF_EPISODE_IS_NOT_AVAILABLE);
 	}
 
-	private List<CommonTitle> getMatchedTitles(FanDubSource fanDubSource, MalTitle watchingTitle) {
-		Map<Integer, List<CommonTitle>> mappedTitlesByMalId = titlesService.getTitles(fanDubSource);
-		return mappedTitlesByMalId.get(watchingTitle.getId());
+	private List<CommonTitle> getMatchedTitles(String basicAuth, FanDubSource fanDubSource, Integer malId, int malEpisodeId) {
+		return fandubTitlesServiceFeignClient.getCommonTitles(basicAuth, fanDubSource, malId, malEpisodeId);
 	}
 
 	private List<CommonTitle> extractRegularTitles(List<CommonTitle> matchedTitles) {

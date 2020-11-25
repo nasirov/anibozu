@@ -3,6 +3,5 @@ application:
     offset-step: 2
   fandub-support:
     disabled-fandub:
-  services:
-    cacheFillerService:
-      enabled: false
+  auth:
+    fandub-titles-service-basic-auth: Basic foobar

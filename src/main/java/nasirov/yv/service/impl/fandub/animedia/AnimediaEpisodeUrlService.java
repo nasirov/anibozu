@@ -6,13 +6,14 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import lombok.extern.slf4j.Slf4j;
+import nasirov.yv.data.properties.AuthProps;
 import nasirov.yv.fandub.service.spring.boot.starter.dto.fandub.animedia.AnimediaEpisode;
 import nasirov.yv.fandub.service.spring.boot.starter.dto.fandub.common.CommonTitle;
 import nasirov.yv.fandub.service.spring.boot.starter.dto.fandub.common.FandubEpisode;
 import nasirov.yv.fandub.service.spring.boot.starter.extractor.parser.AnimediaParserI;
 import nasirov.yv.fandub.service.spring.boot.starter.feign.fandub.animedia.AnimediaFeignClient;
+import nasirov.yv.fandub.service.spring.boot.starter.feign.fandub_titles_service.FandubTitlesServiceFeignClient;
 import nasirov.yv.fandub.service.spring.boot.starter.properties.FanDubProps;
-import nasirov.yv.service.TitlesServiceI;
 import nasirov.yv.service.impl.fandub.BaseEpisodeUrlService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
@@ -28,9 +29,10 @@ public class AnimediaEpisodeUrlService extends BaseEpisodeUrlService {
 
 	private final AnimediaParserI animediaParser;
 
-	public AnimediaEpisodeUrlService(TitlesServiceI titlesService, FanDubProps fanDubProps, AnimediaFeignClient animediaFeignClient,
+	public AnimediaEpisodeUrlService(FanDubProps fanDubProps, FandubTitlesServiceFeignClient fandubTitlesServiceFeignClient, AuthProps authProps,
+			AnimediaFeignClient animediaFeignClient,
 			AnimediaParserI animediaParser) {
-		super(titlesService, fanDubProps);
+		super(fanDubProps, fandubTitlesServiceFeignClient, authProps);
 		this.animediaFeignClient = animediaFeignClient;
 		this.animediaParser = animediaParser;
 	}

@@ -12,9 +12,8 @@ import static org.mockito.Mockito.doReturn;
 
 import com.google.common.collect.Lists;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
+import nasirov.yv.data.properties.AuthProps;
 import nasirov.yv.fandub.service.spring.boot.starter.constant.FanDubSource;
 import nasirov.yv.fandub.service.spring.boot.starter.dto.fandub.animedia.AnimediaEpisode;
 import nasirov.yv.fandub.service.spring.boot.starter.dto.fandub.common.CommonTitle;
@@ -22,8 +21,8 @@ import nasirov.yv.fandub.service.spring.boot.starter.dto.fandub.common.FandubEpi
 import nasirov.yv.fandub.service.spring.boot.starter.dto.mal.MalTitle;
 import nasirov.yv.fandub.service.spring.boot.starter.extractor.parser.AnimediaParserI;
 import nasirov.yv.fandub.service.spring.boot.starter.feign.fandub.animedia.AnimediaFeignClient;
+import nasirov.yv.fandub.service.spring.boot.starter.feign.fandub_titles_service.FandubTitlesServiceFeignClient;
 import nasirov.yv.fandub.service.spring.boot.starter.properties.FanDubProps;
-import nasirov.yv.service.TitlesServiceI;
 import nasirov.yv.utils.CommonTitleTestBuilder;
 import org.assertj.core.util.Maps;
 import org.junit.Test;
@@ -38,8 +37,13 @@ import org.mockito.junit.MockitoJUnitRunner;
 @RunWith(MockitoJUnitRunner.class)
 public class AnimediaEpisodeUrlServiceTest {
 
+	private static final String BASIC_AUTH = "Basic foobar";
+
 	@Mock
-	private TitlesServiceI titlesService;
+	private FandubTitlesServiceFeignClient fandubTitlesServiceFeignClient;
+
+	@Mock
+	private AuthProps authProps;
 
 	@Mock
 	private FanDubProps fanDubProps;
@@ -56,8 +60,11 @@ public class AnimediaEpisodeUrlServiceTest {
 	@Test
 	public void shouldReturnUrlWithAvailableEpisode() {
 		//given
+		mockAuthProps();
 		mockFandubUrlsMap();
-		mockTitleService(getMappedTitlesByMalId());
+		mockTitleService(Lists.newArrayList(CommonTitleTestBuilder.getAnimediaRegular(),
+				CommonTitleTestBuilder.getRegular(REGULAR_TITLE_ANIMEDIA_URL, 0, buildEpisodeUrl(REGULAR_TITLE_ANIMEDIA_URL, 0), null),
+				CommonTitleTestBuilder.getConcretized(REGULAR_TITLE_ANIMEDIA_URL, 2, buildEpisodeUrl(REGULAR_TITLE_ANIMEDIA_URL, 2), null)), 1);
 		MalTitle malTitle = buildWatchingTitle(REGULAR_TITLE_MAL_ID, 0);
 		//when
 		String actualUrl = animediaEpisodeUrlService.getEpisodeUrl(FanDubSource.ANIMEDIA, malTitle);
@@ -68,8 +75,11 @@ public class AnimediaEpisodeUrlServiceTest {
 	@Test
 	public void shouldReturnUrlWithAvailableEpisodeInRuntime() {
 		//given
+		mockAuthProps();
 		mockFandubUrlsMap();
-		mockTitleService(getMappedTitlesByMalId());
+		mockTitleService(Lists.newArrayList(CommonTitleTestBuilder.getAnimediaRegular(),
+				CommonTitleTestBuilder.getRegular(REGULAR_TITLE_ANIMEDIA_URL, 0, buildEpisodeUrl(REGULAR_TITLE_ANIMEDIA_URL, 0), null),
+				CommonTitleTestBuilder.getConcretized(REGULAR_TITLE_ANIMEDIA_URL, 2, buildEpisodeUrl(REGULAR_TITLE_ANIMEDIA_URL, 2), null)), 2);
 		mockGetTitleEpisodesByPlaylist(getAnimediaEpisodes());
 		mockParser(getAnimediaEpisodesWithFilledTitleUrlField());
 		MalTitle malTitle = buildWatchingTitle(REGULAR_TITLE_MAL_ID, 1);
@@ -82,6 +92,7 @@ public class AnimediaEpisodeUrlServiceTest {
 	@Test
 	public void shouldReturnNotFoundOnFandubSiteUrl() {
 		//given
+		mockAuthProps();
 		mockFandubUrlsMap();
 		int notFoundOnFandubMalId = 42;
 		MalTitle malTitle = buildWatchingTitle(notFoundOnFandubMalId, 0);
@@ -94,8 +105,11 @@ public class AnimediaEpisodeUrlServiceTest {
 	@Test
 	public void shouldReturnFinalUrlValueIfEpisodeIsNotAvailable() {
 		//given
+		mockAuthProps();
 		mockFandubUrlsMap();
-		mockTitleService(getMappedTitlesByMalIdAlt());
+		mockTitleService(Lists.newArrayList(CommonTitleTestBuilder.getAnimediaConcretized(),
+				CommonTitleTestBuilder.getConcretized(REGULAR_TITLE_ANIMEDIA_URL, 0, buildEpisodeUrl(REGULAR_TITLE_ANIMEDIA_URL, 0), null),
+				CommonTitleTestBuilder.getConcretized(REGULAR_TITLE_ANIMEDIA_URL, 2, buildEpisodeUrl(REGULAR_TITLE_ANIMEDIA_URL, 2), null)), 2);
 		MalTitle malTitle = buildWatchingTitle(REGULAR_TITLE_MAL_ID, 1);
 		//when
 		String actualUrl = animediaEpisodeUrlService.getEpisodeUrl(FanDubSource.ANIMEDIA, malTitle);
@@ -106,8 +120,11 @@ public class AnimediaEpisodeUrlServiceTest {
 	@Test
 	public void shouldReturnFinalUrlValueIfEpisodeIsNotAvailableInRuntime() {
 		//given
+		mockAuthProps();
 		mockFandubUrlsMap();
-		mockTitleService(getMappedTitlesByMalId());
+		mockTitleService(Lists.newArrayList(CommonTitleTestBuilder.getAnimediaRegular(),
+				CommonTitleTestBuilder.getRegular(REGULAR_TITLE_ANIMEDIA_URL, 0, buildEpisodeUrl(REGULAR_TITLE_ANIMEDIA_URL, 0), null),
+				CommonTitleTestBuilder.getConcretized(REGULAR_TITLE_ANIMEDIA_URL, 2, buildEpisodeUrl(REGULAR_TITLE_ANIMEDIA_URL, 2), null)), 3);
 		List<AnimediaEpisode> animediaEpisodesStub = Collections.emptyList();
 		mockGetTitleEpisodesByPlaylist(animediaEpisodesStub);
 		mockParser(animediaEpisodesStub);
@@ -129,32 +146,19 @@ public class AnimediaEpisodeUrlServiceTest {
 				.getTitleEpisodesByPlaylist(REGULAR_TITLE_ID, 1);
 	}
 
-	private void mockTitleService(Map<Integer, List<CommonTitle>> mappedTitlesByMalId) {
-		doReturn(mappedTitlesByMalId).when(titlesService)
-				.getTitles(FanDubSource.ANIMEDIA);
+	private void mockTitleService(List<CommonTitle> commonTitles, int malEpisodeId) {
+		doReturn(commonTitles).when(fandubTitlesServiceFeignClient)
+				.getCommonTitles(BASIC_AUTH, FanDubSource.ANIMEDIA, REGULAR_TITLE_MAL_ID, malEpisodeId);
+	}
+
+	private void mockAuthProps() {
+		doReturn(BASIC_AUTH).when(authProps)
+				.getFandubTitlesServiceBasicAuth();
 	}
 
 	private void mockFandubUrlsMap() {
 		doReturn(Maps.newHashMap(FanDubSource.ANIMEDIA, ANIMEDIA_ONLINE_TV)).when(fanDubProps)
 				.getUrls();
-	}
-
-	private Map<Integer, List<CommonTitle>> getMappedTitlesByMalId() {
-		Map<Integer, List<CommonTitle>> map = new HashMap<>();
-		map.put(REGULAR_TITLE_MAL_ID,
-				Lists.newArrayList(CommonTitleTestBuilder.getAnimediaRegular(),
-						CommonTitleTestBuilder.getRegular(REGULAR_TITLE_ANIMEDIA_URL, 0, buildEpisodeUrl(REGULAR_TITLE_ANIMEDIA_URL, 0), null),
-						CommonTitleTestBuilder.getConcretized(REGULAR_TITLE_ANIMEDIA_URL, 2, buildEpisodeUrl(REGULAR_TITLE_ANIMEDIA_URL, 2), null)));
-		return map;
-	}
-
-	private Map<Integer, List<CommonTitle>> getMappedTitlesByMalIdAlt() {
-		Map<Integer, List<CommonTitle>> map = new HashMap<>();
-		map.put(REGULAR_TITLE_MAL_ID,
-				Lists.newArrayList(CommonTitleTestBuilder.getAnimediaConcretized(),
-						CommonTitleTestBuilder.getConcretized(REGULAR_TITLE_ANIMEDIA_URL, 0, buildEpisodeUrl(REGULAR_TITLE_ANIMEDIA_URL, 0), null),
-						CommonTitleTestBuilder.getConcretized(REGULAR_TITLE_ANIMEDIA_URL, 2, buildEpisodeUrl(REGULAR_TITLE_ANIMEDIA_URL, 2), null)));
-		return map;
 	}
 
 	private List<AnimediaEpisode> getAnimediaEpisodes() {

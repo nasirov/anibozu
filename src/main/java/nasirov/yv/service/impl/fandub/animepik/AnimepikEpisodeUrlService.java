@@ -1,13 +1,14 @@
 package nasirov.yv.service.impl.fandub.animepik;
 
 import java.util.List;
+import nasirov.yv.data.properties.AuthProps;
 import nasirov.yv.fandub.service.spring.boot.starter.dto.fandub.animepik.AnimepikEpisode;
 import nasirov.yv.fandub.service.spring.boot.starter.dto.fandub.common.CommonTitle;
 import nasirov.yv.fandub.service.spring.boot.starter.dto.fandub.common.FandubEpisode;
 import nasirov.yv.fandub.service.spring.boot.starter.extractor.parser.AnimepikParserI;
 import nasirov.yv.fandub.service.spring.boot.starter.feign.fandub.animepik.AnimepikResourcesFeignClient;
+import nasirov.yv.fandub.service.spring.boot.starter.feign.fandub_titles_service.FandubTitlesServiceFeignClient;
 import nasirov.yv.fandub.service.spring.boot.starter.properties.FanDubProps;
-import nasirov.yv.service.TitlesServiceI;
 import nasirov.yv.service.impl.fandub.BaseEpisodeUrlService;
 import org.springframework.stereotype.Service;
 
@@ -21,9 +22,10 @@ public class AnimepikEpisodeUrlService extends BaseEpisodeUrlService {
 
 	private final AnimepikParserI animepikParser;
 
-	public AnimepikEpisodeUrlService(TitlesServiceI titlesService, FanDubProps fanDubProps, AnimepikResourcesFeignClient animepikResourcesFeignClient,
+	public AnimepikEpisodeUrlService(FanDubProps fanDubProps, FandubTitlesServiceFeignClient fandubTitlesServiceFeignClient, AuthProps authProps,
+			AnimepikResourcesFeignClient animepikResourcesFeignClient,
 			AnimepikParserI animepikParser) {
-		super(titlesService, fanDubProps);
+		super(fanDubProps, fandubTitlesServiceFeignClient, authProps);
 		this.animepikResourcesFeignClient = animepikResourcesFeignClient;
 		this.animepikParser = animepikParser;
 	}

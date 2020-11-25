@@ -7,7 +7,6 @@ import static org.ehcache.config.builders.ExpiryPolicyBuilder.timeToLiveExpirati
 import static org.ehcache.jsr107.Eh107Configuration.fromEhcacheCacheConfiguration;
 
 import com.google.common.collect.Sets;
-import java.util.HashMap;
 import javax.cache.CacheManager;
 import javax.cache.configuration.Configuration;
 import lombok.RequiredArgsConstructor;
@@ -35,7 +34,6 @@ public class CacheConfig implements JCacheManagerCustomizer {
 	@Override
 	public void customize(CacheManager cacheManager) {
 		buildCache(cacheManager, cacheProps.getMal(), MalUserInfo.class);
-		buildCache(cacheManager, cacheProps.getGithub(), HashMap.class);
 		buildCache(cacheManager, cacheProps.getSse(), ServerSentEventThread.class);
 	}
 

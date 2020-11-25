@@ -1,12 +1,13 @@
 package nasirov.yv.service.impl.fandub.shiza_project;
 
 import java.util.List;
+import nasirov.yv.data.properties.AuthProps;
 import nasirov.yv.fandub.service.spring.boot.starter.dto.fandub.common.CommonTitle;
 import nasirov.yv.fandub.service.spring.boot.starter.dto.fandub.common.FandubEpisode;
 import nasirov.yv.fandub.service.spring.boot.starter.extractor.parser.ShizaProjectParserI;
 import nasirov.yv.fandub.service.spring.boot.starter.feign.fandub.shiza_project.ShizaProjectFeignClient;
+import nasirov.yv.fandub.service.spring.boot.starter.feign.fandub_titles_service.FandubTitlesServiceFeignClient;
 import nasirov.yv.fandub.service.spring.boot.starter.properties.FanDubProps;
-import nasirov.yv.service.TitlesServiceI;
 import nasirov.yv.service.impl.fandub.BaseEpisodeUrlService;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -22,9 +23,10 @@ public class ShizaProjectEpisodeUrlService extends BaseEpisodeUrlService {
 
 	private final ShizaProjectParserI shizaProjectParser;
 
-	public ShizaProjectEpisodeUrlService(TitlesServiceI titlesService, FanDubProps fanDubProps, ShizaProjectFeignClient shizaProjectFeignClient,
+	public ShizaProjectEpisodeUrlService(FanDubProps fanDubProps, FandubTitlesServiceFeignClient fandubTitlesServiceFeignClient, AuthProps authProps,
+			ShizaProjectFeignClient shizaProjectFeignClient,
 			ShizaProjectParserI shizaProjectParser) {
-		super(titlesService, fanDubProps);
+		super(fanDubProps, fandubTitlesServiceFeignClient, authProps);
 		this.shizaProjectFeignClient = shizaProjectFeignClient;
 		this.shizaProjectParser = shizaProjectParser;
 	}

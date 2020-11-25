@@ -2,6 +2,10 @@ spring:
   profiles:
     include: default
 
+application:
+  auth:
+    fandub-titles-service-basic-auth: Basic YWRtaW46YWRtaW4=
+
 animedia-feign-client:
   ribbon:
     listOfServers: https://online.animedia.tv
@@ -41,3 +45,7 @@ github-feign-client:
 mal-feign-client:
   ribbon:
     listOfServers: https://myanimelist.net
+
+fandub-titles-service-feign-client:
+  ribbon:
+    listOfServers: https://localhost:8089
