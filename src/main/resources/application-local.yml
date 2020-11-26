@@ -44,4 +44,4 @@ mal-feign-client:
 
 fandub-titles-service-feign-client:
   ribbon:
-    listOfServers: https://localhost:8089
+    listOfServers: http://localhost:8089
