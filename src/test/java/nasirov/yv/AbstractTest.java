@@ -3,6 +3,7 @@ package nasirov.yv;
 import java.util.Objects;
 import nasirov.yv.service.MalServiceI;
 import nasirov.yv.service.SseEmitterExecutorServiceI;
+import nasirov.yv.service.impl.common.CacheCleanerService;
 import nasirov.yv.service.impl.fandub.nine_anime.NineAnimeEpisodeUrlService;
 import org.junit.After;
 import org.junit.runner.RunWith;
@@ -41,6 +42,9 @@ public abstract class AbstractTest {
 
 	@Autowired
 	protected CacheManager cacheManager;
+
+	@Autowired
+	protected CacheCleanerService cacheCleanerService;
 
 	@After
 	public void tearDown() {

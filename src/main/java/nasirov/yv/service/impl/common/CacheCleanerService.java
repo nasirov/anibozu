@@ -14,8 +14,8 @@ import org.springframework.stereotype.Service;
 public class CacheCleanerService implements CacheCleanerServiceI {
 
 	@Override
-	@CacheEvict(cacheNames = "sse", key = "T(java.lang.String).valueOf(#userInputDto.hashCode())")
+	@CacheEvict(cacheNames = "sse", key = "#userInputDto.getUsername()")
 	public void clearSseCache(UserInputDto userInputDto) {
-		log.info("Received request for eviction sse cache for [{}] by key [{}].", userInputDto, userInputDto.hashCode());
+		log.info("Received request for eviction sse cache for [{}] by key [{}].", userInputDto, userInputDto.getUsername());
 	}
 }
