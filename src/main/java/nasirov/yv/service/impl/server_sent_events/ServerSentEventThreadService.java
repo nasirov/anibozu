@@ -45,7 +45,7 @@ public class ServerSentEventThreadService implements ServerSentEventThreadServic
 		Cache cache = cacheManager.getCache(cacheProps.getSse()
 				.getName());
 		if (nonNull(cache)) {
-			String key = String.valueOf(userInputDto.hashCode());
+			String key = userInputDto.getUsername();
 			stopCachedTask(key, cache);
 			cache.put(key, result);
 		}

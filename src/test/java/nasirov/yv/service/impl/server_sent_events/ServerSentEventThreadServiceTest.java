@@ -59,7 +59,7 @@ public class ServerSentEventThreadServiceTest {
 	public void shouldBuildSseAction() {
 		//given
 		UserInputDto userInputDto = buildUserInputDto();
-		String cacheKey = String.valueOf(userInputDto.hashCode());
+		String cacheKey = userInputDto.getUsername();
 		mockServices(cacheKey);
 		SseEmitter sseEmitter = new SseEmitter();
 		//when
