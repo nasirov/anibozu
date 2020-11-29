@@ -71,7 +71,7 @@ import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
 /**
- * Created by nasirov.yv
+ * @author Nasirov Yuriy
  */
 @RunWith(PowerMockRunner.class)
 @PrepareForTest(value = {AnimediaEpisodeUrlService.class, NineAnimeEpisodeUrlService.class, AnidubEpisodeUrlService.class,

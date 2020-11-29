@@ -8,7 +8,7 @@ import nasirov.yv.utils.IOUtils;
 import org.junit.Test;
 
 /**
- * Created by nasirov.yv
+ * @author Nasirov Yuriy
  */
 public class MalParserTest {
 

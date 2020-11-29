@@ -6,7 +6,7 @@ import lombok.Data;
 /**
  * Dto for Server-Sent Events
  * <p>
- * Created by nasirov.yv
+ * @author Nasirov Yuriy
  */
 @Data
 @Builder

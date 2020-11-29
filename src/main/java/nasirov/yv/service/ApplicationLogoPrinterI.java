@@ -1,7 +1,7 @@
 package nasirov.yv.service;
 
 /**
- * Created by nasirov.yv
+ * @author Nasirov Yuriy
  */
 public interface ApplicationLogoPrinterI {
 

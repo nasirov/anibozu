@@ -14,7 +14,7 @@ import nasirov.yv.service.impl.fandub.BaseEpisodeUrlService;
 import org.springframework.stereotype.Service;
 
 /**
- * Created by nasirov.yv
+ * @author Nasirov Yuriy
  */
 @Service
 public class AnimepikEpisodeUrlService extends BaseEpisodeUrlService {

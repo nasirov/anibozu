@@ -4,7 +4,7 @@ import lombok.experimental.UtilityClass;
 import nasirov.yv.fandub.service.spring.boot.starter.dto.mal.MalTitle;
 
 /**
- * Created by nasirov.yv
+ * @author Nasirov Yuriy
  */
 @UtilityClass
 public class MalUtils {

@@ -25,7 +25,7 @@ import org.springframework.cache.CacheManager;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
 /**
- * Created by nasirov.yv
+ * @author Nasirov Yuriy
  */
 @RunWith(MockitoJUnitRunner.class)
 public class ServerSentEventThreadServiceTest {

@@ -28,7 +28,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 /**
- * Created by nasirov.yv
+ * @author Nasirov Yuriy
  */
 @Configuration
 public class EpisodeUrlStrategyConfig {

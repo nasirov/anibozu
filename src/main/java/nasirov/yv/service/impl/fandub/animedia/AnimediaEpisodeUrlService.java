@@ -20,7 +20,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
 /**
- * Created by nasirov.yv
+ * @author Nasirov Yuriy
  */
 @Slf4j
 @Service

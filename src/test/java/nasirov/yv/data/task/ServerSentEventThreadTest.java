@@ -41,7 +41,7 @@ import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter.SseEventBuilder;
 
 /**
- * Created by nasirov.yv
+ * @author Nasirov Yuriy
  */
 @RunWith(MockitoJUnitRunner.class)
 public class ServerSentEventThreadTest {

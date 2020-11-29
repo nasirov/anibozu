@@ -33,7 +33,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.util.HtmlUtils;
 
 /**
- * Created by nasirov.yv
+ * @author Nasirov Yuriy
  */
 @Service
 @Slf4j

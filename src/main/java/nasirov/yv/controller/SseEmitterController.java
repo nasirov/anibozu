@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
 /**
- * Created by nasirov.yv
+ * @author Nasirov Yuriy
  */
 @Slf4j
 @RestController

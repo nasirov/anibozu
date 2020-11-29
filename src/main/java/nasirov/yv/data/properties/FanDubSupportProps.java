@@ -8,7 +8,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 
 /**
- * Created by nasirov.yv
+ * @author Nasirov Yuriy
  */
 @Data
 @Configuration

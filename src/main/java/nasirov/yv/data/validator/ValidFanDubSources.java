@@ -9,7 +9,7 @@ import javax.validation.Constraint;
 import javax.validation.Payload;
 
 /**
- * Created by nasirov.yv
+ * @author Nasirov Yuriy
  */
 @Target({FIELD})
 @Retention(RUNTIME)

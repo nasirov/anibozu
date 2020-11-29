@@ -12,7 +12,7 @@ import nasirov.yv.fandub.service.spring.boot.starter.constant.FanDubSource;
 /**
  * Dto holds processing result information and handles by freemarker via templates
  * <p>
- * Created by nasirov.yv
+ * @author Nasirov Yuriy
  */
 @Data
 @Builder

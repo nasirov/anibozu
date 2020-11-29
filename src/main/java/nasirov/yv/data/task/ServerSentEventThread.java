@@ -20,7 +20,7 @@ import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter.SseEventBuilder;
 
 /**
- * Created by nasirov.yv
+ * @author Nasirov Yuriy
  */
 @Slf4j
 public class ServerSentEventThread implements Runnable {

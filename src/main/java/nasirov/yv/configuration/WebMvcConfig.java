@@ -10,7 +10,7 @@ import org.springframework.web.servlet.resource.ContentVersionStrategy;
 import org.springframework.web.servlet.resource.VersionResourceResolver;
 
 /**
- * Created by nasirov.yv
+ * @author Nasirov Yuriy
  */
 @Configuration
 @EnableWebMvc

@@ -15,7 +15,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 /**
- * Created by nasirov.yv
+ * @author Nasirov Yuriy
  */
 @Slf4j
 @Controller

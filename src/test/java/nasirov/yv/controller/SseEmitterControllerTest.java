@@ -15,7 +15,7 @@ import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
 /**
- * Created by nasirov.yv
+ * @author Nasirov Yuriy
  */
 public class SseEmitterControllerTest extends AbstractTest {
 

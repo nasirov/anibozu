@@ -15,7 +15,7 @@ import org.springframework.core.io.ClassPathResource;
 import org.springframework.test.util.ReflectionTestUtils;
 
 /**
- * Created by nasirov.yv
+ * @author Nasirov Yuriy
  */
 public class ApplicationLogoPrinterTest {
 

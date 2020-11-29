@@ -39,7 +39,7 @@ import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.http.ResponseEntity;
 
 /**
- * Created by nasirov.yv
+ * @author Nasirov Yuriy
  */
 @RunWith(MockitoJUnitRunner.class)
 public class MalServiceTest {

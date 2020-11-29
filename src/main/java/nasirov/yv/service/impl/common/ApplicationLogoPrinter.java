@@ -13,7 +13,7 @@ import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
 
 /**
- * Created by nasirov.yv
+ * @author Nasirov Yuriy
  */
 @Service
 @ConditionalOnProperty(name = "application.services.applicationLogoPrinter.enabled", havingValue = "true")

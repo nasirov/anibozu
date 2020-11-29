@@ -1,7 +1,7 @@
 package nasirov.yv.parser;
 
 /**
- * Created by nasirov.yv
+ * @author Nasirov Yuriy
  */
 public interface MalParserI {
 

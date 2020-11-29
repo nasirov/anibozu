@@ -3,7 +3,7 @@ package nasirov.yv.data.front;
 /**
  * Enum for Server-Sent Events
  * <p>
- * Created by nasirov.yv
+ * @author Nasirov Yuriy
  */
 public enum EventType {
 	/**

@@ -14,7 +14,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Component;
 
 /**
- * Created by nasirov.yv
+ * @author Nasirov Yuriy
  */
 @Component
 public class IndexFilter implements Filter {

@@ -28,7 +28,7 @@ import org.springframework.test.util.ReflectionTestUtils;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
 /**
- * Created by nasirov.yv
+ * @author Nasirov Yuriy
  */
 @RunWith(MockitoJUnitRunner.class)
 public class SseEmitterExecutorServiceTest {

@@ -26,7 +26,7 @@ import org.junit.Before;
 import org.mockito.Mock;
 
 /**
- * Created by nasirov.yv
+ * @author Nasirov Yuriy
  */
 public abstract class BaseEpisodeUrlsServiceTest {
 

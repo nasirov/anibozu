@@ -3,7 +3,7 @@ package nasirov.yv.utils;
 import lombok.experimental.UtilityClass;
 
 /**
- * Created by nasirov.yv
+ * @author Nasirov Yuriy
  */
 @UtilityClass
 public class TestConstants {

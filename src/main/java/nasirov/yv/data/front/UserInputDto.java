@@ -13,7 +13,7 @@ import org.apache.commons.lang.StringUtils;
 import org.springframework.validation.annotation.Validated;
 
 /**
- * Created by nasirov.yv
+ * @author Nasirov Yuriy
  */
 @Data
 @Builder

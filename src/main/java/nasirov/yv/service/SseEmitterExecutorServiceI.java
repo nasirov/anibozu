@@ -4,7 +4,7 @@ import nasirov.yv.data.front.UserInputDto;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
 /**
- * Created by nasirov.yv
+ * @author Nasirov Yuriy
  */
 public interface SseEmitterExecutorServiceI {
 

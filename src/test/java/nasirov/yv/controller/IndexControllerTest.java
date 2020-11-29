@@ -16,7 +16,7 @@ import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.web.servlet.ModelAndView;
 
 /**
- * Created by nasirov.yv
+ * @author Nasirov Yuriy
  */
 public class IndexControllerTest extends AbstractTest {
 

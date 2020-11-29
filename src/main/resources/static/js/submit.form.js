@@ -1,5 +1,5 @@
 /**
- * Created by nasirov.yv
+ * @author Nasirov Yuriy
  */
 $(document).ready(function () {
   $('#username-submit-form').on('submit', function (e) {

@@ -10,7 +10,7 @@ import nasirov.yv.fandub.service.spring.boot.starter.dto.mal.MalTitle;
 import org.junit.Test;
 
 /**
- * Created by nasirov.yv
+ * @author Nasirov Yuriy
  */
 public class MalUtilsTest {
 

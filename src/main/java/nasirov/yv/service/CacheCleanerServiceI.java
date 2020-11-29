@@ -3,7 +3,7 @@ package nasirov.yv.service;
 import nasirov.yv.data.front.UserInputDto;
 
 /**
- * Created by nasirov.yv
+ * @author Nasirov Yuriy
  */
 public interface CacheCleanerServiceI {
 

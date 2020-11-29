@@ -11,7 +11,7 @@ import nasirov.yv.fandub.service.spring.boot.starter.constant.FanDubSource;
 import org.springframework.stereotype.Component;
 
 /**
- * Created by nasirov.yv
+ * @author Nasirov Yuriy
  */
 @Component
 @RequiredArgsConstructor

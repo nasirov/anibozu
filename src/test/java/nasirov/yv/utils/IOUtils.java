@@ -12,7 +12,7 @@ import lombok.SneakyThrows;
 import lombok.experimental.UtilityClass;
 
 /**
- * Created by nasirov.yv
+ * @author Nasirov Yuriy
  */
 @UtilityClass
 public class IOUtils {

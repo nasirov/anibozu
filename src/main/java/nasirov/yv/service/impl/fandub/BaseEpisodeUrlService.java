@@ -22,7 +22,7 @@ import nasirov.yv.util.MalUtils;
 import org.apache.commons.collections4.CollectionUtils;
 
 /**
- * Created by nasirov.yv
+ * @author Nasirov Yuriy
  */
 @Slf4j
 public abstract class BaseEpisodeUrlService implements EpisodeUrlServiceI {

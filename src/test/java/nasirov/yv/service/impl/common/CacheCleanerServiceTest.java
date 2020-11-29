@@ -14,7 +14,7 @@ import org.junit.Test;
 import org.springframework.cache.Cache;
 
 /**
- * Created by nasirov.yv
+ * @author Nasirov Yuriy
  */
 public class CacheCleanerServiceTest extends AbstractTest {
 

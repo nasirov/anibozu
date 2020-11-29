@@ -1,7 +1,7 @@
 package nasirov.yv.exception.mal;
 
 /**
- * Created by nasirov.yv
+ * @author Nasirov Yuriy
  */
 public abstract class AbstractMalException extends Exception {
 

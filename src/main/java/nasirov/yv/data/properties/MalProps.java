@@ -8,7 +8,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.validation.annotation.Validated;
 
 /**
- * Created by nasirov.yv
+ * @author Nasirov Yuriy
  */
 @Data
 @Validated

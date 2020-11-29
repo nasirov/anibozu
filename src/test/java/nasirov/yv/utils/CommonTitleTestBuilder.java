@@ -46,7 +46,7 @@ import nasirov.yv.fandub.service.spring.boot.starter.dto.fandub.common.CommonTit
 import nasirov.yv.fandub.service.spring.boot.starter.dto.fandub.common.TitleType;
 
 /**
- * Created by nasirov.yv
+ * @author Nasirov Yuriy
  */
 @UtilityClass
 public class CommonTitleTestBuilder {

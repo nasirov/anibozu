@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 /**
- * Created by nasirov.yv
+ * @author Nasirov Yuriy
  */
 @Controller
 @RequestMapping(value = {"/", "/index"})

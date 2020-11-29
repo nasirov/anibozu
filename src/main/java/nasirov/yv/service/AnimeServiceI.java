@@ -6,7 +6,7 @@ import nasirov.yv.fandub.service.spring.boot.starter.constant.FanDubSource;
 import nasirov.yv.fandub.service.spring.boot.starter.dto.mal.MalTitle;
 
 /**
- * Created by nasirov.yv
+ * @author Nasirov Yuriy
  */
 public interface AnimeServiceI {
 

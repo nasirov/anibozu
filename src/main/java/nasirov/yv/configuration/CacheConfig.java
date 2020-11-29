@@ -21,7 +21,7 @@ import org.springframework.boot.autoconfigure.cache.JCacheManagerCustomizer;
 import org.springframework.stereotype.Component;
 
 /**
- * Created by nasirov.yv
+ * @author Nasirov Yuriy
  */
 @Component
 @RequiredArgsConstructor

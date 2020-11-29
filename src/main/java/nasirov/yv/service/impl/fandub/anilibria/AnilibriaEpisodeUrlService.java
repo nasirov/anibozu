@@ -15,7 +15,7 @@ import org.jsoup.nodes.Document;
 import org.springframework.stereotype.Service;
 
 /**
- * Created by nasirov.yv
+ * @author Nasirov Yuriy
  */
 @Service
 public class AnilibriaEpisodeUrlService extends BaseEpisodeUrlService {

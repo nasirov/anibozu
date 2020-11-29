@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.servlet.resource.ResourceUrlProvider;
 
 /**
- * Created by nasirov.yv
+ * @author Nasirov Yuriy
  */
 @ControllerAdvice
 @RequiredArgsConstructor

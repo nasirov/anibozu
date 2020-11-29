@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 
 /**
  * <p>
- * Created by nasirov.yv
+ * @author Nasirov Yuriy
  */
 @Component
 @Slf4j
