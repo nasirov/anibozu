@@ -14,8 +14,9 @@ import java.util.Map;
 import java.util.stream.Collectors;
 import lombok.SneakyThrows;
 import nasirov.yv.AbstractTest;
-import nasirov.yv.data.mal.MalUserInfo;
 import nasirov.yv.fandub.service.spring.boot.starter.dto.mal.MalTitle;
+import nasirov.yv.fandub.service.spring.boot.starter.dto.mal.MalTitleWatchingStatus;
+import nasirov.yv.fandub.service.spring.boot.starter.dto.mal_service.MalServiceResponseDto;
 import org.junit.Test;
 import org.springframework.http.HttpStatus;
 import org.springframework.test.web.servlet.MvcResult;
@@ -37,7 +38,7 @@ public class ResultViewControllerTest extends AbstractTest {
 	@Test
 	public void shouldReturnResultView() {
 		//given
-		mockMalService(buildMalUserInfo(Lists.newArrayList(new MalTitle()), null));
+		mockMalService(buildMalServiceResponseDto(Lists.newArrayList(new MalTitle()), ""));
 		//when
 		MvcResult result = getMvcResult(TEST_ACC_FOR_DEV, VALID_FANDUBS);
 		//then
@@ -85,7 +86,7 @@ public class ResultViewControllerTest extends AbstractTest {
 	public void shouldReturnErrorViewWithErrorMessage() {
 		//given
 		String errorMsg = "Foo Bar";
-		mockMalService(buildMalUserInfo(Collections.emptyList(), errorMsg));
+		mockMalService(buildMalServiceResponseDto(Collections.emptyList(), errorMsg));
 		//when
 		MvcResult result = getMvcResult(TEST_ACC_FOR_DEV, VALID_FANDUBS);
 		//then
@@ -100,13 +101,13 @@ public class ResultViewControllerTest extends AbstractTest {
 						.get("errorMsg"));
 	}
 
-	private void mockMalService(MalUserInfo malUserInfo) {
-		doReturn(malUserInfo).when(malService)
-				.getMalUserInfo(TEST_ACC_FOR_DEV);
+	private void mockMalService(MalServiceResponseDto malServiceResponseDto) {
+		doReturn(malServiceResponseDto).when(malServiceFeignClient)
+				.getUserTitles("Basic foobarbaz", TEST_ACC_FOR_DEV, MalTitleWatchingStatus.WATCHING);
 	}
 
-	private MalUserInfo buildMalUserInfo(List<MalTitle> malTitles, String errorMessage) {
-		return MalUserInfo.builder()
+	private MalServiceResponseDto buildMalServiceResponseDto(List<MalTitle> malTitles, String errorMessage) {
+		return MalServiceResponseDto.builder()
 				.username(TEST_ACC_FOR_DEV)
 				.malTitles(malTitles)
 				.errorMessage(errorMessage)

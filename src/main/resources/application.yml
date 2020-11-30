@@ -5,21 +5,15 @@ application:
     applicationLogoPrinter:
       enabled: true
   cache:
-    mal:
-      name: mal
-      ttl: 300
-      max-entity-count: 50
     sse:
       name: sse
       ttl: 300
       max-entity-count: 50
   sse:
     timeout-in-min: 5
-  mal:
-    offset-step: 300
-    url: https://myanimelist.net
   auth:
     fandub-titles-service-basic-auth: ${FTS_BASIC_AUTH}
+    mal-service-basic-auth: ${MS_BASIC_AUTH}
   common:
     enable-build-url-in-runtime: true
 

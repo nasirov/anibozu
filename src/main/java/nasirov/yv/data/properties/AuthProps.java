@@ -17,4 +17,7 @@ public class AuthProps {
 
 	@NotBlank
 	private String fandubTitlesServiceBasicAuth;
+
+	@NotBlank
+	private String malServiceBasicAuth;
 }

@@ -9,6 +9,6 @@ services:
     ports:
       - 8080:8080
     environment:
-      GITHUB_ACCESS_TOKEN: ${GITHUB_ACCESS_TOKEN}
       PORT: 8080
       FTS_BASIC_AUTH: ${FTS_BASIC_AUTH}
+      MS_BASIC_AUTH: ${MS_BASIC_AUTH}

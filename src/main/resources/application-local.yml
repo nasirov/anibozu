@@ -5,6 +5,7 @@ spring:
 application:
   auth:
     fandub-titles-service-basic-auth: Basic YWRtaW46YWRtaW4=
+    mal-service-basic-auth: Basic YWRtaW46YWRtaW4=
 
 animedia-feign-client:
   ribbon:
@@ -45,3 +46,7 @@ mal-feign-client:
 fandub-titles-service-feign-client:
   ribbon:
     listOfServers: http://localhost:8089
+
+mal-service-feign-client:
+  ribbon:
+    listOfServers: http://localhost:8087

@@ -26,10 +26,12 @@ import nasirov.yv.data.front.Anime;
 import nasirov.yv.data.front.EventType;
 import nasirov.yv.data.front.SseDto;
 import nasirov.yv.data.front.UserInputDto;
-import nasirov.yv.data.mal.MalUserInfo;
+import nasirov.yv.data.properties.AuthProps;
 import nasirov.yv.fandub.service.spring.boot.starter.constant.FanDubSource;
 import nasirov.yv.fandub.service.spring.boot.starter.dto.mal.MalTitle;
-import nasirov.yv.service.MalServiceI;
+import nasirov.yv.fandub.service.spring.boot.starter.dto.mal.MalTitleWatchingStatus;
+import nasirov.yv.fandub.service.spring.boot.starter.dto.mal_service.MalServiceResponseDto;
+import nasirov.yv.fandub.service.spring.boot.starter.feign.mal_service.MalServiceFeignClient;
 import nasirov.yv.service.impl.common.AnimeService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -46,17 +48,22 @@ import org.springframework.web.servlet.mvc.method.annotation.SseEmitter.SseEvent
 @RunWith(MockitoJUnitRunner.class)
 public class ServerSentEventThreadTest {
 
+	private static final String MS_BASIC_AUTH = "Basic foobar";
+
 	@Mock
 	private AnimeService animeService;
 
 	@Mock
-	private MalServiceI malService;
+	private MalServiceFeignClient malServiceFeignClient;
 
 	@Mock
 	private SseEmitter sseEmitter;
 
 	@Mock
 	private UserInputDto userInputDto;
+
+	@Mock
+	private AuthProps authProps;
 
 	@InjectMocks
 	private ServerSentEventThread serverSentEventThread;
@@ -82,6 +89,7 @@ public class ServerSentEventThreadTest {
 	}
 
 	private void mockServicesOk() {
+		mockAuthProps();
 		Set<FanDubSource> fanDubSources = Sets.newHashSet(FanDubSource.ANIMEDIA, FanDubSource.NINEANIME);
 		mockUserInputDto(fanDubSources);
 		mockMalService();
@@ -93,6 +101,7 @@ public class ServerSentEventThreadTest {
 	}
 
 	private void mockServicesException() {
+		mockAuthProps();
 		Set<FanDubSource> fanDubSources = Sets.newHashSet(FanDubSource.ANIMEDIA, FanDubSource.NINEANIME);
 		mockUserInputDto(fanDubSources);
 		mockMalService();
@@ -100,6 +109,11 @@ public class ServerSentEventThreadTest {
 		doReturn(available).doThrow(new RuntimeException("Exception message"))
 				.when(animeService)
 				.buildAnime(eq(fanDubSources), any(MalTitle.class));
+	}
+
+	private void mockAuthProps() {
+		doReturn(MS_BASIC_AUTH).when(authProps)
+				.getMalServiceBasicAuth();
 	}
 
 	private void mockUserInputDto(Set<FanDubSource> fanDubSources) {
@@ -110,11 +124,12 @@ public class ServerSentEventThreadTest {
 	}
 
 	private void mockMalService() {
-		doReturn(MalUserInfo.builder()
+		doReturn(MalServiceResponseDto.builder()
 				.username(TEST_ACC_FOR_DEV)
 				.malTitles(Lists.newArrayList(new MalTitle(), new MalTitle(), new MalTitle()))
-				.build()).when(malService)
-				.getMalUserInfo(TEST_ACC_FOR_DEV);
+				.errorMessage("")
+				.build()).when(malServiceFeignClient)
+				.getUserTitles(MS_BASIC_AUTH, TEST_ACC_FOR_DEV, MalTitleWatchingStatus.WATCHING);
 	}
 
 	@SneakyThrows

@@ -5,9 +5,10 @@ import static java.util.Objects.nonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import nasirov.yv.data.front.UserInputDto;
+import nasirov.yv.data.properties.AuthProps;
 import nasirov.yv.data.properties.CacheProps;
 import nasirov.yv.data.task.ServerSentEventThread;
-import nasirov.yv.service.MalServiceI;
+import nasirov.yv.fandub.service.spring.boot.starter.feign.mal_service.MalServiceFeignClient;
 import nasirov.yv.service.ServerSentEventThreadServiceI;
 import nasirov.yv.service.impl.common.AnimeService;
 import org.springframework.cache.Cache;
@@ -25,23 +26,25 @@ public class ServerSentEventThreadService implements ServerSentEventThreadServic
 
 	private final AnimeService animeService;
 
-	private final MalServiceI malService;
+	private final MalServiceFeignClient malServiceFeignClient;
 
 	private final CacheProps cacheProps;
 
 	private final CacheManager cacheManager;
 
+	private final AuthProps authProps;
+
 	/**
 	 * Builds and caches a ServerSentEventThread
 	 *
-	 * @param sseEmitter a SseEmitter for Server-Sent Events
-	 * @param userInputDto    an user input from front
+	 * @param sseEmitter   a SseEmitter for Server-Sent Events
+	 * @param userInputDto an user input from front
 	 * @return ServerSentEventThread
 	 */
 	@Override
 	public ServerSentEventThread buildServerSentEventThread(SseEmitter sseEmitter, UserInputDto userInputDto) {
 		log.debug("Trying to build ServerSentEventThread for [{}]...", userInputDto);
-		ServerSentEventThread result = new ServerSentEventThread(animeService, malService, sseEmitter, userInputDto);
+		ServerSentEventThread result = new ServerSentEventThread(animeService, malServiceFeignClient, sseEmitter, userInputDto, authProps);
 		Cache cache = cacheManager.getCache(cacheProps.getSse()
 				.getName());
 		if (nonNull(cache)) {

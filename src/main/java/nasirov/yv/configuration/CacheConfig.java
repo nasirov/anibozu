@@ -10,7 +10,6 @@ import com.google.common.collect.Sets;
 import javax.cache.CacheManager;
 import javax.cache.configuration.Configuration;
 import lombok.RequiredArgsConstructor;
-import nasirov.yv.data.mal.MalUserInfo;
 import nasirov.yv.data.properties.CacheProps;
 import nasirov.yv.data.properties.CacheProps.ConfigurableCacheProps;
 import nasirov.yv.data.task.ServerSentEventThread;
@@ -33,7 +32,6 @@ public class CacheConfig implements JCacheManagerCustomizer {
 
 	@Override
 	public void customize(CacheManager cacheManager) {
-		buildCache(cacheManager, cacheProps.getMal(), MalUserInfo.class);
 		buildCache(cacheManager, cacheProps.getSse(), ServerSentEventThread.class);
 	}
 

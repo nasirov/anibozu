@@ -11,10 +11,12 @@ import nasirov.yv.data.front.Anime;
 import nasirov.yv.data.front.EventType;
 import nasirov.yv.data.front.SseDto;
 import nasirov.yv.data.front.UserInputDto;
-import nasirov.yv.data.mal.MalUserInfo;
+import nasirov.yv.data.properties.AuthProps;
 import nasirov.yv.fandub.service.spring.boot.starter.constant.FanDubSource;
 import nasirov.yv.fandub.service.spring.boot.starter.dto.mal.MalTitle;
-import nasirov.yv.service.MalServiceI;
+import nasirov.yv.fandub.service.spring.boot.starter.dto.mal.MalTitleWatchingStatus;
+import nasirov.yv.fandub.service.spring.boot.starter.dto.mal_service.MalServiceResponseDto;
+import nasirov.yv.fandub.service.spring.boot.starter.feign.mal_service.MalServiceFeignClient;
 import nasirov.yv.service.impl.common.AnimeService;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter.SseEventBuilder;
@@ -27,20 +29,24 @@ public class ServerSentEventThread implements Runnable {
 
 	private final AnimeService animeService;
 
-	private final MalServiceI malService;
+	private final MalServiceFeignClient malServiceFeignClient;
 
 	private final SseEmitter sseEmitter;
 
 	private final UserInputDto userInputDto;
 
+	private final AuthProps authProps;
+
 	@Getter
 	private final AtomicBoolean running;
 
-	public ServerSentEventThread(AnimeService animeService, MalServiceI malService, SseEmitter sseEmitter, UserInputDto userInputDto) {
+	public ServerSentEventThread(AnimeService animeService, MalServiceFeignClient malServiceFeignClient, SseEmitter sseEmitter,
+			UserInputDto userInputDto, AuthProps authProps) {
 		this.animeService = animeService;
-		this.malService = malService;
+		this.malServiceFeignClient = malServiceFeignClient;
 		this.sseEmitter = sseEmitter;
 		this.userInputDto = userInputDto;
+		this.authProps = authProps;
 		this.running = new AtomicBoolean(false);
 	}
 
@@ -49,8 +55,10 @@ public class ServerSentEventThread implements Runnable {
 		if (running.compareAndSet(false, true)) {
 			try {
 				log.info("Start process ServerSentEventThread for [{}]", userInputDto);
-				MalUserInfo malUserInfo = malService.getMalUserInfo(userInputDto.getUsername());
-				List<MalTitle> watchingTitles = malUserInfo.getMalTitles();
+				MalServiceResponseDto malServiceResponseDto = malServiceFeignClient.getUserTitles(authProps.getMalServiceBasicAuth(),
+						userInputDto.getUsername(),
+						MalTitleWatchingStatus.WATCHING);
+				List<MalTitle> watchingTitles = malServiceResponseDto.getMalTitles();
 				for (int i = 0; i < watchingTitles.size() && running.get(); i++) {
 					Set<FanDubSource> fanDubSources = userInputDto.getFanDubSources();
 					Anime anime = animeService.buildAnime(fanDubSources, watchingTitles.get(i));

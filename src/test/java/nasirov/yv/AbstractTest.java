@@ -1,7 +1,7 @@
 package nasirov.yv;
 
 import java.util.Objects;
-import nasirov.yv.service.MalServiceI;
+import nasirov.yv.fandub.service.spring.boot.starter.feign.mal_service.MalServiceFeignClient;
 import nasirov.yv.service.SseEmitterExecutorServiceI;
 import nasirov.yv.service.impl.common.CacheCleanerService;
 import nasirov.yv.service.impl.fandub.nine_anime.NineAnimeEpisodeUrlService;
@@ -29,7 +29,7 @@ import org.springframework.test.web.servlet.MockMvc;
 public abstract class AbstractTest {
 
 	@MockBean
-	protected MalServiceI malService;
+	protected MalServiceFeignClient malServiceFeignClient;
 
 	@SpyBean
 	protected SseEmitterExecutorServiceI sseEmitterExecutorService;

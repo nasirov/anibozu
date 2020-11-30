@@ -8,11 +8,12 @@ import static org.mockito.Mockito.verify;
 
 import com.google.common.collect.Sets;
 import nasirov.yv.data.front.UserInputDto;
+import nasirov.yv.data.properties.AuthProps;
 import nasirov.yv.data.properties.CacheProps;
 import nasirov.yv.data.properties.CacheProps.ConfigurableCacheProps;
 import nasirov.yv.data.task.ServerSentEventThread;
 import nasirov.yv.fandub.service.spring.boot.starter.constant.FanDubSource;
-import nasirov.yv.service.MalServiceI;
+import nasirov.yv.fandub.service.spring.boot.starter.feign.mal_service.MalServiceFeignClient;
 import nasirov.yv.service.impl.common.AnimeService;
 import org.junit.Before;
 import org.junit.Test;
@@ -34,7 +35,10 @@ public class ServerSentEventThreadServiceTest {
 	private AnimeService animeService;
 
 	@Mock
-	private MalServiceI malService;
+	private MalServiceFeignClient malServiceFeignClient;
+
+	@Mock
+	private AuthProps authProps;
 
 	@Mock
 	private CacheProps cacheProps;
@@ -52,7 +56,7 @@ public class ServerSentEventThreadServiceTest {
 
 	@Before
 	public void setUp() {
-		cachedServerSentEventThread = new ServerSentEventThread(animeService, malService, new SseEmitter(), buildUserInputDto());
+		cachedServerSentEventThread = new ServerSentEventThread(animeService, malServiceFeignClient, new SseEmitter(), buildUserInputDto(), authProps);
 	}
 
 	@Test
