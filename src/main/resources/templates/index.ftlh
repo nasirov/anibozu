@@ -4,11 +4,11 @@
 <head>
   <meta charset="UTF-8">
   <title>Anime Checker</title>
-  <link rel="stylesheet" type="text/css" href="${versionedUrls.getForLookupPath('/css/center-style.css')}"/>
-  <link rel="stylesheet" type="text/css" href="${versionedUrls.getForLookupPath('/css/style.css')}"/>
-  <link rel="stylesheet" type="text/css" href="${versionedUrls.getForLookupPath('/css/nes.min.css')}"/>
-  <link rel="stylesheet" type="text/css" href="${versionedUrls.getForLookupPath('/css/ps2p.css')}"/>
-  <link rel="shortcut icon" type="image/x-icon" href="${versionedUrls.getForLookupPath('/img/favicon.ico')}"/>
+  <link rel="stylesheet" type="text/css" href="/css/center-style.css"/>
+  <link rel="stylesheet" type="text/css" href="/css/style.css"/>
+  <link rel="stylesheet" type="text/css" href="/css/nes.min.css"/>
+  <link rel="stylesheet" type="text/css" href="/css/ps2p.css"/>
+  <link rel="shortcut icon" type="image/x-icon" href="/img/favicon.ico"/>
 </head>
 
 <body>
@@ -18,11 +18,8 @@
     <section class="nes-container is-centered">
       <div class="nes-field">
         <form id="username-submit-form" action="/result" method="get">
-            <@spring.bind "userInputDto"/>
-            <@spring.formInput "userInputDto.username",'class="nes-input"
-                 placeholder="Enter MAL username..."
-                 title="Please enter a valid mal username between 2 and 16 characters(latin letters, numbers, underscores and dashes only)"
-                 autofocus'/>
+          <input type="text" id="username" name="username" value="" class="nes-input" placeholder="Enter MAL username..."
+                 title="Please enter a valid mal username between 2 and 16 characters(latin letters, numbers, underscores and dashes only)" autofocus>
           <div class="nes-field">Choose At Least One FanDub Site</div>
           <table class="width_full font_x-small is_left">
             <tbody>
@@ -104,6 +101,6 @@
   </div>
 </div>
 </body>
-<script src="${versionedUrls.getForLookupPath('/js/jquery.min.js')}"></script>
-<script src="${versionedUrls.getForLookupPath('/js/submit.form.js')}"></script>
+<script src="/js/jquery.min.js"></script>
+<script src="/js/submit.form.js"></script>
 </html>

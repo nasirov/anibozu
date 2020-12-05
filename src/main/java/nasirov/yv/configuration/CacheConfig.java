@@ -12,12 +12,12 @@ import javax.cache.configuration.Configuration;
 import lombok.RequiredArgsConstructor;
 import nasirov.yv.data.properties.CacheProps;
 import nasirov.yv.data.properties.CacheProps.ConfigurableCacheProps;
-import nasirov.yv.data.task.ServerSentEventThread;
 import org.ehcache.config.builders.ResourcePoolsBuilder;
 import org.ehcache.event.CacheEventListener;
 import org.ehcache.event.EventType;
 import org.springframework.boot.autoconfigure.cache.JCacheManagerCustomizer;
 import org.springframework.stereotype.Component;
+import reactor.core.publisher.Flux;
 
 /**
  * @author Nasirov Yuriy
@@ -32,7 +32,7 @@ public class CacheConfig implements JCacheManagerCustomizer {
 
 	@Override
 	public void customize(CacheManager cacheManager) {
-		buildCache(cacheManager, cacheProps.getSse(), ServerSentEventThread.class);
+		buildCache(cacheManager, cacheProps.getSse(), Flux.class);
 	}
 
 	private void buildCache(CacheManager cacheManager, ConfigurableCacheProps configurableCacheProps, Class<?> valueClass) {

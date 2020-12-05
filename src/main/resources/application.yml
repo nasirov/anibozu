@@ -9,43 +9,25 @@ application:
       name: sse
       ttl: 300
       max-entity-count: 50
-  sse:
-    timeout-in-min: 5
-  auth:
-    fandub-titles-service-basic-auth: ${FTS_BASIC_AUTH}
-    mal-service-basic-auth: ${MS_BASIC_AUTH}
   common:
     enable-build-url-in-runtime: true
+  feign:
+    enabled: false
+  web-client:
+    enabled: true
+    compress: true
+    connection-timeout: 5s
+    max-attempts: 5
+    min-backoff: 100ms
+    max-backoff: 1s
+  external-services:
+    fandub-titles-service-basic-auth: ${FTS_BASIC_AUTH}
+    mal-service-basic-auth: ${MS_BASIC_AUTH}
+    fandub-titles-service-url: https://fandub-titles-service.herokuapp.com/
+    mal-service-url: https://mal-service.herokuapp.com/
 
 server:
   port: ${PORT}
-
-sovet-romantica-feign-client:
-  ribbon:
-    ReadTimeout: 10000
-
-shiza-project-feign-client:
-  ribbon:
-    ReadTimeout: 10000
-
-ribbon:
-  eureka:
-    enabled: false
-  ConnectTimeout: 5000
-  ReadTimeout: 5000
-  MaxAutoRetries: 4
-  MaxAutoRetriesNextServer: 0
-
-feign:
-  hystrix:
-    enabled: true
-
-hystrix:
-  command:
-    default:
-      execution:
-        timeout:
-          enabled: false
 
 spring:
   application:
@@ -54,5 +36,5 @@ spring:
 logging:
   level:
     ROOT: INFO
-    com.netflix: ERROR
     nasirov.yv: INFO
+    reactor.netty: ERROR

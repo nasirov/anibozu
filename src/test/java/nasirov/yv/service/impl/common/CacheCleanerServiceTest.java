@@ -5,13 +5,14 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.mockito.Mockito.mock;
 
-import com.google.common.collect.Sets;
+import java.util.LinkedHashSet;
+import java.util.Set;
 import nasirov.yv.AbstractTest;
 import nasirov.yv.data.front.UserInputDto;
-import nasirov.yv.data.task.ServerSentEventThread;
 import nasirov.yv.fandub.service.spring.boot.starter.constant.FanDubSource;
 import org.junit.Test;
 import org.springframework.cache.Cache;
+import reactor.core.publisher.Flux;
 
 /**
  * @author Nasirov Yuriy
@@ -23,17 +24,25 @@ public class CacheCleanerServiceTest extends AbstractTest {
 		//given
 		Cache sseCache = cacheManager.getCache("sse");
 		assertNotNull(sseCache);
-		String username = "foobar";
+		Set<FanDubSource> fanDubSources = new LinkedHashSet<>();
+		fanDubSources.add(FanDubSource.ANIMEDIA);
+		fanDubSources.add(FanDubSource.NINEANIME);
 		UserInputDto userInputDto = UserInputDto.builder()
-				.username(username)
-				.fanDubSources(Sets.newHashSet(FanDubSource.ANIMEDIA))
+				.username("foobar")
+				.fanDubSources(fanDubSources)
 				.build();
-		ServerSentEventThread cachedSse = mock(ServerSentEventThread.class);
-		sseCache.put(username, cachedSse);
-		assertEquals(cachedSse, sseCache.get(username, ServerSentEventThread.class));
+		Flux firstCachedFlux = mock(Flux.class);
+		Flux secondCachedFlux = mock(Flux.class);
+		String firstKey = "foobar:ANIMEDIA,NINEANIME";
+		String secondKey = "foobar:ANIMEDIA";
+		sseCache.put(firstKey, firstCachedFlux);
+		sseCache.put(secondKey, secondCachedFlux);
+		assertEquals(firstCachedFlux, sseCache.get(firstKey, Flux.class));
+		assertEquals(secondCachedFlux, sseCache.get(secondKey, Flux.class));
 		//when
 		cacheCleanerService.clearSseCache(userInputDto);
 		//then
-		assertNull(sseCache.get(username, ServerSentEventThread.class));
+		assertNull(sseCache.get(firstKey, Flux.class));
+		assertEquals(secondCachedFlux, sseCache.get(secondKey, Flux.class));
 	}
 }

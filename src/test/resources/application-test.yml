@@ -1,8 +1,10 @@
 application:
   fandub-support:
     disabled-fandub:
-  auth:
-    fandub-titles-service-basic-auth: Basic foobar
-    mal-service-basic-auth: Basic foobarbaz
   common:
     enable-build-url-in-runtime: true
+  external-services:
+    fandub-titles-service-basic-auth: Basic foobar
+    mal-service-basic-auth: Basic foobarbaz
+    fandub-titles-service-url: http://localhost:8089/
+    mal-service-url: http://localhost:8087/

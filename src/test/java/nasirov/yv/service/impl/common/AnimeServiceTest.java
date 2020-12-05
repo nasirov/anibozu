@@ -54,21 +54,22 @@ import nasirov.yv.fandub.service.spring.boot.starter.constant.FanDubSource;
 import nasirov.yv.fandub.service.spring.boot.starter.dto.mal.MalTitle;
 import nasirov.yv.service.AnimeServiceI;
 import nasirov.yv.service.EpisodeUrlServiceI;
-import nasirov.yv.service.impl.fandub.anidub.AnidubEpisodeUrlService;
-import nasirov.yv.service.impl.fandub.anilibria.AnilibriaEpisodeUrlService;
-import nasirov.yv.service.impl.fandub.animedia.AnimediaEpisodeUrlService;
-import nasirov.yv.service.impl.fandub.animepik.AnimepikEpisodeUrlService;
-import nasirov.yv.service.impl.fandub.jisedai.JisedaiEpisodeUrlService;
-import nasirov.yv.service.impl.fandub.jutsu.JutsuEpisodeUrlService;
-import nasirov.yv.service.impl.fandub.nine_anime.NineAnimeEpisodeUrlService;
-import nasirov.yv.service.impl.fandub.shiza_project.ShizaProjectEpisodeUrlService;
-import nasirov.yv.service.impl.fandub.sovet_romantica.SovetRomanticaEpisodeUrlService;
+import nasirov.yv.service.impl.fandub.AnidubEpisodeUrlService;
+import nasirov.yv.service.impl.fandub.AnilibriaEpisodeUrlService;
+import nasirov.yv.service.impl.fandub.AnimediaEpisodeUrlService;
+import nasirov.yv.service.impl.fandub.AnimepikEpisodeUrlService;
+import nasirov.yv.service.impl.fandub.JisedaiEpisodeUrlService;
+import nasirov.yv.service.impl.fandub.JutsuEpisodeUrlService;
+import nasirov.yv.service.impl.fandub.NineAnimeEpisodeUrlService;
+import nasirov.yv.service.impl.fandub.ShizaProjectEpisodeUrlService;
+import nasirov.yv.service.impl.fandub.SovetRomanticaEpisodeUrlService;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
+import reactor.core.publisher.Mono;
 
 /**
  * @author Nasirov Yuriy
@@ -140,7 +141,8 @@ public class AnimeServiceTest {
 		Set<FanDubSource> fanDubSources = buildFanDubSources();
 		//when
 		List<Anime> result = watchingTitles.stream()
-				.map(x -> animeService.buildAnime(fanDubSources, x))
+				.map(x -> animeService.buildAnime(fanDubSources, x)
+						.block())
 				.collect(Collectors.toList());
 		//then
 		assertEquals(expectedAnime.size(), result.size());
@@ -187,23 +189,23 @@ public class AnimeServiceTest {
 	private void mockEpisodeUrlServices(MalTitle watchingTitle, String episodeUrlOnAnimedia, String episodeUrlOnNineAnime, String episodeUrlOnAnidub,
 			String episodeUrlOnJisedai, String episodeUrlOnAnimepik, String episodeUrlOnAnilibria, String episodeUrlOnJutsu,
 			String episodeUrlOnSovetRomantica, String episodeUrlOnShizaProject) {
-		doReturn(episodeUrlOnAnimedia).when(animediaEpisodeUrlService)
+		doReturn(Mono.just(episodeUrlOnAnimedia)).when(animediaEpisodeUrlService)
 				.getEpisodeUrl(ANIMEDIA, watchingTitle);
-		doReturn(episodeUrlOnNineAnime).when(nineAnimeEpisodeUrlService)
+		doReturn(Mono.just(episodeUrlOnNineAnime)).when(nineAnimeEpisodeUrlService)
 				.getEpisodeUrl(NINEANIME, watchingTitle);
-		doReturn(episodeUrlOnAnidub).when(anidubEpisodeUrlService)
+		doReturn(Mono.just(episodeUrlOnAnidub)).when(anidubEpisodeUrlService)
 				.getEpisodeUrl(ANIDUB, watchingTitle);
-		doReturn(episodeUrlOnJisedai).when(jisedaiEpisodeUrlService)
+		doReturn(Mono.just(episodeUrlOnJisedai)).when(jisedaiEpisodeUrlService)
 				.getEpisodeUrl(JISEDAI, watchingTitle);
-		doReturn(episodeUrlOnAnimepik).when(animepikEpisodeUrlService)
+		doReturn(Mono.just(episodeUrlOnAnimepik)).when(animepikEpisodeUrlService)
 				.getEpisodeUrl(ANIMEPIK, watchingTitle);
-		doReturn(episodeUrlOnAnilibria).when(anilibriaEpisodeUrlService)
+		doReturn(Mono.just(episodeUrlOnAnilibria)).when(anilibriaEpisodeUrlService)
 				.getEpisodeUrl(ANILIBRIA, watchingTitle);
-		doReturn(episodeUrlOnJutsu).when(jutsuEpisodeUrlService)
+		doReturn(Mono.just(episodeUrlOnJutsu)).when(jutsuEpisodeUrlService)
 				.getEpisodeUrl(JUTSU, watchingTitle);
-		doReturn(episodeUrlOnSovetRomantica).when(sovetRomanticaEpisodeUrlService)
+		doReturn(Mono.just(episodeUrlOnSovetRomantica)).when(sovetRomanticaEpisodeUrlService)
 				.getEpisodeUrl(SOVETROMANTICA, watchingTitle);
-		doReturn(episodeUrlOnShizaProject).when(shizaProjectEpisodeUrlService)
+		doReturn(Mono.just(episodeUrlOnShizaProject)).when(shizaProjectEpisodeUrlService)
 				.getEpisodeUrl(SHIZAPROJECT, watchingTitle);
 	}
 

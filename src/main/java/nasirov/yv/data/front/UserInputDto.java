@@ -9,7 +9,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import nasirov.yv.data.validator.ValidFanDubSources;
 import nasirov.yv.fandub.service.spring.boot.starter.constant.FanDubSource;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.validation.annotation.Validated;
 
 /**

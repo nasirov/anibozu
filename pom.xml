@@ -11,7 +11,7 @@
   </parent>
 
   <artifactId>anime-checker</artifactId>
-  <version>3.4.6</version>
+  <version>3.5.0</version>
   <name>anime-checker</name>
   <description>The application analyzes an user watching titles list from MyAnimeList(https://myanimelist.net/) and searches for new episodes on
     FanDub Sites
@@ -20,7 +20,7 @@
 
   <properties>
     <docker.buildArg.JAR_FILE>target/${project.build.finalName}.jar</docker.buildArg.JAR_FILE>
-    <fandub-service-spring-boot-starter.version>9.2.1</fandub-service-spring-boot-starter.version>
+    <fandub-service-spring-boot-starter.version>9.3.2</fandub-service-spring-boot-starter.version>
   </properties>
 
   <dependencies>
@@ -29,16 +29,12 @@
       <groupId>nasirov.yv</groupId>
       <artifactId>fandub-service-spring-boot-starter</artifactId>
       <version>${fandub-service-spring-boot-starter.version}</version>
-    </dependency>
-
-    <dependency>
-      <groupId>org.springframework.boot</groupId>
-      <artifactId>spring-boot-starter-web</artifactId>
-    </dependency>
-
-    <dependency>
-      <groupId>org.springframework.boot</groupId>
-      <artifactId>spring-boot-starter-aop</artifactId>
+      <exclusions>
+        <exclusion>
+          <groupId>org.springframework.boot</groupId>
+          <artifactId>spring-boot-starter-web</artifactId>
+        </exclusion>
+      </exclusions>
     </dependency>
 
     <dependency>

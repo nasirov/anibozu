@@ -71,6 +71,7 @@ public class TestConstants {
 	public static final String ANIDUB_URL = "https://anime.anidub.life/";
 	public static final String JISEDAI_URL = "https://jisedai.tv/";
 	public static final String ANIMEPIK_URL = "https://animepik.org/";
+	public static final String ANIMEPIK_RESOURCES_URL = "https://cdn.iss.one/";
 	public static final String ANILIBRIA_URL = "https://www.anilibria.tv/";
 	public static final String JUTSU_URL = "https://jut.su/";
 	public static final String SOVET_ROMANTICA_URL = "https://sovetromantica.com/";

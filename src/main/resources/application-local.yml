@@ -3,50 +3,18 @@ spring:
     include: default
 
 application:
-  auth:
+  web-client:
+    enabled: true
+    compress: true
+    connection-timeout: 5s
+    max-attempts: 5
+    min-backoff: 100ms
+    max-backoff: 1s
+    proxy-type: HTTP
+    proxy-host: localhost
+    proxy-port: 8888
+  external-services:
     fandub-titles-service-basic-auth: Basic YWRtaW46YWRtaW4=
     mal-service-basic-auth: Basic YWRtaW46YWRtaW4=
-
-animedia-feign-client:
-  ribbon:
-    listOfServers: https://online.animedia.tv
-
-anidub-feign-client:
-  ribbon:
-    listOfServers: https://anime.anidub.life
-
-jisedai-feign-client:
-  ribbon:
-    listOfServers: https://jisedai.tv
-
-animepik-feign-client:
-  ribbon:
-    listOfServers: https://animepik.org
-
-animepik-resources-feign-client:
-  ribbon:
-    listOfServers: https://cdn.iss.one
-
-anilibria-feign-client:
-  ribbon:
-    listOfServers: https://www.anilibria.tv
-
-nine-anime-feign-client:
-  ribbon:
-    listOfServers: https://www12.9anime.to
-
-jutsu-feign-client:
-  ribbon:
-    listOfServers: https://jut.su
-
-mal-feign-client:
-  ribbon:
-    listOfServers: https://myanimelist.net
-
-fandub-titles-service-feign-client:
-  ribbon:
-    listOfServers: http://localhost:8089
-
-mal-service-feign-client:
-  ribbon:
-    listOfServers: http://localhost:8087
+    fandub-titles-service-url: http://localhost:8089/
+    mal-service-url: http://localhost:8087/

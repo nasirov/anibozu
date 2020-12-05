@@ -4,8 +4,10 @@ import static nasirov.yv.data.constants.BaseConstants.FINAL_URL_VALUE_IF_EPISODE
 import static nasirov.yv.data.constants.BaseConstants.NOT_FOUND_ON_FANDUB_SITE_URL;
 
 import java.util.Map;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.Singular;
 import nasirov.yv.fandub.service.spring.boot.starter.constant.FanDubSource;
 
@@ -16,6 +18,8 @@ import nasirov.yv.fandub.service.spring.boot.starter.constant.FanDubSource;
  */
 @Data
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class Anime {
 
 	/**

@@ -4,6 +4,7 @@ import java.util.Set;
 import nasirov.yv.data.front.Anime;
 import nasirov.yv.fandub.service.spring.boot.starter.constant.FanDubSource;
 import nasirov.yv.fandub.service.spring.boot.starter.dto.mal.MalTitle;
+import reactor.core.publisher.Mono;
 
 /**
  * @author Nasirov Yuriy
@@ -15,7 +16,7 @@ public interface AnimeServiceI {
 	 *
 	 * @param fanDubSources fandub sources
 	 * @param watchingTitle user currently watching title
-	 * @return an {@link Anime} dto
+	 * @return an {@link Anime} dto wrapped with {@link Mono}
 	 */
-	Anime buildAnime(Set<FanDubSource> fanDubSources, MalTitle watchingTitle);
+	Mono<Anime> buildAnime(Set<FanDubSource> fanDubSources, MalTitle watchingTitle);
 }
