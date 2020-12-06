@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <title>Not Found.</title>
+  <title>Sorry, my bad.</title>
   <link rel="stylesheet" type="text/css" href="/css/center-style.css"/>
   <link rel="stylesheet" type="text/css" href="/css/style.css"/>
   <link rel="stylesheet" type="text/css" href="/css/nes.min.css"/>
@@ -11,7 +11,7 @@
 <body>
 <div id="container">
   <div class="inner">
-    <h2>Whatever you were looking for was not found.</h2>
+    <h2>Something went wrong.</h2>
     <span>
             <a href="/">
                 <button type="button" class="nes-btn is-primary width_full">Home</button>

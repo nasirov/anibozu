@@ -9,6 +9,7 @@ import com.google.common.collect.Sets;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 import nasirov.yv.AbstractTest;
 import nasirov.yv.data.front.UserInputDto;
@@ -17,7 +18,10 @@ import nasirov.yv.fandub.service.spring.boot.starter.dto.mal.MalTitle;
 import nasirov.yv.fandub.service.spring.boot.starter.dto.mal_service.MalServiceResponseDto;
 import nasirov.yv.utils.IOUtils;
 import org.junit.Test;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.test.web.reactive.server.WebTestClient.RequestHeadersSpec;
 import org.springframework.test.web.reactive.server.WebTestClient.ResponseSpec;
 import reactor.core.publisher.Mono;
 
@@ -35,7 +39,7 @@ public class ResultViewControllerTest extends AbstractTest {
 		//given
 		mockMalService(buildMalServiceResponseDto(Lists.newArrayList(new MalTitle()), ""));
 		//when
-		ResponseSpec result = call(TEST_ACC_FOR_DEV, VALID_FANDUBS);
+		ResponseSpec result = call(TEST_ACC_FOR_DEV, Collections.emptyMap(), VALID_FANDUBS);
 		//then
 		result.expectStatus()
 				.isEqualTo(HttpStatus.OK)
@@ -49,11 +53,13 @@ public class ResultViewControllerTest extends AbstractTest {
 		String[] invalidUsernameArray = {"", "moreThan16Charssss", "space between ", "@#!sd"};
 		//when
 		List<ResponseSpec> result = Arrays.stream(invalidUsernameArray)
-				.map(x -> call(x, VALID_FANDUBS))
+				.map(x -> call(x, Collections.singletonMap(HttpHeaders.ACCEPT, MediaType.TEXT_HTML_VALUE), VALID_FANDUBS))
 				.collect(Collectors.toList());
 		//then
 		result.forEach(x -> x.expectStatus()
-				.isEqualTo(HttpStatus.BAD_REQUEST));
+				.isEqualTo(HttpStatus.BAD_REQUEST)
+				.expectBody(String.class)
+				.isEqualTo(IOUtils.readFromFile("classpath:view/test-4xx-error-view.html")));
 	}
 
 	@Test
@@ -62,12 +68,13 @@ public class ResultViewControllerTest extends AbstractTest {
 		String[] invalidFandubSourceArray = {"animedia", "nineanime", ""};
 		//when
 		List<ResponseSpec> result = Arrays.stream(invalidFandubSourceArray)
-				.map(x -> call(TEST_ACC_FOR_DEV, x))
+				.map(x -> call(TEST_ACC_FOR_DEV, Collections.singletonMap(HttpHeaders.ACCEPT, MediaType.TEXT_HTML_VALUE), x))
 				.collect(Collectors.toList());
 		//then
 		result.forEach(x -> x.expectStatus()
-				.isEqualTo(HttpStatus.BAD_REQUEST));
-
+				.isEqualTo(HttpStatus.BAD_REQUEST)
+				.expectBody(String.class)
+				.isEqualTo(IOUtils.readFromFile("classpath:view/test-4xx-error-view.html")));
 	}
 
 	@Test
@@ -76,7 +83,7 @@ public class ResultViewControllerTest extends AbstractTest {
 		String errorMsg = "Foo Bar";
 		mockMalService(buildMalServiceResponseDto(Collections.emptyList(), errorMsg));
 		//when
-		ResponseSpec result = call(TEST_ACC_FOR_DEV, VALID_FANDUBS);
+		ResponseSpec result = call(TEST_ACC_FOR_DEV, Collections.emptyMap(), VALID_FANDUBS);
 		//then
 		result.expectStatus()
 				.isEqualTo(HttpStatus.OK)
@@ -91,7 +98,9 @@ public class ResultViewControllerTest extends AbstractTest {
 		ResponseSpec result = callNotFoundResource();
 		//then
 		result.expectStatus()
-				.isEqualTo(HttpStatus.NOT_FOUND);
+				.isEqualTo(HttpStatus.NOT_FOUND)
+				.expectBody(String.class)
+				.isEqualTo(IOUtils.readFromFile("classpath:view/test-404-error-view.html"));
 	}
 
 	@Test
@@ -99,10 +108,12 @@ public class ResultViewControllerTest extends AbstractTest {
 		//given
 		mockMalServiceException();
 		//when
-		ResponseSpec result = call(TEST_ACC_FOR_DEV, VALID_FANDUBS);
+		ResponseSpec result = call(TEST_ACC_FOR_DEV, Collections.singletonMap(HttpHeaders.ACCEPT, MediaType.TEXT_HTML_VALUE), VALID_FANDUBS);
 		//then
 		result.expectStatus()
-				.isEqualTo(HttpStatus.INTERNAL_SERVER_ERROR);
+				.isEqualTo(HttpStatus.INTERNAL_SERVER_ERROR)
+				.expectBody(String.class)
+				.isEqualTo(IOUtils.readFromFile("classpath:view/test-5xx-error-view.html"));
 	}
 
 	private void mockMalService(MalServiceResponseDto malServiceResponseDto) {
@@ -123,18 +134,20 @@ public class ResultViewControllerTest extends AbstractTest {
 				.build();
 	}
 
-	private ResponseSpec call(String username, String... fanDubSources) {
-		return webTestClient.get()
+	private ResponseSpec call(String username, Map<String, String> headers, String... fanDubSources) {
+		RequestHeadersSpec<?> spec = webTestClient.get()
 				.uri(x -> x.path(RESULT_VIEW_PATH)
 						.queryParam("username", username)
 						.queryParam("fanDubSources", fanDubSources)
-						.build())
-				.exchange();
+						.build());
+		headers.forEach(spec::header);
+		return spec.exchange();
 	}
 
 	private ResponseSpec callNotFoundResource() {
 		return webTestClient.get()
 				.uri("/unknown")
+				.header(HttpHeaders.ACCEPT, MediaType.TEXT_HTML_VALUE)
 				.exchange();
 	}
 }
