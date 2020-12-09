@@ -22,8 +22,9 @@ public class WebFluxConfig implements WebFluxConfigurer {
 	private String[] resourceLocations;
 
 	public WebFluxConfig() {
-		pathPattens = new String[]{"/css/**", "/fonts/**", "/img/**", "/js/**"};
-		resourceLocations = new String[]{"classpath:/static/css/", "classpath:/static/fonts/", "classpath:/static/img/", "classpath:/static/js/"};
+		pathPattens = new String[]{"/css/**", "/fonts/**", "/img/**", "/js/**", "/{filename:robots}.txt"};
+		resourceLocations = new String[]{"classpath:/static/css/", "classpath:/static/fonts/", "classpath:/static/img/", "classpath:/static/js/",
+				"classpath:/static/robots/"};
 	}
 
 	@Override
