@@ -22,7 +22,7 @@ import org.springframework.validation.annotation.Validated;
 @AllArgsConstructor
 public class UserInputDto {
 
-	@Pattern(regexp = "^[\\w-_]{2,16}$", message = "Please enter a valid mal username between 2 and 16 characters(latin letters, numbers, underscores "
+	@Pattern(regexp = "^[\\w-]{2,16}$", message = "Please enter a valid mal username between 2 and 16 characters(latin letters, numbers, underscores "
 			+ "and dashes only)")
 	private String username;
 
