@@ -20,11 +20,6 @@ application:
     max-attempts: 5
     min-backoff: 100ms
     max-backoff: 1s
-  external-services:
-    fandub-titles-service-basic-auth: ${FTS_BASIC_AUTH}
-    mal-service-basic-auth: ${MS_BASIC_AUTH}
-    fandub-titles-service-url: https://fandub-titles-service.herokuapp.com/
-    mal-service-url: https://mal-service.herokuapp.com/
 
 server:
   port: ${PORT}

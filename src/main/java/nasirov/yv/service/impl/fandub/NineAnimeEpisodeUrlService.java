@@ -5,8 +5,10 @@ import static nasirov.yv.data.constants.BaseConstants.FINAL_URL_VALUE_IF_EPISODE
 import java.util.List;
 import lombok.extern.slf4j.Slf4j;
 import nasirov.yv.data.properties.CommonProps;
+import nasirov.yv.fandub.service.spring.boot.starter.constant.FanDubSource;
 import nasirov.yv.fandub.service.spring.boot.starter.dto.fandub.common.CommonTitle;
 import nasirov.yv.fandub.service.spring.boot.starter.dto.fandub.common.FandubEpisode;
+import nasirov.yv.fandub.service.spring.boot.starter.dto.selenium_service.SeleniumServiceRequestDto;
 import nasirov.yv.fandub.service.spring.boot.starter.extractor.parser.NineAnimeParserI;
 import nasirov.yv.fandub.service.spring.boot.starter.properties.FanDubProps;
 import nasirov.yv.fandub.service.spring.boot.starter.service.HttpRequestServiceI;
@@ -35,7 +37,12 @@ public class NineAnimeEpisodeUrlService extends AbstractEpisodeUrlService {
 
 	@Override
 	protected Mono<List<FandubEpisode>> getEpisodes(CommonTitle commonTitle) {
-		return httpRequestService.performHttpRequest(httpRequestServiceDtoBuilder.nineAnime(commonTitle))
+		return httpRequestService.performHttpRequest(httpRequestServiceDtoBuilder.seleniumService(SeleniumServiceRequestDto.builder()
+				.url(fanDubProps.getUrls()
+						.get(FanDubSource.NINEANIME) + "watch/" + commonTitle.getDataId())
+				.timeoutInSec(15)
+				.cssSelector("ul.episodes >li")
+				.build()))
 				.map(Jsoup::parse)
 				.map(nineAnimeParser::extractEpisodes);
 	}

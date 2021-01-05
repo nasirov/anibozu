@@ -12,3 +12,4 @@ services:
       PORT: 8080
       FTS_BASIC_AUTH: ${FTS_BASIC_AUTH}
       MS_BASIC_AUTH: ${MS_BASIC_AUTH}
+      SS_BASIC_AUTH: ${SS_BASIC_AUTH}

@@ -7,7 +7,6 @@ import java.util.Map;
 import java.util.Set;
 import java.util.function.Function;
 import lombok.RequiredArgsConstructor;
-import nasirov.yv.data.properties.ExternalServicesProps;
 import nasirov.yv.fandub.service.spring.boot.starter.constant.FanDubSource;
 import nasirov.yv.fandub.service.spring.boot.starter.dto.fandub.animedia.AnimediaEpisode;
 import nasirov.yv.fandub.service.spring.boot.starter.dto.fandub.animepik.AnimepikEpisode;
@@ -15,6 +14,8 @@ import nasirov.yv.fandub.service.spring.boot.starter.dto.fandub.common.CommonTit
 import nasirov.yv.fandub.service.spring.boot.starter.dto.http_request_service.HttpRequestServiceDto;
 import nasirov.yv.fandub.service.spring.boot.starter.dto.mal.MalTitleWatchingStatus;
 import nasirov.yv.fandub.service.spring.boot.starter.dto.mal_service.MalServiceResponseDto;
+import nasirov.yv.fandub.service.spring.boot.starter.dto.selenium_service.SeleniumServiceRequestDto;
+import nasirov.yv.fandub.service.spring.boot.starter.properties.ExternalServicesProps;
 import nasirov.yv.fandub.service.spring.boot.starter.properties.FanDubProps;
 import nasirov.yv.service.HttpRequestServiceDtoBuilderI;
 import org.apache.commons.lang3.StringUtils;
@@ -61,6 +62,16 @@ public class HttpRequestServiceDtoBuilder implements HttpRequestServiceDtoBuilde
 				x -> x.bodyToMono(new ParameterizedTypeReference<List<CommonTitle>>() {
 				}),
 				Collections.emptyList());
+	}
+
+	@Override
+	public HttpRequestServiceDto<String> seleniumService(SeleniumServiceRequestDto seleniumServiceRequestDto) {
+		return buildDto(externalServicesProps.getSeleniumServiceUrl() + "content?url=" + seleniumServiceRequestDto.getUrl() + "&timeoutInSec="
+						+ seleniumServiceRequestDto.getTimeoutInSec() + "&cssSelector=" + seleniumServiceRequestDto.getCssSelector(),
+				Collections.singletonMap(HttpHeaders.AUTHORIZATION, externalServicesProps.getSeleniumServiceBasicAuth()),
+				Collections.emptySet(),
+				x -> x.bodyToMono(String.class),
+				StringUtils.EMPTY);
 	}
 
 	@Override

@@ -11,7 +11,6 @@ import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import nasirov.yv.data.properties.ExternalServicesProps;
 import nasirov.yv.fandub.service.spring.boot.starter.constant.FanDubSource;
 import nasirov.yv.fandub.service.spring.boot.starter.dto.fandub.animedia.AnimediaEpisode;
 import nasirov.yv.fandub.service.spring.boot.starter.dto.fandub.animepik.AnimepikEpisode;
@@ -19,6 +18,8 @@ import nasirov.yv.fandub.service.spring.boot.starter.dto.fandub.common.CommonTit
 import nasirov.yv.fandub.service.spring.boot.starter.dto.http_request_service.HttpRequestServiceDto;
 import nasirov.yv.fandub.service.spring.boot.starter.dto.mal.MalTitleWatchingStatus;
 import nasirov.yv.fandub.service.spring.boot.starter.dto.mal_service.MalServiceResponseDto;
+import nasirov.yv.fandub.service.spring.boot.starter.dto.selenium_service.SeleniumServiceRequestDto;
+import nasirov.yv.fandub.service.spring.boot.starter.properties.ExternalServicesProps;
 import nasirov.yv.fandub.service.spring.boot.starter.properties.FanDubProps;
 import nasirov.yv.utils.TestConstants;
 import org.apache.commons.lang3.StringUtils;
@@ -39,15 +40,19 @@ import org.springframework.web.reactive.function.client.ClientResponse;
 @RunWith(MockitoJUnitRunner.class)
 public class HttpRequestServiceDtoBuilderTest {
 
-	public static final String FANDUB_TITLES_SERVICE_BASIC_AUTH = "Basic foo";
+	private static final String FANDUB_TITLES_SERVICE_BASIC_AUTH = "Basic foo";
 
-	public static final String MAL_SERVICE_BASIC_AUTH = "Basic bar";
+	private static final String MAL_SERVICE_BASIC_AUTH = "Basic bar";
 
-	public static final String FANDUB_TITLES_SERVICE_URL = "http://fandub-titles-serivce.foo/";
+	private static final String SELENIUM_SERVICE_BASIC_AUTH = "Basic baz";
 
-	public static final String MAL_SERVICE_URL = "http://mal-service.foo/";
+	private static final String FANDUB_TITLES_SERVICE_URL = "http://fandub-titles-serivce.foo/";
 
-	public static final String TITLE_URL = "title-url";
+	private static final String MAL_SERVICE_URL = "http://mal-service.foo/";
+
+	private static final String SELENIUM_SERVICE_URL = "http://selenium-service.foo/";
+
+	private static final String TITLE_URL = "title-url";
 
 	@Mock
 	private FanDubProps fanDubProps;
@@ -92,6 +97,24 @@ public class HttpRequestServiceDtoBuilderTest {
 		List<CommonTitle> fallback = Collections.emptyList();
 		//when
 		HttpRequestServiceDto<List<CommonTitle>> result = httpRequestServiceDtoBuilder.fandubTitlesService(FanDubSource.ANIMEDIA, 42, 1);
+		//then
+		checkResult(result, url, method, headers, retryableStatusCodes, fallback);
+	}
+
+	@Test
+	public void shouldBuildHttpRequestServiceDtoForSeleniumService() {
+		//given
+		String url = SELENIUM_SERVICE_URL + "content?url=https://foo.bar&timeoutInSec=5&cssSelector=a";
+		HttpMethod method = HttpMethod.GET;
+		Map<String, String> headers = Collections.singletonMap(HttpHeaders.AUTHORIZATION, SELENIUM_SERVICE_BASIC_AUTH);
+		Set<Integer> retryableStatusCodes = Collections.emptySet();
+		String fallback = StringUtils.EMPTY;
+		//when
+		HttpRequestServiceDto<String> result = httpRequestServiceDtoBuilder.seleniumService(SeleniumServiceRequestDto.builder()
+				.url("https://foo.bar")
+				.timeoutInSec(5)
+				.cssSelector("a")
+				.build());
 		//then
 		checkResult(result, url, method, headers, retryableStatusCodes, fallback);
 	}
@@ -257,6 +280,10 @@ public class HttpRequestServiceDtoBuilderTest {
 				.getMalServiceBasicAuth();
 		doReturn(MAL_SERVICE_URL).when(externalServicesProps)
 				.getMalServiceUrl();
+		doReturn(SELENIUM_SERVICE_BASIC_AUTH).when(externalServicesProps)
+				.getSeleniumServiceBasicAuth();
+		doReturn(SELENIUM_SERVICE_URL).when(externalServicesProps)
+				.getSeleniumServiceUrl();
 	}
 
 	private <T> void checkResult(HttpRequestServiceDto<T> result, String url, HttpMethod method, Map<String, String> headers,

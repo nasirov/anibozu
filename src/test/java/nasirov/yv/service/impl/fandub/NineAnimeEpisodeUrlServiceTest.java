@@ -12,6 +12,7 @@ import nasirov.yv.fandub.service.spring.boot.starter.constant.FanDubSource;
 import nasirov.yv.fandub.service.spring.boot.starter.dto.fandub.common.CommonTitle;
 import nasirov.yv.fandub.service.spring.boot.starter.dto.fandub.common.FandubEpisode;
 import nasirov.yv.fandub.service.spring.boot.starter.dto.http_request_service.HttpRequestServiceDto;
+import nasirov.yv.fandub.service.spring.boot.starter.dto.selenium_service.SeleniumServiceRequestDto;
 import nasirov.yv.fandub.service.spring.boot.starter.extractor.EpisodesExtractorI;
 import nasirov.yv.fandub.service.spring.boot.starter.extractor.parser.NineAnimeParserI;
 import nasirov.yv.service.EpisodeUrlServiceI;
@@ -79,7 +80,11 @@ public class NineAnimeEpisodeUrlServiceTest extends AbstractEpisodeUrlsServiceTe
 	protected void mockGetTitlePage(String titlePageContent, CommonTitle commonTitle) {
 		HttpRequestServiceDto<String> httpRequestServiceDto = mock(HttpRequestServiceDto.class);
 		doReturn(httpRequestServiceDto).when(httpRequestServiceDtoBuilder)
-				.nineAnime(commonTitle);
+				.seleniumService(SeleniumServiceRequestDto.builder()
+						.url(getFandubUrl() + "watch/" + commonTitle.getDataId())
+						.timeoutInSec(15)
+						.cssSelector("ul.episodes >li")
+						.build());
 		doReturn(Mono.just(titlePageContent)).when(httpRequestService)
 				.performHttpRequest(httpRequestServiceDto);
 	}
