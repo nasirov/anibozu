@@ -190,23 +190,23 @@ public class AnimeServiceTest {
 			String episodeUrlOnJisedai, String episodeUrlOnAnimepik, String episodeUrlOnAnilibria, String episodeUrlOnJutsu,
 			String episodeUrlOnSovetRomantica, String episodeUrlOnShizaProject) {
 		doReturn(Mono.just(episodeUrlOnAnimedia)).when(animediaEpisodeUrlService)
-				.getEpisodeUrl(ANIMEDIA, watchingTitle);
+				.getEpisodeUrl(watchingTitle);
 		doReturn(Mono.just(episodeUrlOnNineAnime)).when(nineAnimeEpisodeUrlService)
-				.getEpisodeUrl(NINEANIME, watchingTitle);
+				.getEpisodeUrl(watchingTitle);
 		doReturn(Mono.just(episodeUrlOnAnidub)).when(anidubEpisodeUrlService)
-				.getEpisodeUrl(ANIDUB, watchingTitle);
+				.getEpisodeUrl(watchingTitle);
 		doReturn(Mono.just(episodeUrlOnJisedai)).when(jisedaiEpisodeUrlService)
-				.getEpisodeUrl(JISEDAI, watchingTitle);
+				.getEpisodeUrl(watchingTitle);
 		doReturn(Mono.just(episodeUrlOnAnimepik)).when(animepikEpisodeUrlService)
-				.getEpisodeUrl(ANIMEPIK, watchingTitle);
+				.getEpisodeUrl(watchingTitle);
 		doReturn(Mono.just(episodeUrlOnAnilibria)).when(anilibriaEpisodeUrlService)
-				.getEpisodeUrl(ANILIBRIA, watchingTitle);
+				.getEpisodeUrl(watchingTitle);
 		doReturn(Mono.just(episodeUrlOnJutsu)).when(jutsuEpisodeUrlService)
-				.getEpisodeUrl(JUTSU, watchingTitle);
+				.getEpisodeUrl(watchingTitle);
 		doReturn(Mono.just(episodeUrlOnSovetRomantica)).when(sovetRomanticaEpisodeUrlService)
-				.getEpisodeUrl(SOVETROMANTICA, watchingTitle);
+				.getEpisodeUrl(watchingTitle);
 		doReturn(Mono.just(episodeUrlOnShizaProject)).when(shizaProjectEpisodeUrlService)
-				.getEpisodeUrl(SHIZAPROJECT, watchingTitle);
+				.getEpisodeUrl(watchingTitle);
 	}
 
 	private Set<Anime> buildExpectedAnime() {

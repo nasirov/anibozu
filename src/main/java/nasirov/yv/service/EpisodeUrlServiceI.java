@@ -1,7 +1,6 @@
 package nasirov.yv.service;
 
 
-import nasirov.yv.fandub.service.spring.boot.starter.constant.FanDubSource;
 import nasirov.yv.fandub.service.spring.boot.starter.dto.mal.MalTitle;
 import reactor.core.publisher.Mono;
 
@@ -21,5 +20,5 @@ public interface EpisodeUrlServiceI {
 	 * 3. a title is not found - {@link nasirov.yv.data.constants.BaseConstants#NOT_FOUND_ON_FANDUB_SITE_URL}
 	 * wrapped with {@link Mono}
 	 */
-	Mono<String> getEpisodeUrl(FanDubSource fanDubSource, MalTitle watchingTitle);
+	Mono<String> getEpisodeUrl(MalTitle watchingTitle);
 }

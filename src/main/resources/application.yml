@@ -10,7 +10,16 @@ application:
       ttl: 300
       max-entity-count: 50
   common:
-    enable-build-url-in-runtime: true
+    enable-build-url-in-runtime:
+      ANIDUB: true
+      ANILIBRIA: true
+      ANIMEDIA: true
+      ANIMEPIK: true
+      JISEDAI: true
+      JUTSU: true
+      NINEANIME: false
+      SHIZAPROJECT: true
+      SOVETROMANTICA: true
   feign:
     enabled: false
   web-client:

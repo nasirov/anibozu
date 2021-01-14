@@ -31,7 +31,7 @@ public class NineAnimeEpisodeUrlService extends AbstractEpisodeUrlService {
 
 	public NineAnimeEpisodeUrlService(FanDubProps fanDubProps, CommonProps commonProps, HttpRequestServiceI httpRequestService,
 			NineAnimeParserI nineAnimeParser, HttpRequestServiceDtoBuilderI httpRequestServiceDtoBuilder) {
-		super(fanDubProps, commonProps, httpRequestService, httpRequestServiceDtoBuilder);
+		super(fanDubProps, commonProps, httpRequestService, httpRequestServiceDtoBuilder, FanDubSource.NINEANIME);
 		this.nineAnimeParser = nineAnimeParser;
 	}
 
@@ -50,7 +50,8 @@ public class NineAnimeEpisodeUrlService extends AbstractEpisodeUrlService {
 	@Override
 	protected Mono<String> buildUrlInRuntime(Integer nextEpisodeForWatch, List<CommonTitle> matchedTitles, String fandubUrl) {
 		return Mono.just(matchedTitles)
-				.filter(x -> commonProps.getEnableBuildUrlInRuntime())
+				.filter(x -> commonProps.getEnableBuildUrlInRuntime()
+						.get(fanDubSource))
 				.map(this::extractRegularTitles)
 				.filter(CollectionUtils::isNotEmpty)
 				.flatMapMany(Flux::fromIterable)

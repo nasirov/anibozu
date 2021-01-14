@@ -7,6 +7,7 @@ import java.util.Comparator;
 import java.util.List;
 import lombok.extern.slf4j.Slf4j;
 import nasirov.yv.data.properties.CommonProps;
+import nasirov.yv.fandub.service.spring.boot.starter.constant.FanDubSource;
 import nasirov.yv.fandub.service.spring.boot.starter.dto.fandub.animedia.AnimediaEpisode;
 import nasirov.yv.fandub.service.spring.boot.starter.dto.fandub.common.CommonTitle;
 import nasirov.yv.fandub.service.spring.boot.starter.dto.fandub.common.FandubEpisode;
@@ -31,7 +32,7 @@ public class AnimediaEpisodeUrlService extends AbstractEpisodeUrlService {
 
 	public AnimediaEpisodeUrlService(FanDubProps fanDubProps, CommonProps commonProps, AnimediaParserI animediaParser,
 			HttpRequestServiceI httpRequestService, HttpRequestServiceDtoBuilderI httpRequestServiceDtoBuilder) {
-		super(fanDubProps, commonProps, httpRequestService, httpRequestServiceDtoBuilder);
+		super(fanDubProps, commonProps, httpRequestService, httpRequestServiceDtoBuilder, FanDubSource.ANIMEDIA);
 		this.animediaParser = animediaParser;
 	}
 
@@ -45,7 +46,8 @@ public class AnimediaEpisodeUrlService extends AbstractEpisodeUrlService {
 	@Override
 	protected Mono<String> buildUrlInRuntime(Integer nextEpisodeForWatch, List<CommonTitle> matchedTitles, String fandubUrl) {
 		return Mono.just(matchedTitles)
-				.filter(x -> commonProps.getEnableBuildUrlInRuntime())
+				.filter(x -> commonProps.getEnableBuildUrlInRuntime()
+						.get(fanDubSource))
 				.map(this::extractRegularTitles)
 				.filter(CollectionUtils::isNotEmpty)
 				.map(x -> Collections.max(x, Comparator.comparing(CommonTitle::getDataList)))

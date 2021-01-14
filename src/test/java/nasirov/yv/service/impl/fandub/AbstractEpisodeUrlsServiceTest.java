@@ -64,7 +64,7 @@ public abstract class AbstractEpisodeUrlsServiceTest {
 		mockFandubTitleService(getRegularCommonTitles(), REGULAR_TITLE_MAL_ID, 1);
 		MalTitle malTitle = buildWatchingTitle(REGULAR_TITLE_MAL_ID, 0);
 		//when
-		String actualUrl = getEpisodeUrlService().getEpisodeUrl(getFandubSource(), malTitle)
+		String actualUrl = getEpisodeUrlService().getEpisodeUrl(malTitle)
 				.block();
 		//then
 		checkUrlWithAvailableEpisode(actualUrl);
@@ -80,7 +80,7 @@ public abstract class AbstractEpisodeUrlsServiceTest {
 		mockParser(titlePageContent);
 		MalTitle malTitle = buildWatchingTitle(REGULAR_TITLE_MAL_ID, 1);
 		//when
-		String actualUrl = getEpisodeUrlService().getEpisodeUrl(getFandubSource(), malTitle)
+		String actualUrl = getEpisodeUrlService().getEpisodeUrl(malTitle)
 				.block();
 		//then
 		checkUrlWithAvailableEpisodeInRuntime(actualUrl);
@@ -94,7 +94,7 @@ public abstract class AbstractEpisodeUrlsServiceTest {
 		mockFandubTitleService(Collections.emptyList(), notFoundOnFandubMalId, 1);
 		MalTitle malTitle = buildWatchingTitle(notFoundOnFandubMalId, 0);
 		//when
-		String actualUrl = getEpisodeUrlService().getEpisodeUrl(getFandubSource(), malTitle)
+		String actualUrl = getEpisodeUrlService().getEpisodeUrl(malTitle)
 				.block();
 		//then
 		assertEquals(NOT_FOUND_ON_FANDUB_SITE_URL, actualUrl);
@@ -107,7 +107,7 @@ public abstract class AbstractEpisodeUrlsServiceTest {
 		mockFandubTitleService(getConcretizedCommonTitles(), REGULAR_TITLE_MAL_ID, 2);
 		MalTitle malTitle = buildWatchingTitle(REGULAR_TITLE_MAL_ID, 1);
 		//when
-		String actualUrl = getEpisodeUrlService().getEpisodeUrl(getFandubSource(), malTitle)
+		String actualUrl = getEpisodeUrlService().getEpisodeUrl(malTitle)
 				.block();
 		//then
 		assertEquals(FINAL_URL_VALUE_IF_EPISODE_IS_NOT_AVAILABLE, actualUrl);
@@ -123,7 +123,7 @@ public abstract class AbstractEpisodeUrlsServiceTest {
 		mockParser(titlePageContent);
 		MalTitle malTitle = buildWatchingTitle(REGULAR_TITLE_MAL_ID, 2);
 		//when
-		String actualUrl = getEpisodeUrlService().getEpisodeUrl(getFandubSource(), malTitle)
+		String actualUrl = getEpisodeUrlService().getEpisodeUrl(malTitle)
 				.block();
 		//then
 		assertEquals(FINAL_URL_VALUE_IF_EPISODE_IS_NOT_AVAILABLE, actualUrl);
@@ -146,7 +146,7 @@ public abstract class AbstractEpisodeUrlsServiceTest {
 	protected abstract void checkUrlWithAvailableEpisodeInRuntime(String actualUrl);
 
 	protected void mockCommonProps() {
-		doReturn(true).when(commonProps)
+		doReturn(Collections.singletonMap(getFandubSource(), true)).when(commonProps)
 				.getEnableBuildUrlInRuntime();
 	}
 

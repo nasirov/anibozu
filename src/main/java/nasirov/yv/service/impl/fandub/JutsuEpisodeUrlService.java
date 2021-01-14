@@ -2,6 +2,7 @@ package nasirov.yv.service.impl.fandub;
 
 import java.util.List;
 import nasirov.yv.data.properties.CommonProps;
+import nasirov.yv.fandub.service.spring.boot.starter.constant.FanDubSource;
 import nasirov.yv.fandub.service.spring.boot.starter.dto.fandub.common.CommonTitle;
 import nasirov.yv.fandub.service.spring.boot.starter.dto.fandub.common.FandubEpisode;
 import nasirov.yv.fandub.service.spring.boot.starter.extractor.parser.JutsuParserI;
@@ -22,7 +23,7 @@ public class JutsuEpisodeUrlService extends AbstractEpisodeUrlService {
 
 	public JutsuEpisodeUrlService(FanDubProps fanDubProps, CommonProps commonProps, HttpRequestServiceI httpRequestService, JutsuParserI jutsuParser,
 			HttpRequestServiceDtoBuilderI httpRequestServiceDtoBuilder) {
-		super(fanDubProps, commonProps, httpRequestService, httpRequestServiceDtoBuilder);
+		super(fanDubProps, commonProps, httpRequestService, httpRequestServiceDtoBuilder, FanDubSource.JUTSU);
 		this.jutsuParser = jutsuParser;
 	}
 

@@ -69,7 +69,7 @@ public class AnimediaEpisodeUrlServiceTest {
 				1);
 		MalTitle malTitle = buildWatchingTitle(REGULAR_TITLE_MAL_ID, 0);
 		//when
-		String actualUrl = animediaEpisodeUrlService.getEpisodeUrl(FanDubSource.ANIMEDIA, malTitle)
+		String actualUrl = animediaEpisodeUrlService.getEpisodeUrl(malTitle)
 				.block();
 		//then
 		assertEquals(ANIMEDIA_ONLINE_TV + REGULAR_TITLE_ANIMEDIA_URL + "/1/1", actualUrl);
@@ -90,7 +90,7 @@ public class AnimediaEpisodeUrlServiceTest {
 		mockParser(getAnimediaEpisodesWithFilledTitleUrlField());
 		MalTitle malTitle = buildWatchingTitle(REGULAR_TITLE_MAL_ID, 1);
 		//when
-		String actualUrl = animediaEpisodeUrlService.getEpisodeUrl(FanDubSource.ANIMEDIA, malTitle)
+		String actualUrl = animediaEpisodeUrlService.getEpisodeUrl(malTitle)
 				.block();
 		//then
 		assertEquals(ANIMEDIA_ONLINE_TV + REGULAR_TITLE_ANIMEDIA_URL + "/1/3", actualUrl);
@@ -105,7 +105,7 @@ public class AnimediaEpisodeUrlServiceTest {
 		mockFandubTitleService(Collections.emptyList(), notFoundOnFandubMalId, 1);
 		MalTitle malTitle = buildWatchingTitle(notFoundOnFandubMalId, 0);
 		//when
-		String actualUrl = animediaEpisodeUrlService.getEpisodeUrl(FanDubSource.ANIMEDIA, malTitle)
+		String actualUrl = animediaEpisodeUrlService.getEpisodeUrl(malTitle)
 				.block();
 		//then
 		assertEquals(NOT_FOUND_ON_FANDUB_SITE_URL, actualUrl);
@@ -123,7 +123,7 @@ public class AnimediaEpisodeUrlServiceTest {
 				2);
 		MalTitle malTitle = buildWatchingTitle(REGULAR_TITLE_MAL_ID, 1);
 		//when
-		String actualUrl = animediaEpisodeUrlService.getEpisodeUrl(FanDubSource.ANIMEDIA, malTitle)
+		String actualUrl = animediaEpisodeUrlService.getEpisodeUrl(malTitle)
 				.block();
 		//then
 		assertEquals(FINAL_URL_VALUE_IF_EPISODE_IS_NOT_AVAILABLE, actualUrl);
@@ -145,7 +145,7 @@ public class AnimediaEpisodeUrlServiceTest {
 		mockParser(animediaEpisodesStub);
 		MalTitle malTitle = buildWatchingTitle(REGULAR_TITLE_MAL_ID, 2);
 		//when
-		String actualUrl = animediaEpisodeUrlService.getEpisodeUrl(FanDubSource.ANIMEDIA, malTitle)
+		String actualUrl = animediaEpisodeUrlService.getEpisodeUrl(malTitle)
 				.block();
 		//then
 		assertEquals(FINAL_URL_VALUE_IF_EPISODE_IS_NOT_AVAILABLE, actualUrl);
@@ -174,7 +174,7 @@ public class AnimediaEpisodeUrlServiceTest {
 	}
 
 	protected void mockCommonProps() {
-		doReturn(true).when(commonProps)
+		doReturn(Collections.singletonMap(FanDubSource.ANIMEDIA, true)).when(commonProps)
 				.getEnableBuildUrlInRuntime();
 	}
 

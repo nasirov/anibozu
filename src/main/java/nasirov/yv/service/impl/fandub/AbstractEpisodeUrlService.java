@@ -37,14 +37,15 @@ public abstract class AbstractEpisodeUrlService implements EpisodeUrlServiceI {
 
 	protected final HttpRequestServiceDtoBuilderI httpRequestServiceDtoBuilder;
 
+	protected final FanDubSource fanDubSource;
+
 	@Override
-	public final Mono<String> getEpisodeUrl(FanDubSource fanDubSource, MalTitle watchingTitle) {
+	public final Mono<String> getEpisodeUrl(MalTitle watchingTitle) {
 		Integer nextEpisodeForWatch = MalUtils.getNextEpisodeForWatch(watchingTitle);
 		String animeUrl = watchingTitle.getAnimeUrl();
-		Mono<List<CommonTitle>> matchedTitles = httpRequestService.performHttpRequest(httpRequestServiceDtoBuilder.fandubTitlesService(fanDubSource,
-				watchingTitle.getId(),
-				nextEpisodeForWatch));
-		return matchedTitles.filter(CollectionUtils::isNotEmpty)
+		return httpRequestService.performHttpRequest(httpRequestServiceDtoBuilder.fandubTitlesService(fanDubSource,
+				watchingTitle.getId(), nextEpisodeForWatch))
+				.filter(CollectionUtils::isNotEmpty)
 				.flatMap(x -> buildUrl(nextEpisodeForWatch,
 						x,
 						fanDubProps.getUrls()
@@ -68,7 +69,8 @@ public abstract class AbstractEpisodeUrlService implements EpisodeUrlServiceI {
 
 	protected Mono<String> buildUrlInRuntime(Integer nextEpisodeForWatch, List<CommonTitle> matchedTitles, String fandubUrl) {
 		return Mono.just(matchedTitles)
-				.filter(x -> commonProps.getEnableBuildUrlInRuntime())
+				.filter(x -> commonProps.getEnableBuildUrlInRuntime()
+						.get(fanDubSource))
 				.map(this::extractRegularTitles)
 				.filter(CollectionUtils::isNotEmpty)
 				.flatMapMany(Flux::fromIterable)

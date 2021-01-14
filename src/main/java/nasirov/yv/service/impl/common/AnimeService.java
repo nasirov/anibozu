@@ -47,7 +47,7 @@ public class AnimeService implements AnimeServiceI {
 
 	private Mono<Pair<FanDubSource, String>> buildFandubSourceEpisodeUrlPair(MalTitle watchingTitle, FanDubSource targetFanDubSource) {
 		return episodeUrlStrategy.get(targetFanDubSource)
-				.getEpisodeUrl(targetFanDubSource, watchingTitle)
+				.getEpisodeUrl(watchingTitle)
 				.map(x -> Pair.of(targetFanDubSource, x));
 	}
 }
