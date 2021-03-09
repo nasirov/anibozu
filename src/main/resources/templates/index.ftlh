@@ -1,4 +1,3 @@
-<#import "/spring.ftl" as spring/>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -26,21 +25,18 @@
             <tr>
               <td>
                 <label>
-                    <@spring.bind "userInputDto.fanDubSources"/>
                   <input id="nineAnime-checkbox" type="checkbox" class="nes-checkbox" name="fanDubSources" value="${nineAnime}"/>
                   <span>9Anime</span>
                 </label>
               </td>
               <td>
                 <label>
-                    <@spring.bind "userInputDto.fanDubSources"/>
                   <input id="anidub-checkbox" type="checkbox" class="nes-checkbox" name="fanDubSources" value="${anidub}"/>
                   <span>Anidub</span>
                 </label>
               </td>
               <td>
                 <label>
-                    <@spring.bind "userInputDto.fanDubSources"/>
                   <input id="anilibria-checkbox" type="checkbox" class="nes-checkbox" name="fanDubSources" value="${anilibria}"/>
                   <span>Anilibria</span>
                 </label>
@@ -49,21 +45,18 @@
             <tr>
               <td>
                 <label>
-                    <@spring.bind "userInputDto.fanDubSources"/>
                   <input id="animepik-checkbox" type="checkbox" class="nes-checkbox" name="fanDubSources" value="${animepik}"/>
                   <span>AnimePiK</span>
                 </label>
               </td>
               <td>
                 <label>
-                    <@spring.bind "userInputDto.fanDubSources"/>
                   <input id="animedia-checkbox" type="checkbox" class="nes-checkbox" name="fanDubSources" value="${animedia}"/>
                   <span>Animedia</span>
                 </label>
               </td>
               <td>
                 <label>
-                    <@spring.bind "userInputDto.fanDubSources"/>
                   <input id="jisedai-checkbox" type="checkbox" class="nes-checkbox" name="fanDubSources" value="${jisedai}"/>
                   <span>Jisedai</span>
                 </label>
@@ -72,21 +65,18 @@
             <tr>
               <td>
                 <label>
-                    <@spring.bind "userInputDto.fanDubSources"/>
                   <input id="jutsu-checkbox" type="checkbox" class="nes-checkbox" name="fanDubSources" value="${jutsu}"/>
                   <span>Jutsu</span>
                 </label>
               </td>
               <td>
                 <label>
-                    <@spring.bind "userInputDto.fanDubSources"/>
                   <input id="shizaProject-checkbox" type="checkbox" class="nes-checkbox" name="fanDubSources" value="${shizaProject}"/>
                   <span>ShizaProject</span>
                 </label>
               </td>
               <td>
                 <label>
-                    <@spring.bind "userInputDto.fanDubSources"/>
                   <input id="sovetRomantica-checkbox" type="checkbox" class="nes-checkbox" name="fanDubSources" value="${sovetRomantica}"/>
                   <span>SovetRomantica</span>
                 </label>
