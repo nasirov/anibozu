@@ -75,6 +75,7 @@ public class TestConstants {
 	public static final String ANILIBRIA_URL = "https://www.anilibria.tv/";
 	public static final String JUTSU_URL = "https://jut.su/";
 	public static final String SOVET_ROMANTICA_URL = "https://sovetromantica.com/";
+	public static final String SOVET_ROMANTICA_DDOS_GUARD_URL = "https://check.ddos-guard.net/";
 	public static final String SHIZA_PROJECT_URL = "http://shiza-project.com/";
 
 	public static final int TEST_ACC_WATCHING_TITLES = 2;

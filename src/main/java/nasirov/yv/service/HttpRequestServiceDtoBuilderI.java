@@ -38,4 +38,8 @@ public interface HttpRequestServiceDtoBuilderI {
 	HttpRequestServiceDto<String> shizaProject(CommonTitle commonTitle);
 
 	HttpRequestServiceDto<String> sovetRomantica(CommonTitle commonTitle);
+
+	HttpRequestServiceDto<String> sovetRomantica(CommonTitle commonTitle, String cookie);
+
+	HttpRequestServiceDto<String> sovetRomanticaDdosGuard();
 }

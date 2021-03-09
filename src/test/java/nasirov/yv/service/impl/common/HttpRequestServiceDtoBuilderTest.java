@@ -254,6 +254,38 @@ public class HttpRequestServiceDtoBuilderTest {
 		checkResult(result, url, method, headers, retryableStatusCodes, fallback);
 	}
 
+	@Test
+	public void shouldBuildHttpRequestServiceDtoForSovetRomanticaWithCookie() {
+		//given
+		String url = TestConstants.SOVET_ROMANTICA_URL + TITLE_URL;
+		HttpMethod method = HttpMethod.GET;
+		String cookie = "foobar";
+		Map<String, String> headers = Collections.singletonMap(HttpHeaders.COOKIE, cookie);
+		Set<Integer> retryableStatusCodes = Sets.newHashSet(500, 502, 503, 504, 520, 524);
+		String fallback = StringUtils.EMPTY;
+		CommonTitle commonTitle = getCommonTitle();
+		//when
+		HttpRequestServiceDto<String> result = httpRequestServiceDtoBuilder.sovetRomantica(commonTitle, cookie);
+		//then
+		checkResult(result, url, method, headers, retryableStatusCodes, fallback);
+	}
+
+
+	@Test
+	public void shouldBuildHttpRequestServiceDtoForSovetRomanticaDdosGuard() {
+		//given
+		String url = TestConstants.SOVET_ROMANTICA_DDOS_GUARD_URL + "check.js";
+		HttpMethod method = HttpMethod.GET;
+		String referer = TestConstants.SOVET_ROMANTICA_URL;
+		Map<String, String> headers = Collections.singletonMap(HttpHeaders.REFERER, referer);
+		Set<Integer> retryableStatusCodes = Collections.emptySet();
+		String fallback = StringUtils.EMPTY;
+		//when
+		HttpRequestServiceDto<String> result = httpRequestServiceDtoBuilder.sovetRomanticaDdosGuard();
+		//then
+		checkResult(result, url, method, headers, retryableStatusCodes, fallback);
+	}
+
 	private void mockFanDubProps() {
 		EnumMap<FanDubSource, String> urls = new EnumMap<>(FanDubSource.class);
 		urls.put(FanDubSource.ANIDUB, TestConstants.ANIDUB_URL);
@@ -269,6 +301,8 @@ public class HttpRequestServiceDtoBuilderTest {
 				.getUrls();
 		doReturn(TestConstants.ANIMEPIK_RESOURCES_URL).when(fanDubProps)
 				.getAnimepikResourcesUrl();
+		doReturn(TestConstants.SOVET_ROMANTICA_DDOS_GUARD_URL).when(fanDubProps)
+				.getSovetRomanticaDdosGuardUrl();
 	}
 
 	private void mockExternalServicesProps() {

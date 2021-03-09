@@ -8,11 +8,13 @@ import static org.mockito.Mockito.mock;
 
 import com.google.common.collect.Lists;
 import java.util.List;
+import java.util.Optional;
 import nasirov.yv.fandub.service.spring.boot.starter.constant.FanDubSource;
 import nasirov.yv.fandub.service.spring.boot.starter.dto.fandub.common.CommonTitle;
 import nasirov.yv.fandub.service.spring.boot.starter.dto.fandub.common.FandubEpisode;
 import nasirov.yv.fandub.service.spring.boot.starter.dto.http_request_service.HttpRequestServiceDto;
 import nasirov.yv.fandub.service.spring.boot.starter.extractor.EpisodesExtractorI;
+import nasirov.yv.fandub.service.spring.boot.starter.extractor.parser.SovetRomanticaDdosGuardParserI;
 import nasirov.yv.fandub.service.spring.boot.starter.extractor.parser.SovetRomanticaParserI;
 import nasirov.yv.service.EpisodeUrlServiceI;
 import org.jsoup.nodes.Document;
@@ -31,6 +33,9 @@ public class SovetRomanticaEpisodeUrlServiceTest extends AbstractEpisodeUrlsServ
 
 	@Mock
 	private SovetRomanticaParserI sovetRomanticaParser;
+
+	@Mock
+	private SovetRomanticaDdosGuardParserI sovetRomanticaDdosGuardParser;
 
 	@InjectMocks
 	private SovetRomanticaEpisodeUrlService sovetRomanticaEpisodeUrlService;
@@ -77,9 +82,18 @@ public class SovetRomanticaEpisodeUrlServiceTest extends AbstractEpisodeUrlsServ
 
 	@Override
 	protected void mockGetTitlePage(String titlePageContent, CommonTitle commonTitle) {
+		HttpRequestServiceDto<String> sovetRomanticaDdosGuardDto = mock(HttpRequestServiceDto.class);
+		doReturn(sovetRomanticaDdosGuardDto).when(httpRequestServiceDtoBuilder)
+				.sovetRomanticaDdosGuard();
+		String pageWithDdosGuardCookie = "pageWithDdosGuardCookie";
+		doReturn(Mono.just(pageWithDdosGuardCookie)).when(httpRequestService)
+				.performHttpRequest(sovetRomanticaDdosGuardDto);
+		String cookie = "foobar42";
+		doReturn(Optional.of(cookie)).when(sovetRomanticaDdosGuardParser)
+				.extractDdosGuardCookie(pageWithDdosGuardCookie);
 		HttpRequestServiceDto<String> httpRequestServiceDto = mock(HttpRequestServiceDto.class);
 		doReturn(httpRequestServiceDto).when(httpRequestServiceDtoBuilder)
-				.sovetRomantica(commonTitle);
+				.sovetRomantica(commonTitle, cookie);
 		doReturn(Mono.just(titlePageContent)).when(httpRequestService)
 				.performHttpRequest(httpRequestServiceDto);
 	}

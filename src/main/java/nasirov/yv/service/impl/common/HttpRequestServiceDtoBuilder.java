@@ -4,6 +4,7 @@ import com.google.common.collect.Sets;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 import java.util.function.Function;
 import lombok.RequiredArgsConstructor;
@@ -133,6 +134,26 @@ public class HttpRequestServiceDtoBuilder implements HttpRequestServiceDtoBuilde
 	@Override
 	public HttpRequestServiceDto<String> sovetRomantica(CommonTitle commonTitle) {
 		return buildDtowithStringResponse(commonTitle, FanDubSource.SOVETROMANTICA);
+	}
+
+	@Override
+	public HttpRequestServiceDto<String> sovetRomantica(CommonTitle commonTitle, String cookie) {
+		HttpRequestServiceDto<String> result = buildDtowithStringResponse(commonTitle, FanDubSource.SOVETROMANTICA);
+		if (Objects.nonNull(cookie)) {
+			result.setHeaders(Collections.singletonMap(HttpHeaders.COOKIE, cookie));
+		}
+		return result;
+	}
+
+	@Override
+	public HttpRequestServiceDto<String> sovetRomanticaDdosGuard() {
+		return buildDto(fanDubProps.getSovetRomanticaDdosGuardUrl() + "check.js",
+				Collections.singletonMap(HttpHeaders.REFERER,
+						fanDubProps.getUrls()
+								.get(FanDubSource.SOVETROMANTICA)),
+				Collections.emptySet(),
+				x -> x.bodyToMono(String.class),
+				StringUtils.EMPTY);
 	}
 
 	private <T> HttpRequestServiceDto<T> buildDto(String url, Map<String, String> headers, Set<Integer> retryableStatusCodes,
