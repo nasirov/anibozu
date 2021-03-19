@@ -5,7 +5,7 @@
 [![Coverage Status](https://coveralls.io/repos/github/nasirov/anime-checker/badge.svg?branch=master)](https://coveralls.io/github/nasirov/anime-checker?branch=master)
 [![Apache License 2](https://img.shields.io/badge/license-ASF2-blue.svg)](https://www.apache.org/licenses/LICENSE-2.0.txt)
 
-The application analyzes an user watching titles list from **[MyAnimeList](https://myanimelist.net/)** and searches for new episodes on FanDub Sites.
+The application analyzes a user watching titles list from **[MyAnimeList](https://myanimelist.net/)** and searches for new episodes on FanDub Sites.
 
 <table>
   <tbody>
@@ -62,7 +62,7 @@ The application analyzes an user watching titles list from **[MyAnimeList](https
 ![Flow](/images/flow.gif)
 
 1. Open **[Anime Checker](https://anime-checker.herokuapp.com/)** via an **[EventSource compatible browser](https://developer.mozilla.org/en-US/docs/Web/API/EventSource#Browser_compatibility)**  with enabled JavaScript
-2. Enter an username from **[MyAnimeList](https://myanimelist.net/)**
+2. Enter a username from **[MyAnimeList](https://myanimelist.net/)**
 3. Choose at least one FanDub site
 4. Submit form
 
