@@ -40,5 +40,5 @@ spring:
 logging:
   level:
     ROOT: INFO
-    nasirov.yv: DEBUG
+    nasirov.yv: INFO
     reactor.netty: ERROR
