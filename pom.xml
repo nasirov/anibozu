@@ -11,7 +11,7 @@
   </parent>
 
   <artifactId>anime-checker</artifactId>
-  <version>3.5.11</version>
+  <version>3.5.12</version>
   <name>anime-checker</name>
   <description>The application analyzes a user watching titles list from MyAnimeList(https://myanimelist.net/) and searches for new episodes on
     FanDub Sites
@@ -20,7 +20,7 @@
 
   <properties>
     <docker.buildArg.JAR_FILE>target/${project.build.finalName}.jar</docker.buildArg.JAR_FILE>
-    <fandub-service-spring-boot-starter.version>11.0.1</fandub-service-spring-boot-starter.version>
+    <fandub-service-spring-boot-starter.version>12.1.0</fandub-service-spring-boot-starter.version>
   </properties>
 
   <dependencies>

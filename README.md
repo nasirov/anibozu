@@ -42,8 +42,8 @@ The application analyzes a user watching titles list from **[MyAnimeList](https:
     <td>:heavy_plus_sign:</td>
   </tr>
   <tr>
-    <td><a href="http://shiza-project.com/"><img src="/images/favicons/shizaProject.png" alt="shizaProject"> ShizaProject</a></td>
-    <td>:heavy_plus_sign:</td>
+    <td><a href="https://shiza-project.com/"><img src="/images/favicons/shizaProject.png" alt="shizaProject"> ShizaProject</a></td>
+    <td>:heavy_minus_sign:</td>
   </tr>
   <tr>
     <td><a href="https://sovetromantica.com/"><img src="/images/favicons/sovetRomantica.png" alt="sovetRomantica"> SovetRomantica</a></td>
