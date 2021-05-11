@@ -15,7 +15,7 @@ application:
       ANILIBRIA: true
       ANIMEDIA: true
       ANIMEPIK: true
-      JISEDAI: true
+      JISEDAI: false
       JUTSU: true
       NINEANIME: false
       SHIZAPROJECT: true
@@ -40,5 +40,5 @@ spring:
 logging:
   level:
     ROOT: INFO
-    nasirov.yv: INFO
+    nasirov.yv: DEBUG
     reactor.netty: ERROR
