@@ -67,5 +67,6 @@ The application analyzes a user watching titles list from **[MyAnimeList](https:
 4. Submit form
 
 - You will receive your anime check result in real time title by title
+- On a FanDub link hover you will see a hint with a new episode name. This feature is useful for a Fandub site which link doesn't contain an episode and you have to choose it manually in an embedded player
 - Titles from "Available" section have links to FanDub sites
 - Titles from "Not Available" and "Not Found" sections have links to MyAnimeList site
