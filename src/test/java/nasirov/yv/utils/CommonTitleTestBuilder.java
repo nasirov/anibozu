@@ -51,6 +51,24 @@ import nasirov.yv.fandub.service.spring.boot.starter.dto.fandub.common.TitleType
 @UtilityClass
 public class CommonTitleTestBuilder {
 
+	public static final String ANIMEDIA_EPISODE_NAME = "Серия 1";
+
+	public static final String NINE_ANIME_EPISODE_NAME = "1";
+
+	public static final String ANIDUB_EPISODE_NAME = "1 серия";
+
+	public static final String JISEDAI_EPISODE_NAME = "1 эпизод";
+
+	public static final String ANIMEPIK_EPISODE_NAME = "1 серия";
+
+	public static final String ANILIBRIA_EPISODE_NAME = "Серия 1";
+
+	public static final String JUTSU_EPISODE_NAME = "1 серия";
+
+	public static final String SOVET_ROMANTICA_EPISODE_NAME = "Эпизод 1";
+
+	public static final String SHIZA_PROJECT_EPISODE_NAME = "1";
+
 	public static List<CommonTitle> buildCommonTitles(FanDubSource fanDubSource) {
 		CommonTitle regular = null;
 		CommonTitle concretized = null;
@@ -108,11 +126,11 @@ public class CommonTitleTestBuilder {
 	}
 
 	public static CommonTitle getAnimediaRegular() {
-		return getRegular(REGULAR_TITLE_ANIMEDIA_URL, 1, buildEpisodeUrl(REGULAR_TITLE_ANIMEDIA_URL, 1), null);
+		return getRegular(REGULAR_TITLE_ANIMEDIA_URL, 1, buildEpisodeUrl(REGULAR_TITLE_ANIMEDIA_URL, 1), null, ANIMEDIA_EPISODE_NAME);
 	}
 
 	public static CommonTitle getAnimediaConcretized() {
-		return getConcretized(CONCRETIZED_TITLE_ANIMEDIA_URL, 1, buildEpisodeUrl(CONCRETIZED_TITLE_ANIMEDIA_URL, 1), null);
+		return getConcretized(CONCRETIZED_TITLE_ANIMEDIA_URL, 1, buildEpisodeUrl(CONCRETIZED_TITLE_ANIMEDIA_URL, 1), null, ANIMEDIA_EPISODE_NAME);
 	}
 
 	public static CommonTitle getAnimediaNotFoundOnMal() {
@@ -120,64 +138,76 @@ public class CommonTitleTestBuilder {
 	}
 
 	public static CommonTitle getAnidubRegular() {
-		return getRegular(REGULAR_TITLE_ANIDUB_URL, null, buildEpisodeUrl(REGULAR_TITLE_ANIDUB_URL, null), null);
+		return getRegular(REGULAR_TITLE_ANIDUB_URL, null, buildEpisodeUrl(REGULAR_TITLE_ANIDUB_URL, null), null, ANIDUB_EPISODE_NAME);
 	}
 	public static CommonTitle getAnidubConcretized() {
-		return getConcretized(CONCRETIZED_TITLE_ANIDUB_URL, null, buildEpisodeUrl(CONCRETIZED_TITLE_ANIDUB_URL, null), null);
+		return getConcretized(CONCRETIZED_TITLE_ANIDUB_URL, null, buildEpisodeUrl(CONCRETIZED_TITLE_ANIDUB_URL, null), null, ANIDUB_EPISODE_NAME);
 	}
 	public static CommonTitle getAnidubNotFoundOnMal() {
 		return getNotFoundOnMal(NOT_FOUND_ON_MAL_TITLE_ANIDUB_URL, null, null);
 	}
 
 	public static CommonTitle getAnimepikRegular() {
-		return getRegular(REGULAR_TITLE_ANIMEPIK_URL, null, buildEpisodeUrl(REGULAR_TITLE_ANIMEPIK_URL, null), null);
+		return getRegular(REGULAR_TITLE_ANIMEPIK_URL, null, buildEpisodeUrl(REGULAR_TITLE_ANIMEPIK_URL, null), null, ANIMEPIK_EPISODE_NAME);
 	}
 	public static CommonTitle getAnimepikConcretized() {
-		return getConcretized(CONCRETIZED_TITLE_ANIMEPIK_URL, null, buildEpisodeUrl(CONCRETIZED_TITLE_ANIMEPIK_URL, null), null);
+		return getConcretized(CONCRETIZED_TITLE_ANIMEPIK_URL, null, buildEpisodeUrl(CONCRETIZED_TITLE_ANIMEPIK_URL, null), null, ANIMEPIK_EPISODE_NAME);
 	}
 	public static CommonTitle getAnimepikNotFoundOnMal() {
 		return getNotFoundOnMal(NOT_FOUND_ON_MAL_TITLE_ANIMEPIK_URL, null, null);
 	}
 
 	public static CommonTitle getAnilibriaRegular() {
-		return getRegular(REGULAR_TITLE_ANILIBRIA_URL, null, buildEpisodeUrl(REGULAR_TITLE_ANILIBRIA_URL, null), null);
+		return getRegular(REGULAR_TITLE_ANILIBRIA_URL, null, buildEpisodeUrl(REGULAR_TITLE_ANILIBRIA_URL, null), null, ANILIBRIA_EPISODE_NAME);
 	}
 	public static CommonTitle getAnilibriaConcretized() {
-		return getConcretized(CONCRETIZED_TITLE_ANILIBRIA_URL, null, buildEpisodeUrl(CONCRETIZED_TITLE_ANILIBRIA_URL, null), null);
+		return getConcretized(CONCRETIZED_TITLE_ANILIBRIA_URL,
+				null,
+				buildEpisodeUrl(CONCRETIZED_TITLE_ANILIBRIA_URL, null),
+				null,
+				ANILIBRIA_EPISODE_NAME);
 	}
 	public static CommonTitle getAnilibriaNotFoundOnMal() {
 		return getNotFoundOnMal(NOT_FOUND_ON_MAL_TITLE_ANILIBRIA_URL, null, null);
 	}
 
 	public static CommonTitle getJisedaiRegular() {
-		return getRegular(REGULAR_TITLE_JISEDAI_URL, null, buildEpisodeUrl(REGULAR_TITLE_JISEDAI_URL, null), null);
+		return getRegular(REGULAR_TITLE_JISEDAI_URL, null, buildEpisodeUrl(REGULAR_TITLE_JISEDAI_URL, null), null, JISEDAI_EPISODE_NAME);
 	}
 	public static CommonTitle getJisedaiConcretized() {
-		return getConcretized(CONCRETIZED_TITLE_JISEDAI_URL, null, buildEpisodeUrl(CONCRETIZED_TITLE_JISEDAI_URL, null), null);
+		return getConcretized(CONCRETIZED_TITLE_JISEDAI_URL, null, buildEpisodeUrl(CONCRETIZED_TITLE_JISEDAI_URL, null), null, JISEDAI_EPISODE_NAME);
 	}
 	public static CommonTitle getJisedaiNotFoundOnMal() {
 		return getNotFoundOnMal(NOT_FOUND_ON_MAL_TITLE_JISEDAI_URL, null, null);
 	}
 
 	public static CommonTitle getJutsuRegular() {
-		return getRegular(REGULAR_TITLE_JUTSU_URL, null, buildEpisodeUrl(REGULAR_TITLE_JUTSU_URL + "/episode-1.html", null), null);
+		return getRegular(REGULAR_TITLE_JUTSU_URL, null, buildEpisodeUrl(REGULAR_TITLE_JUTSU_URL + "/episode-1.html", null), null, JUTSU_EPISODE_NAME);
 	}
 	public static CommonTitle getJutsuConcretized() {
-		return getConcretized(CONCRETIZED_TITLE_JUTSU_URL, null, buildEpisodeUrl(CONCRETIZED_TITLE_JUTSU_URL + "/episode-1.html", null), null);
+		return getConcretized(CONCRETIZED_TITLE_JUTSU_URL,
+				null,
+				buildEpisodeUrl(CONCRETIZED_TITLE_JUTSU_URL + "/episode-1.html", null),
+				null,
+				JUTSU_EPISODE_NAME);
 	}
 	public static CommonTitle getJutsuNotFoundOnMal() {
 		return getNotFoundOnMal(NOT_FOUND_ON_MAL_TITLE_JUTSU_URL, null, null);
 	}
 
 	public static CommonTitle getNineAnimeRegular() {
-		return getRegular(REGULAR_TITLE_NINE_ANIME_URL, null, buildEpisodeUrl(REGULAR_TITLE_NINE_ANIME_URL + "/ep-1", null),
-				REGULAR_TITLE_NINE_ANIME_ID);
+		return getRegular(REGULAR_TITLE_NINE_ANIME_URL,
+				null,
+				buildEpisodeUrl(REGULAR_TITLE_NINE_ANIME_URL + "/ep-1", null),
+				REGULAR_TITLE_NINE_ANIME_ID,
+				NINE_ANIME_EPISODE_NAME);
 	}
 	public static CommonTitle getNineAnimeConcretized() {
 		return getConcretized(CONCRETIZED_TITLE_NINE_ANIME_URL,
 				null,
 				buildEpisodeUrl(CONCRETIZED_TITLE_NINE_ANIME_URL + "/ep-1", null),
-				CONCRETIZED_TITLE_NINE_ANIME_ID);
+				CONCRETIZED_TITLE_NINE_ANIME_ID,
+				NINE_ANIME_EPISODE_NAME);
 	}
 	public static CommonTitle getNineAnimeNotFoundOnMal() {
 		return getNotFoundOnMal(NOT_FOUND_ON_MAL_TITLE_NINE_ANIME_URL, null, NOT_FOUND_ON_MAL_TITLE_NINE_ANIME_ID);
@@ -187,27 +217,39 @@ public class CommonTitleTestBuilder {
 		return getRegular(REGULAR_TITLE_SOVET_ROMANTICA_URL,
 				null,
 				buildEpisodeUrl(REGULAR_TITLE_SOVET_ROMANTICA_URL + "/episode_1-subtitles", null),
-				null);
+				null,
+				SOVET_ROMANTICA_EPISODE_NAME);
 	}
 	public static CommonTitle getSovetRomanticaConcretized() {
 		return getConcretized(CONCRETIZED_TITLE_SOVET_ROMANTICA_URL,
-				null, buildEpisodeUrl(CONCRETIZED_TITLE_SOVET_ROMANTICA_URL + "/episode_1-subtitles", null), null);
+				null,
+				buildEpisodeUrl(CONCRETIZED_TITLE_SOVET_ROMANTICA_URL + "/episode_1-subtitles", null),
+				null,
+				SOVET_ROMANTICA_EPISODE_NAME);
 	}
 	public static CommonTitle getSovetRomanticaNotFoundOnMal() {
 		return getNotFoundOnMal(NOT_FOUND_ON_MAL_TITLE_SOVET_ROMANTICA_URL, null, null);
 	}
 
 	public static CommonTitle getShizaProjectRegular() {
-		return getRegular(REGULAR_TITLE_SHIZA_PROJECT_URL, null, buildEpisodeUrl(REGULAR_TITLE_SHIZA_PROJECT_URL + "#online-1", null), null);
+		return getRegular(REGULAR_TITLE_SHIZA_PROJECT_URL,
+				null,
+				buildEpisodeUrl(REGULAR_TITLE_SHIZA_PROJECT_URL, null),
+				null,
+				SHIZA_PROJECT_EPISODE_NAME);
 	}
 	public static CommonTitle getShizaProjectConcretized() {
-		return getConcretized(CONCRETIZED_TITLE_SHIZA_PROJECT_URL, null, buildEpisodeUrl(CONCRETIZED_TITLE_SHIZA_PROJECT_URL + "#online-1", null), null);
+		return getConcretized(CONCRETIZED_TITLE_SHIZA_PROJECT_URL,
+				null,
+				buildEpisodeUrl(CONCRETIZED_TITLE_SHIZA_PROJECT_URL, null),
+				null,
+				SHIZA_PROJECT_EPISODE_NAME);
 	}
 	public static CommonTitle getShizaProjectNotFoundOnMal() {
 		return getNotFoundOnMal(NOT_FOUND_ON_MAL_TITLE_SHIZA_PROJECT_URL, null, null);
 	}
 
-	public static CommonTitle getRegular(String url, Integer dataList, String episodeUrl, String dataId) {
+	public static CommonTitle getRegular(String url, Integer dataList, String episodeUrl, String dataId, String episodeName) {
 		return buildCommonTitle(REGULAR_TITLE_ID,
 				url,
 				REGULAR_TITLE_MAL_ID,
@@ -215,13 +257,13 @@ public class CommonTitleTestBuilder {
 				TitleType.REGULAR,
 				Lists.newArrayList(CommonEpisode.builder()
 						.malEpisodeId(1)
-						.name("Серия 1")
+						.name(episodeName)
 						.id(1)
 						.url(episodeUrl)
 						.build()), dataId);
 	}
 
-	public static CommonTitle getConcretized(String url, Integer dataList, String episodeUrl, String dataId) {
+	public static CommonTitle getConcretized(String url, Integer dataList, String episodeUrl, String dataId, String episodeName) {
 		return buildCommonTitle(CONCRETIZED_TITLE_ID,
 				url,
 				CONCRETIZED_TITLE_MAL_ID,
@@ -229,7 +271,7 @@ public class CommonTitleTestBuilder {
 				TitleType.CONCRETIZED,
 				Lists.newArrayList(CommonEpisode.builder()
 						.malEpisodeId(1)
-						.name("Серия 1")
+						.name(episodeName)
 						.id(1)
 						.url(episodeUrl)
 						.build()), dataId);

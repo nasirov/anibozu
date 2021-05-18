@@ -107,15 +107,15 @@ public class ServerSentEventServiceTest extends AbstractTest {
 		switch (eventType) {
 			case AVAILABLE:
 				result.put(FanDubSource.ANIMEDIA, ANIMEDIA_ONLINE_TV + REGULAR_TITLE_ORIGINAL_NAME + "/1/1");
-				result.put(FanDubSource.NINEANIME, BaseConstants.FINAL_URL_VALUE_IF_EPISODE_IS_NOT_AVAILABLE);
+				result.put(FanDubSource.NINEANIME, BaseConstants.NOT_AVAILABLE_EPISODE_URL);
 				break;
 			case NOT_AVAILABLE:
-				result.put(FanDubSource.ANIMEDIA, BaseConstants.NOT_FOUND_ON_FANDUB_SITE_URL);
-				result.put(FanDubSource.NINEANIME, BaseConstants.FINAL_URL_VALUE_IF_EPISODE_IS_NOT_AVAILABLE);
+				result.put(FanDubSource.ANIMEDIA, BaseConstants.TITLE_NOT_FOUND_EPISODE_URL);
+				result.put(FanDubSource.NINEANIME, BaseConstants.NOT_AVAILABLE_EPISODE_URL);
 				break;
 			case NOT_FOUND:
-				result.put(FanDubSource.ANIMEDIA, BaseConstants.NOT_FOUND_ON_FANDUB_SITE_URL);
-				result.put(FanDubSource.NINEANIME, BaseConstants.NOT_FOUND_ON_FANDUB_SITE_URL);
+				result.put(FanDubSource.ANIMEDIA, BaseConstants.TITLE_NOT_FOUND_EPISODE_URL);
+				result.put(FanDubSource.NINEANIME, BaseConstants.TITLE_NOT_FOUND_EPISODE_URL);
 				break;
 		}
 		return result;
@@ -124,7 +124,7 @@ public class ServerSentEventServiceTest extends AbstractTest {
 	private Anime buildAnime(Map<FanDubSource, String> fanDubUrls) {
 		return Anime.builder()
 				.animeName(REGULAR_TITLE_ORIGINAL_NAME)
-				.episode("1")
+				.malEpisodeNumber("1")
 				.posterUrlOnMal(MY_ANIME_LIST_STATIC_CONTENT_URL + REGULAR_TITLE_POSTER_URL)
 				.animeUrlOnMal(MY_ANIME_LIST_URL + REGULAR_TITLE_MAL_ANIME_URL)
 				.fanDubUrls(fanDubUrls)

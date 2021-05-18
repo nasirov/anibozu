@@ -1,7 +1,8 @@
 package nasirov.yv.service.impl.fandub;
 
-import static nasirov.yv.data.constants.BaseConstants.FINAL_URL_VALUE_IF_EPISODE_IS_NOT_AVAILABLE;
-import static nasirov.yv.data.constants.BaseConstants.NOT_FOUND_ON_FANDUB_SITE_URL;
+import static nasirov.yv.data.constants.BaseConstants.NOT_AVAILABLE_EPISODE_NAME_AND_URL;
+import static nasirov.yv.data.constants.BaseConstants.TITLE_NOT_FOUND_EPISODE_NAME_AND_URL;
+import static nasirov.yv.utils.CommonTitleTestBuilder.ANIMEDIA_EPISODE_NAME;
 import static nasirov.yv.utils.CommonTitleTestBuilder.buildEpisodeUrl;
 import static nasirov.yv.utils.TestConstants.ANIMEDIA_ONLINE_TV;
 import static nasirov.yv.utils.TestConstants.REGULAR_TITLE_ANIMEDIA_URL;
@@ -25,6 +26,7 @@ import nasirov.yv.fandub.service.spring.boot.starter.properties.FanDubProps;
 import nasirov.yv.fandub.service.spring.boot.starter.service.HttpRequestServiceI;
 import nasirov.yv.service.HttpRequestServiceDtoBuilderI;
 import nasirov.yv.utils.CommonTitleTestBuilder;
+import org.apache.commons.lang3.tuple.Pair;
 import org.assertj.core.util.Maps;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -38,6 +40,8 @@ import reactor.core.publisher.Mono;
  */
 @RunWith(MockitoJUnitRunner.class)
 public class AnimediaEpisodeUrlServiceTest {
+
+	private static final String RUNTIME_EPISODE_NAME = "Серия 2";
 
 	@Mock
 	private FanDubProps fanDubProps;
@@ -55,49 +59,58 @@ public class AnimediaEpisodeUrlServiceTest {
 	private AnimediaParserI animediaParser;
 
 	@InjectMocks
-	private AnimediaEpisodeUrlService animediaEpisodeUrlService;
+	private AnimediaEpisodeNameAndUrlService animediaEpisodeUrlService;
 
 	@Test
-	public void shouldReturnUrlWithAvailableEpisode() {
+	public void shouldReturnNameAndUrlForAvailableEpisode() {
 		//given
 		mockCommonProps();
 		mockFandubUrlsMap();
 		mockFandubTitleService(Lists.newArrayList(CommonTitleTestBuilder.getAnimediaRegular(),
-				CommonTitleTestBuilder.getRegular(REGULAR_TITLE_ANIMEDIA_URL, 0, buildEpisodeUrl(REGULAR_TITLE_ANIMEDIA_URL, 0), null),
-				CommonTitleTestBuilder.getConcretized(REGULAR_TITLE_ANIMEDIA_URL, 2, buildEpisodeUrl(REGULAR_TITLE_ANIMEDIA_URL, 2), null)),
+				CommonTitleTestBuilder.getRegular(REGULAR_TITLE_ANIMEDIA_URL, 0, buildEpisodeUrl(REGULAR_TITLE_ANIMEDIA_URL, 0), null,
+						ANIMEDIA_EPISODE_NAME),
+				CommonTitleTestBuilder.getConcretized(REGULAR_TITLE_ANIMEDIA_URL,
+						2,
+						buildEpisodeUrl(REGULAR_TITLE_ANIMEDIA_URL, 2),
+						null,
+						ANIMEDIA_EPISODE_NAME)),
 				REGULAR_TITLE_MAL_ID,
 				1);
 		MalTitle malTitle = buildWatchingTitle(REGULAR_TITLE_MAL_ID, 0);
 		//when
-		String actualUrl = animediaEpisodeUrlService.getEpisodeUrl(malTitle)
+		Pair<String, String> episodeNameAndUrl = animediaEpisodeUrlService.getEpisodeNameAndUrl(malTitle)
 				.block();
 		//then
-		assertEquals(ANIMEDIA_ONLINE_TV + REGULAR_TITLE_ANIMEDIA_URL + "/1/1", actualUrl);
+		assertEquals(Pair.of(ANIMEDIA_EPISODE_NAME, ANIMEDIA_ONLINE_TV + REGULAR_TITLE_ANIMEDIA_URL + "/1/1"), episodeNameAndUrl);
 	}
 
 	@Test
-	public void shouldReturnUrlWithAvailableEpisodeInRuntime() {
+	public void shouldReturnNameAndUrlForAvailableEpisodeBuiltInRuntime() {
 		//given
 		mockCommonProps();
 		mockFandubUrlsMap();
 		CommonTitle commonTitle = CommonTitleTestBuilder.getAnimediaRegular();
 		mockFandubTitleService(Lists.newArrayList(commonTitle,
-				CommonTitleTestBuilder.getRegular(REGULAR_TITLE_ANIMEDIA_URL, 0, buildEpisodeUrl(REGULAR_TITLE_ANIMEDIA_URL, 0), null),
-				CommonTitleTestBuilder.getConcretized(REGULAR_TITLE_ANIMEDIA_URL, 2, buildEpisodeUrl(REGULAR_TITLE_ANIMEDIA_URL, 2), null)),
+				CommonTitleTestBuilder.getRegular(REGULAR_TITLE_ANIMEDIA_URL, 0, buildEpisodeUrl(REGULAR_TITLE_ANIMEDIA_URL, 0), null, RUNTIME_EPISODE_NAME),
+				CommonTitleTestBuilder.getConcretized(REGULAR_TITLE_ANIMEDIA_URL,
+						2,
+						buildEpisodeUrl(REGULAR_TITLE_ANIMEDIA_URL, 2),
+						null,
+						ANIMEDIA_EPISODE_NAME)),
 				REGULAR_TITLE_MAL_ID,
 				2);
 		mockGetTitleEpisodesByPlaylist(getAnimediaEpisodes(), commonTitle);
 		mockParser(getAnimediaEpisodesWithFilledTitleUrlField());
 		MalTitle malTitle = buildWatchingTitle(REGULAR_TITLE_MAL_ID, 1);
 		//when
-		String actualUrl = animediaEpisodeUrlService.getEpisodeUrl(malTitle)
+		Pair<String, String> episodeNameAndUrl = animediaEpisodeUrlService.getEpisodeNameAndUrl(malTitle)
 				.block();
 		//then
-		assertEquals(ANIMEDIA_ONLINE_TV + REGULAR_TITLE_ANIMEDIA_URL + "/1/3", actualUrl);
+		assertEquals(Pair.of(RUNTIME_EPISODE_NAME, ANIMEDIA_ONLINE_TV + REGULAR_TITLE_ANIMEDIA_URL + "/1/3"), episodeNameAndUrl);
 	}
 
 	@Test
-	public void shouldReturnNotFoundOnFandubSiteUrl() {
+	public void shouldReturnNotFoundOnFandubSiteNameAndUrl() {
 		//given
 		mockCommonProps();
 		mockFandubUrlsMap();
@@ -105,39 +118,51 @@ public class AnimediaEpisodeUrlServiceTest {
 		mockFandubTitleService(Collections.emptyList(), notFoundOnFandubMalId, 1);
 		MalTitle malTitle = buildWatchingTitle(notFoundOnFandubMalId, 0);
 		//when
-		String actualUrl = animediaEpisodeUrlService.getEpisodeUrl(malTitle)
+		Pair<String, String> episodeNameAndUrl = animediaEpisodeUrlService.getEpisodeNameAndUrl(malTitle)
 				.block();
 		//then
-		assertEquals(NOT_FOUND_ON_FANDUB_SITE_URL, actualUrl);
+		assertEquals(TITLE_NOT_FOUND_EPISODE_NAME_AND_URL, episodeNameAndUrl);
 	}
 
 	@Test
-	public void shouldReturnFinalUrlValueIfEpisodeIsNotAvailable() {
+	public void shouldReturnNameAndUrlForNotAvailableEpisode() {
 		//given
 		mockCommonProps();
 		mockFandubUrlsMap();
 		mockFandubTitleService(Lists.newArrayList(CommonTitleTestBuilder.getAnimediaConcretized(),
-				CommonTitleTestBuilder.getConcretized(REGULAR_TITLE_ANIMEDIA_URL, 0, buildEpisodeUrl(REGULAR_TITLE_ANIMEDIA_URL, 0), null),
-				CommonTitleTestBuilder.getConcretized(REGULAR_TITLE_ANIMEDIA_URL, 2, buildEpisodeUrl(REGULAR_TITLE_ANIMEDIA_URL, 2), null)),
+				CommonTitleTestBuilder.getConcretized(REGULAR_TITLE_ANIMEDIA_URL,
+						0,
+						buildEpisodeUrl(REGULAR_TITLE_ANIMEDIA_URL, 0),
+						null,
+						RUNTIME_EPISODE_NAME),
+				CommonTitleTestBuilder.getConcretized(REGULAR_TITLE_ANIMEDIA_URL,
+						2,
+						buildEpisodeUrl(REGULAR_TITLE_ANIMEDIA_URL, 2),
+						null,
+						ANIMEDIA_EPISODE_NAME)),
 				REGULAR_TITLE_MAL_ID,
 				2);
 		MalTitle malTitle = buildWatchingTitle(REGULAR_TITLE_MAL_ID, 1);
 		//when
-		String actualUrl = animediaEpisodeUrlService.getEpisodeUrl(malTitle)
+		Pair<String, String> episodeNameAndUrl = animediaEpisodeUrlService.getEpisodeNameAndUrl(malTitle)
 				.block();
 		//then
-		assertEquals(FINAL_URL_VALUE_IF_EPISODE_IS_NOT_AVAILABLE, actualUrl);
+		assertEquals(NOT_AVAILABLE_EPISODE_NAME_AND_URL, episodeNameAndUrl);
 	}
 
 	@Test
-	public void shouldReturnFinalUrlValueIfEpisodeIsNotAvailableInRuntime() {
+	public void shouldReturnNameAndUrlForNotAvailableEpisodeBuiltInRuntime() {
 		//given
 		mockCommonProps();
 		mockFandubUrlsMap();
 		CommonTitle commonTitle = CommonTitleTestBuilder.getAnimediaRegular();
 		mockFandubTitleService(Lists.newArrayList(commonTitle,
-				CommonTitleTestBuilder.getRegular(REGULAR_TITLE_ANIMEDIA_URL, 0, buildEpisodeUrl(REGULAR_TITLE_ANIMEDIA_URL, 0), null),
-				CommonTitleTestBuilder.getConcretized(REGULAR_TITLE_ANIMEDIA_URL, 2, buildEpisodeUrl(REGULAR_TITLE_ANIMEDIA_URL, 2), null)),
+				CommonTitleTestBuilder.getRegular(REGULAR_TITLE_ANIMEDIA_URL, 0, buildEpisodeUrl(REGULAR_TITLE_ANIMEDIA_URL, 0), null, RUNTIME_EPISODE_NAME),
+				CommonTitleTestBuilder.getConcretized(REGULAR_TITLE_ANIMEDIA_URL,
+						2,
+						buildEpisodeUrl(REGULAR_TITLE_ANIMEDIA_URL, 2),
+						null,
+						ANIMEDIA_EPISODE_NAME)),
 				REGULAR_TITLE_MAL_ID,
 				3);
 		List<AnimediaEpisode> animediaEpisodesStub = Collections.emptyList();
@@ -145,10 +170,10 @@ public class AnimediaEpisodeUrlServiceTest {
 		mockParser(animediaEpisodesStub);
 		MalTitle malTitle = buildWatchingTitle(REGULAR_TITLE_MAL_ID, 2);
 		//when
-		String actualUrl = animediaEpisodeUrlService.getEpisodeUrl(malTitle)
+		Pair<String, String> episodeNameAndUrl = animediaEpisodeUrlService.getEpisodeNameAndUrl(malTitle)
 				.block();
 		//then
-		assertEquals(FINAL_URL_VALUE_IF_EPISODE_IS_NOT_AVAILABLE, actualUrl);
+		assertEquals(NOT_AVAILABLE_EPISODE_NAME_AND_URL, episodeNameAndUrl);
 	}
 
 	private void mockParser(List<AnimediaEpisode> animediaEpisodes) {
@@ -184,12 +209,12 @@ public class AnimediaEpisodeUrlServiceTest {
 	}
 
 	private List<AnimediaEpisode> getAnimediaEpisodes() {
-		return Lists.newArrayList(buildAnimediaEpisode("s1e1", "Серия 1", null), buildAnimediaEpisode("s1e3", "Серия 2", null));
+		return Lists.newArrayList(buildAnimediaEpisode("s1e1", ANIMEDIA_EPISODE_NAME, null), buildAnimediaEpisode("s1e3", RUNTIME_EPISODE_NAME, null));
 	}
 
 	private List<AnimediaEpisode> getAnimediaEpisodesWithFilledTitleUrlField() {
-		return Lists.newArrayList(buildAnimediaEpisode("s1e1", "Серия 1", REGULAR_TITLE_ANIMEDIA_URL),
-				buildAnimediaEpisode("s1e3", "Серия 2", REGULAR_TITLE_ANIMEDIA_URL));
+		return Lists.newArrayList(buildAnimediaEpisode("s1e1", ANIMEDIA_EPISODE_NAME, REGULAR_TITLE_ANIMEDIA_URL),
+				buildAnimediaEpisode("s1e3", RUNTIME_EPISODE_NAME, REGULAR_TITLE_ANIMEDIA_URL));
 	}
 
 	private AnimediaEpisode buildAnimediaEpisode(String id, String name, String titleUrl) {
@@ -202,13 +227,13 @@ public class AnimediaEpisodeUrlServiceTest {
 
 	private List<FandubEpisode> getFandubEpisodes() {
 		return Lists.newArrayList(FandubEpisode.builder()
-						.name("Серия 1")
+						.name(ANIMEDIA_EPISODE_NAME)
 						.id(1)
 						.number("1")
 						.url(REGULAR_TITLE_ANIMEDIA_URL + "/1/1")
 						.build(),
 				FandubEpisode.builder()
-						.name("Серия 2")
+						.name(RUNTIME_EPISODE_NAME)
 						.id(3)
 						.number("2")
 						.url(REGULAR_TITLE_ANIMEDIA_URL + "/1/3")

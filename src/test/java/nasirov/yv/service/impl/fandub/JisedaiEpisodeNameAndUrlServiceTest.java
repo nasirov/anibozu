@@ -1,5 +1,6 @@
 package nasirov.yv.service.impl.fandub;
 
+import static nasirov.yv.utils.CommonTitleTestBuilder.JISEDAI_EPISODE_NAME;
 import static nasirov.yv.utils.TestConstants.JISEDAI_URL;
 import static nasirov.yv.utils.TestConstants.REGULAR_TITLE_JISEDAI_URL;
 import static org.junit.Assert.assertEquals;
@@ -14,7 +15,8 @@ import nasirov.yv.fandub.service.spring.boot.starter.dto.fandub.common.FandubEpi
 import nasirov.yv.fandub.service.spring.boot.starter.dto.http_request_service.HttpRequestServiceDto;
 import nasirov.yv.fandub.service.spring.boot.starter.extractor.EpisodesExtractorI;
 import nasirov.yv.fandub.service.spring.boot.starter.extractor.parser.JisedaiParserI;
-import nasirov.yv.service.EpisodeUrlServiceI;
+import nasirov.yv.service.EpisodeNameAndUrlServiceI;
+import org.apache.commons.lang3.tuple.Pair;
 import org.jsoup.nodes.Document;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -27,42 +29,44 @@ import reactor.core.publisher.Mono;
  * @author Nasirov Yuriy
  */
 @RunWith(MockitoJUnitRunner.class)
-public class JisedaiEpisodeUrlServiceTest extends AbstractEpisodeUrlsServiceTest {
+public class JisedaiEpisodeNameAndUrlServiceTest extends AbstractEpisodeNameAndUrlsServiceTest {
+
+	private static final String RUNTIME_EPISODE_NAME = "2 эпизод";
 
 	@Mock
 	private JisedaiParserI jisedaiParser;
 
 	@InjectMocks
-	private JisedaiEpisodeUrlService jisedaiEpisodeUrlService;
+	private JisedaiEpisodeNameAndUrlService jisedaiEpisodeUrlService;
 
 	@Test
 	@Override
-	public void shouldReturnUrlWithAvailableEpisode() {
-		super.shouldReturnUrlWithAvailableEpisode();
+	public void shouldReturnNameAndUrlForAvailableEpisode() {
+		super.shouldReturnNameAndUrlForAvailableEpisode();
 	}
 
 	@Test
 	@Override
-	public void shouldReturnUrlWithAvailableEpisodeInRuntime() {
-		super.shouldReturnUrlWithAvailableEpisodeInRuntime();
+	public void shouldReturnNameAndUrlForAvailableEpisodeBuiltInRuntime() {
+		super.shouldReturnNameAndUrlForAvailableEpisodeBuiltInRuntime();
 	}
 
 	@Test
 	@Override
-	public void shouldReturnNotFoundOnFandubSiteUrl() {
-		super.shouldReturnNotFoundOnFandubSiteUrl();
+	public void shouldReturnNotFoundOnFandubSiteNameAndUrl() {
+		super.shouldReturnNotFoundOnFandubSiteNameAndUrl();
 	}
 
 	@Test
 	@Override
-	public void shouldReturnFinalUrlValueIfEpisodeIsNotAvailable() {
-		super.shouldReturnFinalUrlValueIfEpisodeIsNotAvailable();
+	public void shouldReturnNameAndUrlForNotAvailableEpisode() {
+		super.shouldReturnNameAndUrlForNotAvailableEpisode();
 	}
 
 	@Test
 	@Override
-	public void shouldReturnFinalUrlValueIfEpisodeIsNotAvailableInRuntime() {
-		super.shouldReturnFinalUrlValueIfEpisodeIsNotAvailableInRuntime();
+	public void shouldReturnNameAndUrlForNotAvailableEpisodeBuiltInRuntime() {
+		super.shouldReturnNameAndUrlForNotAvailableEpisodeBuiltInRuntime();
 	}
 
 	@Override
@@ -85,7 +89,7 @@ public class JisedaiEpisodeUrlServiceTest extends AbstractEpisodeUrlsServiceTest
 	}
 
 	@Override
-	protected EpisodeUrlServiceI getEpisodeUrlService() {
+	protected EpisodeNameAndUrlServiceI getEpisodeNameAndUrlService() {
 		return jisedaiEpisodeUrlService;
 	}
 
@@ -97,13 +101,13 @@ public class JisedaiEpisodeUrlServiceTest extends AbstractEpisodeUrlsServiceTest
 	@Override
 	protected List<FandubEpisode> getFandubEpisodes() {
 		return Lists.newArrayList(FandubEpisode.builder()
-						.name("1 эпизод")
+						.name(JISEDAI_EPISODE_NAME)
 						.id(1)
 						.number("1")
 						.url(REGULAR_TITLE_JISEDAI_URL)
 						.build(),
 				FandubEpisode.builder()
-						.name("2 эпизод")
+						.name(RUNTIME_EPISODE_NAME)
 						.id(2)
 						.number("2")
 						.url(REGULAR_TITLE_JISEDAI_URL)
@@ -111,12 +115,12 @@ public class JisedaiEpisodeUrlServiceTest extends AbstractEpisodeUrlsServiceTest
 	}
 
 	@Override
-	protected void checkUrlWithAvailableEpisode(String actualUrl) {
-		assertEquals(getFandubUrl() + REGULAR_TITLE_JISEDAI_URL, actualUrl);
+	protected void checkNameAndUrlForAvailableEpisode(Pair<String, String> episodeNameAndUrl) {
+		assertEquals(Pair.of(JISEDAI_EPISODE_NAME, getFandubUrl() + REGULAR_TITLE_JISEDAI_URL), episodeNameAndUrl);
 	}
 
 	@Override
-	protected void checkUrlWithAvailableEpisodeInRuntime(String actualUrl) {
-		assertEquals(getFandubUrl() + REGULAR_TITLE_JISEDAI_URL, actualUrl);
+	protected void checkNameAndUrlForAvailableEpisodeBuiltInRuntime(Pair<String, String> episodeNameAndUrl) {
+		assertEquals(Pair.of(RUNTIME_EPISODE_NAME, getFandubUrl() + REGULAR_TITLE_JISEDAI_URL), episodeNameAndUrl);
 	}
 }

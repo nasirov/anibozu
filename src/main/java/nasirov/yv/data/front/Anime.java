@@ -1,7 +1,7 @@
 package nasirov.yv.data.front;
 
-import static nasirov.yv.data.constants.BaseConstants.FINAL_URL_VALUE_IF_EPISODE_IS_NOT_AVAILABLE;
-import static nasirov.yv.data.constants.BaseConstants.NOT_FOUND_ON_FANDUB_SITE_URL;
+import static nasirov.yv.data.constants.BaseConstants.NOT_AVAILABLE_EPISODE_URL;
+import static nasirov.yv.data.constants.BaseConstants.TITLE_NOT_FOUND_EPISODE_URL;
 
 import java.util.Map;
 import lombok.AllArgsConstructor;
@@ -28,9 +28,9 @@ public class Anime {
 	private String animeName;
 
 	/**
-	 * Number of available episode
+	 * Target episode number on MAL
 	 */
-	private String episode;
+	private String malEpisodeNumber;
 
 	/**
 	 * Poster URL on MyAnimeList
@@ -43,18 +43,24 @@ public class Anime {
 	private String animeUrlOnMal;
 
 	/**
-	 * Map with URLs to fandub sites
+	 * Map with target episode URLs to fandub sites
 	 */
 	@Singular
 	private Map<FanDubSource, String> fanDubUrls;
 
+	/**
+	 * Map with target episode names to fandub sites
+	 */
+	@Singular
+	private Map<FanDubSource, String> fanDubEpisodeNames;
+
 	public boolean isAvailable(String fanDubSourceName) {
 		String url = extractUrl(fanDubSourceName);
-		return !FINAL_URL_VALUE_IF_EPISODE_IS_NOT_AVAILABLE.equals(url) && !NOT_FOUND_ON_FANDUB_SITE_URL.equals(url);
+		return !NOT_AVAILABLE_EPISODE_URL.equals(url) && !TITLE_NOT_FOUND_EPISODE_URL.equals(url);
 	}
 
 	public boolean isNotAvailable(String fanDubSourceName) {
-		return FINAL_URL_VALUE_IF_EPISODE_IS_NOT_AVAILABLE.equals(extractUrl(fanDubSourceName));
+		return NOT_AVAILABLE_EPISODE_URL.equals(extractUrl(fanDubSourceName));
 	}
 
 	private String extractUrl(String fanDubSourceName) {

@@ -1,7 +1,7 @@
 package nasirov.yv.service.impl.fandub;
 
-import static nasirov.yv.data.constants.BaseConstants.FINAL_URL_VALUE_IF_EPISODE_IS_NOT_AVAILABLE;
-import static nasirov.yv.data.constants.BaseConstants.NOT_FOUND_ON_FANDUB_SITE_URL;
+import static nasirov.yv.data.constants.BaseConstants.NOT_AVAILABLE_EPISODE_NAME_AND_URL;
+import static nasirov.yv.data.constants.BaseConstants.TITLE_NOT_FOUND_EPISODE_NAME_AND_URL;
 import static nasirov.yv.utils.TestConstants.REGULAR_TITLE_MAL_ID;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.ArgumentMatchers.argThat;
@@ -20,9 +20,10 @@ import nasirov.yv.fandub.service.spring.boot.starter.dto.mal.MalTitle;
 import nasirov.yv.fandub.service.spring.boot.starter.extractor.EpisodesExtractorI;
 import nasirov.yv.fandub.service.spring.boot.starter.properties.FanDubProps;
 import nasirov.yv.fandub.service.spring.boot.starter.service.HttpRequestServiceI;
-import nasirov.yv.service.EpisodeUrlServiceI;
+import nasirov.yv.service.EpisodeNameAndUrlServiceI;
 import nasirov.yv.service.HttpRequestServiceDtoBuilderI;
 import nasirov.yv.utils.CommonTitleTestBuilder;
+import org.apache.commons.lang3.tuple.Pair;
 import org.assertj.core.util.Maps;
 import org.jsoup.nodes.Document;
 import org.junit.Before;
@@ -32,7 +33,7 @@ import reactor.core.publisher.Mono;
 /**
  * @author Nasirov Yuriy
  */
-public abstract class AbstractEpisodeUrlsServiceTest {
+public abstract class AbstractEpisodeNameAndUrlsServiceTest {
 
 	@Mock
 	protected FanDubProps fanDubProps;
@@ -57,20 +58,20 @@ public abstract class AbstractEpisodeUrlsServiceTest {
 		concretizedCommonTitle = commonTitles.get(1);
 	}
 
-	protected void shouldReturnUrlWithAvailableEpisode() {
+	protected void shouldReturnNameAndUrlForAvailableEpisode() {
 		//given
 		mockCommonProps();
 		mockFandubUrlsMap();
 		mockFandubTitleService(getRegularCommonTitles(), REGULAR_TITLE_MAL_ID, 1);
 		MalTitle malTitle = buildWatchingTitle(REGULAR_TITLE_MAL_ID, 0);
 		//when
-		String actualUrl = getEpisodeUrlService().getEpisodeUrl(malTitle)
+		Pair<String, String> episodeNameAndUrl = getEpisodeNameAndUrlService().getEpisodeNameAndUrl(malTitle)
 				.block();
 		//then
-		checkUrlWithAvailableEpisode(actualUrl);
+		checkNameAndUrlForAvailableEpisode(episodeNameAndUrl);
 	}
 
-	protected void shouldReturnUrlWithAvailableEpisodeInRuntime() {
+	protected void shouldReturnNameAndUrlForAvailableEpisodeBuiltInRuntime() {
 		//given
 		mockCommonProps();
 		mockFandubUrlsMap();
@@ -80,13 +81,13 @@ public abstract class AbstractEpisodeUrlsServiceTest {
 		mockParser(titlePageContent);
 		MalTitle malTitle = buildWatchingTitle(REGULAR_TITLE_MAL_ID, 1);
 		//when
-		String actualUrl = getEpisodeUrlService().getEpisodeUrl(malTitle)
+		Pair<String, String> episodeNameAndUrl = getEpisodeNameAndUrlService().getEpisodeNameAndUrl(malTitle)
 				.block();
 		//then
-		checkUrlWithAvailableEpisodeInRuntime(actualUrl);
+		checkNameAndUrlForAvailableEpisodeBuiltInRuntime(episodeNameAndUrl);
 	}
 
-	protected void shouldReturnNotFoundOnFandubSiteUrl() {
+	protected void shouldReturnNotFoundOnFandubSiteNameAndUrl() {
 		//given
 		mockCommonProps();
 		mockFandubUrlsMap();
@@ -94,26 +95,26 @@ public abstract class AbstractEpisodeUrlsServiceTest {
 		mockFandubTitleService(Collections.emptyList(), notFoundOnFandubMalId, 1);
 		MalTitle malTitle = buildWatchingTitle(notFoundOnFandubMalId, 0);
 		//when
-		String actualUrl = getEpisodeUrlService().getEpisodeUrl(malTitle)
+		Pair<String, String> episodeNameAndUrl = getEpisodeNameAndUrlService().getEpisodeNameAndUrl(malTitle)
 				.block();
 		//then
-		assertEquals(NOT_FOUND_ON_FANDUB_SITE_URL, actualUrl);
+		assertEquals(TITLE_NOT_FOUND_EPISODE_NAME_AND_URL, episodeNameAndUrl);
 	}
 
-	protected void shouldReturnFinalUrlValueIfEpisodeIsNotAvailable() {
+	protected void shouldReturnNameAndUrlForNotAvailableEpisode() {
 		//given
 		mockCommonProps();
 		mockFandubUrlsMap();
 		mockFandubTitleService(getConcretizedCommonTitles(), REGULAR_TITLE_MAL_ID, 2);
 		MalTitle malTitle = buildWatchingTitle(REGULAR_TITLE_MAL_ID, 1);
 		//when
-		String actualUrl = getEpisodeUrlService().getEpisodeUrl(malTitle)
+		Pair<String, String> episodeNameAndUrl = getEpisodeNameAndUrlService().getEpisodeNameAndUrl(malTitle)
 				.block();
 		//then
-		assertEquals(FINAL_URL_VALUE_IF_EPISODE_IS_NOT_AVAILABLE, actualUrl);
+		assertEquals(NOT_AVAILABLE_EPISODE_NAME_AND_URL, episodeNameAndUrl);
 	}
 
-	protected void shouldReturnFinalUrlValueIfEpisodeIsNotAvailableInRuntime() {
+	protected void shouldReturnNameAndUrlForNotAvailableEpisodeBuiltInRuntime() {
 		//given
 		mockCommonProps();
 		mockFandubUrlsMap();
@@ -123,10 +124,10 @@ public abstract class AbstractEpisodeUrlsServiceTest {
 		mockParser(titlePageContent);
 		MalTitle malTitle = buildWatchingTitle(REGULAR_TITLE_MAL_ID, 2);
 		//when
-		String actualUrl = getEpisodeUrlService().getEpisodeUrl(malTitle)
+		Pair<String, String> episodeNameAndUrl = getEpisodeNameAndUrlService().getEpisodeNameAndUrl(malTitle)
 				.block();
 		//then
-		assertEquals(FINAL_URL_VALUE_IF_EPISODE_IS_NOT_AVAILABLE, actualUrl);
+		assertEquals(NOT_AVAILABLE_EPISODE_NAME_AND_URL, episodeNameAndUrl);
 	}
 
 	protected abstract String getFandubUrl();
@@ -135,15 +136,15 @@ public abstract class AbstractEpisodeUrlsServiceTest {
 
 	protected abstract void mockGetTitlePage(String titlePageContent, CommonTitle commonTitle);
 
-	protected abstract EpisodeUrlServiceI getEpisodeUrlService();
+	protected abstract EpisodeNameAndUrlServiceI getEpisodeNameAndUrlService();
 
 	protected abstract FanDubSource getFandubSource();
 
 	protected abstract List<FandubEpisode> getFandubEpisodes();
 
-	protected abstract void checkUrlWithAvailableEpisode(String actualUrl);
+	protected abstract void checkNameAndUrlForAvailableEpisode(Pair<String, String> episodeNameAndUrl);
 
-	protected abstract void checkUrlWithAvailableEpisodeInRuntime(String actualUrl);
+	protected abstract void checkNameAndUrlForAvailableEpisodeBuiltInRuntime(Pair<String, String> episodeNameAndUrl);
 
 	protected void mockCommonProps() {
 		doReturn(Collections.singletonMap(getFandubSource(), true)).when(commonProps)

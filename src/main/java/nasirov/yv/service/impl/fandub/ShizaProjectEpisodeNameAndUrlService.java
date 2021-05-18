@@ -17,11 +17,11 @@ import reactor.core.publisher.Mono;
  * @author Nasirov Yuriy
  */
 @Service
-public class ShizaProjectEpisodeUrlService extends AbstractEpisodeUrlService {
+public class ShizaProjectEpisodeNameAndUrlService extends AbstractEpisodeNameAndUrlService {
 
 	private final ShizaProjectParserI shizaProjectParser;
 
-	public ShizaProjectEpisodeUrlService(FanDubProps fanDubProps, CommonProps commonProps, HttpRequestServiceI httpRequestService,
+	public ShizaProjectEpisodeNameAndUrlService(FanDubProps fanDubProps, CommonProps commonProps, HttpRequestServiceI httpRequestService,
 			ShizaProjectParserI shizaProjectParser, HttpRequestServiceDtoBuilderI httpRequestServiceDtoBuilder) {
 		super(fanDubProps, commonProps, httpRequestService, httpRequestServiceDtoBuilder, FanDubSource.SHIZAPROJECT);
 		this.shizaProjectParser = shizaProjectParser;

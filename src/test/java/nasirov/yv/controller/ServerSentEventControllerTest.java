@@ -79,7 +79,7 @@ public class ServerSentEventControllerTest extends AbstractTest {
 				.anime(Anime.builder()
 						.animeName("name")
 						.animeUrlOnMal("animeUrlOnMal")
-						.episode("1")
+						.malEpisodeNumber("1")
 						.posterUrlOnMal("posterUrlOnMal")
 						.fanDubUrl(FanDubSource.ANIMEDIA, urlOnAnimedia)
 						.fanDubUrl(FanDubSource.NINEANIME, urlOnNineAnime)

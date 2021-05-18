@@ -17,11 +17,11 @@ import reactor.core.publisher.Mono;
  * @author Nasirov Yuriy
  */
 @Service
-public class AnimepikEpisodeUrlService extends AbstractEpisodeUrlService {
+public class AnimepikEpisodeNameAndUrlService extends AbstractEpisodeNameAndUrlService {
 
 	private final AnimepikParserI animepikParser;
 
-	public AnimepikEpisodeUrlService(FanDubProps fanDubProps, CommonProps commonProps, HttpRequestServiceI httpRequestService,
+	public AnimepikEpisodeNameAndUrlService(FanDubProps fanDubProps, CommonProps commonProps, HttpRequestServiceI httpRequestService,
 			AnimepikParserI animepikParser, HttpRequestServiceDtoBuilderI httpRequestServiceDtoBuilder) {
 		super(fanDubProps, commonProps, httpRequestService, httpRequestServiceDtoBuilder, FanDubSource.ANIMEPIK);
 		this.animepikParser = animepikParser;

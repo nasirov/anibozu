@@ -17,11 +17,11 @@ import reactor.core.publisher.Mono;
  * @author Nasirov Yuriy
  */
 @Service
-public class JisedaiEpisodeUrlService extends AbstractEpisodeUrlService {
+public class JisedaiEpisodeNameAndUrlService extends AbstractEpisodeNameAndUrlService {
 
 	private final JisedaiParserI jisedaiParser;
 
-	public JisedaiEpisodeUrlService(FanDubProps fanDubProps, CommonProps commonProps, HttpRequestServiceI httpRequestService,
+	public JisedaiEpisodeNameAndUrlService(FanDubProps fanDubProps, CommonProps commonProps, HttpRequestServiceI httpRequestService,
 			JisedaiParserI jisedaiParser, HttpRequestServiceDtoBuilderI httpRequestServiceDtoBuilder) {
 		super(fanDubProps, commonProps, httpRequestService, httpRequestServiceDtoBuilder, FanDubSource.JISEDAI);
 		this.jisedaiParser = jisedaiParser;

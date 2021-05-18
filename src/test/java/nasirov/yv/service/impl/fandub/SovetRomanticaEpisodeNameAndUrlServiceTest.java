@@ -1,5 +1,6 @@
 package nasirov.yv.service.impl.fandub;
 
+import static nasirov.yv.utils.CommonTitleTestBuilder.SOVET_ROMANTICA_EPISODE_NAME;
 import static nasirov.yv.utils.TestConstants.REGULAR_TITLE_SOVET_ROMANTICA_URL;
 import static nasirov.yv.utils.TestConstants.SOVET_ROMANTICA_URL;
 import static org.junit.Assert.assertEquals;
@@ -15,7 +16,8 @@ import nasirov.yv.fandub.service.spring.boot.starter.dto.fandub.common.FandubEpi
 import nasirov.yv.fandub.service.spring.boot.starter.dto.http_request_service.HttpRequestServiceDto;
 import nasirov.yv.fandub.service.spring.boot.starter.extractor.EpisodesExtractorI;
 import nasirov.yv.fandub.service.spring.boot.starter.extractor.parser.SovetRomanticaParserI;
-import nasirov.yv.service.EpisodeUrlServiceI;
+import nasirov.yv.service.EpisodeNameAndUrlServiceI;
+import org.apache.commons.lang3.tuple.Pair;
 import org.jsoup.nodes.Document;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -28,42 +30,44 @@ import reactor.core.publisher.Mono;
  * @author Nasirov Yuriy
  */
 @RunWith(MockitoJUnitRunner.class)
-public class SovetRomanticaEpisodeUrlServiceTest extends AbstractEpisodeUrlsServiceTest {
+public class SovetRomanticaEpisodeNameAndUrlServiceTest extends AbstractEpisodeNameAndUrlsServiceTest {
+
+	private static final String RUNTIME_EPISODE_NAME = "Эпизод 2";
 
 	@Mock
 	private SovetRomanticaParserI sovetRomanticaParser;
 
 	@InjectMocks
-	private SovetRomanticaEpisodeUrlService sovetRomanticaEpisodeUrlService;
+	private SovetRomanticaEpisodeNameAndUrlService sovetRomanticaEpisodeUrlService;
 
 	@Test
 	@Override
-	public void shouldReturnUrlWithAvailableEpisode() {
-		super.shouldReturnUrlWithAvailableEpisode();
+	public void shouldReturnNameAndUrlForAvailableEpisode() {
+		super.shouldReturnNameAndUrlForAvailableEpisode();
 	}
 
 	@Test
 	@Override
-	public void shouldReturnUrlWithAvailableEpisodeInRuntime() {
-		super.shouldReturnUrlWithAvailableEpisodeInRuntime();
+	public void shouldReturnNameAndUrlForAvailableEpisodeBuiltInRuntime() {
+		super.shouldReturnNameAndUrlForAvailableEpisodeBuiltInRuntime();
 	}
 
 	@Test
 	@Override
-	public void shouldReturnNotFoundOnFandubSiteUrl() {
-		super.shouldReturnNotFoundOnFandubSiteUrl();
+	public void shouldReturnNotFoundOnFandubSiteNameAndUrl() {
+		super.shouldReturnNotFoundOnFandubSiteNameAndUrl();
 	}
 
 	@Test
 	@Override
-	public void shouldReturnFinalUrlValueIfEpisodeIsNotAvailable() {
-		super.shouldReturnFinalUrlValueIfEpisodeIsNotAvailable();
+	public void shouldReturnNameAndUrlForNotAvailableEpisode() {
+		super.shouldReturnNameAndUrlForNotAvailableEpisode();
 	}
 
 	@Test
 	@Override
-	public void shouldReturnFinalUrlValueIfEpisodeIsNotAvailableInRuntime() {
-		super.shouldReturnFinalUrlValueIfEpisodeIsNotAvailableInRuntime();
+	public void shouldReturnNameAndUrlForNotAvailableEpisodeBuiltInRuntime() {
+		super.shouldReturnNameAndUrlForNotAvailableEpisodeBuiltInRuntime();
 	}
 
 	@Override
@@ -95,7 +99,7 @@ public class SovetRomanticaEpisodeUrlServiceTest extends AbstractEpisodeUrlsServ
 	}
 
 	@Override
-	protected EpisodeUrlServiceI getEpisodeUrlService() {
+	protected EpisodeNameAndUrlServiceI getEpisodeNameAndUrlService() {
 		return sovetRomanticaEpisodeUrlService;
 	}
 
@@ -107,13 +111,13 @@ public class SovetRomanticaEpisodeUrlServiceTest extends AbstractEpisodeUrlsServ
 	@Override
 	protected List<FandubEpisode> getFandubEpisodes() {
 		return Lists.newArrayList(FandubEpisode.builder()
-						.name("Эпизод 1")
+						.name(SOVET_ROMANTICA_EPISODE_NAME)
 						.id(1)
 						.number("1")
 						.url(REGULAR_TITLE_SOVET_ROMANTICA_URL + "/episode_1-subtitles")
 						.build(),
 				FandubEpisode.builder()
-						.name("Эпизод 2")
+						.name(RUNTIME_EPISODE_NAME)
 						.id(2)
 						.number("2")
 						.url(REGULAR_TITLE_SOVET_ROMANTICA_URL + "/episode_2-subtitles")
@@ -121,12 +125,13 @@ public class SovetRomanticaEpisodeUrlServiceTest extends AbstractEpisodeUrlsServ
 	}
 
 	@Override
-	protected void checkUrlWithAvailableEpisode(String actualUrl) {
-		assertEquals(getFandubUrl() + REGULAR_TITLE_SOVET_ROMANTICA_URL + "/episode_1-subtitles", actualUrl);
+	protected void checkNameAndUrlForAvailableEpisode(Pair<String, String> episodeNameAndUrl) {
+		assertEquals(Pair.of(SOVET_ROMANTICA_EPISODE_NAME, getFandubUrl() + REGULAR_TITLE_SOVET_ROMANTICA_URL + "/episode_1-subtitles"),
+				episodeNameAndUrl);
 	}
 
 	@Override
-	protected void checkUrlWithAvailableEpisodeInRuntime(String actualUrl) {
-		assertEquals(getFandubUrl() + REGULAR_TITLE_SOVET_ROMANTICA_URL + "/episode_2-subtitles", actualUrl);
+	protected void checkNameAndUrlForAvailableEpisodeBuiltInRuntime(Pair<String, String> episodeNameAndUrl) {
+		assertEquals(Pair.of(RUNTIME_EPISODE_NAME, getFandubUrl() + REGULAR_TITLE_SOVET_ROMANTICA_URL + "/episode_2-subtitles"), episodeNameAndUrl);
 	}
 }

@@ -5,7 +5,7 @@ import nasirov.yv.data.properties.CommonProps;
 import nasirov.yv.fandub.service.spring.boot.starter.constant.FanDubSource;
 import nasirov.yv.fandub.service.spring.boot.starter.dto.fandub.common.CommonTitle;
 import nasirov.yv.fandub.service.spring.boot.starter.dto.fandub.common.FandubEpisode;
-import nasirov.yv.fandub.service.spring.boot.starter.extractor.parser.JutsuParserI;
+import nasirov.yv.fandub.service.spring.boot.starter.extractor.parser.AnidubParserI;
 import nasirov.yv.fandub.service.spring.boot.starter.properties.FanDubProps;
 import nasirov.yv.fandub.service.spring.boot.starter.service.HttpRequestServiceI;
 import nasirov.yv.service.HttpRequestServiceDtoBuilderI;
@@ -17,20 +17,22 @@ import reactor.core.publisher.Mono;
  * @author Nasirov Yuriy
  */
 @Service
-public class JutsuEpisodeUrlService extends AbstractEpisodeUrlService {
+public class AnidubEpisodeNameAndUrlService extends AbstractEpisodeNameAndUrlService {
 
-	private final JutsuParserI jutsuParser;
+	private final AnidubParserI anidubParser;
 
-	public JutsuEpisodeUrlService(FanDubProps fanDubProps, CommonProps commonProps, HttpRequestServiceI httpRequestService, JutsuParserI jutsuParser,
+	public AnidubEpisodeNameAndUrlService(FanDubProps fanDubProps, CommonProps commonProps, AnidubParserI anidubParser,
+			HttpRequestServiceI httpRequestService,
 			HttpRequestServiceDtoBuilderI httpRequestServiceDtoBuilder) {
-		super(fanDubProps, commonProps, httpRequestService, httpRequestServiceDtoBuilder, FanDubSource.JUTSU);
-		this.jutsuParser = jutsuParser;
+		super(fanDubProps, commonProps, httpRequestService, httpRequestServiceDtoBuilder, FanDubSource.ANIDUB);
+		this.anidubParser = anidubParser;
 	}
 
 	@Override
 	protected Mono<List<FandubEpisode>> getEpisodes(CommonTitle commonTitle) {
-		return httpRequestService.performHttpRequest(httpRequestServiceDtoBuilder.jutsu(commonTitle))
+		return httpRequestService.performHttpRequest(httpRequestServiceDtoBuilder.anidub(commonTitle))
 				.map(Jsoup::parse)
-				.map(jutsuParser::extractEpisodes);
+				.map(anidubParser::extractEpisodes);
 	}
+
 }

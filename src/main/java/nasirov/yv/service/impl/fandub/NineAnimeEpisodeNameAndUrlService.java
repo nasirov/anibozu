@@ -1,6 +1,6 @@
 package nasirov.yv.service.impl.fandub;
 
-import static nasirov.yv.data.constants.BaseConstants.FINAL_URL_VALUE_IF_EPISODE_IS_NOT_AVAILABLE;
+import static nasirov.yv.data.constants.BaseConstants.NOT_AVAILABLE_EPISODE_NAME_AND_URL;
 
 import java.util.List;
 import lombok.extern.slf4j.Slf4j;
@@ -15,6 +15,7 @@ import nasirov.yv.fandub.service.spring.boot.starter.service.HttpRequestServiceI
 import nasirov.yv.service.HttpRequestServiceDtoBuilderI;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.tuple.Pair;
 import org.jsoup.Jsoup;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
@@ -25,11 +26,11 @@ import reactor.core.publisher.Mono;
  */
 @Slf4j
 @Service
-public class NineAnimeEpisodeUrlService extends AbstractEpisodeUrlService {
+public class NineAnimeEpisodeNameAndUrlService extends AbstractEpisodeNameAndUrlService {
 
 	private final NineAnimeParserI nineAnimeParser;
 
-	public NineAnimeEpisodeUrlService(FanDubProps fanDubProps, CommonProps commonProps, HttpRequestServiceI httpRequestService,
+	public NineAnimeEpisodeNameAndUrlService(FanDubProps fanDubProps, CommonProps commonProps, HttpRequestServiceI httpRequestService,
 			NineAnimeParserI nineAnimeParser, HttpRequestServiceDtoBuilderI httpRequestServiceDtoBuilder) {
 		super(fanDubProps, commonProps, httpRequestService, httpRequestServiceDtoBuilder, FanDubSource.NINEANIME);
 		this.nineAnimeParser = nineAnimeParser;
@@ -48,7 +49,7 @@ public class NineAnimeEpisodeUrlService extends AbstractEpisodeUrlService {
 	}
 
 	@Override
-	protected Mono<String> buildUrlInRuntime(Integer nextEpisodeForWatch, List<CommonTitle> matchedTitles, String fandubUrl) {
+	protected Mono<Pair<String, String>> buildNameAndUrlInRuntime(Integer nextEpisodeForWatch, List<CommonTitle> matchedTitles, String fandubUrl) {
 		return Mono.just(matchedTitles)
 				.filter(x -> commonProps.getEnableBuildUrlInRuntime()
 						.get(fanDubSource))
@@ -59,8 +60,8 @@ public class NineAnimeEpisodeUrlService extends AbstractEpisodeUrlService {
 				.flatMapSequential(Flux::fromIterable)
 				.filter(x -> StringUtils.equals(nextEpisodeForWatch.toString(), x.getNumber()))
 				.next()
-				.map(x -> fandubUrl + x.getUrl())
-				.defaultIfEmpty(FINAL_URL_VALUE_IF_EPISODE_IS_NOT_AVAILABLE)
-				.doOnSubscribe(x -> log.debug("Building url in runtime..."));
+				.map(x -> Pair.of(x.getName(), fandubUrl + x.getUrl()))
+				.defaultIfEmpty(NOT_AVAILABLE_EPISODE_NAME_AND_URL)
+				.doOnSubscribe(x -> log.debug("Trying to get episode name and url in runtime..."));
 	}
 }

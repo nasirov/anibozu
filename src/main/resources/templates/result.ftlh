@@ -13,7 +13,7 @@
 <input id="fandubList" type="hidden" value="${fandubList}"/>
 <input id="watchingTitlesSize" type="hidden" value="${watchingTitlesSize}"/>
 <header>
-  <h1 id="status">Processing result for ${username} ...</h1>
+  <h1 id="status" class="is_centered">Processing result for ${username} ...</h1>
 </header>
 </body>
 <script src="/js/jquery.min.js"></script>

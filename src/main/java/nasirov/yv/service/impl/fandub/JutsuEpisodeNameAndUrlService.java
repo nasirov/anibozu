@@ -5,7 +5,7 @@ import nasirov.yv.data.properties.CommonProps;
 import nasirov.yv.fandub.service.spring.boot.starter.constant.FanDubSource;
 import nasirov.yv.fandub.service.spring.boot.starter.dto.fandub.common.CommonTitle;
 import nasirov.yv.fandub.service.spring.boot.starter.dto.fandub.common.FandubEpisode;
-import nasirov.yv.fandub.service.spring.boot.starter.extractor.parser.AnilibriaParserI;
+import nasirov.yv.fandub.service.spring.boot.starter.extractor.parser.JutsuParserI;
 import nasirov.yv.fandub.service.spring.boot.starter.properties.FanDubProps;
 import nasirov.yv.fandub.service.spring.boot.starter.service.HttpRequestServiceI;
 import nasirov.yv.service.HttpRequestServiceDtoBuilderI;
@@ -17,20 +17,21 @@ import reactor.core.publisher.Mono;
  * @author Nasirov Yuriy
  */
 @Service
-public class AnilibriaEpisodeUrlService extends AbstractEpisodeUrlService {
+public class JutsuEpisodeNameAndUrlService extends AbstractEpisodeNameAndUrlService {
 
-	private final AnilibriaParserI anilibriaParser;
+	private final JutsuParserI jutsuParser;
 
-	public AnilibriaEpisodeUrlService(FanDubProps fanDubProps, CommonProps commonProps, HttpRequestServiceI httpRequestService,
-			AnilibriaParserI anilibriaParser, HttpRequestServiceDtoBuilderI httpRequestServiceDtoBuilder) {
-		super(fanDubProps, commonProps, httpRequestService, httpRequestServiceDtoBuilder, FanDubSource.ANILIBRIA);
-		this.anilibriaParser = anilibriaParser;
+	public JutsuEpisodeNameAndUrlService(FanDubProps fanDubProps, CommonProps commonProps, HttpRequestServiceI httpRequestService,
+			JutsuParserI jutsuParser,
+			HttpRequestServiceDtoBuilderI httpRequestServiceDtoBuilder) {
+		super(fanDubProps, commonProps, httpRequestService, httpRequestServiceDtoBuilder, FanDubSource.JUTSU);
+		this.jutsuParser = jutsuParser;
 	}
 
 	@Override
 	protected Mono<List<FandubEpisode>> getEpisodes(CommonTitle commonTitle) {
-		return httpRequestService.performHttpRequest(httpRequestServiceDtoBuilder.anilibria(commonTitle))
+		return httpRequestService.performHttpRequest(httpRequestServiceDtoBuilder.jutsu(commonTitle))
 				.map(Jsoup::parse)
-				.map(anilibriaParser::extractEpisodes);
+				.map(jutsuParser::extractEpisodes);
 	}
 }

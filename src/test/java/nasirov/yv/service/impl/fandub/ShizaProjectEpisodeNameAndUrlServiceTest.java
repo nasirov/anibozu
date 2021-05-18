@@ -1,5 +1,6 @@
 package nasirov.yv.service.impl.fandub;
 
+import static nasirov.yv.utils.CommonTitleTestBuilder.SHIZA_PROJECT_EPISODE_NAME;
 import static nasirov.yv.utils.TestConstants.REGULAR_TITLE_SHIZA_PROJECT_URL;
 import static nasirov.yv.utils.TestConstants.SHIZA_PROJECT_URL;
 import static org.junit.Assert.assertEquals;
@@ -14,7 +15,8 @@ import nasirov.yv.fandub.service.spring.boot.starter.dto.fandub.common.FandubEpi
 import nasirov.yv.fandub.service.spring.boot.starter.dto.http_request_service.HttpRequestServiceDto;
 import nasirov.yv.fandub.service.spring.boot.starter.extractor.EpisodesExtractorI;
 import nasirov.yv.fandub.service.spring.boot.starter.extractor.parser.ShizaProjectParserI;
-import nasirov.yv.service.EpisodeUrlServiceI;
+import nasirov.yv.service.EpisodeNameAndUrlServiceI;
+import org.apache.commons.lang3.tuple.Pair;
 import org.jsoup.nodes.Document;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -27,42 +29,44 @@ import reactor.core.publisher.Mono;
  * @author Nasirov Yuriy
  */
 @RunWith(MockitoJUnitRunner.class)
-public class ShizaProjectEpisodeUrlServiceTest extends AbstractEpisodeUrlsServiceTest {
+public class ShizaProjectEpisodeNameAndUrlServiceTest extends AbstractEpisodeNameAndUrlsServiceTest {
+
+	private static final String RUNTIME_EPISODE_NAME = "02, video.sibnet.ru";
 
 	@Mock
 	private ShizaProjectParserI shizaProjectParser;
 
 	@InjectMocks
-	private ShizaProjectEpisodeUrlService shizaProjectEpisodeUrlService;
+	private ShizaProjectEpisodeNameAndUrlService shizaProjectEpisodeUrlService;
 
 	@Test
 	@Override
-	public void shouldReturnUrlWithAvailableEpisode() {
-		super.shouldReturnUrlWithAvailableEpisode();
+	public void shouldReturnNameAndUrlForAvailableEpisode() {
+		super.shouldReturnNameAndUrlForAvailableEpisode();
 	}
 
 	@Test
 	@Override
-	public void shouldReturnUrlWithAvailableEpisodeInRuntime() {
-		super.shouldReturnUrlWithAvailableEpisodeInRuntime();
+	public void shouldReturnNameAndUrlForAvailableEpisodeBuiltInRuntime() {
+		super.shouldReturnNameAndUrlForAvailableEpisodeBuiltInRuntime();
 	}
 
 	@Test
 	@Override
-	public void shouldReturnNotFoundOnFandubSiteUrl() {
-		super.shouldReturnNotFoundOnFandubSiteUrl();
+	public void shouldReturnNotFoundOnFandubSiteNameAndUrl() {
+		super.shouldReturnNotFoundOnFandubSiteNameAndUrl();
 	}
 
 	@Test
 	@Override
-	public void shouldReturnFinalUrlValueIfEpisodeIsNotAvailable() {
-		super.shouldReturnFinalUrlValueIfEpisodeIsNotAvailable();
+	public void shouldReturnNameAndUrlForNotAvailableEpisode() {
+		super.shouldReturnNameAndUrlForNotAvailableEpisode();
 	}
 
 	@Test
 	@Override
-	public void shouldReturnFinalUrlValueIfEpisodeIsNotAvailableInRuntime() {
-		super.shouldReturnFinalUrlValueIfEpisodeIsNotAvailableInRuntime();
+	public void shouldReturnNameAndUrlForNotAvailableEpisodeBuiltInRuntime() {
+		super.shouldReturnNameAndUrlForNotAvailableEpisodeBuiltInRuntime();
 	}
 
 	@Override
@@ -85,7 +89,7 @@ public class ShizaProjectEpisodeUrlServiceTest extends AbstractEpisodeUrlsServic
 	}
 
 	@Override
-	protected EpisodeUrlServiceI getEpisodeUrlService() {
+	protected EpisodeNameAndUrlServiceI getEpisodeNameAndUrlService() {
 		return shizaProjectEpisodeUrlService;
 	}
 
@@ -97,26 +101,26 @@ public class ShizaProjectEpisodeUrlServiceTest extends AbstractEpisodeUrlsServic
 	@Override
 	protected List<FandubEpisode> getFandubEpisodes() {
 		return Lists.newArrayList(FandubEpisode.builder()
-						.name("01, video.sibnet.ru")
+						.name(SHIZA_PROJECT_EPISODE_NAME)
 						.id(1)
 						.number("1")
-						.url(REGULAR_TITLE_SHIZA_PROJECT_URL + "#online-1")
+						.url(REGULAR_TITLE_SHIZA_PROJECT_URL)
 						.build(),
 				FandubEpisode.builder()
-						.name("02, video.sibnet.ru")
+						.name(RUNTIME_EPISODE_NAME)
 						.id(2)
 						.number("2")
-						.url(REGULAR_TITLE_SHIZA_PROJECT_URL + "#online-2")
+						.url(REGULAR_TITLE_SHIZA_PROJECT_URL)
 						.build());
 	}
 
 	@Override
-	protected void checkUrlWithAvailableEpisode(String actualUrl) {
-		assertEquals(getFandubUrl() + REGULAR_TITLE_SHIZA_PROJECT_URL + "#online-1", actualUrl);
+	protected void checkNameAndUrlForAvailableEpisode(Pair<String, String> episodeNameAndUrl) {
+		assertEquals(Pair.of(SHIZA_PROJECT_EPISODE_NAME, getFandubUrl() + REGULAR_TITLE_SHIZA_PROJECT_URL), episodeNameAndUrl);
 	}
 
 	@Override
-	protected void checkUrlWithAvailableEpisodeInRuntime(String actualUrl) {
-		assertEquals(getFandubUrl() + REGULAR_TITLE_SHIZA_PROJECT_URL + "#online-2", actualUrl);
+	protected void checkNameAndUrlForAvailableEpisodeBuiltInRuntime(Pair<String, String> episodeNameAndUrl) {
+		assertEquals(Pair.of(RUNTIME_EPISODE_NAME, getFandubUrl() + REGULAR_TITLE_SHIZA_PROJECT_URL), episodeNameAndUrl);
 	}
 }

@@ -80,8 +80,8 @@ function addAfter(topElement, afterElement) {
 function buildAvailable(anime, fandubList) {
   var item = buildItem();
   var img = buildImg(anime.posterUrlOnMal, anime.animeName,
-      anime.animeName + ' episode ' + anime.episode);
-  var episodeOverlay = buildEpisodeOverlay(anime.episode);
+      anime.animeName + ' episode ' + anime.malEpisodeNumber);
+  var episodeOverlay = buildEpisodeOverlay(anime.malEpisodeNumber);
   var overlayFullCover = buildOverlayFullCover();
   var linkHolder = buildLinkHolder();
   appendLinks(anime, linkHolder, fandubList.split(","));
@@ -94,7 +94,7 @@ function buildAvailable(anime, fandubList) {
 function buildNotAvailable(anime) {
   var item = buildItem();
   var img = buildImg(anime.posterUrlOnMal, anime.animeName, anime.animeName);
-  var episodeOverlay = buildEpisodeOverlay(anime.episode);
+  var episodeOverlay = buildEpisodeOverlay(anime.malEpisodeNumber);
   var overlayFullCover = buildOverlayFullCover();
   var link = buildLink('full_cover', anime.animeUrlOnMal);
   overlayFullCover.append(link);
@@ -168,9 +168,11 @@ function appendLinks(anime, linkHolder, fandubList) {
   for (i in fandubList) {
     var fandub = fandubList[i];
     var fanDubUrl = anime.fanDubUrls[fandub];
+    var fanDubEpisodeName = anime.fanDubEpisodeNames[fandub];
     if (fanDubUrl.startsWith('http')) {
       var link = buildLink('outbound_link ' + fandub + '_background',
           fanDubUrl);
+      link.attr('data-title', fanDubEpisodeName);
       linkHolder.append(link);
     }
   }

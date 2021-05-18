@@ -1,5 +1,6 @@
 package nasirov.yv.service.impl.fandub;
 
+import static nasirov.yv.utils.CommonTitleTestBuilder.NINE_ANIME_EPISODE_NAME;
 import static nasirov.yv.utils.TestConstants.NINE_ANIME_TO;
 import static nasirov.yv.utils.TestConstants.REGULAR_TITLE_NINE_ANIME_URL;
 import static org.junit.Assert.assertEquals;
@@ -15,7 +16,8 @@ import nasirov.yv.fandub.service.spring.boot.starter.dto.http_request_service.Ht
 import nasirov.yv.fandub.service.spring.boot.starter.dto.selenium_service.SeleniumServiceRequestDto;
 import nasirov.yv.fandub.service.spring.boot.starter.extractor.EpisodesExtractorI;
 import nasirov.yv.fandub.service.spring.boot.starter.extractor.parser.NineAnimeParserI;
-import nasirov.yv.service.EpisodeUrlServiceI;
+import nasirov.yv.service.EpisodeNameAndUrlServiceI;
+import org.apache.commons.lang3.tuple.Pair;
 import org.jsoup.nodes.Document;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -28,42 +30,44 @@ import reactor.core.publisher.Mono;
  * @author Nasirov Yuriy
  */
 @RunWith(MockitoJUnitRunner.class)
-public class NineAnimeEpisodeUrlServiceTest extends AbstractEpisodeUrlsServiceTest {
+public class NineAnimeEpisodeNameAndUrlServiceTest extends AbstractEpisodeNameAndUrlsServiceTest {
+
+	private static final String RUNTIME_EPISODE_NAME = "2";
 
 	@Mock
 	private NineAnimeParserI nineAnimeParser;
 
 	@InjectMocks
-	private NineAnimeEpisodeUrlService nineAnimeEpisodeUrlService;
+	private NineAnimeEpisodeNameAndUrlService nineAnimeEpisodeUrlService;
 
 	@Test
 	@Override
-	public void shouldReturnUrlWithAvailableEpisode() {
-		super.shouldReturnUrlWithAvailableEpisode();
+	public void shouldReturnNameAndUrlForAvailableEpisode() {
+		super.shouldReturnNameAndUrlForAvailableEpisode();
 	}
 
 	@Test
 	@Override
-	public void shouldReturnUrlWithAvailableEpisodeInRuntime() {
-		super.shouldReturnUrlWithAvailableEpisodeInRuntime();
+	public void shouldReturnNameAndUrlForAvailableEpisodeBuiltInRuntime() {
+		super.shouldReturnNameAndUrlForAvailableEpisodeBuiltInRuntime();
 	}
 
 	@Test
 	@Override
-	public void shouldReturnNotFoundOnFandubSiteUrl() {
-		super.shouldReturnNotFoundOnFandubSiteUrl();
+	public void shouldReturnNotFoundOnFandubSiteNameAndUrl() {
+		super.shouldReturnNotFoundOnFandubSiteNameAndUrl();
 	}
 
 	@Test
 	@Override
-	public void shouldReturnFinalUrlValueIfEpisodeIsNotAvailable() {
-		super.shouldReturnFinalUrlValueIfEpisodeIsNotAvailable();
+	public void shouldReturnNameAndUrlForNotAvailableEpisode() {
+		super.shouldReturnNameAndUrlForNotAvailableEpisode();
 	}
 
 	@Test
 	@Override
-	public void shouldReturnFinalUrlValueIfEpisodeIsNotAvailableInRuntime() {
-		super.shouldReturnFinalUrlValueIfEpisodeIsNotAvailableInRuntime();
+	public void shouldReturnNameAndUrlForNotAvailableEpisodeBuiltInRuntime() {
+		super.shouldReturnNameAndUrlForNotAvailableEpisodeBuiltInRuntime();
 	}
 
 	@Override
@@ -90,7 +94,7 @@ public class NineAnimeEpisodeUrlServiceTest extends AbstractEpisodeUrlsServiceTe
 	}
 
 	@Override
-	protected EpisodeUrlServiceI getEpisodeUrlService() {
+	protected EpisodeNameAndUrlServiceI getEpisodeNameAndUrlService() {
 		return nineAnimeEpisodeUrlService;
 	}
 
@@ -102,13 +106,13 @@ public class NineAnimeEpisodeUrlServiceTest extends AbstractEpisodeUrlsServiceTe
 	@Override
 	protected List<FandubEpisode> getFandubEpisodes() {
 		return Lists.newArrayList(FandubEpisode.builder()
-						.name("1")
+						.name(NINE_ANIME_EPISODE_NAME)
 						.id(1)
 						.number("1")
 						.url(REGULAR_TITLE_NINE_ANIME_URL + "/ep-1")
 						.build(),
 				FandubEpisode.builder()
-						.name("2")
+						.name(RUNTIME_EPISODE_NAME)
 						.id(2)
 						.number("2")
 						.url(REGULAR_TITLE_NINE_ANIME_URL + "/ep-2")
@@ -116,12 +120,12 @@ public class NineAnimeEpisodeUrlServiceTest extends AbstractEpisodeUrlsServiceTe
 	}
 
 	@Override
-	protected void checkUrlWithAvailableEpisode(String actualUrl) {
-		assertEquals(getFandubUrl() + REGULAR_TITLE_NINE_ANIME_URL + "/ep-1", actualUrl);
+	protected void checkNameAndUrlForAvailableEpisode(Pair<String, String> episodeNameAndUrl) {
+		assertEquals(Pair.of(NINE_ANIME_EPISODE_NAME, getFandubUrl() + REGULAR_TITLE_NINE_ANIME_URL + "/ep-1"), episodeNameAndUrl);
 	}
 
 	@Override
-	protected void checkUrlWithAvailableEpisodeInRuntime(String actualUrl) {
-		assertEquals(getFandubUrl() + REGULAR_TITLE_NINE_ANIME_URL + "/ep-2", actualUrl);
+	protected void checkNameAndUrlForAvailableEpisodeBuiltInRuntime(Pair<String, String> episodeNameAndUrl) {
+		assertEquals(Pair.of(RUNTIME_EPISODE_NAME, getFandubUrl() + REGULAR_TITLE_NINE_ANIME_URL + "/ep-2"), episodeNameAndUrl);
 	}
 }

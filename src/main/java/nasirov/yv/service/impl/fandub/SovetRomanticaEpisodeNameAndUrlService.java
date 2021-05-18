@@ -17,11 +17,11 @@ import reactor.core.publisher.Mono;
  * @author Nasirov Yuriy
  */
 @Service
-public class SovetRomanticaEpisodeUrlService extends AbstractEpisodeUrlService {
+public class SovetRomanticaEpisodeNameAndUrlService extends AbstractEpisodeNameAndUrlService {
 
 	private final SovetRomanticaParserI sovetRomanticaParser;
 
-	public SovetRomanticaEpisodeUrlService(FanDubProps fanDubProps, CommonProps commonProps, HttpRequestServiceI httpRequestService,
+	public SovetRomanticaEpisodeNameAndUrlService(FanDubProps fanDubProps, CommonProps commonProps, HttpRequestServiceI httpRequestService,
 			SovetRomanticaParserI sovetRomanticaParser, HttpRequestServiceDtoBuilderI httpRequestServiceDtoBuilder) {
 		super(fanDubProps, commonProps, httpRequestService, httpRequestServiceDtoBuilder, FanDubSource.SOVETROMANTICA);
 		this.sovetRomanticaParser = sovetRomanticaParser;

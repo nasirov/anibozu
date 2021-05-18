@@ -1,7 +1,8 @@
 package nasirov.yv.service.impl.fandub;
 
-import static nasirov.yv.data.constants.BaseConstants.FINAL_URL_VALUE_IF_EPISODE_IS_NOT_AVAILABLE;
-import static nasirov.yv.data.constants.BaseConstants.NOT_FOUND_ON_FANDUB_SITE_URL;
+import static nasirov.yv.data.constants.BaseConstants.NOT_AVAILABLE_EPISODE_NAME_AND_URL;
+import static nasirov.yv.data.constants.BaseConstants.TITLE_NOT_FOUND_EPISODE_NAME_AND_URL;
+import static nasirov.yv.utils.CommonTitleTestBuilder.ANIMEPIK_EPISODE_NAME;
 import static nasirov.yv.utils.TestConstants.ANIMEPIK_URL;
 import static nasirov.yv.utils.TestConstants.REGULAR_TITLE_ANIMEPIK_URL;
 import static nasirov.yv.utils.TestConstants.REGULAR_TITLE_MAL_ID;
@@ -24,6 +25,7 @@ import nasirov.yv.fandub.service.spring.boot.starter.properties.FanDubProps;
 import nasirov.yv.fandub.service.spring.boot.starter.service.HttpRequestServiceI;
 import nasirov.yv.service.HttpRequestServiceDtoBuilderI;
 import nasirov.yv.utils.CommonTitleTestBuilder;
+import org.apache.commons.lang3.tuple.Pair;
 import org.assertj.core.util.Maps;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -37,6 +39,8 @@ import reactor.core.publisher.Mono;
  */
 @RunWith(MockitoJUnitRunner.class)
 public class AnimepikEpisodeUrlServiceTest {
+
+	private static final String RUNTIME_EPISODE_NAME = "2 серия";
 
 	@Mock
 	private FanDubProps fanDubProps;
@@ -54,24 +58,24 @@ public class AnimepikEpisodeUrlServiceTest {
 	private AnimepikParserI animepikParser;
 
 	@InjectMocks
-	private AnimepikEpisodeUrlService animepikEpisodeUrlService;
+	private AnimepikEpisodeNameAndUrlService animepikEpisodeUrlService;
 
 	@Test
-	public void shouldReturnUrlWithAvailableEpisode() {
+	public void shouldReturnNameAndUrlForAvailableEpisode() {
 		//given
 		mockCommonProps();
 		mockFandubUrlsMap();
 		mockFandubTitleService(Lists.newArrayList(CommonTitleTestBuilder.getAnimepikRegular()), REGULAR_TITLE_MAL_ID, 1);
 		MalTitle malTitle = buildWatchingTitle(REGULAR_TITLE_MAL_ID, 0);
 		//when
-		String actualUrl = animepikEpisodeUrlService.getEpisodeUrl(malTitle)
+		Pair<String, String> episodeNameAndUrl = animepikEpisodeUrlService.getEpisodeNameAndUrl(malTitle)
 				.block();
 		//then
-		assertEquals(ANIMEPIK_URL + REGULAR_TITLE_ANIMEPIK_URL, actualUrl);
+		assertEquals(Pair.of(ANIMEPIK_EPISODE_NAME, ANIMEPIK_URL + REGULAR_TITLE_ANIMEPIK_URL), episodeNameAndUrl);
 	}
 
 	@Test
-	public void shouldReturnUrlWithAvailableEpisodeInRuntime() {
+	public void shouldReturnNameAndUrlForAvailableEpisodeBuiltInRuntime() {
 		//given
 		mockCommonProps();
 		mockFandubUrlsMap();
@@ -81,14 +85,14 @@ public class AnimepikEpisodeUrlServiceTest {
 		mockParser(getAnimepikEpisodesWithFilledTitleUrlField());
 		MalTitle malTitle = buildWatchingTitle(REGULAR_TITLE_MAL_ID, 1);
 		//when
-		String actualUrl = animepikEpisodeUrlService.getEpisodeUrl(malTitle)
+		Pair<String, String> episodeNameAndUrl = animepikEpisodeUrlService.getEpisodeNameAndUrl(malTitle)
 				.block();
 		//then
-		assertEquals(ANIMEPIK_URL + REGULAR_TITLE_ANIMEPIK_URL, actualUrl);
+		assertEquals(Pair.of(RUNTIME_EPISODE_NAME, ANIMEPIK_URL + REGULAR_TITLE_ANIMEPIK_URL), episodeNameAndUrl);
 	}
 
 	@Test
-	public void shouldReturnNotFoundOnFandubSiteUrl() {
+	public void shouldReturnNotFoundOnFandubSiteNameAndUrl() {
 		//given
 		mockCommonProps();
 		mockFandubUrlsMap();
@@ -96,28 +100,28 @@ public class AnimepikEpisodeUrlServiceTest {
 		mockFandubTitleService(Collections.emptyList(), notFoundOnFandubMalId, 1);
 		MalTitle malTitle = buildWatchingTitle(notFoundOnFandubMalId, 0);
 		//when
-		String actualUrl = animepikEpisodeUrlService.getEpisodeUrl(malTitle)
+		Pair<String, String> episodeNameAndUrl = animepikEpisodeUrlService.getEpisodeNameAndUrl(malTitle)
 				.block();
 		//then
-		assertEquals(NOT_FOUND_ON_FANDUB_SITE_URL, actualUrl);
+		assertEquals(TITLE_NOT_FOUND_EPISODE_NAME_AND_URL, episodeNameAndUrl);
 	}
 
 	@Test
-	public void shouldReturnFinalUrlValueIfEpisodeIsNotAvailable() {
+	public void shouldReturnNameAndUrlForNotAvailableEpisode() {
 		//given
 		mockCommonProps();
 		mockFandubUrlsMap();
 		mockFandubTitleService(Lists.newArrayList(CommonTitleTestBuilder.getAnimepikConcretized()), REGULAR_TITLE_MAL_ID, 2);
 		MalTitle malTitle = buildWatchingTitle(REGULAR_TITLE_MAL_ID, 1);
 		//when
-		String actualUrl = animepikEpisodeUrlService.getEpisodeUrl(malTitle)
+		Pair<String, String> episodeNameAndUrl = animepikEpisodeUrlService.getEpisodeNameAndUrl(malTitle)
 				.block();
 		//then
-		assertEquals(FINAL_URL_VALUE_IF_EPISODE_IS_NOT_AVAILABLE, actualUrl);
+		assertEquals(NOT_AVAILABLE_EPISODE_NAME_AND_URL, episodeNameAndUrl);
 	}
 
 	@Test
-	public void shouldReturnFinalUrlValueIfEpisodeIsNotAvailableInRuntime() {
+	public void shouldReturnNameAndUrlForNotAvailableEpisodeBuiltInRuntime() {
 		//given
 		mockCommonProps();
 		mockFandubUrlsMap();
@@ -128,10 +132,10 @@ public class AnimepikEpisodeUrlServiceTest {
 		mockParser(animepikEpisodesStub);
 		MalTitle malTitle = buildWatchingTitle(REGULAR_TITLE_MAL_ID, 2);
 		//when
-		String actualUrl = animepikEpisodeUrlService.getEpisodeUrl(malTitle)
+		Pair<String, String> episodeNameAndUrl = animepikEpisodeUrlService.getEpisodeNameAndUrl(malTitle)
 				.block();
 		//then
-		assertEquals(FINAL_URL_VALUE_IF_EPISODE_IS_NOT_AVAILABLE, actualUrl);
+		assertEquals(NOT_AVAILABLE_EPISODE_NAME_AND_URL, episodeNameAndUrl);
 	}
 
 	protected void mockCommonProps() {
@@ -167,12 +171,12 @@ public class AnimepikEpisodeUrlServiceTest {
 	}
 
 	private List<AnimepikEpisode> getAnimepikEpisodes() {
-		return Lists.newArrayList(buildAnimepikEpisode("1 серия", null), buildAnimepikEpisode("2 серия", null));
+		return Lists.newArrayList(buildAnimepikEpisode(ANIMEPIK_EPISODE_NAME, null), buildAnimepikEpisode(RUNTIME_EPISODE_NAME, null));
 	}
 
 	private List<AnimepikEpisode> getAnimepikEpisodesWithFilledTitleUrlField() {
-		return Lists.newArrayList(buildAnimepikEpisode("1 серия", REGULAR_TITLE_ANIMEPIK_URL),
-				buildAnimepikEpisode("2 серия", REGULAR_TITLE_ANIMEPIK_URL));
+		return Lists.newArrayList(buildAnimepikEpisode(ANIMEPIK_EPISODE_NAME, REGULAR_TITLE_ANIMEPIK_URL),
+				buildAnimepikEpisode(RUNTIME_EPISODE_NAME, REGULAR_TITLE_ANIMEPIK_URL));
 	}
 
 	private AnimepikEpisode buildAnimepikEpisode(String name, String titleUrl) {
@@ -184,13 +188,13 @@ public class AnimepikEpisodeUrlServiceTest {
 
 	private List<FandubEpisode> getFandubEpisodes() {
 		return Lists.newArrayList(FandubEpisode.builder()
-						.name("1 серия")
+						.name(ANIMEPIK_EPISODE_NAME)
 						.id(1)
 						.number("1")
 						.url(REGULAR_TITLE_ANIMEPIK_URL)
 						.build(),
 				FandubEpisode.builder()
-						.name("2 серия")
+						.name(RUNTIME_EPISODE_NAME)
 						.id(2)
 						.number("2")
 						.url(REGULAR_TITLE_ANIMEPIK_URL)
