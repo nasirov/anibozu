@@ -1,3 +1,8 @@
+spring:
+  config:
+    activate:
+      on-profile: test
+
 application:
   fandub-support:
     disabled-fandub:

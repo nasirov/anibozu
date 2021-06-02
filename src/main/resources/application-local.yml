@@ -1,6 +1,8 @@
 spring:
-  profiles:
-    include: default
+  config:
+    import: application.yml
+    activate:
+      on-profile: local
 
 application:
   web-client:

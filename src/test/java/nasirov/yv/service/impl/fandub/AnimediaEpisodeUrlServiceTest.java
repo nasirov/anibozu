@@ -7,7 +7,7 @@ import static nasirov.yv.utils.CommonTitleTestBuilder.buildEpisodeUrl;
 import static nasirov.yv.utils.TestConstants.ANIMEDIA_ONLINE_TV;
 import static nasirov.yv.utils.TestConstants.REGULAR_TITLE_ANIMEDIA_URL;
 import static nasirov.yv.utils.TestConstants.REGULAR_TITLE_MAL_ID;
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.mock;
 
@@ -28,17 +28,17 @@ import nasirov.yv.service.HttpRequestServiceDtoBuilderI;
 import nasirov.yv.utils.CommonTitleTestBuilder;
 import org.apache.commons.lang3.tuple.Pair;
 import org.assertj.core.util.Maps;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
 import reactor.core.publisher.Mono;
 
 /**
  * @author Nasirov Yuriy
  */
-@RunWith(MockitoJUnitRunner.class)
+@ExtendWith(MockitoExtension.class)
 public class AnimediaEpisodeUrlServiceTest {
 
 	private static final String RUNTIME_EPISODE_NAME = "Серия 2";
@@ -64,7 +64,6 @@ public class AnimediaEpisodeUrlServiceTest {
 	@Test
 	public void shouldReturnNameAndUrlForAvailableEpisode() {
 		//given
-		mockCommonProps();
 		mockFandubUrlsMap();
 		mockFandubTitleService(Lists.newArrayList(CommonTitleTestBuilder.getAnimediaRegular(),
 				CommonTitleTestBuilder.getRegular(REGULAR_TITLE_ANIMEDIA_URL, 0, buildEpisodeUrl(REGULAR_TITLE_ANIMEDIA_URL, 0), null,
@@ -112,8 +111,6 @@ public class AnimediaEpisodeUrlServiceTest {
 	@Test
 	public void shouldReturnNotFoundOnFandubSiteNameAndUrl() {
 		//given
-		mockCommonProps();
-		mockFandubUrlsMap();
 		int notFoundOnFandubMalId = 42;
 		mockFandubTitleService(Collections.emptyList(), notFoundOnFandubMalId, 1);
 		MalTitle malTitle = buildWatchingTitle(notFoundOnFandubMalId, 0);

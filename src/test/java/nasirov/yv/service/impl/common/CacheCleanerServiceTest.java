@@ -1,8 +1,8 @@
 package nasirov.yv.service.impl.common;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.mockito.Mockito.mock;
 
 import java.util.LinkedHashSet;
@@ -10,7 +10,7 @@ import java.util.Set;
 import nasirov.yv.AbstractTest;
 import nasirov.yv.data.front.UserInputDto;
 import nasirov.yv.fandub.service.spring.boot.starter.constant.FanDubSource;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.springframework.cache.Cache;
 import reactor.core.publisher.Flux;
 

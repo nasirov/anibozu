@@ -1,13 +1,13 @@
 package nasirov.yv.controller;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 import nasirov.yv.AbstractTest;
 import nasirov.yv.utils.IOUtils;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.springframework.http.CacheControl;
 import org.springframework.http.HttpStatus;
 import org.springframework.test.web.reactive.server.WebTestClient.ResponseSpec;

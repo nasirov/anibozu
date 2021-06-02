@@ -3,7 +3,7 @@ package nasirov.yv.service.impl.fandub;
 import static nasirov.yv.utils.CommonTitleTestBuilder.SOVET_ROMANTICA_EPISODE_NAME;
 import static nasirov.yv.utils.TestConstants.REGULAR_TITLE_SOVET_ROMANTICA_URL;
 import static nasirov.yv.utils.TestConstants.SOVET_ROMANTICA_URL;
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.mock;
 
@@ -19,17 +19,17 @@ import nasirov.yv.fandub.service.spring.boot.starter.extractor.parser.SovetRoman
 import nasirov.yv.service.EpisodeNameAndUrlServiceI;
 import org.apache.commons.lang3.tuple.Pair;
 import org.jsoup.nodes.Document;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
 import reactor.core.publisher.Mono;
 
 /**
  * @author Nasirov Yuriy
  */
-@RunWith(MockitoJUnitRunner.class)
+@ExtendWith(MockitoExtension.class)
 public class SovetRomanticaEpisodeNameAndUrlServiceTest extends AbstractEpisodeNameAndUrlsServiceTest {
 
 	private static final String RUNTIME_EPISODE_NAME = "Эпизод 2";

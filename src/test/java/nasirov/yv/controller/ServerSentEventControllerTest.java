@@ -1,8 +1,8 @@
 package nasirov.yv.controller;
 
 import static nasirov.yv.utils.TestConstants.TEST_ACC_FOR_DEV;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.ArgumentMatchers.argThat;
 import static org.mockito.Mockito.doReturn;
 
@@ -14,7 +14,7 @@ import nasirov.yv.data.front.Anime;
 import nasirov.yv.data.front.EventType;
 import nasirov.yv.data.front.SseDto;
 import nasirov.yv.fandub.service.spring.boot.starter.constant.FanDubSource;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.codec.ServerSentEvent;

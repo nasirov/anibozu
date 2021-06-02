@@ -6,9 +6,8 @@ import nasirov.yv.service.AnimeServiceI;
 import nasirov.yv.service.MalServiceI;
 import nasirov.yv.service.ServerSentEventServiceI;
 import nasirov.yv.service.impl.common.CacheCleanerService;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
@@ -18,7 +17,6 @@ import org.springframework.cache.Cache;
 import org.springframework.cache.CacheManager;
 import org.springframework.context.ApplicationContext;
 import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.reactive.server.WebTestClient;
 
 /**
@@ -26,7 +24,6 @@ import org.springframework.test.web.reactive.server.WebTestClient;
  */
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 @ActiveProfiles("test")
-@RunWith(SpringRunner.class)
 public abstract class AbstractTest {
 
 	@MockBean
@@ -52,13 +49,13 @@ public abstract class AbstractTest {
 
 	protected WebTestClient webTestClient;
 
-	@Before
+	@BeforeEach
 	public void setUp() {
 		webTestClient = WebTestClient.bindToApplicationContext(applicationContext)
 				.build();
 	}
 
-	@After
+	@AfterEach
 	public void tearDown() {
 		clearCaches();
 	}

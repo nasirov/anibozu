@@ -1,13 +1,12 @@
 package nasirov.yv.service.impl.common;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.mockito.Mockito.doReturn;
 
 import com.google.common.collect.Sets;
 import java.util.Collections;
-import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -23,12 +22,11 @@ import nasirov.yv.fandub.service.spring.boot.starter.properties.ExternalServices
 import nasirov.yv.fandub.service.spring.boot.starter.properties.FanDubProps;
 import nasirov.yv.utils.TestConstants;
 import org.apache.commons.lang3.StringUtils;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
@@ -37,7 +35,7 @@ import org.springframework.web.reactive.function.client.ClientResponse;
 /**
  * @author Nasirov Yuriy
  */
-@RunWith(MockitoJUnitRunner.class)
+@ExtendWith(MockitoExtension.class)
 public class HttpRequestServiceDtoBuilderTest {
 
 	private static final String FANDUB_TITLES_SERVICE_BASIC_AUTH = "Basic foo";
@@ -63,12 +61,6 @@ public class HttpRequestServiceDtoBuilderTest {
 	@InjectMocks
 	private HttpRequestServiceDtoBuilder httpRequestServiceDtoBuilder;
 
-	@Before
-	public void setUp() {
-		mockFanDubProps();
-		mockExternalServicesProps();
-	}
-
 	@Test
 	public void shouldBuildHttpRequestServiceDtoForMalService() {
 		//given
@@ -81,6 +73,10 @@ public class HttpRequestServiceDtoBuilderTest {
 				.malTitles(Collections.emptyList())
 				.errorMessage(StringUtils.EMPTY)
 				.build();
+		doReturn(MAL_SERVICE_BASIC_AUTH).when(externalServicesProps)
+				.getMalServiceBasicAuth();
+		doReturn(MAL_SERVICE_URL).when(externalServicesProps)
+				.getMalServiceUrl();
 		//when
 		HttpRequestServiceDto<MalServiceResponseDto> result = httpRequestServiceDtoBuilder.malService("foobar", MalTitleWatchingStatus.WATCHING);
 		//then
@@ -95,6 +91,10 @@ public class HttpRequestServiceDtoBuilderTest {
 		Map<String, String> headers = Collections.singletonMap(HttpHeaders.AUTHORIZATION, FANDUB_TITLES_SERVICE_BASIC_AUTH);
 		Set<Integer> retryableStatusCodes = Collections.emptySet();
 		List<CommonTitle> fallback = Collections.emptyList();
+		doReturn(FANDUB_TITLES_SERVICE_BASIC_AUTH).when(externalServicesProps)
+				.getFandubTitlesServiceBasicAuth();
+		doReturn(FANDUB_TITLES_SERVICE_URL).when(externalServicesProps)
+				.getFandubTitlesServiceUrl();
 		//when
 		HttpRequestServiceDto<List<CommonTitle>> result = httpRequestServiceDtoBuilder.fandubTitlesService(FanDubSource.ANIMEDIA, 42, 1);
 		//then
@@ -109,6 +109,10 @@ public class HttpRequestServiceDtoBuilderTest {
 		Map<String, String> headers = Collections.singletonMap(HttpHeaders.AUTHORIZATION, SELENIUM_SERVICE_BASIC_AUTH);
 		Set<Integer> retryableStatusCodes = Collections.emptySet();
 		String fallback = StringUtils.EMPTY;
+		doReturn(SELENIUM_SERVICE_BASIC_AUTH).when(externalServicesProps)
+				.getSeleniumServiceBasicAuth();
+		doReturn(SELENIUM_SERVICE_URL).when(externalServicesProps)
+				.getSeleniumServiceUrl();
 		//when
 		HttpRequestServiceDto<String> result = httpRequestServiceDtoBuilder.seleniumService(SeleniumServiceRequestDto.builder()
 				.url("https://foo.bar")
@@ -128,6 +132,7 @@ public class HttpRequestServiceDtoBuilderTest {
 		Set<Integer> retryableStatusCodes = Sets.newHashSet(500, 502, 503, 504, 520, 524);
 		String fallback = StringUtils.EMPTY;
 		CommonTitle commonTitle = getCommonTitle();
+		mockFanDubProps(FanDubSource.ANIDUB, TestConstants.ANIDUB_URL);
 		//when
 		HttpRequestServiceDto<String> result = httpRequestServiceDtoBuilder.anidub(commonTitle);
 		//then
@@ -143,6 +148,7 @@ public class HttpRequestServiceDtoBuilderTest {
 		Set<Integer> retryableStatusCodes = Sets.newHashSet(500, 502, 503, 504, 520, 524);
 		String fallback = StringUtils.EMPTY;
 		CommonTitle commonTitle = getCommonTitle();
+		mockFanDubProps(FanDubSource.ANILIBRIA, TestConstants.ANILIBRIA_URL);
 		//when
 		HttpRequestServiceDto<String> result = httpRequestServiceDtoBuilder.anilibria(commonTitle);
 		//then
@@ -158,6 +164,7 @@ public class HttpRequestServiceDtoBuilderTest {
 		Set<Integer> retryableStatusCodes = Sets.newHashSet(500, 502, 503, 504, 520, 524);
 		List<AnimediaEpisode> fallback = Collections.emptyList();
 		CommonTitle commonTitle = getCommonTitle();
+		mockFanDubProps(FanDubSource.ANIMEDIA, TestConstants.ANIMEDIA_ONLINE_TV);
 		//when
 		HttpRequestServiceDto<List<AnimediaEpisode>> result = httpRequestServiceDtoBuilder.animedia(commonTitle);
 		//then
@@ -173,6 +180,8 @@ public class HttpRequestServiceDtoBuilderTest {
 		Set<Integer> retryableStatusCodes = Sets.newHashSet(500, 502, 503, 504, 520, 524);
 		List<AnimepikEpisode> fallback = Collections.emptyList();
 		CommonTitle commonTitle = getCommonTitle();
+		doReturn(TestConstants.ANIMEPIK_RESOURCES_URL).when(fanDubProps)
+				.getAnimepikResourcesUrl();
 		//when
 		HttpRequestServiceDto<List<AnimepikEpisode>> result = httpRequestServiceDtoBuilder.animepik(commonTitle);
 		//then
@@ -188,6 +197,7 @@ public class HttpRequestServiceDtoBuilderTest {
 		Set<Integer> retryableStatusCodes = Sets.newHashSet(500, 502, 503, 504, 520, 524);
 		String fallback = StringUtils.EMPTY;
 		CommonTitle commonTitle = getCommonTitle();
+		mockFanDubProps(FanDubSource.JISEDAI, TestConstants.JISEDAI_URL);
 		//when
 		HttpRequestServiceDto<String> result = httpRequestServiceDtoBuilder.jisedai(commonTitle);
 		//then
@@ -203,6 +213,7 @@ public class HttpRequestServiceDtoBuilderTest {
 		Set<Integer> retryableStatusCodes = Sets.newHashSet(500, 502, 503, 504, 520, 524);
 		String fallback = StringUtils.EMPTY;
 		CommonTitle commonTitle = getCommonTitle();
+		mockFanDubProps(FanDubSource.JUTSU, TestConstants.JUTSU_URL);
 		//when
 		HttpRequestServiceDto<String> result = httpRequestServiceDtoBuilder.jutsu(commonTitle);
 		//then
@@ -218,6 +229,7 @@ public class HttpRequestServiceDtoBuilderTest {
 		Set<Integer> retryableStatusCodes = Sets.newHashSet(500, 502, 503, 504, 520, 524);
 		String fallback = StringUtils.EMPTY;
 		CommonTitle commonTitle = getCommonTitle();
+		mockFanDubProps(FanDubSource.NINEANIME, TestConstants.NINE_ANIME_TO);
 		//when
 		HttpRequestServiceDto<String> result = httpRequestServiceDtoBuilder.nineAnime(commonTitle);
 		//then
@@ -233,6 +245,7 @@ public class HttpRequestServiceDtoBuilderTest {
 		Set<Integer> retryableStatusCodes = Sets.newHashSet(500, 502, 503, 504, 520, 524);
 		String fallback = StringUtils.EMPTY;
 		CommonTitle commonTitle = getCommonTitle();
+		mockFanDubProps(FanDubSource.SHIZAPROJECT, TestConstants.SHIZA_PROJECT_URL);
 		//when
 		HttpRequestServiceDto<String> result = httpRequestServiceDtoBuilder.shizaProject(commonTitle);
 		//then
@@ -248,6 +261,7 @@ public class HttpRequestServiceDtoBuilderTest {
 		Set<Integer> retryableStatusCodes = Sets.newHashSet(500, 502, 503, 504, 520, 524);
 		String fallback = StringUtils.EMPTY;
 		CommonTitle commonTitle = getCommonTitle();
+		mockFanDubProps(FanDubSource.SOVETROMANTICA, TestConstants.SOVET_ROMANTICA_URL);
 		//when
 		HttpRequestServiceDto<String> result = httpRequestServiceDtoBuilder.sovetRomantica(commonTitle);
 		//then
@@ -264,6 +278,7 @@ public class HttpRequestServiceDtoBuilderTest {
 		Set<Integer> retryableStatusCodes = Sets.newHashSet(500, 502, 503, 504, 520, 524);
 		String fallback = StringUtils.EMPTY;
 		CommonTitle commonTitle = getCommonTitle();
+		mockFanDubProps(FanDubSource.SOVETROMANTICA, TestConstants.SOVET_ROMANTICA_URL);
 		//when
 		HttpRequestServiceDto<String> result = httpRequestServiceDtoBuilder.sovetRomantica(commonTitle, cookie);
 		//then
@@ -280,44 +295,18 @@ public class HttpRequestServiceDtoBuilderTest {
 		Map<String, String> headers = Collections.singletonMap(HttpHeaders.REFERER, referer);
 		Set<Integer> retryableStatusCodes = Collections.emptySet();
 		String fallback = StringUtils.EMPTY;
+		mockFanDubProps(FanDubSource.SOVETROMANTICA, TestConstants.SOVET_ROMANTICA_URL);
+		doReturn(TestConstants.SOVET_ROMANTICA_DDOS_GUARD_URL).when(fanDubProps)
+				.getSovetRomanticaDdosGuardUrl();
 		//when
 		HttpRequestServiceDto<String> result = httpRequestServiceDtoBuilder.sovetRomanticaDdosGuard();
 		//then
 		checkResult(result, url, method, headers, retryableStatusCodes, fallback);
 	}
 
-	private void mockFanDubProps() {
-		EnumMap<FanDubSource, String> urls = new EnumMap<>(FanDubSource.class);
-		urls.put(FanDubSource.ANIDUB, TestConstants.ANIDUB_URL);
-		urls.put(FanDubSource.ANILIBRIA, TestConstants.ANILIBRIA_URL);
-		urls.put(FanDubSource.ANIMEDIA, TestConstants.ANIMEDIA_ONLINE_TV);
-		urls.put(FanDubSource.ANIMEPIK, TestConstants.ANIMEPIK_URL);
-		urls.put(FanDubSource.JISEDAI, TestConstants.JISEDAI_URL);
-		urls.put(FanDubSource.JUTSU, TestConstants.JUTSU_URL);
-		urls.put(FanDubSource.NINEANIME, TestConstants.NINE_ANIME_TO);
-		urls.put(FanDubSource.SHIZAPROJECT, TestConstants.SHIZA_PROJECT_URL);
-		urls.put(FanDubSource.SOVETROMANTICA, TestConstants.SOVET_ROMANTICA_URL);
-		doReturn(urls).when(fanDubProps)
+	private void mockFanDubProps(FanDubSource fanDubSource, String url) {
+		doReturn(Collections.singletonMap(fanDubSource, url)).when(fanDubProps)
 				.getUrls();
-		doReturn(TestConstants.ANIMEPIK_RESOURCES_URL).when(fanDubProps)
-				.getAnimepikResourcesUrl();
-		doReturn(TestConstants.SOVET_ROMANTICA_DDOS_GUARD_URL).when(fanDubProps)
-				.getSovetRomanticaDdosGuardUrl();
-	}
-
-	private void mockExternalServicesProps() {
-		doReturn(FANDUB_TITLES_SERVICE_BASIC_AUTH).when(externalServicesProps)
-				.getFandubTitlesServiceBasicAuth();
-		doReturn(FANDUB_TITLES_SERVICE_URL).when(externalServicesProps)
-				.getFandubTitlesServiceUrl();
-		doReturn(MAL_SERVICE_BASIC_AUTH).when(externalServicesProps)
-				.getMalServiceBasicAuth();
-		doReturn(MAL_SERVICE_URL).when(externalServicesProps)
-				.getMalServiceUrl();
-		doReturn(SELENIUM_SERVICE_BASIC_AUTH).when(externalServicesProps)
-				.getSeleniumServiceBasicAuth();
-		doReturn(SELENIUM_SERVICE_URL).when(externalServicesProps)
-				.getSeleniumServiceUrl();
 	}
 
 	private <T> void checkResult(HttpRequestServiceDto<T> result, String url, HttpMethod method, Map<String, String> headers,

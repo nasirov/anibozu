@@ -1,7 +1,7 @@
 package nasirov.yv.service.impl.common;
 
 import static nasirov.yv.utils.IOUtils.readFromFile;
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.mock;
@@ -9,8 +9,8 @@ import static org.mockito.Mockito.mock;
 import java.io.PrintStream;
 import nasirov.yv.data.properties.ResourcesNames;
 import nasirov.yv.service.ApplicationLogoPrinterI;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.test.util.ReflectionTestUtils;
 
@@ -27,7 +27,7 @@ public class ApplicationLogoPrinterTest {
 
 	private String applicationLogo;
 
-	@Before
+	@BeforeEach
 	public void setUp() {
 		ResourcesNames resourcesNames = mock(ResourcesNames.class);
 		doReturn(APPLICATION_LOGO_FILENAME).when(resourcesNames)

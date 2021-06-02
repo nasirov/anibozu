@@ -50,8 +50,8 @@ import static nasirov.yv.utils.TestConstants.REGULAR_TITLE_SHIZA_PROJECT_URL;
 import static nasirov.yv.utils.TestConstants.REGULAR_TITLE_SOVET_ROMANTICA_URL;
 import static nasirov.yv.utils.TestConstants.SHIZA_PROJECT_URL;
 import static nasirov.yv.utils.TestConstants.SOVET_ROMANTICA_URL;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.doReturn;
 
 import com.google.common.collect.Sets;
@@ -75,20 +75,17 @@ import nasirov.yv.service.impl.fandub.NineAnimeEpisodeNameAndUrlService;
 import nasirov.yv.service.impl.fandub.ShizaProjectEpisodeNameAndUrlService;
 import nasirov.yv.service.impl.fandub.SovetRomanticaEpisodeNameAndUrlService;
 import org.apache.commons.lang3.tuple.Pair;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.powermock.api.mockito.PowerMockito;
-import org.powermock.core.classloader.annotations.PrepareForTest;
-import org.powermock.modules.junit4.PowerMockRunner;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 import reactor.core.publisher.Mono;
 
 /**
  * @author Nasirov Yuriy
  */
-@RunWith(PowerMockRunner.class)
-@PrepareForTest(value = {AnimediaEpisodeNameAndUrlService.class, NineAnimeEpisodeNameAndUrlService.class, AnidubEpisodeNameAndUrlService.class,
-		JisedaiEpisodeNameAndUrlService.class, AnimepikEpisodeNameAndUrlService.class})
+@ExtendWith(MockitoExtension.class)
 public class AnimeServiceTest {
 
 	private static final String EPISODE_URL_ON_ANIMEDIA = ANIMEDIA_ONLINE_TV + REGULAR_TITLE_ANIMEDIA_URL + "/1/1";
@@ -109,27 +106,36 @@ public class AnimeServiceTest {
 
 	private static final String EPISODE_URL_ON_SHIZA_PROJECT = SHIZA_PROJECT_URL + REGULAR_TITLE_SHIZA_PROJECT_URL;
 
-	private AnimediaEpisodeNameAndUrlService animediaEpisodeUrlService = PowerMockito.mock(AnimediaEpisodeNameAndUrlService.class);
+	@Mock
+	private AnimediaEpisodeNameAndUrlService animediaEpisodeUrlService;
 
-	private NineAnimeEpisodeNameAndUrlService nineAnimeEpisodeUrlService = PowerMockito.mock(NineAnimeEpisodeNameAndUrlService.class);
+	@Mock
+	private NineAnimeEpisodeNameAndUrlService nineAnimeEpisodeUrlService;
 
-	private AnidubEpisodeNameAndUrlService anidubEpisodeUrlService = PowerMockito.mock(AnidubEpisodeNameAndUrlService.class);
+	@Mock
+	private AnidubEpisodeNameAndUrlService anidubEpisodeUrlService;
 
-	private JisedaiEpisodeNameAndUrlService jisedaiEpisodeUrlService = PowerMockito.mock(JisedaiEpisodeNameAndUrlService.class);
+	@Mock
+	private JisedaiEpisodeNameAndUrlService jisedaiEpisodeUrlService;
 
-	private AnimepikEpisodeNameAndUrlService animepikEpisodeUrlService = PowerMockito.mock(AnimepikEpisodeNameAndUrlService.class);
+	@Mock
+	private AnimepikEpisodeNameAndUrlService animepikEpisodeUrlService;
 
-	private AnilibriaEpisodeNameAndUrlService anilibriaEpisodeUrlService = PowerMockito.mock(AnilibriaEpisodeNameAndUrlService.class);
+	@Mock
+	private AnilibriaEpisodeNameAndUrlService anilibriaEpisodeUrlService;
 
-	private JutsuEpisodeNameAndUrlService jutsuEpisodeUrlService = PowerMockito.mock(JutsuEpisodeNameAndUrlService.class);
+	@Mock
+	private JutsuEpisodeNameAndUrlService jutsuEpisodeUrlService;
 
-	private SovetRomanticaEpisodeNameAndUrlService sovetRomanticaEpisodeUrlService = PowerMockito.mock(SovetRomanticaEpisodeNameAndUrlService.class);
+	@Mock
+	private SovetRomanticaEpisodeNameAndUrlService sovetRomanticaEpisodeUrlService;
 
-	private ShizaProjectEpisodeNameAndUrlService shizaProjectEpisodeUrlService = PowerMockito.mock(ShizaProjectEpisodeNameAndUrlService.class);
+	@Mock
+	private ShizaProjectEpisodeNameAndUrlService shizaProjectEpisodeUrlService;
 
 	private AnimeServiceI animeService;
 
-	@Before
+	@BeforeEach
 	public void setUp() {
 		Map<FanDubSource, EpisodeNameAndUrlServiceI> episodeUrlStrategy = new EnumMap<>(FanDubSource.class);
 		episodeUrlStrategy.put(ANIMEDIA, animediaEpisodeUrlService);

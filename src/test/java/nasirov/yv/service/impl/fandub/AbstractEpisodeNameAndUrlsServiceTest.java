@@ -3,7 +3,7 @@ package nasirov.yv.service.impl.fandub;
 import static nasirov.yv.data.constants.BaseConstants.NOT_AVAILABLE_EPISODE_NAME_AND_URL;
 import static nasirov.yv.data.constants.BaseConstants.TITLE_NOT_FOUND_EPISODE_NAME_AND_URL;
 import static nasirov.yv.utils.TestConstants.REGULAR_TITLE_MAL_ID;
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.argThat;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.mock;
@@ -26,7 +26,7 @@ import nasirov.yv.utils.CommonTitleTestBuilder;
 import org.apache.commons.lang3.tuple.Pair;
 import org.assertj.core.util.Maps;
 import org.jsoup.nodes.Document;
-import org.junit.Before;
+import org.junit.jupiter.api.BeforeEach;
 import org.mockito.Mock;
 import reactor.core.publisher.Mono;
 
@@ -51,7 +51,7 @@ public abstract class AbstractEpisodeNameAndUrlsServiceTest {
 
 	private CommonTitle concretizedCommonTitle;
 
-	@Before
+	@BeforeEach
 	public void setUp() {
 		List<CommonTitle> commonTitles = CommonTitleTestBuilder.buildCommonTitles(getFandubSource());
 		regularCommonTitle = commonTitles.get(0);
@@ -60,7 +60,6 @@ public abstract class AbstractEpisodeNameAndUrlsServiceTest {
 
 	protected void shouldReturnNameAndUrlForAvailableEpisode() {
 		//given
-		mockCommonProps();
 		mockFandubUrlsMap();
 		mockFandubTitleService(getRegularCommonTitles(), REGULAR_TITLE_MAL_ID, 1);
 		MalTitle malTitle = buildWatchingTitle(REGULAR_TITLE_MAL_ID, 0);
@@ -89,8 +88,6 @@ public abstract class AbstractEpisodeNameAndUrlsServiceTest {
 
 	protected void shouldReturnNotFoundOnFandubSiteNameAndUrl() {
 		//given
-		mockCommonProps();
-		mockFandubUrlsMap();
 		int notFoundOnFandubMalId = 42;
 		mockFandubTitleService(Collections.emptyList(), notFoundOnFandubMalId, 1);
 		MalTitle malTitle = buildWatchingTitle(notFoundOnFandubMalId, 0);

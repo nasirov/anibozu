@@ -1,13 +1,13 @@
 package nasirov.yv.util;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import lombok.SneakyThrows;
 import nasirov.yv.fandub.service.spring.boot.starter.dto.mal.MalTitle;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * @author Nasirov Yuriy
