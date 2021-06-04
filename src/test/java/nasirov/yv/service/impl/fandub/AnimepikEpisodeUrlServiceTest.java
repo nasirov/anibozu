@@ -16,6 +16,7 @@ import java.util.List;
 import nasirov.yv.data.properties.CommonProps;
 import nasirov.yv.fandub.service.spring.boot.starter.constant.FanDubSource;
 import nasirov.yv.fandub.service.spring.boot.starter.dto.fandub.animepik.AnimepikEpisode;
+import nasirov.yv.fandub.service.spring.boot.starter.dto.fandub.animepik.AnimepikTitleEpisodes;
 import nasirov.yv.fandub.service.spring.boot.starter.dto.fandub.common.CommonTitle;
 import nasirov.yv.fandub.service.spring.boot.starter.dto.fandub.common.FandubEpisode;
 import nasirov.yv.fandub.service.spring.boot.starter.dto.http_request_service.HttpRequestServiceDto;
@@ -160,10 +161,12 @@ public class AnimepikEpisodeUrlServiceTest {
 	}
 
 	private void mockGetTitlePage(List<AnimepikEpisode> animepikEpisodes, CommonTitle commonTitle) {
-		HttpRequestServiceDto<List<AnimepikEpisode>> httpRequestServiceDto = mock(HttpRequestServiceDto.class);
+		HttpRequestServiceDto<AnimepikTitleEpisodes> httpRequestServiceDto = mock(HttpRequestServiceDto.class);
 		doReturn(httpRequestServiceDto).when(httpRequestServiceDtoBuilder)
 				.animepik(commonTitle);
-		doReturn(Mono.just(animepikEpisodes)).when(httpRequestService)
+		doReturn(Mono.just(AnimepikTitleEpisodes.builder()
+				.episodes(animepikEpisodes)
+				.build())).when(httpRequestService)
 				.performHttpRequest(httpRequestServiceDto);
 	}
 

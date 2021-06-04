@@ -12,7 +12,7 @@ import java.util.Map;
 import java.util.Set;
 import nasirov.yv.fandub.service.spring.boot.starter.constant.FanDubSource;
 import nasirov.yv.fandub.service.spring.boot.starter.dto.fandub.animedia.AnimediaEpisode;
-import nasirov.yv.fandub.service.spring.boot.starter.dto.fandub.animepik.AnimepikEpisode;
+import nasirov.yv.fandub.service.spring.boot.starter.dto.fandub.animepik.AnimepikTitleEpisodes;
 import nasirov.yv.fandub.service.spring.boot.starter.dto.fandub.common.CommonTitle;
 import nasirov.yv.fandub.service.spring.boot.starter.dto.http_request_service.HttpRequestServiceDto;
 import nasirov.yv.fandub.service.spring.boot.starter.dto.mal.MalTitleWatchingStatus;
@@ -174,16 +174,17 @@ public class HttpRequestServiceDtoBuilderTest {
 	@Test
 	public void shouldBuildHttpRequestServiceDtoForAnimepik() {
 		//given
-		String url = TestConstants.ANIMEPIK_RESOURCES_URL + "11.txt";
+		String url = TestConstants.ANIMEPIK_URL + "api/v1/" + TITLE_URL;
 		HttpMethod method = HttpMethod.GET;
 		Map<String, String> headers = Collections.emptyMap();
 		Set<Integer> retryableStatusCodes = Sets.newHashSet(500, 502, 503, 504, 520, 524);
-		List<AnimepikEpisode> fallback = Collections.emptyList();
+		AnimepikTitleEpisodes fallback = AnimepikTitleEpisodes.builder()
+				.episodes(Collections.emptyList())
+				.build();
 		CommonTitle commonTitle = getCommonTitle();
-		doReturn(TestConstants.ANIMEPIK_RESOURCES_URL).when(fanDubProps)
-				.getAnimepikResourcesUrl();
+		mockFanDubProps(FanDubSource.ANIMEPIK, TestConstants.ANIMEPIK_URL);
 		//when
-		HttpRequestServiceDto<List<AnimepikEpisode>> result = httpRequestServiceDtoBuilder.animepik(commonTitle);
+		HttpRequestServiceDto<AnimepikTitleEpisodes> result = httpRequestServiceDtoBuilder.animepik(commonTitle);
 		//then
 		checkResult(result, url, method, headers, retryableStatusCodes, fallback);
 	}

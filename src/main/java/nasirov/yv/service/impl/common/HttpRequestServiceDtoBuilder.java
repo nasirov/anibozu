@@ -10,7 +10,7 @@ import java.util.function.Function;
 import lombok.RequiredArgsConstructor;
 import nasirov.yv.fandub.service.spring.boot.starter.constant.FanDubSource;
 import nasirov.yv.fandub.service.spring.boot.starter.dto.fandub.animedia.AnimediaEpisode;
-import nasirov.yv.fandub.service.spring.boot.starter.dto.fandub.animepik.AnimepikEpisode;
+import nasirov.yv.fandub.service.spring.boot.starter.dto.fandub.animepik.AnimepikTitleEpisodes;
 import nasirov.yv.fandub.service.spring.boot.starter.dto.fandub.common.CommonTitle;
 import nasirov.yv.fandub.service.spring.boot.starter.dto.http_request_service.HttpRequestServiceDto;
 import nasirov.yv.fandub.service.spring.boot.starter.dto.mal.MalTitleWatchingStatus;
@@ -97,13 +97,15 @@ public class HttpRequestServiceDtoBuilder implements HttpRequestServiceDtoBuilde
 	}
 
 	@Override
-	public HttpRequestServiceDto<List<AnimepikEpisode>> animepik(CommonTitle commonTitle) {
-		return buildDto(fanDubProps.getAnimepikResourcesUrl() + commonTitle.getId() + ".txt",
+	public HttpRequestServiceDto<AnimepikTitleEpisodes> animepik(CommonTitle commonTitle) {
+		return buildDto(fanDubProps.getUrls()
+						.get(FanDubSource.ANIMEPIK) + "api/v1/" + commonTitle.getUrl(),
 				Collections.emptyMap(),
 				RETRYABLE_STATUS_CODES,
-				x -> x.bodyToMono(new ParameterizedTypeReference<List<AnimepikEpisode>>() {
-				}),
-				Collections.emptyList());
+				x -> x.bodyToMono(AnimepikTitleEpisodes.class),
+				AnimepikTitleEpisodes.builder()
+						.episodes(Collections.emptyList())
+						.build());
 	}
 
 	@Override

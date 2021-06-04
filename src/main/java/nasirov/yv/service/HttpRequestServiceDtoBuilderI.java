@@ -3,7 +3,7 @@ package nasirov.yv.service;
 import java.util.List;
 import nasirov.yv.fandub.service.spring.boot.starter.constant.FanDubSource;
 import nasirov.yv.fandub.service.spring.boot.starter.dto.fandub.animedia.AnimediaEpisode;
-import nasirov.yv.fandub.service.spring.boot.starter.dto.fandub.animepik.AnimepikEpisode;
+import nasirov.yv.fandub.service.spring.boot.starter.dto.fandub.animepik.AnimepikTitleEpisodes;
 import nasirov.yv.fandub.service.spring.boot.starter.dto.fandub.common.CommonTitle;
 import nasirov.yv.fandub.service.spring.boot.starter.dto.http_request_service.HttpRequestServiceDto;
 import nasirov.yv.fandub.service.spring.boot.starter.dto.mal.MalTitleWatchingStatus;
@@ -27,7 +27,7 @@ public interface HttpRequestServiceDtoBuilderI {
 
 	HttpRequestServiceDto<List<AnimediaEpisode>> animedia(CommonTitle commonTitle);
 
-	HttpRequestServiceDto<List<AnimepikEpisode>> animepik(CommonTitle commonTitle);
+	HttpRequestServiceDto<AnimepikTitleEpisodes> animepik(CommonTitle commonTitle);
 
 	HttpRequestServiceDto<String> jisedai(CommonTitle commonTitle);
 
