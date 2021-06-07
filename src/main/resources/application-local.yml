@@ -1,9 +1,3 @@
-spring:
-  config:
-    import: application.yml
-    activate:
-      on-profile: local
-
 application:
   web-client:
     enabled: true
