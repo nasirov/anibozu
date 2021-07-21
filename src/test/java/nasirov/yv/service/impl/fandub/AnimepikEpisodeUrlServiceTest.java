@@ -3,6 +3,8 @@ package nasirov.yv.service.impl.fandub;
 import static nasirov.yv.data.constants.BaseConstants.NOT_AVAILABLE_EPISODE_NAME_AND_URL;
 import static nasirov.yv.data.constants.BaseConstants.TITLE_NOT_FOUND_EPISODE_NAME_AND_URL;
 import static nasirov.yv.utils.CommonTitleTestBuilder.ANIMEPIK_EPISODE_NAME;
+import static nasirov.yv.utils.CommonTitleTestBuilder.ANIMEPIK_EPISODE_NUMBER;
+import static nasirov.yv.utils.CommonTitleTestBuilder.ANIMEPIK_EPISODE_POSTFIX;
 import static nasirov.yv.utils.TestConstants.ANIMEPIK_URL;
 import static nasirov.yv.utils.TestConstants.REGULAR_TITLE_ANIMEPIK_URL;
 import static nasirov.yv.utils.TestConstants.REGULAR_TITLE_MAL_ID;
@@ -16,6 +18,7 @@ import java.util.List;
 import nasirov.yv.data.properties.CommonProps;
 import nasirov.yv.fandub.service.spring.boot.starter.constant.FanDubSource;
 import nasirov.yv.fandub.service.spring.boot.starter.dto.fandub.animepik.AnimepikEpisode;
+import nasirov.yv.fandub.service.spring.boot.starter.dto.fandub.animepik.AnimepikPlayer;
 import nasirov.yv.fandub.service.spring.boot.starter.dto.fandub.animepik.AnimepikTitleEpisodes;
 import nasirov.yv.fandub.service.spring.boot.starter.dto.fandub.common.CommonTitle;
 import nasirov.yv.fandub.service.spring.boot.starter.dto.fandub.common.FandubEpisode;
@@ -41,7 +44,9 @@ import reactor.core.publisher.Mono;
 @ExtendWith(MockitoExtension.class)
 public class AnimepikEpisodeUrlServiceTest {
 
-	private static final String RUNTIME_EPISODE_NAME = "2 серия";
+	private static final Integer RUNTIME_EPISODE_NUMBER = 2;
+
+	private static final String RUNTIME_EPISODE_NAME = RUNTIME_EPISODE_NUMBER + ANIMEPIK_EPISODE_POSTFIX;
 
 	@Mock
 	private FanDubProps fanDubProps;
@@ -165,23 +170,25 @@ public class AnimepikEpisodeUrlServiceTest {
 		doReturn(httpRequestServiceDto).when(httpRequestServiceDtoBuilder)
 				.animepik(commonTitle);
 		doReturn(Mono.just(AnimepikTitleEpisodes.builder()
-				.episodes(animepikEpisodes)
+				.animepikPlayer(AnimepikPlayer.builder()
+						.episodes(animepikEpisodes)
+						.build())
 				.build())).when(httpRequestService)
 				.performHttpRequest(httpRequestServiceDto);
 	}
 
 	private List<AnimepikEpisode> getAnimepikEpisodes() {
-		return Lists.newArrayList(buildAnimepikEpisode(ANIMEPIK_EPISODE_NAME, null), buildAnimepikEpisode(RUNTIME_EPISODE_NAME, null));
+		return Lists.newArrayList(buildAnimepikEpisode(ANIMEPIK_EPISODE_NUMBER, null), buildAnimepikEpisode(RUNTIME_EPISODE_NUMBER, null));
 	}
 
 	private List<AnimepikEpisode> getAnimepikEpisodesWithFilledTitleUrlField() {
-		return Lists.newArrayList(buildAnimepikEpisode(ANIMEPIK_EPISODE_NAME, REGULAR_TITLE_ANIMEPIK_URL),
-				buildAnimepikEpisode(RUNTIME_EPISODE_NAME, REGULAR_TITLE_ANIMEPIK_URL));
+		return Lists.newArrayList(buildAnimepikEpisode(ANIMEPIK_EPISODE_NUMBER, REGULAR_TITLE_ANIMEPIK_URL),
+				buildAnimepikEpisode(RUNTIME_EPISODE_NUMBER, REGULAR_TITLE_ANIMEPIK_URL));
 	}
 
-	private AnimepikEpisode buildAnimepikEpisode(String name, String titleUrl) {
+	private AnimepikEpisode buildAnimepikEpisode(Integer episodeNumber, String titleUrl) {
 		return AnimepikEpisode.builder()
-				.name(name)
+				.episodeNumber(episodeNumber)
 				.titleUrl(titleUrl)
 				.build();
 	}

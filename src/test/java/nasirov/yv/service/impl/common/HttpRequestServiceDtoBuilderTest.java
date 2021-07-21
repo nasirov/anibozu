@@ -12,6 +12,7 @@ import java.util.Map;
 import java.util.Set;
 import nasirov.yv.fandub.service.spring.boot.starter.constant.FanDubSource;
 import nasirov.yv.fandub.service.spring.boot.starter.dto.fandub.animedia.AnimediaEpisode;
+import nasirov.yv.fandub.service.spring.boot.starter.dto.fandub.animepik.AnimepikPlayer;
 import nasirov.yv.fandub.service.spring.boot.starter.dto.fandub.animepik.AnimepikTitleEpisodes;
 import nasirov.yv.fandub.service.spring.boot.starter.dto.fandub.common.CommonTitle;
 import nasirov.yv.fandub.service.spring.boot.starter.dto.http_request_service.HttpRequestServiceDto;
@@ -179,7 +180,9 @@ public class HttpRequestServiceDtoBuilderTest {
 		Map<String, String> headers = Collections.emptyMap();
 		Set<Integer> retryableStatusCodes = Sets.newHashSet(500, 502, 503, 504, 520, 524);
 		AnimepikTitleEpisodes fallback = AnimepikTitleEpisodes.builder()
-				.episodes(Collections.emptyList())
+				.animepikPlayer(AnimepikPlayer.builder()
+						.episodes(Collections.emptyList())
+						.build())
 				.build();
 		CommonTitle commonTitle = getCommonTitle();
 		mockFanDubProps(FanDubSource.ANIMEPIK, TestConstants.ANIMEPIK_URL);

@@ -59,7 +59,11 @@ public class CommonTitleTestBuilder {
 
 	public static final String JISEDAI_EPISODE_NAME = "1 эпизод";
 
-	public static final String ANIMEPIK_EPISODE_NAME = "1 серия";
+	public static final Integer ANIMEPIK_EPISODE_NUMBER = 1;
+
+	public static final String ANIMEPIK_EPISODE_POSTFIX = " серия";
+
+	public static final String ANIMEPIK_EPISODE_NAME = ANIMEPIK_EPISODE_NUMBER + ANIMEPIK_EPISODE_POSTFIX;
 
 	public static final String ANILIBRIA_EPISODE_NAME = "Серия 1";
 

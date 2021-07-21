@@ -10,6 +10,7 @@ import java.util.function.Function;
 import lombok.RequiredArgsConstructor;
 import nasirov.yv.fandub.service.spring.boot.starter.constant.FanDubSource;
 import nasirov.yv.fandub.service.spring.boot.starter.dto.fandub.animedia.AnimediaEpisode;
+import nasirov.yv.fandub.service.spring.boot.starter.dto.fandub.animepik.AnimepikPlayer;
 import nasirov.yv.fandub.service.spring.boot.starter.dto.fandub.animepik.AnimepikTitleEpisodes;
 import nasirov.yv.fandub.service.spring.boot.starter.dto.fandub.common.CommonTitle;
 import nasirov.yv.fandub.service.spring.boot.starter.dto.http_request_service.HttpRequestServiceDto;
@@ -104,7 +105,9 @@ public class HttpRequestServiceDtoBuilder implements HttpRequestServiceDtoBuilde
 				RETRYABLE_STATUS_CODES,
 				x -> x.bodyToMono(AnimepikTitleEpisodes.class),
 				AnimepikTitleEpisodes.builder()
-						.episodes(Collections.emptyList())
+						.animepikPlayer(AnimepikPlayer.builder()
+								.episodes(Collections.emptyList())
+								.build())
 						.build());
 	}
 

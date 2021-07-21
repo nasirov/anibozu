@@ -31,11 +31,13 @@ public class AnimepikEpisodeNameAndUrlService extends AbstractEpisodeNameAndUrlS
 	protected Mono<List<FandubEpisode>> getEpisodes(CommonTitle commonTitle) {
 		return httpRequestService.performHttpRequest(httpRequestServiceDtoBuilder.animepik(commonTitle))
 				.doOnNext(x -> fillAnimepikEpisodesWithTitleUrl(x, commonTitle.getUrl()))
-				.map(x -> animepikParser.extractEpisodes(x.getEpisodes()));
+				.map(x -> animepikParser.extractEpisodes(x.getAnimepikPlayer()
+						.getEpisodes()));
 	}
 
 	private void fillAnimepikEpisodesWithTitleUrl(AnimepikTitleEpisodes animepikTitleEpisodes, String titleUrl) {
-		animepikTitleEpisodes.getEpisodes()
+		animepikTitleEpisodes.getAnimepikPlayer()
+				.getEpisodes()
 				.forEach(x -> x.setTitleUrl(titleUrl));
 	}
 }
