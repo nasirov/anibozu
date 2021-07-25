@@ -227,7 +227,7 @@ public class HttpRequestServiceDtoBuilderTest {
 	@Test
 	public void shouldBuildHttpRequestServiceDtoForNineAnime() {
 		//given
-		String url = TestConstants.NINE_ANIME_TO + "ajax/anime/servers?id=foo42";
+		String url = TestConstants.NINE_ANIME_TO + "ajax/anime/servers?id=11";
 		HttpMethod method = HttpMethod.GET;
 		Map<String, String> headers = Collections.emptyMap();
 		Set<Integer> retryableStatusCodes = Sets.newHashSet(500, 502, 503, 504, 520, 524);
@@ -330,9 +330,8 @@ public class HttpRequestServiceDtoBuilderTest {
 	private CommonTitle getCommonTitle() {
 		return CommonTitle.builder()
 				.url(TITLE_URL)
-				.id(11)
+				.id("11")
 				.malId(42)
-				.dataId("foo42")
 				.dataList(2)
 				.build();
 	}

@@ -40,7 +40,7 @@ public class NineAnimeEpisodeNameAndUrlService extends AbstractEpisodeNameAndUrl
 	protected Mono<List<FandubEpisode>> getEpisodes(CommonTitle commonTitle) {
 		return httpRequestService.performHttpRequest(httpRequestServiceDtoBuilder.seleniumService(SeleniumServiceRequestDto.builder()
 				.url(fanDubProps.getUrls()
-						.get(FanDubSource.NINEANIME) + "watch/" + commonTitle.getDataId())
+						.get(FanDubSource.NINEANIME) + "watch/" + commonTitle.getId())
 				.timeoutInSec(15)
 				.cssSelector("ul.episodes >li")
 				.build()))

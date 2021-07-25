@@ -264,7 +264,7 @@ public class CommonTitleTestBuilder {
 						.name(episodeName)
 						.id(1)
 						.url(episodeUrl)
-						.build()), dataId);
+						.build()));
 	}
 
 	public static CommonTitle getConcretized(String url, Integer dataList, String episodeUrl, String dataId, String episodeName) {
@@ -278,7 +278,7 @@ public class CommonTitleTestBuilder {
 						.name(episodeName)
 						.id(1)
 						.url(episodeUrl)
-						.build()), dataId);
+						.build()));
 	}
 
 	public static String buildEpisodeUrl(String url, Integer dataList) {
@@ -286,15 +286,13 @@ public class CommonTitleTestBuilder {
 	}
 
 	private static CommonTitle getNotFoundOnMal(String url, Integer dataList, String dataId) {
-		return buildCommonTitle(NOT_FOUND_ON_MAL_TITLE_ID, url, null, dataList, null, Collections.emptyList(), dataId);
+		return buildCommonTitle(NOT_FOUND_ON_MAL_TITLE_ID, url, null, dataList, null, Collections.emptyList());
 	}
 
-	private static CommonTitle buildCommonTitle(int id, String url, Integer malId, Integer dataList, TitleType type, List<CommonEpisode> episodes,
-			String dataId) {
+	private static CommonTitle buildCommonTitle(String id, String url, Integer malId, Integer dataList, TitleType type, List<CommonEpisode> episodes) {
 		return CommonTitle.builder()
 				.id(id)
 				.url(url)
-				.dataId(dataId)
 				.malId(malId)
 				.dataList(dataList)
 				.type(type)

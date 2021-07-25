@@ -124,7 +124,7 @@ public class HttpRequestServiceDtoBuilder implements HttpRequestServiceDtoBuilde
 	@Override
 	public HttpRequestServiceDto<String> nineAnime(CommonTitle commonTitle) {
 		return buildDto(fanDubProps.getUrls()
-						.get(FanDubSource.NINEANIME) + "ajax/anime/servers?id=" + commonTitle.getDataId(),
+						.get(FanDubSource.NINEANIME) + "ajax/anime/servers?id=" + commonTitle.getId(),
 				Collections.emptyMap(),
 				RETRYABLE_STATUS_CODES,
 				x -> x.bodyToMono(String.class),

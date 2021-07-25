@@ -85,7 +85,7 @@ public class NineAnimeEpisodeNameAndUrlServiceTest extends AbstractEpisodeNameAn
 		HttpRequestServiceDto<String> httpRequestServiceDto = mock(HttpRequestServiceDto.class);
 		doReturn(httpRequestServiceDto).when(httpRequestServiceDtoBuilder)
 				.seleniumService(SeleniumServiceRequestDto.builder()
-						.url(getFandubUrl() + "watch/" + commonTitle.getDataId())
+						.url(getFandubUrl() + "watch/" + commonTitle.getId())
 						.timeoutInSec(15)
 						.cssSelector("ul.episodes >li")
 						.build());

@@ -24,7 +24,7 @@ public class TestConstants {
 	public static final String REGULAR_TITLE_ORIGINAL_NAME = "regular title name";
 
 	public static final Integer REGULAR_TITLE_MAL_ID = 2;
-	public static final Integer REGULAR_TITLE_ID = 1;
+	public static final String REGULAR_TITLE_ID = "1";
 
 
 	public static final String CONCRETIZED_TITLE_ANIMEDIA_URL = "anime/concretized-title-url";
@@ -43,7 +43,7 @@ public class TestConstants {
 	public static final String CONCRETIZED_TITLE_ORIGINAL_NAME = "concretized title name";
 
 	public static final Integer CONCRETIZED_TITLE_MAL_ID = 3;
-	public static final Integer CONCRETIZED_TITLE_ID = 2;
+	public static final String CONCRETIZED_TITLE_ID = "2";
 
 
 	public static final String NOT_FOUND_ON_MAL_TITLE_ANIMEDIA_URL = "anime/not-found-on-mal-title-url";
@@ -61,7 +61,7 @@ public class TestConstants {
 
 	public static final String NOT_FOUND_ON_MAL_TITLE_ORIGINAL_NAME = "not found on mal title name";
 
-	public static final Integer NOT_FOUND_ON_MAL_TITLE_ID = 3;
+	public static final String NOT_FOUND_ON_MAL_TITLE_ID = "3";
 
 
 	public static final String MY_ANIME_LIST_STATIC_CONTENT_URL = "https://cdn.myanimelist.net/";
