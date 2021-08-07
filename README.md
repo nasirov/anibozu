@@ -34,7 +34,11 @@ The application analyzes a user watching titles list from **[MyAnimeList](https:
     <td>:heavy_plus_sign:</td>
   </tr>
   <tr>
-    <td><a href="https://jisedai.tv/"><img src="/images/favicons/jisedai.png" alt="Jisedai"> Jisedai</a></td>
+    <td><a href="https://jamclub.cc/"><img src="/images/favicons/jamClub.png" alt="jamClub"> JamClub</a></td>
+    <td>:heavy_minus_sign:</td>
+  </tr>
+  <tr>
+    <td><a href="https://jisedai.tv/"><img src="/images/favicons/jisedai.png" alt="jisedai"> Jisedai</a></td>
     <td>:heavy_minus_sign:</td>
   </tr>
   <tr>

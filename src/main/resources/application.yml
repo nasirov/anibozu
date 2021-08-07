@@ -20,6 +20,7 @@ application:
       NINEANIME: false
       SHIZAPROJECT: true
       SOVETROMANTICA: true
+      JAMCLUB: true
   feign:
     enabled: false
   web-client:

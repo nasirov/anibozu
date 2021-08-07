@@ -47,9 +47,9 @@ public abstract class AbstractEpisodeNameAndUrlsServiceTest {
 	@Mock
 	protected HttpRequestServiceDtoBuilderI httpRequestServiceDtoBuilder;
 
-	private CommonTitle regularCommonTitle;
+	protected CommonTitle regularCommonTitle;
 
-	private CommonTitle concretizedCommonTitle;
+	protected CommonTitle concretizedCommonTitle;
 
 	@BeforeEach
 	public void setUp() {

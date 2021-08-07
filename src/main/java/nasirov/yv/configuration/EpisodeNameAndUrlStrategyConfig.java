@@ -5,6 +5,7 @@ import static nasirov.yv.fandub.service.spring.boot.starter.constant.FanDubSourc
 import static nasirov.yv.fandub.service.spring.boot.starter.constant.FanDubSource.ANILIBRIA;
 import static nasirov.yv.fandub.service.spring.boot.starter.constant.FanDubSource.ANIMEDIA;
 import static nasirov.yv.fandub.service.spring.boot.starter.constant.FanDubSource.ANIMEPIK;
+import static nasirov.yv.fandub.service.spring.boot.starter.constant.FanDubSource.JAMCLUB;
 import static nasirov.yv.fandub.service.spring.boot.starter.constant.FanDubSource.JISEDAI;
 import static nasirov.yv.fandub.service.spring.boot.starter.constant.FanDubSource.JUTSU;
 import static nasirov.yv.fandub.service.spring.boot.starter.constant.FanDubSource.NINEANIME;
@@ -19,6 +20,7 @@ import nasirov.yv.service.impl.fandub.AnidubEpisodeNameAndUrlService;
 import nasirov.yv.service.impl.fandub.AnilibriaEpisodeNameAndUrlService;
 import nasirov.yv.service.impl.fandub.AnimediaEpisodeNameAndUrlService;
 import nasirov.yv.service.impl.fandub.AnimepikEpisodeNameAndUrlService;
+import nasirov.yv.service.impl.fandub.JamClubEpisodeNameAndUrlService;
 import nasirov.yv.service.impl.fandub.JisedaiEpisodeNameAndUrlService;
 import nasirov.yv.service.impl.fandub.JutsuEpisodeNameAndUrlService;
 import nasirov.yv.service.impl.fandub.NineAnimeEpisodeNameAndUrlService;
@@ -39,7 +41,7 @@ public class EpisodeNameAndUrlStrategyConfig {
 			JisedaiEpisodeNameAndUrlService jisedaiEpisodeNameAndUrlService, AnimepikEpisodeNameAndUrlService animepikEpisodeNameAndUrlService,
 			AnilibriaEpisodeNameAndUrlService anilibriaEpisodeNameAndUrlService, JutsuEpisodeNameAndUrlService jutsuEpisodeNameAndUrlService,
 			SovetRomanticaEpisodeNameAndUrlService sovetRomanticaEpisodeNameAndUrlService,
-			ShizaProjectEpisodeNameAndUrlService shizaProjectEpisodeNameAndUrlService) {
+			ShizaProjectEpisodeNameAndUrlService shizaProjectEpisodeNameAndUrlService, JamClubEpisodeNameAndUrlService jamClubEpisodeNameAndUrlService) {
 		EnumMap<FanDubSource, EpisodeNameAndUrlServiceI> map = new EnumMap<>(FanDubSource.class);
 		map.put(ANIMEDIA, animediaEpisodeNameAndUrlService);
 		map.put(NINEANIME, nineAnimeEpisodeNameAndUrlService);
@@ -50,6 +52,7 @@ public class EpisodeNameAndUrlStrategyConfig {
 		map.put(JUTSU, jutsuEpisodeNameAndUrlService);
 		map.put(SOVETROMANTICA, sovetRomanticaEpisodeNameAndUrlService);
 		map.put(SHIZAPROJECT, shizaProjectEpisodeNameAndUrlService);
+		map.put(JAMCLUB, jamClubEpisodeNameAndUrlService);
 		return map;
 	}
 }

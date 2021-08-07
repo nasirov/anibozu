@@ -5,6 +5,7 @@ import static nasirov.yv.utils.TestConstants.CONCRETIZED_TITLE_ANILIBRIA_URL;
 import static nasirov.yv.utils.TestConstants.CONCRETIZED_TITLE_ANIMEDIA_URL;
 import static nasirov.yv.utils.TestConstants.CONCRETIZED_TITLE_ANIMEPIK_URL;
 import static nasirov.yv.utils.TestConstants.CONCRETIZED_TITLE_ID;
+import static nasirov.yv.utils.TestConstants.CONCRETIZED_TITLE_JAM_CLUB_URL;
 import static nasirov.yv.utils.TestConstants.CONCRETIZED_TITLE_JISEDAI_URL;
 import static nasirov.yv.utils.TestConstants.CONCRETIZED_TITLE_JUTSU_URL;
 import static nasirov.yv.utils.TestConstants.CONCRETIZED_TITLE_MAL_ID;
@@ -17,6 +18,7 @@ import static nasirov.yv.utils.TestConstants.NOT_FOUND_ON_MAL_TITLE_ANILIBRIA_UR
 import static nasirov.yv.utils.TestConstants.NOT_FOUND_ON_MAL_TITLE_ANIMEDIA_URL;
 import static nasirov.yv.utils.TestConstants.NOT_FOUND_ON_MAL_TITLE_ANIMEPIK_URL;
 import static nasirov.yv.utils.TestConstants.NOT_FOUND_ON_MAL_TITLE_ID;
+import static nasirov.yv.utils.TestConstants.NOT_FOUND_ON_MAL_TITLE_JAM_CLUB_URL;
 import static nasirov.yv.utils.TestConstants.NOT_FOUND_ON_MAL_TITLE_JISEDAI_URL;
 import static nasirov.yv.utils.TestConstants.NOT_FOUND_ON_MAL_TITLE_JUTSU_URL;
 import static nasirov.yv.utils.TestConstants.NOT_FOUND_ON_MAL_TITLE_NINE_ANIME_ID;
@@ -28,6 +30,7 @@ import static nasirov.yv.utils.TestConstants.REGULAR_TITLE_ANILIBRIA_URL;
 import static nasirov.yv.utils.TestConstants.REGULAR_TITLE_ANIMEDIA_URL;
 import static nasirov.yv.utils.TestConstants.REGULAR_TITLE_ANIMEPIK_URL;
 import static nasirov.yv.utils.TestConstants.REGULAR_TITLE_ID;
+import static nasirov.yv.utils.TestConstants.REGULAR_TITLE_JAM_CLUB_URL;
 import static nasirov.yv.utils.TestConstants.REGULAR_TITLE_JISEDAI_URL;
 import static nasirov.yv.utils.TestConstants.REGULAR_TITLE_JUTSU_URL;
 import static nasirov.yv.utils.TestConstants.REGULAR_TITLE_MAL_ID;
@@ -72,6 +75,8 @@ public class CommonTitleTestBuilder {
 	public static final String SOVET_ROMANTICA_EPISODE_NAME = "Эпизод 1";
 
 	public static final String SHIZA_PROJECT_EPISODE_NAME = "1";
+
+	public static final String JAM_CLUB_EPISODE_NAME = "1 серия";
 
 	public static List<CommonTitle> buildCommonTitles(FanDubSource fanDubSource) {
 		CommonTitle regular = null;
@@ -122,6 +127,11 @@ public class CommonTitleTestBuilder {
 				regular = getShizaProjectRegular();
 				concretized = getShizaProjectConcretized();
 				notFoundOnMal = getShizaProjectNotFoundOnMal();
+				break;
+			case JAMCLUB:
+				regular = getJamClubRegular();
+				concretized = getJamClubConcretized();
+				notFoundOnMal = getJamClubNotFoundOnMal();
 				break;
 			default:
 				break;
@@ -251,6 +261,16 @@ public class CommonTitleTestBuilder {
 	}
 	public static CommonTitle getShizaProjectNotFoundOnMal() {
 		return getNotFoundOnMal(NOT_FOUND_ON_MAL_TITLE_SHIZA_PROJECT_URL, null, null);
+	}
+
+	public static CommonTitle getJamClubRegular() {
+		return getRegular(REGULAR_TITLE_JAM_CLUB_URL, null, buildEpisodeUrl(REGULAR_TITLE_JAM_CLUB_URL, null), null, JAM_CLUB_EPISODE_NAME);
+	}
+	public static CommonTitle getJamClubConcretized() {
+		return getConcretized(CONCRETIZED_TITLE_JAM_CLUB_URL, null, buildEpisodeUrl(CONCRETIZED_TITLE_JAM_CLUB_URL, null), null, JAM_CLUB_EPISODE_NAME);
+	}
+	public static CommonTitle getJamClubNotFoundOnMal() {
+		return getNotFoundOnMal(NOT_FOUND_ON_MAL_TITLE_JAM_CLUB_URL, null, null);
 	}
 
 	public static CommonTitle getRegular(String url, Integer dataList, String episodeUrl, String dataId, String episodeName) {

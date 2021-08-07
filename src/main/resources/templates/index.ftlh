@@ -57,12 +57,18 @@
               </td>
               <td>
                 <label>
-                  <input id="jisedai-checkbox" type="checkbox" class="nes-checkbox" name="fanDubSources" value="${jisedai}"/>
-                  <span>Jisedai</span>
+                  <input id="jamClub-checkbox" type="checkbox" class="nes-checkbox" name="fanDubSources" value="${jamClub}"/>
+                  <span>JamClub</span>
                 </label>
               </td>
             </tr>
             <tr>
+              <td>
+                <label>
+                  <input id="jisedai-checkbox" type="checkbox" class="nes-checkbox" name="fanDubSources" value="${jisedai}"/>
+                  <span>Jisedai</span>
+                </label>
+              </td>
               <td>
                 <label>
                   <input id="jutsu-checkbox" type="checkbox" class="nes-checkbox" name="fanDubSources" value="${jutsu}"/>
@@ -75,6 +81,8 @@
                   <span>ShizaProject</span>
                 </label>
               </td>
+            </tr>
+            <tr>
               <td>
                 <label>
                   <input id="sovetRomantica-checkbox" type="checkbox" class="nes-checkbox" name="fanDubSources" value="${sovetRomantica}"/>

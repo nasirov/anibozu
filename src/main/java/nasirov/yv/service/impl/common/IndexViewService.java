@@ -4,6 +4,7 @@ import static nasirov.yv.fandub.service.spring.boot.starter.constant.FanDubSourc
 import static nasirov.yv.fandub.service.spring.boot.starter.constant.FanDubSource.ANILIBRIA;
 import static nasirov.yv.fandub.service.spring.boot.starter.constant.FanDubSource.ANIMEDIA;
 import static nasirov.yv.fandub.service.spring.boot.starter.constant.FanDubSource.ANIMEPIK;
+import static nasirov.yv.fandub.service.spring.boot.starter.constant.FanDubSource.JAMCLUB;
 import static nasirov.yv.fandub.service.spring.boot.starter.constant.FanDubSource.JISEDAI;
 import static nasirov.yv.fandub.service.spring.boot.starter.constant.FanDubSource.JUTSU;
 import static nasirov.yv.fandub.service.spring.boot.starter.constant.FanDubSource.NINEANIME;
@@ -43,5 +44,6 @@ public class IndexViewService implements IndexViewServiceI {
 		model.addAttribute(NINEANIME.getName(), NINEANIME);
 		model.addAttribute(SOVETROMANTICA.getName(), SOVETROMANTICA);
 		model.addAttribute(SHIZAPROJECT.getName(), SHIZAPROJECT);
+		model.addAttribute(JAMCLUB.getName(), JAMCLUB);
 	}
 }
