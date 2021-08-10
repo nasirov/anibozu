@@ -130,7 +130,7 @@ public class HttpRequestServiceDtoBuilderTest {
 		String url = TestConstants.ANIDUB_URL + TITLE_URL;
 		HttpMethod method = HttpMethod.GET;
 		Map<String, String> headers = Collections.emptyMap();
-		Set<Integer> retryableStatusCodes = Sets.newHashSet(500, 502, 503, 504, 520, 524);
+		Set<Integer> retryableStatusCodes = Sets.newHashSet(500, 502, 503, 504, 520, 521, 522, 524);
 		String fallback = StringUtils.EMPTY;
 		CommonTitle commonTitle = getCommonTitle();
 		mockFanDubProps(FanDubSource.ANIDUB, TestConstants.ANIDUB_URL);
@@ -146,7 +146,7 @@ public class HttpRequestServiceDtoBuilderTest {
 		String url = TestConstants.ANILIBRIA_URL + TITLE_URL;
 		HttpMethod method = HttpMethod.GET;
 		Map<String, String> headers = Collections.emptyMap();
-		Set<Integer> retryableStatusCodes = Sets.newHashSet(500, 502, 503, 504, 520, 524);
+		Set<Integer> retryableStatusCodes = Sets.newHashSet(500, 502, 503, 504, 520, 521, 522, 524);
 		String fallback = StringUtils.EMPTY;
 		CommonTitle commonTitle = getCommonTitle();
 		mockFanDubProps(FanDubSource.ANILIBRIA, TestConstants.ANILIBRIA_URL);
@@ -162,7 +162,7 @@ public class HttpRequestServiceDtoBuilderTest {
 		String url = TestConstants.ANIMEDIA_ONLINE_TV + "embeds/playlist-j.txt/11/2";
 		HttpMethod method = HttpMethod.GET;
 		Map<String, String> headers = Collections.emptyMap();
-		Set<Integer> retryableStatusCodes = Sets.newHashSet(500, 502, 503, 504, 520, 524);
+		Set<Integer> retryableStatusCodes = Sets.newHashSet(500, 502, 503, 504, 520, 521, 522, 524);
 		List<AnimediaEpisode> fallback = Collections.emptyList();
 		CommonTitle commonTitle = getCommonTitle();
 		mockFanDubProps(FanDubSource.ANIMEDIA, TestConstants.ANIMEDIA_ONLINE_TV);
@@ -178,7 +178,7 @@ public class HttpRequestServiceDtoBuilderTest {
 		String url = TestConstants.ANIMEPIK_URL + "api/v1/" + TITLE_URL;
 		HttpMethod method = HttpMethod.GET;
 		Map<String, String> headers = Collections.emptyMap();
-		Set<Integer> retryableStatusCodes = Sets.newHashSet(500, 502, 503, 504, 520, 524);
+		Set<Integer> retryableStatusCodes = Sets.newHashSet(500, 502, 503, 504, 520, 521, 522, 524);
 		AnimepikTitleEpisodes fallback = AnimepikTitleEpisodes.builder()
 				.animepikPlayer(AnimepikPlayer.builder()
 						.episodes(Collections.emptyList())
@@ -198,7 +198,7 @@ public class HttpRequestServiceDtoBuilderTest {
 		String url = TestConstants.JISEDAI_URL + TITLE_URL;
 		HttpMethod method = HttpMethod.GET;
 		Map<String, String> headers = Collections.emptyMap();
-		Set<Integer> retryableStatusCodes = Sets.newHashSet(500, 502, 503, 504, 520, 524);
+		Set<Integer> retryableStatusCodes = Sets.newHashSet(500, 502, 503, 504, 520, 521, 522, 524);
 		String fallback = StringUtils.EMPTY;
 		CommonTitle commonTitle = getCommonTitle();
 		mockFanDubProps(FanDubSource.JISEDAI, TestConstants.JISEDAI_URL);
@@ -214,7 +214,7 @@ public class HttpRequestServiceDtoBuilderTest {
 		String url = TestConstants.JUTSU_URL + TITLE_URL;
 		HttpMethod method = HttpMethod.GET;
 		Map<String, String> headers = Collections.emptyMap();
-		Set<Integer> retryableStatusCodes = Sets.newHashSet(500, 502, 503, 504, 520, 524);
+		Set<Integer> retryableStatusCodes = Sets.newHashSet(500, 502, 503, 504, 520, 521, 522, 524);
 		String fallback = StringUtils.EMPTY;
 		CommonTitle commonTitle = getCommonTitle();
 		mockFanDubProps(FanDubSource.JUTSU, TestConstants.JUTSU_URL);
@@ -230,7 +230,7 @@ public class HttpRequestServiceDtoBuilderTest {
 		String url = TestConstants.NINE_ANIME_TO + "ajax/anime/servers?id=11";
 		HttpMethod method = HttpMethod.GET;
 		Map<String, String> headers = Collections.emptyMap();
-		Set<Integer> retryableStatusCodes = Sets.newHashSet(500, 502, 503, 504, 520, 524);
+		Set<Integer> retryableStatusCodes = Sets.newHashSet(500, 502, 503, 504, 520, 521, 522, 524);
 		String fallback = StringUtils.EMPTY;
 		CommonTitle commonTitle = getCommonTitle();
 		mockFanDubProps(FanDubSource.NINEANIME, TestConstants.NINE_ANIME_TO);
@@ -246,7 +246,7 @@ public class HttpRequestServiceDtoBuilderTest {
 		String url = TestConstants.SHIZA_PROJECT_URL + TITLE_URL;
 		HttpMethod method = HttpMethod.GET;
 		Map<String, String> headers = Collections.emptyMap();
-		Set<Integer> retryableStatusCodes = Sets.newHashSet(500, 502, 503, 504, 520, 524);
+		Set<Integer> retryableStatusCodes = Sets.newHashSet(500, 502, 503, 504, 520, 521, 522, 524);
 		String fallback = StringUtils.EMPTY;
 		CommonTitle commonTitle = getCommonTitle();
 		mockFanDubProps(FanDubSource.SHIZAPROJECT, TestConstants.SHIZA_PROJECT_URL);
@@ -262,7 +262,7 @@ public class HttpRequestServiceDtoBuilderTest {
 		String url = TestConstants.SOVET_ROMANTICA_URL + TITLE_URL;
 		HttpMethod method = HttpMethod.GET;
 		Map<String, String> headers = Collections.emptyMap();
-		Set<Integer> retryableStatusCodes = Sets.newHashSet(500, 502, 503, 504, 520, 524);
+		Set<Integer> retryableStatusCodes = Sets.newHashSet(500, 502, 503, 504, 520, 521, 522, 524);
 		String fallback = StringUtils.EMPTY;
 		CommonTitle commonTitle = getCommonTitle();
 		mockFanDubProps(FanDubSource.SOVETROMANTICA, TestConstants.SOVET_ROMANTICA_URL);
@@ -279,7 +279,7 @@ public class HttpRequestServiceDtoBuilderTest {
 		HttpMethod method = HttpMethod.GET;
 		String cookie = "foobar";
 		Map<String, String> headers = Collections.singletonMap(HttpHeaders.COOKIE, cookie);
-		Set<Integer> retryableStatusCodes = Sets.newHashSet(500, 502, 503, 504, 520, 524);
+		Set<Integer> retryableStatusCodes = Sets.newHashSet(500, 502, 503, 504, 520, 521, 522, 524);
 		String fallback = StringUtils.EMPTY;
 		CommonTitle commonTitle = getCommonTitle();
 		mockFanDubProps(FanDubSource.SOVETROMANTICA, TestConstants.SOVET_ROMANTICA_URL);

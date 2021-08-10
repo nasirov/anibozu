@@ -35,7 +35,7 @@ import reactor.core.publisher.Mono;
 @RequiredArgsConstructor
 public class HttpRequestServiceDtoBuilder implements HttpRequestServiceDtoBuilderI {
 
-	private static final Set<Integer> RETRYABLE_STATUS_CODES = Sets.newHashSet(500, 502, 503, 504, 520, 524);
+	private static final Set<Integer> RETRYABLE_STATUS_CODES = Sets.newHashSet(500, 502, 503, 504, 520, 521, 522, 524);
 
 	private final FanDubProps fanDubProps;
 
