@@ -13,6 +13,7 @@ import nasirov.yv.fandub.service.spring.boot.starter.dto.fandub.animedia.Animedi
 import nasirov.yv.fandub.service.spring.boot.starter.dto.fandub.animepik.AnimepikPlayer;
 import nasirov.yv.fandub.service.spring.boot.starter.dto.fandub.animepik.AnimepikTitleEpisodes;
 import nasirov.yv.fandub.service.spring.boot.starter.dto.fandub.common.CommonTitle;
+import nasirov.yv.fandub.service.spring.boot.starter.dto.fandub.jisedai.JisedaiTitleEpisodeDto;
 import nasirov.yv.fandub.service.spring.boot.starter.dto.http_request_service.HttpRequestServiceDto;
 import nasirov.yv.fandub.service.spring.boot.starter.dto.mal.MalTitleWatchingStatus;
 import nasirov.yv.fandub.service.spring.boot.starter.dto.mal_service.MalServiceResponseDto;
@@ -112,8 +113,13 @@ public class HttpRequestServiceDtoBuilder implements HttpRequestServiceDtoBuilde
 	}
 
 	@Override
-	public HttpRequestServiceDto<String> jisedai(CommonTitle commonTitle) {
-		return buildDtowithStringResponse(commonTitle, FanDubSource.JISEDAI);
+	public HttpRequestServiceDto<List<JisedaiTitleEpisodeDto>> jisedai(CommonTitle commonTitle) {
+		return buildDto(fanDubProps.getJisedaiApiUrl() + "api/v1/anime/" + commonTitle.getId() + "/episode",
+				Collections.emptyMap(),
+				RETRYABLE_STATUS_CODES,
+				x -> x.bodyToMono(new ParameterizedTypeReference<List<JisedaiTitleEpisodeDto>>() {
+				}),
+				Collections.emptyList());
 	}
 
 	@Override

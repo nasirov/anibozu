@@ -15,6 +15,7 @@ import nasirov.yv.fandub.service.spring.boot.starter.dto.fandub.animedia.Animedi
 import nasirov.yv.fandub.service.spring.boot.starter.dto.fandub.animepik.AnimepikPlayer;
 import nasirov.yv.fandub.service.spring.boot.starter.dto.fandub.animepik.AnimepikTitleEpisodes;
 import nasirov.yv.fandub.service.spring.boot.starter.dto.fandub.common.CommonTitle;
+import nasirov.yv.fandub.service.spring.boot.starter.dto.fandub.jisedai.JisedaiTitleEpisodeDto;
 import nasirov.yv.fandub.service.spring.boot.starter.dto.http_request_service.HttpRequestServiceDto;
 import nasirov.yv.fandub.service.spring.boot.starter.dto.mal.MalTitleWatchingStatus;
 import nasirov.yv.fandub.service.spring.boot.starter.dto.mal_service.MalServiceResponseDto;
@@ -195,15 +196,16 @@ public class HttpRequestServiceDtoBuilderTest {
 	@Test
 	public void shouldBuildHttpRequestServiceDtoForJisedai() {
 		//given
-		String url = TestConstants.JISEDAI_URL + TITLE_URL;
+		String url = TestConstants.JISEDAI_API_URL + "api/v1/anime/11/episode";
 		HttpMethod method = HttpMethod.GET;
 		Map<String, String> headers = Collections.emptyMap();
 		Set<Integer> retryableStatusCodes = Sets.newHashSet(500, 502, 503, 504, 520, 521, 522, 524);
-		String fallback = StringUtils.EMPTY;
+		List<JisedaiTitleEpisodeDto> fallback = Collections.emptyList();
 		CommonTitle commonTitle = getCommonTitle();
-		mockFanDubProps(FanDubSource.JISEDAI, TestConstants.JISEDAI_URL);
+		doReturn(TestConstants.JISEDAI_API_URL).when(fanDubProps)
+				.getJisedaiApiUrl();
 		//when
-		HttpRequestServiceDto<String> result = httpRequestServiceDtoBuilder.jisedai(commonTitle);
+		HttpRequestServiceDto<List<JisedaiTitleEpisodeDto>> result = httpRequestServiceDtoBuilder.jisedai(commonTitle);
 		//then
 		checkResult(result, url, method, headers, retryableStatusCodes, fallback);
 	}

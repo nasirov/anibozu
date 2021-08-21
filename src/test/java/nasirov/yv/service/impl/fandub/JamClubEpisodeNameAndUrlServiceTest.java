@@ -14,11 +14,9 @@ import nasirov.yv.fandub.service.spring.boot.starter.constant.FanDubSource;
 import nasirov.yv.fandub.service.spring.boot.starter.dto.fandub.common.CommonTitle;
 import nasirov.yv.fandub.service.spring.boot.starter.dto.fandub.common.FandubEpisode;
 import nasirov.yv.fandub.service.spring.boot.starter.dto.mal.MalTitle;
-import nasirov.yv.fandub.service.spring.boot.starter.extractor.EpisodesExtractorI;
 import nasirov.yv.fandub.service.spring.boot.starter.service.ReactiveJamClubServiceI;
 import nasirov.yv.service.EpisodeNameAndUrlServiceI;
 import org.apache.commons.lang3.tuple.Pair;
-import org.jsoup.nodes.Document;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -30,7 +28,7 @@ import reactor.core.publisher.Mono;
  * @author Nasirov Yuriy
  */
 @ExtendWith(MockitoExtension.class)
-public class JamClubEpisodeNameAndUrlServiceTest extends AbstractEpisodeNameAndUrlsServiceTest {
+public class JamClubEpisodeNameAndUrlServiceTest extends AbstractEpisodeNameAndUrlsServiceTest<String> {
 
 	private static final String RUNTIME_EPISODE_NAME = "2 серия";
 
@@ -91,17 +89,17 @@ public class JamClubEpisodeNameAndUrlServiceTest extends AbstractEpisodeNameAndU
 	}
 
 	@Override
+	protected String getRuntimeExpectedResponse() {
+		return "foobar";
+	}
+
+	@Override
 	protected String getFandubUrl() {
 		return JAM_CLUB_URL;
 	}
 
 	@Override
-	protected EpisodesExtractorI<Document> getParser() {
-		return null;
-	}
-
-	@Override
-	protected void mockGetTitlePage(String titlePageContent, CommonTitle commonTitle) {
+	protected void mockGetRuntimeResponse(String runtimeExpectedResponse, CommonTitle commonTitle) {
 	}
 
 	@Override
@@ -138,6 +136,10 @@ public class JamClubEpisodeNameAndUrlServiceTest extends AbstractEpisodeNameAndU
 	@Override
 	protected void checkNameAndUrlForAvailableEpisodeBuiltInRuntime(Pair<String, String> episodeNameAndUrl) {
 		assertEquals(Pair.of(RUNTIME_EPISODE_NAME, getFandubUrl() + REGULAR_TITLE_JAM_CLUB_URL), episodeNameAndUrl);
+	}
+
+	@Override
+	protected void mockParser(String runtimeExpectedResponse) {
 	}
 
 	private void mockReactiveJamClubService() {

@@ -15,7 +15,7 @@ application:
       ANILIBRIA: true
       ANIMEDIA: true
       ANIMEPIK: true
-      JISEDAI: false
+      JISEDAI: true
       JUTSU: true
       NINEANIME: false
       SHIZAPROJECT: true

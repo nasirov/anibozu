@@ -12,7 +12,7 @@ public class TestConstants {
 	public static final String REGULAR_TITLE_ANIDUB_URL = "anime/full/1-regular-title-url.html";
 	public static final String REGULAR_TITLE_ANIMEPIK_URL = "anime/1";
 	public static final String REGULAR_TITLE_ANILIBRIA_URL = "release/1-regular-title-url.html";
-	public static final String REGULAR_TITLE_JISEDAI_URL = "anime/1-regular-title-url";
+	public static final String REGULAR_TITLE_JISEDAI_URL = "release/1";
 	public static final String REGULAR_TITLE_JUTSU_URL = "1-regular-title-url";
 	public static final String REGULAR_TITLE_NINE_ANIME_ID = "1rtu";
 	public static final String REGULAR_TITLE_NINE_ANIME_URL = "watch/regular-title-url." + REGULAR_TITLE_NINE_ANIME_ID;
@@ -32,7 +32,7 @@ public class TestConstants {
 	public static final String CONCRETIZED_TITLE_ANIDUB_URL = "anime/full/2-concretized-title-url.html";
 	public static final String CONCRETIZED_TITLE_ANIMEPIK_URL = "anime/2";
 	public static final String CONCRETIZED_TITLE_ANILIBRIA_URL = "release/2-concretized-title-url.html";
-	public static final String CONCRETIZED_TITLE_JISEDAI_URL = "anime/2-concretized-title-url";
+	public static final String CONCRETIZED_TITLE_JISEDAI_URL = "release/2";
 	public static final String CONCRETIZED_TITLE_JUTSU_URL = "2-concretized-title-url";
 	public static final String CONCRETIZED_TITLE_NINE_ANIME_ID = "2ctu";
 	public static final String CONCRETIZED_TITLE_NINE_ANIME_URL = "watch/concretized-title-url." + CONCRETIZED_TITLE_NINE_ANIME_ID;
@@ -52,7 +52,7 @@ public class TestConstants {
 	public static final String NOT_FOUND_ON_MAL_TITLE_ANIDUB_URL = "anime/full/3-not-found-on-mal-title-url.html";
 	public static final String NOT_FOUND_ON_MAL_TITLE_ANIMEPIK_URL = "anime/3";
 	public static final String NOT_FOUND_ON_MAL_TITLE_ANILIBRIA_URL = "release/3-not-found-on-mal-title-url.html";
-	public static final String NOT_FOUND_ON_MAL_TITLE_JISEDAI_URL = "anime/3-not-found-on-mal-title-url";
+	public static final String NOT_FOUND_ON_MAL_TITLE_JISEDAI_URL = "release/3";
 	public static final String NOT_FOUND_ON_MAL_TITLE_JUTSU_URL = "3-not-found-on-mal-title-url";
 	public static final String NOT_FOUND_ON_MAL_TITLE_NINE_ANIME_ID = "3nfomtu";
 	public static final String NOT_FOUND_ON_MAL_TITLE_NINE_ANIME_URL = "watch/not-found-on-mal-title-url." + NOT_FOUND_ON_MAL_TITLE_NINE_ANIME_ID;
@@ -73,6 +73,7 @@ public class TestConstants {
 	public static final String NINE_ANIME_TO = "https://www12.9anime.to/";
 	public static final String ANIDUB_URL = "https://anime.anidub.life/";
 	public static final String JISEDAI_URL = "https://jisedai.tv/";
+	public static final String JISEDAI_API_URL = "https://api.jisedai.tv/";
 	public static final String ANIMEPIK_URL = "https://animepik.org/";
 	public static final String ANIMEPIK_RESOURCES_URL = "https://cdn.iss.one/";
 	public static final String ANILIBRIA_URL = "https://www.anilibria.tv/";

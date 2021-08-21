@@ -9,7 +9,6 @@ import nasirov.yv.fandub.service.spring.boot.starter.extractor.parser.JisedaiPar
 import nasirov.yv.fandub.service.spring.boot.starter.properties.FanDubProps;
 import nasirov.yv.fandub.service.spring.boot.starter.service.HttpRequestServiceI;
 import nasirov.yv.service.HttpRequestServiceDtoBuilderI;
-import org.jsoup.Jsoup;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
 
@@ -30,7 +29,11 @@ public class JisedaiEpisodeNameAndUrlService extends AbstractEpisodeNameAndUrlSe
 	@Override
 	protected Mono<List<FandubEpisode>> getEpisodes(CommonTitle commonTitle) {
 		return httpRequestService.performHttpRequest(httpRequestServiceDtoBuilder.jisedai(commonTitle))
-				.map(Jsoup::parse)
-				.map(jisedaiParser::extractEpisodes);
+				.map(jisedaiParser::extractEpisodes)
+				.doOnNext(x -> fillFandubEpisodesWithTitleUrl(x, commonTitle.getUrl()));
+	}
+
+	private void fillFandubEpisodesWithTitleUrl(List<FandubEpisode> fandubEpisodes, String titleUrl) {
+		fandubEpisodes.forEach(x -> x.setUrl(titleUrl));
 	}
 }

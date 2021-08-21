@@ -4,7 +4,6 @@ import static nasirov.yv.data.constants.BaseConstants.NOT_AVAILABLE_EPISODE_NAME
 import static nasirov.yv.data.constants.BaseConstants.TITLE_NOT_FOUND_EPISODE_NAME_AND_URL;
 import static nasirov.yv.utils.TestConstants.REGULAR_TITLE_MAL_ID;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.ArgumentMatchers.argThat;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.mock;
 
@@ -17,7 +16,6 @@ import nasirov.yv.fandub.service.spring.boot.starter.dto.fandub.common.CommonTit
 import nasirov.yv.fandub.service.spring.boot.starter.dto.fandub.common.FandubEpisode;
 import nasirov.yv.fandub.service.spring.boot.starter.dto.http_request_service.HttpRequestServiceDto;
 import nasirov.yv.fandub.service.spring.boot.starter.dto.mal.MalTitle;
-import nasirov.yv.fandub.service.spring.boot.starter.extractor.EpisodesExtractorI;
 import nasirov.yv.fandub.service.spring.boot.starter.properties.FanDubProps;
 import nasirov.yv.fandub.service.spring.boot.starter.service.HttpRequestServiceI;
 import nasirov.yv.service.EpisodeNameAndUrlServiceI;
@@ -25,7 +23,6 @@ import nasirov.yv.service.HttpRequestServiceDtoBuilderI;
 import nasirov.yv.utils.CommonTitleTestBuilder;
 import org.apache.commons.lang3.tuple.Pair;
 import org.assertj.core.util.Maps;
-import org.jsoup.nodes.Document;
 import org.junit.jupiter.api.BeforeEach;
 import org.mockito.Mock;
 import reactor.core.publisher.Mono;
@@ -33,7 +30,7 @@ import reactor.core.publisher.Mono;
 /**
  * @author Nasirov Yuriy
  */
-public abstract class AbstractEpisodeNameAndUrlsServiceTest {
+public abstract class AbstractEpisodeNameAndUrlsServiceTest<RUNTIME_RESPONSE_TYPE> {
 
 	@Mock
 	protected FanDubProps fanDubProps;
@@ -75,9 +72,9 @@ public abstract class AbstractEpisodeNameAndUrlsServiceTest {
 		mockCommonProps();
 		mockFandubUrlsMap();
 		mockFandubTitleService(getRegularCommonTitles(), REGULAR_TITLE_MAL_ID, 2);
-		String titlePageContent = "foobar";
-		mockGetTitlePage(titlePageContent, regularCommonTitle);
-		mockParser(titlePageContent);
+		RUNTIME_RESPONSE_TYPE runtimeExpectedResponse = getRuntimeExpectedResponse();
+		mockGetRuntimeResponse(runtimeExpectedResponse, regularCommonTitle);
+		mockParser(runtimeExpectedResponse);
 		MalTitle malTitle = buildWatchingTitle(REGULAR_TITLE_MAL_ID, 1);
 		//when
 		Pair<String, String> episodeNameAndUrl = getEpisodeNameAndUrlService().getEpisodeNameAndUrl(malTitle)
@@ -116,8 +113,8 @@ public abstract class AbstractEpisodeNameAndUrlsServiceTest {
 		mockCommonProps();
 		mockFandubUrlsMap();
 		mockFandubTitleService(getRegularAndConcretizedCommonTitles(), REGULAR_TITLE_MAL_ID, 3);
-		String titlePageContent = "foobar";
-		mockGetTitlePage(titlePageContent, regularCommonTitle);
+		RUNTIME_RESPONSE_TYPE titlePageContent = getRuntimeExpectedResponse();
+		mockGetRuntimeResponse(titlePageContent, regularCommonTitle);
 		mockParser(titlePageContent);
 		MalTitle malTitle = buildWatchingTitle(REGULAR_TITLE_MAL_ID, 2);
 		//when
@@ -127,11 +124,11 @@ public abstract class AbstractEpisodeNameAndUrlsServiceTest {
 		assertEquals(NOT_AVAILABLE_EPISODE_NAME_AND_URL, episodeNameAndUrl);
 	}
 
+	protected abstract RUNTIME_RESPONSE_TYPE getRuntimeExpectedResponse();
+
 	protected abstract String getFandubUrl();
 
-	protected abstract EpisodesExtractorI<Document> getParser();
-
-	protected abstract void mockGetTitlePage(String titlePageContent, CommonTitle commonTitle);
+	protected abstract void mockGetRuntimeResponse(RUNTIME_RESPONSE_TYPE runtimeExpectedResponse, CommonTitle commonTitle);
 
 	protected abstract EpisodeNameAndUrlServiceI getEpisodeNameAndUrlService();
 
@@ -142,6 +139,8 @@ public abstract class AbstractEpisodeNameAndUrlsServiceTest {
 	protected abstract void checkNameAndUrlForAvailableEpisode(Pair<String, String> episodeNameAndUrl);
 
 	protected abstract void checkNameAndUrlForAvailableEpisodeBuiltInRuntime(Pair<String, String> episodeNameAndUrl);
+
+	protected abstract void mockParser(RUNTIME_RESPONSE_TYPE runtimeExpectedResponse);
 
 	protected void mockCommonProps() {
 		doReturn(Collections.singletonMap(getFandubSource(), true)).when(commonProps)
@@ -163,13 +162,6 @@ public abstract class AbstractEpisodeNameAndUrlsServiceTest {
 
 	protected List<CommonTitle> getRegularAndConcretizedCommonTitles() {
 		return Lists.newArrayList(regularCommonTitle, concretizedCommonTitle);
-	}
-
-	protected void mockParser(String titlePage) {
-		List<FandubEpisode> fandubEpisodes = getFandubEpisodes();
-		doReturn(fandubEpisodes).when(getParser())
-				.extractEpisodes(argThat(x -> x.text()
-						.equals(titlePage)));
 	}
 
 	protected void mockFandubTitleService(List<CommonTitle> commonTitles, int malId, int malEpisodeId) {
