@@ -1,6 +1,6 @@
 # Anime Checker
 
-[![Build Status](https://travis-ci.com/nasirov/anime-checker.svg?branch=master)](https://travis-ci.com/nasirov/anime-checker)
+[![Build Status](https://app.travis-ci.com/nasirov/anime-checker.svg?branch=master)](https://app.travis-ci.com/nasirov/anime-checker)
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=nasirov_anime-checker&metric=alert_status)](https://sonarcloud.io/dashboard?id=nasirov_anime-checker)
 [![Coverage Status](https://coveralls.io/repos/github/nasirov/anime-checker/badge.svg?branch=master)](https://coveralls.io/github/nasirov/anime-checker?branch=master)
 [![Apache License 2](https://img.shields.io/badge/license-ASF2-blue.svg)](https://www.apache.org/licenses/LICENSE-2.0.txt)
@@ -9,7 +9,7 @@ The application analyzes a user watching titles list from **[MyAnimeList](https:
 
 | Supported FanDub Sites | Link Contains New Episode |
 | :---                   |           :---:           |
-| [![9anime](/images/favicons/9anime.png)](https://www13.9anime.to/)**[9Anime](https://www13.9anime.to/)**  | :heavy_plus_sign: |
+| [![9anime](/images/favicons/9anime.png)](https://www13.9anime.to/) **[9Anime](https://www13.9anime.to/)**  | :heavy_plus_sign: |
 | [![anidub](/images/favicons/anidub.png)](https://anime.anidub.life/) **[Anidub](https://anime.anidub.life/)**  | :heavy_minus_sign: |
 | [![anilibria](/images/favicons/anilibria.png)](https://www.anilibria.tv/) **[Anilibria](https://www.anilibria.tv/)**  | :heavy_minus_sign: |
 | [![animepik](/images/favicons/animepik.png)](https://animepik.org/) **[AnimePiK](https://animepik.org/)**  | :heavy_minus_sign: |
