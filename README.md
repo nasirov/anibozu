@@ -7,54 +7,18 @@
 
 The application analyzes a user watching titles list from **[MyAnimeList](https://myanimelist.net/)** and searches for new episodes on FanDub Sites.
 
-<table>
-  <tbody>
-  <tr>
-    <th>Supported FanDub Sites</th>
-    <th>Link Contains New Episode</th>
-  </tr>
-  <tr>
-    <td><a href="https://www13.9anime.to/" target="_blank"><img src="/images/favicons/9anime.png" alt="9anime"> 9Anime</a></td>
-    <td>:heavy_plus_sign:</td>
-  </tr>
-  <tr>
-    <td><a href="https://anime.anidub.life/" target="_blank"><img src="/images/favicons/anidub.png" alt="anidub"> Anidub</a></td>
-    <td>:heavy_minus_sign:</td>
-  </tr>
-  <tr>
-    <td><a href="https://www.anilibria.tv/" target="_blank"><img src="/images/favicons/anilibria.png" alt="anilibria"> Anilibria</a></td>
-    <td>:heavy_minus_sign:</td>
-  </tr>
-  <tr>
-    <td><a href="https://animepik.org/" target="_blank"><img src="/images/favicons/animepik.png" alt="animepik"> AnimePiK</a></td>
-    <td>:heavy_minus_sign:</td>
-  </tr>
-  <tr>
-    <td><a href="https://online.animedia.tv" target="_blank"><img src="/images/favicons/animedia.png" alt="animedia"> Animedia</a></td>
-    <td>:heavy_plus_sign:</td>
-  </tr>
-  <tr>
-    <td><a href="https://jamclub.cc/" target="_blank"><img src="/images/favicons/jamClub.png" alt="jamClub"> JamClub</a></td>
-    <td>:heavy_minus_sign:</td>
-  </tr>
-  <tr>
-    <td><a href="https://jisedai.tv/" target="_blank"><img src="/images/favicons/jisedai.png" alt="jisedai"> Jisedai</a></td>
-    <td>:heavy_minus_sign:</td>
-  </tr>
-  <tr>
-    <td><a href="https://jut.su/" target="_blank"><img src="/images/favicons/jutsu.png" alt="jutsu"> Jutsu</a></td>
-    <td>:heavy_plus_sign:</td>
-  </tr>
-  <tr>
-    <td><a href="https://shiza-project.com/" target="_blank"><img src="/images/favicons/shizaProject.png" alt="shizaProject"> ShizaProject</a></td>
-    <td>:heavy_minus_sign:</td>
-  </tr>
-  <tr>
-    <td><a href="https://sovetromantica.com/" target="_blank"><img src="/images/favicons/sovetRomantica.png" alt="sovetRomantica"> SovetRomantica</a></td>
-    <td>:heavy_plus_sign:</td>
-  </tr>
-  </tbody>
-</table>
+| Supported FanDub Sites | Link Contains New Episode |
+| :---                   |           :---:           |
+| [![9anime](/images/favicons/9anime.png)](https://www13.9anime.to/)**[9Anime](https://www13.9anime.to/)**  | :heavy_plus_sign: |
+| [![anidub](/images/favicons/anidub.png)](https://anime.anidub.life/) **[Anidub](https://anime.anidub.life/)**  | :heavy_minus_sign: |
+| [![anilibria](/images/favicons/anilibria.png)](https://www.anilibria.tv/) **[Anilibria](https://www.anilibria.tv/)**  | :heavy_minus_sign: |
+| [![animepik](/images/favicons/animepik.png)](https://animepik.org/) **[AnimePiK](https://animepik.org/)**  | :heavy_minus_sign: |
+| [![animedia](/images/favicons/animedia.png)](https://online.animedia.tv/) **[Animedia](https://online.animedia.tv/)**  | :heavy_plus_sign: |
+| [![jamClub](/images/favicons/jamClub.png)](https://jamclub.cc/) **[JamClub](https://jamclub.cc/)**  | :heavy_minus_sign: |
+| [![jisedai](/images/favicons/jisedai.png)](https://jisedai.tv/) **[Jisedai](https://jisedai.tv/)**  | :heavy_minus_sign: |
+| [![jutsu](/images/favicons/jutsu.png)](https://jut.su/) **[Jutsu](https://jut.su/)**  | :heavy_plus_sign: |
+| [![shizaProject](/images/favicons/shizaProject.png)](https://shiza-project.com/) **[ShizaProject](https://shiza-project.com/)**  | :heavy_minus_sign: |
+| [![sovetRomantica](/images/favicons/sovetRomantica.png)](https://sovetromantica.com/) **[SovetRomantica](https://sovetromantica.com/)**  | :heavy_plus_sign: |
 
 **There are two types of result links:**
 
