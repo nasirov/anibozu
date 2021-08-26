@@ -85,8 +85,9 @@ a {
 
 .link_holder {
   position: absolute;
-  bottom: 5%;
+  top: 15%;
   width: 100%;
+  max-width: 100%;
 }
 
 .outbound_link {
@@ -100,18 +101,32 @@ a {
   z-index: 500;
 }
 
-.episode_overlay {
+.mal_episode_overlay {
   position: absolute;
   background: rgba(255, 192, 203, 0.7);
   top: 0;
   left: 0;
   z-index: 10;
   width: 100%;
+  height: 15%;
   overflow: hidden;
   color: white;
 }
 
-.episode_overlay span {
+.fandub_episode_overlay {
+  position: absolute;
+  background: rgba(255, 192, 203, 0.7);
+  bottom: 0;
+  left: 0;
+  z-index: 10;
+  width: 100%;
+  max-height: 45%;
+  overflow: hidden;
+  color: white;
+  display: block;
+}
+
+.mal_episode_overlay span {
   display: block;
 }
 
@@ -119,43 +134,17 @@ a {
   display: block;
 }
 
-.item:hover .episode_overlay {
+.item:hover .mal_episode_overlay {
+  background: none;
+}
+
+.item:hover .fandub_episode_overlay {
   background: none;
 }
 
 .outbound_link:hover {
   background-color: rgb(255, 192, 203);
   transform: scale(1.1);
-}
-
-[data-title] {
-  position: relative;
-}
-
-[data-title]:after {
-  content: attr(data-title);
-  color: #212529;
-  white-space: nowrap;
-  opacity: 0;
-  z-index: 99999;
-  visibility: hidden;
-  border-style: solid;
-  border-width: 4px;
-  border-image-slice: 3;
-  border-image-width: 3;
-  border-image-repeat: stretch;
-  border-image-source: url('data:image/svg+xml;utf8,<?xml version="1.0" encoding="UTF-8" ?><svg version="1.1" width="8" height="8" xmlns="http://www.w3.org/2000/svg"><path d="M3 1 h1 v1 h-1 z M4 1 h1 v1 h-1 z M2 2 h1 v1 h-1 z M5 2 h1 v1 h-1 z M1 3 h1 v1 h-1 z M6 3 h1 v1 h-1 z M1 4 h1 v1 h-1 z M6 4 h1 v1 h-1 z M2 5 h1 v1 h-1 z M5 5 h1 v1 h-1 z M3 6 h1 v1 h-1 z M4 6 h1 v1 h-1 z" fill="rgb(33,37,41)" /></svg>');
-  border-image-outset: 2;
-  position: relative;
-  display: inline-block;
-  background-color: #fff;
-  bottom: 75%;
-}
-
-[data-title]:hover:after {
-  opacity: 1;
-  transition: all 0.1s ease 0.2s;
-  visibility: visible;
 }
 
 .is_centered {
@@ -176,4 +165,8 @@ a {
 
 .is_left {
   text-align: left;
+}
+
+.is_disabled {
+  display: none;
 }

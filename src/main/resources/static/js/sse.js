@@ -81,12 +81,14 @@ function buildAvailable(anime, fandubList) {
   var item = buildItem();
   var img = buildImg(anime.posterUrlOnMal, anime.animeName,
       anime.animeName + ' episode ' + anime.malEpisodeNumber);
-  var episodeOverlay = buildEpisodeOverlay(anime.malEpisodeNumber);
+  var malEpisodeOverlay = buildMalEpisodeOverlay(anime.malEpisodeNumber);
   var overlayFullCover = buildOverlayFullCover();
   var linkHolder = buildLinkHolder();
-  appendLinks(anime, linkHolder, fandubList.split(","));
+  var fandubListArray = fandubList.split(",");
+  appendLinks(anime, linkHolder, fandubListArray);
   overlayFullCover.append(linkHolder);
-  item.append(img, episodeOverlay, overlayFullCover);
+  item.append(img, malEpisodeOverlay, overlayFullCover);
+  appendFandubEpisodes(anime, item, fandubListArray);
   var availableSection = $('#available-section');
   availableSection.append(item);
 }
@@ -94,11 +96,11 @@ function buildAvailable(anime, fandubList) {
 function buildNotAvailable(anime) {
   var item = buildItem();
   var img = buildImg(anime.posterUrlOnMal, anime.animeName, anime.animeName);
-  var episodeOverlay = buildEpisodeOverlay(anime.malEpisodeNumber);
+  var malEpisodeOverlay = buildMalEpisodeOverlay(anime.malEpisodeNumber);
   var overlayFullCover = buildOverlayFullCover();
   var link = buildLink('full_cover', anime.animeUrlOnMal);
   overlayFullCover.append(link);
-  item.append(img, episodeOverlay, overlayFullCover);
+  item.append(img, malEpisodeOverlay, overlayFullCover);
   var notAvailableSection = $('#not-available-section');
   notAvailableSection.append(item);
 }
@@ -148,11 +150,36 @@ function buildImg(src, alt, title) {
   .attr('title', title);
 }
 
-function buildEpisodeOverlay(targetEpisode) {
-  var episodeOverlay = $('<div class="episode_overlay"></div>');
+function buildMalEpisodeOverlay(targetEpisode) {
+  var episodeOverlay = $('<div class="mal_episode_overlay"></div>');
   var episodeSpan = $('<span></span>').text(targetEpisode);
   episodeOverlay.append(episodeSpan, '<span>episode</span>');
   return episodeOverlay;
+}
+
+function appendFandubEpisodes(anime, item, fandubList) {
+  var i;
+  for (i in fandubList) {
+    var fandub = fandubList[i];
+    var fanDubUrl = anime.fanDubUrls[fandub];
+    var fanDubEpisodeName = anime.fanDubEpisodeNames[fandub];
+    if (fanDubUrl.startsWith('http')) {
+      var id = buildFandubEpisodeOverlayId(anime, fandub);
+      var fandubEpisodeOverlay = buildFandubEpisodeOverlay(fanDubEpisodeName,
+          fandub, id);
+      item.append(fandubEpisodeOverlay);
+    }
+  }
+}
+
+function buildFandubEpisodeOverlayId(anime, fandub) {
+  return anime.animeName.replace(/[^a-zA-Z0-9_-]/g, '_') + '_' + fandub;
+}
+
+function buildFandubEpisodeOverlay(targetEpisode, fandub, id) {
+  return $('<div></div>').attr('class',
+      'fandub_episode_overlay is_disabled').attr(
+      'fandub', fandub).attr('id', id).text(targetEpisode);
 }
 
 function buildOverlayFullCover() {
@@ -168,11 +195,11 @@ function appendLinks(anime, linkHolder, fandubList) {
   for (i in fandubList) {
     var fandub = fandubList[i];
     var fanDubUrl = anime.fanDubUrls[fandub];
-    var fanDubEpisodeName = anime.fanDubEpisodeNames[fandub];
     if (fanDubUrl.startsWith('http')) {
       var link = buildLink('outbound_link ' + fandub + '_background',
           fanDubUrl);
-      link.attr('data-title', fanDubEpisodeName);
+      link.attr('fandub', fandub);
+      registerOutboundLinkEvents(link, fandub, anime);
       linkHolder.append(link);
     }
   }
@@ -182,4 +209,20 @@ function buildLink(targetClass, href) {
   return $('<a target="_blank"></a>')
   .attr('class', targetClass)
   .attr('href', href);
+}
+
+function registerOutboundLinkEvents(outboundLink, fandub, anime) {
+  var id = buildFandubEpisodeOverlayId(anime, fandub);
+  outboundLink.mouseover(function () {
+    changeFandubOverlayClass(fandub, id)
+  });
+  outboundLink.mouseout(function () {
+    changeFandubOverlayClass(fandub, id)
+  });
+}
+
+function changeFandubOverlayClass(fandub, id) {
+  var fandubEpisodeOverlay = $(
+      '[fandub="' + fandub + '"].fandub_episode_overlay#' + id);
+  fandubEpisodeOverlay.toggleClass('is_disabled');
 }
