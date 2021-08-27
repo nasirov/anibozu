@@ -75,19 +75,18 @@ a {
   display: inline-block;
   width: 225px;
   height: 320px;
-  margin: 0.25rem;
+  margin: 1%;
+  border: 4px solid rgb(46, 81, 162);
 }
 
 .overlay {
   display: none;
-  background: rgba(255, 192, 203, 0.7);
+  background: rgba(46, 81, 162, 0.7);
 }
 
 .link_holder {
-  position: absolute;
-  top: 15%;
-  width: 100%;
-  max-width: 100%;
+  display: flex;
+  justify-content: space-evenly;
 }
 
 .outbound_link {
@@ -99,11 +98,12 @@ a {
   margin: 1% 3%;
   display: inline-block;
   z-index: 500;
+  background-color: rgba(255, 192, 203, 0.7);
 }
 
 .mal_episode_overlay {
   position: absolute;
-  background: rgba(255, 192, 203, 0.7);
+  background: rgba(46, 81, 162, 0.7);
   top: 0;
   left: 0;
   z-index: 10;
@@ -115,7 +115,7 @@ a {
 
 .fandub_episode_overlay {
   position: absolute;
-  background: rgba(255, 192, 203, 0.7);
+  background: rgba(46, 81, 162, 0.7);
   bottom: 0;
   left: 0;
   z-index: 10;
@@ -163,10 +163,44 @@ a {
   font-size: x-small;
 }
 
-.is_left {
+.is_text_left {
   text-align: left;
 }
 
 .is_disabled {
   display: none;
+}
+
+.fandub_slider {
+  position: absolute;
+  top: 25%;
+  width: 100%;
+  max-width: 100%;
+}
+
+.slider_arrow {
+  position: absolute;
+  height: 48px;
+  width: 48px;
+  top: 13%;
+  z-index: 1000;
+  user-select: none;
+}
+
+.slider_arrow:hover {
+  transform: scale(1.3);
+}
+
+.slider_arrow:focus {
+  outline: 0;
+}
+
+.is_left_arrow {
+  left: 0;
+  margin-left: -30px;
+}
+
+.is_right_arrow {
+  right: 0;
+  margin-right: -30px;
 }

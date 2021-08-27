@@ -20,7 +20,7 @@
           <input type="text" id="username" name="username" value="" class="nes-input" placeholder="Enter MAL username..."
                  title="Please enter a valid mal username between 2 and 16 characters(latin letters, numbers, underscores and dashes only)" autofocus>
           <div class="nes-field">Choose At Least One FanDub Site</div>
-          <table class="width_full font_x-small is_left">
+          <table class="width_full font_x-small is_text_left">
             <tbody>
             <tr>
               <td>
