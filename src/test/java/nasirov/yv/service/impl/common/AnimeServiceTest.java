@@ -6,6 +6,7 @@ import static nasirov.yv.fandub.service.spring.boot.starter.constant.FanDubSourc
 import static nasirov.yv.fandub.service.spring.boot.starter.constant.FanDubSource.ANILIBRIA;
 import static nasirov.yv.fandub.service.spring.boot.starter.constant.FanDubSource.ANIMEDIA;
 import static nasirov.yv.fandub.service.spring.boot.starter.constant.FanDubSource.ANIMEPIK;
+import static nasirov.yv.fandub.service.spring.boot.starter.constant.FanDubSource.ANYTHING_GROUP;
 import static nasirov.yv.fandub.service.spring.boot.starter.constant.FanDubSource.JAMCLUB;
 import static nasirov.yv.fandub.service.spring.boot.starter.constant.FanDubSource.JISEDAI;
 import static nasirov.yv.fandub.service.spring.boot.starter.constant.FanDubSource.JUTSU;
@@ -17,6 +18,7 @@ import static nasirov.yv.utils.CommonTitleTestBuilder.ANIDUB_EPISODE_NAME;
 import static nasirov.yv.utils.CommonTitleTestBuilder.ANILIBRIA_EPISODE_NAME;
 import static nasirov.yv.utils.CommonTitleTestBuilder.ANIMEDIA_EPISODE_NAME;
 import static nasirov.yv.utils.CommonTitleTestBuilder.ANIMEPIK_EPISODE_NAME;
+import static nasirov.yv.utils.CommonTitleTestBuilder.ANYTHING_GROUP_EPISODE_NAME;
 import static nasirov.yv.utils.CommonTitleTestBuilder.JAM_CLUB_EPISODE_NAME;
 import static nasirov.yv.utils.CommonTitleTestBuilder.JISEDAI_EPISODE_NAME;
 import static nasirov.yv.utils.CommonTitleTestBuilder.JUTSU_EPISODE_NAME;
@@ -27,6 +29,7 @@ import static nasirov.yv.utils.TestConstants.ANIDUB_URL;
 import static nasirov.yv.utils.TestConstants.ANILIBRIA_URL;
 import static nasirov.yv.utils.TestConstants.ANIMEDIA_ONLINE_TV;
 import static nasirov.yv.utils.TestConstants.ANIMEPIK_URL;
+import static nasirov.yv.utils.TestConstants.ANYTHING_GROUP_URL;
 import static nasirov.yv.utils.TestConstants.CONCRETIZED_TITLE_MAL_ANIME_URL;
 import static nasirov.yv.utils.TestConstants.CONCRETIZED_TITLE_ORIGINAL_NAME;
 import static nasirov.yv.utils.TestConstants.CONCRETIZED_TITLE_POSTER_URL;
@@ -43,6 +46,7 @@ import static nasirov.yv.utils.TestConstants.REGULAR_TITLE_ANIDUB_URL;
 import static nasirov.yv.utils.TestConstants.REGULAR_TITLE_ANILIBRIA_URL;
 import static nasirov.yv.utils.TestConstants.REGULAR_TITLE_ANIMEDIA_URL;
 import static nasirov.yv.utils.TestConstants.REGULAR_TITLE_ANIMEPIK_URL;
+import static nasirov.yv.utils.TestConstants.REGULAR_TITLE_ANYTHING_GROUP_URL;
 import static nasirov.yv.utils.TestConstants.REGULAR_TITLE_JAM_CLUB_URL;
 import static nasirov.yv.utils.TestConstants.REGULAR_TITLE_JISEDAI_URL;
 import static nasirov.yv.utils.TestConstants.REGULAR_TITLE_JUTSU_URL;
@@ -73,6 +77,7 @@ import nasirov.yv.service.impl.fandub.AnidubEpisodeNameAndUrlService;
 import nasirov.yv.service.impl.fandub.AnilibriaEpisodeNameAndUrlService;
 import nasirov.yv.service.impl.fandub.AnimediaEpisodeNameAndUrlService;
 import nasirov.yv.service.impl.fandub.AnimepikEpisodeNameAndUrlService;
+import nasirov.yv.service.impl.fandub.AnythingGroupEpisodeNameAndUrlService;
 import nasirov.yv.service.impl.fandub.JamClubEpisodeNameAndUrlService;
 import nasirov.yv.service.impl.fandub.JisedaiEpisodeNameAndUrlService;
 import nasirov.yv.service.impl.fandub.JutsuEpisodeNameAndUrlService;
@@ -113,6 +118,8 @@ public class AnimeServiceTest {
 
 	private static final String EPISODE_URL_ON_JAM_CLUB = JAM_CLUB_URL + REGULAR_TITLE_JAM_CLUB_URL;
 
+	private static final String EPISODE_URL_ON_ANYTHING_GROUP = ANYTHING_GROUP_URL + REGULAR_TITLE_ANYTHING_GROUP_URL;
+
 	@Mock
 	private AnimediaEpisodeNameAndUrlService animediaEpisodeUrlService;
 
@@ -143,6 +150,9 @@ public class AnimeServiceTest {
 	@Mock
 	private JamClubEpisodeNameAndUrlService jamClubEpisodeNameAndUrlService;
 
+	@Mock
+	private AnythingGroupEpisodeNameAndUrlService anythingGroupEpisodeNameAndUrlService;
+
 	private AnimeServiceI animeService;
 
 	@BeforeEach
@@ -158,6 +168,7 @@ public class AnimeServiceTest {
 		episodeUrlStrategy.put(SOVETROMANTICA, sovetRomanticaEpisodeUrlService);
 		episodeUrlStrategy.put(SHIZAPROJECT, shizaProjectEpisodeUrlService);
 		episodeUrlStrategy.put(JAMCLUB, jamClubEpisodeNameAndUrlService);
+		episodeUrlStrategy.put(ANYTHING_GROUP, anythingGroupEpisodeNameAndUrlService);
 		animeService = new AnimeService(episodeUrlStrategy);
 	}
 
@@ -189,8 +200,10 @@ public class AnimeServiceTest {
 				EPISODE_URL_ON_JUTSU,
 				EPISODE_URL_ON_SOVET_ROMANTICA,
 				EPISODE_URL_ON_SHIZA_PROJECT,
-				EPISODE_URL_ON_JAM_CLUB);
+				EPISODE_URL_ON_JAM_CLUB,
+				EPISODE_URL_ON_ANYTHING_GROUP);
 		mockEpisodeUrlServices(buildConcretizedTitle(),
+				NOT_AVAILABLE_EPISODE_URL,
 				NOT_AVAILABLE_EPISODE_URL,
 				NOT_AVAILABLE_EPISODE_URL,
 				NOT_AVAILABLE_EPISODE_URL,
@@ -211,6 +224,7 @@ public class AnimeServiceTest {
 				TITLE_NOT_FOUND_EPISODE_URL,
 				TITLE_NOT_FOUND_EPISODE_URL,
 				TITLE_NOT_FOUND_EPISODE_URL,
+				TITLE_NOT_FOUND_EPISODE_URL,
 				TITLE_NOT_FOUND_EPISODE_URL);
 	}
 
@@ -220,7 +234,7 @@ public class AnimeServiceTest {
 
 	private void mockEpisodeUrlServices(MalTitle watchingTitle, String episodeUrlOnAnimedia, String episodeUrlOnNineAnime, String episodeUrlOnAnidub,
 			String episodeUrlOnJisedai, String episodeUrlOnAnimepik, String episodeUrlOnAnilibria, String episodeUrlOnJutsu,
-			String episodeUrlOnSovetRomantica, String episodeUrlOnShizaProject, String episodeUrlOnJamClub) {
+			String episodeUrlOnSovetRomantica, String episodeUrlOnShizaProject, String episodeUrlOnJamClub, String episodeUrlOnAnythingGroup) {
 		doReturn(Mono.just(Pair.of(ANIMEDIA_EPISODE_NAME, episodeUrlOnAnimedia))).when(animediaEpisodeUrlService)
 				.getEpisodeNameAndUrl(watchingTitle);
 		doReturn(Mono.just(Pair.of(NINE_ANIME_EPISODE_NAME, episodeUrlOnNineAnime))).when(nineAnimeEpisodeUrlService)
@@ -241,6 +255,8 @@ public class AnimeServiceTest {
 				.getEpisodeNameAndUrl(watchingTitle);
 		doReturn(Mono.just(Pair.of(JAM_CLUB_EPISODE_NAME, episodeUrlOnJamClub))).when(jamClubEpisodeNameAndUrlService)
 				.getEpisodeNameAndUrl(watchingTitle);
+		doReturn(Mono.just(Pair.of(ANYTHING_GROUP_EPISODE_NAME, episodeUrlOnAnythingGroup))).when(anythingGroupEpisodeNameAndUrlService)
+				.getEpisodeNameAndUrl(watchingTitle);
 	}
 
 	private Set<Anime> buildExpectedAnime() {
@@ -254,8 +270,10 @@ public class AnimeServiceTest {
 				EPISODE_URL_ON_JUTSU,
 				EPISODE_URL_ON_SOVET_ROMANTICA,
 				EPISODE_URL_ON_SHIZA_PROJECT,
-				EPISODE_URL_ON_JAM_CLUB),
+				EPISODE_URL_ON_JAM_CLUB,
+				EPISODE_URL_ON_ANYTHING_GROUP),
 				buildAnime(buildConcretizedTitle(),
+						NOT_AVAILABLE_EPISODE_URL,
 						NOT_AVAILABLE_EPISODE_URL,
 						NOT_AVAILABLE_EPISODE_URL,
 						NOT_AVAILABLE_EPISODE_URL,
@@ -276,12 +294,13 @@ public class AnimeServiceTest {
 						TITLE_NOT_FOUND_EPISODE_URL,
 						TITLE_NOT_FOUND_EPISODE_URL,
 						TITLE_NOT_FOUND_EPISODE_URL,
+						TITLE_NOT_FOUND_EPISODE_URL,
 						TITLE_NOT_FOUND_EPISODE_URL));
 	}
 
 	private Anime buildAnime(MalTitle watchingTitle, String episodeUrlOnAnimedia, String episodeUrlOnNineAnime, String episodeUrlOnAnidub,
 			String episodeUrlOnJisedai, String episodeUrlOnAnimepik, String episodeUrlOnAnilibria, String episodeUrlOnJutsu,
-			String episodeUrlOnSovetRomantica, String episodeUrlOnShizaProject, String episodeUrlOnJamClub) {
+			String episodeUrlOnSovetRomantica, String episodeUrlOnShizaProject, String episodeUrlOnJamClub, String episodeUrlOnAnythingGroup) {
 		return Anime.builder()
 				.animeName(watchingTitle.getName())
 				.malEpisodeNumber(getNextEpisodeForWatch(watchingTitle).toString())
@@ -297,6 +316,7 @@ public class AnimeServiceTest {
 				.fanDubUrl(SOVETROMANTICA, episodeUrlOnSovetRomantica)
 				.fanDubUrl(SHIZAPROJECT, episodeUrlOnShizaProject)
 				.fanDubUrl(JAMCLUB, episodeUrlOnJamClub)
+				.fanDubUrl(ANYTHING_GROUP, episodeUrlOnAnythingGroup)
 				.fanDubEpisodeName(ANIMEDIA, ANIMEDIA_EPISODE_NAME)
 				.fanDubEpisodeName(NINEANIME, NINE_ANIME_EPISODE_NAME)
 				.fanDubEpisodeName(ANIDUB, ANIDUB_EPISODE_NAME)
@@ -307,6 +327,7 @@ public class AnimeServiceTest {
 				.fanDubEpisodeName(SOVETROMANTICA, SOVET_ROMANTICA_EPISODE_NAME)
 				.fanDubEpisodeName(SHIZAPROJECT, SHIZA_PROJECT_EPISODE_NAME)
 				.fanDubEpisodeName(JAMCLUB, JAM_CLUB_EPISODE_NAME)
+				.fanDubEpisodeName(ANYTHING_GROUP, ANYTHING_GROUP_EPISODE_NAME)
 				.build();
 	}
 

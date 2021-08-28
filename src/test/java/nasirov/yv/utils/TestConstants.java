@@ -19,6 +19,7 @@ public class TestConstants {
 	public static final String REGULAR_TITLE_SOVET_ROMANTICA_URL = "anime/1-regular-title-url";
 	public static final String REGULAR_TITLE_SHIZA_PROJECT_URL = "releases/regular-title-url-1";
 	public static final String REGULAR_TITLE_JAM_CLUB_URL = "1-regular-title-url.html";
+	public static final String REGULAR_TITLE_ANYTHING_GROUP_URL = "relise/1-regular-title-url.html";
 	public static final String REGULAR_TITLE_POSTER_URL = "images/anime/2/regularTitle.jpg";
 	public static final String REGULAR_TITLE_MAL_ANIME_URL = "/anime/2/regular%20title%20name";
 
@@ -39,6 +40,7 @@ public class TestConstants {
 	public static final String CONCRETIZED_TITLE_SOVET_ROMANTICA_URL = "anime/2-concretized-title-url";
 	public static final String CONCRETIZED_TITLE_SHIZA_PROJECT_URL = "releases/view/2";
 	public static final String CONCRETIZED_TITLE_JAM_CLUB_URL = "2-concretized-title-url.html";
+	public static final String CONCRETIZED_TITLE_ANYTHING_GROUP_URL = "relise/2-concretized-title-url.html";
 	public static final String CONCRETIZED_TITLE_POSTER_URL = "images/anime/3/concretizedTitle.jpg";
 	public static final String CONCRETIZED_TITLE_MAL_ANIME_URL = "/anime/3/concretizedTitle";
 
@@ -59,6 +61,7 @@ public class TestConstants {
 	public static final String NOT_FOUND_ON_MAL_TITLE_SOVET_ROMANTICA_URL = "anime/3-not-found-on-mal-title-url";
 	public static final String NOT_FOUND_ON_MAL_TITLE_SHIZA_PROJECT_URL = "releases/view/3";
 	public static final String NOT_FOUND_ON_MAL_TITLE_JAM_CLUB_URL = "3-not-found-on-mal-title-url.html";
+	public static final String NOT_FOUND_ON_MAL_TITLE_ANYTHING_GROUP_URL = "relise/3-not-found-on-mal-title-url.html";
 	public static final String NOT_FOUND_ON_MAL_TITLE_POSTER_URL = "images/anime/4/notFoundOnMalTitle.jpg";
 	public static final String NOT_FOUND_ON_MAL_TITLE_MAL_ANIME_URL = "/anime/4/notFoundOnMalTitle";
 
@@ -82,6 +85,7 @@ public class TestConstants {
 	public static final String SOVET_ROMANTICA_DDOS_GUARD_URL = "https://check.ddos-guard.net/";
 	public static final String SHIZA_PROJECT_URL = "https://shiza-project.com/";
 	public static final String JAM_CLUB_URL = "https://jamclub.cc/";
+	public static final String ANYTHING_GROUP_URL = "https://a-g.site/";
 
 	public static final String TEST_ACC_FOR_DEV = "testaccfordev";
 

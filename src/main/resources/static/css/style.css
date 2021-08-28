@@ -62,6 +62,11 @@ a {
   background-size: 40px 40px;
 }
 
+.ANYTHING_GROUP_background {
+  background: url('../img/fandub/anything-group-logo.png') no-repeat center;
+  background-size: 40px 40px;
+}
+
 .full_cover {
   position: absolute;
   top: 0;

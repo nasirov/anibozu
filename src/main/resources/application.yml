@@ -21,6 +21,7 @@ application:
       SHIZAPROJECT: true
       SOVETROMANTICA: true
       JAMCLUB: true
+      ANYTHING_GROUP: true
   feign:
     enabled: false
   web-client:

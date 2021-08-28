@@ -14,6 +14,7 @@ The application analyzes a user watching titles list from **[MyAnimeList](https:
 | [![anilibria](/images/favicons/anilibria.png)](https://www.anilibria.tv/) **[Anilibria](https://www.anilibria.tv/)**  | :heavy_minus_sign: |
 | [![animepik](/images/favicons/animepik.png)](https://animepik.org/) **[AnimePiK](https://animepik.org/)**  | :heavy_minus_sign: |
 | [![animedia](/images/favicons/animedia.png)](https://online.animedia.tv/) **[Animedia](https://online.animedia.tv/)**  | :heavy_plus_sign: |
+| [![anythingGroup](/images/favicons/anythingGroup.png)](https://a-g.site/) **[Anything Group](https://a-g.site/)**  | :heavy_plus_sign: |
 | [![jamClub](/images/favicons/jamClub.png)](https://jamclub.cc/) **[JamClub](https://jamclub.cc/)**  | :heavy_minus_sign: |
 | [![jisedai](/images/favicons/jisedai.png)](https://jisedai.tv/) **[Jisedai](https://jisedai.tv/)**  | :heavy_minus_sign: |
 | [![jutsu](/images/favicons/jutsu.png)](https://jut.su/) **[Jutsu](https://jut.su/)**  | :heavy_plus_sign: |

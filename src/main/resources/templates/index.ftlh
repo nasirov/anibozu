@@ -89,6 +89,12 @@
                   <span>SovetRomantica</span>
                 </label>
               </td>
+              <td>
+                <label>
+                  <input id="anythingGroup-checkbox" type="checkbox" class="nes-checkbox" name="fanDubSources" value="${anythingGroup}"/>
+                  <span>Anything Group</span>
+                </label>
+              </td>
             </tr>
             </tbody>
           </table>
