@@ -8,15 +8,13 @@ import nasirov.yv.data.properties.CommonProps;
 import nasirov.yv.fandub.service.spring.boot.starter.constant.FanDubSource;
 import nasirov.yv.fandub.service.spring.boot.starter.dto.fandub.common.CommonTitle;
 import nasirov.yv.fandub.service.spring.boot.starter.dto.fandub.common.FandubEpisode;
-import nasirov.yv.fandub.service.spring.boot.starter.dto.selenium_service.SeleniumServiceRequestDto;
-import nasirov.yv.fandub.service.spring.boot.starter.extractor.parser.NineAnimeParserI;
 import nasirov.yv.fandub.service.spring.boot.starter.properties.FanDubProps;
 import nasirov.yv.fandub.service.spring.boot.starter.service.HttpRequestServiceI;
+import nasirov.yv.fandub.service.spring.boot.starter.service.ReactiveNineAnimeServiceI;
 import nasirov.yv.service.HttpRequestServiceDtoBuilderI;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.tuple.Pair;
-import org.jsoup.Jsoup;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -28,24 +26,17 @@ import reactor.core.publisher.Mono;
 @Service
 public class NineAnimeEpisodeNameAndUrlService extends AbstractEpisodeNameAndUrlService {
 
-	private final NineAnimeParserI nineAnimeParser;
+	private final ReactiveNineAnimeServiceI reactiveNineAnimeService;
 
 	public NineAnimeEpisodeNameAndUrlService(FanDubProps fanDubProps, CommonProps commonProps, HttpRequestServiceI httpRequestService,
-			NineAnimeParserI nineAnimeParser, HttpRequestServiceDtoBuilderI httpRequestServiceDtoBuilder) {
+			HttpRequestServiceDtoBuilderI httpRequestServiceDtoBuilder, ReactiveNineAnimeServiceI reactiveNineAnimeService) {
 		super(fanDubProps, commonProps, httpRequestService, httpRequestServiceDtoBuilder, FanDubSource.NINEANIME);
-		this.nineAnimeParser = nineAnimeParser;
+		this.reactiveNineAnimeService = reactiveNineAnimeService;
 	}
 
 	@Override
 	protected Mono<List<FandubEpisode>> getEpisodes(CommonTitle commonTitle) {
-		return httpRequestService.performHttpRequest(httpRequestServiceDtoBuilder.seleniumService(SeleniumServiceRequestDto.builder()
-				.url(fanDubProps.getUrls()
-						.get(FanDubSource.NINEANIME) + "watch/" + commonTitle.getId())
-				.timeoutInSec(15)
-				.cssSelector("ul.episodes >li")
-				.build()))
-				.map(Jsoup::parse)
-				.map(nineAnimeParser::extractEpisodes);
+		return reactiveNineAnimeService.getTitleEpisodes(commonTitle.getId());
 	}
 
 	@Override

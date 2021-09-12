@@ -6,12 +6,12 @@
   <parent>
     <groupId>nasirov.yv</groupId>
     <artifactId>fandub-service-parent</artifactId>
-    <version>1.0.0</version>
+    <version>1.0.2</version>
     <relativePath/>
   </parent>
 
   <artifactId>anime-checker</artifactId>
-  <version>3.8.8</version>
+  <version>3.8.9</version>
   <name>anime-checker</name>
   <description>The application analyzes a user watching titles list from MyAnimeList(https://myanimelist.net/) and searches for new episodes on
     FanDub Sites
@@ -20,7 +20,7 @@
 
   <properties>
     <docker.buildArg.JAR_FILE>target/${project.build.finalName}.jar</docker.buildArg.JAR_FILE>
-    <fandub-service-spring-boot-starter.version>19.0.3</fandub-service-spring-boot-starter.version>
+    <fandub-service-spring-boot-starter.version>20.0.1</fandub-service-spring-boot-starter.version>
   </properties>
 
   <dependencies>

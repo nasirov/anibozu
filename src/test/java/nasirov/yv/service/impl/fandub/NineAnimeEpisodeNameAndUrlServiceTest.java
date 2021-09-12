@@ -4,18 +4,14 @@ import static nasirov.yv.utils.CommonTitleTestBuilder.NINE_ANIME_EPISODE_NAME;
 import static nasirov.yv.utils.TestConstants.NINE_ANIME_TO;
 import static nasirov.yv.utils.TestConstants.REGULAR_TITLE_NINE_ANIME_URL;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.ArgumentMatchers.argThat;
 import static org.mockito.Mockito.doReturn;
-import static org.mockito.Mockito.mock;
 
 import com.google.common.collect.Lists;
 import java.util.List;
 import nasirov.yv.fandub.service.spring.boot.starter.constant.FanDubSource;
 import nasirov.yv.fandub.service.spring.boot.starter.dto.fandub.common.CommonTitle;
 import nasirov.yv.fandub.service.spring.boot.starter.dto.fandub.common.FandubEpisode;
-import nasirov.yv.fandub.service.spring.boot.starter.dto.http_request_service.HttpRequestServiceDto;
-import nasirov.yv.fandub.service.spring.boot.starter.dto.selenium_service.SeleniumServiceRequestDto;
-import nasirov.yv.fandub.service.spring.boot.starter.extractor.parser.NineAnimeParserI;
+import nasirov.yv.fandub.service.spring.boot.starter.service.ReactiveNineAnimeServiceI;
 import nasirov.yv.service.EpisodeNameAndUrlServiceI;
 import org.apache.commons.lang3.tuple.Pair;
 import org.junit.jupiter.api.Test;
@@ -29,12 +25,12 @@ import reactor.core.publisher.Mono;
  * @author Nasirov Yuriy
  */
 @ExtendWith(MockitoExtension.class)
-public class NineAnimeEpisodeNameAndUrlServiceTest extends AbstractEpisodeNameAndUrlsServiceTest<String> {
+public class NineAnimeEpisodeNameAndUrlServiceTest extends AbstractEpisodeNameAndUrlsServiceTest<List<FandubEpisode>> {
 
 	private static final String RUNTIME_EPISODE_NAME = "2";
 
 	@Mock
-	private NineAnimeParserI nineAnimeParser;
+	private ReactiveNineAnimeServiceI reactiveNineAnimeService;
 
 	@InjectMocks
 	private NineAnimeEpisodeNameAndUrlService nineAnimeEpisodeUrlService;
@@ -70,8 +66,8 @@ public class NineAnimeEpisodeNameAndUrlServiceTest extends AbstractEpisodeNameAn
 	}
 
 	@Override
-	protected String getRuntimeExpectedResponse() {
-		return "foobar";
+	protected List<FandubEpisode> getRuntimeExpectedResponse() {
+		return getFandubEpisodes();
 	}
 
 	@Override
@@ -80,16 +76,9 @@ public class NineAnimeEpisodeNameAndUrlServiceTest extends AbstractEpisodeNameAn
 	}
 
 	@Override
-	protected void mockGetRuntimeResponse(String runtimeExpectedResponse, CommonTitle commonTitle) {
-		HttpRequestServiceDto<String> httpRequestServiceDto = mock(HttpRequestServiceDto.class);
-		doReturn(httpRequestServiceDto).when(httpRequestServiceDtoBuilder)
-				.seleniumService(SeleniumServiceRequestDto.builder()
-						.url(getFandubUrl() + "watch/" + commonTitle.getId())
-						.timeoutInSec(15)
-						.cssSelector("ul.episodes >li")
-						.build());
-		doReturn(Mono.just(runtimeExpectedResponse)).when(httpRequestService)
-				.performHttpRequest(httpRequestServiceDto);
+	protected void mockGetRuntimeResponse(List<FandubEpisode> runtimeExpectedResponse, CommonTitle commonTitle) {
+		doReturn(Mono.just(runtimeExpectedResponse)).when(reactiveNineAnimeService)
+				.getTitleEpisodes(commonTitle.getId());
 	}
 
 	@Override
@@ -129,10 +118,6 @@ public class NineAnimeEpisodeNameAndUrlServiceTest extends AbstractEpisodeNameAn
 	}
 
 	@Override
-	protected void mockParser(String runtimeExpectedResponse) {
-		List<FandubEpisode> fandubEpisodes = getFandubEpisodes();
-		doReturn(fandubEpisodes).when(nineAnimeParser)
-				.extractEpisodes(argThat(x -> x.text()
-						.equals(runtimeExpectedResponse)));
+	protected void mockParser(List<FandubEpisode> runtimeExpectedResponse) {
 	}
 }
