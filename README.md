@@ -31,7 +31,7 @@ The application analyzes a user watching titles list from **[MyAnimeList](https:
 ![Flow](/images/flow.gif)
 
 1. Open **[Anime Checker](https://anime-checker.herokuapp.com/)** via an **[EventSource compatible browser](https://developer.mozilla.org/en-US/docs/Web/API/EventSource#Browser_compatibility)**  with enabled JavaScript
-2. Enter a username from **[MyAnimeList](https://myanimelist.net/)**
+2. Enter your **[MyAnimeList](https://myanimelist.net/)** username. **Your anime list must be public!**
 3. Choose at least one FanDub site
 4. Submit form
 
