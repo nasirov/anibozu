@@ -11,7 +11,7 @@
   </parent>
 
   <artifactId>anime-checker</artifactId>
-  <version>3.8.10</version>
+  <version>3.8.11</version>
   <name>anime-checker</name>
   <description>The application analyzes a user watching titles list from MyAnimeList(https://myanimelist.net/) and searches for new episodes on
     FanDub Sites
@@ -149,13 +149,6 @@
             <image>
               <alias>heroku</alias>
               <name>registry.heroku.com/anime-checker/web</name>
-              <build>
-                <contextDir>${project.basedir}</contextDir>
-              </build>
-            </image>
-            <image>
-              <alias>docker</alias>
-              <name>nasirov/anime-checker</name>
               <build>
                 <contextDir>${project.basedir}</contextDir>
               </build>

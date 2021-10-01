@@ -1,5 +1,4 @@
 #!/bin/sh
-docker login -u $DOCKER_USER -p $DOCKER_PASS
 docker login -u $HEROKU_USERNAME -p $HEROKU_API_KEY registry.heroku.com
 mvn docker:build
 mvn docker:push

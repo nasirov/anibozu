@@ -3,7 +3,7 @@ version: '3.8'
 services:
 
   anime-checker:
-    image: nasirov/anime-checker
+    image: registry.heroku.com/anime-checker/web
     container_name: anime-checker
     restart: on-failure
     ports:
