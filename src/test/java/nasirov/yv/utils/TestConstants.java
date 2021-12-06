@@ -84,7 +84,7 @@ public class TestConstants {
 	public static final String SOVET_ROMANTICA_URL = "https://sovetromantica.com/";
 	public static final String SOVET_ROMANTICA_DDOS_GUARD_URL = "https://check.ddos-guard.net/";
 	public static final String SHIZA_PROJECT_URL = "https://shiza-project.com/";
-	public static final String JAM_CLUB_URL = "https://jamclub.cc/";
+	public static final String JAM_CLUB_URL = "https://jam-club.org/";
 	public static final String ANYTHING_GROUP_URL = "https://a-g.site/";
 
 	public static final String TEST_ACC_FOR_DEV = "testaccfordev";

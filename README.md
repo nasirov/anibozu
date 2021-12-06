@@ -15,7 +15,7 @@ The application analyzes a user watching titles list from **[MyAnimeList](https:
 | [![animepik](/images/favicons/animepik.png)](https://animepik.org/) **[AnimePiK](https://animepik.org/)**  | :heavy_minus_sign: |
 | [![animedia](/images/favicons/animedia.png)](https://online.animedia.tv/) **[Animedia](https://online.animedia.tv/)**  | :heavy_plus_sign: |
 | [![anythingGroup](/images/favicons/anythingGroup.png)](https://a-g.site/) **[Anything Group](https://a-g.site/)**  | :heavy_plus_sign: |
-| [![jamClub](/images/favicons/jamClub.png)](https://jamclub.cc/) **[JamClub](https://jamclub.cc/)**  | :heavy_minus_sign: |
+| [![jamClub](/images/favicons/jamClub.png)](https://jam-club.org/) **[JamClub](https://jam-club.org/)**  | :heavy_minus_sign: |
 | [![jisedai](/images/favicons/jisedai.png)](https://jisedai.tv/) **[Jisedai](https://jisedai.tv/)**  | :heavy_minus_sign: |
 | [![jutsu](/images/favicons/jutsu.png)](https://jut.su/) **[Jutsu](https://jut.su/)**  | :heavy_plus_sign: |
 | [![shizaProject](/images/favicons/shizaProject.png)](https://shiza-project.com/) **[ShizaProject](https://shiza-project.com/)**  | :heavy_minus_sign: |
