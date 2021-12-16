@@ -27,8 +27,8 @@ application:
   web-client:
     enabled: true
     compress: true
-    connection-timeout: 5s
-    max-attempts: 5
+    connection-timeout: 10s
+    max-attempts: 0
     min-backoff: 100ms
     max-backoff: 1s
   amqp:

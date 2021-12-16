@@ -11,7 +11,7 @@
   </parent>
 
   <artifactId>anime-checker</artifactId>
-  <version>3.8.15</version>
+  <version>3.8.16</version>
   <name>anime-checker</name>
   <description>The application analyzes a user watching titles list from MyAnimeList(https://myanimelist.net/) and searches for new episodes on
     FanDub Sites
