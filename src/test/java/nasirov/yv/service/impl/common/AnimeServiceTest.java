@@ -27,16 +27,6 @@ import static nasirov.yv.utils.CommonTitleTestBuilder.JUTSU_EPISODE_NAME;
 import static nasirov.yv.utils.CommonTitleTestBuilder.NINE_ANIME_EPISODE_NAME;
 import static nasirov.yv.utils.CommonTitleTestBuilder.SHIZA_PROJECT_EPISODE_NAME;
 import static nasirov.yv.utils.CommonTitleTestBuilder.SOVET_ROMANTICA_EPISODE_NAME;
-import static nasirov.yv.utils.TestConstants.CONCRETIZED_TITLE_MAL_ANIME_URL;
-import static nasirov.yv.utils.TestConstants.CONCRETIZED_TITLE_MAL_ID;
-import static nasirov.yv.utils.TestConstants.CONCRETIZED_TITLE_ORIGINAL_NAME;
-import static nasirov.yv.utils.TestConstants.CONCRETIZED_TITLE_POSTER_URL;
-import static nasirov.yv.utils.TestConstants.MY_ANIME_LIST_STATIC_CONTENT_URL;
-import static nasirov.yv.utils.TestConstants.MY_ANIME_LIST_URL;
-import static nasirov.yv.utils.TestConstants.NOT_FOUND_ON_FANDUB_TITLE_ID;
-import static nasirov.yv.utils.TestConstants.NOT_FOUND_ON_FANDUB_TITLE_MAL_ANIME_URL;
-import static nasirov.yv.utils.TestConstants.NOT_FOUND_ON_FANDUB_TITLE_ORIGINAL_NAME;
-import static nasirov.yv.utils.TestConstants.NOT_FOUND_ON_FANDUB_TITLE_POSTER_URL;
 import static nasirov.yv.utils.TestConstants.REGULAR_TITLE_ANIDUB_URL;
 import static nasirov.yv.utils.TestConstants.REGULAR_TITLE_ANILIBRIA_URL;
 import static nasirov.yv.utils.TestConstants.REGULAR_TITLE_ANIMEDIA_URL;
@@ -45,33 +35,19 @@ import static nasirov.yv.utils.TestConstants.REGULAR_TITLE_ANYTHING_GROUP_URL;
 import static nasirov.yv.utils.TestConstants.REGULAR_TITLE_JAM_CLUB_URL;
 import static nasirov.yv.utils.TestConstants.REGULAR_TITLE_JISEDAI_URL;
 import static nasirov.yv.utils.TestConstants.REGULAR_TITLE_JUTSU_URL;
-import static nasirov.yv.utils.TestConstants.REGULAR_TITLE_MAL_ANIME_URL;
-import static nasirov.yv.utils.TestConstants.REGULAR_TITLE_MAL_ID;
 import static nasirov.yv.utils.TestConstants.REGULAR_TITLE_NINE_ANIME_URL;
-import static nasirov.yv.utils.TestConstants.REGULAR_TITLE_ORIGINAL_NAME;
-import static nasirov.yv.utils.TestConstants.REGULAR_TITLE_POSTER_URL;
 import static nasirov.yv.utils.TestConstants.REGULAR_TITLE_SHIZA_PROJECT_URL;
 import static nasirov.yv.utils.TestConstants.REGULAR_TITLE_SOVET_ROMANTICA_URL;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.ArgumentMatchers.argThat;
-import static org.mockito.Mockito.doReturn;
 
-import com.google.common.collect.Lists;
-import java.util.Collections;
 import java.util.LinkedHashSet;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.function.Function;
-import java.util.stream.Collectors;
 import nasirov.yv.AbstractTest;
 import nasirov.yv.data.front.Anime;
 import nasirov.yv.fandub.service.spring.boot.starter.constant.FanDubSource;
-import nasirov.yv.fandub.service.spring.boot.starter.dto.fandub.common.CommonTitle;
 import nasirov.yv.fandub.service.spring.boot.starter.dto.mal.MalTitle;
-import nasirov.yv.utils.CommonTitleTestBuilder;
 import org.junit.jupiter.api.Test;
-import reactor.core.publisher.Mono;
 
 /**
  * @author Nasirov Yuriy
@@ -118,29 +94,6 @@ class AnimeServiceTest extends AbstractTest {
 				.block();
 		//then
 		assertEquals(expectedAnime, result);
-	}
-
-	private Map<FanDubSource, List<CommonTitle>> buildRegularCommonTitles(Set<FanDubSource> fanDubSources) {
-		return fanDubSources.stream()
-				.collect(Collectors.toMap(Function.identity(), x -> Lists.newArrayList(CommonTitleTestBuilder.buildRegularTitle(x))));
-	}
-
-	private Map<FanDubSource, List<CommonTitle>> buildConcretizedCommonTitles(Set<FanDubSource> fanDubSources) {
-		return fanDubSources.stream()
-				.collect(Collectors.toMap(Function.identity(), x -> Lists.newArrayList(CommonTitleTestBuilder.buildConcretizedTitle(x))));
-	}
-
-	private Map<FanDubSource, List<CommonTitle>> buildNotFoundOnFandubCommonTitles(Set<FanDubSource> fanDubSources) {
-		return fanDubSources.stream()
-				.collect(Collectors.toMap(Function.identity(), x -> Collections.emptyList()));
-	}
-
-	private void mockGetCommonTitles(MalTitle malTitle, Map<FanDubSource, List<CommonTitle>> commonTitles, Set<FanDubSource> fanDubSources) {
-		doReturn(Mono.just(commonTitles)).when(httpRequestService)
-				.performHttpRequest(argThat(x -> x.getUrl()
-						.equals(externalServicesProps.getFandubTitlesServiceUrl() + "titles?fanDubSources=" + fanDubSources.stream()
-								.map(FanDubSource::name)
-								.collect(Collectors.joining(",")) + "&malId=" + malTitle.getId() + "&malEpisodeId=" + (malTitle.getNumWatchedEpisodes() + 1))));
 	}
 
 	private Set<FanDubSource> buildOrderedFanDubSources() {
@@ -239,36 +192,6 @@ class AnimeServiceTest extends AbstractTest {
 				.fanDubEpisodeName(SHIZAPROJECT, episodeNameForAll == null ? SHIZA_PROJECT_EPISODE_NAME : episodeNameForAll)
 				.fanDubEpisodeName(JAMCLUB, episodeNameForAll == null ? JAM_CLUB_EPISODE_NAME : episodeNameForAll)
 				.fanDubEpisodeName(ANYTHING_GROUP, episodeNameForAll == null ? ANYTHING_GROUP_EPISODE_NAME : episodeNameForAll)
-				.build();
-	}
-
-	private MalTitle buildRegularTitle() {
-		return buildWatchingTitle(REGULAR_TITLE_ORIGINAL_NAME, REGULAR_TITLE_POSTER_URL, REGULAR_TITLE_MAL_ANIME_URL, REGULAR_TITLE_MAL_ID, 0);
-	}
-
-	private MalTitle buildNotFoundOnFandubTitle() {
-		return buildWatchingTitle(NOT_FOUND_ON_FANDUB_TITLE_ORIGINAL_NAME,
-				NOT_FOUND_ON_FANDUB_TITLE_POSTER_URL,
-				NOT_FOUND_ON_FANDUB_TITLE_MAL_ANIME_URL,
-				NOT_FOUND_ON_FANDUB_TITLE_ID,
-				0);
-	}
-
-	private MalTitle buildConcretizedTitle() {
-		return buildWatchingTitle(CONCRETIZED_TITLE_ORIGINAL_NAME,
-				CONCRETIZED_TITLE_POSTER_URL,
-				CONCRETIZED_TITLE_MAL_ANIME_URL,
-				CONCRETIZED_TITLE_MAL_ID,
-				10);
-	}
-
-	private MalTitle buildWatchingTitle(String titleName, String posterUrl, String animeUrl, int id, int numWatchedEpisodes) {
-		return MalTitle.builder()
-				.id(id)
-				.numWatchedEpisodes(numWatchedEpisodes)
-				.name(titleName)
-				.posterUrl(MY_ANIME_LIST_STATIC_CONTENT_URL + posterUrl)
-				.animeUrl(MY_ANIME_LIST_URL + animeUrl)
 				.build();
 	}
 }

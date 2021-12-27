@@ -1,6 +1,33 @@
 package nasirov.yv;
 
+import static nasirov.yv.utils.TestConstants.CONCRETIZED_TITLE_MAL_ANIME_URL;
+import static nasirov.yv.utils.TestConstants.CONCRETIZED_TITLE_MAL_ID;
+import static nasirov.yv.utils.TestConstants.CONCRETIZED_TITLE_ORIGINAL_NAME;
+import static nasirov.yv.utils.TestConstants.CONCRETIZED_TITLE_POSTER_URL;
+import static nasirov.yv.utils.TestConstants.MY_ANIME_LIST_STATIC_CONTENT_URL;
+import static nasirov.yv.utils.TestConstants.MY_ANIME_LIST_URL;
+import static nasirov.yv.utils.TestConstants.NOT_FOUND_ON_FANDUB_TITLE_ID;
+import static nasirov.yv.utils.TestConstants.NOT_FOUND_ON_FANDUB_TITLE_MAL_ANIME_URL;
+import static nasirov.yv.utils.TestConstants.NOT_FOUND_ON_FANDUB_TITLE_ORIGINAL_NAME;
+import static nasirov.yv.utils.TestConstants.NOT_FOUND_ON_FANDUB_TITLE_POSTER_URL;
+import static nasirov.yv.utils.TestConstants.REGULAR_TITLE_MAL_ANIME_URL;
+import static nasirov.yv.utils.TestConstants.REGULAR_TITLE_MAL_ID;
+import static nasirov.yv.utils.TestConstants.REGULAR_TITLE_ORIGINAL_NAME;
+import static nasirov.yv.utils.TestConstants.REGULAR_TITLE_POSTER_URL;
+import static org.mockito.ArgumentMatchers.argThat;
+import static org.mockito.Mockito.doReturn;
+
+import com.google.common.collect.Lists;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
 import java.util.Objects;
+import java.util.Set;
+import java.util.function.Function;
+import java.util.stream.Collectors;
+import nasirov.yv.fandub.service.spring.boot.starter.constant.FanDubSource;
+import nasirov.yv.fandub.service.spring.boot.starter.dto.fandub.common.CommonTitle;
+import nasirov.yv.fandub.service.spring.boot.starter.dto.mal.MalTitle;
 import nasirov.yv.fandub.service.spring.boot.starter.properties.ExternalServicesProps;
 import nasirov.yv.fandub.service.spring.boot.starter.properties.FanDubProps;
 import nasirov.yv.fandub.service.spring.boot.starter.service.HttpRequestServiceI;
@@ -8,6 +35,8 @@ import nasirov.yv.service.AnimeServiceI;
 import nasirov.yv.service.MalServiceI;
 import nasirov.yv.service.ServerSentEventServiceI;
 import nasirov.yv.service.impl.common.CacheCleanerService;
+import nasirov.yv.util.MalUtils;
+import nasirov.yv.utils.CommonTitleTestBuilder;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +49,7 @@ import org.springframework.cache.CacheManager;
 import org.springframework.context.ApplicationContext;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.reactive.server.WebTestClient;
+import reactor.core.publisher.Mono;
 
 /**
  * @author Nasirov Yuriy
@@ -31,7 +61,7 @@ public abstract class AbstractTest {
 	@MockBean
 	protected HttpRequestServiceI httpRequestService;
 
-	@MockBean
+	@SpyBean
 	protected MalServiceI malService;
 
 	@SpyBean
@@ -66,6 +96,63 @@ public abstract class AbstractTest {
 	@AfterEach
 	void tearDown() {
 		clearCaches();
+	}
+
+	protected void mockGetCommonTitles(MalTitle malTitle, Map<FanDubSource, List<CommonTitle>> commonTitles, Set<FanDubSource> fanDubSources) {
+		doReturn(Mono.just(commonTitles)).when(httpRequestService)
+				.performHttpRequest(argThat(x -> x.getUrl()
+						.equals(externalServicesProps.getFandubTitlesServiceUrl() + "titles?fanDubSources=" + fanDubSources.stream()
+								.map(FanDubSource::name)
+								.collect(Collectors.joining(",")) + "&malId=" + malTitle.getId() + "&malEpisodeId=" + MalUtils.getNextEpisodeForWatch(malTitle))));
+	}
+
+	protected Map<FanDubSource, List<CommonTitle>> buildRegularCommonTitles(Set<FanDubSource> fanDubSources) {
+		return fanDubSources.stream()
+				.collect(Collectors.toMap(Function.identity(), x -> Lists.newArrayList(CommonTitleTestBuilder.buildRegularTitle(x))));
+	}
+
+	protected Map<FanDubSource, List<CommonTitle>> buildConcretizedCommonTitles(Set<FanDubSource> fanDubSources) {
+		return fanDubSources.stream()
+				.collect(Collectors.toMap(Function.identity(), x -> Lists.newArrayList(CommonTitleTestBuilder.buildConcretizedTitle(x))));
+	}
+
+	protected Map<FanDubSource, List<CommonTitle>> buildNotFoundOnFandubCommonTitles(Set<FanDubSource> fanDubSources) {
+		return fanDubSources.stream()
+				.collect(Collectors.toMap(Function.identity(), x -> Collections.emptyList()));
+	}
+
+	protected MalTitle buildRegularTitle() {
+		return buildWatchingTitle(REGULAR_TITLE_ORIGINAL_NAME,
+				REGULAR_TITLE_POSTER_URL,
+				REGULAR_TITLE_MAL_ANIME_URL,
+				REGULAR_TITLE_MAL_ID,
+				0);
+	}
+
+	protected MalTitle buildConcretizedTitle() {
+		return buildWatchingTitle(CONCRETIZED_TITLE_ORIGINAL_NAME,
+				CONCRETIZED_TITLE_POSTER_URL,
+				CONCRETIZED_TITLE_MAL_ANIME_URL,
+				CONCRETIZED_TITLE_MAL_ID,
+				10);
+	}
+
+	protected MalTitle buildNotFoundOnFandubTitle() {
+		return buildWatchingTitle(NOT_FOUND_ON_FANDUB_TITLE_ORIGINAL_NAME,
+				NOT_FOUND_ON_FANDUB_TITLE_POSTER_URL,
+				NOT_FOUND_ON_FANDUB_TITLE_MAL_ANIME_URL,
+				NOT_FOUND_ON_FANDUB_TITLE_ID,
+				0);
+	}
+
+	protected MalTitle buildWatchingTitle(String titleName, String posterUrl, String animeUrl, int id, int numWatchedEpisodes) {
+		return MalTitle.builder()
+				.id(id)
+				.numWatchedEpisodes(numWatchedEpisodes)
+				.name(titleName)
+				.posterUrl(MY_ANIME_LIST_STATIC_CONTENT_URL + posterUrl)
+				.animeUrl(MY_ANIME_LIST_URL + animeUrl)
+				.build();
 	}
 
 	private void clearCaches() {

@@ -19,6 +19,10 @@ public enum EventType {
 	 */
 	NOT_FOUND,
 	/**
+	 * Error event
+	 */
+	ERROR,
+	/**
 	 * Closing event
 	 */
 	DONE

@@ -51,6 +51,10 @@ $(document).ready(function () {
         buildNotFound(msg.anime);
         updateStatus(username, handledCount, watchingTitlesSize);
         break;
+      case 'ERROR':
+        setStatusToCompleted('Completed result with errors for ' + username);
+        eventSource.close();
+        break;
       case 'DONE':
         setStatusToCompleted('Successfully completed result for ' + username);
         eventSource.close();

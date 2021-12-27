@@ -5,11 +5,11 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.mockito.Mockito.mock;
 
-import java.util.LinkedHashSet;
 import java.util.Set;
 import nasirov.yv.AbstractTest;
 import nasirov.yv.data.front.UserInputDto;
 import nasirov.yv.fandub.service.spring.boot.starter.constant.FanDubSource;
+import org.assertj.core.util.Sets;
 import org.junit.jupiter.api.Test;
 import org.springframework.cache.Cache;
 import reactor.core.publisher.Flux;
@@ -24,9 +24,7 @@ class CacheCleanerServiceTest extends AbstractTest {
 		//given
 		Cache sseCache = cacheManager.getCache("sse");
 		assertNotNull(sseCache);
-		Set<FanDubSource> fanDubSources = new LinkedHashSet<>();
-		fanDubSources.add(FanDubSource.ANIMEDIA);
-		fanDubSources.add(FanDubSource.NINEANIME);
+		Set<FanDubSource> fanDubSources = Sets.newLinkedHashSet(FanDubSource.ANIMEDIA, FanDubSource.NINEANIME);
 		UserInputDto userInputDto = UserInputDto.builder()
 				.username("foobar")
 				.fanDubSources(fanDubSources)

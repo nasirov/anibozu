@@ -2,6 +2,7 @@ package nasirov.yv.service.impl.common;
 
 import static nasirov.yv.data.front.EventType.AVAILABLE;
 import static nasirov.yv.data.front.EventType.DONE;
+import static nasirov.yv.data.front.EventType.ERROR;
 import static nasirov.yv.data.front.EventType.NOT_AVAILABLE;
 import static nasirov.yv.data.front.EventType.NOT_FOUND;
 
@@ -32,6 +33,8 @@ import reactor.core.publisher.Mono;
 @RequiredArgsConstructor
 public class ServerSentEventService implements ServerSentEventServiceI {
 
+	private static final String LAST_EVENT_ID = "-1";
+
 	private final MalServiceI malService;
 
 	private final AnimeServiceI animeService;
@@ -41,7 +44,8 @@ public class ServerSentEventService implements ServerSentEventServiceI {
 	@Override
 	@Cacheable(value = "sse", key = "#userInputDto.getUsername() + ':' +#userInputDto.getFanDubSources()", condition = "#userInputDto != null")
 	public Flux<ServerSentEvent<SseDto>> getServerSentEvents(UserInputDto userInputDto) {
-		return malService.getUserWatchingTitles(userInputDto)
+		return Mono.just(userInputDto)
+				.flatMap(malService::getUserWatchingTitles)
 				.map(MalServiceResponseDto::getMalTitles)
 				.flatMapMany(Flux::fromIterable)
 				.flatMap(x -> animeService.buildAnime(userInputDto.getFanDubSources(), x))
@@ -50,8 +54,10 @@ public class ServerSentEventService implements ServerSentEventServiceI {
 				.map(x -> buildServerSentEvent(x.getT2(),
 						x.getT1()
 								.toString()))
-				.concatWith(Mono.just(buildServerSentEvent(buildDtoWithFinalEvent(), "-1")))
+				.defaultIfEmpty(buildServerSentEvent(buildDtoWithErrorEvent(), LAST_EVENT_ID))
+				.concatWith(Mono.just(buildServerSentEvent(buildDtoWithFinalEvent(), LAST_EVENT_ID)))
 				.share()
+				.onErrorReturn(buildServerSentEvent(buildDtoWithErrorEvent(), LAST_EVENT_ID))
 				.doOnError(x -> log.error("ServerSentEvent failed for [{}]", userInputDto, x))
 				.doOnComplete(() -> log.info("ServerSentEvent successfully completed for [{}]", userInputDto))
 				.doOnCancel(() -> log.info("ServerSentEvent was canceled for [{}]", userInputDto))
@@ -88,6 +94,12 @@ public class ServerSentEventService implements ServerSentEventServiceI {
 	private SseDto buildDtoWithFinalEvent() {
 		return SseDto.builder()
 				.eventType(DONE)
+				.build();
+	}
+
+	private SseDto buildDtoWithErrorEvent() {
+		return SseDto.builder()
+				.eventType(ERROR)
 				.build();
 	}
 }
