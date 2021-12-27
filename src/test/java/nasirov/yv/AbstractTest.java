@@ -1,6 +1,8 @@
 package nasirov.yv;
 
 import java.util.Objects;
+import nasirov.yv.fandub.service.spring.boot.starter.properties.ExternalServicesProps;
+import nasirov.yv.fandub.service.spring.boot.starter.properties.FanDubProps;
 import nasirov.yv.fandub.service.spring.boot.starter.service.HttpRequestServiceI;
 import nasirov.yv.service.AnimeServiceI;
 import nasirov.yv.service.MalServiceI;
@@ -32,7 +34,7 @@ public abstract class AbstractTest {
 	@MockBean
 	protected MalServiceI malService;
 
-	@MockBean
+	@SpyBean
 	protected AnimeServiceI animeService;
 
 	@SpyBean
@@ -46,6 +48,12 @@ public abstract class AbstractTest {
 
 	@Autowired
 	protected ApplicationContext applicationContext;
+
+	@Autowired
+	protected ExternalServicesProps externalServicesProps;
+
+	@Autowired
+	protected FanDubProps fanDubProps;
 
 	protected WebTestClient webTestClient;
 

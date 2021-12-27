@@ -1,12 +1,14 @@
 package nasirov.yv.service.impl.common;
 
 import com.google.common.collect.Sets;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import nasirov.yv.fandub.service.spring.boot.starter.constant.FanDubSource;
 import nasirov.yv.fandub.service.spring.boot.starter.dto.fandub.animedia.AnimediaEpisode;
@@ -56,15 +58,17 @@ public class HttpRequestServiceDtoBuilder implements HttpRequestServiceDtoBuilde
 	}
 
 	@Override
-	public HttpRequestServiceDto<List<CommonTitle>> fandubTitlesService(FanDubSource fanDubSource, int malId, int malEpisodeId) {
-		return buildDto(
-				externalServicesProps.getFandubTitlesServiceUrl() + "titles?fanDubSource=" + fanDubSource.name() + "&malId=" + malId + "&malEpisodeId="
-						+ malEpisodeId,
+	public HttpRequestServiceDto<Map<FanDubSource, List<CommonTitle>>> fandubTitlesService(Collection<FanDubSource> fanDubSources, int malId,
+			int malEpisodeId) {
+		return buildDto(externalServicesProps.getFandubTitlesServiceUrl() + "titles?fanDubSources=" + fanDubSources.stream()
+						.map(FanDubSource::name)
+						.collect(Collectors.joining(",")) + "&malId=" + malId + "&malEpisodeId=" + malEpisodeId,
 				Collections.singletonMap(HttpHeaders.AUTHORIZATION, externalServicesProps.getFandubTitlesServiceBasicAuth()),
 				Collections.emptySet(),
-				x -> x.bodyToMono(new ParameterizedTypeReference<List<CommonTitle>>() {
+				x -> x.bodyToMono(new ParameterizedTypeReference<Map<FanDubSource, List<CommonTitle>>>() {
 				}),
-				Collections.emptyList());
+				fanDubSources.stream()
+						.collect(Collectors.toMap(Function.identity(), x -> Collections.emptyList())));
 	}
 
 	@Override

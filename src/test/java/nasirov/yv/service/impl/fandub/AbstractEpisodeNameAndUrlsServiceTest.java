@@ -5,7 +5,6 @@ import static nasirov.yv.data.constants.BaseConstants.TITLE_NOT_FOUND_EPISODE_NA
 import static nasirov.yv.utils.TestConstants.REGULAR_TITLE_MAL_ID;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.doReturn;
-import static org.mockito.Mockito.mock;
 
 import com.google.common.collect.Lists;
 import java.util.Collections;
@@ -14,7 +13,6 @@ import nasirov.yv.data.properties.CommonProps;
 import nasirov.yv.fandub.service.spring.boot.starter.constant.FanDubSource;
 import nasirov.yv.fandub.service.spring.boot.starter.dto.fandub.common.CommonTitle;
 import nasirov.yv.fandub.service.spring.boot.starter.dto.fandub.common.FandubEpisode;
-import nasirov.yv.fandub.service.spring.boot.starter.dto.http_request_service.HttpRequestServiceDto;
 import nasirov.yv.fandub.service.spring.boot.starter.dto.mal.MalTitle;
 import nasirov.yv.fandub.service.spring.boot.starter.properties.FanDubProps;
 import nasirov.yv.fandub.service.spring.boot.starter.service.HttpRequestServiceI;
@@ -25,7 +23,6 @@ import org.apache.commons.lang3.tuple.Pair;
 import org.assertj.core.util.Maps;
 import org.junit.jupiter.api.BeforeEach;
 import org.mockito.Mock;
-import reactor.core.publisher.Mono;
 
 /**
  * @author Nasirov Yuriy
@@ -50,18 +47,16 @@ public abstract class AbstractEpisodeNameAndUrlsServiceTest<RUNTIME_RESPONSE_TYP
 
 	@BeforeEach
 	public void setUp() {
-		List<CommonTitle> commonTitles = CommonTitleTestBuilder.buildCommonTitles(getFandubSource());
-		regularCommonTitle = commonTitles.get(0);
-		concretizedCommonTitle = commonTitles.get(1);
+		regularCommonTitle = CommonTitleTestBuilder.buildRegularTitle(getFandubSource());
+		concretizedCommonTitle = CommonTitleTestBuilder.buildConcretizedTitle(getFandubSource());
 	}
 
 	protected void shouldReturnNameAndUrlForAvailableEpisode() {
 		//given
 		mockFandubUrlsMap();
-		mockFandubTitleService(getRegularCommonTitles(), REGULAR_TITLE_MAL_ID, 1);
 		MalTitle malTitle = buildWatchingTitle(REGULAR_TITLE_MAL_ID, 0);
 		//when
-		Pair<String, String> episodeNameAndUrl = getEpisodeNameAndUrlService().getEpisodeNameAndUrl(malTitle)
+		Pair<String, String> episodeNameAndUrl = getEpisodeNameAndUrlService().getEpisodeNameAndUrl(malTitle, getRegularCommonTitles())
 				.block();
 		//then
 		checkNameAndUrlForAvailableEpisode(episodeNameAndUrl);
@@ -71,13 +66,12 @@ public abstract class AbstractEpisodeNameAndUrlsServiceTest<RUNTIME_RESPONSE_TYP
 		//given
 		mockCommonProps();
 		mockFandubUrlsMap();
-		mockFandubTitleService(getRegularCommonTitles(), REGULAR_TITLE_MAL_ID, 2);
 		RUNTIME_RESPONSE_TYPE runtimeExpectedResponse = getRuntimeExpectedResponse();
 		mockGetRuntimeResponse(runtimeExpectedResponse, regularCommonTitle);
 		mockParser(runtimeExpectedResponse);
 		MalTitle malTitle = buildWatchingTitle(REGULAR_TITLE_MAL_ID, 1);
 		//when
-		Pair<String, String> episodeNameAndUrl = getEpisodeNameAndUrlService().getEpisodeNameAndUrl(malTitle)
+		Pair<String, String> episodeNameAndUrl = getEpisodeNameAndUrlService().getEpisodeNameAndUrl(malTitle, getRegularCommonTitles())
 				.block();
 		//then
 		checkNameAndUrlForAvailableEpisodeBuiltInRuntime(episodeNameAndUrl);
@@ -86,10 +80,9 @@ public abstract class AbstractEpisodeNameAndUrlsServiceTest<RUNTIME_RESPONSE_TYP
 	protected void shouldReturnNotFoundOnFandubSiteNameAndUrl() {
 		//given
 		int notFoundOnFandubMalId = 42;
-		mockFandubTitleService(Collections.emptyList(), notFoundOnFandubMalId, 1);
 		MalTitle malTitle = buildWatchingTitle(notFoundOnFandubMalId, 0);
 		//when
-		Pair<String, String> episodeNameAndUrl = getEpisodeNameAndUrlService().getEpisodeNameAndUrl(malTitle)
+		Pair<String, String> episodeNameAndUrl = getEpisodeNameAndUrlService().getEpisodeNameAndUrl(malTitle, Collections.emptyList())
 				.block();
 		//then
 		assertEquals(TITLE_NOT_FOUND_EPISODE_NAME_AND_URL, episodeNameAndUrl);
@@ -99,10 +92,9 @@ public abstract class AbstractEpisodeNameAndUrlsServiceTest<RUNTIME_RESPONSE_TYP
 		//given
 		mockCommonProps();
 		mockFandubUrlsMap();
-		mockFandubTitleService(getConcretizedCommonTitles(), REGULAR_TITLE_MAL_ID, 2);
 		MalTitle malTitle = buildWatchingTitle(REGULAR_TITLE_MAL_ID, 1);
 		//when
-		Pair<String, String> episodeNameAndUrl = getEpisodeNameAndUrlService().getEpisodeNameAndUrl(malTitle)
+		Pair<String, String> episodeNameAndUrl = getEpisodeNameAndUrlService().getEpisodeNameAndUrl(malTitle, getConcretizedCommonTitles())
 				.block();
 		//then
 		assertEquals(NOT_AVAILABLE_EPISODE_NAME_AND_URL, episodeNameAndUrl);
@@ -112,13 +104,12 @@ public abstract class AbstractEpisodeNameAndUrlsServiceTest<RUNTIME_RESPONSE_TYP
 		//given
 		mockCommonProps();
 		mockFandubUrlsMap();
-		mockFandubTitleService(getRegularAndConcretizedCommonTitles(), REGULAR_TITLE_MAL_ID, 3);
 		RUNTIME_RESPONSE_TYPE titlePageContent = getRuntimeExpectedResponse();
 		mockGetRuntimeResponse(titlePageContent, regularCommonTitle);
 		mockParser(titlePageContent);
 		MalTitle malTitle = buildWatchingTitle(REGULAR_TITLE_MAL_ID, 2);
 		//when
-		Pair<String, String> episodeNameAndUrl = getEpisodeNameAndUrlService().getEpisodeNameAndUrl(malTitle)
+		Pair<String, String> episodeNameAndUrl = getEpisodeNameAndUrlService().getEpisodeNameAndUrl(malTitle, getRegularAndConcretizedCommonTitles())
 				.block();
 		//then
 		assertEquals(NOT_AVAILABLE_EPISODE_NAME_AND_URL, episodeNameAndUrl);
@@ -162,14 +153,6 @@ public abstract class AbstractEpisodeNameAndUrlsServiceTest<RUNTIME_RESPONSE_TYP
 
 	protected List<CommonTitle> getRegularAndConcretizedCommonTitles() {
 		return Lists.newArrayList(regularCommonTitle, concretizedCommonTitle);
-	}
-
-	protected void mockFandubTitleService(List<CommonTitle> commonTitles, int malId, int malEpisodeId) {
-		HttpRequestServiceDto<List<CommonTitle>> httpRequestServiceDto = mock(HttpRequestServiceDto.class);
-		doReturn(httpRequestServiceDto).when(httpRequestServiceDtoBuilder)
-				.fandubTitlesService(getFandubSource(), malId, malEpisodeId);
-		doReturn(Mono.just(commonTitles)).when(httpRequestService)
-				.performHttpRequest(httpRequestServiceDto);
 	}
 
 	protected MalTitle buildWatchingTitle(int animeId, int numWatchedEpisodes) {

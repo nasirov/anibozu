@@ -1,6 +1,8 @@
 package nasirov.yv.service;
 
+import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 import nasirov.yv.fandub.service.spring.boot.starter.constant.FanDubSource;
 import nasirov.yv.fandub.service.spring.boot.starter.dto.fandub.animedia.AnimediaEpisode;
 import nasirov.yv.fandub.service.spring.boot.starter.dto.fandub.animepik.AnimepikTitleEpisodes;
@@ -18,7 +20,8 @@ public interface HttpRequestServiceDtoBuilderI {
 
 	HttpRequestServiceDto<MalServiceResponseDto> malService(String username, MalTitleWatchingStatus status);
 
-	HttpRequestServiceDto<List<CommonTitle>> fandubTitlesService(FanDubSource fanDubSource, int malId, int malEpisodeId);
+	HttpRequestServiceDto<Map<FanDubSource, List<CommonTitle>>> fandubTitlesService(Collection<FanDubSource> fanDubSources, int malId,
+			int malEpisodeId);
 
 	HttpRequestServiceDto<String> seleniumService(SeleniumServiceRequestDto seleniumServiceRequestDto);
 

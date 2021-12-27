@@ -44,7 +44,10 @@ import static nasirov.yv.utils.TestConstants.REGULAR_TITLE_SOVET_ROMANTICA_URL;
 
 import com.google.common.collect.Lists;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.function.Supplier;
 import lombok.experimental.UtilityClass;
 import nasirov.yv.fandub.service.spring.boot.starter.constant.FanDubSource;
 import nasirov.yv.fandub.service.spring.boot.starter.dto.fandub.common.CommonEpisode;
@@ -83,70 +86,25 @@ public class CommonTitleTestBuilder {
 
 	public static final String ANYTHING_GROUP_EPISODE_NAME = "01. Серия | Foo";
 
-	public static List<CommonTitle> buildCommonTitles(FanDubSource fanDubSource) {
-		CommonTitle regular = null;
-		CommonTitle concretized = null;
-		CommonTitle notFoundOnMal = null;
-		switch (fanDubSource) {
-			case ANIMEDIA:
-				regular = getAnimediaRegular();
-				concretized = getAnimediaConcretized();
-				notFoundOnMal = getAnimediaNotFoundOnMal();
-				break;
-			case ANIDUB:
-				regular = getAnidubRegular();
-				concretized = getAnidubConcretized();
-				notFoundOnMal = getAnidubNotFoundOnMal();
-				break;
-			case ANIMEPIK:
-				regular = getAnimepikRegular();
-				concretized = getAnimepikConcretized();
-				notFoundOnMal = getAnimepikNotFoundOnMal();
-				break;
-			case ANILIBRIA:
-				regular = getAnilibriaRegular();
-				concretized = getAnilibriaConcretized();
-				notFoundOnMal = getAnilibriaNotFoundOnMal();
-				break;
-			case JISEDAI:
-				regular = getJisedaiRegular();
-				concretized = getJisedaiConcretized();
-				notFoundOnMal = getJisedaiNotFoundOnMal();
-				break;
-			case JUTSU:
-				regular = getJutsuRegular();
-				concretized = getJutsuConcretized();
-				notFoundOnMal = getJutsuNotFoundOnMal();
-				break;
-			case NINEANIME:
-				regular = getNineAnimeRegular();
-				concretized = getNineAnimeConcretized();
-				notFoundOnMal = getNineAnimeNotFoundOnMal();
-				break;
-			case SOVETROMANTICA:
-				regular = getSovetRomanticaRegular();
-				concretized = getSovetRomanticaConcretized();
-				notFoundOnMal = getSovetRomanticaNotFoundOnMal();
-				break;
-			case SHIZAPROJECT:
-				regular = getShizaProjectRegular();
-				concretized = getShizaProjectConcretized();
-				notFoundOnMal = getShizaProjectNotFoundOnMal();
-				break;
-			case JAMCLUB:
-				regular = getJamClubRegular();
-				concretized = getJamClubConcretized();
-				notFoundOnMal = getJamClubNotFoundOnMal();
-				break;
-			case ANYTHING_GROUP:
-				regular = getAnythingGroupRegular();
-				concretized = getAnythingGroupConcretized();
-				notFoundOnMal = getAnythingGroupNotFoundOnMal();
-				break;
-			default:
-				break;
-		}
-		return Lists.newArrayList(regular, concretized, notFoundOnMal);
+	private static final Map<FanDubSource, Supplier<CommonTitle>> REGULAR_TITLES_METHODS = buildRtm();
+
+	private static final Map<FanDubSource, Supplier<CommonTitle>> CONCRETIZED_TITLES_METHODS = buildCtm();
+
+	private static final Map<FanDubSource, Supplier<CommonTitle>> NOT_FOUND_TITLES_METHODS = buildNftm();
+
+	public static CommonTitle buildRegularTitle(FanDubSource fanDubSource) {
+		return REGULAR_TITLES_METHODS.get(fanDubSource)
+				.get();
+	}
+
+	public static CommonTitle buildConcretizedTitle(FanDubSource fanDubSource) {
+		return CONCRETIZED_TITLES_METHODS.get(fanDubSource)
+				.get();
+	}
+
+	public static CommonTitle buildNotFoundOnMalTitle(FanDubSource fanDubSource) {
+		return NOT_FOUND_TITLES_METHODS.get(fanDubSource)
+				.get();
 	}
 
 	public static CommonTitle getAnimediaRegular() {
@@ -164,9 +122,11 @@ public class CommonTitleTestBuilder {
 	public static CommonTitle getAnidubRegular() {
 		return getRegular(REGULAR_TITLE_ANIDUB_URL, null, buildEpisodeUrl(REGULAR_TITLE_ANIDUB_URL, null), null, ANIDUB_EPISODE_NAME);
 	}
+
 	public static CommonTitle getAnidubConcretized() {
 		return getConcretized(CONCRETIZED_TITLE_ANIDUB_URL, null, buildEpisodeUrl(CONCRETIZED_TITLE_ANIDUB_URL, null), null, ANIDUB_EPISODE_NAME);
 	}
+
 	public static CommonTitle getAnidubNotFoundOnMal() {
 		return getNotFoundOnMal(NOT_FOUND_ON_MAL_TITLE_ANIDUB_URL, null, null);
 	}
@@ -174,9 +134,11 @@ public class CommonTitleTestBuilder {
 	public static CommonTitle getAnimepikRegular() {
 		return getRegular(REGULAR_TITLE_ANIMEPIK_URL, null, buildEpisodeUrl(REGULAR_TITLE_ANIMEPIK_URL, null), null, ANIMEPIK_EPISODE_NAME);
 	}
+
 	public static CommonTitle getAnimepikConcretized() {
 		return getConcretized(CONCRETIZED_TITLE_ANIMEPIK_URL, null, buildEpisodeUrl(CONCRETIZED_TITLE_ANIMEPIK_URL, null), null, ANIMEPIK_EPISODE_NAME);
 	}
+
 	public static CommonTitle getAnimepikNotFoundOnMal() {
 		return getNotFoundOnMal(NOT_FOUND_ON_MAL_TITLE_ANIMEPIK_URL, null, null);
 	}
@@ -184,6 +146,7 @@ public class CommonTitleTestBuilder {
 	public static CommonTitle getAnilibriaRegular() {
 		return getRegular(REGULAR_TITLE_ANILIBRIA_URL, null, buildEpisodeUrl(REGULAR_TITLE_ANILIBRIA_URL, null), null, ANILIBRIA_EPISODE_NAME);
 	}
+
 	public static CommonTitle getAnilibriaConcretized() {
 		return getConcretized(CONCRETIZED_TITLE_ANILIBRIA_URL,
 				null,
@@ -191,6 +154,7 @@ public class CommonTitleTestBuilder {
 				null,
 				ANILIBRIA_EPISODE_NAME);
 	}
+
 	public static CommonTitle getAnilibriaNotFoundOnMal() {
 		return getNotFoundOnMal(NOT_FOUND_ON_MAL_TITLE_ANILIBRIA_URL, null, null);
 	}
@@ -198,9 +162,11 @@ public class CommonTitleTestBuilder {
 	public static CommonTitle getJisedaiRegular() {
 		return getRegular(REGULAR_TITLE_JISEDAI_URL, null, buildEpisodeUrl(REGULAR_TITLE_JISEDAI_URL, null), null, JISEDAI_EPISODE_NAME);
 	}
+
 	public static CommonTitle getJisedaiConcretized() {
 		return getConcretized(CONCRETIZED_TITLE_JISEDAI_URL, null, buildEpisodeUrl(CONCRETIZED_TITLE_JISEDAI_URL, null), null, JISEDAI_EPISODE_NAME);
 	}
+
 	public static CommonTitle getJisedaiNotFoundOnMal() {
 		return getNotFoundOnMal(NOT_FOUND_ON_MAL_TITLE_JISEDAI_URL, null, null);
 	}
@@ -208,6 +174,7 @@ public class CommonTitleTestBuilder {
 	public static CommonTitle getJutsuRegular() {
 		return getRegular(REGULAR_TITLE_JUTSU_URL, null, buildEpisodeUrl(REGULAR_TITLE_JUTSU_URL + "/episode-1.html", null), null, JUTSU_EPISODE_NAME);
 	}
+
 	public static CommonTitle getJutsuConcretized() {
 		return getConcretized(CONCRETIZED_TITLE_JUTSU_URL,
 				null,
@@ -226,6 +193,7 @@ public class CommonTitleTestBuilder {
 				REGULAR_TITLE_NINE_ANIME_ID,
 				NINE_ANIME_EPISODE_NAME);
 	}
+
 	public static CommonTitle getNineAnimeConcretized() {
 		return getConcretized(CONCRETIZED_TITLE_NINE_ANIME_URL,
 				null,
@@ -233,6 +201,7 @@ public class CommonTitleTestBuilder {
 				CONCRETIZED_TITLE_NINE_ANIME_ID,
 				NINE_ANIME_EPISODE_NAME);
 	}
+
 	public static CommonTitle getNineAnimeNotFoundOnMal() {
 		return getNotFoundOnMal(NOT_FOUND_ON_MAL_TITLE_NINE_ANIME_URL, null, NOT_FOUND_ON_MAL_TITLE_NINE_ANIME_ID);
 	}
@@ -244,6 +213,7 @@ public class CommonTitleTestBuilder {
 				null,
 				SOVET_ROMANTICA_EPISODE_NAME);
 	}
+
 	public static CommonTitle getSovetRomanticaConcretized() {
 		return getConcretized(CONCRETIZED_TITLE_SOVET_ROMANTICA_URL,
 				null,
@@ -251,6 +221,7 @@ public class CommonTitleTestBuilder {
 				null,
 				SOVET_ROMANTICA_EPISODE_NAME);
 	}
+
 	public static CommonTitle getSovetRomanticaNotFoundOnMal() {
 		return getNotFoundOnMal(NOT_FOUND_ON_MAL_TITLE_SOVET_ROMANTICA_URL, null, null);
 	}
@@ -262,6 +233,7 @@ public class CommonTitleTestBuilder {
 				null,
 				SHIZA_PROJECT_EPISODE_NAME);
 	}
+
 	public static CommonTitle getShizaProjectConcretized() {
 		return getConcretized(CONCRETIZED_TITLE_SHIZA_PROJECT_URL,
 				null,
@@ -269,6 +241,7 @@ public class CommonTitleTestBuilder {
 				null,
 				SHIZA_PROJECT_EPISODE_NAME);
 	}
+
 	public static CommonTitle getShizaProjectNotFoundOnMal() {
 		return getNotFoundOnMal(NOT_FOUND_ON_MAL_TITLE_SHIZA_PROJECT_URL, null, null);
 	}
@@ -276,19 +249,31 @@ public class CommonTitleTestBuilder {
 	public static CommonTitle getJamClubRegular() {
 		return getRegular(REGULAR_TITLE_JAM_CLUB_URL, null, buildEpisodeUrl(REGULAR_TITLE_JAM_CLUB_URL, null), null, JAM_CLUB_EPISODE_NAME);
 	}
+
 	public static CommonTitle getJamClubConcretized() {
 		return getConcretized(CONCRETIZED_TITLE_JAM_CLUB_URL, null, buildEpisodeUrl(CONCRETIZED_TITLE_JAM_CLUB_URL, null), null, JAM_CLUB_EPISODE_NAME);
 	}
+
 	public static CommonTitle getJamClubNotFoundOnMal() {
 		return getNotFoundOnMal(NOT_FOUND_ON_MAL_TITLE_JAM_CLUB_URL, null, null);
 	}
 
 	public static CommonTitle getAnythingGroupRegular() {
-		return getRegular(REGULAR_TITLE_ANYTHING_GROUP_URL, null, buildEpisodeUrl(REGULAR_TITLE_ANYTHING_GROUP_URL, null), null, ANYTHING_GROUP_EPISODE_NAME);
+		return getRegular(REGULAR_TITLE_ANYTHING_GROUP_URL,
+				null,
+				buildEpisodeUrl(REGULAR_TITLE_ANYTHING_GROUP_URL, null),
+				null,
+				ANYTHING_GROUP_EPISODE_NAME);
 	}
+
 	public static CommonTitle getAnythingGroupConcretized() {
-		return getConcretized(CONCRETIZED_TITLE_ANYTHING_GROUP_URL, null, buildEpisodeUrl(CONCRETIZED_TITLE_ANYTHING_GROUP_URL, null), null, ANYTHING_GROUP_EPISODE_NAME);
+		return getConcretized(CONCRETIZED_TITLE_ANYTHING_GROUP_URL,
+				null,
+				buildEpisodeUrl(CONCRETIZED_TITLE_ANYTHING_GROUP_URL, null),
+				null,
+				ANYTHING_GROUP_EPISODE_NAME);
 	}
+
 	public static CommonTitle getAnythingGroupNotFoundOnMal() {
 		return getNotFoundOnMal(NOT_FOUND_ON_MAL_TITLE_ANYTHING_GROUP_URL, null, null);
 	}
@@ -340,4 +325,51 @@ public class CommonTitleTestBuilder {
 				.build();
 	}
 
+	private static Map<FanDubSource, Supplier<CommonTitle>> buildRtm() {
+		Map<FanDubSource, Supplier<CommonTitle>> result = new HashMap<>();
+		result.put(FanDubSource.ANIDUB, CommonTitleTestBuilder::getAnidubRegular);
+		result.put(FanDubSource.ANILIBRIA, CommonTitleTestBuilder::getAnilibriaRegular);
+		result.put(FanDubSource.ANIMEDIA, CommonTitleTestBuilder::getAnimediaRegular);
+		result.put(FanDubSource.ANIMEPIK, CommonTitleTestBuilder::getAnimepikRegular);
+		result.put(FanDubSource.ANYTHING_GROUP, CommonTitleTestBuilder::getAnythingGroupRegular);
+		result.put(FanDubSource.JAMCLUB, CommonTitleTestBuilder::getJamClubRegular);
+		result.put(FanDubSource.JISEDAI, CommonTitleTestBuilder::getJisedaiRegular);
+		result.put(FanDubSource.JUTSU, CommonTitleTestBuilder::getJutsuRegular);
+		result.put(FanDubSource.SHIZAPROJECT, CommonTitleTestBuilder::getShizaProjectRegular);
+		result.put(FanDubSource.SOVETROMANTICA, CommonTitleTestBuilder::getSovetRomanticaRegular);
+		result.put(FanDubSource.NINEANIME, CommonTitleTestBuilder::getNineAnimeRegular);
+		return result;
+	}
+
+	private static Map<FanDubSource, Supplier<CommonTitle>> buildCtm() {
+		Map<FanDubSource, Supplier<CommonTitle>> result = new HashMap<>();
+		result.put(FanDubSource.ANIDUB, CommonTitleTestBuilder::getAnidubConcretized);
+		result.put(FanDubSource.ANILIBRIA, CommonTitleTestBuilder::getAnilibriaConcretized);
+		result.put(FanDubSource.ANIMEDIA, CommonTitleTestBuilder::getAnimediaConcretized);
+		result.put(FanDubSource.ANIMEPIK, CommonTitleTestBuilder::getAnimepikConcretized);
+		result.put(FanDubSource.ANYTHING_GROUP, CommonTitleTestBuilder::getAnythingGroupConcretized);
+		result.put(FanDubSource.JAMCLUB, CommonTitleTestBuilder::getJamClubConcretized);
+		result.put(FanDubSource.JISEDAI, CommonTitleTestBuilder::getJisedaiConcretized);
+		result.put(FanDubSource.JUTSU, CommonTitleTestBuilder::getJutsuConcretized);
+		result.put(FanDubSource.SHIZAPROJECT, CommonTitleTestBuilder::getShizaProjectConcretized);
+		result.put(FanDubSource.SOVETROMANTICA, CommonTitleTestBuilder::getSovetRomanticaConcretized);
+		result.put(FanDubSource.NINEANIME, CommonTitleTestBuilder::getNineAnimeConcretized);
+		return result;
+	}
+
+	private static Map<FanDubSource, Supplier<CommonTitle>> buildNftm() {
+		Map<FanDubSource, Supplier<CommonTitle>> result = new HashMap<>();
+		result.put(FanDubSource.ANIDUB, CommonTitleTestBuilder::getAnidubNotFoundOnMal);
+		result.put(FanDubSource.ANILIBRIA, CommonTitleTestBuilder::getAnilibriaNotFoundOnMal);
+		result.put(FanDubSource.ANIMEDIA, CommonTitleTestBuilder::getAnimediaNotFoundOnMal);
+		result.put(FanDubSource.ANIMEPIK, CommonTitleTestBuilder::getAnimepikNotFoundOnMal);
+		result.put(FanDubSource.ANYTHING_GROUP, CommonTitleTestBuilder::getAnythingGroupNotFoundOnMal);
+		result.put(FanDubSource.JAMCLUB, CommonTitleTestBuilder::getJamClubNotFoundOnMal);
+		result.put(FanDubSource.JISEDAI, CommonTitleTestBuilder::getJisedaiNotFoundOnMal);
+		result.put(FanDubSource.JUTSU, CommonTitleTestBuilder::getJutsuNotFoundOnMal);
+		result.put(FanDubSource.SHIZAPROJECT, CommonTitleTestBuilder::getShizaProjectNotFoundOnMal);
+		result.put(FanDubSource.SOVETROMANTICA, CommonTitleTestBuilder::getSovetRomanticaNotFoundOnMal);
+		result.put(FanDubSource.NINEANIME, CommonTitleTestBuilder::getNineAnimeNotFoundOnMal);
+		return result;
+	}
 }

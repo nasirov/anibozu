@@ -1,5 +1,7 @@
 package nasirov.yv.controller;
 
+import static nasirov.yv.data.constants.BaseConstants.NOT_AVAILABLE_EPISODE_URL;
+import static nasirov.yv.data.constants.BaseConstants.TITLE_NOT_FOUND_EPISODE_URL;
 import static nasirov.yv.utils.TestConstants.TEST_ACC_FOR_DEV;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -68,31 +70,31 @@ public class ServerSentEventControllerTest extends AbstractTest {
 
 	private List<ServerSentEvent<SseDto>> buildServerSentEvents() {
 		return Lists.newArrayList(buildServerSentEvent(EventType.AVAILABLE, "urlOnAnimedia", "", "0"),
-				buildServerSentEvent(EventType.NOT_AVAILABLE, "", "", "1"),
-				buildServerSentEvent(EventType.NOT_FOUND, "not found on a fandub site", "not found on a fandub site", "2"),
+				buildServerSentEvent(EventType.NOT_AVAILABLE, NOT_AVAILABLE_EPISODE_URL, NOT_AVAILABLE_EPISODE_URL, "1"),
+				buildServerSentEvent(EventType.NOT_FOUND, TITLE_NOT_FOUND_EPISODE_URL, TITLE_NOT_FOUND_EPISODE_URL, "2"),
 				buildFinalServerSentEvent());
 	}
 
 	private ServerSentEvent<SseDto> buildServerSentEvent(EventType eventType, String urlOnAnimedia, String urlOnNineAnime, String id) {
 		return ServerSentEvent.builder(SseDto.builder()
-				.eventType(eventType)
-				.anime(Anime.builder()
-						.animeName("name")
-						.animeUrlOnMal("animeUrlOnMal")
-						.malEpisodeNumber("1")
-						.posterUrlOnMal("posterUrlOnMal")
-						.fanDubUrl(FanDubSource.ANIMEDIA, urlOnAnimedia)
-						.fanDubUrl(FanDubSource.NINEANIME, urlOnNineAnime)
+						.eventType(eventType)
+						.anime(Anime.builder()
+								.animeName("name")
+								.animeUrlOnMal("animeUrlOnMal")
+								.malEpisodeNumber("1")
+								.posterUrlOnMal("posterUrlOnMal")
+								.fanDubUrl(FanDubSource.ANIMEDIA, urlOnAnimedia)
+								.fanDubUrl(FanDubSource.NINEANIME, urlOnNineAnime)
+								.build())
 						.build())
-				.build())
 				.id(id)
 				.build();
 	}
 
 	private ServerSentEvent<SseDto> buildFinalServerSentEvent() {
 		return ServerSentEvent.builder(SseDto.builder()
-				.eventType(EventType.DONE)
-				.build())
+						.eventType(EventType.DONE)
+						.build())
 				.id("-1")
 				.build();
 	}

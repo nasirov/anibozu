@@ -65,19 +65,17 @@ public class AnimediaEpisodeUrlServiceTest {
 	public void shouldReturnNameAndUrlForAvailableEpisode() {
 		//given
 		mockFandubUrlsMap();
-		mockFandubTitleService(Lists.newArrayList(CommonTitleTestBuilder.getAnimediaRegular(),
+		List<CommonTitle> commonTitles = Lists.newArrayList(CommonTitleTestBuilder.getAnimediaRegular(),
 				CommonTitleTestBuilder.getRegular(REGULAR_TITLE_ANIMEDIA_URL, 0, buildEpisodeUrl(REGULAR_TITLE_ANIMEDIA_URL, 0), null,
 						ANIMEDIA_EPISODE_NAME),
 				CommonTitleTestBuilder.getConcretized(REGULAR_TITLE_ANIMEDIA_URL,
 						2,
 						buildEpisodeUrl(REGULAR_TITLE_ANIMEDIA_URL, 2),
 						null,
-						ANIMEDIA_EPISODE_NAME)),
-				REGULAR_TITLE_MAL_ID,
-				1);
+						ANIMEDIA_EPISODE_NAME));
 		MalTitle malTitle = buildWatchingTitle(REGULAR_TITLE_MAL_ID, 0);
 		//when
-		Pair<String, String> episodeNameAndUrl = animediaEpisodeUrlService.getEpisodeNameAndUrl(malTitle)
+		Pair<String, String> episodeNameAndUrl = animediaEpisodeUrlService.getEpisodeNameAndUrl(malTitle, commonTitles)
 				.block();
 		//then
 		assertEquals(Pair.of(ANIMEDIA_EPISODE_NAME, ANIMEDIA_ONLINE_TV + REGULAR_TITLE_ANIMEDIA_URL + "/1/1"), episodeNameAndUrl);
@@ -89,20 +87,18 @@ public class AnimediaEpisodeUrlServiceTest {
 		mockCommonProps();
 		mockFandubUrlsMap();
 		CommonTitle commonTitle = CommonTitleTestBuilder.getAnimediaRegular();
-		mockFandubTitleService(Lists.newArrayList(commonTitle,
+		List<CommonTitle> commonTitles = Lists.newArrayList(commonTitle,
 				CommonTitleTestBuilder.getRegular(REGULAR_TITLE_ANIMEDIA_URL, 0, buildEpisodeUrl(REGULAR_TITLE_ANIMEDIA_URL, 0), null, RUNTIME_EPISODE_NAME),
 				CommonTitleTestBuilder.getConcretized(REGULAR_TITLE_ANIMEDIA_URL,
 						2,
 						buildEpisodeUrl(REGULAR_TITLE_ANIMEDIA_URL, 2),
 						null,
-						ANIMEDIA_EPISODE_NAME)),
-				REGULAR_TITLE_MAL_ID,
-				2);
+						ANIMEDIA_EPISODE_NAME));
 		mockGetTitleEpisodesByPlaylist(getAnimediaEpisodes(), commonTitle);
 		mockParser(getAnimediaEpisodesWithFilledTitleUrlField());
 		MalTitle malTitle = buildWatchingTitle(REGULAR_TITLE_MAL_ID, 1);
 		//when
-		Pair<String, String> episodeNameAndUrl = animediaEpisodeUrlService.getEpisodeNameAndUrl(malTitle)
+		Pair<String, String> episodeNameAndUrl = animediaEpisodeUrlService.getEpisodeNameAndUrl(malTitle, commonTitles)
 				.block();
 		//then
 		assertEquals(Pair.of(RUNTIME_EPISODE_NAME, ANIMEDIA_ONLINE_TV + REGULAR_TITLE_ANIMEDIA_URL + "/1/3"), episodeNameAndUrl);
@@ -112,10 +108,9 @@ public class AnimediaEpisodeUrlServiceTest {
 	public void shouldReturnNotFoundOnFandubSiteNameAndUrl() {
 		//given
 		int notFoundOnFandubMalId = 42;
-		mockFandubTitleService(Collections.emptyList(), notFoundOnFandubMalId, 1);
 		MalTitle malTitle = buildWatchingTitle(notFoundOnFandubMalId, 0);
 		//when
-		Pair<String, String> episodeNameAndUrl = animediaEpisodeUrlService.getEpisodeNameAndUrl(malTitle)
+		Pair<String, String> episodeNameAndUrl = animediaEpisodeUrlService.getEpisodeNameAndUrl(malTitle, Collections.emptyList())
 				.block();
 		//then
 		assertEquals(TITLE_NOT_FOUND_EPISODE_NAME_AND_URL, episodeNameAndUrl);
@@ -126,7 +121,7 @@ public class AnimediaEpisodeUrlServiceTest {
 		//given
 		mockCommonProps();
 		mockFandubUrlsMap();
-		mockFandubTitleService(Lists.newArrayList(CommonTitleTestBuilder.getAnimediaConcretized(),
+		List<CommonTitle> commonTitles = Lists.newArrayList(CommonTitleTestBuilder.getAnimediaConcretized(),
 				CommonTitleTestBuilder.getConcretized(REGULAR_TITLE_ANIMEDIA_URL,
 						0,
 						buildEpisodeUrl(REGULAR_TITLE_ANIMEDIA_URL, 0),
@@ -136,12 +131,10 @@ public class AnimediaEpisodeUrlServiceTest {
 						2,
 						buildEpisodeUrl(REGULAR_TITLE_ANIMEDIA_URL, 2),
 						null,
-						ANIMEDIA_EPISODE_NAME)),
-				REGULAR_TITLE_MAL_ID,
-				2);
+						ANIMEDIA_EPISODE_NAME));
 		MalTitle malTitle = buildWatchingTitle(REGULAR_TITLE_MAL_ID, 1);
 		//when
-		Pair<String, String> episodeNameAndUrl = animediaEpisodeUrlService.getEpisodeNameAndUrl(malTitle)
+		Pair<String, String> episodeNameAndUrl = animediaEpisodeUrlService.getEpisodeNameAndUrl(malTitle, commonTitles)
 				.block();
 		//then
 		assertEquals(NOT_AVAILABLE_EPISODE_NAME_AND_URL, episodeNameAndUrl);
@@ -153,21 +146,19 @@ public class AnimediaEpisodeUrlServiceTest {
 		mockCommonProps();
 		mockFandubUrlsMap();
 		CommonTitle commonTitle = CommonTitleTestBuilder.getAnimediaRegular();
-		mockFandubTitleService(Lists.newArrayList(commonTitle,
+		List<CommonTitle> commonTitles = Lists.newArrayList(commonTitle,
 				CommonTitleTestBuilder.getRegular(REGULAR_TITLE_ANIMEDIA_URL, 0, buildEpisodeUrl(REGULAR_TITLE_ANIMEDIA_URL, 0), null, RUNTIME_EPISODE_NAME),
 				CommonTitleTestBuilder.getConcretized(REGULAR_TITLE_ANIMEDIA_URL,
 						2,
 						buildEpisodeUrl(REGULAR_TITLE_ANIMEDIA_URL, 2),
 						null,
-						ANIMEDIA_EPISODE_NAME)),
-				REGULAR_TITLE_MAL_ID,
-				3);
+						ANIMEDIA_EPISODE_NAME));
 		List<AnimediaEpisode> animediaEpisodesStub = Collections.emptyList();
 		mockGetTitleEpisodesByPlaylist(animediaEpisodesStub, commonTitle);
 		mockParser(animediaEpisodesStub);
 		MalTitle malTitle = buildWatchingTitle(REGULAR_TITLE_MAL_ID, 2);
 		//when
-		Pair<String, String> episodeNameAndUrl = animediaEpisodeUrlService.getEpisodeNameAndUrl(malTitle)
+		Pair<String, String> episodeNameAndUrl = animediaEpisodeUrlService.getEpisodeNameAndUrl(malTitle, commonTitles)
 				.block();
 		//then
 		assertEquals(NOT_AVAILABLE_EPISODE_NAME_AND_URL, episodeNameAndUrl);
@@ -184,14 +175,6 @@ public class AnimediaEpisodeUrlServiceTest {
 		doReturn(httpRequestServiceDto).when(httpRequestServiceDtoBuilder)
 				.animedia(commonTitle);
 		doReturn(Mono.just(episodes)).when(httpRequestService)
-				.performHttpRequest(httpRequestServiceDto);
-	}
-
-	private void mockFandubTitleService(List<CommonTitle> commonTitles, int malId, int malEpisodeId) {
-		HttpRequestServiceDto<List<CommonTitle>> httpRequestServiceDto = mock(HttpRequestServiceDto.class);
-		doReturn(httpRequestServiceDto).when(httpRequestServiceDtoBuilder)
-				.fandubTitlesService(FanDubSource.ANIMEDIA, malId, malEpisodeId);
-		doReturn(Mono.just(commonTitles)).when(httpRequestService)
 				.performHttpRequest(httpRequestServiceDto);
 	}
 

@@ -1,17 +1,21 @@
 package nasirov.yv.service.impl.common;
 
-import static nasirov.yv.util.MalUtils.getNextEpisodeForWatch;
-
+import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import nasirov.yv.data.front.Anime;
 import nasirov.yv.data.front.Anime.AnimeBuilder;
 import nasirov.yv.fandub.service.spring.boot.starter.constant.FanDubSource;
+import nasirov.yv.fandub.service.spring.boot.starter.dto.fandub.common.CommonTitle;
 import nasirov.yv.fandub.service.spring.boot.starter.dto.mal.MalTitle;
+import nasirov.yv.fandub.service.spring.boot.starter.service.HttpRequestServiceI;
 import nasirov.yv.service.AnimeServiceI;
 import nasirov.yv.service.EpisodeNameAndUrlServiceI;
+import nasirov.yv.service.HttpRequestServiceDtoBuilderI;
+import nasirov.yv.util.MalUtils;
 import org.apache.commons.lang3.tuple.Pair;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
@@ -27,14 +31,23 @@ public class AnimeService implements AnimeServiceI {
 
 	private final Map<FanDubSource, EpisodeNameAndUrlServiceI> episodeNameAndUrlServiceStrategy;
 
+	private final HttpRequestServiceDtoBuilderI httpRequestServiceDtoBuilder;
+
+	private final HttpRequestServiceI httpRequestService;
+
 	@Override
 	public Mono<Anime> buildAnime(Set<FanDubSource> fanDubSources, MalTitle watchingTitle) {
+		Integer nextEpisodeForWatch = MalUtils.getNextEpisodeForWatch(watchingTitle);
 		AnimeBuilder animeBuilder = Anime.builder()
 				.animeName(watchingTitle.getName())
-				.malEpisodeNumber(getNextEpisodeForWatch(watchingTitle).toString())
+				.malEpisodeNumber(nextEpisodeForWatch.toString())
 				.posterUrlOnMal(watchingTitle.getPosterUrl())
 				.animeUrlOnMal(watchingTitle.getAnimeUrl());
-		return Flux.fromIterable(fanDubSources)
+		return httpRequestService.performHttpRequest(httpRequestServiceDtoBuilder.fandubTitlesService(fanDubSources,
+						watchingTitle.getId(),
+						nextEpisodeForWatch))
+				.flatMapMany(x -> Flux.fromStream(x.entrySet()
+						.stream()))
 				.flatMap(x -> mapEpisodeNameAndUrlByFandubSource(watchingTitle, x))
 				.doOnNext(x -> enrichWithEpisodeNameAndUrl(animeBuilder, x))
 				.then(Mono.just(animeBuilder))
@@ -46,9 +59,10 @@ public class AnimeService implements AnimeServiceI {
 	}
 
 	private Mono<Pair<FanDubSource, Pair<String, String>>> mapEpisodeNameAndUrlByFandubSource(MalTitle watchingTitle,
-			FanDubSource targetFanDubSource) {
+			Entry<FanDubSource, List<CommonTitle>> entry) {
+		FanDubSource targetFanDubSource = entry.getKey();
 		return episodeNameAndUrlServiceStrategy.get(targetFanDubSource)
-				.getEpisodeNameAndUrl(watchingTitle)
+				.getEpisodeNameAndUrl(watchingTitle, entry.getValue())
 				.map(x -> Pair.of(targetFanDubSource, x));
 	}
 

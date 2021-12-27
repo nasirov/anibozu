@@ -62,12 +62,12 @@ public class TestConstants {
 	public static final String NOT_FOUND_ON_MAL_TITLE_SHIZA_PROJECT_URL = "releases/view/3";
 	public static final String NOT_FOUND_ON_MAL_TITLE_JAM_CLUB_URL = "3-not-found-on-mal-title-url.html";
 	public static final String NOT_FOUND_ON_MAL_TITLE_ANYTHING_GROUP_URL = "relise/3-not-found-on-mal-title-url.html";
-	public static final String NOT_FOUND_ON_MAL_TITLE_POSTER_URL = "images/anime/4/notFoundOnMalTitle.jpg";
-	public static final String NOT_FOUND_ON_MAL_TITLE_MAL_ANIME_URL = "/anime/4/notFoundOnMalTitle";
-
-	public static final String NOT_FOUND_ON_MAL_TITLE_ORIGINAL_NAME = "not found on mal title name";
-
 	public static final String NOT_FOUND_ON_MAL_TITLE_ID = "3";
+
+	public static final Integer NOT_FOUND_ON_FANDUB_TITLE_ID = 4;
+	public static final String NOT_FOUND_ON_FANDUB_TITLE_POSTER_URL = "images/anime/4/notFoundOnMalTitle.jpg";
+	public static final String NOT_FOUND_ON_FANDUB_TITLE_MAL_ANIME_URL = "/anime/4/notFoundOnMalTitle";
+	public static final String NOT_FOUND_ON_FANDUB_TITLE_ORIGINAL_NAME = "not found on mal title name";
 
 
 	public static final String MY_ANIME_LIST_STATIC_CONTENT_URL = "https://cdn.myanimelist.net/";

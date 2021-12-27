@@ -50,11 +50,10 @@ public class JamClubEpisodeNameAndUrlServiceTest extends AbstractEpisodeNameAndU
 		//given
 		mockCommonProps();
 		mockFandubUrlsMap();
-		mockFandubTitleService(getRegularCommonTitles(), REGULAR_TITLE_MAL_ID, 2);
 		mockReactiveJamClubService();
 		MalTitle malTitle = buildWatchingTitle(REGULAR_TITLE_MAL_ID, 1);
 		//when
-		Pair<String, String> episodeNameAndUrl = getEpisodeNameAndUrlService().getEpisodeNameAndUrl(malTitle)
+		Pair<String, String> episodeNameAndUrl = getEpisodeNameAndUrlService().getEpisodeNameAndUrl(malTitle, getRegularCommonTitles())
 				.block();
 		//then
 		checkNameAndUrlForAvailableEpisodeBuiltInRuntime(episodeNameAndUrl);
@@ -78,11 +77,10 @@ public class JamClubEpisodeNameAndUrlServiceTest extends AbstractEpisodeNameAndU
 		//given
 		mockCommonProps();
 		mockFandubUrlsMap();
-		mockFandubTitleService(getRegularAndConcretizedCommonTitles(), REGULAR_TITLE_MAL_ID, 3);
 		mockReactiveJamClubService();
 		MalTitle malTitle = buildWatchingTitle(REGULAR_TITLE_MAL_ID, 2);
 		//when
-		Pair<String, String> episodeNameAndUrl = getEpisodeNameAndUrlService().getEpisodeNameAndUrl(malTitle)
+		Pair<String, String> episodeNameAndUrl = getEpisodeNameAndUrlService().getEpisodeNameAndUrl(malTitle, getRegularAndConcretizedCommonTitles())
 				.block();
 		//then
 		assertEquals(NOT_AVAILABLE_EPISODE_NAME_AND_URL, episodeNameAndUrl);

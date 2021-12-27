@@ -1,6 +1,8 @@
 package nasirov.yv.service;
 
 
+import java.util.List;
+import nasirov.yv.fandub.service.spring.boot.starter.dto.fandub.common.CommonTitle;
 import nasirov.yv.fandub.service.spring.boot.starter.dto.mal.MalTitle;
 import org.apache.commons.lang3.tuple.Pair;
 import reactor.core.publisher.Mono;
@@ -22,5 +24,5 @@ public interface EpisodeNameAndUrlServiceI {
 	 * <p>
 	 * wrapped with {@link Mono}
 	 */
-	Mono<Pair<String, String>> getEpisodeNameAndUrl(MalTitle watchingTitle);
+	Mono<Pair<String, String>> getEpisodeNameAndUrl(MalTitle watchingTitle, List<CommonTitle> commonTitles);
 }

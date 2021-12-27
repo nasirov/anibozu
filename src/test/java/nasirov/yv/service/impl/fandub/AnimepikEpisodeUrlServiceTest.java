@@ -70,10 +70,10 @@ public class AnimepikEpisodeUrlServiceTest {
 	public void shouldReturnNameAndUrlForAvailableEpisode() {
 		//given
 		mockFandubUrlsMap();
-		mockFandubTitleService(Lists.newArrayList(CommonTitleTestBuilder.getAnimepikRegular()), REGULAR_TITLE_MAL_ID, 1);
+		List<CommonTitle> commonTitles = Lists.newArrayList(CommonTitleTestBuilder.getAnimepikRegular());
 		MalTitle malTitle = buildWatchingTitle(REGULAR_TITLE_MAL_ID, 0);
 		//when
-		Pair<String, String> episodeNameAndUrl = animepikEpisodeUrlService.getEpisodeNameAndUrl(malTitle)
+		Pair<String, String> episodeNameAndUrl = animepikEpisodeUrlService.getEpisodeNameAndUrl(malTitle, commonTitles)
 				.block();
 		//then
 		assertEquals(Pair.of(ANIMEPIK_EPISODE_NAME, ANIMEPIK_URL + REGULAR_TITLE_ANIMEPIK_URL), episodeNameAndUrl);
@@ -85,12 +85,12 @@ public class AnimepikEpisodeUrlServiceTest {
 		mockCommonProps();
 		mockFandubUrlsMap();
 		CommonTitle commonTitle = CommonTitleTestBuilder.getAnimepikRegular();
-		mockFandubTitleService(Lists.newArrayList(commonTitle), REGULAR_TITLE_MAL_ID, 2);
+		List<CommonTitle> commonTitles = Lists.newArrayList(commonTitle);
 		mockGetTitlePage(getAnimepikEpisodes(), commonTitle);
 		mockParser(getAnimepikEpisodesWithFilledTitleUrlField());
 		MalTitle malTitle = buildWatchingTitle(REGULAR_TITLE_MAL_ID, 1);
 		//when
-		Pair<String, String> episodeNameAndUrl = animepikEpisodeUrlService.getEpisodeNameAndUrl(malTitle)
+		Pair<String, String> episodeNameAndUrl = animepikEpisodeUrlService.getEpisodeNameAndUrl(malTitle, commonTitles)
 				.block();
 		//then
 		assertEquals(Pair.of(RUNTIME_EPISODE_NAME, ANIMEPIK_URL + REGULAR_TITLE_ANIMEPIK_URL), episodeNameAndUrl);
@@ -100,10 +100,9 @@ public class AnimepikEpisodeUrlServiceTest {
 	public void shouldReturnNotFoundOnFandubSiteNameAndUrl() {
 		//given
 		int notFoundOnFandubMalId = 42;
-		mockFandubTitleService(Collections.emptyList(), notFoundOnFandubMalId, 1);
 		MalTitle malTitle = buildWatchingTitle(notFoundOnFandubMalId, 0);
 		//when
-		Pair<String, String> episodeNameAndUrl = animepikEpisodeUrlService.getEpisodeNameAndUrl(malTitle)
+		Pair<String, String> episodeNameAndUrl = animepikEpisodeUrlService.getEpisodeNameAndUrl(malTitle, Collections.emptyList())
 				.block();
 		//then
 		assertEquals(TITLE_NOT_FOUND_EPISODE_NAME_AND_URL, episodeNameAndUrl);
@@ -114,10 +113,10 @@ public class AnimepikEpisodeUrlServiceTest {
 		//given
 		mockCommonProps();
 		mockFandubUrlsMap();
-		mockFandubTitleService(Lists.newArrayList(CommonTitleTestBuilder.getAnimepikConcretized()), REGULAR_TITLE_MAL_ID, 2);
+		List<CommonTitle> commonTitles = Lists.newArrayList(CommonTitleTestBuilder.getAnimepikConcretized());
 		MalTitle malTitle = buildWatchingTitle(REGULAR_TITLE_MAL_ID, 1);
 		//when
-		Pair<String, String> episodeNameAndUrl = animepikEpisodeUrlService.getEpisodeNameAndUrl(malTitle)
+		Pair<String, String> episodeNameAndUrl = animepikEpisodeUrlService.getEpisodeNameAndUrl(malTitle, commonTitles)
 				.block();
 		//then
 		assertEquals(NOT_AVAILABLE_EPISODE_NAME_AND_URL, episodeNameAndUrl);
@@ -129,13 +128,13 @@ public class AnimepikEpisodeUrlServiceTest {
 		mockCommonProps();
 		mockFandubUrlsMap();
 		CommonTitle commonTitle = CommonTitleTestBuilder.getAnimepikRegular();
-		mockFandubTitleService(Lists.newArrayList(commonTitle), REGULAR_TITLE_MAL_ID, 3);
+		List<CommonTitle> commonTitles = Lists.newArrayList(commonTitle);
 		List<AnimepikEpisode> animepikEpisodesStub = Collections.emptyList();
 		mockGetTitlePage(animepikEpisodesStub, commonTitle);
 		mockParser(animepikEpisodesStub);
 		MalTitle malTitle = buildWatchingTitle(REGULAR_TITLE_MAL_ID, 2);
 		//when
-		Pair<String, String> episodeNameAndUrl = animepikEpisodeUrlService.getEpisodeNameAndUrl(malTitle)
+		Pair<String, String> episodeNameAndUrl = animepikEpisodeUrlService.getEpisodeNameAndUrl(malTitle, commonTitles)
 				.block();
 		//then
 		assertEquals(NOT_AVAILABLE_EPISODE_NAME_AND_URL, episodeNameAndUrl);
@@ -155,14 +154,6 @@ public class AnimepikEpisodeUrlServiceTest {
 		List<FandubEpisode> fandubEpisodes = getFandubEpisodes();
 		doReturn(fandubEpisodes).when(animepikParser)
 				.extractEpisodes(animepikEpisodes);
-	}
-
-	private void mockFandubTitleService(List<CommonTitle> commonTitles, int malId, int malEpisodeId) {
-		HttpRequestServiceDto<List<CommonTitle>> httpRequestServiceDto = mock(HttpRequestServiceDto.class);
-		doReturn(httpRequestServiceDto).when(httpRequestServiceDtoBuilder)
-				.fandubTitlesService(FanDubSource.ANIMEPIK, malId, malEpisodeId);
-		doReturn(Mono.just(commonTitles)).when(httpRequestService)
-				.performHttpRequest(httpRequestServiceDto);
 	}
 
 	private void mockGetTitlePage(List<AnimepikEpisode> animepikEpisodes, CommonTitle commonTitle) {

@@ -41,18 +41,19 @@ public abstract class AbstractEpisodeNameAndUrlService implements EpisodeNameAnd
 	protected final FanDubSource fanDubSource;
 
 	@Override
-	public final Mono<Pair<String, String>> getEpisodeNameAndUrl(MalTitle watchingTitle) {
+	public final Mono<Pair<String, String>> getEpisodeNameAndUrl(MalTitle watchingTitle, List<CommonTitle> commonTitles) {
 		Integer nextEpisodeForWatch = MalUtils.getNextEpisodeForWatch(watchingTitle);
 		String animeUrl = watchingTitle.getAnimeUrl();
-		return httpRequestService.performHttpRequest(httpRequestServiceDtoBuilder.fandubTitlesService(fanDubSource,
-				watchingTitle.getId(), nextEpisodeForWatch))
+		return Mono.just(commonTitles)
 				.filter(CollectionUtils::isNotEmpty)
 				.flatMap(x -> buildNameAndUrl(nextEpisodeForWatch,
 						x,
 						fanDubProps.getUrls()
 								.get(fanDubSource)))
 				.defaultIfEmpty(TITLE_NOT_FOUND_EPISODE_NAME_AND_URL)
-				.doOnSubscribe(x -> log.debug("Trying to get episode name and url for [{} - {} episode] by [{}]", animeUrl, nextEpisodeForWatch,
+				.doOnSubscribe(x -> log.debug("Trying to get episode name and url for [{} - {} episode] by [{}]",
+						animeUrl,
+						nextEpisodeForWatch,
 						fanDubSource))
 				.doOnSuccess(x -> log.debug("Got episode name and url [{}] for [{} - {} episode] by [{}]", x, animeUrl, nextEpisodeForWatch, fanDubSource));
 	}

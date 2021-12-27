@@ -88,17 +88,17 @@ public class HttpRequestServiceDtoBuilderTest {
 	@Test
 	public void shouldBuildHttpRequestServiceDtoForFandubTitlesService() {
 		//given
-		String url = FANDUB_TITLES_SERVICE_URL + "titles?fanDubSource=ANIMEDIA&malId=42&malEpisodeId=1";
+		String url = FANDUB_TITLES_SERVICE_URL + "titles?fanDubSources=ANIMEDIA&malId=42&malEpisodeId=1";
 		HttpMethod method = HttpMethod.GET;
 		Map<String, String> headers = Collections.singletonMap(HttpHeaders.AUTHORIZATION, FANDUB_TITLES_SERVICE_BASIC_AUTH);
 		Set<Integer> retryableStatusCodes = Collections.emptySet();
-		List<CommonTitle> fallback = Collections.emptyList();
+		Map<FanDubSource, List<CommonTitle>> fallback = Map.of(FanDubSource.ANIMEDIA, Collections.emptyList());
 		doReturn(FANDUB_TITLES_SERVICE_BASIC_AUTH).when(externalServicesProps)
 				.getFandubTitlesServiceBasicAuth();
 		doReturn(FANDUB_TITLES_SERVICE_URL).when(externalServicesProps)
 				.getFandubTitlesServiceUrl();
 		//when
-		HttpRequestServiceDto<List<CommonTitle>> result = httpRequestServiceDtoBuilder.fandubTitlesService(FanDubSource.ANIMEDIA, 42, 1);
+		HttpRequestServiceDto<Map<FanDubSource, List<CommonTitle>>> result = httpRequestServiceDtoBuilder.fandubTitlesService(List.of(FanDubSource.ANIMEDIA), 42, 1);
 		//then
 		checkResult(result, url, method, headers, retryableStatusCodes, fallback);
 	}

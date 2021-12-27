@@ -11,17 +11,17 @@ application:
       max-entity-count: 50
   common:
     enable-build-url-in-runtime:
-      ANIDUB: true
-      ANILIBRIA: true
-      ANIMEDIA: true
-      ANIMEPIK: true
-      JISEDAI: true
-      JUTSU: true
-      NINEANIME: true
-      SHIZAPROJECT: true
-      SOVETROMANTICA: true
-      JAMCLUB: true
-      ANYTHING_GROUP: true
+      ANIDUB: false
+      ANILIBRIA: false
+      ANIMEDIA: false
+      ANIMEPIK: false
+      JISEDAI: false
+      JUTSU: false
+      NINEANIME: false
+      SHIZAPROJECT: false
+      SOVETROMANTICA: false
+      JAMCLUB: false
+      ANYTHING_GROUP: false
   feign:
     enabled: false
   web-client:
