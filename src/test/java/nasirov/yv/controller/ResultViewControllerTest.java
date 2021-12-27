@@ -28,14 +28,14 @@ import reactor.core.publisher.Mono;
 /**
  * @author Nasirov Yuriy
  */
-public class ResultViewControllerTest extends AbstractTest {
+class ResultViewControllerTest extends AbstractTest {
 
 	private static final String RESULT_VIEW_PATH = "/result";
 
 	private static final String[] VALID_FANDUBS = {"ANIMEDIA", "NINEANIME"};
 
 	@Test
-	public void shouldReturnResultView() {
+	void shouldReturnResultView() {
 		//given
 		mockMalService(buildMalServiceResponseDto(Lists.newArrayList(new MalTitle()), ""));
 		//when
@@ -48,7 +48,7 @@ public class ResultViewControllerTest extends AbstractTest {
 	}
 
 	@Test
-	public void shouldReturn400ForInvalidUsernames() {
+	void shouldReturn400ForInvalidUsernames() {
 		//given
 		String[] invalidUsernameArray = {"", "moreThan16Charssss", "space between ", "@#!sd"};
 		//when
@@ -63,7 +63,7 @@ public class ResultViewControllerTest extends AbstractTest {
 	}
 
 	@Test
-	public void shouldReturn400ForInvalidFandubSources() {
+	void shouldReturn400ForInvalidFandubSources() {
 		//given
 		String[] invalidFandubSourceArray = {"animedia", "nineanime", ""};
 		//when
@@ -78,7 +78,7 @@ public class ResultViewControllerTest extends AbstractTest {
 	}
 
 	@Test
-	public void shouldReturnErrorViewWithErrorMessage() {
+	void shouldReturnErrorViewWithErrorMessage() {
 		//given
 		String errorMsg = "Foo Bar";
 		mockMalService(buildMalServiceResponseDto(Collections.emptyList(), errorMsg));
@@ -92,7 +92,7 @@ public class ResultViewControllerTest extends AbstractTest {
 	}
 
 	@Test
-	public void shouldReturn404ErrorView() {
+	void shouldReturn404ErrorView() {
 		//given
 		//when
 		ResponseSpec result = callNotFoundResource();
@@ -104,7 +104,7 @@ public class ResultViewControllerTest extends AbstractTest {
 	}
 
 	@Test
-	public void shouldReturn500ErrorView() {
+	void shouldReturn500ErrorView() {
 		//given
 		mockMalServiceException();
 		//when

@@ -39,7 +39,7 @@ import reactor.core.publisher.Mono;
  * @author Nasirov Yuriy
  */
 @ExtendWith(MockitoExtension.class)
-public class AnimediaEpisodeUrlServiceTest {
+class AnimediaEpisodeUrlServiceTest {
 
 	private static final String RUNTIME_EPISODE_NAME = "Серия 2";
 
@@ -62,7 +62,7 @@ public class AnimediaEpisodeUrlServiceTest {
 	private AnimediaEpisodeNameAndUrlService animediaEpisodeUrlService;
 
 	@Test
-	public void shouldReturnNameAndUrlForAvailableEpisode() {
+	void shouldReturnNameAndUrlForAvailableEpisode() {
 		//given
 		mockFandubUrlsMap();
 		List<CommonTitle> commonTitles = Lists.newArrayList(CommonTitleTestBuilder.getAnimediaRegular(),
@@ -82,7 +82,7 @@ public class AnimediaEpisodeUrlServiceTest {
 	}
 
 	@Test
-	public void shouldReturnNameAndUrlForAvailableEpisodeBuiltInRuntime() {
+	void shouldReturnNameAndUrlForAvailableEpisodeBuiltInRuntime() {
 		//given
 		mockCommonProps();
 		mockFandubUrlsMap();
@@ -105,7 +105,7 @@ public class AnimediaEpisodeUrlServiceTest {
 	}
 
 	@Test
-	public void shouldReturnNotFoundOnFandubSiteNameAndUrl() {
+	void shouldReturnNotFoundOnFandubSiteNameAndUrl() {
 		//given
 		int notFoundOnFandubMalId = 42;
 		MalTitle malTitle = buildWatchingTitle(notFoundOnFandubMalId, 0);
@@ -117,7 +117,7 @@ public class AnimediaEpisodeUrlServiceTest {
 	}
 
 	@Test
-	public void shouldReturnNameAndUrlForNotAvailableEpisode() {
+	void shouldReturnNameAndUrlForNotAvailableEpisode() {
 		//given
 		mockCommonProps();
 		mockFandubUrlsMap();
@@ -141,7 +141,7 @@ public class AnimediaEpisodeUrlServiceTest {
 	}
 
 	@Test
-	public void shouldReturnNameAndUrlForNotAvailableEpisodeBuiltInRuntime() {
+	void shouldReturnNameAndUrlForNotAvailableEpisodeBuiltInRuntime() {
 		//given
 		mockCommonProps();
 		mockFandubUrlsMap();

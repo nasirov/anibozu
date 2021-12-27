@@ -21,7 +21,7 @@ import reactor.core.publisher.Mono;
  * @author Nasirov Yuriy
  */
 @ExtendWith(MockitoExtension.class)
-public class MalServiceTest {
+class MalServiceTest {
 
 	@Mock
 	private HttpRequestServiceI httpRequestService;
@@ -33,7 +33,7 @@ public class MalServiceTest {
 	private MalService malService;
 
 	@Test
-	public void shouldReturnMalServiceResponseDtoMono() {
+	void shouldReturnMalServiceResponseDtoMono() {
 		//given
 		UserInputDto userInputDto = UserInputDto.builder()
 				.username("foobar")

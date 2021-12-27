@@ -12,10 +12,10 @@ import org.junit.jupiter.api.Test;
 /**
  * @author Nasirov Yuriy
  */
-public class MalUtilsTest {
+class MalUtilsTest {
 
 	@Test
-	public void shouldReturnNextEpisodeForWatch() {
+	void shouldReturnNextEpisodeForWatch() {
 		//given
 		MalTitle malTitle = MalTitle.builder()
 				.id(1)
@@ -30,7 +30,7 @@ public class MalUtilsTest {
 
 	@Test
 	@SneakyThrows
-	public void shouldFailOnPrivateConstructor() {
+	void shouldFailOnPrivateConstructor() {
 		Constructor<?>[] declaredConstructors = MalUtils.class.getDeclaredConstructors();
 		assertEquals(1, declaredConstructors.length);
 		assertFalse(declaredConstructors[0].isAccessible());

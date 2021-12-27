@@ -39,10 +39,10 @@ import reactor.core.publisher.Mono;
 /**
  * @author Nasirov Yuriy
  */
-public class ServerSentEventServiceTest extends AbstractTest {
+class ServerSentEventServiceTest extends AbstractTest {
 
 	@Test
-	public void shouldCompleteSuccessfully() {
+	void shouldCompleteSuccessfully() {
 		//given
 		UserInputDto userInputDto = buildUserInputDto();
 		MalServiceResponseDto malServiceResponseDto = buildMalServiceResponseDto();

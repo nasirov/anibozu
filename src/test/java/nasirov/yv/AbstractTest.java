@@ -24,8 +24,8 @@ import org.springframework.test.web.reactive.server.WebTestClient;
 /**
  * @author Nasirov Yuriy
  */
-@SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 @ActiveProfiles("test")
+@SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 public abstract class AbstractTest {
 
 	@MockBean
@@ -58,13 +58,13 @@ public abstract class AbstractTest {
 	protected WebTestClient webTestClient;
 
 	@BeforeEach
-	public void setUp() {
+	void setUp() {
 		webTestClient = WebTestClient.bindToApplicationContext(applicationContext)
 				.build();
 	}
 
 	@AfterEach
-	public void tearDown() {
+	void tearDown() {
 		clearCaches();
 	}
 

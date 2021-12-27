@@ -26,12 +26,12 @@ import reactor.core.publisher.Flux;
 /**
  * @author Nasirov Yuriy
  */
-public class ServerSentEventControllerTest extends AbstractTest {
+class ServerSentEventControllerTest extends AbstractTest {
 
 	private static final String SSE_PATH = "/sse";
 
 	@Test
-	public void shouldReturn200() {
+	void shouldReturn200() {
 		//given
 		mockServerSentEventServiceOk();
 		List<ServerSentEvent<SseDto>> serverSentEvents = buildServerSentEvents();

@@ -76,10 +76,10 @@ import reactor.core.publisher.Mono;
 /**
  * @author Nasirov Yuriy
  */
-public class AnimeServiceTest extends AbstractTest {
+class AnimeServiceTest extends AbstractTest {
 
 	@Test
-	public void shouldBuildAnimeWithAvailableUrls() {
+	void shouldBuildAnimeWithAvailableUrls() {
 		//given
 		MalTitle regularTitle = buildRegularTitle();
 		Set<FanDubSource> fanDubSources = buildOrderedFanDubSources();
@@ -93,7 +93,7 @@ public class AnimeServiceTest extends AbstractTest {
 	}
 
 	@Test
-	public void shouldBuildAnimeWithNotAvailableUrls() {
+	void shouldBuildAnimeWithNotAvailableUrls() {
 		//given
 		MalTitle concretizedTitle = buildConcretizedTitle();
 		Set<FanDubSource> fanDubSources = buildOrderedFanDubSources();
@@ -107,7 +107,7 @@ public class AnimeServiceTest extends AbstractTest {
 	}
 
 	@Test
-	public void shouldBuildAnimeWithNotFoundOnFandubUrls() {
+	void shouldBuildAnimeWithNotFoundOnFandubUrls() {
 		//given
 		MalTitle notFoundOnFandubTitle = buildNotFoundOnFandubTitle();
 		Set<FanDubSource> fanDubSources = buildOrderedFanDubSources();

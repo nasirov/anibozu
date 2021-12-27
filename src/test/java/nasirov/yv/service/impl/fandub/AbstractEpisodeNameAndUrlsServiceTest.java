@@ -46,12 +46,12 @@ public abstract class AbstractEpisodeNameAndUrlsServiceTest<RUNTIME_RESPONSE_TYP
 	protected CommonTitle concretizedCommonTitle;
 
 	@BeforeEach
-	public void setUp() {
+	void setUp() {
 		regularCommonTitle = CommonTitleTestBuilder.buildRegularTitle(getFandubSource());
 		concretizedCommonTitle = CommonTitleTestBuilder.buildConcretizedTitle(getFandubSource());
 	}
 
-	protected void shouldReturnNameAndUrlForAvailableEpisode() {
+	void shouldReturnNameAndUrlForAvailableEpisode() {
 		//given
 		mockFandubUrlsMap();
 		MalTitle malTitle = buildWatchingTitle(REGULAR_TITLE_MAL_ID, 0);
@@ -62,7 +62,7 @@ public abstract class AbstractEpisodeNameAndUrlsServiceTest<RUNTIME_RESPONSE_TYP
 		checkNameAndUrlForAvailableEpisode(episodeNameAndUrl);
 	}
 
-	protected void shouldReturnNameAndUrlForAvailableEpisodeBuiltInRuntime() {
+	void shouldReturnNameAndUrlForAvailableEpisodeBuiltInRuntime() {
 		//given
 		mockCommonProps();
 		mockFandubUrlsMap();
@@ -77,7 +77,7 @@ public abstract class AbstractEpisodeNameAndUrlsServiceTest<RUNTIME_RESPONSE_TYP
 		checkNameAndUrlForAvailableEpisodeBuiltInRuntime(episodeNameAndUrl);
 	}
 
-	protected void shouldReturnNotFoundOnFandubSiteNameAndUrl() {
+	void shouldReturnNotFoundOnFandubSiteNameAndUrl() {
 		//given
 		int notFoundOnFandubMalId = 42;
 		MalTitle malTitle = buildWatchingTitle(notFoundOnFandubMalId, 0);
@@ -88,7 +88,7 @@ public abstract class AbstractEpisodeNameAndUrlsServiceTest<RUNTIME_RESPONSE_TYP
 		assertEquals(TITLE_NOT_FOUND_EPISODE_NAME_AND_URL, episodeNameAndUrl);
 	}
 
-	protected void shouldReturnNameAndUrlForNotAvailableEpisode() {
+	void shouldReturnNameAndUrlForNotAvailableEpisode() {
 		//given
 		mockCommonProps();
 		mockFandubUrlsMap();
@@ -100,7 +100,7 @@ public abstract class AbstractEpisodeNameAndUrlsServiceTest<RUNTIME_RESPONSE_TYP
 		assertEquals(NOT_AVAILABLE_EPISODE_NAME_AND_URL, episodeNameAndUrl);
 	}
 
-	protected void shouldReturnNameAndUrlForNotAvailableEpisodeBuiltInRuntime() {
+	void shouldReturnNameAndUrlForNotAvailableEpisodeBuiltInRuntime() {
 		//given
 		mockCommonProps();
 		mockFandubUrlsMap();
@@ -133,12 +133,12 @@ public abstract class AbstractEpisodeNameAndUrlsServiceTest<RUNTIME_RESPONSE_TYP
 
 	protected abstract void mockParser(RUNTIME_RESPONSE_TYPE runtimeExpectedResponse);
 
-	protected void mockCommonProps() {
+	void mockCommonProps() {
 		doReturn(Collections.singletonMap(getFandubSource(), true)).when(commonProps)
 				.getEnableBuildUrlInRuntime();
 	}
 
-	protected void mockFandubUrlsMap() {
+	void mockFandubUrlsMap() {
 		doReturn(Maps.newHashMap(getFandubSource(), getFandubUrl())).when(fanDubProps)
 				.getUrls();
 	}

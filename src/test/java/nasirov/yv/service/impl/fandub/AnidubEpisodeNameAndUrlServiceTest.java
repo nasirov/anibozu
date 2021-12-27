@@ -28,7 +28,7 @@ import reactor.core.publisher.Mono;
  * @author Nasirov Yuriy
  */
 @ExtendWith(MockitoExtension.class)
-public class AnidubEpisodeNameAndUrlServiceTest extends AbstractEpisodeNameAndUrlsServiceTest<String> {
+class AnidubEpisodeNameAndUrlServiceTest extends AbstractEpisodeNameAndUrlsServiceTest<String> {
 
 	private static final String RUNTIME_EPISODE_NAME = "2 серия";
 
@@ -40,31 +40,31 @@ public class AnidubEpisodeNameAndUrlServiceTest extends AbstractEpisodeNameAndUr
 
 	@Test
 	@Override
-	public void shouldReturnNameAndUrlForAvailableEpisode() {
+	void shouldReturnNameAndUrlForAvailableEpisode() {
 		super.shouldReturnNameAndUrlForAvailableEpisode();
 	}
 
 	@Test
 	@Override
-	public void shouldReturnNameAndUrlForAvailableEpisodeBuiltInRuntime() {
+	void shouldReturnNameAndUrlForAvailableEpisodeBuiltInRuntime() {
 		super.shouldReturnNameAndUrlForAvailableEpisodeBuiltInRuntime();
 	}
 
 	@Test
 	@Override
-	public void shouldReturnNotFoundOnFandubSiteNameAndUrl() {
+	void shouldReturnNotFoundOnFandubSiteNameAndUrl() {
 		super.shouldReturnNotFoundOnFandubSiteNameAndUrl();
 	}
 
 	@Test
 	@Override
-	public void shouldReturnNameAndUrlForNotAvailableEpisode() {
+	void shouldReturnNameAndUrlForNotAvailableEpisode() {
 		super.shouldReturnNameAndUrlForNotAvailableEpisode();
 	}
 
 	@Test
 	@Override
-	public void shouldReturnNameAndUrlForNotAvailableEpisodeBuiltInRuntime() {
+	void shouldReturnNameAndUrlForNotAvailableEpisodeBuiltInRuntime() {
 		super.shouldReturnNameAndUrlForNotAvailableEpisodeBuiltInRuntime();
 	}
 

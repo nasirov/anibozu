@@ -38,7 +38,7 @@ import org.springframework.web.reactive.function.client.ClientResponse;
  * @author Nasirov Yuriy
  */
 @ExtendWith(MockitoExtension.class)
-public class HttpRequestServiceDtoBuilderTest {
+class HttpRequestServiceDtoBuilderTest {
 
 	private static final String FANDUB_TITLES_SERVICE_BASIC_AUTH = "Basic foo";
 
@@ -64,7 +64,7 @@ public class HttpRequestServiceDtoBuilderTest {
 	private HttpRequestServiceDtoBuilder httpRequestServiceDtoBuilder;
 
 	@Test
-	public void shouldBuildHttpRequestServiceDtoForMalService() {
+	void shouldBuildHttpRequestServiceDtoForMalService() {
 		//given
 		String url = MAL_SERVICE_URL + "titles?username=foobar&status=WATCHING";
 		HttpMethod method = HttpMethod.GET;
@@ -86,7 +86,7 @@ public class HttpRequestServiceDtoBuilderTest {
 	}
 
 	@Test
-	public void shouldBuildHttpRequestServiceDtoForFandubTitlesService() {
+	void shouldBuildHttpRequestServiceDtoForFandubTitlesService() {
 		//given
 		String url = FANDUB_TITLES_SERVICE_URL + "titles?fanDubSources=ANIMEDIA&malId=42&malEpisodeId=1";
 		HttpMethod method = HttpMethod.GET;
@@ -104,7 +104,7 @@ public class HttpRequestServiceDtoBuilderTest {
 	}
 
 	@Test
-	public void shouldBuildHttpRequestServiceDtoForSeleniumService() {
+	void shouldBuildHttpRequestServiceDtoForSeleniumService() {
 		//given
 		String url = SELENIUM_SERVICE_URL + "content?url=https://foo.bar&timeoutInSec=5&cssSelector=a";
 		HttpMethod method = HttpMethod.GET;
@@ -126,7 +126,7 @@ public class HttpRequestServiceDtoBuilderTest {
 	}
 
 	@Test
-	public void shouldBuildHttpRequestServiceDtoForAnidub() {
+	void shouldBuildHttpRequestServiceDtoForAnidub() {
 		//given
 		String url = TestConstants.ANIDUB_URL + TITLE_URL;
 		HttpMethod method = HttpMethod.GET;
@@ -142,7 +142,7 @@ public class HttpRequestServiceDtoBuilderTest {
 	}
 
 	@Test
-	public void shouldBuildHttpRequestServiceDtoForAnilibria() {
+	void shouldBuildHttpRequestServiceDtoForAnilibria() {
 		//given
 		String url = TestConstants.ANILIBRIA_URL + TITLE_URL;
 		HttpMethod method = HttpMethod.GET;
@@ -158,7 +158,7 @@ public class HttpRequestServiceDtoBuilderTest {
 	}
 
 	@Test
-	public void shouldBuildHttpRequestServiceDtoForAnimedia() {
+	void shouldBuildHttpRequestServiceDtoForAnimedia() {
 		//given
 		String url = TestConstants.ANIMEDIA_ONLINE_TV + "embeds/playlist-j.txt/11/2";
 		HttpMethod method = HttpMethod.GET;
@@ -174,7 +174,7 @@ public class HttpRequestServiceDtoBuilderTest {
 	}
 
 	@Test
-	public void shouldBuildHttpRequestServiceDtoForAnimepik() {
+	void shouldBuildHttpRequestServiceDtoForAnimepik() {
 		//given
 		String url = TestConstants.ANIMEPIK_URL + "api/v1/" + TITLE_URL;
 		HttpMethod method = HttpMethod.GET;
@@ -194,7 +194,7 @@ public class HttpRequestServiceDtoBuilderTest {
 	}
 
 	@Test
-	public void shouldBuildHttpRequestServiceDtoForJisedai() {
+	void shouldBuildHttpRequestServiceDtoForJisedai() {
 		//given
 		String url = TestConstants.JISEDAI_API_URL + "api/v1/anime/11/episode";
 		HttpMethod method = HttpMethod.GET;
@@ -211,7 +211,7 @@ public class HttpRequestServiceDtoBuilderTest {
 	}
 
 	@Test
-	public void shouldBuildHttpRequestServiceDtoForJutsu() {
+	void shouldBuildHttpRequestServiceDtoForJutsu() {
 		//given
 		String url = TestConstants.JUTSU_URL + TITLE_URL;
 		HttpMethod method = HttpMethod.GET;
@@ -227,7 +227,7 @@ public class HttpRequestServiceDtoBuilderTest {
 	}
 
 	@Test
-	public void shouldBuildHttpRequestServiceDtoForNineAnime() {
+	void shouldBuildHttpRequestServiceDtoForNineAnime() {
 		//given
 		String url = TestConstants.NINE_ANIME_TO + "ajax/anime/servers?id=11";
 		HttpMethod method = HttpMethod.GET;
@@ -243,7 +243,7 @@ public class HttpRequestServiceDtoBuilderTest {
 	}
 
 	@Test
-	public void shouldBuildHttpRequestServiceDtoForShizaProject() {
+	void shouldBuildHttpRequestServiceDtoForShizaProject() {
 		//given
 		String url = TestConstants.SHIZA_PROJECT_URL + TITLE_URL;
 		HttpMethod method = HttpMethod.GET;
@@ -259,7 +259,7 @@ public class HttpRequestServiceDtoBuilderTest {
 	}
 
 	@Test
-	public void shouldBuildHttpRequestServiceDtoForSovetRomantica() {
+	void shouldBuildHttpRequestServiceDtoForSovetRomantica() {
 		//given
 		String url = TestConstants.SOVET_ROMANTICA_URL + TITLE_URL;
 		HttpMethod method = HttpMethod.GET;
@@ -275,7 +275,7 @@ public class HttpRequestServiceDtoBuilderTest {
 	}
 
 	@Test
-	public void shouldBuildHttpRequestServiceDtoForSovetRomanticaWithCookie() {
+	void shouldBuildHttpRequestServiceDtoForSovetRomanticaWithCookie() {
 		//given
 		String url = TestConstants.SOVET_ROMANTICA_URL + TITLE_URL;
 		HttpMethod method = HttpMethod.GET;
@@ -293,7 +293,7 @@ public class HttpRequestServiceDtoBuilderTest {
 
 
 	@Test
-	public void shouldBuildHttpRequestServiceDtoForSovetRomanticaDdosGuard() {
+	void shouldBuildHttpRequestServiceDtoForSovetRomanticaDdosGuard() {
 		//given
 		String url = TestConstants.SOVET_ROMANTICA_DDOS_GUARD_URL + "check.js";
 		HttpMethod method = HttpMethod.GET;

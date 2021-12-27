@@ -15,10 +15,10 @@ import org.springframework.test.web.reactive.server.WebTestClient.ResponseSpec;
 /**
  * @author Nasirov Yuriy
  */
-public class IndexViewControllerTest extends AbstractTest {
+class IndexViewControllerTest extends AbstractTest {
 
 	@Test
-	public void shouldReturnIndex() {
+	void shouldReturnIndex() {
 		//given
 		List<String> mapping = Arrays.asList("/", "/index");
 		//when

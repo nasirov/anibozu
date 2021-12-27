@@ -28,7 +28,7 @@ import reactor.core.publisher.Mono;
  * @author Nasirov Yuriy
  */
 @ExtendWith(MockitoExtension.class)
-public class JamClubEpisodeNameAndUrlServiceTest extends AbstractEpisodeNameAndUrlsServiceTest<String> {
+class JamClubEpisodeNameAndUrlServiceTest extends AbstractEpisodeNameAndUrlsServiceTest<String> {
 
 	private static final String RUNTIME_EPISODE_NAME = "2 серия";
 
@@ -40,13 +40,13 @@ public class JamClubEpisodeNameAndUrlServiceTest extends AbstractEpisodeNameAndU
 
 	@Test
 	@Override
-	public void shouldReturnNameAndUrlForAvailableEpisode() {
+	void shouldReturnNameAndUrlForAvailableEpisode() {
 		super.shouldReturnNameAndUrlForAvailableEpisode();
 	}
 
 	@Test
 	@Override
-	public void shouldReturnNameAndUrlForAvailableEpisodeBuiltInRuntime() {
+	void shouldReturnNameAndUrlForAvailableEpisodeBuiltInRuntime() {
 		//given
 		mockCommonProps();
 		mockFandubUrlsMap();
@@ -61,19 +61,19 @@ public class JamClubEpisodeNameAndUrlServiceTest extends AbstractEpisodeNameAndU
 
 	@Test
 	@Override
-	public void shouldReturnNotFoundOnFandubSiteNameAndUrl() {
+	void shouldReturnNotFoundOnFandubSiteNameAndUrl() {
 		super.shouldReturnNotFoundOnFandubSiteNameAndUrl();
 	}
 
 	@Test
 	@Override
-	public void shouldReturnNameAndUrlForNotAvailableEpisode() {
+	void shouldReturnNameAndUrlForNotAvailableEpisode() {
 		super.shouldReturnNameAndUrlForNotAvailableEpisode();
 	}
 
 	@Test
 	@Override
-	public void shouldReturnNameAndUrlForNotAvailableEpisodeBuiltInRuntime() {
+	void shouldReturnNameAndUrlForNotAvailableEpisodeBuiltInRuntime() {
 		//given
 		mockCommonProps();
 		mockFandubUrlsMap();

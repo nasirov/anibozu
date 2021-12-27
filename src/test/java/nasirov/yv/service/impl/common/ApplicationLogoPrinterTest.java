@@ -17,7 +17,7 @@ import org.springframework.test.util.ReflectionTestUtils;
 /**
  * @author Nasirov Yuriy
  */
-public class ApplicationLogoPrinterTest {
+class ApplicationLogoPrinterTest {
 
 	private static final String APPLICATION_LOGO_FILENAME = "anime-checker-logo.txt";
 
@@ -28,7 +28,7 @@ public class ApplicationLogoPrinterTest {
 	private String applicationLogo;
 
 	@BeforeEach
-	public void setUp() {
+	void setUp() {
 		ResourcesNames resourcesNames = mock(ResourcesNames.class);
 		doReturn(APPLICATION_LOGO_FILENAME).when(resourcesNames)
 				.getName();
@@ -37,7 +37,7 @@ public class ApplicationLogoPrinterTest {
 	}
 
 	@Test
-	public void shouldPrintApplicationLogo() {
+	void shouldPrintApplicationLogo() {
 		//given
 		mockPrintStream();
 		//when

@@ -17,10 +17,10 @@ import reactor.core.publisher.Flux;
 /**
  * @author Nasirov Yuriy
  */
-public class CacheCleanerServiceTest extends AbstractTest {
+class CacheCleanerServiceTest extends AbstractTest {
 
 	@Test
-	public void shouldClearSseCache() {
+	void shouldClearSseCache() {
 		//given
 		Cache sseCache = cacheManager.getCache("sse");
 		assertNotNull(sseCache);
