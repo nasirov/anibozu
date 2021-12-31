@@ -9,6 +9,7 @@ import static nasirov.yv.data.front.EventType.NOT_FOUND;
 import java.util.Set;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import nasirov.yv.data.constants.BaseConstants;
 import nasirov.yv.data.front.Anime;
 import nasirov.yv.data.front.EventType;
 import nasirov.yv.data.front.SseDto;
@@ -100,6 +101,7 @@ public class ServerSentEventService implements ServerSentEventServiceI {
 	private SseDto buildDtoWithErrorEvent() {
 		return SseDto.builder()
 				.eventType(ERROR)
+				.errorMessage(BaseConstants.GENERIC_ERROR_MESSAGE)
 				.build();
 	}
 }

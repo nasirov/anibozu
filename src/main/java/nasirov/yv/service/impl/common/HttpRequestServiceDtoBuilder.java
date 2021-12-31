@@ -10,6 +10,7 @@ import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
+import nasirov.yv.data.constants.BaseConstants;
 import nasirov.yv.fandub.service.spring.boot.starter.constant.FanDubSource;
 import nasirov.yv.fandub.service.spring.boot.starter.dto.fandub.animedia.AnimediaEpisode;
 import nasirov.yv.fandub.service.spring.boot.starter.dto.fandub.animepik.AnimepikPlayer;
@@ -53,7 +54,7 @@ public class HttpRequestServiceDtoBuilder implements HttpRequestServiceDtoBuilde
 				MalServiceResponseDto.builder()
 						.username(username)
 						.malTitles(Collections.emptyList())
-						.errorMessage(StringUtils.EMPTY)
+						.errorMessage(BaseConstants.GENERIC_ERROR_MESSAGE)
 						.build());
 	}
 

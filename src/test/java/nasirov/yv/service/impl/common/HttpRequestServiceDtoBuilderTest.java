@@ -10,6 +10,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import nasirov.yv.data.constants.BaseConstants;
 import nasirov.yv.fandub.service.spring.boot.starter.constant.FanDubSource;
 import nasirov.yv.fandub.service.spring.boot.starter.dto.fandub.animedia.AnimediaEpisode;
 import nasirov.yv.fandub.service.spring.boot.starter.dto.fandub.animepik.AnimepikPlayer;
@@ -73,7 +74,7 @@ class HttpRequestServiceDtoBuilderTest {
 		MalServiceResponseDto fallback = MalServiceResponseDto.builder()
 				.username("foobar")
 				.malTitles(Collections.emptyList())
-				.errorMessage(StringUtils.EMPTY)
+				.errorMessage(BaseConstants.GENERIC_ERROR_MESSAGE)
 				.build();
 		doReturn(MAL_SERVICE_BASIC_AUTH).when(externalServicesProps)
 				.getMalServiceBasicAuth();

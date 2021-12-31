@@ -20,4 +20,6 @@ public class BaseConstants {
 	public static final Pair<String, String> NOT_AVAILABLE_EPISODE_NAME_AND_URL = Pair.of(NOT_AVAILABLE_EPISODE_NAME, NOT_AVAILABLE_EPISODE_URL);
 
 	public static final Pair<String, String> TITLE_NOT_FOUND_EPISODE_NAME_AND_URL = Pair.of(TITLE_NOT_FOUND_EPISODE_NAME, TITLE_NOT_FOUND_EPISODE_URL);
+
+	public static final String GENERIC_ERROR_MESSAGE = "Sorry, something went wrong.";
 }

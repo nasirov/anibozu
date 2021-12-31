@@ -8,19 +8,19 @@ $(document).ready(function () {
   var eventSource = new EventSource(
       '/sse?username=' + username + '&fanDubSources=' + fandubList);
   eventSource.onmessage = function (messageFromServer) {
-    var msg = JSON.parse(messageFromServer.data);
+    var sseDto = JSON.parse(messageFromServer.data);
     var handledCount = messageFromServer.lastEventId;
     var header = $('header');
     var availableSection = $('#available-section');
     var notAvailableSection = $('#not-available-section');
     var notFoundSection = $('#not-found-section');
-    switch (msg.eventType) {
+    switch (sseDto.eventType) {
       case 'AVAILABLE':
         if (isSectionDoNotExist(availableSection)) {
           addAfter(header, buildSection('available-section', 'Available'));
         }
-        buildAvailable(msg.anime, fandubList);
-        updateStatus(username, handledCount, watchingTitlesSize);
+        buildAvailable(sseDto.anime, fandubList);
+        updateProcessingStatus(username, handledCount, watchingTitlesSize);
         break;
       case 'NOT_AVAILABLE':
         if (isSectionDoNotExist(notAvailableSection)) {
@@ -33,8 +33,8 @@ $(document).ready(function () {
             addAfter(header, newNotAvailableSection);
           }
         }
-        buildNotAvailable(msg.anime);
-        updateStatus(username, handledCount, watchingTitlesSize);
+        buildNotAvailable(sseDto.anime);
+        updateProcessingStatus(username, handledCount, watchingTitlesSize);
         break;
       case 'NOT_FOUND':
         if (isSectionDoNotExist(notFoundSection)) {
@@ -48,22 +48,22 @@ $(document).ready(function () {
             addAfter(header, newNotFoundSection);
           }
         }
-        buildNotFound(msg.anime);
-        updateStatus(username, handledCount, watchingTitlesSize);
+        buildNotFound(sseDto.anime);
+        updateProcessingStatus(username, handledCount, watchingTitlesSize);
         break;
       case 'ERROR':
-        setStatusToCompleted('Completed result with errors for ' + username);
+        setStatus(sseDto.errorMessage);
         eventSource.close();
         break;
       case 'DONE':
-        setStatusToCompleted('Successfully completed result for ' + username);
+        setStatus('Successfully completed result for ' + username);
         eventSource.close();
         break;
     }
   };
 
   eventSource.onerror = function () {
-    setStatusToCompleted('Completed result with errors for ' + username);
+    setStatus('Completed result with errors for ' + username);
     eventSource.close();
   };
 
@@ -131,17 +131,13 @@ function buildNotFound(anime) {
   notFoundSection.append(item);
 }
 
-function setStatusToCompleted(message) {
-  setStatusText(message);
-}
-
-function updateStatus(username, handledCount, watchingTitlesCount) {
+function updateProcessingStatus(username, handledCount, watchingTitlesCount) {
   handledCount++;
-  setStatusText('Processing result for ' + username + ' ...'
+  setStatus('Processing result for ' + username + ' ...'
       + ' Handled ' + handledCount + ' from ' + watchingTitlesCount);
 }
 
-function setStatusText(message) {
+function setStatus(message) {
   $('#status').text(message);
 }
 

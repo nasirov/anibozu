@@ -157,16 +157,23 @@ class ServerSentEventServiceTest extends AbstractTest {
 				.buildAnime(fanDubSources, malTitle);
 	}
 
-	private void checkServerSentEvent(ServerSentEvent<SseDto> serverSentEvent, int eventId, EventType eventType, MalTitle malTitle) {
+	private void checkServerSentEvent(ServerSentEvent<SseDto> serverSentEvent, int eventId, EventType expectedEventType, MalTitle malTitle) {
 		assertEquals(String.valueOf(eventId), serverSentEvent.id());
 		SseDto sseDto = serverSentEvent.data();
 		assertNotNull(sseDto);
-		if (eventType == EventType.ERROR || eventType == EventType.DONE) {
-			assertNull(sseDto.getAnime());
-		} else {
-			assertEquals(buildExpectedAnime(buildFanDubUrls(eventType), buildFanDubEpisodeNames(eventType), malTitle), sseDto.getAnime());
+		String actualErrorMessage = sseDto.getErrorMessage();
+		Anime actualAnime = sseDto.getAnime();
+		assertEquals(expectedEventType, sseDto.getEventType());
+		switch (expectedEventType) {
+			case ERROR:
+				assertEquals(BaseConstants.GENERIC_ERROR_MESSAGE, actualErrorMessage);
+			case DONE:
+				assertNull(actualAnime);
+				break;
+			default:
+				assertEquals(buildExpectedAnime(buildFanDubUrls(expectedEventType), buildFanDubEpisodeNames(expectedEventType), malTitle), actualAnime);
+				assertNull(actualErrorMessage);
 		}
-		assertEquals(eventType, sseDto.getEventType());
 	}
 
 	private Anime buildExpectedAnime(Map<FanDubSource, String> fanDubUrls, Map<FanDubSource, String> fanDubEpisodeNames, MalTitle malTitle) {

@@ -17,7 +17,7 @@ import lombok.NoArgsConstructor;
 public class SseDto {
 
 	/**
-	 * Episode availability
+	 * Sse event type
 	 */
 	private EventType eventType;
 
@@ -25,4 +25,9 @@ public class SseDto {
 	 * Dto with a title info
 	 */
 	private Anime anime;
+
+	/**
+	 * Error message if any
+	 */
+	private String errorMessage;
 }
