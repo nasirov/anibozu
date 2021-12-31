@@ -1,211 +1,81 @@
 package nasirov.yv.service.impl.fandub;
 
-import static nasirov.yv.data.constants.BaseConstants.NOT_AVAILABLE_EPISODE_NAME_AND_URL;
-import static nasirov.yv.data.constants.BaseConstants.TITLE_NOT_FOUND_EPISODE_NAME_AND_URL;
 import static nasirov.yv.utils.CommonTitleTestBuilder.ANIMEDIA_EPISODE_NAME;
 import static nasirov.yv.utils.CommonTitleTestBuilder.buildEpisodeUrl;
 import static nasirov.yv.utils.TestConstants.ANIMEDIA_ONLINE_TV;
 import static nasirov.yv.utils.TestConstants.REGULAR_TITLE_ANIMEDIA_URL;
-import static nasirov.yv.utils.TestConstants.REGULAR_TITLE_MAL_ID;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.ArgumentMatchers.argThat;
 import static org.mockito.Mockito.doReturn;
-import static org.mockito.Mockito.mock;
 
 import com.google.common.collect.Lists;
-import java.util.Collections;
 import java.util.List;
-import nasirov.yv.data.properties.CommonProps;
 import nasirov.yv.fandub.service.spring.boot.starter.constant.FanDubSource;
 import nasirov.yv.fandub.service.spring.boot.starter.dto.fandub.animedia.AnimediaEpisode;
 import nasirov.yv.fandub.service.spring.boot.starter.dto.fandub.common.CommonTitle;
 import nasirov.yv.fandub.service.spring.boot.starter.dto.fandub.common.FandubEpisode;
-import nasirov.yv.fandub.service.spring.boot.starter.dto.http_request_service.HttpRequestServiceDto;
-import nasirov.yv.fandub.service.spring.boot.starter.dto.mal.MalTitle;
-import nasirov.yv.fandub.service.spring.boot.starter.extractor.parser.AnimediaParserI;
-import nasirov.yv.fandub.service.spring.boot.starter.properties.FanDubProps;
-import nasirov.yv.fandub.service.spring.boot.starter.service.HttpRequestServiceI;
-import nasirov.yv.service.HttpRequestServiceDtoBuilderI;
 import nasirov.yv.utils.CommonTitleTestBuilder;
 import org.apache.commons.lang3.tuple.Pair;
-import org.assertj.core.util.Maps;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
 import reactor.core.publisher.Mono;
 
 /**
  * @author Nasirov Yuriy
  */
-@ExtendWith(MockitoExtension.class)
-class AnimediaEpisodeUrlServiceTest {
+class AnimediaEpisodeUrlServiceTest extends AbstractEpisodeNameAndUrlsServiceTest<List<AnimediaEpisode>> {
 
 	private static final String RUNTIME_EPISODE_NAME = "Серия 2";
 
-	@Mock
-	private FanDubProps fanDubProps;
-
-	@Mock
-	protected CommonProps commonProps;
-
-	@Mock
-	private HttpRequestServiceI httpRequestService;
-
-	@Mock
-	private HttpRequestServiceDtoBuilderI httpRequestServiceDtoBuilder;
-
-	@Mock
-	private AnimediaParserI animediaParser;
-
-	@InjectMocks
-	private AnimediaEpisodeNameAndUrlService animediaEpisodeUrlService;
-
 	@Test
+	@Override
 	void shouldReturnNameAndUrlForAvailableEpisode() {
-		//given
-		mockFandubUrlsMap();
-		List<CommonTitle> commonTitles = Lists.newArrayList(CommonTitleTestBuilder.getAnimediaRegular(),
-				CommonTitleTestBuilder.getRegular(REGULAR_TITLE_ANIMEDIA_URL, 0, buildEpisodeUrl(REGULAR_TITLE_ANIMEDIA_URL, 0), null,
-						ANIMEDIA_EPISODE_NAME),
-				CommonTitleTestBuilder.getConcretized(REGULAR_TITLE_ANIMEDIA_URL,
-						2,
-						buildEpisodeUrl(REGULAR_TITLE_ANIMEDIA_URL, 2),
-						null,
-						ANIMEDIA_EPISODE_NAME));
-		MalTitle malTitle = buildWatchingTitle(REGULAR_TITLE_MAL_ID, 0);
-		//when
-		Pair<String, String> episodeNameAndUrl = animediaEpisodeUrlService.getEpisodeNameAndUrl(malTitle, commonTitles)
-				.block();
-		//then
-		assertEquals(Pair.of(ANIMEDIA_EPISODE_NAME, ANIMEDIA_ONLINE_TV + REGULAR_TITLE_ANIMEDIA_URL + "/1/1"), episodeNameAndUrl);
+		super.shouldReturnNameAndUrlForAvailableEpisode();
 	}
 
 	@Test
+	@Override
 	void shouldReturnNameAndUrlForAvailableEpisodeBuiltInRuntime() {
-		//given
-		mockCommonProps();
-		mockFandubUrlsMap();
-		CommonTitle commonTitle = CommonTitleTestBuilder.getAnimediaRegular();
-		List<CommonTitle> commonTitles = Lists.newArrayList(commonTitle,
-				CommonTitleTestBuilder.getRegular(REGULAR_TITLE_ANIMEDIA_URL, 0, buildEpisodeUrl(REGULAR_TITLE_ANIMEDIA_URL, 0), null, RUNTIME_EPISODE_NAME),
-				CommonTitleTestBuilder.getConcretized(REGULAR_TITLE_ANIMEDIA_URL,
-						2,
-						buildEpisodeUrl(REGULAR_TITLE_ANIMEDIA_URL, 2),
-						null,
-						ANIMEDIA_EPISODE_NAME));
-		mockGetTitleEpisodesByPlaylist(getAnimediaEpisodes(), commonTitle);
-		mockParser(getAnimediaEpisodesWithFilledTitleUrlField());
-		MalTitle malTitle = buildWatchingTitle(REGULAR_TITLE_MAL_ID, 1);
-		//when
-		Pair<String, String> episodeNameAndUrl = animediaEpisodeUrlService.getEpisodeNameAndUrl(malTitle, commonTitles)
-				.block();
-		//then
-		assertEquals(Pair.of(RUNTIME_EPISODE_NAME, ANIMEDIA_ONLINE_TV + REGULAR_TITLE_ANIMEDIA_URL + "/1/3"), episodeNameAndUrl);
+		super.shouldReturnNameAndUrlForAvailableEpisodeBuiltInRuntime();
 	}
 
 	@Test
+	@Override
 	void shouldReturnNotFoundOnFandubSiteNameAndUrl() {
-		//given
-		int notFoundOnFandubMalId = 42;
-		MalTitle malTitle = buildWatchingTitle(notFoundOnFandubMalId, 0);
-		//when
-		Pair<String, String> episodeNameAndUrl = animediaEpisodeUrlService.getEpisodeNameAndUrl(malTitle, Collections.emptyList())
-				.block();
-		//then
-		assertEquals(TITLE_NOT_FOUND_EPISODE_NAME_AND_URL, episodeNameAndUrl);
+		super.shouldReturnNotFoundOnFandubSiteNameAndUrl();
 	}
 
 	@Test
+	@Override
 	void shouldReturnNameAndUrlForNotAvailableEpisode() {
-		//given
-		mockCommonProps();
-		mockFandubUrlsMap();
-		List<CommonTitle> commonTitles = Lists.newArrayList(CommonTitleTestBuilder.getAnimediaConcretized(),
-				CommonTitleTestBuilder.getConcretized(REGULAR_TITLE_ANIMEDIA_URL,
-						0,
-						buildEpisodeUrl(REGULAR_TITLE_ANIMEDIA_URL, 0),
-						null,
-						RUNTIME_EPISODE_NAME),
-				CommonTitleTestBuilder.getConcretized(REGULAR_TITLE_ANIMEDIA_URL,
-						2,
-						buildEpisodeUrl(REGULAR_TITLE_ANIMEDIA_URL, 2),
-						null,
-						ANIMEDIA_EPISODE_NAME));
-		MalTitle malTitle = buildWatchingTitle(REGULAR_TITLE_MAL_ID, 1);
-		//when
-		Pair<String, String> episodeNameAndUrl = animediaEpisodeUrlService.getEpisodeNameAndUrl(malTitle, commonTitles)
-				.block();
-		//then
-		assertEquals(NOT_AVAILABLE_EPISODE_NAME_AND_URL, episodeNameAndUrl);
+		super.shouldReturnNameAndUrlForNotAvailableEpisode();
 	}
 
 	@Test
+	@Override
 	void shouldReturnNameAndUrlForNotAvailableEpisodeBuiltInRuntime() {
-		//given
-		mockCommonProps();
-		mockFandubUrlsMap();
-		CommonTitle commonTitle = CommonTitleTestBuilder.getAnimediaRegular();
-		List<CommonTitle> commonTitles = Lists.newArrayList(commonTitle,
-				CommonTitleTestBuilder.getRegular(REGULAR_TITLE_ANIMEDIA_URL, 0, buildEpisodeUrl(REGULAR_TITLE_ANIMEDIA_URL, 0), null, RUNTIME_EPISODE_NAME),
-				CommonTitleTestBuilder.getConcretized(REGULAR_TITLE_ANIMEDIA_URL,
-						2,
-						buildEpisodeUrl(REGULAR_TITLE_ANIMEDIA_URL, 2),
-						null,
-						ANIMEDIA_EPISODE_NAME));
-		List<AnimediaEpisode> animediaEpisodesStub = Collections.emptyList();
-		mockGetTitleEpisodesByPlaylist(animediaEpisodesStub, commonTitle);
-		mockParser(animediaEpisodesStub);
-		MalTitle malTitle = buildWatchingTitle(REGULAR_TITLE_MAL_ID, 2);
-		//when
-		Pair<String, String> episodeNameAndUrl = animediaEpisodeUrlService.getEpisodeNameAndUrl(malTitle, commonTitles)
-				.block();
-		//then
-		assertEquals(NOT_AVAILABLE_EPISODE_NAME_AND_URL, episodeNameAndUrl);
+		super.shouldReturnNameAndUrlForNotAvailableEpisodeBuiltInRuntime();
 	}
 
-	private void mockParser(List<AnimediaEpisode> animediaEpisodes) {
-		List<FandubEpisode> fandubEpisodes = getFandubEpisodes();
-		doReturn(fandubEpisodes).when(animediaParser)
-				.extractEpisodes(animediaEpisodes);
+	@Override
+	protected List<AnimediaEpisode> getRuntimeExpectedResponse() {
+		return getAnimediaEpisodesWithFilledTitleUrlField();
 	}
 
-	private void mockGetTitleEpisodesByPlaylist(List<AnimediaEpisode> episodes, CommonTitle commonTitle) {
-		HttpRequestServiceDto<List<AnimediaEpisode>> httpRequestServiceDto = mock(HttpRequestServiceDto.class);
-		doReturn(httpRequestServiceDto).when(httpRequestServiceDtoBuilder)
-				.animedia(commonTitle);
-		doReturn(Mono.just(episodes)).when(httpRequestService)
-				.performHttpRequest(httpRequestServiceDto);
+	@Override
+	protected void mockGetRuntimeResponse(List<AnimediaEpisode> runtimeExpectedResponse, CommonTitle commonTitle) {
+		doReturn(Mono.just(runtimeExpectedResponse)).when(httpRequestService)
+				.performHttpRequest(argThat(x -> x.getUrl()
+						.equals(fanDubProps.getUrls()
+								.get(FanDubSource.ANIMEDIA) + "embeds/playlist-j.txt/" + commonTitle.getId() + "/" + commonTitle.getDataList())));
 	}
 
-	protected void mockCommonProps() {
-		doReturn(Collections.singletonMap(FanDubSource.ANIMEDIA, true)).when(commonProps)
-				.getEnableBuildUrlInRuntime();
+	@Override
+	protected FanDubSource getFandubSource() {
+		return FanDubSource.ANIMEDIA;
 	}
 
-	private void mockFandubUrlsMap() {
-		doReturn(Maps.newHashMap(FanDubSource.ANIMEDIA, ANIMEDIA_ONLINE_TV)).when(fanDubProps)
-				.getUrls();
-	}
-
-	private List<AnimediaEpisode> getAnimediaEpisodes() {
-		return Lists.newArrayList(buildAnimediaEpisode("s1e1", ANIMEDIA_EPISODE_NAME, null), buildAnimediaEpisode("s1e3", RUNTIME_EPISODE_NAME, null));
-	}
-
-	private List<AnimediaEpisode> getAnimediaEpisodesWithFilledTitleUrlField() {
-		return Lists.newArrayList(buildAnimediaEpisode("s1e1", ANIMEDIA_EPISODE_NAME, REGULAR_TITLE_ANIMEDIA_URL),
-				buildAnimediaEpisode("s1e3", RUNTIME_EPISODE_NAME, REGULAR_TITLE_ANIMEDIA_URL));
-	}
-
-	private AnimediaEpisode buildAnimediaEpisode(String id, String name, String titleUrl) {
-		return AnimediaEpisode.builder()
-				.id(id)
-				.episodeName(name)
-				.titleUrl(titleUrl)
-				.build();
-	}
-
-	private List<FandubEpisode> getFandubEpisodes() {
+	@Override
+	protected List<FandubEpisode> getFandubEpisodes() {
 		return Lists.newArrayList(FandubEpisode.builder()
 						.name(ANIMEDIA_EPISODE_NAME)
 						.id(1)
@@ -220,11 +90,45 @@ class AnimediaEpisodeUrlServiceTest {
 						.build());
 	}
 
-	private MalTitle buildWatchingTitle(int animeId, int numWatchedEpisodes) {
-		return MalTitle.builder()
-				.id(animeId)
-				.animeUrl("https://myanimelist.net/anime/" + animeId + "/name")
-				.numWatchedEpisodes(numWatchedEpisodes)
+	@Override
+	protected void checkNameAndUrlForAvailableEpisode(Pair<String, String> episodeNameAndUrl) {
+		assertEquals(Pair.of(ANIMEDIA_EPISODE_NAME, ANIMEDIA_ONLINE_TV + REGULAR_TITLE_ANIMEDIA_URL + "/1/1"), episodeNameAndUrl);
+	}
+
+	@Override
+	protected void checkNameAndUrlForAvailableEpisodeBuiltInRuntime(Pair<String, String> episodeNameAndUrl) {
+		assertEquals(Pair.of(RUNTIME_EPISODE_NAME, ANIMEDIA_ONLINE_TV + REGULAR_TITLE_ANIMEDIA_URL + "/1/3"), episodeNameAndUrl);
+	}
+
+	@Override
+	protected void mockParser(List<AnimediaEpisode> runtimeExpectedResponse) {
+		List<FandubEpisode> fandubEpisodes = getFandubEpisodes();
+		doReturn(fandubEpisodes).when(animediaParser)
+				.extractEpisodes(runtimeExpectedResponse);
+	}
+
+	@Override
+	protected List<CommonTitle> getRegularCommonTitles() {
+		return Lists.newArrayList(CommonTitleTestBuilder.getAnimediaRegular(),
+				CommonTitleTestBuilder.getRegular(REGULAR_TITLE_ANIMEDIA_URL, 0, buildEpisodeUrl(REGULAR_TITLE_ANIMEDIA_URL, 0), null,
+						ANIMEDIA_EPISODE_NAME),
+				CommonTitleTestBuilder.getConcretized(REGULAR_TITLE_ANIMEDIA_URL,
+						2,
+						buildEpisodeUrl(REGULAR_TITLE_ANIMEDIA_URL, 2),
+						null,
+						ANIMEDIA_EPISODE_NAME));
+	}
+
+	private List<AnimediaEpisode> getAnimediaEpisodesWithFilledTitleUrlField() {
+		return Lists.newArrayList(buildAnimediaEpisode("s1e1", ANIMEDIA_EPISODE_NAME, REGULAR_TITLE_ANIMEDIA_URL),
+				buildAnimediaEpisode("s1e3", RUNTIME_EPISODE_NAME, REGULAR_TITLE_ANIMEDIA_URL));
+	}
+
+	private AnimediaEpisode buildAnimediaEpisode(String id, String name, String titleUrl) {
+		return AnimediaEpisode.builder()
+				.id(id)
+				.episodeName(name)
+				.titleUrl(titleUrl)
 				.build();
 	}
 }

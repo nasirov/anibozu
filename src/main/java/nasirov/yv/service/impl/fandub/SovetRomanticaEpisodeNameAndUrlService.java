@@ -30,10 +30,10 @@ public class SovetRomanticaEpisodeNameAndUrlService extends AbstractEpisodeNameA
 	@Override
 	protected Mono<List<FandubEpisode>> getEpisodes(CommonTitle commonTitle) {
 		return httpRequestService.performHttpRequest(httpRequestServiceDtoBuilder.sovetRomanticaDdosGuard())
-				.map(sovetRomanticaParser::extractCookie)
-				.map(x -> httpRequestServiceDtoBuilder.sovetRomantica(commonTitle, x.orElse(null)))
+				.map(x -> httpRequestServiceDtoBuilder.sovetRomantica(commonTitle,
+						sovetRomanticaParser.extractCookie(x)
+								.orElse(null)))
 				.flatMap(httpRequestService::performHttpRequest)
-				.map(Jsoup::parse)
-				.map(sovetRomanticaParser::extractEpisodes);
+				.map(x -> sovetRomanticaParser.extractEpisodes(Jsoup.parse(x)));
 	}
 }

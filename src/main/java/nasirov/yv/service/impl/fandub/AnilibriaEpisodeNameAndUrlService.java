@@ -30,7 +30,6 @@ public class AnilibriaEpisodeNameAndUrlService extends AbstractEpisodeNameAndUrl
 	@Override
 	protected Mono<List<FandubEpisode>> getEpisodes(CommonTitle commonTitle) {
 		return httpRequestService.performHttpRequest(httpRequestServiceDtoBuilder.anilibria(commonTitle))
-				.map(Jsoup::parse)
-				.map(anilibriaParser::extractEpisodes);
+				.map(x -> anilibriaParser.extractEpisodes(Jsoup.parse(x)));
 	}
 }

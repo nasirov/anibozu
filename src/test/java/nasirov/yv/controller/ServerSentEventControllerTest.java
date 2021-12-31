@@ -63,7 +63,7 @@ class ServerSentEventControllerTest extends AbstractTest {
 		List<ServerSentEvent<SseDto>> serverSentEvents = buildServerSentEvents();
 		doReturn(Flux.fromIterable(serverSentEvents)).when(serverSentEventService)
 				.getServerSentEvents(argThat(x -> x.getUsername()
-						.equals("testaccfordev") && x.getFanDubSources()
+						.equals(TEST_ACC_FOR_DEV) && x.getFanDubSources()
 						.size() == 2 && x.getFanDubSources()
 						.containsAll(Sets.newHashSet(FanDubSource.ANIMEDIA, FanDubSource.NINEANIME))));
 	}

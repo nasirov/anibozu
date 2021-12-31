@@ -30,7 +30,6 @@ public class ShizaProjectEpisodeNameAndUrlService extends AbstractEpisodeNameAnd
 	@Override
 	protected Mono<List<FandubEpisode>> getEpisodes(CommonTitle commonTitle) {
 		return httpRequestService.performHttpRequest(httpRequestServiceDtoBuilder.shizaProject(commonTitle))
-				.map(Jsoup::parse)
-				.map(shizaProjectParser::extractEpisodes);
+				.map(x -> shizaProjectParser.extractEpisodes(Jsoup.parse(x)));
 	}
 }

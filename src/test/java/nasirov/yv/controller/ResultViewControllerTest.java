@@ -1,21 +1,15 @@
 package nasirov.yv.controller;
 
 import static nasirov.yv.utils.TestConstants.TEST_ACC_FOR_DEV;
-import static org.mockito.Mockito.doReturn;
-import static org.mockito.Mockito.doThrow;
 
 import com.google.common.collect.Lists;
-import com.google.common.collect.Sets;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 import nasirov.yv.AbstractTest;
-import nasirov.yv.data.front.UserInputDto;
-import nasirov.yv.fandub.service.spring.boot.starter.constant.FanDubSource;
 import nasirov.yv.fandub.service.spring.boot.starter.dto.mal.MalTitle;
-import nasirov.yv.fandub.service.spring.boot.starter.dto.mal_service.MalServiceResponseDto;
 import nasirov.yv.utils.IOUtils;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpHeaders;
@@ -23,7 +17,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.reactive.server.WebTestClient.RequestHeadersSpec;
 import org.springframework.test.web.reactive.server.WebTestClient.ResponseSpec;
-import reactor.core.publisher.Mono;
 
 /**
  * @author Nasirov Yuriy
@@ -37,7 +30,7 @@ class ResultViewControllerTest extends AbstractTest {
 	@Test
 	void shouldReturnResultView() {
 		//given
-		mockMalService(buildMalServiceResponseDto(Lists.newArrayList(new MalTitle()), ""));
+		mockExternalMalServiceResponse(buildMalServiceResponseDto(Lists.newArrayList(new MalTitle()), ""));
 		//when
 		ResponseSpec result = call(TEST_ACC_FOR_DEV, Collections.emptyMap(), VALID_FANDUBS);
 		//then
@@ -81,7 +74,7 @@ class ResultViewControllerTest extends AbstractTest {
 	void shouldReturnErrorViewWithErrorMessage() {
 		//given
 		String errorMsg = "Foo Bar";
-		mockMalService(buildMalServiceResponseDto(Collections.emptyList(), errorMsg));
+		mockExternalMalServiceResponse(buildMalServiceResponseDto(Collections.emptyList(), errorMsg));
 		//when
 		ResponseSpec result = call(TEST_ACC_FOR_DEV, Collections.emptyMap(), VALID_FANDUBS);
 		//then
@@ -106,7 +99,7 @@ class ResultViewControllerTest extends AbstractTest {
 	@Test
 	void shouldReturn500ErrorView() {
 		//given
-		mockMalServiceException();
+		mockHttpRequestServiceException();
 		//when
 		ResponseSpec result = call(TEST_ACC_FOR_DEV, Collections.singletonMap(HttpHeaders.ACCEPT, MediaType.TEXT_HTML_VALUE), VALID_FANDUBS);
 		//then
@@ -114,24 +107,6 @@ class ResultViewControllerTest extends AbstractTest {
 				.isEqualTo(HttpStatus.INTERNAL_SERVER_ERROR)
 				.expectBody(String.class)
 				.isEqualTo(IOUtils.readFromFile("classpath:view/test-5xx-error-view.html"));
-	}
-
-	private void mockMalService(MalServiceResponseDto malServiceResponseDto) {
-		doReturn(Mono.just(malServiceResponseDto)).when(malService)
-				.getUserWatchingTitles(new UserInputDto(TEST_ACC_FOR_DEV, Sets.newHashSet(FanDubSource.ANIMEDIA, FanDubSource.NINEANIME)));
-	}
-
-	private void mockMalServiceException() {
-		doThrow(new RuntimeException("foo bar cause")).when(malService)
-				.getUserWatchingTitles(new UserInputDto(TEST_ACC_FOR_DEV, Sets.newHashSet(FanDubSource.ANIMEDIA, FanDubSource.NINEANIME)));
-	}
-
-	private MalServiceResponseDto buildMalServiceResponseDto(List<MalTitle> malTitles, String errorMessage) {
-		return MalServiceResponseDto.builder()
-				.username(TEST_ACC_FOR_DEV)
-				.malTitles(malTitles)
-				.errorMessage(errorMessage)
-				.build();
 	}
 
 	private ResponseSpec call(String username, Map<String, String> headers, String... fanDubSources) {

@@ -1,15 +1,13 @@
 package nasirov.yv.service.impl.common;
 
+import static nasirov.yv.utils.TestConstants.TEST_ACC_FOR_DEV;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.mockito.Mockito.mock;
 
-import java.util.Set;
 import nasirov.yv.AbstractTest;
 import nasirov.yv.data.front.UserInputDto;
-import nasirov.yv.fandub.service.spring.boot.starter.constant.FanDubSource;
-import org.assertj.core.util.Sets;
 import org.junit.jupiter.api.Test;
 import org.springframework.cache.Cache;
 import reactor.core.publisher.Flux;
@@ -24,15 +22,11 @@ class CacheCleanerServiceTest extends AbstractTest {
 		//given
 		Cache sseCache = cacheManager.getCache("sse");
 		assertNotNull(sseCache);
-		Set<FanDubSource> fanDubSources = Sets.newLinkedHashSet(FanDubSource.ANIMEDIA, FanDubSource.NINEANIME);
-		UserInputDto userInputDto = UserInputDto.builder()
-				.username("foobar")
-				.fanDubSources(fanDubSources)
-				.build();
+		UserInputDto userInputDto = buildUserInputDto();
 		Flux firstCachedFlux = mock(Flux.class);
 		Flux secondCachedFlux = mock(Flux.class);
-		String firstKey = "foobar:ANIMEDIA,NINEANIME";
-		String secondKey = "foobar:ANIMEDIA";
+		String firstKey = TEST_ACC_FOR_DEV + ":ANIMEDIA,NINEANIME";
+		String secondKey = TEST_ACC_FOR_DEV + ":ANIMEDIA";
 		sseCache.put(firstKey, firstCachedFlux);
 		sseCache.put(secondKey, secondCachedFlux);
 		assertEquals(firstCachedFlux, sseCache.get(firstKey, Flux.class));

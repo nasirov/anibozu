@@ -31,7 +31,6 @@ public class JutsuEpisodeNameAndUrlService extends AbstractEpisodeNameAndUrlServ
 	@Override
 	protected Mono<List<FandubEpisode>> getEpisodes(CommonTitle commonTitle) {
 		return httpRequestService.performHttpRequest(httpRequestServiceDtoBuilder.jutsu(commonTitle))
-				.map(Jsoup::parse)
-				.map(jutsuParser::extractEpisodes);
+				.map(x -> jutsuParser.extractEpisodes(Jsoup.parse(x)));
 	}
 }

@@ -31,8 +31,7 @@ public class AnidubEpisodeNameAndUrlService extends AbstractEpisodeNameAndUrlSer
 	@Override
 	protected Mono<List<FandubEpisode>> getEpisodes(CommonTitle commonTitle) {
 		return httpRequestService.performHttpRequest(httpRequestServiceDtoBuilder.anidub(commonTitle))
-				.map(Jsoup::parse)
-				.map(anidubParser::extractEpisodes);
+				.map(x -> anidubParser.extractEpisodes(Jsoup.parse(x)));
 	}
 
 }

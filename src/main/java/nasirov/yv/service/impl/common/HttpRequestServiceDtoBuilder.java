@@ -84,12 +84,12 @@ public class HttpRequestServiceDtoBuilder implements HttpRequestServiceDtoBuilde
 
 	@Override
 	public HttpRequestServiceDto<String> anidub(CommonTitle commonTitle) {
-		return buildDtowithStringResponse(commonTitle, FanDubSource.ANIDUB);
+		return buildDtoWithStringResponse(commonTitle, FanDubSource.ANIDUB);
 	}
 
 	@Override
 	public HttpRequestServiceDto<String> anilibria(CommonTitle commonTitle) {
-		return buildDtowithStringResponse(commonTitle, FanDubSource.ANILIBRIA);
+		return buildDtoWithStringResponse(commonTitle, FanDubSource.ANILIBRIA);
 	}
 
 	@Override
@@ -129,7 +129,7 @@ public class HttpRequestServiceDtoBuilder implements HttpRequestServiceDtoBuilde
 
 	@Override
 	public HttpRequestServiceDto<String> jutsu(CommonTitle commonTitle) {
-		return buildDtowithStringResponse(commonTitle, FanDubSource.JUTSU);
+		return buildDtoWithStringResponse(commonTitle, FanDubSource.JUTSU);
 	}
 
 	@Override
@@ -144,17 +144,17 @@ public class HttpRequestServiceDtoBuilder implements HttpRequestServiceDtoBuilde
 
 	@Override
 	public HttpRequestServiceDto<String> shizaProject(CommonTitle commonTitle) {
-		return buildDtowithStringResponse(commonTitle, FanDubSource.SHIZAPROJECT);
+		return buildDtoWithStringResponse(commonTitle, FanDubSource.SHIZAPROJECT);
 	}
 
 	@Override
 	public HttpRequestServiceDto<String> sovetRomantica(CommonTitle commonTitle) {
-		return buildDtowithStringResponse(commonTitle, FanDubSource.SOVETROMANTICA);
+		return buildDtoWithStringResponse(commonTitle, FanDubSource.SOVETROMANTICA);
 	}
 
 	@Override
 	public HttpRequestServiceDto<String> sovetRomantica(CommonTitle commonTitle, String cookie) {
-		HttpRequestServiceDto<String> result = buildDtowithStringResponse(commonTitle, FanDubSource.SOVETROMANTICA);
+		HttpRequestServiceDto<String> result = buildDtoWithStringResponse(commonTitle, FanDubSource.SOVETROMANTICA);
 		if (Objects.nonNull(cookie)) {
 			result.setHeaders(Collections.singletonMap(HttpHeaders.COOKIE, cookie));
 		}
@@ -177,7 +177,7 @@ public class HttpRequestServiceDtoBuilder implements HttpRequestServiceDtoBuilde
 		return new HttpRequestServiceDto<>(url, HttpMethod.GET, headers, null, retryableStatusCodes, clientResponseFunction, fallback);
 	}
 
-	private HttpRequestServiceDto<String> buildDtowithStringResponse(CommonTitle commonTitle, FanDubSource fanDubSource) {
+	private HttpRequestServiceDto<String> buildDtoWithStringResponse(CommonTitle commonTitle, FanDubSource fanDubSource) {
 		return buildDto(fanDubProps.getUrls()
 						.get(fanDubSource) + commonTitle.getUrl(),
 				Collections.emptyMap(),

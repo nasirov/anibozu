@@ -59,7 +59,7 @@ class AnimeServiceTest extends AbstractTest {
 		//given
 		MalTitle regularTitle = buildRegularTitle();
 		Set<FanDubSource> fanDubSources = buildOrderedFanDubSources();
-		mockGetCommonTitles(regularTitle, buildRegularCommonTitles(fanDubSources), fanDubSources);
+		mockExternalFandubTitlesServiceResponse(regularTitle, buildRegularCommonTitles(fanDubSources), fanDubSources);
 		Anime expectedAnime = buildExpectedAnimeWithAvailableUrls();
 		//when
 		Anime result = animeService.buildAnime(fanDubSources, regularTitle)
@@ -73,7 +73,7 @@ class AnimeServiceTest extends AbstractTest {
 		//given
 		MalTitle concretizedTitle = buildConcretizedTitle();
 		Set<FanDubSource> fanDubSources = buildOrderedFanDubSources();
-		mockGetCommonTitles(concretizedTitle, buildConcretizedCommonTitles(fanDubSources), fanDubSources);
+		mockExternalFandubTitlesServiceResponse(concretizedTitle, buildConcretizedCommonTitles(fanDubSources), fanDubSources);
 		Anime expectedAnime = buildExpectedAnimeWithNotAvailableUrls();
 		//when
 		Anime result = animeService.buildAnime(fanDubSources, concretizedTitle)
@@ -87,7 +87,7 @@ class AnimeServiceTest extends AbstractTest {
 		//given
 		MalTitle notFoundOnFandubTitle = buildNotFoundOnFandubTitle();
 		Set<FanDubSource> fanDubSources = buildOrderedFanDubSources();
-		mockGetCommonTitles(notFoundOnFandubTitle, buildNotFoundOnFandubCommonTitles(fanDubSources), fanDubSources);
+		mockExternalFandubTitlesServiceResponse(notFoundOnFandubTitle, buildNotFoundOnFandubCommonTitles(fanDubSources), fanDubSources);
 		Anime expectedAnime = buildExpectedAnimeWithNotOnFandubUrls();
 		//when
 		Anime result = animeService.buildAnime(fanDubSources, notFoundOnFandubTitle)

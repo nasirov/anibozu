@@ -2,42 +2,28 @@ package nasirov.yv.service.impl.fandub;
 
 import static nasirov.yv.utils.CommonTitleTestBuilder.SOVET_ROMANTICA_EPISODE_NAME;
 import static nasirov.yv.utils.TestConstants.REGULAR_TITLE_SOVET_ROMANTICA_URL;
-import static nasirov.yv.utils.TestConstants.SOVET_ROMANTICA_URL;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.argThat;
 import static org.mockito.Mockito.doReturn;
-import static org.mockito.Mockito.mock;
 
 import com.google.common.collect.Lists;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import nasirov.yv.fandub.service.spring.boot.starter.constant.FanDubSource;
 import nasirov.yv.fandub.service.spring.boot.starter.dto.fandub.common.CommonTitle;
 import nasirov.yv.fandub.service.spring.boot.starter.dto.fandub.common.FandubEpisode;
-import nasirov.yv.fandub.service.spring.boot.starter.dto.http_request_service.HttpRequestServiceDto;
-import nasirov.yv.fandub.service.spring.boot.starter.extractor.parser.SovetRomanticaParserI;
-import nasirov.yv.service.EpisodeNameAndUrlServiceI;
 import org.apache.commons.lang3.tuple.Pair;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.http.HttpHeaders;
 import reactor.core.publisher.Mono;
 
 /**
  * @author Nasirov Yuriy
  */
-@ExtendWith(MockitoExtension.class)
 class SovetRomanticaEpisodeNameAndUrlServiceTest extends AbstractEpisodeNameAndUrlsServiceTest<String> {
 
 	private static final String RUNTIME_EPISODE_NAME = "Эпизод 2";
-
-	@Mock
-	private SovetRomanticaParserI sovetRomanticaParser;
-
-	@InjectMocks
-	private SovetRomanticaEpisodeNameAndUrlService sovetRomanticaEpisodeUrlService;
 
 	@Test
 	@Override
@@ -75,31 +61,19 @@ class SovetRomanticaEpisodeNameAndUrlServiceTest extends AbstractEpisodeNameAndU
 	}
 
 	@Override
-	protected String getFandubUrl() {
-		return SOVET_ROMANTICA_URL;
-	}
-
-	@Override
 	protected void mockGetRuntimeResponse(String runtimeExpectedResponse, CommonTitle commonTitle) {
-		HttpRequestServiceDto<String> sovetRomanticaDdosGuardDto = mock(HttpRequestServiceDto.class);
-		doReturn(sovetRomanticaDdosGuardDto).when(httpRequestServiceDtoBuilder)
-				.sovetRomanticaDdosGuard();
 		String pageWithDdosGuardCookie = "pageWithDdosGuardCookie";
 		doReturn(Mono.just(pageWithDdosGuardCookie)).when(httpRequestService)
-				.performHttpRequest(sovetRomanticaDdosGuardDto);
+				.performHttpRequest(argThat(x -> x.getUrl()
+						.equals(fanDubProps.getSovetRomanticaDdosGuardUrl() + "check.js")));
 		String cookie = "foobar42";
 		doReturn(Optional.of(cookie)).when(sovetRomanticaParser)
 				.extractCookie(pageWithDdosGuardCookie);
-		HttpRequestServiceDto<String> httpRequestServiceDto = mock(HttpRequestServiceDto.class);
-		doReturn(httpRequestServiceDto).when(httpRequestServiceDtoBuilder)
-				.sovetRomantica(commonTitle, cookie);
 		doReturn(Mono.just(runtimeExpectedResponse)).when(httpRequestService)
-				.performHttpRequest(httpRequestServiceDto);
-	}
-
-	@Override
-	protected EpisodeNameAndUrlServiceI getEpisodeNameAndUrlService() {
-		return sovetRomanticaEpisodeUrlService;
+				.performHttpRequest(argThat(x -> x.getUrl()
+						.equals(fanDubProps.getUrls()
+								.get(getFandubSource()) + commonTitle.getUrl()) && x.getHeaders()
+						.equals(Collections.singletonMap(HttpHeaders.COOKIE, cookie))));
 	}
 
 	@Override
@@ -125,13 +99,16 @@ class SovetRomanticaEpisodeNameAndUrlServiceTest extends AbstractEpisodeNameAndU
 
 	@Override
 	protected void checkNameAndUrlForAvailableEpisode(Pair<String, String> episodeNameAndUrl) {
-		assertEquals(Pair.of(SOVET_ROMANTICA_EPISODE_NAME, getFandubUrl() + REGULAR_TITLE_SOVET_ROMANTICA_URL + "/episode_1-subtitles"),
-				episodeNameAndUrl);
+		assertEquals(Pair.of(SOVET_ROMANTICA_EPISODE_NAME,
+				fanDubProps.getUrls()
+						.get(getFandubSource()) + REGULAR_TITLE_SOVET_ROMANTICA_URL + "/episode_1-subtitles"), episodeNameAndUrl);
 	}
 
 	@Override
 	protected void checkNameAndUrlForAvailableEpisodeBuiltInRuntime(Pair<String, String> episodeNameAndUrl) {
-		assertEquals(Pair.of(RUNTIME_EPISODE_NAME, getFandubUrl() + REGULAR_TITLE_SOVET_ROMANTICA_URL + "/episode_2-subtitles"), episodeNameAndUrl);
+		assertEquals(Pair.of(RUNTIME_EPISODE_NAME,
+				fanDubProps.getUrls()
+						.get(getFandubSource()) + REGULAR_TITLE_SOVET_ROMANTICA_URL + "/episode_2-subtitles"), episodeNameAndUrl);
 	}
 
 	@Override

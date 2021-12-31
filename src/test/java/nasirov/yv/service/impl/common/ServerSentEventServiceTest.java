@@ -6,17 +6,15 @@ import static nasirov.yv.utils.CommonTitleTestBuilder.ANIMEDIA_EPISODE_NAME;
 import static nasirov.yv.utils.CommonTitleTestBuilder.NINE_ANIME_EPISODE_NAME;
 import static nasirov.yv.utils.TestConstants.REGULAR_TITLE_ANIMEDIA_URL;
 import static nasirov.yv.utils.TestConstants.REGULAR_TITLE_NINE_ANIME_URL;
+import static nasirov.yv.utils.TestConstants.TEST_ACC_FOR_DEV;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
-import static org.mockito.ArgumentMatchers.argThat;
-import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.verify;
 
 import com.google.common.collect.Lists;
 import java.util.LinkedHashMap;
-import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -28,14 +26,12 @@ import nasirov.yv.data.front.SseDto;
 import nasirov.yv.data.front.UserInputDto;
 import nasirov.yv.fandub.service.spring.boot.starter.constant.FanDubSource;
 import nasirov.yv.fandub.service.spring.boot.starter.dto.mal.MalTitle;
-import nasirov.yv.fandub.service.spring.boot.starter.dto.mal.MalTitleWatchingStatus;
 import nasirov.yv.fandub.service.spring.boot.starter.dto.mal_service.MalServiceResponseDto;
 import nasirov.yv.util.MalUtils;
 import org.junit.jupiter.api.Test;
 import org.springframework.cache.Cache;
 import org.springframework.http.codec.ServerSentEvent;
 import reactor.core.publisher.Flux;
-import reactor.core.publisher.Mono;
 
 /**
  * @author Nasirov Yuriy
@@ -53,14 +49,14 @@ class ServerSentEventServiceTest extends AbstractTest {
 		MalServiceResponseDto malServiceResponseDto = buildMalServiceResponseDto(Lists.newArrayList(regularTitle,
 				concretizedTitle,
 				notFoundOnFandubTitle), "");
-		mockMalService(userInputDto, malServiceResponseDto);
-		mockGetCommonTitles(regularTitle, buildRegularCommonTitles(fanDubSources), fanDubSources);
-		mockGetCommonTitles(concretizedTitle, buildConcretizedCommonTitles(fanDubSources), fanDubSources);
-		mockGetCommonTitles(notFoundOnFandubTitle, buildNotFoundOnFandubCommonTitles(fanDubSources), fanDubSources);
+		mockExternalMalServiceResponse(malServiceResponseDto);
+		mockExternalFandubTitlesServiceResponse(regularTitle, buildRegularCommonTitles(fanDubSources), fanDubSources);
+		mockExternalFandubTitlesServiceResponse(concretizedTitle, buildConcretizedCommonTitles(fanDubSources), fanDubSources);
+		mockExternalFandubTitlesServiceResponse(notFoundOnFandubTitle, buildNotFoundOnFandubCommonTitles(fanDubSources), fanDubSources);
 		//when
 		Flux<ServerSentEvent<SseDto>> result = serverSentEventService.getServerSentEvents(userInputDto);
 		//then
-		String cacheKey = "foobar:ANIMEDIA,NINEANIME";
+		String cacheKey = TEST_ACC_FOR_DEV + ":ANIMEDIA,NINEANIME";
 		Cache sseCache = cacheManager.getCache("sse");
 		assertNotNull(sseCache);
 		assertEquals(result, sseCache.get(cacheKey, Flux.class));
@@ -81,11 +77,11 @@ class ServerSentEventServiceTest extends AbstractTest {
 		//given
 		UserInputDto userInputDto = buildUserInputDto();
 		MalServiceResponseDto malServiceResponseDto = buildMalServiceResponseDto(Lists.newArrayList(), "error message from mts");
-		mockMalService(userInputDto, malServiceResponseDto);
+		mockExternalMalServiceResponse(malServiceResponseDto);
 		//when
 		Flux<ServerSentEvent<SseDto>> result = serverSentEventService.getServerSentEvents(userInputDto);
 		//then
-		String cacheKey = "foobar:ANIMEDIA,NINEANIME";
+		String cacheKey = TEST_ACC_FOR_DEV + ":ANIMEDIA,NINEANIME";
 		Cache sseCache = cacheManager.getCache("sse");
 		assertNotNull(sseCache);
 		assertEquals(result, sseCache.get(cacheKey, Flux.class));
@@ -107,13 +103,13 @@ class ServerSentEventServiceTest extends AbstractTest {
 		MalTitle regularTitle = buildRegularTitle();
 		MalTitle concretizedTitle = buildConcretizedTitle();
 		MalServiceResponseDto malServiceResponseDto = buildMalServiceResponseDto(Lists.newArrayList(regularTitle, concretizedTitle), "");
-		mockMalService(userInputDto, malServiceResponseDto);
-		mockGetCommonTitles(regularTitle, buildRegularCommonTitles(fanDubSources), fanDubSources);
-		mockAnimeServiceFail(fanDubSources, concretizedTitle);
+		mockExternalMalServiceResponse(malServiceResponseDto);
+		mockExternalFandubTitlesServiceResponse(regularTitle, buildRegularCommonTitles(fanDubSources), fanDubSources);
+		mockAnimeServiceException(fanDubSources, concretizedTitle);
 		//when
 		Flux<ServerSentEvent<SseDto>> result = serverSentEventService.getServerSentEvents(userInputDto);
 		//then
-		String cacheKey = "foobar:ANIMEDIA,NINEANIME";
+		String cacheKey = TEST_ACC_FOR_DEV + ":ANIMEDIA,NINEANIME";
 		Cache sseCache = cacheManager.getCache("sse");
 		assertNotNull(sseCache);
 		assertEquals(result, sseCache.get(cacheKey, Flux.class));
@@ -127,32 +123,7 @@ class ServerSentEventServiceTest extends AbstractTest {
 		assertNull(sseCache.get(cacheKey));
 	}
 
-	private UserInputDto buildUserInputDto() {
-		Set<FanDubSource> fanDubSources = new LinkedHashSet<>();
-		fanDubSources.add(FanDubSource.ANIMEDIA);
-		fanDubSources.add(FanDubSource.NINEANIME);
-		return UserInputDto.builder()
-				.username("foobar")
-				.fanDubSources(fanDubSources)
-				.build();
-	}
-
-	private MalServiceResponseDto buildMalServiceResponseDto(List<MalTitle> malTitles, String errorMessage) {
-		return MalServiceResponseDto.builder()
-				.username("foobar")
-				.malTitles(malTitles)
-				.errorMessage(errorMessage)
-				.build();
-	}
-
-	private void mockMalService(UserInputDto userInputDto, MalServiceResponseDto malServiceResponseDto) {
-		doReturn(Mono.just(malServiceResponseDto)).when(httpRequestService)
-				.performHttpRequest(argThat(x -> x.getUrl()
-						.equals(externalServicesProps.getMalServiceUrl() + "titles?username=" + userInputDto.getUsername() + "&status="
-								+ MalTitleWatchingStatus.WATCHING.name())));
-	}
-
-	private void mockAnimeServiceFail(Set<FanDubSource> fanDubSources, MalTitle malTitle) {
+	private void mockAnimeServiceException(Set<FanDubSource> fanDubSources, MalTitle malTitle) {
 		doThrow(new RuntimeException("foo bar cause")).when(animeService)
 				.buildAnime(fanDubSources, malTitle);
 	}

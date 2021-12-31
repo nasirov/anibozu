@@ -1,10 +1,7 @@
 package nasirov.yv.service.impl.fandub;
 
-import static nasirov.yv.data.constants.BaseConstants.NOT_AVAILABLE_EPISODE_NAME_AND_URL;
 import static nasirov.yv.utils.CommonTitleTestBuilder.JAM_CLUB_EPISODE_NAME;
-import static nasirov.yv.utils.TestConstants.JAM_CLUB_URL;
 import static nasirov.yv.utils.TestConstants.REGULAR_TITLE_JAM_CLUB_URL;
-import static nasirov.yv.utils.TestConstants.REGULAR_TITLE_MAL_ID;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.doReturn;
 
@@ -13,30 +10,16 @@ import java.util.List;
 import nasirov.yv.fandub.service.spring.boot.starter.constant.FanDubSource;
 import nasirov.yv.fandub.service.spring.boot.starter.dto.fandub.common.CommonTitle;
 import nasirov.yv.fandub.service.spring.boot.starter.dto.fandub.common.FandubEpisode;
-import nasirov.yv.fandub.service.spring.boot.starter.dto.mal.MalTitle;
-import nasirov.yv.fandub.service.spring.boot.starter.service.ReactiveJamClubServiceI;
-import nasirov.yv.service.EpisodeNameAndUrlServiceI;
 import org.apache.commons.lang3.tuple.Pair;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
 import reactor.core.publisher.Mono;
 
 /**
  * @author Nasirov Yuriy
  */
-@ExtendWith(MockitoExtension.class)
-class JamClubEpisodeNameAndUrlServiceTest extends AbstractEpisodeNameAndUrlsServiceTest<String> {
+class JamClubEpisodeNameAndUrlServiceTest extends AbstractEpisodeNameAndUrlsServiceTest<List<FandubEpisode>> {
 
 	private static final String RUNTIME_EPISODE_NAME = "2 серия";
-
-	@Mock
-	private ReactiveJamClubServiceI reactiveJamClubService;
-
-	@InjectMocks
-	private JamClubEpisodeNameAndUrlService jamClubEpisodeNameAndUrlService;
 
 	@Test
 	@Override
@@ -47,16 +30,7 @@ class JamClubEpisodeNameAndUrlServiceTest extends AbstractEpisodeNameAndUrlsServ
 	@Test
 	@Override
 	void shouldReturnNameAndUrlForAvailableEpisodeBuiltInRuntime() {
-		//given
-		mockCommonProps();
-		mockFandubUrlsMap();
-		mockReactiveJamClubService();
-		MalTitle malTitle = buildWatchingTitle(REGULAR_TITLE_MAL_ID, 1);
-		//when
-		Pair<String, String> episodeNameAndUrl = getEpisodeNameAndUrlService().getEpisodeNameAndUrl(malTitle, getRegularCommonTitles())
-				.block();
-		//then
-		checkNameAndUrlForAvailableEpisodeBuiltInRuntime(episodeNameAndUrl);
+		super.shouldReturnNameAndUrlForAvailableEpisodeBuiltInRuntime();
 	}
 
 	@Test
@@ -74,35 +48,18 @@ class JamClubEpisodeNameAndUrlServiceTest extends AbstractEpisodeNameAndUrlsServ
 	@Test
 	@Override
 	void shouldReturnNameAndUrlForNotAvailableEpisodeBuiltInRuntime() {
-		//given
-		mockCommonProps();
-		mockFandubUrlsMap();
-		mockReactiveJamClubService();
-		MalTitle malTitle = buildWatchingTitle(REGULAR_TITLE_MAL_ID, 2);
-		//when
-		Pair<String, String> episodeNameAndUrl = getEpisodeNameAndUrlService().getEpisodeNameAndUrl(malTitle, getRegularAndConcretizedCommonTitles())
-				.block();
-		//then
-		assertEquals(NOT_AVAILABLE_EPISODE_NAME_AND_URL, episodeNameAndUrl);
+		super.shouldReturnNameAndUrlForNotAvailableEpisodeBuiltInRuntime();
 	}
 
 	@Override
-	protected String getRuntimeExpectedResponse() {
-		return "foobar";
+	protected List<FandubEpisode> getRuntimeExpectedResponse() {
+		return getFandubEpisodes();
 	}
 
 	@Override
-	protected String getFandubUrl() {
-		return JAM_CLUB_URL;
-	}
-
-	@Override
-	protected void mockGetRuntimeResponse(String runtimeExpectedResponse, CommonTitle commonTitle) {
-	}
-
-	@Override
-	protected EpisodeNameAndUrlServiceI getEpisodeNameAndUrlService() {
-		return jamClubEpisodeNameAndUrlService;
+	protected void mockGetRuntimeResponse(List<FandubEpisode> runtimeExpectedResponse, CommonTitle commonTitle) {
+		doReturn(Mono.just(runtimeExpectedResponse)).when(reactiveJamClubService)
+				.getTitleEpisodes(commonTitle.getUrl(), commonTitle.getId());
 	}
 
 	@Override
@@ -128,20 +85,19 @@ class JamClubEpisodeNameAndUrlServiceTest extends AbstractEpisodeNameAndUrlsServ
 
 	@Override
 	protected void checkNameAndUrlForAvailableEpisode(Pair<String, String> episodeNameAndUrl) {
-		assertEquals(Pair.of(JAM_CLUB_EPISODE_NAME, getFandubUrl() + REGULAR_TITLE_JAM_CLUB_URL), episodeNameAndUrl);
+		assertEquals(Pair.of(JAM_CLUB_EPISODE_NAME,
+				fanDubProps.getUrls()
+						.get(getFandubSource()) + REGULAR_TITLE_JAM_CLUB_URL), episodeNameAndUrl);
 	}
 
 	@Override
 	protected void checkNameAndUrlForAvailableEpisodeBuiltInRuntime(Pair<String, String> episodeNameAndUrl) {
-		assertEquals(Pair.of(RUNTIME_EPISODE_NAME, getFandubUrl() + REGULAR_TITLE_JAM_CLUB_URL), episodeNameAndUrl);
+		assertEquals(Pair.of(RUNTIME_EPISODE_NAME,
+				fanDubProps.getUrls()
+						.get(getFandubSource()) + REGULAR_TITLE_JAM_CLUB_URL), episodeNameAndUrl);
 	}
 
 	@Override
-	protected void mockParser(String runtimeExpectedResponse) {
-	}
-
-	private void mockReactiveJamClubService() {
-		doReturn(Mono.just(getFandubEpisodes())).when(reactiveJamClubService)
-				.getTitleEpisodes(regularCommonTitle.getUrl(), regularCommonTitle.getId());
+	protected void mockParser(List<FandubEpisode> runtimeExpectedResponse) {
 	}
 }
