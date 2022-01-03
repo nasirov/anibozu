@@ -57,7 +57,6 @@ import nasirov.yv.service.HttpRequestServiceDtoBuilderI;
 import nasirov.yv.service.MalServiceI;
 import nasirov.yv.service.ServerSentEventServiceI;
 import nasirov.yv.service.impl.common.CacheCleanerService;
-import nasirov.yv.util.MalUtils;
 import nasirov.yv.utils.CommonTitleTestBuilder;
 import org.assertj.core.util.Sets;
 import org.junit.jupiter.api.AfterEach;
@@ -171,13 +170,16 @@ public abstract class AbstractTest {
 		clearCaches();
 	}
 
-	protected void mockExternalFandubTitlesServiceResponse(MalTitle malTitle, Map<FanDubSource, List<CommonTitle>> commonTitles,
-			Set<FanDubSource> fanDubSources) {
-		doReturn(Mono.just(commonTitles)).when(httpRequestService)
+	protected void mockExternalFandubTitlesServiceResponse(MalTitle malTitle, Map<FanDubSource, List<CommonTitle>> commonTitles) {
+		doReturn(Mono.just(Map.of(malTitle.getId(), commonTitles))).when(httpRequestService)
 				.performHttpRequest(argThat(x -> x.getUrl()
-						.equals(externalServicesProps.getFandubTitlesServiceUrl() + "titles?fanDubSources=" + fanDubSources.stream()
-								.map(FanDubSource::name)
-								.collect(Collectors.joining(",")) + "&malId=" + malTitle.getId() + "&malEpisodeId=" + MalUtils.getNextEpisodeForWatch(malTitle))));
+						.equals(externalServicesProps.getFandubTitlesServiceUrl() + "titles")));
+	}
+
+	protected void mockExternalFandubTitlesServiceResponse(Map<Integer, Map<FanDubSource, List<CommonTitle>>> commonTitlesForMalTitles) {
+		doReturn(Mono.just(commonTitlesForMalTitles)).when(httpRequestService)
+				.performHttpRequest(argThat(x -> x.getUrl()
+						.equals(externalServicesProps.getFandubTitlesServiceUrl() + "titles")));
 	}
 
 	protected void mockExternalMalServiceResponse(MalServiceResponseDto malServiceResponseDto) {

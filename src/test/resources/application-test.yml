@@ -19,3 +19,9 @@ application:
     mal-service-basic-auth: Basic foobarbaz
     fandub-titles-service-url: http://localhost:8089/
     mal-service-url: http://localhost:8087/
+
+logging:
+  level:
+    ROOT: INFO
+    nasirov.yv: DEBUG
+    reactor.netty: ERROR

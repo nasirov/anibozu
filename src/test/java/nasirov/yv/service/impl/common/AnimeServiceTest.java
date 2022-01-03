@@ -41,11 +41,13 @@ import static nasirov.yv.utils.TestConstants.REGULAR_TITLE_SOVET_ROMANTICA_URL;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import nasirov.yv.AbstractTest;
 import nasirov.yv.data.front.Anime;
 import nasirov.yv.fandub.service.spring.boot.starter.constant.FanDubSource;
+import nasirov.yv.fandub.service.spring.boot.starter.dto.fandub.common.CommonTitle;
 import nasirov.yv.fandub.service.spring.boot.starter.dto.mal.MalTitle;
 import org.junit.jupiter.api.Test;
 
@@ -59,10 +61,11 @@ class AnimeServiceTest extends AbstractTest {
 		//given
 		MalTitle regularTitle = buildRegularTitle();
 		Set<FanDubSource> fanDubSources = buildOrderedFanDubSources();
-		mockExternalFandubTitlesServiceResponse(regularTitle, buildRegularCommonTitles(fanDubSources), fanDubSources);
+		Map<FanDubSource, List<CommonTitle>> commonTitles = buildRegularCommonTitles(fanDubSources);
+		mockExternalFandubTitlesServiceResponse(regularTitle, commonTitles);
 		Anime expectedAnime = buildExpectedAnimeWithAvailableUrls();
 		//when
-		Anime result = animeService.buildAnime(fanDubSources, regularTitle)
+		Anime result = animeService.buildAnime(regularTitle, commonTitles)
 				.block();
 		//then
 		assertEquals(expectedAnime, result);
@@ -73,10 +76,11 @@ class AnimeServiceTest extends AbstractTest {
 		//given
 		MalTitle concretizedTitle = buildConcretizedTitle();
 		Set<FanDubSource> fanDubSources = buildOrderedFanDubSources();
-		mockExternalFandubTitlesServiceResponse(concretizedTitle, buildConcretizedCommonTitles(fanDubSources), fanDubSources);
+		Map<FanDubSource, List<CommonTitle>> commonTitles = buildConcretizedCommonTitles(fanDubSources);
+		mockExternalFandubTitlesServiceResponse(concretizedTitle, commonTitles);
 		Anime expectedAnime = buildExpectedAnimeWithNotAvailableUrls();
 		//when
-		Anime result = animeService.buildAnime(fanDubSources, concretizedTitle)
+		Anime result = animeService.buildAnime(concretizedTitle, commonTitles)
 				.block();
 		//then
 		assertEquals(expectedAnime, result);
@@ -87,10 +91,11 @@ class AnimeServiceTest extends AbstractTest {
 		//given
 		MalTitle notFoundOnFandubTitle = buildNotFoundOnFandubTitle();
 		Set<FanDubSource> fanDubSources = buildOrderedFanDubSources();
-		mockExternalFandubTitlesServiceResponse(notFoundOnFandubTitle, buildNotFoundOnFandubCommonTitles(fanDubSources), fanDubSources);
+		Map<FanDubSource, List<CommonTitle>> commonTitles = buildNotFoundOnFandubCommonTitles(fanDubSources);
+		mockExternalFandubTitlesServiceResponse(notFoundOnFandubTitle, commonTitles);
 		Anime expectedAnime = buildExpectedAnimeWithNotOnFandubUrls();
 		//when
-		Anime result = animeService.buildAnime(fanDubSources, notFoundOnFandubTitle)
+		Anime result = animeService.buildAnime(notFoundOnFandubTitle, commonTitles)
 				.block();
 		//then
 		assertEquals(expectedAnime, result);

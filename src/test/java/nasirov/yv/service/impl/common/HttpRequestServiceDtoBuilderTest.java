@@ -3,7 +3,6 @@ package nasirov.yv.service.impl.common;
 import static nasirov.yv.utils.TestConstants.TEST_ACC_FOR_DEV;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertNull;
 
 import com.google.common.collect.Sets;
 import java.util.Collections;
@@ -18,10 +17,13 @@ import nasirov.yv.fandub.service.spring.boot.starter.dto.fandub.animepik.Animepi
 import nasirov.yv.fandub.service.spring.boot.starter.dto.fandub.animepik.AnimepikTitleEpisodes;
 import nasirov.yv.fandub.service.spring.boot.starter.dto.fandub.common.CommonTitle;
 import nasirov.yv.fandub.service.spring.boot.starter.dto.fandub.jisedai.JisedaiTitleEpisodeDto;
+import nasirov.yv.fandub.service.spring.boot.starter.dto.fandub_titles_service.FandubTitlesServiceRequestDto;
 import nasirov.yv.fandub.service.spring.boot.starter.dto.http_request_service.HttpRequestServiceDto;
+import nasirov.yv.fandub.service.spring.boot.starter.dto.mal.MalTitle;
 import nasirov.yv.fandub.service.spring.boot.starter.dto.mal.MalTitleWatchingStatus;
 import nasirov.yv.fandub.service.spring.boot.starter.dto.mal_service.MalServiceResponseDto;
 import nasirov.yv.fandub.service.spring.boot.starter.dto.selenium_service.SeleniumServiceRequestDto;
+import nasirov.yv.util.MalUtils;
 import nasirov.yv.utils.TestConstants;
 import org.apache.commons.lang3.StringUtils;
 import org.junit.jupiter.api.Test;
@@ -50,24 +52,30 @@ class HttpRequestServiceDtoBuilderTest extends AbstractTest {
 		//when
 		HttpRequestServiceDto<MalServiceResponseDto> result = httpRequestServiceDtoBuilder.malService(TEST_ACC_FOR_DEV, MalTitleWatchingStatus.WATCHING);
 		//then
-		checkResult(result, url, method, headers, retryableStatusCodes, fallback);
+		checkResult(result, url, method, headers, retryableStatusCodes, fallback, null);
 	}
 
 	@Test
 	void shouldBuildHttpRequestServiceDtoForFandubTitlesService() {
 		//given
-		String url = externalServicesProps.getFandubTitlesServiceUrl() + "titles?fanDubSources=ANIMEDIA&malId=42&malEpisodeId=1";
-		HttpMethod method = HttpMethod.GET;
+		String url = externalServicesProps.getFandubTitlesServiceUrl() + "titles";
+		HttpMethod method = HttpMethod.POST;
 		Map<String, String> headers = Collections.singletonMap(HttpHeaders.AUTHORIZATION, externalServicesProps.getFandubTitlesServiceBasicAuth());
 		Set<Integer> retryableStatusCodes = Collections.emptySet();
-		Map<FanDubSource, List<CommonTitle>> fallback = Map.of(FanDubSource.ANIMEDIA, Collections.emptyList());
+		FanDubSource fanDubSource = FanDubSource.ANIMEDIA;
+		Set<FanDubSource> fanDubSources = Set.of(fanDubSource);
+		MalTitle regularTitle = buildRegularTitle();
+		Map<Integer, Map<FanDubSource, List<CommonTitle>>> fallback = Map.of(regularTitle.getId(), Map.of(fanDubSource, Collections.emptyList()));
+		FandubTitlesServiceRequestDto requestBody = FandubTitlesServiceRequestDto.builder()
+				.fanDubSources(fanDubSources)
+				.malIdToEpisode(Map.of(regularTitle.getId(), MalUtils.getNextEpisodeForWatch(regularTitle)))
+				.build();
 		//when
-		HttpRequestServiceDto<Map<FanDubSource, List<CommonTitle>>> result =
-				httpRequestServiceDtoBuilder.fandubTitlesService(List.of(FanDubSource.ANIMEDIA),
-				42,
-				1);
+		HttpRequestServiceDto<Map<Integer, Map<FanDubSource, List<CommonTitle>>>> result =
+				httpRequestServiceDtoBuilder.fandubTitlesService(fanDubSources,
+				List.of(regularTitle));
 		//then
-		checkResult(result, url, method, headers, retryableStatusCodes, fallback);
+		checkResult(result, url, method, headers, retryableStatusCodes, fallback, requestBody);
 	}
 
 	@Test
@@ -85,7 +93,7 @@ class HttpRequestServiceDtoBuilderTest extends AbstractTest {
 				.cssSelector("a")
 				.build());
 		//then
-		checkResult(result, url, method, headers, retryableStatusCodes, fallback);
+		checkResult(result, url, method, headers, retryableStatusCodes, fallback, null);
 	}
 
 	@Test
@@ -101,7 +109,7 @@ class HttpRequestServiceDtoBuilderTest extends AbstractTest {
 		//when
 		HttpRequestServiceDto<String> result = httpRequestServiceDtoBuilder.anidub(commonTitle);
 		//then
-		checkResult(result, url, method, headers, retryableStatusCodes, fallback);
+		checkResult(result, url, method, headers, retryableStatusCodes, fallback, null);
 	}
 
 	@Test
@@ -117,7 +125,7 @@ class HttpRequestServiceDtoBuilderTest extends AbstractTest {
 		//when
 		HttpRequestServiceDto<String> result = httpRequestServiceDtoBuilder.anilibria(commonTitle);
 		//then
-		checkResult(result, url, method, headers, retryableStatusCodes, fallback);
+		checkResult(result, url, method, headers, retryableStatusCodes, fallback, null);
 	}
 
 	@Test
@@ -133,7 +141,7 @@ class HttpRequestServiceDtoBuilderTest extends AbstractTest {
 		//when
 		HttpRequestServiceDto<List<AnimediaEpisode>> result = httpRequestServiceDtoBuilder.animedia(commonTitle);
 		//then
-		checkResult(result, url, method, headers, retryableStatusCodes, fallback);
+		checkResult(result, url, method, headers, retryableStatusCodes, fallback, null);
 	}
 
 	@Test
@@ -153,7 +161,7 @@ class HttpRequestServiceDtoBuilderTest extends AbstractTest {
 		//when
 		HttpRequestServiceDto<AnimepikTitleEpisodes> result = httpRequestServiceDtoBuilder.animepik(commonTitle);
 		//then
-		checkResult(result, url, method, headers, retryableStatusCodes, fallback);
+		checkResult(result, url, method, headers, retryableStatusCodes, fallback, null);
 	}
 
 	@Test
@@ -168,7 +176,7 @@ class HttpRequestServiceDtoBuilderTest extends AbstractTest {
 		//when
 		HttpRequestServiceDto<List<JisedaiTitleEpisodeDto>> result = httpRequestServiceDtoBuilder.jisedai(commonTitle);
 		//then
-		checkResult(result, url, method, headers, retryableStatusCodes, fallback);
+		checkResult(result, url, method, headers, retryableStatusCodes, fallback, null);
 	}
 
 	@Test
@@ -184,7 +192,7 @@ class HttpRequestServiceDtoBuilderTest extends AbstractTest {
 		//when
 		HttpRequestServiceDto<String> result = httpRequestServiceDtoBuilder.jutsu(commonTitle);
 		//then
-		checkResult(result, url, method, headers, retryableStatusCodes, fallback);
+		checkResult(result, url, method, headers, retryableStatusCodes, fallback, null);
 	}
 
 	@Test
@@ -200,7 +208,7 @@ class HttpRequestServiceDtoBuilderTest extends AbstractTest {
 		//when
 		HttpRequestServiceDto<String> result = httpRequestServiceDtoBuilder.nineAnime(commonTitle);
 		//then
-		checkResult(result, url, method, headers, retryableStatusCodes, fallback);
+		checkResult(result, url, method, headers, retryableStatusCodes, fallback, null);
 	}
 
 	@Test
@@ -216,7 +224,7 @@ class HttpRequestServiceDtoBuilderTest extends AbstractTest {
 		//when
 		HttpRequestServiceDto<String> result = httpRequestServiceDtoBuilder.shizaProject(commonTitle);
 		//then
-		checkResult(result, url, method, headers, retryableStatusCodes, fallback);
+		checkResult(result, url, method, headers, retryableStatusCodes, fallback, null);
 	}
 
 	@Test
@@ -232,7 +240,7 @@ class HttpRequestServiceDtoBuilderTest extends AbstractTest {
 		//when
 		HttpRequestServiceDto<String> result = httpRequestServiceDtoBuilder.sovetRomantica(commonTitle);
 		//then
-		checkResult(result, url, method, headers, retryableStatusCodes, fallback);
+		checkResult(result, url, method, headers, retryableStatusCodes, fallback, null);
 	}
 
 	@Test
@@ -249,7 +257,7 @@ class HttpRequestServiceDtoBuilderTest extends AbstractTest {
 		//when
 		HttpRequestServiceDto<String> result = httpRequestServiceDtoBuilder.sovetRomantica(commonTitle, cookie);
 		//then
-		checkResult(result, url, method, headers, retryableStatusCodes, fallback);
+		checkResult(result, url, method, headers, retryableStatusCodes, fallback, null);
 	}
 
 
@@ -265,16 +273,16 @@ class HttpRequestServiceDtoBuilderTest extends AbstractTest {
 		//when
 		HttpRequestServiceDto<String> result = httpRequestServiceDtoBuilder.sovetRomanticaDdosGuard();
 		//then
-		checkResult(result, url, method, headers, retryableStatusCodes, fallback);
+		checkResult(result, url, method, headers, retryableStatusCodes, fallback, null);
 	}
 
 	private <T> void checkResult(HttpRequestServiceDto<T> result, String url, HttpMethod method, Map<String, String> headers,
-			Set<Integer> retryableStatusCodes, T fallback) {
+			Set<Integer> retryableStatusCodes, T fallback, Object requestBody) {
 		assertEquals(url, result.getUrl());
 		assertEquals(method, result.getMethod());
 		assertEquals(headers, result.getHeaders());
 		assertEquals(retryableStatusCodes, result.getRetryableStatusCodes());
-		assertNull(result.getRequestBody());
+		assertEquals(requestBody, result.getRequestBody());
 		assertNotNull(result.getClientResponseFunction());
 		assertEquals(fallback, result.getFallback());
 		assertNotNull(result.getClientResponseFunction()

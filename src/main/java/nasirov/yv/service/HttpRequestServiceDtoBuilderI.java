@@ -1,14 +1,15 @@
 package nasirov.yv.service;
 
-import java.util.Collection;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import nasirov.yv.fandub.service.spring.boot.starter.constant.FanDubSource;
 import nasirov.yv.fandub.service.spring.boot.starter.dto.fandub.animedia.AnimediaEpisode;
 import nasirov.yv.fandub.service.spring.boot.starter.dto.fandub.animepik.AnimepikTitleEpisodes;
 import nasirov.yv.fandub.service.spring.boot.starter.dto.fandub.common.CommonTitle;
 import nasirov.yv.fandub.service.spring.boot.starter.dto.fandub.jisedai.JisedaiTitleEpisodeDto;
 import nasirov.yv.fandub.service.spring.boot.starter.dto.http_request_service.HttpRequestServiceDto;
+import nasirov.yv.fandub.service.spring.boot.starter.dto.mal.MalTitle;
 import nasirov.yv.fandub.service.spring.boot.starter.dto.mal.MalTitleWatchingStatus;
 import nasirov.yv.fandub.service.spring.boot.starter.dto.mal_service.MalServiceResponseDto;
 import nasirov.yv.fandub.service.spring.boot.starter.dto.selenium_service.SeleniumServiceRequestDto;
@@ -20,8 +21,8 @@ public interface HttpRequestServiceDtoBuilderI {
 
 	HttpRequestServiceDto<MalServiceResponseDto> malService(String username, MalTitleWatchingStatus status);
 
-	HttpRequestServiceDto<Map<FanDubSource, List<CommonTitle>>> fandubTitlesService(Collection<FanDubSource> fanDubSources, int malId,
-			int malEpisodeId);
+	HttpRequestServiceDto<Map<Integer, Map<FanDubSource, List<CommonTitle>>>> fandubTitlesService(Set<FanDubSource> fanDubSources,
+			List<MalTitle> watchingTitles);
 
 	HttpRequestServiceDto<String> seleniumService(SeleniumServiceRequestDto seleniumServiceRequestDto);
 

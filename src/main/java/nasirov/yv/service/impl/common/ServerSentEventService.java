@@ -6,7 +6,12 @@ import static nasirov.yv.data.front.EventType.ERROR;
 import static nasirov.yv.data.front.EventType.NOT_AVAILABLE;
 import static nasirov.yv.data.front.EventType.NOT_FOUND;
 
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import nasirov.yv.data.constants.BaseConstants;
@@ -15,11 +20,16 @@ import nasirov.yv.data.front.EventType;
 import nasirov.yv.data.front.SseDto;
 import nasirov.yv.data.front.UserInputDto;
 import nasirov.yv.fandub.service.spring.boot.starter.constant.FanDubSource;
+import nasirov.yv.fandub.service.spring.boot.starter.dto.fandub.common.CommonTitle;
+import nasirov.yv.fandub.service.spring.boot.starter.dto.mal.MalTitle;
 import nasirov.yv.fandub.service.spring.boot.starter.dto.mal_service.MalServiceResponseDto;
+import nasirov.yv.fandub.service.spring.boot.starter.service.HttpRequestServiceI;
 import nasirov.yv.service.AnimeServiceI;
 import nasirov.yv.service.CacheCleanerServiceI;
+import nasirov.yv.service.HttpRequestServiceDtoBuilderI;
 import nasirov.yv.service.MalServiceI;
 import nasirov.yv.service.ServerSentEventServiceI;
+import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.codec.ServerSentEvent;
 import org.springframework.stereotype.Service;
@@ -42,14 +52,19 @@ public class ServerSentEventService implements ServerSentEventServiceI {
 
 	private final CacheCleanerServiceI cacheCleanerService;
 
+	private final HttpRequestServiceDtoBuilderI httpRequestServiceDtoBuilder;
+
+	private final HttpRequestServiceI httpRequestService;
+
 	@Override
 	@Cacheable(value = "sse", key = "#userInputDto.getUsername() + ':' +#userInputDto.getFanDubSources()", condition = "#userInputDto != null")
 	public Flux<ServerSentEvent<SseDto>> getServerSentEvents(UserInputDto userInputDto) {
 		return Mono.just(userInputDto)
-				.flatMap(malService::getUserWatchingTitles)
-				.map(MalServiceResponseDto::getMalTitles)
-				.flatMapMany(Flux::fromIterable)
-				.flatMap(x -> animeService.buildAnime(userInputDto.getFanDubSources(), x))
+				.flatMap(this::getUserWatchingTitles)
+				.flatMap(x -> getCommonTitlesForMalTitles(userInputDto, x))
+				.flatMapMany(x -> Flux.fromStream(x.entrySet()
+						.stream()))
+				.flatMap(x -> animeService.buildAnime(x.getKey(), x.getValue()))
 				.map(x -> buildSseDto(userInputDto.getFanDubSources(), x))
 				.index()
 				.map(x -> buildServerSentEvent(x.getT2(),
@@ -63,6 +78,27 @@ public class ServerSentEventService implements ServerSentEventServiceI {
 				.doOnComplete(() -> log.info("ServerSentEvent successfully completed for [{}]", userInputDto))
 				.doOnCancel(() -> log.info("ServerSentEvent was canceled for [{}]", userInputDto))
 				.doFinally(x -> cacheCleanerService.clearSseCache(userInputDto));
+	}
+
+	private Mono<List<MalTitle>> getUserWatchingTitles(UserInputDto userInputDto) {
+		return malService.getUserWatchingTitles(userInputDto)
+				.map(MalServiceResponseDto::getMalTitles)
+				.filter(CollectionUtils::isNotEmpty);
+	}
+
+	private Mono<Map<MalTitle, Map<FanDubSource, List<CommonTitle>>>> getCommonTitlesForMalTitles(UserInputDto userInputDto,
+			List<MalTitle> malTitles) {
+		Map<Integer, MalTitle> malIdToMalTitle = malTitles.stream()
+				.collect(Collectors.toMap(MalTitle::getId, Function.identity()));
+		return httpRequestService.performHttpRequest(httpRequestServiceDtoBuilder.fandubTitlesService(userInputDto.getFanDubSources(), malTitles))
+				.map(x -> remapMalIdToMalTitle(x, malIdToMalTitle));
+	}
+
+	private Map<MalTitle, Map<FanDubSource, List<CommonTitle>>> remapMalIdToMalTitle(
+			Map<Integer, Map<FanDubSource, List<CommonTitle>>> commonTitlesForAllMalTitles, Map<Integer, MalTitle> malIdToMalTitle) {
+		return commonTitlesForAllMalTitles.entrySet()
+				.stream()
+				.collect(Collectors.toMap(x -> malIdToMalTitle.get(x.getKey()), Entry::getValue));
 	}
 
 	private SseDto buildSseDto(Set<FanDubSource> fanDubSources, Anime anime) {

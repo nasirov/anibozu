@@ -25,6 +25,7 @@ import nasirov.yv.data.front.EventType;
 import nasirov.yv.data.front.SseDto;
 import nasirov.yv.data.front.UserInputDto;
 import nasirov.yv.fandub.service.spring.boot.starter.constant.FanDubSource;
+import nasirov.yv.fandub.service.spring.boot.starter.dto.fandub.common.CommonTitle;
 import nasirov.yv.fandub.service.spring.boot.starter.dto.mal.MalTitle;
 import nasirov.yv.fandub.service.spring.boot.starter.dto.mal_service.MalServiceResponseDto;
 import nasirov.yv.util.MalUtils;
@@ -50,9 +51,11 @@ class ServerSentEventServiceTest extends AbstractTest {
 				concretizedTitle,
 				notFoundOnFandubTitle), "");
 		mockExternalMalServiceResponse(malServiceResponseDto);
-		mockExternalFandubTitlesServiceResponse(regularTitle, buildRegularCommonTitles(fanDubSources), fanDubSources);
-		mockExternalFandubTitlesServiceResponse(concretizedTitle, buildConcretizedCommonTitles(fanDubSources), fanDubSources);
-		mockExternalFandubTitlesServiceResponse(notFoundOnFandubTitle, buildNotFoundOnFandubCommonTitles(fanDubSources), fanDubSources);
+		Map<Integer, Map<FanDubSource, List<CommonTitle>>> orderedMalTitles = new LinkedHashMap<>();
+		orderedMalTitles.put(regularTitle.getId(), buildRegularCommonTitles(fanDubSources));
+		orderedMalTitles.put(concretizedTitle.getId(), buildConcretizedCommonTitles(fanDubSources));
+		orderedMalTitles.put(notFoundOnFandubTitle.getId(), buildNotFoundOnFandubCommonTitles(fanDubSources));
+		mockExternalFandubTitlesServiceResponse(orderedMalTitles);
 		//when
 		Flux<ServerSentEvent<SseDto>> result = serverSentEventService.getServerSentEvents(userInputDto);
 		//then
@@ -64,9 +67,9 @@ class ServerSentEventServiceTest extends AbstractTest {
 				.block();
 		assertNotNull(serverSentEvents);
 		assertEquals(4, serverSentEvents.size());
-		checkServerSentEvent(serverSentEvents.get(0), 0, EventType.AVAILABLE, regularTitle);
-		checkServerSentEvent(serverSentEvents.get(1), 1, EventType.NOT_AVAILABLE, concretizedTitle);
-		checkServerSentEvent(serverSentEvents.get(2), 2, EventType.NOT_FOUND, notFoundOnFandubTitle);
+		checkServerSentEvent(serverSentEvents.get(0), 0, EventType.NOT_FOUND, notFoundOnFandubTitle);
+		checkServerSentEvent(serverSentEvents.get(1), 1, EventType.AVAILABLE, regularTitle);
+		checkServerSentEvent(serverSentEvents.get(2), 2, EventType.NOT_AVAILABLE, concretizedTitle);
 		checkServerSentEvent(serverSentEvents.get(3), -1, EventType.DONE, null);
 		verify(cacheCleanerService).clearSseCache(userInputDto);
 		assertNull(sseCache.get(cacheKey));
@@ -104,8 +107,12 @@ class ServerSentEventServiceTest extends AbstractTest {
 		MalTitle concretizedTitle = buildConcretizedTitle();
 		MalServiceResponseDto malServiceResponseDto = buildMalServiceResponseDto(Lists.newArrayList(regularTitle, concretizedTitle), "");
 		mockExternalMalServiceResponse(malServiceResponseDto);
-		mockExternalFandubTitlesServiceResponse(regularTitle, buildRegularCommonTitles(fanDubSources), fanDubSources);
-		mockAnimeServiceException(fanDubSources, concretizedTitle);
+		Map<FanDubSource, List<CommonTitle>> commonTitlesForConcretized = buildConcretizedCommonTitles(fanDubSources);
+		mockAnimeServiceException(concretizedTitle, commonTitlesForConcretized);
+		Map<Integer, Map<FanDubSource, List<CommonTitle>>> orderedMalTitles = new LinkedHashMap<>();
+		orderedMalTitles.put(regularTitle.getId(), buildRegularCommonTitles(fanDubSources));
+		orderedMalTitles.put(concretizedTitle.getId(), commonTitlesForConcretized);
+		mockExternalFandubTitlesServiceResponse(orderedMalTitles);
 		//when
 		Flux<ServerSentEvent<SseDto>> result = serverSentEventService.getServerSentEvents(userInputDto);
 		//then
@@ -123,9 +130,9 @@ class ServerSentEventServiceTest extends AbstractTest {
 		assertNull(sseCache.get(cacheKey));
 	}
 
-	private void mockAnimeServiceException(Set<FanDubSource> fanDubSources, MalTitle malTitle) {
+	private void mockAnimeServiceException(MalTitle malTitle, Map<FanDubSource, List<CommonTitle>> commonTitles) {
 		doThrow(new RuntimeException("foo bar cause")).when(animeService)
-				.buildAnime(fanDubSources, malTitle);
+				.buildAnime(malTitle, commonTitles);
 	}
 
 	private void checkServerSentEvent(ServerSentEvent<SseDto> serverSentEvent, int eventId, EventType expectedEventType, MalTitle malTitle) {

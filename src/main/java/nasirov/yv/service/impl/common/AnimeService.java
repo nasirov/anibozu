@@ -3,7 +3,6 @@ package nasirov.yv.service.impl.common;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.Set;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import nasirov.yv.data.front.Anime;
@@ -11,10 +10,8 @@ import nasirov.yv.data.front.Anime.AnimeBuilder;
 import nasirov.yv.fandub.service.spring.boot.starter.constant.FanDubSource;
 import nasirov.yv.fandub.service.spring.boot.starter.dto.fandub.common.CommonTitle;
 import nasirov.yv.fandub.service.spring.boot.starter.dto.mal.MalTitle;
-import nasirov.yv.fandub.service.spring.boot.starter.service.HttpRequestServiceI;
 import nasirov.yv.service.AnimeServiceI;
 import nasirov.yv.service.EpisodeNameAndUrlServiceI;
-import nasirov.yv.service.HttpRequestServiceDtoBuilderI;
 import nasirov.yv.util.MalUtils;
 import org.apache.commons.lang3.tuple.Pair;
 import org.springframework.stereotype.Service;
@@ -31,30 +28,23 @@ public class AnimeService implements AnimeServiceI {
 
 	private final Map<FanDubSource, EpisodeNameAndUrlServiceI> episodeNameAndUrlServiceStrategy;
 
-	private final HttpRequestServiceDtoBuilderI httpRequestServiceDtoBuilder;
-
-	private final HttpRequestServiceI httpRequestService;
-
 	@Override
-	public Mono<Anime> buildAnime(Set<FanDubSource> fanDubSources, MalTitle watchingTitle) {
+	public Mono<Anime> buildAnime(MalTitle watchingTitle, Map<FanDubSource, List<CommonTitle>> commonTitlesByFandubSource) {
 		Integer nextEpisodeForWatch = MalUtils.getNextEpisodeForWatch(watchingTitle);
 		AnimeBuilder animeBuilder = Anime.builder()
 				.animeName(watchingTitle.getName())
 				.malEpisodeNumber(nextEpisodeForWatch.toString())
 				.posterUrlOnMal(watchingTitle.getPosterUrl())
 				.animeUrlOnMal(watchingTitle.getAnimeUrl());
-		return httpRequestService.performHttpRequest(httpRequestServiceDtoBuilder.fandubTitlesService(fanDubSources,
-						watchingTitle.getId(),
-						nextEpisodeForWatch))
-				.flatMapMany(x -> Flux.fromStream(x.entrySet()
-						.stream()))
+		return Flux.fromStream(commonTitlesByFandubSource.entrySet()
+						.stream())
 				.flatMap(x -> mapEpisodeNameAndUrlByFandubSource(watchingTitle, x))
 				.doOnNext(x -> enrichWithEpisodeNameAndUrl(animeBuilder, x))
 				.then(Mono.just(animeBuilder))
 				.map(AnimeBuilder::build)
 				.doOnSubscribe(x -> log.debug("Trying to build Anime dto based on a mal title [{}]. Desired fandub sources [{}]...",
 						watchingTitle.getAnimeUrl(),
-						fanDubSources))
+						commonTitlesByFandubSource.keySet()))
 				.doOnSuccess(x -> log.debug("Successfully built {}", x));
 	}
 
