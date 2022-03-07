@@ -3,8 +3,8 @@ package nasirov.yv.service.impl.fandub;
 import java.util.List;
 import nasirov.yv.data.properties.CommonProps;
 import nasirov.yv.fandub.service.spring.boot.starter.constant.FanDubSource;
+import nasirov.yv.fandub.service.spring.boot.starter.dto.fandub.common.CommonEpisode;
 import nasirov.yv.fandub.service.spring.boot.starter.dto.fandub.common.CommonTitle;
-import nasirov.yv.fandub.service.spring.boot.starter.dto.fandub.common.FandubEpisode;
 import nasirov.yv.fandub.service.spring.boot.starter.extractor.parser.JisedaiParserI;
 import nasirov.yv.fandub.service.spring.boot.starter.properties.FanDubProps;
 import nasirov.yv.fandub.service.spring.boot.starter.service.HttpRequestServiceI;
@@ -27,13 +27,13 @@ public class JisedaiEpisodeNameAndUrlService extends AbstractEpisodeNameAndUrlSe
 	}
 
 	@Override
-	protected Mono<List<FandubEpisode>> getEpisodes(CommonTitle commonTitle) {
+	protected Mono<List<CommonEpisode>> getEpisodes(CommonTitle commonTitle) {
 		return httpRequestService.performHttpRequest(httpRequestServiceDtoBuilder.jisedai(commonTitle))
 				.map(jisedaiParser::extractEpisodes)
 				.doOnNext(x -> fillFandubEpisodesWithTitleUrl(x, commonTitle.getUrl()));
 	}
 
-	private void fillFandubEpisodesWithTitleUrl(List<FandubEpisode> fandubEpisodes, String titleUrl) {
-		fandubEpisodes.forEach(x -> x.setUrl(titleUrl));
+	private void fillFandubEpisodesWithTitleUrl(List<CommonEpisode> commonEpisodes, String titleUrl) {
+		commonEpisodes.forEach(x -> x.setUrl(titleUrl));
 	}
 }

@@ -16,6 +16,7 @@ import nasirov.yv.fandub.service.spring.boot.starter.dto.fandub.animedia.Animedi
 import nasirov.yv.fandub.service.spring.boot.starter.dto.fandub.animepik.AnimepikPlayer;
 import nasirov.yv.fandub.service.spring.boot.starter.dto.fandub.animepik.AnimepikTitleEpisodes;
 import nasirov.yv.fandub.service.spring.boot.starter.dto.fandub.common.CommonTitle;
+import nasirov.yv.fandub.service.spring.boot.starter.dto.fandub.common.Id;
 import nasirov.yv.fandub.service.spring.boot.starter.dto.fandub.jisedai.JisedaiTitleEpisodeDto;
 import nasirov.yv.fandub.service.spring.boot.starter.dto.fandub_titles_service.FandubTitlesServiceRequestDto;
 import nasirov.yv.fandub.service.spring.boot.starter.dto.http_request_service.HttpRequestServiceDto;
@@ -105,8 +106,9 @@ public class HttpRequestServiceDtoBuilder implements HttpRequestServiceDtoBuilde
 
 	@Override
 	public HttpRequestServiceDto<List<AnimediaEpisode>> animedia(CommonTitle commonTitle) {
+		Id id = commonTitle.getId();
 		return buildDto(fanDubProps.getUrls()
-						.get(FanDubSource.ANIMEDIA) + "embeds/playlist-j.txt/" + commonTitle.getId() + "/" + commonTitle.getDataList(),
+						.get(FanDubSource.ANIMEDIA) + "embeds/playlist-j.txt/" + id.getId() + "/" + id.getDataList(),
 				Collections.emptyMap(),
 				RETRYABLE_STATUS_CODES,
 				x -> x.bodyToMono(new ParameterizedTypeReference<List<AnimediaEpisode>>() {
@@ -130,7 +132,8 @@ public class HttpRequestServiceDtoBuilder implements HttpRequestServiceDtoBuilde
 
 	@Override
 	public HttpRequestServiceDto<List<JisedaiTitleEpisodeDto>> jisedai(CommonTitle commonTitle) {
-		return buildDto(fanDubProps.getJisedaiApiUrl() + "api/v1/anime/" + commonTitle.getId() + "/episode",
+		return buildDto(fanDubProps.getJisedaiApiUrl() + "api/v1/anime/" + commonTitle.getId()
+						.getId() + "/episode",
 				Collections.emptyMap(),
 				RETRYABLE_STATUS_CODES,
 				x -> x.bodyToMono(new ParameterizedTypeReference<List<JisedaiTitleEpisodeDto>>() {
@@ -146,11 +149,8 @@ public class HttpRequestServiceDtoBuilder implements HttpRequestServiceDtoBuilde
 	@Override
 	public HttpRequestServiceDto<String> nineAnime(CommonTitle commonTitle) {
 		return buildDto(fanDubProps.getUrls()
-						.get(FanDubSource.NINEANIME) + "ajax/anime/servers?id=" + commonTitle.getId(),
-				Collections.emptyMap(),
-				RETRYABLE_STATUS_CODES,
-				x -> x.bodyToMono(String.class),
-				StringUtils.EMPTY);
+				.get(FanDubSource.NINEANIME) + "ajax/anime/servers?id=" + commonTitle.getId()
+				.getId(), Collections.emptyMap(), RETRYABLE_STATUS_CODES, x -> x.bodyToMono(String.class), StringUtils.EMPTY);
 	}
 
 	@Override

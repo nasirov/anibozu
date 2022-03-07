@@ -11,8 +11,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import nasirov.yv.fandub.service.spring.boot.starter.constant.FanDubSource;
+import nasirov.yv.fandub.service.spring.boot.starter.dto.fandub.common.CommonEpisode;
 import nasirov.yv.fandub.service.spring.boot.starter.dto.fandub.common.CommonTitle;
-import nasirov.yv.fandub.service.spring.boot.starter.dto.fandub.common.FandubEpisode;
 import org.apache.commons.lang3.tuple.Pair;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpHeaders;
@@ -82,15 +82,17 @@ class SovetRomanticaEpisodeNameAndUrlServiceTest extends AbstractEpisodeNameAndU
 	}
 
 	@Override
-	protected List<FandubEpisode> getFandubEpisodes() {
-		return Lists.newArrayList(FandubEpisode.builder()
+	protected List<CommonEpisode> getCommonEpisodes() {
+		return Lists.newArrayList(CommonEpisode.builder()
 						.name(SOVET_ROMANTICA_EPISODE_NAME)
+						.malEpisodeId(1)
 						.id(1)
 						.number("1")
 						.url(REGULAR_TITLE_SOVET_ROMANTICA_URL + "/episode_1-subtitles")
 						.build(),
-				FandubEpisode.builder()
+				CommonEpisode.builder()
 						.name(RUNTIME_EPISODE_NAME)
+						.malEpisodeId(2)
 						.id(2)
 						.number("2")
 						.url(REGULAR_TITLE_SOVET_ROMANTICA_URL + "/episode_2-subtitles")
@@ -113,8 +115,8 @@ class SovetRomanticaEpisodeNameAndUrlServiceTest extends AbstractEpisodeNameAndU
 
 	@Override
 	protected void mockParser(String runtimeExpectedResponse) {
-		List<FandubEpisode> fandubEpisodes = getFandubEpisodes();
-		doReturn(fandubEpisodes).when(sovetRomanticaParser)
+		List<CommonEpisode> commonEpisodes = getCommonEpisodes();
+		doReturn(commonEpisodes).when(sovetRomanticaParser)
 				.extractEpisodes(argThat(x -> x.text()
 						.equals(runtimeExpectedResponse)));
 	}

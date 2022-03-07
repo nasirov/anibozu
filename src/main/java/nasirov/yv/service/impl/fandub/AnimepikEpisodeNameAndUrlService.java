@@ -4,8 +4,8 @@ import java.util.List;
 import nasirov.yv.data.properties.CommonProps;
 import nasirov.yv.fandub.service.spring.boot.starter.constant.FanDubSource;
 import nasirov.yv.fandub.service.spring.boot.starter.dto.fandub.animepik.AnimepikTitleEpisodes;
+import nasirov.yv.fandub.service.spring.boot.starter.dto.fandub.common.CommonEpisode;
 import nasirov.yv.fandub.service.spring.boot.starter.dto.fandub.common.CommonTitle;
-import nasirov.yv.fandub.service.spring.boot.starter.dto.fandub.common.FandubEpisode;
 import nasirov.yv.fandub.service.spring.boot.starter.extractor.parser.AnimepikParserI;
 import nasirov.yv.fandub.service.spring.boot.starter.properties.FanDubProps;
 import nasirov.yv.fandub.service.spring.boot.starter.service.HttpRequestServiceI;
@@ -28,7 +28,7 @@ public class AnimepikEpisodeNameAndUrlService extends AbstractEpisodeNameAndUrlS
 	}
 
 	@Override
-	protected Mono<List<FandubEpisode>> getEpisodes(CommonTitle commonTitle) {
+	protected Mono<List<CommonEpisode>> getEpisodes(CommonTitle commonTitle) {
 		return httpRequestService.performHttpRequest(httpRequestServiceDtoBuilder.animepik(commonTitle))
 				.doOnNext(x -> fillAnimepikEpisodesWithTitleUrl(x, commonTitle.getUrl()))
 				.map(x -> animepikParser.extractEpisodes(x.getAnimepikPlayer()

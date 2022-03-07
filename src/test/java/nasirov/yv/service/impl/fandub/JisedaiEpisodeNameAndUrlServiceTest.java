@@ -9,8 +9,8 @@ import static org.mockito.Mockito.doReturn;
 import com.google.common.collect.Lists;
 import java.util.List;
 import nasirov.yv.fandub.service.spring.boot.starter.constant.FanDubSource;
+import nasirov.yv.fandub.service.spring.boot.starter.dto.fandub.common.CommonEpisode;
 import nasirov.yv.fandub.service.spring.boot.starter.dto.fandub.common.CommonTitle;
-import nasirov.yv.fandub.service.spring.boot.starter.dto.fandub.common.FandubEpisode;
 import nasirov.yv.fandub.service.spring.boot.starter.dto.fandub.jisedai.JisedaiTitleEpisodeDto;
 import org.apache.commons.lang3.tuple.Pair;
 import org.junit.jupiter.api.Test;
@@ -67,7 +67,8 @@ class JisedaiEpisodeNameAndUrlServiceTest extends AbstractEpisodeNameAndUrlsServ
 	protected void mockGetRuntimeResponse(List<JisedaiTitleEpisodeDto> runtimeExpectedResponse, CommonTitle commonTitle) {
 		doReturn(Mono.just(runtimeExpectedResponse)).when(httpRequestService)
 				.performHttpRequest(argThat(x -> x.getUrl()
-						.equals(fanDubProps.getJisedaiApiUrl() + "api/v1/anime/" + commonTitle.getId() + "/episode")));
+						.equals(fanDubProps.getJisedaiApiUrl() + "api/v1/anime/" + commonTitle.getId()
+								.getId() + "/episode")));
 	}
 
 	@Override
@@ -76,15 +77,17 @@ class JisedaiEpisodeNameAndUrlServiceTest extends AbstractEpisodeNameAndUrlsServ
 	}
 
 	@Override
-	protected List<FandubEpisode> getFandubEpisodes() {
-		return Lists.newArrayList(FandubEpisode.builder()
+	protected List<CommonEpisode> getCommonEpisodes() {
+		return Lists.newArrayList(CommonEpisode.builder()
 						.name(JISEDAI_EPISODE_NAME)
+						.malEpisodeId(1)
 						.id(1)
 						.number("1")
 						.url(REGULAR_TITLE_JISEDAI_URL)
 						.build(),
-				FandubEpisode.builder()
+				CommonEpisode.builder()
 						.name(RUNTIME_EPISODE_NAME)
+						.malEpisodeId(2)
 						.id(2)
 						.number("2")
 						.url(REGULAR_TITLE_JISEDAI_URL)
@@ -107,8 +110,8 @@ class JisedaiEpisodeNameAndUrlServiceTest extends AbstractEpisodeNameAndUrlsServ
 
 	@Override
 	protected void mockParser(List<JisedaiTitleEpisodeDto> runtimeExpectedResponse) {
-		List<FandubEpisode> fandubEpisodes = getFandubEpisodes();
-		doReturn(fandubEpisodes).when(jisedaiParser)
+		List<CommonEpisode> commonEpisodes = getCommonEpisodes();
+		doReturn(commonEpisodes).when(jisedaiParser)
 				.extractEpisodes(runtimeExpectedResponse);
 	}
 }

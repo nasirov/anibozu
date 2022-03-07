@@ -12,8 +12,8 @@ import com.google.common.collect.Lists;
 import java.util.List;
 import nasirov.yv.fandub.service.spring.boot.starter.constant.FanDubSource;
 import nasirov.yv.fandub.service.spring.boot.starter.dto.fandub.animedia.AnimediaEpisode;
+import nasirov.yv.fandub.service.spring.boot.starter.dto.fandub.common.CommonEpisode;
 import nasirov.yv.fandub.service.spring.boot.starter.dto.fandub.common.CommonTitle;
-import nasirov.yv.fandub.service.spring.boot.starter.dto.fandub.common.FandubEpisode;
 import nasirov.yv.utils.CommonTitleTestBuilder;
 import org.apache.commons.lang3.tuple.Pair;
 import org.junit.jupiter.api.Test;
@@ -66,7 +66,9 @@ class AnimediaEpisodeUrlServiceTest extends AbstractEpisodeNameAndUrlsServiceTes
 		doReturn(Mono.just(runtimeExpectedResponse)).when(httpRequestService)
 				.performHttpRequest(argThat(x -> x.getUrl()
 						.equals(fanDubProps.getUrls()
-								.get(FanDubSource.ANIMEDIA) + "embeds/playlist-j.txt/" + commonTitle.getId() + "/" + commonTitle.getDataList())));
+								.get(FanDubSource.ANIMEDIA) + "embeds/playlist-j.txt/" + commonTitle.getId()
+								.getId() + "/" + commonTitle.getId()
+								.getDataList())));
 	}
 
 	@Override
@@ -75,15 +77,17 @@ class AnimediaEpisodeUrlServiceTest extends AbstractEpisodeNameAndUrlsServiceTes
 	}
 
 	@Override
-	protected List<FandubEpisode> getFandubEpisodes() {
-		return Lists.newArrayList(FandubEpisode.builder()
+	protected List<CommonEpisode> getCommonEpisodes() {
+		return Lists.newArrayList(CommonEpisode.builder()
 						.name(ANIMEDIA_EPISODE_NAME)
+						.malEpisodeId(1)
 						.id(1)
 						.number("1")
 						.url(REGULAR_TITLE_ANIMEDIA_URL + "/1/1")
 						.build(),
-				FandubEpisode.builder()
+				CommonEpisode.builder()
 						.name(RUNTIME_EPISODE_NAME)
+						.malEpisodeId(3)
 						.id(3)
 						.number("2")
 						.url(REGULAR_TITLE_ANIMEDIA_URL + "/1/3")
@@ -102,21 +106,18 @@ class AnimediaEpisodeUrlServiceTest extends AbstractEpisodeNameAndUrlsServiceTes
 
 	@Override
 	protected void mockParser(List<AnimediaEpisode> runtimeExpectedResponse) {
-		List<FandubEpisode> fandubEpisodes = getFandubEpisodes();
-		doReturn(fandubEpisodes).when(animediaParser)
+		List<CommonEpisode> commonEpisodes = getCommonEpisodes();
+		doReturn(commonEpisodes).when(animediaParser)
 				.extractEpisodes(runtimeExpectedResponse);
 	}
 
 	@Override
 	protected List<CommonTitle> getRegularCommonTitles() {
 		return Lists.newArrayList(CommonTitleTestBuilder.getAnimediaRegular(),
-				CommonTitleTestBuilder.getRegular(REGULAR_TITLE_ANIMEDIA_URL, 0, buildEpisodeUrl(REGULAR_TITLE_ANIMEDIA_URL, 0), null,
-						ANIMEDIA_EPISODE_NAME),
+				CommonTitleTestBuilder.getRegular(REGULAR_TITLE_ANIMEDIA_URL, 0, buildEpisodeUrl(REGULAR_TITLE_ANIMEDIA_URL, 0), ANIMEDIA_EPISODE_NAME),
 				CommonTitleTestBuilder.getConcretized(REGULAR_TITLE_ANIMEDIA_URL,
 						2,
-						buildEpisodeUrl(REGULAR_TITLE_ANIMEDIA_URL, 2),
-						null,
-						ANIMEDIA_EPISODE_NAME));
+						buildEpisodeUrl(REGULAR_TITLE_ANIMEDIA_URL, 2), ANIMEDIA_EPISODE_NAME));
 	}
 
 	private List<AnimediaEpisode> getAnimediaEpisodesWithFilledTitleUrlField() {

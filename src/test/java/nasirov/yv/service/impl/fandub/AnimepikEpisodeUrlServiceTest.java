@@ -15,8 +15,8 @@ import nasirov.yv.fandub.service.spring.boot.starter.constant.FanDubSource;
 import nasirov.yv.fandub.service.spring.boot.starter.dto.fandub.animepik.AnimepikEpisode;
 import nasirov.yv.fandub.service.spring.boot.starter.dto.fandub.animepik.AnimepikPlayer;
 import nasirov.yv.fandub.service.spring.boot.starter.dto.fandub.animepik.AnimepikTitleEpisodes;
+import nasirov.yv.fandub.service.spring.boot.starter.dto.fandub.common.CommonEpisode;
 import nasirov.yv.fandub.service.spring.boot.starter.dto.fandub.common.CommonTitle;
-import nasirov.yv.fandub.service.spring.boot.starter.dto.fandub.common.FandubEpisode;
 import org.apache.commons.lang3.tuple.Pair;
 import org.junit.jupiter.api.Test;
 import reactor.core.publisher.Mono;
@@ -84,21 +84,23 @@ class AnimepikEpisodeUrlServiceTest extends AbstractEpisodeNameAndUrlsServiceTes
 
 	@Override
 	protected void mockParser(List<AnimepikEpisode> animepikEpisodes) {
-		List<FandubEpisode> fandubEpisodes = getFandubEpisodes();
-		doReturn(fandubEpisodes).when(animepikParser)
+		List<CommonEpisode> commonEpisodes = getCommonEpisodes();
+		doReturn(commonEpisodes).when(animepikParser)
 				.extractEpisodes(animepikEpisodes);
 	}
 
 	@Override
-	protected List<FandubEpisode> getFandubEpisodes() {
-		return Lists.newArrayList(FandubEpisode.builder()
+	protected List<CommonEpisode> getCommonEpisodes() {
+		return Lists.newArrayList(CommonEpisode.builder()
 						.name(ANIMEPIK_EPISODE_NAME)
+						.malEpisodeId(1)
 						.id(1)
 						.number("1")
 						.url(REGULAR_TITLE_ANIMEPIK_URL)
 						.build(),
-				FandubEpisode.builder()
+				CommonEpisode.builder()
 						.name(RUNTIME_EPISODE_NAME)
+						.malEpisodeId(2)
 						.id(2)
 						.number("2")
 						.url(REGULAR_TITLE_ANIMEPIK_URL)

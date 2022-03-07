@@ -10,8 +10,8 @@ import java.util.Collections;
 import java.util.List;
 import nasirov.yv.AbstractTest;
 import nasirov.yv.fandub.service.spring.boot.starter.constant.FanDubSource;
+import nasirov.yv.fandub.service.spring.boot.starter.dto.fandub.common.CommonEpisode;
 import nasirov.yv.fandub.service.spring.boot.starter.dto.fandub.common.CommonTitle;
-import nasirov.yv.fandub.service.spring.boot.starter.dto.fandub.common.FandubEpisode;
 import nasirov.yv.fandub.service.spring.boot.starter.dto.mal.MalTitle;
 import nasirov.yv.utils.CommonTitleTestBuilder;
 import org.apache.commons.lang3.tuple.Pair;
@@ -101,7 +101,7 @@ public abstract class AbstractEpisodeNameAndUrlsServiceTest<RUNTIME_RESPONSE_TYP
 
 	protected abstract FanDubSource getFandubSource();
 
-	protected abstract List<FandubEpisode> getFandubEpisodes();
+	protected abstract List<CommonEpisode> getCommonEpisodes();
 
 	protected abstract void checkNameAndUrlForAvailableEpisode(Pair<String, String> episodeNameAndUrl);
 

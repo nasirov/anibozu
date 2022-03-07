@@ -9,8 +9,8 @@ import lombok.extern.slf4j.Slf4j;
 import nasirov.yv.data.properties.CommonProps;
 import nasirov.yv.fandub.service.spring.boot.starter.constant.FanDubSource;
 import nasirov.yv.fandub.service.spring.boot.starter.dto.fandub.animedia.AnimediaEpisode;
+import nasirov.yv.fandub.service.spring.boot.starter.dto.fandub.common.CommonEpisode;
 import nasirov.yv.fandub.service.spring.boot.starter.dto.fandub.common.CommonTitle;
-import nasirov.yv.fandub.service.spring.boot.starter.dto.fandub.common.FandubEpisode;
 import nasirov.yv.fandub.service.spring.boot.starter.extractor.parser.AnimediaParserI;
 import nasirov.yv.fandub.service.spring.boot.starter.properties.FanDubProps;
 import nasirov.yv.fandub.service.spring.boot.starter.service.HttpRequestServiceI;
@@ -38,7 +38,7 @@ public class AnimediaEpisodeNameAndUrlService extends AbstractEpisodeNameAndUrlS
 	}
 
 	@Override
-	protected Mono<List<FandubEpisode>> getEpisodes(CommonTitle commonTitle) {
+	protected Mono<List<CommonEpisode>> getEpisodes(CommonTitle commonTitle) {
 		return httpRequestService.performHttpRequest(httpRequestServiceDtoBuilder.animedia(commonTitle))
 				.doOnNext(x -> fillAnimediaEpisodesWithTitleUrl(x, commonTitle.getUrl()))
 				.map(animediaParser::extractEpisodes);
@@ -51,7 +51,7 @@ public class AnimediaEpisodeNameAndUrlService extends AbstractEpisodeNameAndUrlS
 						.get(fanDubSource))
 				.map(this::extractRegularTitles)
 				.filter(CollectionUtils::isNotEmpty)
-				.map(x -> Collections.max(x, Comparator.comparing(CommonTitle::getDataList)))
+				.map(x -> Collections.max(x, Comparator.comparing(ct -> ct.getId().getDataList())))
 				.flatMap(this::getEpisodes)
 				.flatMapMany(Flux::fromIterable)
 				.filter(x -> StringUtils.equals(nextEpisodeForWatch.toString(), x.getNumber()))

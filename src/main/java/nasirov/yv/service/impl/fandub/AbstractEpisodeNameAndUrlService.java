@@ -9,8 +9,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import nasirov.yv.data.properties.CommonProps;
 import nasirov.yv.fandub.service.spring.boot.starter.constant.FanDubSource;
+import nasirov.yv.fandub.service.spring.boot.starter.dto.fandub.common.CommonEpisode;
 import nasirov.yv.fandub.service.spring.boot.starter.dto.fandub.common.CommonTitle;
-import nasirov.yv.fandub.service.spring.boot.starter.dto.fandub.common.FandubEpisode;
 import nasirov.yv.fandub.service.spring.boot.starter.dto.fandub.common.TitleType;
 import nasirov.yv.fandub.service.spring.boot.starter.dto.mal.MalTitle;
 import nasirov.yv.fandub.service.spring.boot.starter.properties.FanDubProps;
@@ -58,7 +58,7 @@ public abstract class AbstractEpisodeNameAndUrlService implements EpisodeNameAnd
 				.doOnSuccess(x -> log.debug("Got episode name and url [{}] for [{} - {} episode] by [{}]", x, animeUrl, nextEpisodeForWatch, fanDubSource));
 	}
 
-	protected abstract Mono<List<FandubEpisode>> getEpisodes(CommonTitle commonTitle);
+	protected abstract Mono<List<CommonEpisode>> getEpisodes(CommonTitle commonTitle);
 
 	protected Mono<Pair<String, String>> buildNameAndUrl(Integer nextEpisodeForWatch, List<CommonTitle> matchedTitles, String fandubUrl) {
 		return Flux.fromIterable(matchedTitles)
@@ -80,7 +80,7 @@ public abstract class AbstractEpisodeNameAndUrlService implements EpisodeNameAnd
 				.next()
 				.flatMap(this::getEpisodes)
 				.flatMapMany(Flux::fromIterable)
-				.filter(x -> nextEpisodeForWatch.equals(x.getId()))
+				.filter(x -> nextEpisodeForWatch.equals(x.getMalEpisodeId()))
 				.next()
 				.map(x -> Pair.of(x.getName(), fandubUrl + x.getUrl()))
 				.defaultIfEmpty(NOT_AVAILABLE_EPISODE_NAME_AND_URL)

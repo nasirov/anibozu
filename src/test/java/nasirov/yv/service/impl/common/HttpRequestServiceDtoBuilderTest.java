@@ -16,6 +16,8 @@ import nasirov.yv.fandub.service.spring.boot.starter.dto.fandub.animedia.Animedi
 import nasirov.yv.fandub.service.spring.boot.starter.dto.fandub.animepik.AnimepikPlayer;
 import nasirov.yv.fandub.service.spring.boot.starter.dto.fandub.animepik.AnimepikTitleEpisodes;
 import nasirov.yv.fandub.service.spring.boot.starter.dto.fandub.common.CommonTitle;
+import nasirov.yv.fandub.service.spring.boot.starter.dto.fandub.common.Id;
+import nasirov.yv.fandub.service.spring.boot.starter.dto.fandub.common.TitleType;
 import nasirov.yv.fandub.service.spring.boot.starter.dto.fandub.jisedai.JisedaiTitleEpisodeDto;
 import nasirov.yv.fandub.service.spring.boot.starter.dto.fandub_titles_service.FandubTitlesServiceRequestDto;
 import nasirov.yv.fandub.service.spring.boot.starter.dto.http_request_service.HttpRequestServiceDto;
@@ -293,9 +295,15 @@ class HttpRequestServiceDtoBuilderTest extends AbstractTest {
 	private CommonTitle getCommonTitle(String titleUrl) {
 		return CommonTitle.builder()
 				.url(titleUrl)
-				.id("11")
+				.id(Id.builder()
+						.id("11")
+						.dataList(2)
+						.build())
 				.malId(42)
-				.dataList(2)
+				.type(TitleType.REGULAR)
+				.originalName("original name")
+				.ruName("название на русском")
+				.episodes(Collections.emptyList())
 				.build();
 	}
 }

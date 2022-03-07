@@ -6,8 +6,8 @@ import java.util.List;
 import lombok.extern.slf4j.Slf4j;
 import nasirov.yv.data.properties.CommonProps;
 import nasirov.yv.fandub.service.spring.boot.starter.constant.FanDubSource;
+import nasirov.yv.fandub.service.spring.boot.starter.dto.fandub.common.CommonEpisode;
 import nasirov.yv.fandub.service.spring.boot.starter.dto.fandub.common.CommonTitle;
-import nasirov.yv.fandub.service.spring.boot.starter.dto.fandub.common.FandubEpisode;
 import nasirov.yv.fandub.service.spring.boot.starter.properties.FanDubProps;
 import nasirov.yv.fandub.service.spring.boot.starter.service.HttpRequestServiceI;
 import nasirov.yv.fandub.service.spring.boot.starter.service.ReactiveNineAnimeServiceI;
@@ -35,8 +35,9 @@ public class NineAnimeEpisodeNameAndUrlService extends AbstractEpisodeNameAndUrl
 	}
 
 	@Override
-	protected Mono<List<FandubEpisode>> getEpisodes(CommonTitle commonTitle) {
-		return reactiveNineAnimeService.getTitleEpisodes(commonTitle.getId());
+	protected Mono<List<CommonEpisode>> getEpisodes(CommonTitle commonTitle) {
+		return reactiveNineAnimeService.getTitleEpisodes(commonTitle.getId()
+				.getId());
 	}
 
 	@Override

@@ -9,8 +9,8 @@ import static org.mockito.Mockito.doReturn;
 import com.google.common.collect.Lists;
 import java.util.List;
 import nasirov.yv.fandub.service.spring.boot.starter.constant.FanDubSource;
+import nasirov.yv.fandub.service.spring.boot.starter.dto.fandub.common.CommonEpisode;
 import nasirov.yv.fandub.service.spring.boot.starter.dto.fandub.common.CommonTitle;
-import nasirov.yv.fandub.service.spring.boot.starter.dto.fandub.common.FandubEpisode;
 import org.apache.commons.lang3.tuple.Pair;
 import org.junit.jupiter.api.Test;
 import reactor.core.publisher.Mono;
@@ -71,15 +71,17 @@ class JutsuEpisodeNameAndUrlServiceTest extends AbstractEpisodeNameAndUrlsServic
 	}
 
 	@Override
-	protected List<FandubEpisode> getFandubEpisodes() {
-		return Lists.newArrayList(FandubEpisode.builder()
+	protected List<CommonEpisode> getCommonEpisodes() {
+		return Lists.newArrayList(CommonEpisode.builder()
 						.name(JUTSU_EPISODE_NAME)
+						.malEpisodeId(1)
 						.id(1)
 						.number("1")
 						.url(REGULAR_TITLE_JUTSU_URL + "/episode-1.html")
 						.build(),
-				FandubEpisode.builder()
+				CommonEpisode.builder()
 						.name(RUNTIME_EPISODE_NAME)
+						.malEpisodeId(2)
 						.id(2)
 						.number("2")
 						.url(REGULAR_TITLE_JUTSU_URL + "/episode-2.html")
@@ -102,8 +104,8 @@ class JutsuEpisodeNameAndUrlServiceTest extends AbstractEpisodeNameAndUrlsServic
 
 	@Override
 	protected void mockParser(String runtimeExpectedResponse) {
-		List<FandubEpisode> fandubEpisodes = getFandubEpisodes();
-		doReturn(fandubEpisodes).when(jutsuParser)
+		List<CommonEpisode> commonEpisodes = getCommonEpisodes();
+		doReturn(commonEpisodes).when(jutsuParser)
 				.extractEpisodes(argThat(x -> x.text()
 						.equals(runtimeExpectedResponse)));
 	}
