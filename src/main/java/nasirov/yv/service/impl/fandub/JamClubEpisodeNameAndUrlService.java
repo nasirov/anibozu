@@ -7,7 +7,7 @@ import nasirov.yv.fandub.service.spring.boot.starter.dto.fandub.common.CommonEpi
 import nasirov.yv.fandub.service.spring.boot.starter.dto.fandub.common.CommonTitle;
 import nasirov.yv.fandub.service.spring.boot.starter.properties.FanDubProps;
 import nasirov.yv.fandub.service.spring.boot.starter.service.HttpRequestServiceI;
-import nasirov.yv.fandub.service.spring.boot.starter.service.ReactiveJamClubServiceI;
+import nasirov.yv.fandub.service.spring.boot.starter.service.JamClubServiceI;
 import nasirov.yv.service.HttpRequestServiceDtoBuilderI;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
@@ -18,10 +18,10 @@ import reactor.core.publisher.Mono;
 @Service
 public class JamClubEpisodeNameAndUrlService extends AbstractEpisodeNameAndUrlService {
 
-	private final ReactiveJamClubServiceI reactiveJamClubService;
+	private final JamClubServiceI<Mono<List<CommonEpisode>>> reactiveJamClubService;
 
 	public JamClubEpisodeNameAndUrlService(FanDubProps fanDubProps, CommonProps commonProps, HttpRequestServiceI httpRequestService,
-			HttpRequestServiceDtoBuilderI httpRequestServiceDtoBuilder, ReactiveJamClubServiceI reactiveJamClubService) {
+			HttpRequestServiceDtoBuilderI httpRequestServiceDtoBuilder, JamClubServiceI<Mono<List<CommonEpisode>>> reactiveJamClubService) {
 		super(fanDubProps, commonProps, httpRequestService, httpRequestServiceDtoBuilder, FanDubSource.JAMCLUB);
 		this.reactiveJamClubService = reactiveJamClubService;
 	}

@@ -6,8 +6,8 @@ import nasirov.yv.fandub.service.spring.boot.starter.constant.FanDubSource;
 import nasirov.yv.fandub.service.spring.boot.starter.dto.fandub.common.CommonEpisode;
 import nasirov.yv.fandub.service.spring.boot.starter.dto.fandub.common.CommonTitle;
 import nasirov.yv.fandub.service.spring.boot.starter.properties.FanDubProps;
+import nasirov.yv.fandub.service.spring.boot.starter.service.AnythingGroupServiceI;
 import nasirov.yv.fandub.service.spring.boot.starter.service.HttpRequestServiceI;
-import nasirov.yv.fandub.service.spring.boot.starter.service.ReactiveAnythingGroupServiceI;
 import nasirov.yv.service.HttpRequestServiceDtoBuilderI;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
@@ -18,10 +18,10 @@ import reactor.core.publisher.Mono;
 @Service
 public class AnythingGroupEpisodeNameAndUrlService extends AbstractEpisodeNameAndUrlService {
 
-	private final ReactiveAnythingGroupServiceI reactiveAnythingGroupService;
+	private final AnythingGroupServiceI<Mono<List<CommonEpisode>>> reactiveAnythingGroupService;
 
 	public AnythingGroupEpisodeNameAndUrlService(FanDubProps fanDubProps, CommonProps commonProps, HttpRequestServiceI httpRequestService,
-			HttpRequestServiceDtoBuilderI httpRequestServiceDtoBuilder, ReactiveAnythingGroupServiceI reactiveAnythingGroupService) {
+			HttpRequestServiceDtoBuilderI httpRequestServiceDtoBuilder, AnythingGroupServiceI<Mono<List<CommonEpisode>>> reactiveAnythingGroupService) {
 		super(fanDubProps, commonProps, httpRequestService, httpRequestServiceDtoBuilder, FanDubSource.ANYTHING_GROUP);
 		this.reactiveAnythingGroupService = reactiveAnythingGroupService;
 	}

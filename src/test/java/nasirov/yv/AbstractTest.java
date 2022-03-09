@@ -30,6 +30,7 @@ import java.util.stream.Collectors;
 import nasirov.yv.data.front.UserInputDto;
 import nasirov.yv.data.properties.CommonProps;
 import nasirov.yv.fandub.service.spring.boot.starter.constant.FanDubSource;
+import nasirov.yv.fandub.service.spring.boot.starter.dto.fandub.common.CommonEpisode;
 import nasirov.yv.fandub.service.spring.boot.starter.dto.fandub.common.CommonTitle;
 import nasirov.yv.fandub.service.spring.boot.starter.dto.mal.MalTitle;
 import nasirov.yv.fandub.service.spring.boot.starter.dto.mal.MalTitleWatchingStatus;
@@ -47,9 +48,9 @@ import nasirov.yv.fandub.service.spring.boot.starter.extractor.parser.ShizaProje
 import nasirov.yv.fandub.service.spring.boot.starter.extractor.parser.SovetRomanticaParserI;
 import nasirov.yv.fandub.service.spring.boot.starter.properties.ExternalServicesProps;
 import nasirov.yv.fandub.service.spring.boot.starter.properties.FanDubProps;
+import nasirov.yv.fandub.service.spring.boot.starter.service.AnythingGroupServiceI;
 import nasirov.yv.fandub.service.spring.boot.starter.service.HttpRequestServiceI;
-import nasirov.yv.fandub.service.spring.boot.starter.service.ReactiveAnythingGroupServiceI;
-import nasirov.yv.fandub.service.spring.boot.starter.service.ReactiveJamClubServiceI;
+import nasirov.yv.fandub.service.spring.boot.starter.service.JamClubServiceI;
 import nasirov.yv.fandub.service.spring.boot.starter.service.ReactiveNineAnimeServiceI;
 import nasirov.yv.service.AnimeServiceI;
 import nasirov.yv.service.EpisodeNameAndUrlServiceI;
@@ -116,10 +117,10 @@ public abstract class AbstractTest {
 	protected HttpRequestServiceI httpRequestService;
 
 	@SpyBean
-	protected ReactiveJamClubServiceI reactiveJamClubService;
+	protected JamClubServiceI<Mono<List<CommonEpisode>>> reactiveJamClubService;
 
 	@SpyBean
-	protected ReactiveAnythingGroupServiceI reactiveAnythingGroupService;
+	protected AnythingGroupServiceI<Mono<List<CommonEpisode>>> reactiveAnythingGroupService;
 
 	@SpyBean
 	protected ReactiveNineAnimeServiceI reactiveNineAnimeService;
