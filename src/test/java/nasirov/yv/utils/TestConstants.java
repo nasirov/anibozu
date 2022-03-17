@@ -73,7 +73,7 @@ public class TestConstants {
 	public static final String MY_ANIME_LIST_STATIC_CONTENT_URL = "https://cdn.myanimelist.net/";
 	public static final String MY_ANIME_LIST_URL = "https://myanimelist.net";
 	public static final String ANIMEDIA_ONLINE_TV = "https://online.animedia.tv/";
-	public static final String NINE_ANIME_TO = "https://www12.9anime.to/";
+	public static final String NINE_ANIME_TO = "https://9anime.id/";
 	public static final String ANIDUB_URL = "https://anime.anidub.life/";
 	public static final String JISEDAI_URL = "https://jisedai.tv/";
 	public static final String JISEDAI_API_URL = "https://api.jisedai.tv/";
