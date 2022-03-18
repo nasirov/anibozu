@@ -1,6 +1,6 @@
 # Anime Checker
 
-[![Build Status](https://app.travis-ci.com/nasirov/anime-checker.svg?branch=master)](https://app.travis-ci.com/nasirov/anime-checker)
+[![Tests, sonar and deploy](https://github.com/nasirov/anime-checker/actions/workflows/on_push_wf.yaml/badge.svg?branch=master&event=push)](https://github.com/nasirov/anime-checker/actions/workflows/on_push_wf.yaml)
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=nasirov_anime-checker&metric=alert_status)](https://sonarcloud.io/dashboard?id=nasirov_anime-checker)
 [![Apache License 2](https://img.shields.io/badge/license-ASF2-blue.svg)](https://www.apache.org/licenses/LICENSE-2.0.txt)
 
