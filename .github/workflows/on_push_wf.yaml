@@ -1,0 +1,81 @@
+name: "Tests, sonar and deploy"
+
+on:
+  push:
+    branches:
+      - master
+
+env:
+  HEROKU_USERNAME: ${{ secrets.HEROKU_USERNAME }}
+  HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+  HEROKU_APP_NAME: ${{ secrets.HEROKU_APP_NAME }}
+  HEROKU_APP_TYPE: web
+  HEROKU_REGISTRY: registry.heroku.com
+  SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
+  SONAR_LOGIN: ${{ secrets.SONAR_LOGIN }}
+  SONAR_ORGANIZATION: ${{ secrets.SONAR_ORGANIZATION }}
+  SONAR_PROJECTKEY: ${{ secrets.SONAR_PROJECTKEY }}
+
+jobs:
+
+  test-build-deploy:
+    runs-on: ubuntu-latest
+    steps:
+
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Set up Java
+        uses: actions/setup-java@v2
+        with:
+          java-version: 11
+          distribution: 'zulu'
+
+      - name: Cache maven dependencies
+        uses: actions/cache@v2
+        with:
+          path: |
+            ~/.m2/repository
+            !~/.m2/repository/nasirov
+          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+          restore-keys: |
+            ${{ runner.os }}-maven-
+
+      - name: Tests and sonar
+        env:
+          USERNAME_GIT: ${{ secrets.USERNAME_GIT }}
+          TOKEN_GIT: ${{ secrets.TOKEN_GIT }}
+          GITHUB_TOKEN: ${{ secrets.TOKEN_GIT }}
+        run: |
+          mvn --settings settings.xml --file pom.xml clean test && \
+          mvn sonar:sonar -Dsonar.host.url=${{ env.SONAR_HOST_URL }} -Dsonar.projectKey=${{ env.SONAR_PROJECTKEY }} \
+          -Dsonar.organization=${{ env.SONAR_ORGANIZATION }} -Dsonar.login=${{ env.SONAR_LOGIN }}
+
+      - name: Build and push docker image
+        id: build-and-push-docker-image
+        env:
+          USERNAME_GIT: ${{ secrets.USERNAME_GIT }}
+          TOKEN_GIT: ${{ secrets.TOKEN_GIT }}
+        run: |
+          mvn --settings settings.xml --file pom.xml clean package -DskipTests=true && \
+          docker login -u ${{ env.HEROKU_USERNAME }} -p ${{ env.HEROKU_API_KEY }} ${{ env.HEROKU_REGISTRY }} && \
+          mvn docker:build && mvn docker:push
+
+          image_id=$(docker inspect ${{ env.HEROKU_REGISTRY }}/${{ env.HEROKU_APP_NAME }}/${{ env.HEROKU_APP_TYPE }} --format={{.Id}})
+          echo "::set-output name=image_id::$(echo ${image_id})"
+
+      - name: Trigger deploy to Heroku
+        run: |
+          curl -X PATCH \
+            https://api.heroku.com/apps/${{ env.HEROKU_APP_NAME }}/formation \
+            -H "Accept: application/vnd.heroku+json; version=3.docker-releases" \
+            -H "Authorization: Bearer ${{ env.HEROKU_API_KEY }}" \
+            -H "Content-Type: application/json" \
+            -d '{
+            "updates": [
+              {
+                "type": "${{ env.HEROKU_APP_TYPE }}",
+                "docker_image": "'${{ steps.build-and-push-docker-image.outputs.image_id }}'"
+              }
+            ]
+          }'
