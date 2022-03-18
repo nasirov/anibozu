@@ -47,17 +47,13 @@ jobs:
           TOKEN_GIT: ${{ secrets.TOKEN_GIT }}
           GITHUB_TOKEN: ${{ secrets.TOKEN_GIT }}
         run: |
-          mvn --settings settings.xml --file pom.xml clean test && \
+          mvn --settings settings.xml --file pom.xml clean package && \
           mvn sonar:sonar -Dsonar.host.url=${{ env.SONAR_HOST_URL }} -Dsonar.projectKey=${{ env.SONAR_PROJECTKEY }} \
           -Dsonar.organization=${{ env.SONAR_ORGANIZATION }} -Dsonar.login=${{ env.SONAR_LOGIN }}
 
       - name: Build and push docker image
         id: build-and-push-docker-image
-        env:
-          USERNAME_GIT: ${{ secrets.USERNAME_GIT }}
-          TOKEN_GIT: ${{ secrets.TOKEN_GIT }}
         run: |
-          mvn --settings settings.xml --file pom.xml clean package -DskipTests=true
           echo "${{ env.HEROKU_API_KEY }}" | docker login -u ${{ env.HEROKU_USERNAME }} --password-stdin ${{ env.HEROKU_REGISTRY }}
           mvn docker:build && mvn docker:push
 
