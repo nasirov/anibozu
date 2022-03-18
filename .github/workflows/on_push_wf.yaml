@@ -57,8 +57,8 @@ jobs:
           USERNAME_GIT: ${{ secrets.USERNAME_GIT }}
           TOKEN_GIT: ${{ secrets.TOKEN_GIT }}
         run: |
-          mvn --settings settings.xml --file pom.xml clean package -DskipTests=true && \
-          docker login -u ${{ env.HEROKU_USERNAME }} -p ${{ env.HEROKU_API_KEY }} ${{ env.HEROKU_REGISTRY }} && \
+          mvn --settings settings.xml --file pom.xml clean package -DskipTests=true
+          echo "${{ env.HEROKU_API_KEY }}" | docker login -u ${{ env.HEROKU_USERNAME }} --password-stdin ${{ env.HEROKU_REGISTRY }}
           mvn docker:build && mvn docker:push
 
           image_id=$(docker inspect ${{ env.HEROKU_REGISTRY }}/${{ env.HEROKU_APP_NAME }}/${{ env.HEROKU_APP_TYPE }} --format={{.Id}})
