@@ -262,6 +262,23 @@ class HttpRequestServiceDtoBuilderTest extends AbstractTest {
 		checkResult(result, url, method, headers, retryableStatusCodes, fallback, null);
 	}
 
+	@Test
+	void shouldBuildHttpRequestServiceDtoForSovetRomanticaWithoutCookie() {
+		//given
+		String url = fanDubProps.getUrls()
+				.get(FanDubSource.SOVETROMANTICA) + TestConstants.REGULAR_TITLE_SOVET_ROMANTICA_URL;
+		HttpMethod method = HttpMethod.GET;
+		String cookie = null;
+		Map<String, String> headers = Collections.emptyMap();
+		Set<Integer> retryableStatusCodes = Sets.newHashSet(500, 502, 503, 504, 520, 521, 522, 524);
+		String fallback = StringUtils.EMPTY;
+		CommonTitle commonTitle = getCommonTitle(TestConstants.REGULAR_TITLE_SOVET_ROMANTICA_URL);
+		//when
+		HttpRequestServiceDto<String> result = httpRequestServiceDtoBuilder.sovetRomantica(commonTitle, cookie);
+		//then
+		checkResult(result, url, method, headers, retryableStatusCodes, fallback, null);
+	}
+
 
 	@Test
 	void shouldBuildHttpRequestServiceDtoForSovetRomanticaDdosGuard() {
