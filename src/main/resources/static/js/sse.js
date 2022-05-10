@@ -206,16 +206,31 @@ function buildFandubSlider(anime) {
       buildFandubSliderId(anime));
 }
 
+const SliderArrowDirection = {LEFT: 'left', RIGHT: 'right'};
+
 function buildLeftSliderArrow() {
-  let container = $('<div class="slider_arrow is_left_arrow"></div>');
-  let img = $('<img src="/img/left-arrow.png" alt="arrow left">');
+  return buildSliderArrow(SliderArrowDirection.LEFT);
+}
+
+function buildRightSliderArrow() {
+  return buildSliderArrow(SliderArrowDirection.RIGHT);
+}
+
+function buildSliderArrow(direction) {
+  let container = $(
+      '<div class="slider_arrow is_' + direction + '_arrow"></div>');
+  let img = $(
+      '<img src="/img/' + direction + '-arrow.png" alt="arrow ' + direction
+      + '">');
   container.append(img);
   container.mousedown(function () {
     let fandubLinks = this.parentNode.getElementsByClassName(
         'link_holder')[0].children;
     let fandubLinkToDisable;
     let fandubLinkToEnable;
-    for (let i = fandubLinks.length - 1; i >= 0; i--) {
+    for (let i = getLoopCounter(direction, fandubLinks);
+        getLoopCondition(direction, i, fandubLinks);
+        i = modifyLoopCounter(direction, i)) {
       let currentFandubLink = $(fandubLinks[i]);
       let currentFandubLinkDisabled = currentFandubLink.hasClass('is_disabled');
       if (fandubLinkToDisable === undefined && !currentFandubLinkDisabled) {
@@ -232,30 +247,43 @@ function buildLeftSliderArrow() {
   return container;
 }
 
-function buildRightSliderArrow() {
-  let container = $('<div class="slider_arrow is_right_arrow"></div>');
-  let img = $('<img src="/img/right-arrow.png" alt="arrow right">');
-  container.append(img);
-  container.mousedown(function () {
-    let fandubLinks = this.parentNode.getElementsByClassName(
-        'link_holder')[0].children;
-    let fandubLinkToDisable;
-    let fandubLinkToEnable;
-    for (let i = 0; i < fandubLinks.length; i++) {
-      let currentFandubLink = $(fandubLinks[i]);
-      let currentFandubLinkDisabled = currentFandubLink.hasClass('is_disabled');
-      if (fandubLinkToDisable === undefined && !currentFandubLinkDisabled) {
-        fandubLinkToDisable = currentFandubLink;
-      } else if (fandubLinkToDisable !== undefined
-          && currentFandubLinkDisabled) {
-        fandubLinkToEnable = currentFandubLink;
-        fandubLinkToDisable.toggleClass('is_disabled');
-        fandubLinkToEnable.toggleClass('is_disabled');
-        break;
-      }
-    }
-  });
-  return container;
+function getLoopCounter(direction, fandubLinks) {
+  let result;
+  switch (direction) {
+    case SliderArrowDirection.LEFT:
+      result = fandubLinks.length - 1;
+      break
+    case SliderArrowDirection.RIGHT:
+      result = 0;
+      break;
+  }
+  return result;
+}
+
+function getLoopCondition(direction, counter, fandubLinks) {
+  let result;
+  switch (direction) {
+    case SliderArrowDirection.LEFT:
+      result = counter >= 0;
+      break
+    case SliderArrowDirection.RIGHT:
+      result = counter < fandubLinks.length;
+      break;
+  }
+  return result;
+}
+
+function modifyLoopCounter(direction, counter) {
+  let result;
+  switch (direction) {
+    case SliderArrowDirection.LEFT:
+      result = counter - 1;
+      break
+    case SliderArrowDirection.RIGHT:
+      result = counter + 1;
+      break;
+  }
+  return result;
 }
 
 function buildLinkHolder() {
