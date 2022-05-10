@@ -3,13 +3,13 @@
  */
 $(document).ready(function () {
   $('#username-submit-form').on('submit', function (e) {
-    var usernameInputField = $('#username');
-    var submitButton = $('.nes-btn');
-    var username = usernameInputField.val();
-    var fanDubCheckboxes = $('.nes-checkbox');
+    let usernameInputField = $('#username');
+    let submitButton = $('.nes-btn');
+    let username = usernameInputField.val();
+    let fanDubCheckboxes = $('.nes-checkbox');
     if (!isElementHasReadonlyAttr(usernameInputField[0])) {
-      var isValidUsername = checkMalUsername(username);
-      var isAtLeastOnFanDubChecked = checkFanDubCheckboxes(fanDubCheckboxes);
+      let isValidUsername = checkMalUsername(username);
+      let isAtLeastOnFanDubChecked = checkFanDubCheckboxes(fanDubCheckboxes);
       if (isValidUsername && isAtLeastOnFanDubChecked) {
         addReadonlyAttr(usernameInputField);
         changeClasses(usernameInputField, true);
@@ -46,10 +46,10 @@ $(document).ready(function () {
 
 function replaceIllegalChars(e) {
   setTimeout(function () {
-    var element = $(e.target);
+    let element = $(e.target);
     element.val(element.val().replace(/[^\w-_]/g, ''));
-    var usernameLength = element.val().length;
-    var maxUsernameLength = 16;
+    let usernameLength = element.val().length;
+    let maxUsernameLength = 16;
     if (usernameLength >= maxUsernameLength) {
       element.val(element.val().substring(0, 16));
     }
@@ -57,9 +57,9 @@ function replaceIllegalChars(e) {
 }
 
 function changeClasses(element, isInputValueValid) {
-  var is_success = 'is-success';
-  var is_error = 'is-error';
-  var is_primary = 'is-primary';
+  let is_success = 'is-success';
+  let is_error = 'is-error';
+  let is_primary = 'is-primary';
   if (element.hasClass(is_primary)) {
     element.toggleClass(is_primary);
   }
