@@ -14,8 +14,9 @@ $(document).ready(function () {
         addReadonlyAttr(usernameInputField);
         changeClasses(usernameInputField, true);
         changeClasses(submitButton, true);
-        setInnerHtmlValue(submitButton[0], "Searching for Watching Titles...");
-        setDisabledAttributeValue(submitButton[0], true);
+        let submitButtonElement = submitButton[0];
+        setScheduledLoadingMessages(submitButtonElement)
+        setDisabledAttributeValue(submitButtonElement, true);
       } else {
         disableEvents(e);
         changeClasses(usernameInputField, isValidUsername);
@@ -115,4 +116,16 @@ function setInnerHtmlValue(element, value) {
 
 function setDisabledAttributeValue(element, value) {
   element.disabled = value;
+}
+
+function setScheduledLoadingMessages(submitButtonElement) {
+  let msg = "Searching for Watching Titles";
+  let initLoadingSuffix = " -";
+  let loadingMessages = [msg + initLoadingSuffix, msg + " \\", msg + " |", msg + " /"];
+  let counter = 0;
+  setInnerHtmlValue(submitButtonElement, msg + initLoadingSuffix);
+  setInterval(function () {
+    setInnerHtmlValue(submitButtonElement, loadingMessages[counter]);
+    counter = (counter + 1) % loadingMessages.length;
+  }, 150);
 }
