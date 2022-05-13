@@ -218,11 +218,7 @@ function buildRightSliderArrow() {
 
 function buildSliderArrow(direction) {
   let container = $(
-      '<div class="slider_arrow is_' + direction + '_arrow"></div>');
-  let img = $(
-      '<img src="/img/' + direction + '-arrow.png" alt="arrow ' + direction
-      + '">');
-  container.append(img);
+      '<div id="arrow ' + direction + '" class="slider_arrow is_' + direction + '_arrow"></div>');
   container.mousedown(function () {
     let fandubLinks = this.parentNode.getElementsByClassName(
         'link_holder')[0].children;

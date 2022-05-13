@@ -301,7 +301,7 @@ body, code, html, kbd, pre, samp {
 }
 
 html {
-    cursor: url(../img/cursor.png), auto
+    cursor: url('data:image/svg+xml,<?xml version="1.0" encoding="UTF-8" standalone="no"?><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd"><svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="32px" height="32px" viewBox="0 0 32 32" enable-background="new 0 0 32 32" xml:space="preserve">  <image id="image0" width="32" height="32" x="0" y="0"    href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAQAAADZc7J/AAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAAAmJLR0QA/4ePzL8AAAAHdElNRQfmBQ0IJTGBfYT3AAAAjklEQVRIx8WV2w6AMAhDi/H/fxkfnIbUASYD7ctuYT3plk0AAIpTgqfU9CfrGxYlUAK4XNQBIIpaggkAJKFYJth5gp012aAgg2GbOdksbA5FBAEFO2srgWlcit4MJt24SL7KwMtDajMY9hkBFxcTOBR8D+7C2lMgimDYdRM9afOb+IogqviAwFJ0/I3/6wBXASctloIZagAAACV0RVh0ZGF0ZTpjcmVhdGUAMjAyMi0wNS0xM1QwODozNzo0OSswMDowMILHuEUAAAAldEVYdGRhdGU6bW9kaWZ5ADIwMjItMDUtMTNUMDg6Mzc6NDkrMDA6MDDzmgD5AAAAAElFTkSuQmCC" /></svg>'), auto
 }
 
 body {
@@ -316,7 +316,7 @@ label {
 }
 
 a, button {
-    cursor: url(../img/cursor-click.png), pointer
+    cursor: url('data:image/svg+xml,<?xml version="1.0" encoding="UTF-8" standalone="no"?><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd"><svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="32px" height="32px" viewBox="0 0 32 32" enable-background="new 0 0 32 32" xml:space="preserve">  <image id="image0" width="32" height="32" x="0" y="0"    href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAQAAADZc7J/AAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAAAmJLR0QA/4ePzL8AAAAHdElNRQfmBQ0INDc7xwLSAAAAiElEQVRIx+2VwQ7AIAhD22X//8vdZQdkSoiip3ExGobPWiYxCr0jEcaFxejXlwMIKJYJ/gLAncqSm5tbOUNgPSEANAuFBEnv23SqrBf0BVDy43ojKbV3UGBOA6eDT1Bn3KABQWZNUKlBrhsH2pT0QltgQof970J0/o0EAwrrxjME3Wz341gmeAAJixtHd0MpWAAAACV0RVh0ZGF0ZTpjcmVhdGUAMjAyMi0wNS0xM1QwODo1Mjo1NSswMDowMIdR06gAAAAldEVYdGRhdGU6bW9kaWZ5ADIwMjItMDUtMTNUMDg6NTI6NTUrMDA6MDD2DGsUAAAAAElFTkSuQmCC" /></svg>'), pointer
 }
 
 [type=button], [type=reset], [type=submit], button {
@@ -787,7 +787,7 @@ input[type=checkbox], input[type=radio] {
     margin: 4px;
     text-align: center;
     vertical-align: middle;
-    cursor: url(../img/cursor-click.png), pointer;
+    cursor: url('data:image/svg+xml,<?xml version="1.0" encoding="UTF-8" standalone="no"?><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd"><svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="32px" height="32px" viewBox="0 0 32 32" enable-background="new 0 0 32 32" xml:space="preserve">  <image id="image0" width="32" height="32" x="0" y="0"    href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAQAAADZc7J/AAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAAAmJLR0QA/4ePzL8AAAAHdElNRQfmBQ0INDc7xwLSAAAAiElEQVRIx+2VwQ7AIAhD22X//8vdZQdkSoiip3ExGobPWiYxCr0jEcaFxejXlwMIKJYJ/gLAncqSm5tbOUNgPSEANAuFBEnv23SqrBf0BVDy43ojKbV3UGBOA6eDT1Bn3KABQWZNUKlBrhsH2pT0QltgQof970J0/o0EAwrrxjME3Wz341gmeAAJixtHd0MpWAAAACV0RVh0ZGF0ZTpjcmVhdGUAMjAyMi0wNS0xM1QwODo1Mjo1NSswMDowMIdR06gAAAAldEVYdGRhdGU6bW9kaWZ5ADIwMjItMDUtMTNUMDg6NTI6NTUrMDA6MDD2DGsUAAAAAElFTkSuQmCC" /></svg>'), pointer;
     -webkit-user-select: none;
     -moz-user-select: none;
     -ms-user-select: none;
@@ -1401,7 +1401,7 @@ input[type=checkbox], input[type=radio] {
     width: 100%;
     padding: .5rem 1rem;
     margin: 4px;
-    cursor: url("../img/cursor-text.png"),text
+    cursor: url('data:image/svg+xml,<?xml version="1.0" encoding="UTF-8" standalone="no"?><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd"><svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="16px" height="16px" viewBox="0 0 16 16" enable-background="new 0 0 16 16" xml:space="preserve">  <image id="image0" width="16" height="16" x="0" y="0"    href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAQAAAC1+jfqAAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAAAmJLR0QA/4ePzL8AAAAJcEhZcwAADsQAAA7EAZUrDhsAAAAHdElNRQfmBQ0IODbgdX1IAAAAKklEQVQoz2NkYGD4z4AAjOh8JgYSwX8U/QwMDARNGFVALQUYscdAamwCAAoABhvlYHNQAAAAJXRFWHRkYXRlOmNyZWF0ZQAyMDIyLTA1LTEzVDA4OjU2OjU0KzAwOjAwKM14ZgAAACV0RVh0ZGF0ZTptb2RpZnkAMjAyMi0wNS0xM1QwODo1Njo1NCswMDowMFmQwNoAAAAASUVORK5CYII=" /></svg>'),text
 }
 
 .nes-input.is-dark, .nes-textarea.is-dark {
@@ -1476,7 +1476,7 @@ input[type=checkbox], input[type=radio] {
 
 .nes-radio + span {
     position: relative;
-    cursor: url(../img/cursor-click.png), pointer
+    cursor: url('data:image/svg+xml,<?xml version="1.0" encoding="UTF-8" standalone="no"?><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd"><svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="32px" height="32px" viewBox="0 0 32 32" enable-background="new 0 0 32 32" xml:space="preserve">  <image id="image0" width="32" height="32" x="0" y="0"    href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAQAAADZc7J/AAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAAAmJLR0QA/4ePzL8AAAAHdElNRQfmBQ0INDc7xwLSAAAAiElEQVRIx+2VwQ7AIAhD22X//8vdZQdkSoiip3ExGobPWiYxCr0jEcaFxejXlwMIKJYJ/gLAncqSm5tbOUNgPSEANAuFBEnv23SqrBf0BVDy43ojKbV3UGBOA6eDT1Bn3KABQWZNUKlBrhsH2pT0QltgQof970J0/o0EAwrrxjME3Wz341gmeAAJixtHd0MpWAAAACV0RVh0ZGF0ZTpjcmVhdGUAMjAyMi0wNS0xM1QwODo1Mjo1NSswMDowMIdR06gAAAAldEVYdGRhdGU6bW9kaWZ5ADIwMjItMDUtMTNUMDg6NTI6NTUrMDA6MDD2DGsUAAAAAElFTkSuQmCC" /></svg>'), pointer
 }
 
 .nes-radio:checked + span::before {
@@ -1528,7 +1528,7 @@ input[type=checkbox], input[type=radio] {
 
 .nes-checkbox + span {
     position: relative;
-    cursor: url(../img/cursor-click.png), pointer
+    cursor: url('data:image/svg+xml,<?xml version="1.0" encoding="UTF-8" standalone="no"?><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd"><svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="32px" height="32px" viewBox="0 0 32 32" enable-background="new 0 0 32 32" xml:space="preserve">  <image id="image0" width="32" height="32" x="0" y="0"    href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAQAAADZc7J/AAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAAAmJLR0QA/4ePzL8AAAAHdElNRQfmBQ0INDc7xwLSAAAAiElEQVRIx+2VwQ7AIAhD22X//8vdZQdkSoiip3ExGobPWiYxCr0jEcaFxejXlwMIKJYJ/gLAncqSm5tbOUNgPSEANAuFBEnv23SqrBf0BVDy43ojKbV3UGBOA6eDT1Bn3KABQWZNUKlBrhsH2pT0QltgQof970J0/o0EAwrrxjME3Wz341gmeAAJixtHd0MpWAAAACV0RVh0ZGF0ZTpjcmVhdGUAMjAyMi0wNS0xM1QwODo1Mjo1NSswMDowMIdR06gAAAAldEVYdGRhdGU6bW9kaWZ5ADIwMjItMDUtMTNUMDg6NTI6NTUrMDA6MDD2DGsUAAAAAElFTkSuQmCC" /></svg>'), pointer
 }
 
 .nes-checkbox + span::before, .nes-checkbox:checked + span::before {
@@ -1640,7 +1640,7 @@ input[type=checkbox], input[type=radio] {
     border-image-outset: 2;
     width: 100%;
     padding: .5rem 2.5rem .5rem 1rem;
-    cursor: url(../img/cursor-click.png), pointer;
+    cursor: url('data:image/svg+xml,<?xml version="1.0" encoding="UTF-8" standalone="no"?><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd"><svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="32px" height="32px" viewBox="0 0 32 32" enable-background="new 0 0 32 32" xml:space="preserve">  <image id="image0" width="32" height="32" x="0" y="0"    href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAQAAADZc7J/AAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAAAmJLR0QA/4ePzL8AAAAHdElNRQfmBQ0INDc7xwLSAAAAiElEQVRIx+2VwQ7AIAhD22X//8vdZQdkSoiip3ExGobPWiYxCr0jEcaFxejXlwMIKJYJ/gLAncqSm5tbOUNgPSEANAuFBEnv23SqrBf0BVDy43ojKbV3UGBOA6eDT1Bn3KABQWZNUKlBrhsH2pT0QltgQof970J0/o0EAwrrxjME3Wz341gmeAAJixtHd0MpWAAAACV0RVh0ZGF0ZTpjcmVhdGUAMjAyMi0wNS0xM1QwODo1Mjo1NSswMDowMIdR06gAAAAldEVYdGRhdGU6bW9kaWZ5ADIwMjItMDUtMTNUMDg6NTI6NTUrMDA6MDD2DGsUAAAAAElFTkSuQmCC" /></svg>'), pointer;
     border-radius: 0;
     outline-color: #e7e7e7;
     -webkit-appearance: none;
