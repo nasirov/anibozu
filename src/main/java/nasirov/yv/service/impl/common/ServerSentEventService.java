@@ -46,6 +46,13 @@ public class ServerSentEventService implements ServerSentEventServiceI {
 
 	private static final String LAST_EVENT_ID = "-1";
 
+	private static final SseDto SSE_DTO_WITH_FINAL_EVENT = SseDto.builder().eventType(DONE).build();
+
+	private static final SseDto SSE_DTO_WITH_ERROR_EVENT = SseDto.builder()
+			.eventType(ERROR)
+			.errorMessage(BaseConstants.GENERIC_ERROR_MESSAGE)
+			.build();
+
 	private final MalServiceI malService;
 
 	private final AnimeServiceI animeService;
@@ -57,23 +64,21 @@ public class ServerSentEventService implements ServerSentEventServiceI {
 	private final HttpRequestServiceI httpRequestService;
 
 	@Override
-	@Cacheable(value = "sse", key = "#userInputDto.getUsername() + ':' +#userInputDto.getFanDubSources()", condition = "#userInputDto != null")
+	@Cacheable(value = "sse", key = "#userInputDto.getUsername() + ':' +#userInputDto.getFanDubSources()", condition =
+			"#userInputDto != null")
 	public Flux<ServerSentEvent<SseDto>> getServerSentEvents(UserInputDto userInputDto) {
 		return Mono.just(userInputDto)
 				.flatMap(this::getUserWatchingTitles)
 				.flatMap(x -> getCommonTitlesForMalTitles(userInputDto, x))
-				.flatMapMany(x -> Flux.fromStream(x.entrySet()
-						.stream()))
+				.flatMapMany(x -> Flux.fromStream(x.entrySet().stream()))
 				.flatMap(x -> animeService.buildAnime(x.getKey(), x.getValue()))
 				.map(x -> buildSseDto(userInputDto.getFanDubSources(), x))
 				.index()
-				.map(x -> buildServerSentEvent(x.getT2(),
-						x.getT1()
-								.toString()))
-				.defaultIfEmpty(buildServerSentEvent(buildDtoWithErrorEvent(), LAST_EVENT_ID))
-				.concatWith(Mono.just(buildServerSentEvent(buildDtoWithFinalEvent(), LAST_EVENT_ID)))
+				.map(x -> buildServerSentEvent(x.getT2(), x.getT1().toString()))
+				.defaultIfEmpty(buildServerSentEvent(SSE_DTO_WITH_ERROR_EVENT, LAST_EVENT_ID))
+				.concatWith(Mono.just(buildServerSentEvent(SSE_DTO_WITH_FINAL_EVENT, LAST_EVENT_ID)))
 				.share()
-				.onErrorReturn(buildServerSentEvent(buildDtoWithErrorEvent(), LAST_EVENT_ID))
+				.onErrorReturn(buildServerSentEvent(SSE_DTO_WITH_ERROR_EVENT, LAST_EVENT_ID))
 				.doOnError(x -> log.error("ServerSentEvent failed for [{}]", userInputDto, x))
 				.doOnComplete(() -> log.info("ServerSentEvent successfully completed for [{}]", userInputDto))
 				.doOnCancel(() -> log.info("ServerSentEvent was canceled for [{}]", userInputDto))
@@ -90,22 +95,21 @@ public class ServerSentEventService implements ServerSentEventServiceI {
 			List<MalTitle> malTitles) {
 		Map<Integer, MalTitle> malIdToMalTitle = malTitles.stream()
 				.collect(Collectors.toMap(MalTitle::getId, Function.identity()));
-		return httpRequestService.performHttpRequest(httpRequestServiceDtoBuilder.fandubTitlesService(userInputDto.getFanDubSources(), malTitles))
+		return httpRequestService.performHttpRequest(
+						httpRequestServiceDtoBuilder.fandubTitlesService(userInputDto.getFanDubSources(), malTitles))
 				.map(x -> remapMalIdToMalTitle(x, malIdToMalTitle));
 	}
 
 	private Map<MalTitle, Map<FanDubSource, List<CommonTitle>>> remapMalIdToMalTitle(
-			Map<Integer, Map<FanDubSource, List<CommonTitle>>> commonTitlesForAllMalTitles, Map<Integer, MalTitle> malIdToMalTitle) {
+			Map<Integer, Map<FanDubSource, List<CommonTitle>>> commonTitlesForAllMalTitles,
+			Map<Integer, MalTitle> malIdToMalTitle) {
 		return commonTitlesForAllMalTitles.entrySet()
 				.stream()
 				.collect(Collectors.toMap(x -> malIdToMalTitle.get(x.getKey()), Entry::getValue));
 	}
 
 	private SseDto buildSseDto(Set<FanDubSource> fanDubSources, Anime anime) {
-		return SseDto.builder()
-				.eventType(determineEventType(fanDubSources, anime))
-				.anime(anime)
-				.build();
+		return SseDto.builder().eventType(determineEventType(fanDubSources, anime)).anime(anime).build();
 	}
 
 	private EventType determineEventType(Set<FanDubSource> fanDubSources, Anime anime) {
@@ -123,21 +127,6 @@ public class ServerSentEventService implements ServerSentEventServiceI {
 	}
 
 	private ServerSentEvent<SseDto> buildServerSentEvent(SseDto sseDto, String id) {
-		return ServerSentEvent.builder(sseDto)
-				.id(id)
-				.build();
-	}
-
-	private SseDto buildDtoWithFinalEvent() {
-		return SseDto.builder()
-				.eventType(DONE)
-				.build();
-	}
-
-	private SseDto buildDtoWithErrorEvent() {
-		return SseDto.builder()
-				.eventType(ERROR)
-				.errorMessage(BaseConstants.GENERIC_ERROR_MESSAGE)
-				.build();
+		return ServerSentEvent.builder(sseDto).id(id).build();
 	}
 }

@@ -28,32 +28,15 @@ import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import nasirov.yv.data.front.UserInputDto;
-import nasirov.yv.data.properties.CommonProps;
 import nasirov.yv.fandub.service.spring.boot.starter.constant.FanDubSource;
-import nasirov.yv.fandub.service.spring.boot.starter.dto.fandub.common.CommonEpisode;
 import nasirov.yv.fandub.service.spring.boot.starter.dto.fandub.common.CommonTitle;
 import nasirov.yv.fandub.service.spring.boot.starter.dto.mal.MalTitle;
 import nasirov.yv.fandub.service.spring.boot.starter.dto.mal.MalTitleWatchingStatus;
 import nasirov.yv.fandub.service.spring.boot.starter.dto.mal_service.MalServiceResponseDto;
-import nasirov.yv.fandub.service.spring.boot.starter.extractor.parser.AnidubParserI;
-import nasirov.yv.fandub.service.spring.boot.starter.extractor.parser.AnilibriaParserI;
-import nasirov.yv.fandub.service.spring.boot.starter.extractor.parser.AnimediaParserI;
-import nasirov.yv.fandub.service.spring.boot.starter.extractor.parser.AnimepikParserI;
-import nasirov.yv.fandub.service.spring.boot.starter.extractor.parser.AnythingGroupParserI;
-import nasirov.yv.fandub.service.spring.boot.starter.extractor.parser.JamClubParserI;
-import nasirov.yv.fandub.service.spring.boot.starter.extractor.parser.JisedaiParserI;
-import nasirov.yv.fandub.service.spring.boot.starter.extractor.parser.JutsuParserI;
-import nasirov.yv.fandub.service.spring.boot.starter.extractor.parser.NineAnimeParserI;
-import nasirov.yv.fandub.service.spring.boot.starter.extractor.parser.ShizaProjectParserI;
-import nasirov.yv.fandub.service.spring.boot.starter.extractor.parser.SovetRomanticaParserI;
 import nasirov.yv.fandub.service.spring.boot.starter.properties.ExternalServicesProps;
 import nasirov.yv.fandub.service.spring.boot.starter.properties.FanDubProps;
-import nasirov.yv.fandub.service.spring.boot.starter.service.AnythingGroupServiceI;
 import nasirov.yv.fandub.service.spring.boot.starter.service.HttpRequestServiceI;
-import nasirov.yv.fandub.service.spring.boot.starter.service.JamClubServiceI;
-import nasirov.yv.fandub.service.spring.boot.starter.service.ReactiveNineAnimeServiceI;
 import nasirov.yv.service.AnimeServiceI;
-import nasirov.yv.service.EpisodeNameAndUrlServiceI;
 import nasirov.yv.service.HttpRequestServiceDtoBuilderI;
 import nasirov.yv.service.MalServiceI;
 import nasirov.yv.service.ServerSentEventServiceI;
@@ -81,49 +64,7 @@ import reactor.core.publisher.Mono;
 public abstract class AbstractTest {
 
 	@SpyBean
-	protected AnidubParserI anidubParser;
-
-	@SpyBean
-	protected AnilibriaParserI anilibriaParser;
-
-	@SpyBean
-	protected AnimediaParserI animediaParser;
-
-	@SpyBean
-	protected AnimepikParserI animepikParser;
-
-	@SpyBean
-	protected AnythingGroupParserI anythingGroupParser;
-
-	@SpyBean
-	protected JamClubParserI jamClubParser;
-
-	@SpyBean
-	protected JisedaiParserI jisedaiParser;
-
-	@SpyBean
-	protected JutsuParserI jutsuParser;
-
-	@SpyBean
-	protected ShizaProjectParserI shizaProjectParser;
-
-	@SpyBean
-	protected NineAnimeParserI nineAnimeParser;
-
-	@SpyBean
-	protected SovetRomanticaParserI sovetRomanticaParser;
-
-	@SpyBean
 	protected HttpRequestServiceI httpRequestService;
-
-	@SpyBean
-	protected JamClubServiceI<Mono<List<CommonEpisode>>> reactiveJamClubService;
-
-	@SpyBean
-	protected AnythingGroupServiceI<Mono<List<CommonEpisode>>> reactiveAnythingGroupService;
-
-	@SpyBean
-	protected ReactiveNineAnimeServiceI reactiveNineAnimeService;
 
 	@SpyBean
 	protected AnimeServiceI animeService;
@@ -133,9 +74,6 @@ public abstract class AbstractTest {
 
 	@SpyBean
 	protected CacheCleanerService cacheCleanerService;
-
-	@SpyBean
-	protected CommonProps commonProps;
 
 	@Autowired
 	protected CacheManager cacheManager;
@@ -150,9 +88,6 @@ public abstract class AbstractTest {
 	protected FanDubProps fanDubProps;
 
 	@Autowired
-	protected Map<FanDubSource, EpisodeNameAndUrlServiceI> episodeNameAndUrlServiceStrategy;
-
-	@Autowired
 	protected MalServiceI malService;
 
 	@Autowired
@@ -162,8 +97,7 @@ public abstract class AbstractTest {
 
 	@BeforeEach
 	void setUp() {
-		webTestClient = WebTestClient.bindToApplicationContext(applicationContext)
-				.build();
+		webTestClient = WebTestClient.bindToApplicationContext(applicationContext).build();
 	}
 
 	@AfterEach
@@ -171,16 +105,16 @@ public abstract class AbstractTest {
 		clearCaches();
 	}
 
-	protected void mockExternalFandubTitlesServiceResponse(MalTitle malTitle, Map<FanDubSource, List<CommonTitle>> commonTitles) {
+	protected void mockExternalFandubTitlesServiceResponse(MalTitle malTitle,
+			Map<FanDubSource, List<CommonTitle>> commonTitles) {
 		doReturn(Mono.just(Map.of(malTitle.getId(), commonTitles))).when(httpRequestService)
-				.performHttpRequest(argThat(x -> x.getUrl()
-						.equals(externalServicesProps.getFandubTitlesServiceUrl() + "titles")));
+				.performHttpRequest(argThat(x -> x.getUrl().equals(externalServicesProps.getFandubTitlesServiceUrl() + "titles")));
 	}
 
-	protected void mockExternalFandubTitlesServiceResponse(Map<Integer, Map<FanDubSource, List<CommonTitle>>> commonTitlesForMalTitles) {
+	protected void mockExternalFandubTitlesServiceResponse(
+			Map<Integer, Map<FanDubSource, List<CommonTitle>>> commonTitlesForMalTitles) {
 		doReturn(Mono.just(commonTitlesForMalTitles)).when(httpRequestService)
-				.performHttpRequest(argThat(x -> x.getUrl()
-						.equals(externalServicesProps.getFandubTitlesServiceUrl() + "titles")));
+				.performHttpRequest(argThat(x -> x.getUrl().equals(externalServicesProps.getFandubTitlesServiceUrl() + "titles")));
 	}
 
 	protected void mockExternalMalServiceResponse(MalServiceResponseDto malServiceResponseDto) {
@@ -199,48 +133,39 @@ public abstract class AbstractTest {
 
 	protected Map<FanDubSource, List<CommonTitle>> buildRegularCommonTitles(Set<FanDubSource> fanDubSources) {
 		return fanDubSources.stream()
-				.collect(Collectors.toMap(Function.identity(), x -> Lists.newArrayList(CommonTitleTestBuilder.buildRegularTitle(x))));
+				.collect(
+						Collectors.toMap(Function.identity(), x -> Lists.newArrayList(CommonTitleTestBuilder.buildRegularTitle(x))));
 	}
 
 	protected Map<FanDubSource, List<CommonTitle>> buildConcretizedCommonTitles(Set<FanDubSource> fanDubSources) {
 		return fanDubSources.stream()
-				.collect(Collectors.toMap(Function.identity(), x -> Lists.newArrayList(CommonTitleTestBuilder.buildConcretizedTitle(x))));
+				.collect(
+						Collectors.toMap(Function.identity(),
+								x -> Lists.newArrayList(CommonTitleTestBuilder.buildConcretizedTitle(x))));
 	}
 
 	protected Map<FanDubSource, List<CommonTitle>> buildNotFoundOnFandubCommonTitles(Set<FanDubSource> fanDubSources) {
-		return fanDubSources.stream()
-				.collect(Collectors.toMap(Function.identity(), x -> Collections.emptyList()));
+		return fanDubSources.stream().collect(Collectors.toMap(Function.identity(), x -> Collections.emptyList()));
 	}
 
 	protected MalTitle buildRegularTitle() {
-		return buildWatchingTitle(REGULAR_TITLE_ORIGINAL_NAME, REGULAR_TITLE_POSTER_URL, REGULAR_TITLE_MAL_ANIME_URL, REGULAR_TITLE_MAL_ID, 0);
-	}
-
-	protected MalTitle buildRegularTitle(int numWatchedEpisodes) {
-		return buildWatchingTitle(REGULAR_TITLE_ORIGINAL_NAME,
-				REGULAR_TITLE_POSTER_URL,
-				REGULAR_TITLE_MAL_ANIME_URL,
-				REGULAR_TITLE_MAL_ID,
-				numWatchedEpisodes);
+		return buildWatchingTitle(REGULAR_TITLE_ORIGINAL_NAME, REGULAR_TITLE_POSTER_URL, REGULAR_TITLE_MAL_ANIME_URL,
+				REGULAR_TITLE_MAL_ID, 0);
 	}
 
 	protected MalTitle buildConcretizedTitle() {
-		return buildWatchingTitle(CONCRETIZED_TITLE_ORIGINAL_NAME,
-				CONCRETIZED_TITLE_POSTER_URL,
+		return buildWatchingTitle(CONCRETIZED_TITLE_ORIGINAL_NAME, CONCRETIZED_TITLE_POSTER_URL,
 				CONCRETIZED_TITLE_MAL_ANIME_URL,
-				CONCRETIZED_TITLE_MAL_ID,
-				10);
+				CONCRETIZED_TITLE_MAL_ID, 10);
 	}
 
 	protected MalTitle buildNotFoundOnFandubTitle() {
-		return buildWatchingTitle(NOT_FOUND_ON_FANDUB_TITLE_ORIGINAL_NAME,
-				NOT_FOUND_ON_FANDUB_TITLE_POSTER_URL,
-				NOT_FOUND_ON_FANDUB_TITLE_MAL_ANIME_URL,
-				NOT_FOUND_ON_FANDUB_TITLE_ID,
-				0);
+		return buildWatchingTitle(NOT_FOUND_ON_FANDUB_TITLE_ORIGINAL_NAME, NOT_FOUND_ON_FANDUB_TITLE_POSTER_URL,
+				NOT_FOUND_ON_FANDUB_TITLE_MAL_ANIME_URL, NOT_FOUND_ON_FANDUB_TITLE_ID, 0);
 	}
 
-	protected MalTitle buildWatchingTitle(String titleName, String posterUrl, String animeUrl, int id, int numWatchedEpisodes) {
+	protected MalTitle buildWatchingTitle(String titleName, String posterUrl, String animeUrl, int id,
+			int numWatchedEpisodes) {
 		return MalTitle.builder()
 				.id(id)
 				.numWatchedEpisodes(numWatchedEpisodes)
@@ -266,10 +191,6 @@ public abstract class AbstractTest {
 	}
 
 	private void clearCaches() {
-		cacheManager.getCacheNames()
-				.stream()
-				.map(cacheManager::getCache)
-				.filter(Objects::nonNull)
-				.forEach(Cache::clear);
+		cacheManager.getCacheNames().stream().map(cacheManager::getCache).filter(Objects::nonNull).forEach(Cache::clear);
 	}
 }

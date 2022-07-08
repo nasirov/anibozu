@@ -1,19 +1,6 @@
 application:
   fandub-support:
     disabled-fandub:
-  common:
-    enable-build-url-in-runtime:
-      ANIDUB: false
-      ANILIBRIA: false
-      ANIMEDIA: false
-      ANIMEPIK: false
-      JISEDAI: false
-      JUTSU: false
-      NINEANIME: false
-      SHIZAPROJECT: false
-      SOVETROMANTICA: false
-      JAMCLUB: false
-      ANYTHING_GROUP: false
   external-services:
     fandub-titles-service-basic-auth: Basic foobar
     mal-service-basic-auth: Basic foobarbaz
