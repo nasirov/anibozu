@@ -2,7 +2,6 @@ package nasirov.yv.controller;
 
 import static nasirov.yv.data.constants.BaseConstants.NOT_AVAILABLE_EPISODE_URL;
 import static nasirov.yv.data.constants.BaseConstants.TITLE_NOT_FOUND_EPISODE_URL;
-import static nasirov.yv.utils.TestConstants.TEST_ACC_FOR_DEV;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.ArgumentMatchers.argThat;
@@ -12,9 +11,9 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import java.util.List;
 import nasirov.yv.AbstractTest;
-import nasirov.yv.data.front.Anime;
 import nasirov.yv.data.front.EventType;
 import nasirov.yv.data.front.SseDto;
+import nasirov.yv.data.front.TitleDto;
 import nasirov.yv.fandub.service.spring.boot.starter.constant.FanDubSource;
 import org.junit.jupiter.api.Test;
 import org.springframework.core.ParameterizedTypeReference;
@@ -42,8 +41,7 @@ class ServerSentEventControllerTest extends AbstractTest {
 				.isEqualTo(HttpStatus.OK)
 				.expectHeader()
 				.contentType("text/event-stream;charset=UTF-8")
-				.expectBodyList(new ParameterizedTypeReference<ServerSentEvent<SseDto>>() {
-				})
+				.expectBodyList(new ParameterizedTypeReference<ServerSentEvent<SseDto>>() {})
 				.returnResult()
 				.getResponseBody();
 		assertNotNull(resultServerSentEvents);
@@ -62,10 +60,9 @@ class ServerSentEventControllerTest extends AbstractTest {
 	private void mockServerSentEventServiceOk() {
 		List<ServerSentEvent<SseDto>> serverSentEvents = buildServerSentEvents();
 		doReturn(Flux.fromIterable(serverSentEvents)).when(serverSentEventService)
-				.getServerSentEvents(argThat(x -> x.getUsername()
-						.equals(TEST_ACC_FOR_DEV) && x.getFanDubSources()
-						.size() == 2 && x.getFanDubSources()
-						.containsAll(Sets.newHashSet(FanDubSource.ANIMEDIA, FanDubSource.NINEANIME))));
+				.getServerSentEvents(argThat(
+						x -> x.getUsername().equals(MAL_USERNAME) && x.getFanDubSources().size() == 2 && x.getFanDubSources()
+								.containsAll(Sets.newHashSet(FanDubSource.ANIMEDIA, FanDubSource.NINEANIME))));
 	}
 
 	private List<ServerSentEvent<SseDto>> buildServerSentEvents() {
@@ -75,34 +72,26 @@ class ServerSentEventControllerTest extends AbstractTest {
 				buildFinalServerSentEvent());
 	}
 
-	private ServerSentEvent<SseDto> buildServerSentEvent(EventType eventType, String urlOnAnimedia, String urlOnNineAnime, String id) {
+	private ServerSentEvent<SseDto> buildServerSentEvent(EventType eventType, String urlOnAnimedia, String urlOnNineAnime,
+			String id) {
 		return ServerSentEvent.builder(SseDto.builder()
-						.eventType(eventType)
-						.anime(Anime.builder()
-								.animeName("name")
-								.animeUrlOnMal("animeUrlOnMal")
-								.malEpisodeNumber("1")
-								.posterUrlOnMal("posterUrlOnMal")
-								.fanDubUrl(FanDubSource.ANIMEDIA, urlOnAnimedia)
-								.fanDubUrl(FanDubSource.NINEANIME, urlOnNineAnime)
-								.build())
+				.eventType(eventType)
+				.titleDto(TitleDto.builder()
+						.animeName("name")
+						.animeUrlOnMal("animeUrlOnMal")
+						.malEpisodeNumber("1")
+						.posterUrlOnMal("posterUrlOnMal")
+						.fanDubUrl(FanDubSource.ANIMEDIA, urlOnAnimedia)
+						.fanDubUrl(FanDubSource.NINEANIME, urlOnNineAnime)
 						.build())
-				.id(id)
-				.build();
+				.build()).id(id).build();
 	}
 
 	private ServerSentEvent<SseDto> buildFinalServerSentEvent() {
-		return ServerSentEvent.builder(SseDto.builder()
-						.eventType(EventType.DONE)
-						.build())
-				.id("-1")
-				.build();
+		return ServerSentEvent.builder(SseDto.builder().eventType(EventType.DONE).build()).id("-1").build();
 	}
 
-
 	private ResponseSpec call() {
-		return webTestClient.get()
-				.uri(SSE_PATH + "?username=" + TEST_ACC_FOR_DEV + "&fanDubSources=ANIMEDIA,NINEANIME")
-				.exchange();
+		return webTestClient.get().uri(SSE_PATH + "?username=" + MAL_USERNAME + "&fanDubSources=ANIMEDIA,NINEANIME").exchange();
 	}
 }

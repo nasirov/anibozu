@@ -19,7 +19,7 @@ $(document).ready(function () {
         if (isSectionDoNotExist(availableSection)) {
           addAfter(header, buildSection('available-section', 'Available'));
         }
-        buildAvailable(sseDto.anime, fandubList);
+        buildAvailable(sseDto.titleDto, fandubList);
         updateProcessingStatus(username, handledCount, watchingTitlesSize);
         break;
       case 'NOT_AVAILABLE':
@@ -33,7 +33,7 @@ $(document).ready(function () {
             addAfter(header, newNotAvailableSection);
           }
         }
-        buildNotAvailable(sseDto.anime);
+        buildNotAvailable(sseDto.titleDto);
         updateProcessingStatus(username, handledCount, watchingTitlesSize);
         break;
       case 'NOT_FOUND':
@@ -48,7 +48,7 @@ $(document).ready(function () {
             addAfter(header, newNotFoundSection);
           }
         }
-        buildNotFound(sseDto.anime);
+        buildNotFound(sseDto.titleDto);
         updateProcessingStatus(username, handledCount, watchingTitlesSize);
         break;
       case 'ERROR':
@@ -90,7 +90,7 @@ function buildAvailable(anime, fandubList) {
   let malEpisodeOverlay = buildMalEpisodeOverlay(malEpisodeNumber);
   let overlayFullCover = buildOverlayFullCover();
   let linkHolder = buildLinkHolder();
-  let fandubListArray = fandubList.split(",");
+  let fandubListArray = fandubList.split(',');
   let linksAmount = appendLinks(anime, linkHolder, fandubListArray);
   let fandubSlider = buildFandubSlider(anime);
   if (linksAmount > 3) {
@@ -218,7 +218,8 @@ function buildRightSliderArrow() {
 
 function buildSliderArrow(direction) {
   let container = $(
-      '<div id="arrow ' + direction + '" class="slider_arrow is_' + direction + '_arrow"></div>');
+      '<div id="arrow ' + direction + '" class="slider_arrow is_' + direction
+      + '_arrow"></div>');
   container.mousedown(function () {
     let fandubLinks = this.parentNode.getElementsByClassName(
         'link_holder')[0].children;
@@ -248,7 +249,7 @@ function getLoopCounter(direction, fandubLinks) {
   switch (direction) {
     case SliderArrowDirection.LEFT:
       result = fandubLinks.length - 1;
-      break
+      break;
     case SliderArrowDirection.RIGHT:
       result = 0;
       break;
@@ -261,7 +262,7 @@ function getLoopCondition(direction, counter, fandubLinks) {
   switch (direction) {
     case SliderArrowDirection.LEFT:
       result = counter >= 0;
-      break
+      break;
     case SliderArrowDirection.RIGHT:
       result = counter < fandubLinks.length;
       break;
@@ -274,7 +275,7 @@ function modifyLoopCounter(direction, counter) {
   switch (direction) {
     case SliderArrowDirection.LEFT:
       result = counter - 1;
-      break
+      break;
     case SliderArrowDirection.RIGHT:
       result = counter + 1;
       break;
@@ -316,10 +317,10 @@ function buildLink(targetClass, href) {
 function registerOutboundLinkEvents(outboundLink, fandub, anime) {
   let id = buildFandubEpisodeOverlayId(anime, fandub);
   outboundLink.mouseover(function () {
-    changeFandubOverlayClass(fandub, id)
+    changeFandubOverlayClass(fandub, id);
   });
   outboundLink.mouseout(function () {
-    changeFandubOverlayClass(fandub, id)
+    changeFandubOverlayClass(fandub, id);
   });
 }
 

@@ -22,25 +22,20 @@ class IndexViewControllerTest extends AbstractTest {
 		//given
 		List<String> mapping = Arrays.asList("/", "/index");
 		//when
-		List<ResponseSpec> result = mapping.stream()
-				.map(this::call)
-				.collect(Collectors.toList());
+		List<ResponseSpec> result = mapping.stream().map(this::call).collect(Collectors.toList());
 		//then
 		result.forEach(this::checkResponses);
 	}
 
 	private ResponseSpec call(String url) {
-		return webTestClient.get()
-				.uri(url)
-				.exchange();
+		return webTestClient.get().uri(url).exchange();
 	}
 
 	private void checkResponses(ResponseSpec responseSpec) {
 		String responseBody = responseSpec.expectStatus()
 				.isEqualTo(HttpStatus.OK)
 				.expectHeader()
-				.cacheControl(CacheControl.noStore()
-						.mustRevalidate())
+				.cacheControl(CacheControl.noStore().mustRevalidate())
 				.expectBody(String.class)
 				.returnResult()
 				.getResponseBody();

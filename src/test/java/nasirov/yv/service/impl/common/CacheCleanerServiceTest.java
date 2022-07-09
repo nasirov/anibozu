@@ -1,6 +1,5 @@
 package nasirov.yv.service.impl.common;
 
-import static nasirov.yv.utils.TestConstants.TEST_ACC_FOR_DEV;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
@@ -25,8 +24,8 @@ class CacheCleanerServiceTest extends AbstractTest {
 		UserInputDto userInputDto = buildUserInputDto();
 		Flux firstCachedFlux = mock(Flux.class);
 		Flux secondCachedFlux = mock(Flux.class);
-		String firstKey = TEST_ACC_FOR_DEV + ":ANIMEDIA,NINEANIME";
-		String secondKey = TEST_ACC_FOR_DEV + ":ANIMEDIA";
+		String firstKey = MAL_USERNAME + buildCacheKeyForUser();
+		String secondKey = MAL_USERNAME + ":ANIDUB";
 		sseCache.put(firstKey, firstCachedFlux);
 		sseCache.put(secondKey, secondCachedFlux);
 		assertEquals(firstCachedFlux, sseCache.get(firstKey, Flux.class));

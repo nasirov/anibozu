@@ -1,6 +1,5 @@
 package nasirov.yv.service.impl.common;
 
-import static nasirov.yv.utils.TestConstants.TEST_ACC_FOR_DEV;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
@@ -18,6 +17,7 @@ import nasirov.yv.fandub.service.spring.boot.starter.dto.mal.MalTitle;
 import nasirov.yv.fandub.service.spring.boot.starter.dto.mal.MalTitleWatchingStatus;
 import nasirov.yv.fandub.service.spring.boot.starter.dto.mal_service.MalServiceResponseDto;
 import nasirov.yv.util.MalUtils;
+import nasirov.yv.utils.MalTitleTestFactory;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -32,18 +32,18 @@ class HttpRequestServiceDtoBuilderTest extends AbstractTest {
 	@Test
 	void shouldBuildHttpRequestServiceDtoForMalService() {
 		//given
-		String url = externalServicesProps.getMalServiceUrl() + "titles?username=" + TEST_ACC_FOR_DEV + "&status=WATCHING";
+		String url = externalServicesProps.getMalServiceUrl() + "titles?username=" + MAL_USERNAME + "&status=WATCHING";
 		HttpMethod method = HttpMethod.GET;
 		Map<String, String> headers = Collections.singletonMap(HttpHeaders.AUTHORIZATION,
 				externalServicesProps.getMalServiceBasicAuth());
 		Set<Integer> retryableStatusCodes = Collections.emptySet();
 		MalServiceResponseDto fallback = MalServiceResponseDto.builder()
-				.username(TEST_ACC_FOR_DEV)
+				.username(MAL_USERNAME)
 				.malTitles(Collections.emptyList())
 				.errorMessage(BaseConstants.GENERIC_ERROR_MESSAGE)
 				.build();
 		//when
-		HttpRequestServiceDto<MalServiceResponseDto> result = httpRequestServiceDtoBuilder.malService(TEST_ACC_FOR_DEV,
+		HttpRequestServiceDto<MalServiceResponseDto> result = httpRequestServiceDtoBuilder.malService(MAL_USERNAME,
 				MalTitleWatchingStatus.WATCHING);
 		//then
 		checkResult(result, url, method, headers, retryableStatusCodes, fallback, null);
@@ -59,7 +59,7 @@ class HttpRequestServiceDtoBuilderTest extends AbstractTest {
 		Set<Integer> retryableStatusCodes = Collections.emptySet();
 		FanDubSource fanDubSource = FanDubSource.ANIMEDIA;
 		Set<FanDubSource> fanDubSources = Set.of(fanDubSource);
-		MalTitle regularTitle = buildRegularTitle();
+		MalTitle regularTitle = MalTitleTestFactory.buildRegularMalTitle();
 		Map<Integer, Map<FanDubSource, List<CommonTitle>>> fallback = Map.of(regularTitle.getId(),
 				Map.of(fanDubSource, Collections.emptyList()));
 		FandubTitlesServiceRequestDto requestBody = FandubTitlesServiceRequestDto.builder()

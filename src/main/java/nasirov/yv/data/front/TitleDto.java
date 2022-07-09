@@ -12,15 +12,13 @@ import lombok.Singular;
 import nasirov.yv.fandub.service.spring.boot.starter.constant.FanDubSource;
 
 /**
- * Dto holds processing result information and handles by freemarker via templates
- * <p>
  * @author Nasirov Yuriy
  */
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Anime {
+public class TitleDto {
 
 	/**
 	 * Anime name on MAL
