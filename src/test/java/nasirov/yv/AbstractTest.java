@@ -19,7 +19,7 @@ import nasirov.yv.fandub.service.spring.boot.starter.service.HttpRequestServiceI
 import nasirov.yv.service.HttpRequestServiceDtoBuilderI;
 import nasirov.yv.service.ServerSentEventServiceI;
 import nasirov.yv.service.TitleServiceI;
-import nasirov.yv.service.impl.common.CacheCleanerService;
+import nasirov.yv.service.impl.CacheCleanerService;
 import org.assertj.core.util.Sets;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;

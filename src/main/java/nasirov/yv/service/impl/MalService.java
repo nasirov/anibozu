@@ -1,4 +1,4 @@
-package nasirov.yv.service.impl.common;
+package nasirov.yv.service.impl;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

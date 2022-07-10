@@ -1,4 +1,4 @@
-package nasirov.yv.service.impl.common;
+package nasirov.yv.service.impl;
 
 import static nasirov.yv.data.front.EventType.AVAILABLE;
 import static nasirov.yv.data.front.EventType.DONE;

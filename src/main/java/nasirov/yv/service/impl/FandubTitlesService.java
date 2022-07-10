@@ -1,4 +1,4 @@
-package nasirov.yv.service.impl.common;
+package nasirov.yv.service.impl;
 
 import java.util.List;
 import java.util.Map;

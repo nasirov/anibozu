@@ -1,4 +1,4 @@
-package nasirov.yv.service.impl.common;
+package nasirov.yv.service.impl;
 
 import nasirov.yv.data.front.UserInputDto;
 import nasirov.yv.service.CacheCleanerServiceI;

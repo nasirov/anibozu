@@ -1,4 +1,4 @@
-package nasirov.yv.service.impl.common;
+package nasirov.yv.service.impl;
 
 import static nasirov.yv.utils.CommonTitleTestFactory.ANIDUB_EPISODE_NAME;
 import static nasirov.yv.utils.CommonTitleTestFactory.ANILIBRIA_EPISODE_NAME;
