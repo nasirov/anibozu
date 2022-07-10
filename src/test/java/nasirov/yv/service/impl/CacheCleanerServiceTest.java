@@ -58,9 +58,6 @@ class CacheCleanerServiceTest extends AbstractTest {
 		sseCache.put(firstKey, firstCachedFlux);
 		sseCache.put(secondKey, secondCachedFlux);
 		sseCache.put(thirdKey, thirdCachedFlux);
-		assertEquals(firstCachedFlux, sseCache.get(firstKey, Flux.class));
-		assertEquals(secondCachedFlux, sseCache.get(secondKey, Flux.class));
-		assertEquals(thirdCachedFlux, sseCache.get(thirdKey, Flux.class));
 		//when
 		TimeUnit.MILLISECONDS.sleep(10);
 		//then
