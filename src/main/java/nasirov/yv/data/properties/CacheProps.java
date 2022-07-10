@@ -1,5 +1,6 @@
 package nasirov.yv.data.properties;
 
+import java.time.Duration;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import lombok.Data;
@@ -27,9 +28,9 @@ public class CacheProps {
 		private String name;
 
 		@NotNull
-		private Integer ttl;
+		private Duration ttl;
 
 		@NotNull
-		private Integer maxEntityCount;
+		private Integer maxSize;
 	}
 }

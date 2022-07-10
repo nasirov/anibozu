@@ -1,51 +1,33 @@
 package nasirov.yv.configuration;
 
-import static java.time.Duration.ofSeconds;
-import static org.ehcache.config.builders.CacheConfigurationBuilder.newCacheConfigurationBuilder;
-import static org.ehcache.config.builders.CacheEventListenerConfigurationBuilder.newEventListenerConfiguration;
-import static org.ehcache.config.builders.ExpiryPolicyBuilder.timeToLiveExpiration;
-import static org.ehcache.jsr107.Eh107Configuration.fromEhcacheCacheConfiguration;
-
-import com.google.common.collect.Sets;
-import javax.cache.CacheManager;
-import javax.cache.configuration.Configuration;
-import lombok.RequiredArgsConstructor;
+import com.github.benmanes.caffeine.cache.Caffeine;
 import nasirov.yv.data.properties.CacheProps;
 import nasirov.yv.data.properties.CacheProps.ConfigurableCacheProps;
-import org.ehcache.config.builders.ResourcePoolsBuilder;
-import org.ehcache.event.CacheEventListener;
-import org.ehcache.event.EventType;
-import org.springframework.boot.autoconfigure.cache.JCacheManagerCustomizer;
-import org.springframework.stereotype.Component;
-import reactor.core.publisher.Flux;
+import nasirov.yv.service.impl.common.CacheEventLogger;
+import org.springframework.cache.CacheManager;
+import org.springframework.cache.caffeine.CaffeineCacheManager;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 
 /**
  * @author Nasirov Yuriy
  */
-@Component
-@RequiredArgsConstructor
-public class CacheConfig implements JCacheManagerCustomizer {
+@Configuration
+public class CacheConfig {
 
-	private final CacheProps cacheProps;
-
-	private final CacheEventListener customCacheEventLogger;
-
-	@Override
-	public void customize(CacheManager cacheManager) {
-		buildCache(cacheManager, cacheProps.getSse(), Flux.class);
+	@Bean
+	public Caffeine<Object, Object> sseCaffeineCache(CacheProps cacheProps, CacheEventLogger cacheEventLogger) {
+		ConfigurableCacheProps cachePropsSse = cacheProps.getSse();
+		return Caffeine.newBuilder()
+				.maximumSize(cachePropsSse.getMaxSize())
+				.expireAfterWrite(cachePropsSse.getTtl())
+				.removalListener(cacheEventLogger);
 	}
 
-	private void buildCache(CacheManager cacheManager, ConfigurableCacheProps configurableCacheProps, Class<?> valueClass) {
-		cacheManager.createCache(configurableCacheProps.getName(), createCacheConfiguration(configurableCacheProps, valueClass));
-	}
-
-	private Configuration<String, ?> createCacheConfiguration(ConfigurableCacheProps configurableCacheProps, Class<?> valueClass) {
-		return fromEhcacheCacheConfiguration(newCacheConfigurationBuilder(String.class,
-				valueClass,
-				ResourcePoolsBuilder.heap(configurableCacheProps.getMaxEntityCount())).withExpiry(timeToLiveExpiration(ofSeconds(configurableCacheProps.getTtl())))
-				.withService(newEventListenerConfiguration(customCacheEventLogger,
-						Sets.newHashSet(EventType.CREATED, EventType.EXPIRED, EventType.EVICTED, EventType.REMOVED, EventType.UPDATED)).asynchronous()
-						.unordered()
-						.build()));
+	@Bean
+	public CacheManager cacheManager(Caffeine<Object, Object> sseCaffeineCache) {
+		CaffeineCacheManager cacheManager = new CaffeineCacheManager();
+		cacheManager.setCaffeine(sseCaffeineCache);
+		return cacheManager;
 	}
 }

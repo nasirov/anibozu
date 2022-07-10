@@ -2,8 +2,8 @@ application:
   cache:
     sse:
       name: sse
-      ttl: 300
-      max-entity-count: 50
+      ttl: 5m
+      max-size: 50
   feign:
     enabled: false
   web-client:

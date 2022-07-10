@@ -1,9 +1,10 @@
 package nasirov.yv.service.impl.common;
 
-import java.util.Objects;
+import com.github.benmanes.caffeine.cache.RemovalCause;
+import com.github.benmanes.caffeine.cache.RemovalListener;
 import lombok.extern.slf4j.Slf4j;
-import org.ehcache.event.CacheEvent;
-import org.ehcache.event.CacheEventListener;
+import org.checkerframework.checker.nullness.qual.NonNull;
+import org.checkerframework.checker.nullness.qual.Nullable;
 import org.springframework.stereotype.Component;
 
 /**
@@ -11,14 +12,10 @@ import org.springframework.stereotype.Component;
  */
 @Slf4j
 @Component
-public class CacheEventLogger implements CacheEventListener<Object, Object> {
+public class CacheEventLogger implements RemovalListener<Object, Object> {
 
 	@Override
-	public void onEvent(CacheEvent cacheEvent) {
-		log.debug("CACHE EVENT type [{}], cache key[{}], old value is null:[{}], new value is null:[{}] ",
-				cacheEvent.getType(),
-				cacheEvent.getKey(),
-				Objects.isNull(cacheEvent.getOldValue()),
-				Objects.isNull(cacheEvent.getNewValue()));
+	public void onRemoval(@Nullable Object key, @Nullable Object value, @NonNull RemovalCause cause) {
+		log.debug("Evicted a cache entry with key [{}] and cause [{}]", key, cause);
 	}
 }

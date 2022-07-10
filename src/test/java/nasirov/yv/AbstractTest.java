@@ -8,6 +8,7 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.StringJoiner;
 import nasirov.yv.data.front.UserInputDto;
+import nasirov.yv.data.properties.CacheProps;
 import nasirov.yv.fandub.service.spring.boot.starter.constant.FanDubSource;
 import nasirov.yv.fandub.service.spring.boot.starter.dto.mal.MalTitle;
 import nasirov.yv.fandub.service.spring.boot.starter.dto.mal.MalTitleWatchingStatus;
@@ -68,6 +69,9 @@ public abstract class AbstractTest {
 
 	@Autowired
 	protected HttpRequestServiceDtoBuilderI httpRequestServiceDtoBuilder;
+
+	@Autowired
+	protected CacheProps cacheProps;
 
 	protected WebTestClient webTestClient;
 
