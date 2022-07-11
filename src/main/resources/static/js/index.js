@@ -9,8 +9,8 @@ $(document).ready(function () {
     let fanDubCheckboxes = $('.nes-checkbox');
     if (!isElementHasReadonlyAttr(usernameInputField[0])) {
       let isValidUsername = checkMalUsername(username);
-      let isAtLeastOnFanDubChecked = checkFanDubCheckboxes(fanDubCheckboxes);
-      if (isValidUsername && isAtLeastOnFanDubChecked) {
+      let isAtLeastOnFandubChecked = checkFandubCheckboxes(fanDubCheckboxes);
+      if (isValidUsername && isAtLeastOnFandubChecked) {
         addReadonlyAttr(usernameInputField);
         changeClasses(usernameInputField, true);
         changeClasses(submitButton, true);
@@ -20,7 +20,7 @@ $(document).ready(function () {
       } else {
         disableEvents(e);
         changeClasses(usernameInputField, isValidUsername);
-        changeClasses(fanDubCheckboxes, isAtLeastOnFanDubChecked);
+        changeClasses(fanDubCheckboxes, isAtLeastOnFandubChecked);
         changeClasses(submitButton, false);
       }
     } else {
@@ -87,9 +87,9 @@ function checkMalUsername(username) {
   return username.match(/^[\w_-]{2,16}$/) !== null;
 }
 
-function checkFanDubCheckboxes(fanDubCheckboxes) {
-  for (var i = 0; i < fanDubCheckboxes.length; i++) {
-    var checkbox = fanDubCheckboxes[i];
+function checkFandubCheckboxes(fanDubCheckboxes) {
+  for (let i = 0; i < fanDubCheckboxes.length; i++) {
+    let checkbox = fanDubCheckboxes[i];
     if (checkbox.checked) {
       return true;
     }

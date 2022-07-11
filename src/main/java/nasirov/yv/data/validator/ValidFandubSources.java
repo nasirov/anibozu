@@ -13,10 +13,10 @@ import javax.validation.Payload;
  */
 @Target({FIELD})
 @Retention(RUNTIME)
-@Constraint(validatedBy = {FanDubSourcesValidator.class})
-public @interface ValidFanDubSources {
+@Constraint(validatedBy = {FandubSourcesValidator.class})
+public @interface ValidFandubSources {
 
-	String message() default "Some FanDub Source is disabled now!";
+	String message() default "Some Fandub Source is disabled now!";
 
 	Class<?>[] groups() default {};
 

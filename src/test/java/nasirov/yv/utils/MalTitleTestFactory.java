@@ -33,6 +33,7 @@ public class MalTitleTestFactory {
 	public static MalTitle buildWatchingTitle(String posterUrl, String animeUrl, int id, int numWatchedEpisodes) {
 		return MalTitle.builder()
 				.id(id)
+				.name("foo bar baz")
 				.numWatchedEpisodes(numWatchedEpisodes)
 				.posterUrl("https://cdn.myanimelist.net/" + posterUrl)
 				.animeUrl("https://myanimelist.net" + animeUrl)

@@ -18,7 +18,7 @@ import org.springframework.validation.annotation.Validated;
 public class CacheProps {
 
 	@NotNull
-	private ConfigurableCacheProps sse;
+	private ConfigurableCacheProps result;
 
 	@Data
 	@Validated

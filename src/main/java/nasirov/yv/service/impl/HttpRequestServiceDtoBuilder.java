@@ -9,7 +9,7 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import nasirov.yv.data.constants.BaseConstants;
-import nasirov.yv.fandub.service.spring.boot.starter.constant.FanDubSource;
+import nasirov.yv.fandub.service.spring.boot.starter.constant.FandubSource;
 import nasirov.yv.fandub.service.spring.boot.starter.dto.fandub.common.CommonTitle;
 import nasirov.yv.fandub.service.spring.boot.starter.dto.fandub_titles_service.FandubTitlesServiceRequestDto;
 import nasirov.yv.fandub.service.spring.boot.starter.dto.http_request_service.HttpRequestServiceDto;
@@ -46,18 +46,18 @@ public class HttpRequestServiceDtoBuilder implements HttpRequestServiceDtoBuilde
 	}
 
 	@Override
-	public HttpRequestServiceDto<Map<Integer, Map<FanDubSource, List<CommonTitle>>>> fandubTitlesService(
-			Set<FanDubSource> fanDubSources, List<MalTitle> watchingTitles) {
+	public HttpRequestServiceDto<Map<Integer, Map<FandubSource, List<CommonTitle>>>> fandubTitlesService(
+			Set<FandubSource> fandubSources, List<MalTitle> watchingTitles) {
 		Map<Integer, Integer> malIdToEpisode = watchingTitles.stream()
 				.collect(Collectors.toMap(MalTitle::getId, MalUtils::getNextEpisodeForWatch));
 		return new HttpRequestServiceDto<>(externalServicesProps.getFandubTitlesServiceUrl() + "titles", HttpMethod.POST,
 				Collections.singletonMap(HttpHeaders.AUTHORIZATION, externalServicesProps.getFandubTitlesServiceBasicAuth()),
-				FandubTitlesServiceRequestDto.builder().fanDubSources(fanDubSources).malIdToEpisode(malIdToEpisode).build(),
+				FandubTitlesServiceRequestDto.builder().fandubSources(fandubSources).malIdToEpisode(malIdToEpisode).build(),
 				Collections.emptySet(),
-				x -> x.bodyToMono(new ParameterizedTypeReference<Map<Integer, Map<FanDubSource, List<CommonTitle>>>>() {}),
+				x -> x.bodyToMono(new ParameterizedTypeReference<Map<Integer, Map<FandubSource, List<CommonTitle>>>>() {}),
 				malIdToEpisode.entrySet()
 						.stream()
 						.collect(Collectors.toMap(Entry::getKey,
-								x -> fanDubSources.stream().collect(Collectors.toMap(Function.identity(), y -> Collections.emptyList())))));
+								x -> fandubSources.stream().collect(Collectors.toMap(Function.identity(), y -> Collections.emptyList())))));
 	}
 }

@@ -11,11 +11,13 @@
 <body>
 <input id="username" type="hidden" value="foobarbaz"/>
 <input id="fandubList" type="hidden" value="ANIDUB,ANILIBRIA"/>
-<input id="watchingTitlesSize" type="hidden" value="1"/>
+<input id="availableTitles" type="hidden" value="[{&quot;nameOnMal&quot;:&quot;foo bar baz&quot;,&quot;episodeNumberOnMal&quot;:&quot;1&quot;,&quot;posterUrlOnMal&quot;:&quot;https://cdn.myanimelist.net/images/anime/3/regularTitle.jpg&quot;,&quot;animeUrlOnMal&quot;:&quot;https://myanimelist.net/anime/3/regular%20title%20name&quot;,&quot;fandubToUrl&quot;:{&quot;ANILIBRIA&quot;:&quot;&quot;,&quot;ANIDUB&quot;:&quot;https://anime.anidub.life/anime/full/2-regular-title-url.html&quot;,&quot;SHIZAPROJECT&quot;:&quot;not found on a fandub site&quot;},&quot;fandubToEpisodeName&quot;:{&quot;ANILIBRIA&quot;:&quot;&quot;,&quot;ANIDUB&quot;:&quot;1 серия&quot;,&quot;SHIZAPROJECT&quot;:&quot;not found on a fandub site&quot;}}]"/>
+<input id="notAvailableTitles" type="hidden" value="[{&quot;nameOnMal&quot;:&quot;foo bar baz&quot;,&quot;episodeNumberOnMal&quot;:&quot;11&quot;,&quot;posterUrlOnMal&quot;:&quot;https://cdn.myanimelist.net/images/anime/5/concretizedTitle.jpg&quot;,&quot;animeUrlOnMal&quot;:&quot;https://myanimelist.net/anime/5/concretizedTitle&quot;,&quot;fandubToUrl&quot;:{&quot;ANILIBRIA&quot;:&quot;not found on a fandub site&quot;,&quot;ANIDUB&quot;:&quot;&quot;,&quot;SHIZAPROJECT&quot;:&quot;not found on a fandub site&quot;},&quot;fandubToEpisodeName&quot;:{&quot;ANILIBRIA&quot;:&quot;not found on a fandub site&quot;,&quot;ANIDUB&quot;:&quot;&quot;,&quot;SHIZAPROJECT&quot;:&quot;not found on a fandub site&quot;}}]"/>
+<input id="notFoundTitles" type="hidden" value="[{&quot;nameOnMal&quot;:&quot;foo bar baz&quot;,&quot;episodeNumberOnMal&quot;:&quot;1&quot;,&quot;posterUrlOnMal&quot;:&quot;https://cdn.myanimelist.net/images/anime/6/notFoundOnMalTitle.jpg&quot;,&quot;animeUrlOnMal&quot;:&quot;https://myanimelist.net/anime/6/notFoundOnMalTitle&quot;,&quot;fandubToUrl&quot;:{&quot;ANILIBRIA&quot;:&quot;not found on a fandub site&quot;,&quot;ANIDUB&quot;:&quot;not found on a fandub site&quot;,&quot;SHIZAPROJECT&quot;:&quot;not found on a fandub site&quot;},&quot;fandubToEpisodeName&quot;:{&quot;ANILIBRIA&quot;:&quot;not found on a fandub site&quot;,&quot;ANIDUB&quot;:&quot;not found on a fandub site&quot;,&quot;SHIZAPROJECT&quot;:&quot;not found on a fandub site&quot;}}]"/>
 <header>
-  <h1 id="status" class="is_centered">Processing result for foobarbaz ...</h1>
+  <h1 id="status" class="is_centered"></h1>
 </header>
 </body>
 <script src="/js/jquery.min.js"></script>
-<script src="/js/sse.js"></script>
+<script src="/js/result.js"></script>
 </html>

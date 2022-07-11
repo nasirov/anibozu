@@ -3,23 +3,22 @@ package nasirov.yv;
 import static org.mockito.ArgumentMatchers.argThat;
 import static org.mockito.Mockito.doReturn;
 
+import java.time.Duration;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 import java.util.StringJoiner;
-import nasirov.yv.data.front.UserInputDto;
+import nasirov.yv.data.front.InputDto;
 import nasirov.yv.data.properties.CacheProps;
-import nasirov.yv.fandub.service.spring.boot.starter.constant.FanDubSource;
+import nasirov.yv.fandub.service.spring.boot.starter.constant.FandubSource;
 import nasirov.yv.fandub.service.spring.boot.starter.dto.mal.MalTitle;
 import nasirov.yv.fandub.service.spring.boot.starter.dto.mal.MalTitleWatchingStatus;
 import nasirov.yv.fandub.service.spring.boot.starter.dto.mal_service.MalServiceResponseDto;
 import nasirov.yv.fandub.service.spring.boot.starter.properties.ExternalServicesProps;
-import nasirov.yv.fandub.service.spring.boot.starter.properties.FanDubProps;
+import nasirov.yv.fandub.service.spring.boot.starter.properties.FandubProps;
 import nasirov.yv.fandub.service.spring.boot.starter.service.HttpRequestServiceI;
 import nasirov.yv.service.HttpRequestServiceDtoBuilderI;
-import nasirov.yv.service.ServerSentEventServiceI;
-import nasirov.yv.service.TitleServiceI;
-import nasirov.yv.service.impl.CacheCleanerService;
+import nasirov.yv.service.ResultProcessingServiceI;
 import org.assertj.core.util.Sets;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -47,13 +46,7 @@ public abstract class AbstractTest {
 	protected HttpRequestServiceI httpRequestService;
 
 	@SpyBean
-	protected TitleServiceI titleService;
-
-	@SpyBean
-	protected ServerSentEventServiceI serverSentEventService;
-
-	@SpyBean
-	protected CacheCleanerService cacheCleanerService;
+	protected ResultProcessingServiceI resultProcessingService;
 
 	@Autowired
 	protected CacheManager cacheManager;
@@ -65,7 +58,7 @@ public abstract class AbstractTest {
 	protected ExternalServicesProps externalServicesProps;
 
 	@Autowired
-	protected FanDubProps fanDubProps;
+	protected FandubProps fandubProps;
 
 	@Autowired
 	protected HttpRequestServiceDtoBuilderI httpRequestServiceDtoBuilder;
@@ -75,11 +68,15 @@ public abstract class AbstractTest {
 
 	protected WebTestClient webTestClient;
 
-	protected Set<FanDubSource> inputFanDubSources = Sets.newLinkedHashSet(FanDubSource.ANIDUB, FanDubSource.ANILIBRIA);
+	protected Set<FandubSource> inputFandubSources = Sets.newLinkedHashSet(FandubSource.ANILIBRIA, FandubSource.ANIDUB,
+			FandubSource.SHIZAPROJECT);
 
 	@BeforeEach
 	void setUp() {
-		webTestClient = WebTestClient.bindToApplicationContext(applicationContext).build();
+		webTestClient = WebTestClient.bindToApplicationContext(applicationContext)
+				.configureClient()
+				.responseTimeout(Duration.ofDays(1))
+				.build();
 	}
 
 	@AfterEach
@@ -98,13 +95,13 @@ public abstract class AbstractTest {
 		return MalServiceResponseDto.builder().username(MAL_USERNAME).malTitles(malTitles).errorMessage(errorMessage).build();
 	}
 
-	protected UserInputDto buildUserInputDto() {
-		return UserInputDto.builder().username(MAL_USERNAME).fanDubSources(inputFanDubSources).build();
+	protected InputDto buildInputDto() {
+		return InputDto.builder().username(MAL_USERNAME).fandubSources(inputFandubSources).build();
 	}
 
 	protected String buildCacheKeyForUser() {
 		StringJoiner stringJoiner = new StringJoiner(",", ":", "");
-		inputFanDubSources.stream().map(FanDubSource::name).forEach(stringJoiner::add);
+		inputFandubSources.stream().map(FandubSource::name).forEach(stringJoiner::add);
 		return stringJoiner.toString();
 	}
 

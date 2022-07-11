@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import lombok.RequiredArgsConstructor;
-import nasirov.yv.fandub.service.spring.boot.starter.constant.FanDubSource;
+import nasirov.yv.fandub.service.spring.boot.starter.constant.FandubSource;
 import nasirov.yv.fandub.service.spring.boot.starter.dto.fandub.common.CommonTitle;
 import nasirov.yv.fandub.service.spring.boot.starter.dto.mal.MalTitle;
 import nasirov.yv.fandub.service.spring.boot.starter.service.HttpRequestServiceI;
@@ -25,9 +25,9 @@ public class FandubTitlesService implements FandubTitlesServiceI {
 	private final HttpRequestServiceDtoBuilderI httpRequestServiceDtoBuilder;
 
 	@Override
-	public Mono<Map<Integer, Map<FanDubSource, List<CommonTitle>>>> getCommonTitles(Set<FanDubSource> fanDubSources,
+	public Mono<Map<Integer, Map<FandubSource, List<CommonTitle>>>> getCommonTitles(Set<FandubSource> fandubSources,
 			List<MalTitle> malTitles) {
-		return httpRequestService.performHttpRequest(httpRequestServiceDtoBuilder.fandubTitlesService(fanDubSources,
+		return httpRequestService.performHttpRequest(httpRequestServiceDtoBuilder.fandubTitlesService(fandubSources,
 				malTitles));
 	}
 }

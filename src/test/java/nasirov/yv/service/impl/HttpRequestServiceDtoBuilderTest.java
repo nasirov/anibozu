@@ -9,7 +9,7 @@ import java.util.Map;
 import java.util.Set;
 import nasirov.yv.AbstractTest;
 import nasirov.yv.data.constants.BaseConstants;
-import nasirov.yv.fandub.service.spring.boot.starter.constant.FanDubSource;
+import nasirov.yv.fandub.service.spring.boot.starter.constant.FandubSource;
 import nasirov.yv.fandub.service.spring.boot.starter.dto.fandub.common.CommonTitle;
 import nasirov.yv.fandub.service.spring.boot.starter.dto.fandub_titles_service.FandubTitlesServiceRequestDto;
 import nasirov.yv.fandub.service.spring.boot.starter.dto.http_request_service.HttpRequestServiceDto;
@@ -57,19 +57,19 @@ class HttpRequestServiceDtoBuilderTest extends AbstractTest {
 		Map<String, String> headers = Collections.singletonMap(HttpHeaders.AUTHORIZATION,
 				externalServicesProps.getFandubTitlesServiceBasicAuth());
 		Set<Integer> retryableStatusCodes = Collections.emptySet();
-		FanDubSource fanDubSource = FanDubSource.ANIMEDIA;
-		Set<FanDubSource> fanDubSources = Set.of(fanDubSource);
+		FandubSource fandubSource = FandubSource.ANIMEDIA;
+		Set<FandubSource> fandubSources = Set.of(fandubSource);
 		MalTitle regularTitle = MalTitleTestFactory.buildRegularMalTitle();
-		Map<Integer, Map<FanDubSource, List<CommonTitle>>> fallback = Map.of(regularTitle.getId(),
-				Map.of(fanDubSource, Collections.emptyList()));
+		Map<Integer, Map<FandubSource, List<CommonTitle>>> fallback = Map.of(regularTitle.getId(),
+				Map.of(fandubSource, Collections.emptyList()));
 		FandubTitlesServiceRequestDto requestBody = FandubTitlesServiceRequestDto.builder()
-				.fanDubSources(fanDubSources)
+				.fandubSources(fandubSources)
 				.malIdToEpisode(Map.of(regularTitle.getId(), MalUtils.getNextEpisodeForWatch(regularTitle)))
 				.build();
 		//when
-		HttpRequestServiceDto<Map<Integer, Map<FanDubSource, List<CommonTitle>>>> result =
+		HttpRequestServiceDto<Map<Integer, Map<FandubSource, List<CommonTitle>>>> result =
 				httpRequestServiceDtoBuilder.fandubTitlesService(
-				fanDubSources, List.of(regularTitle));
+				fandubSources, List.of(regularTitle));
 		//then
 		checkResult(result, url, method, headers, retryableStatusCodes, fallback, requestBody);
 	}

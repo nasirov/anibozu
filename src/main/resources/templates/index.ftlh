@@ -19,25 +19,25 @@
         <form id="username-submit-form" action="/result" method="get">
           <input type="text" id="username" name="username" value="" class="nes-input" placeholder="Enter MAL username..."
                  title="Please enter a valid mal username between 2 and 16 characters(latin letters, numbers, underscores and dashes only)" autofocus>
-          <div class="nes-field">Choose At Least One FanDub Site</div>
+          <div class="nes-field">Choose At Least One Fandub Site</div>
           <table class="width_full font_x-small is_text_left">
             <tbody>
             <tr>
               <td>
                 <label>
-                  <input id="nineAnime-checkbox" type="checkbox" class="nes-checkbox" name="fanDubSources" value="${nineAnime}"/>
+                  <input id="nineAnime-checkbox" type="checkbox" class="nes-checkbox" name="fandubSources" value="${nineAnime}"/>
                   <span>9Anime</span>
                 </label>
               </td>
               <td>
                 <label>
-                  <input id="anidub-checkbox" type="checkbox" class="nes-checkbox" name="fanDubSources" value="${anidub}"/>
+                  <input id="anidub-checkbox" type="checkbox" class="nes-checkbox" name="fandubSources" value="${anidub}"/>
                   <span>Anidub</span>
                 </label>
               </td>
               <td>
                 <label>
-                  <input id="anilibria-checkbox" type="checkbox" class="nes-checkbox" name="fanDubSources" value="${anilibria}"/>
+                  <input id="anilibria-checkbox" type="checkbox" class="nes-checkbox" name="fandubSources" value="${anilibria}"/>
                   <span>Anilibria</span>
                 </label>
               </td>
@@ -45,19 +45,19 @@
             <tr>
               <td>
                 <label>
-                  <input id="animepik-checkbox" type="checkbox" class="nes-checkbox" name="fanDubSources" value="${animepik}"/>
+                  <input id="animepik-checkbox" type="checkbox" class="nes-checkbox" name="fandubSources" value="${animepik}"/>
                   <span>AnimePiK</span>
                 </label>
               </td>
               <td>
                 <label>
-                  <input id="animedia-checkbox" type="checkbox" class="nes-checkbox" name="fanDubSources" value="${animedia}"/>
+                  <input id="animedia-checkbox" type="checkbox" class="nes-checkbox" name="fandubSources" value="${animedia}"/>
                   <span>Animedia</span>
                 </label>
               </td>
               <td>
                 <label>
-                  <input id="jamClub-checkbox" type="checkbox" class="nes-checkbox" name="fanDubSources" value="${jamClub}"/>
+                  <input id="jamClub-checkbox" type="checkbox" class="nes-checkbox" name="fandubSources" value="${jamClub}"/>
                   <span>JamClub</span>
                 </label>
               </td>
@@ -65,19 +65,19 @@
             <tr>
               <td>
                 <label>
-                  <input id="jisedai-checkbox" type="checkbox" class="nes-checkbox" name="fanDubSources" value="${jisedai}"/>
+                  <input id="jisedai-checkbox" type="checkbox" class="nes-checkbox" name="fandubSources" value="${jisedai}"/>
                   <span>Jisedai</span>
                 </label>
               </td>
               <td>
                 <label>
-                  <input id="jutsu-checkbox" type="checkbox" class="nes-checkbox" name="fanDubSources" value="${jutsu}"/>
+                  <input id="jutsu-checkbox" type="checkbox" class="nes-checkbox" name="fandubSources" value="${jutsu}"/>
                   <span>Jutsu</span>
                 </label>
               </td>
               <td>
                 <label>
-                  <input id="shizaProject-checkbox" type="checkbox" class="nes-checkbox" name="fanDubSources" value="${shizaProject}"/>
+                  <input id="shizaProject-checkbox" type="checkbox" class="nes-checkbox" name="fandubSources" value="${shizaProject}"/>
                   <span>ShizaProject</span>
                 </label>
               </td>
@@ -85,13 +85,13 @@
             <tr>
               <td>
                 <label>
-                  <input id="sovetRomantica-checkbox" type="checkbox" class="nes-checkbox" name="fanDubSources" value="${sovetRomantica}"/>
+                  <input id="sovetRomantica-checkbox" type="checkbox" class="nes-checkbox" name="fandubSources" value="${sovetRomantica}"/>
                   <span>SovetRomantica</span>
                 </label>
               </td>
               <td>
                 <label>
-                  <input id="anythingGroup-checkbox" type="checkbox" class="nes-checkbox" name="fanDubSources" value="${anythingGroup}"/>
+                  <input id="anythingGroup-checkbox" type="checkbox" class="nes-checkbox" name="fandubSources" value="${anythingGroup}"/>
                   <span>Anything Group</span>
                 </label>
               </td>
@@ -106,5 +106,5 @@
 </div>
 </body>
 <script src="/js/jquery.min.js"></script>
-<script src="/js/submit.form.js"></script>
+<script src="/js/index.js"></script>
 </html>

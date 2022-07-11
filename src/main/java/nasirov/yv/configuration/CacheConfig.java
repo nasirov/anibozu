@@ -16,18 +16,18 @@ import org.springframework.context.annotation.Configuration;
 public class CacheConfig {
 
 	@Bean
-	public Caffeine<Object, Object> sseCaffeineCache(CacheProps cacheProps, CacheEventLogger cacheEventLogger) {
-		ConfigurableCacheProps cachePropsSse = cacheProps.getSse();
+	public Caffeine<Object, Object> resultCache(CacheProps cacheProps, CacheEventLogger cacheEventLogger) {
+		ConfigurableCacheProps cachePropsResult = cacheProps.getResult();
 		return Caffeine.newBuilder()
-				.maximumSize(cachePropsSse.getMaxSize())
-				.expireAfterWrite(cachePropsSse.getTtl())
+				.maximumSize(cachePropsResult.getMaxSize())
+				.expireAfterWrite(cachePropsResult.getTtl())
 				.removalListener(cacheEventLogger);
 	}
 
 	@Bean
-	public CacheManager cacheManager(Caffeine<Object, Object> sseCaffeineCache) {
+	public CacheManager cacheManager(Caffeine<Object, Object> resultCache) {
 		CaffeineCacheManager cacheManager = new CaffeineCacheManager();
-		cacheManager.setCaffeine(sseCaffeineCache);
+		cacheManager.setCaffeine(resultCache);
 		return cacheManager;
 	}
 }

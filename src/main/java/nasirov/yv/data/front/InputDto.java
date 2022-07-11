@@ -7,8 +7,8 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import nasirov.yv.data.validator.ValidFanDubSources;
-import nasirov.yv.fandub.service.spring.boot.starter.constant.FanDubSource;
+import nasirov.yv.data.validator.ValidFandubSources;
+import nasirov.yv.fandub.service.spring.boot.starter.constant.FandubSource;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.validation.annotation.Validated;
 
@@ -20,15 +20,16 @@ import org.springframework.validation.annotation.Validated;
 @Validated
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserInputDto {
+public class InputDto {
 
-	@Pattern(regexp = "^[\\w-]{2,16}$", message = "Please enter a valid mal username between 2 and 16 characters(latin letters, numbers, underscores "
-			+ "and dashes only)")
+	@Pattern(regexp = "^[\\w-]{2,16}$", message =
+			"Please enter a valid mal username between 2 and 16 characters(latin letters, numbers, underscores "
+					+ "and dashes only)")
 	private String username;
 
-	@ValidFanDubSources
-	@NotEmpty(message = "Please specify at least one FanDub source!")
-	private Set<FanDubSource> fanDubSources;
+	@ValidFandubSources
+	@NotEmpty(message = "Please specify at least one Fandub source!")
+	private Set<FandubSource> fandubSources;
 
 	public void setUsername(String username) {
 		this.username = StringUtils.lowerCase(username);

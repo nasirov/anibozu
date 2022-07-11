@@ -1,6 +1,6 @@
 package nasirov.yv.service;
 
-import nasirov.yv.data.front.UserInputDto;
+import nasirov.yv.data.front.InputDto;
 import nasirov.yv.fandub.service.spring.boot.starter.dto.mal_service.MalServiceResponseDto;
 import reactor.core.publisher.Mono;
 
@@ -9,5 +9,5 @@ import reactor.core.publisher.Mono;
  */
 public interface MalServiceI {
 
-	Mono<MalServiceResponseDto> getUserWatchingTitles(UserInputDto userInputDto);
+	Mono<MalServiceResponseDto> getUserWatchingTitles(InputDto inputDto);
 }

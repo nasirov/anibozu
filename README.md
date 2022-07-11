@@ -5,9 +5,9 @@
 [![Coverage](https://sonarcloud.io/api/project_badges/measure?project=nasirov_anime-checker&metric=coverage)](https://sonarcloud.io/dashboard?id=nasirov_anime-checker)
 [![Apache License 2](https://img.shields.io/badge/license-ASF2-blue.svg)](https://www.apache.org/licenses/LICENSE-2.0.txt)
 
-The application analyzes a user watching titles list from **[MyAnimeList](https://myanimelist.net/)** and searches for new episodes on FanDub Sites.
+The application analyzes a user watching titles list from **[MyAnimeList](https://myanimelist.net/)** and searches for new episodes on Fandub Sites.
 
-| Supported FanDub Sites                                                                                                                  | Link Contains New Episode |
+| Supported Fandub Sites                                                                                                                  | Link Contains New Episode |
 |:----------------------------------------------------------------------------------------------------------------------------------------|:-------------------------:|
 | [![9anime](/images/favicons/9anime.png)](https://9anime.id/) **[9Anime](https://9anime.id/)**                                           |     :heavy_plus_sign:     |
 | [![anidub](/images/favicons/anidub.png)](https://anime.anidub.life/) **[Anidub](https://anime.anidub.life/)**                           |    :heavy_minus_sign:     |
@@ -34,13 +34,13 @@ The application analyzes a user watching titles list from **[MyAnimeList](https:
    an **[EventSource compatible browser](https://developer.mozilla.org/en-US/docs/Web/API/EventSource#Browser_compatibility)**  with enabled
    JavaScript
 2. Enter your **[MyAnimeList](https://myanimelist.net/)** username. **Your anime list must be public!**
-3. Choose at least one FanDub site
+3. Choose at least one Fandub site
 4. Submit the form
 
 #### As a result:
 
 - You will receive your anime check result in real time title by title
-- On a FanDub link hover you will see a hint with a new episode name. This feature is useful for a Fandub site which links don't contain an episode
+- On a Fandub link hover you will see a hint with a new episode name. This feature is useful for a Fandub site which links don't contain an episode
   and you have to choose it manually in an embedded player
-- Titles from "Available" section have links to FanDub sites
+- Titles from "Available" section have links to Fandub sites
 - Titles from "Not Available" and "Not Found" sections have links to MyAnimeList site

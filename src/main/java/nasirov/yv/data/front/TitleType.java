@@ -1,11 +1,9 @@
 package nasirov.yv.data.front;
 
 /**
- * Enum for Server-Sent Events
- * <p>
  * @author Nasirov Yuriy
  */
-public enum EventType {
+public enum TitleType {
 	/**
 	 * New episode is available
 	 */
@@ -15,15 +13,7 @@ public enum EventType {
 	 */
 	NOT_AVAILABLE,
 	/**
-	 * Title is not found on fandub sites
+	 * Title is not found on Fandub sites
 	 */
-	NOT_FOUND,
-	/**
-	 * Error event
-	 */
-	ERROR,
-	/**
-	 * Closing event
-	 */
-	DONE
+	NOT_FOUND
 }
