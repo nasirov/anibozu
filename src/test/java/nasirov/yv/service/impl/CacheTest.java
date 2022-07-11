@@ -48,8 +48,8 @@ class CacheTest extends AbstractTest {
 	@SneakyThrows
 	void shouldEvictCacheByTtl() {
 		//given
-		ConfigurableCacheProps titlesCacheProps = cacheProps.getResult();
-		Cache resultCache = cacheManager.getCache(titlesCacheProps.getName());
+		ConfigurableCacheProps resultCacheProps = cacheProps.getResult();
+		Cache resultCache = cacheManager.getCache(resultCacheProps.getName());
 		assertNotNull(resultCache);
 		ResultDto firstCachedResultDto = mock(ResultDto.class);
 		ResultDto secondCachedResultDto = mock(ResultDto.class);
@@ -60,7 +60,7 @@ class CacheTest extends AbstractTest {
 		assertEquals(firstCachedResultDto, resultCache.get(firstKey, ResultDto.class));
 		assertEquals(secondCachedResultDto, resultCache.get(secondKey, ResultDto.class));
 		//when
-		TimeUnit.MILLISECONDS.sleep(titlesCacheProps.getTtl().toMillis() + TimeUnit.SECONDS.toMillis(1));
+		TimeUnit.MILLISECONDS.sleep(resultCacheProps.getTtl().toMillis() + TimeUnit.SECONDS.toMillis(1));
 		//then
 		assertNull(resultCache.get(firstKey, ResultDto.class));
 		assertNull(resultCache.get(secondKey, ResultDto.class));
