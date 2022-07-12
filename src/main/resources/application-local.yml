@@ -3,19 +3,11 @@ server:
 
 application:
   web-client:
-    enabled: true
-    compress: true
-    connection-timeout: 5s
-    max-attempts: 5
-    min-backoff: 100ms
-    max-backoff: 1s
     proxy-type: HTTP
     proxy-host: localhost
     proxy-port: 8888
   external-services:
     fandub-titles-service-basic-auth: Basic YWRtaW46YWRtaW4=
     mal-service-basic-auth: Basic YWRtaW46YWRtaW4=
-    selenium-service-basic-auth: Basic YWRtaW46YWRtaW4=
     fandub-titles-service-url: http://localhost:8089/
     mal-service-url: http://localhost:8087/
-    selenium-service-url: http://localhost:8083/

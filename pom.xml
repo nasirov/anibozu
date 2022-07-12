@@ -20,7 +20,7 @@
 
   <properties>
     <docker.buildArg.JAR_FILE>target/${project.build.finalName}.jar</docker.buildArg.JAR_FILE>
-    <fandub-service-spring-boot-starter.version>24.0.0</fandub-service-spring-boot-starter.version>
+    <fandub-service-spring-boot-starter.version>24.0.1</fandub-service-spring-boot-starter.version>
   </properties>
 
   <dependencies>

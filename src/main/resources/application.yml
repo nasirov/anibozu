@@ -8,11 +8,9 @@ application:
     enabled: false
   web-client:
     enabled: true
-    compress: true
-    connection-timeout: 10s
+    connection-timeout: 2s
+    read-timeout: 13s
     max-attempts: 0
-    min-backoff: 100ms
-    max-backoff: 1s
 
 server:
   port: ${PORT}
