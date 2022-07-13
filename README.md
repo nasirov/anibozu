@@ -30,17 +30,14 @@ The application analyzes a user's watching titles list from **[MyAnimeList](http
 
 ![Flow](/images/flow.gif)
 
-1. Open **[Anime Checker](https://anime-checker.herokuapp.com/)** via
-   an **[EventSource compatible browser](https://developer.mozilla.org/en-US/docs/Web/API/EventSource#Browser_compatibility)**  with enabled
-   JavaScript
+1. Open **[Anime Checker](https://anime-checker.herokuapp.com/)** via browser with enabled JavaScript
 2. Enter your **[MyAnimeList](https://myanimelist.net/)** username. **Your anime list must be public!**
 3. Choose at least one Fandub site
 4. Submit the form
 
 #### As a result:
 
-- You will receive your anime check result in real time title by title
-- On a Fandub link hover you will see a hint with a new episode name. This feature is useful for a Fandub site which links don't contain an episode
-  and you have to choose it manually in an embedded player
 - Titles from "Available" section have links to Fandub sites
+- On a Fandub link hover you will see a hint with a new episode name. This feature is useful for a Fandub site which links don't contain an episode
+  and you have to choose it manually in an embedded video player
 - Titles from "Not Available" and "Not Found" sections have links to MyAnimeList site
