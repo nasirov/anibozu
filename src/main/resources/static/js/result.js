@@ -2,7 +2,6 @@
  * @author Nasirov Yuriy
  */
 $(document).ready(function () {
-  let username = $('#username').val();
   let fandubList = $('#fandubList').val();
   let availableTitles = JSON.parse($('#availableTitles').val());
   let notAvailableTitles = JSON.parse($('#notAvailableTitles').val());
