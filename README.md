@@ -5,7 +5,7 @@
 [![Coverage](https://sonarcloud.io/api/project_badges/measure?project=nasirov_anime-checker&metric=coverage)](https://sonarcloud.io/dashboard?id=nasirov_anime-checker)
 [![Apache License 2](https://img.shields.io/badge/license-ASF2-blue.svg)](https://www.apache.org/licenses/LICENSE-2.0.txt)
 
-The application analyzes a user watching titles list from **[MyAnimeList](https://myanimelist.net/)** and searches for new episodes on Fandub Sites.
+The application analyzes a user's watching titles list from **[MyAnimeList](https://myanimelist.net/)** and searches for new episodes on Fandub Sites.
 
 | Supported Fandub Sites                                                                                                                  | Link Contains New Episode |
 |:----------------------------------------------------------------------------------------------------------------------------------------|:-------------------------:|
