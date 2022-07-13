@@ -84,6 +84,8 @@ function buildAvailable(titleDto, fandubList) {
       nameOnMal + ' episode ' + episodeNumberOnMal);
   let malEpisodeOverlay = buildMalEpisodeOverlay(episodeNumberOnMal);
   let overlayFullCover = buildOverlayFullCover();
+  let linkToMal = buildLink('full_cover', titleDto.animeUrlOnMal);
+  overlayFullCover.append(linkToMal);
   let linkHolder = buildLinkHolder();
   let linksAmount = appendLinks(titleDto, linkHolder, fandubList);
   let fandubSlider = buildFandubSlider(titleDto);
@@ -108,8 +110,8 @@ function buildNotAvailable(titleDto) {
       titleDto.nameOnMal);
   let malEpisodeOverlay = buildMalEpisodeOverlay(titleDto.episodeNumberOnMal);
   let overlayFullCover = buildOverlayFullCover();
-  let link = buildLink('full_cover', titleDto.animeUrlOnMal);
-  overlayFullCover.append(link);
+  let linkToMal = buildLink('full_cover', titleDto.animeUrlOnMal);
+  overlayFullCover.append(linkToMal);
   item.append(img, malEpisodeOverlay, overlayFullCover);
   let notAvailableSection = getNotAvailableSection();
   notAvailableSection.append(item);
@@ -120,8 +122,8 @@ function buildNotFound(titleDto) {
   let img = buildImg(titleDto.posterUrlOnMal, titleDto.nameOnMal,
       titleDto.nameOnMal);
   let overlayFullCover = buildOverlayFullCover();
-  let link = buildLink('full_cover', titleDto.animeUrlOnMal);
-  overlayFullCover.append(link);
+  let linkToMal = buildLink('full_cover', titleDto.animeUrlOnMal);
+  overlayFullCover.append(linkToMal);
   item.append(img, overlayFullCover);
   let notFoundSection = getNotFoundSection();
   notFoundSection.append(item);
