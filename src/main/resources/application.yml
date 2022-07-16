@@ -1,4 +1,6 @@
 application:
+  fandub-support:
+    enabled: ANIDUB,ANILIBRIA,ANIMEDIA,ANIMEPIK,ANYTHING_GROUP,JAMCLUB,JISEDAI,JUTSU,NINEANIME,SHIZAPROJECT,SOVETROMANTICA
   cache:
     result:
       name: result

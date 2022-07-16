@@ -53,7 +53,7 @@ public class ResultViewController {
 
 	private String handleSuccess(InputDto inputDto, Model model, ResultDto resultDto) {
 		model.addAttribute("username", inputDto.getUsername());
-		model.addAttribute("fandubList", buildFandubList(inputDto.getFandubSources()));
+		model.addAttribute("fandubList", buildFandubList(resultDto.getFandubSources()));
 		model.addAttribute("titles", toEscapedJson(resultDto.getTitles()));
 		return "result";
 	}

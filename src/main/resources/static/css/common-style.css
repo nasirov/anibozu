@@ -26,7 +26,7 @@ body {
 }
 
 .nes-container.is-centered > .nes-field > form > :not(:last-child) {
-  margin-bottom: 0.5rem !important;
+  margin-bottom: 1rem !important;
 }
 
 .is_centered {

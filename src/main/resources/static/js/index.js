@@ -6,22 +6,18 @@ $(document).ready(function () {
     let usernameInputField = $('#username');
     let submitButton = $('.nes-btn');
     let username = usernameInputField.val();
-    let fanDubCheckboxes = $('.nes-checkbox');
     if (!isElementHasReadonlyAttr(usernameInputField[0])) {
       let isValidUsername = checkMalUsername(username);
-      let isAtLeastOnFandubChecked = checkFandubCheckboxes(fanDubCheckboxes);
-      if (isValidUsername && isAtLeastOnFandubChecked) {
+      if (isValidUsername) {
         addReadonlyAttr(usernameInputField);
         changeClasses(usernameInputField, true);
-        changeClasses(fanDubCheckboxes, true);
         changeClasses(submitButton, true);
         let submitButtonElement = submitButton[0];
-        setScheduledLoadingMessages(submitButtonElement)
+        setScheduledLoadingMessages(submitButtonElement);
         setDisabledAttributeValue(submitButtonElement, true);
       } else {
         disableEvents(e);
         changeClasses(usernameInputField, isValidUsername);
-        changeClasses(fanDubCheckboxes, isAtLeastOnFandubChecked);
         changeClasses(submitButton, false);
       }
     } else {
@@ -88,16 +84,6 @@ function checkMalUsername(username) {
   return username.match(/^[\w_-]{2,16}$/) !== null;
 }
 
-function checkFandubCheckboxes(fanDubCheckboxes) {
-  for (let i = 0; i < fanDubCheckboxes.length; i++) {
-    let checkbox = fanDubCheckboxes[i];
-    if (checkbox.checked) {
-      return true;
-    }
-  }
-  return false;
-}
-
 function addReadonlyAttr(element) {
   element.attr('readonly', '');
 }
@@ -120,9 +106,10 @@ function setDisabledAttributeValue(element, value) {
 }
 
 function setScheduledLoadingMessages(submitButtonElement) {
-  let msg = "Searching for Watching Titles";
-  let initLoadingSuffix = " -";
-  let loadingMessages = [msg + initLoadingSuffix, msg + " \\", msg + " |", msg + " /"];
+  let msg = 'Searching for Watching Titles';
+  let initLoadingSuffix = ' -';
+  let loadingMessages = [msg + initLoadingSuffix, msg + ' \\', msg + ' |',
+    msg + ' /'];
   let counter = 0;
   setInnerHtmlValue(submitButtonElement, msg + initLoadingSuffix);
   setInterval(function () {

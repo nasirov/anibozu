@@ -7,9 +7,9 @@ import java.time.Duration;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
-import java.util.StringJoiner;
 import nasirov.yv.data.front.InputDto;
 import nasirov.yv.data.properties.CacheProps;
+import nasirov.yv.data.properties.FandubSupportProps;
 import nasirov.yv.fandub.service.spring.boot.starter.constant.FandubSource;
 import nasirov.yv.fandub.service.spring.boot.starter.dto.mal.MalTitle;
 import nasirov.yv.fandub.service.spring.boot.starter.dto.mal.MalTitleWatchingStatus;
@@ -19,7 +19,6 @@ import nasirov.yv.fandub.service.spring.boot.starter.properties.FandubProps;
 import nasirov.yv.fandub.service.spring.boot.starter.service.HttpRequestServiceI;
 import nasirov.yv.service.HttpRequestServiceDtoBuilderI;
 import nasirov.yv.service.ResultProcessingServiceI;
-import org.assertj.core.util.Sets;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -66,10 +65,10 @@ public abstract class AbstractTest {
 	@Autowired
 	protected CacheProps cacheProps;
 
-	protected WebTestClient webTestClient;
+	@Autowired
+	protected FandubSupportProps fandubSupportProps;
 
-	protected Set<FandubSource> inputFandubSources = Sets.newLinkedHashSet(FandubSource.ANILIBRIA, FandubSource.ANIDUB,
-			FandubSource.SHIZAPROJECT);
+	protected WebTestClient webTestClient;
 
 	@BeforeEach
 	void setUp() {
@@ -96,13 +95,15 @@ public abstract class AbstractTest {
 	}
 
 	protected InputDto buildInputDto() {
-		return InputDto.builder().username(MAL_USERNAME).fandubSources(inputFandubSources).build();
+		return InputDto.builder().username(MAL_USERNAME).build();
 	}
 
 	protected String buildCacheKeyForUser() {
-		StringJoiner stringJoiner = new StringJoiner(",", ":", "");
-		inputFandubSources.stream().map(FandubSource::name).forEach(stringJoiner::add);
-		return stringJoiner.toString();
+		return MAL_USERNAME;
+	}
+
+	protected Set<FandubSource> getEnabledFandubSources() {
+		return fandubSupportProps.getEnabled();
 	}
 
 	private void clearCaches() {

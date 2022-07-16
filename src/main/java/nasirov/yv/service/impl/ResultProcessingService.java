@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Optional;
-import java.util.StringJoiner;
+import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
@@ -16,6 +16,7 @@ import nasirov.yv.data.front.TitleDto;
 import nasirov.yv.data.front.TitleDto.TitleDtoBuilder;
 import nasirov.yv.data.front.TitleType;
 import nasirov.yv.data.properties.CacheProps;
+import nasirov.yv.data.properties.FandubSupportProps;
 import nasirov.yv.fandub.service.spring.boot.starter.constant.FandubSource;
 import nasirov.yv.fandub.service.spring.boot.starter.dto.fandub.common.CommonTitle;
 import nasirov.yv.fandub.service.spring.boot.starter.dto.mal.MalTitle;
@@ -53,34 +54,40 @@ public class ResultProcessingService implements ResultProcessingServiceI {
 
 	private final FandubProps fanDubProps;
 
+	private final FandubSupportProps fandubSupportProps;
+
 	@Override
 	public Mono<ResultDto> getResult(InputDto inputDto) {
-		String cacheKey = buildCacheKey(inputDto);
-		return getCache().map(x -> x.get(cacheKey, ResultDto.class))
+		return getCache().map(x -> x.get(inputDto.getUsername(), ResultDto.class))
 				.map(Mono::just)
 				.orElse(Mono.just(inputDto)
 						.flatMap(malService::getUserWatchingTitles)
-						.flatMap(x -> buildResult(inputDto, x))
+						.flatMap(this::buildResult)
 						.defaultIfEmpty(FALLBACK_VALUE)
 						.onErrorReturn(FALLBACK_VALUE)
-						.doOnSuccess(x -> cacheResult(inputDto, x, cacheKey)));
+						.doOnSuccess(x -> cacheResult(inputDto, x)));
 	}
 
-	private Mono<ResultDto> buildResult(InputDto inputDto, MalServiceResponseDto malServiceResponseDto) {
+	private Mono<ResultDto> buildResult(MalServiceResponseDto malServiceResponseDto) {
 		Mono<ResultDto> result;
 		String malServiceErrorMessage = malServiceResponseDto.getErrorMessage();
-		if (StringUtils.isBlank(malServiceErrorMessage)) {
-			result = fandubTitlesService.getCommonTitles(inputDto.getFandubSources(), malServiceResponseDto.getMalTitles())
+		if (StringUtils.isBlank(malServiceErrorMessage) && CollectionUtils.isNotEmpty(malServiceResponseDto.getMalTitles())) {
+			result = fandubTitlesService.getCommonTitles(getEnabledFandubSources(), malServiceResponseDto.getMalTitles())
 					.map(y -> buildResult(y, malServiceResponseDto.getMalTitles()));
 		} else {
-			result = Mono.just(new ResultDto(malServiceErrorMessage));
+			result = Mono.just(
+					StringUtils.isBlank(malServiceErrorMessage) ? FALLBACK_VALUE : new ResultDto(malServiceErrorMessage));
 		}
 		return result;
 	}
 
+	private Set<FandubSource> getEnabledFandubSources() {
+		return fandubSupportProps.getEnabled();
+	}
+
 	private ResultDto buildResult(Map<Integer, Map<FandubSource, List<CommonTitle>>> malIdToMatchedCommonTitlesByFandubSource,
 			List<MalTitle> malTitles) {
-		ResultDto result = new ResultDto();
+		ResultDto result = new ResultDto(getEnabledFandubSources());
 		Map<Integer, MalTitle> malIdToMalTitle = malTitles.stream()
 				.collect(Collectors.toMap(MalTitle::getId, Function.identity()));
 		for (Entry<Integer, Map<FandubSource, List<CommonTitle>>> entry : malIdToMatchedCommonTitlesByFandubSource.entrySet()) {
@@ -123,18 +130,13 @@ public class ResultProcessingService implements ResultProcessingServiceI {
 				.map(x -> Pair.of(x.getName(), fandubUrl + x.getUrl()));
 	}
 
-	private void cacheResult(InputDto inputDto, ResultDto result, String cacheKey) {
-		log.info("Titles [{}], Error Message [{}] for [{}] with {}.", result.getTitles().size(), result.getErrorMessage(),
-				inputDto.getUsername(), inputDto.getFandubSources());
-		if (!StringUtils.equals(BaseConstants.GENERIC_ERROR_MESSAGE, result.getErrorMessage())) {
-			getCache().ifPresent(x -> x.put(cacheKey, result));
+	private void cacheResult(InputDto inputDto, ResultDto result) {
+		String username = inputDto.getUsername();
+		String errorMessage = result.getErrorMessage();
+		log.info("Titles [{}], Error Message [{}] for [{}].", result.getTitles().size(), errorMessage, username);
+		if (!StringUtils.equals(BaseConstants.GENERIC_ERROR_MESSAGE, errorMessage)) {
+			getCache().ifPresent(x -> x.put(username, result));
 		}
-	}
-
-	private String buildCacheKey(InputDto inputDto) {
-		StringJoiner stringJoiner = new StringJoiner(",", inputDto.getUsername() + ":", "");
-		inputDto.getFandubSources().forEach(x -> stringJoiner.add(x.name()));
-		return stringJoiner.toString();
 	}
 
 	private Optional<Cache> getCache() {

@@ -1,7 +1,7 @@
 package nasirov.yv.service.impl;
 
-import static nasirov.yv.utils.CommonTitleTestFactory.ANIDUB_EPISODE_NAME;
-import static nasirov.yv.utils.CommonTitleTestFactory.REGULAR_TITLE_ANIDUB_URL;
+import static nasirov.yv.utils.CommonTitleTestFactory.ANILIBRIA_EPISODE_NAME;
+import static nasirov.yv.utils.CommonTitleTestFactory.REGULAR_TITLE_ANILIBRIA_URL;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
@@ -30,7 +30,6 @@ import nasirov.yv.fandub.service.spring.boot.starter.dto.mal_service.MalServiceR
 import nasirov.yv.util.MalUtils;
 import nasirov.yv.utils.CommonTitleTestFactory;
 import nasirov.yv.utils.MalTitleTestFactory;
-import org.apache.commons.lang3.StringUtils;
 import org.junit.jupiter.api.Test;
 import org.springframework.cache.Cache;
 import reactor.core.publisher.Mono;
@@ -44,7 +43,7 @@ class ResultProcessingServiceTest extends AbstractTest {
 	void shouldReturnAllKindsOfTitles() {
 		//given
 		InputDto inputDto = buildInputDto();
-		Set<FandubSource> fandubSources = inputDto.getFandubSources();
+		Set<FandubSource> fandubSources = getEnabledFandubSources();
 		MalTitle regularTitle = MalTitleTestFactory.buildRegularMalTitle();
 		MalTitle concretizedTitle = MalTitleTestFactory.buildConcretizedMalTitle();
 		MalTitle notFoundOnFandubTitle = MalTitleTestFactory.buildNotFoundOnFandubMalTitle();
@@ -60,12 +59,13 @@ class ResultProcessingServiceTest extends AbstractTest {
 		//when
 		Mono<ResultDto> result = resultProcessingService.getResult(inputDto);
 		//then
-		String cacheKey = MAL_USERNAME + buildCacheKeyForUser();
+		String cacheKey = buildCacheKeyForUser();
 		Cache resultCache = cacheManager.getCache(cacheProps.getResult().getName());
 		assertNotNull(resultCache);
 		ResultDto resultDto = result.block();
 		assertNotNull(resultDto);
-		assertEquals(StringUtils.EMPTY, resultDto.getErrorMessage());
+		assertTrue(resultDto.getErrorMessage().isEmpty());
+		assertEquals(getEnabledFandubSources(), resultDto.getFandubSources());
 		List<TitleDto> titles = resultDto.getTitles();
 		assertEquals(3, titles.size());
 		checkTitle(titles.get(0), TitleType.AVAILABLE, regularTitle);
@@ -89,13 +89,36 @@ class ResultProcessingServiceTest extends AbstractTest {
 		//when
 		Mono<ResultDto> result = resultProcessingService.getResult(inputDto);
 		//then
-		String cacheKey = MAL_USERNAME + buildCacheKeyForUser();
+		String cacheKey = buildCacheKeyForUser();
 		Cache resultCache = cacheManager.getCache(cacheProps.getResult().getName());
 		assertNotNull(resultCache);
 		ResultDto resultDto = result.block();
 		assertNotNull(resultDto);
+		assertEquals(errorMessage, resultDto.getErrorMessage());
+		assertTrue(resultDto.getFandubSources().isEmpty());
 		assertTrue(resultDto.getTitles().isEmpty());
 		assertEquals(resultDto, resultCache.get(cacheKey, ResultDto.class));
+	}
+
+	@Test
+	void shouldReturnFallbackValueBecauseMalServiceReturnEmptyListAndNoError() {
+		//given
+		InputDto inputDto = buildInputDto();
+		String errorMessage = "";
+		MalServiceResponseDto malServiceResponseDto = buildMalServiceResponseDto(Lists.newArrayList(), errorMessage);
+		mockExternalMalServiceResponse(malServiceResponseDto);
+		//when
+		Mono<ResultDto> result = resultProcessingService.getResult(inputDto);
+		//then
+		String cacheKey = buildCacheKeyForUser();
+		Cache resultCache = cacheManager.getCache(cacheProps.getResult().getName());
+		assertNotNull(resultCache);
+		ResultDto resultDto = result.block();
+		assertNotNull(resultDto);
+		assertEquals(BaseConstants.GENERIC_ERROR_MESSAGE, resultDto.getErrorMessage());
+		assertTrue(resultDto.getFandubSources().isEmpty());
+		assertTrue(resultDto.getTitles().isEmpty());
+		assertNull(resultCache.get(cacheKey));
 	}
 
 	@Test
@@ -106,12 +129,13 @@ class ResultProcessingServiceTest extends AbstractTest {
 		//when
 		Mono<ResultDto> result = resultProcessingService.getResult(inputDto);
 		//then
-		String cacheKey = MAL_USERNAME + buildCacheKeyForUser();
+		String cacheKey = buildCacheKeyForUser();
 		Cache resultCache = cacheManager.getCache(cacheProps.getResult().getName());
 		assertNotNull(resultCache);
 		ResultDto resultDto = result.block();
 		assertNotNull(resultDto);
 		assertEquals(BaseConstants.GENERIC_ERROR_MESSAGE, resultDto.getErrorMessage());
+		assertTrue(resultDto.getFandubSources().isEmpty());
 		assertTrue(resultDto.getTitles().isEmpty());
 		assertNull(resultCache.get(cacheKey));
 	}
@@ -127,12 +151,13 @@ class ResultProcessingServiceTest extends AbstractTest {
 		//when
 		Mono<ResultDto> result = resultProcessingService.getResult(inputDto);
 		//then
-		String cacheKey = MAL_USERNAME + buildCacheKeyForUser();
+		String cacheKey = buildCacheKeyForUser();
 		Cache resultCache = cacheManager.getCache(cacheProps.getResult().getName());
 		assertNotNull(resultCache);
 		ResultDto resultDto = result.block();
 		assertNotNull(resultDto);
 		assertEquals(BaseConstants.GENERIC_ERROR_MESSAGE, resultDto.getErrorMessage());
+		assertTrue(resultDto.getFandubSources().isEmpty());
 		assertTrue(resultDto.getTitles().isEmpty());
 		assertNull(resultCache.get(cacheKey));
 	}
@@ -177,7 +202,7 @@ class ResultProcessingServiceTest extends AbstractTest {
 		Map<FandubSource, String> result = new LinkedHashMap<>();
 		Map<FandubSource, String> fandubUrls = fandubProps.getUrls();
 		if (titleType == TitleType.AVAILABLE) {
-			result.put(FandubSource.ANIDUB, fandubUrls.get(FandubSource.ANIDUB) + REGULAR_TITLE_ANIDUB_URL);
+			result.put(FandubSource.ANILIBRIA, fandubUrls.get(FandubSource.ANILIBRIA) + REGULAR_TITLE_ANILIBRIA_URL);
 		}
 		return result;
 	}
@@ -185,7 +210,7 @@ class ResultProcessingServiceTest extends AbstractTest {
 	private Map<FandubSource, String> buildFandubEpisodesNames(TitleType titleType) {
 		Map<FandubSource, String> result = new LinkedHashMap<>();
 		if (titleType == TitleType.AVAILABLE) {
-			result.put(FandubSource.ANIDUB, ANIDUB_EPISODE_NAME);
+			result.put(FandubSource.ANILIBRIA, ANILIBRIA_EPISODE_NAME);
 		}
 		return result;
 	}

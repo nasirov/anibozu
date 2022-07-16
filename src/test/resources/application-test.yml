@@ -1,6 +1,6 @@
 application:
   fandub-support:
-    disabled-fandub:
+    enabled: ANIDUB,ANILIBRIA,SHIZAPROJECT
   external-services:
     fandub-titles-service-basic-auth: Basic foobar
     mal-service-basic-auth: Basic foobar

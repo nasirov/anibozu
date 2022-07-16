@@ -13,7 +13,7 @@
   <input id="fandubList" type="hidden" value="${fandubList}"/>
   <input id="titles" type="hidden" value="${titles}"/>
   <header class="result__header">
-    <h1 id="status">Result for ${username}</h1>
+    <h1 id="status">${username}'s currently watching titles</h1>
   </header>
   <section id="titles-section" class="titles"></section>
 </div>

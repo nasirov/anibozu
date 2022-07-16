@@ -37,13 +37,10 @@ class ResultViewControllerTest extends AbstractTest {
 
 	private static final String RESULT_VIEW_PATH = "/result";
 
-	private static final String[] VALID_FANDUB_SOURCES = {"ANIDUB", "ANILIBRIA"};
-
 	@Test
 	void shouldReturnResultViewWithAllKindsOfTitles() {
 		//given
-		InputDto inputDto = buildInputDto();
-		Set<FandubSource> fandubSources = inputDto.getFandubSources();
+		Set<FandubSource> fandubSources = getEnabledFandubSources();
 		MalTitle regularTitle = MalTitleTestFactory.buildRegularMalTitle();
 		MalTitle concretizedTitle = MalTitleTestFactory.buildConcretizedMalTitle();
 		MalTitle notFoundOnFandubTitle = MalTitleTestFactory.buildNotFoundOnFandubMalTitle();
@@ -57,7 +54,7 @@ class ResultViewControllerTest extends AbstractTest {
 				CommonTitleTestFactory.buildNotFoundOnFandubCommonTitles(fandubSources));
 		mockExternalFandubTitlesServiceResponse(orderedMalTitles);
 		//when
-		ResponseSpec result = call(MAL_USERNAME, Collections.emptyMap(), VALID_FANDUB_SOURCES);
+		ResponseSpec result = call(MAL_USERNAME, Collections.emptyMap());
 		//then
 		result.expectStatus()
 				.isEqualTo(HttpStatus.OK)
@@ -71,22 +68,7 @@ class ResultViewControllerTest extends AbstractTest {
 		String[] invalidUsernameArray = {"", "moreThan16Charssss", "space between ", "@#!sd"};
 		//when
 		List<ResponseSpec> result = Arrays.stream(invalidUsernameArray)
-				.map(x -> call(x, Collections.singletonMap(HttpHeaders.ACCEPT, MediaType.TEXT_HTML_VALUE), VALID_FANDUB_SOURCES))
-				.collect(Collectors.toList());
-		//then
-		result.forEach(x -> x.expectStatus()
-				.isEqualTo(HttpStatus.BAD_REQUEST)
-				.expectBody(String.class)
-				.isEqualTo(IOUtils.readFromFile("classpath:view/test-4xx-error-view.html")));
-	}
-
-	@Test
-	void shouldReturn400ForInvalidFandubSources() {
-		//given
-		String[] invalidFandubSourceArray = {"animedia", "nineanime", ""};
-		//when
-		List<ResponseSpec> result = Arrays.stream(invalidFandubSourceArray)
-				.map(x -> call(MAL_USERNAME, Collections.singletonMap(HttpHeaders.ACCEPT, MediaType.TEXT_HTML_VALUE), x))
+				.map(x -> call(x, Collections.singletonMap(HttpHeaders.ACCEPT, MediaType.TEXT_HTML_VALUE)))
 				.collect(Collectors.toList());
 		//then
 		result.forEach(x -> x.expectStatus()
@@ -101,7 +83,7 @@ class ResultViewControllerTest extends AbstractTest {
 		String errorMsg = "Foo Bar";
 		mockExternalMalServiceResponse(buildMalServiceResponseDto(Collections.emptyList(), errorMsg));
 		//when
-		ResponseSpec result = call(MAL_USERNAME, Collections.emptyMap(), VALID_FANDUB_SOURCES);
+		ResponseSpec result = call(MAL_USERNAME, Collections.emptyMap());
 		//then
 		result.expectStatus()
 				.isEqualTo(HttpStatus.OK)
@@ -126,8 +108,7 @@ class ResultViewControllerTest extends AbstractTest {
 		//given
 		mockTitlesServiceException();
 		//when
-		ResponseSpec result = call(MAL_USERNAME, Collections.singletonMap(HttpHeaders.ACCEPT, MediaType.TEXT_HTML_VALUE),
-				VALID_FANDUB_SOURCES);
+		ResponseSpec result = call(MAL_USERNAME, Collections.singletonMap(HttpHeaders.ACCEPT, MediaType.TEXT_HTML_VALUE));
 		//then
 		result.expectStatus()
 				.isEqualTo(HttpStatus.INTERNAL_SERVER_ERROR)
@@ -135,12 +116,9 @@ class ResultViewControllerTest extends AbstractTest {
 				.isEqualTo(IOUtils.readFromFile("classpath:view/test-5xx-error-view.html"));
 	}
 
-	private ResponseSpec call(String username, Map<String, String> headers, String... fandubSources) {
+	private ResponseSpec call(String username, Map<String, String> headers) {
 		RequestHeadersSpec<?> spec = webTestClient.get()
-				.uri(x -> x.path(RESULT_VIEW_PATH)
-						.queryParam("username", username)
-						.queryParam("fandubSources", fandubSources)
-						.build());
+				.uri(x -> x.path(RESULT_VIEW_PATH).queryParam("username", username).build());
 		headers.forEach(spec::header);
 		return spec.exchange();
 	}
