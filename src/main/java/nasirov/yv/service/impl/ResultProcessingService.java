@@ -1,10 +1,5 @@
 package nasirov.yv.service.impl;
 
-import static nasirov.yv.data.constants.BaseConstants.NOT_AVAILABLE_EPISODE_NAME_AND_URL;
-import static nasirov.yv.data.constants.BaseConstants.NOT_AVAILABLE_EPISODE_URL;
-import static nasirov.yv.data.constants.BaseConstants.TITLE_NOT_FOUND_EPISODE_NAME_AND_URL;
-import static nasirov.yv.data.constants.BaseConstants.TITLE_NOT_FOUND_EPISODE_URL;
-
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -90,16 +85,7 @@ public class ResultProcessingService implements ResultProcessingServiceI {
 				.collect(Collectors.toMap(MalTitle::getId, Function.identity()));
 		for (Entry<Integer, Map<FandubSource, List<CommonTitle>>> entry : malIdToMatchedCommonTitlesByFandubSource.entrySet()) {
 			TitleDto titleDto = buildTitle(malIdToMalTitle.get(entry.getKey()), entry.getValue());
-			switch (titleDto.getType()) {
-				case AVAILABLE:
-					result.getAvailableTitles().add(titleDto);
-					break;
-				case NOT_AVAILABLE:
-					result.getNotAvailableTitles().add(titleDto);
-					break;
-				default:
-					result.getNotFoundTitles().add(titleDto);
-			}
+			result.getTitles().add(titleDto);
 		}
 		return result;
 	}
@@ -111,53 +97,35 @@ public class ResultProcessingService implements ResultProcessingServiceI {
 				.episodeNumberOnMal(nextEpisodeForWatch.toString())
 				.posterUrlOnMal(watchingTitle.getPosterUrl())
 				.animeUrlOnMal(watchingTitle.getAnimeUrl());
-		TitleType titleType = TitleType.NOT_FOUND;
+		TitleType titleType = TitleType.NOT_AVAILABLE;
 		for (Entry<FandubSource, List<CommonTitle>> entry : commonTitlesByFandubSource.entrySet()) {
 			FandubSource fandubSource = entry.getKey();
-			Pair<String, String> result = Optional.of(entry.getValue())
+			Optional<Pair<String, String>> result = Optional.of(entry.getValue())
 					.filter(CollectionUtils::isNotEmpty)
-					.map(x -> buildNameAndUrlPair(nextEpisodeForWatch, x, fanDubProps.getUrls().get(fandubSource)))
-					.orElse(TITLE_NOT_FOUND_EPISODE_NAME_AND_URL);
-			String url = result.getValue();
-			titleDtoBuilder.fandubToUrl(fandubSource, url);
-			titleDtoBuilder.fandubToEpisodeName(fandubSource, result.getKey());
-			titleType = determineTitleType(titleType, url);
+					.flatMap(x -> buildNameAndUrlPair(nextEpisodeForWatch, x, fanDubProps.getUrls().get(fandubSource)));
+			if (result.isPresent()) {
+				Pair<String, String> episodeNameToUrl = result.get();
+				titleDtoBuilder.fandubToEpisodeName(fandubSource, episodeNameToUrl.getKey());
+				titleDtoBuilder.fandubToUrl(fandubSource, episodeNameToUrl.getValue());
+				titleType = TitleType.AVAILABLE;
+			}
 		}
 		return titleDtoBuilder.type(titleType).build();
 	}
 
-	private TitleType determineTitleType(TitleType bestCurrentType, String url) {
-		if (isAvailable(url)) {
-			bestCurrentType = TitleType.AVAILABLE;
-		} else if (TitleType.AVAILABLE != bestCurrentType && isNotAvailable(url)) {
-			bestCurrentType = TitleType.NOT_AVAILABLE;
-		}
-		return bestCurrentType;
-	}
-
-	private Pair<String, String> buildNameAndUrlPair(Integer nextEpisodeForWatch, List<CommonTitle> matchedTitles,
+	private Optional<Pair<String, String>> buildNameAndUrlPair(Integer nextEpisodeForWatch, List<CommonTitle> matchedTitles,
 			String fandubUrl) {
 		return matchedTitles.stream()
 				.map(CommonTitle::getEpisodes)
 				.flatMap(List::stream)
 				.filter(x -> nextEpisodeForWatch.equals(x.getMalEpisodeId()))
 				.findFirst()
-				.map(x -> Pair.of(x.getName(), fandubUrl + x.getUrl()))
-				.orElse(NOT_AVAILABLE_EPISODE_NAME_AND_URL);
-	}
-
-	private boolean isAvailable(String url) {
-		return !NOT_AVAILABLE_EPISODE_URL.equals(url) && !TITLE_NOT_FOUND_EPISODE_URL.equals(url);
-	}
-
-	private boolean isNotAvailable(String url) {
-		return NOT_AVAILABLE_EPISODE_URL.equals(url);
+				.map(x -> Pair.of(x.getName(), fandubUrl + x.getUrl()));
 	}
 
 	private void cacheResult(InputDto inputDto, ResultDto result, String cacheKey) {
-		log.info("Available [{}], Not Available [{}], Not Found [{}], Error Message [{}] for [{}] with {}.",
-				result.getAvailableTitles().size(), result.getNotAvailableTitles().size(), result.getNotFoundTitles().size(),
-				result.getErrorMessage(), inputDto.getUsername(), inputDto.getFandubSources());
+		log.info("Titles [{}], Error Message [{}] for [{}] with {}.", result.getTitles().size(), result.getErrorMessage(),
+				inputDto.getUsername(), inputDto.getFandubSources());
 		if (!StringUtils.equals(BaseConstants.GENERIC_ERROR_MESSAGE, result.getErrorMessage())) {
 			getCache().ifPresent(x -> x.put(cacheKey, result));
 		}

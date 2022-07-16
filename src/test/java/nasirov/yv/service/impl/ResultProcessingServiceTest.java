@@ -66,15 +66,11 @@ class ResultProcessingServiceTest extends AbstractTest {
 		ResultDto resultDto = result.block();
 		assertNotNull(resultDto);
 		assertEquals(StringUtils.EMPTY, resultDto.getErrorMessage());
-		List<TitleDto> available = resultDto.getAvailableTitles();
-		List<TitleDto> notAvailable = resultDto.getNotAvailableTitles();
-		List<TitleDto> notFound = resultDto.getNotFoundTitles();
-		assertEquals(1, available.size());
-		assertEquals(1, notAvailable.size());
-		assertEquals(1, notFound.size());
-		checkTitle(available.get(0), TitleType.AVAILABLE, regularTitle);
-		checkTitle(notAvailable.get(0), TitleType.NOT_AVAILABLE, concretizedTitle);
-		checkTitle(notFound.get(0), TitleType.NOT_FOUND, notFoundOnFandubTitle);
+		List<TitleDto> titles = resultDto.getTitles();
+		assertEquals(3, titles.size());
+		checkTitle(titles.get(0), TitleType.AVAILABLE, regularTitle);
+		checkTitle(titles.get(1), TitleType.NOT_AVAILABLE, concretizedTitle);
+		checkTitle(titles.get(2), TitleType.NOT_AVAILABLE, notFoundOnFandubTitle);
 		ResultDto cachedResult = resultCache.get(cacheKey, ResultDto.class);
 		assertEquals(resultDto, cachedResult);
 		assertEquals(cachedResult, resultProcessingService.getResult(inputDto).block());
@@ -98,9 +94,7 @@ class ResultProcessingServiceTest extends AbstractTest {
 		assertNotNull(resultCache);
 		ResultDto resultDto = result.block();
 		assertNotNull(resultDto);
-		assertTrue(resultDto.getAvailableTitles().isEmpty());
-		assertTrue(resultDto.getNotAvailableTitles().isEmpty());
-		assertTrue(resultDto.getNotAvailableTitles().isEmpty());
+		assertTrue(resultDto.getTitles().isEmpty());
 		assertEquals(resultDto, resultCache.get(cacheKey, ResultDto.class));
 	}
 
@@ -118,9 +112,7 @@ class ResultProcessingServiceTest extends AbstractTest {
 		ResultDto resultDto = result.block();
 		assertNotNull(resultDto);
 		assertEquals(BaseConstants.GENERIC_ERROR_MESSAGE, resultDto.getErrorMessage());
-		assertTrue(resultDto.getAvailableTitles().isEmpty());
-		assertTrue(resultDto.getNotAvailableTitles().isEmpty());
-		assertTrue(resultDto.getNotAvailableTitles().isEmpty());
+		assertTrue(resultDto.getTitles().isEmpty());
 		assertNull(resultCache.get(cacheKey));
 	}
 
@@ -141,9 +133,7 @@ class ResultProcessingServiceTest extends AbstractTest {
 		ResultDto resultDto = result.block();
 		assertNotNull(resultDto);
 		assertEquals(BaseConstants.GENERIC_ERROR_MESSAGE, resultDto.getErrorMessage());
-		assertTrue(resultDto.getAvailableTitles().isEmpty());
-		assertTrue(resultDto.getNotAvailableTitles().isEmpty());
-		assertTrue(resultDto.getNotAvailableTitles().isEmpty());
+		assertTrue(resultDto.getTitles().isEmpty());
 		assertNull(resultCache.get(cacheKey));
 	}
 
@@ -186,44 +176,16 @@ class ResultProcessingServiceTest extends AbstractTest {
 	private Map<FandubSource, String> buildFandubUrls(TitleType titleType) {
 		Map<FandubSource, String> result = new LinkedHashMap<>();
 		Map<FandubSource, String> fandubUrls = fandubProps.getUrls();
-		switch (titleType) {
-			case AVAILABLE:
-				result.put(FandubSource.ANILIBRIA, BaseConstants.NOT_AVAILABLE_EPISODE_URL);
-				result.put(FandubSource.ANIDUB, fandubUrls.get(FandubSource.ANIDUB) + REGULAR_TITLE_ANIDUB_URL);
-				result.put(FandubSource.SHIZAPROJECT, BaseConstants.TITLE_NOT_FOUND_EPISODE_URL);
-				break;
-			case NOT_AVAILABLE:
-				result.put(FandubSource.ANILIBRIA, BaseConstants.TITLE_NOT_FOUND_EPISODE_URL);
-				result.put(FandubSource.ANIDUB, BaseConstants.NOT_AVAILABLE_EPISODE_URL);
-				result.put(FandubSource.SHIZAPROJECT, BaseConstants.TITLE_NOT_FOUND_EPISODE_URL);
-				break;
-			case NOT_FOUND:
-				result.put(FandubSource.ANILIBRIA, BaseConstants.TITLE_NOT_FOUND_EPISODE_URL);
-				result.put(FandubSource.ANIDUB, BaseConstants.TITLE_NOT_FOUND_EPISODE_URL);
-				result.put(FandubSource.SHIZAPROJECT, BaseConstants.TITLE_NOT_FOUND_EPISODE_URL);
-				break;
+		if (titleType == TitleType.AVAILABLE) {
+			result.put(FandubSource.ANIDUB, fandubUrls.get(FandubSource.ANIDUB) + REGULAR_TITLE_ANIDUB_URL);
 		}
 		return result;
 	}
 
 	private Map<FandubSource, String> buildFandubEpisodesNames(TitleType titleType) {
 		Map<FandubSource, String> result = new LinkedHashMap<>();
-		switch (titleType) {
-			case AVAILABLE:
-				result.put(FandubSource.ANILIBRIA, BaseConstants.NOT_AVAILABLE_EPISODE_NAME);
-				result.put(FandubSource.ANIDUB, ANIDUB_EPISODE_NAME);
-				result.put(FandubSource.SHIZAPROJECT, BaseConstants.TITLE_NOT_FOUND_EPISODE_NAME);
-				break;
-			case NOT_AVAILABLE:
-				result.put(FandubSource.ANILIBRIA, BaseConstants.TITLE_NOT_FOUND_EPISODE_NAME);
-				result.put(FandubSource.ANIDUB, BaseConstants.NOT_AVAILABLE_EPISODE_NAME);
-				result.put(FandubSource.SHIZAPROJECT, BaseConstants.TITLE_NOT_FOUND_EPISODE_NAME);
-				break;
-			case NOT_FOUND:
-				result.put(FandubSource.ANILIBRIA, BaseConstants.TITLE_NOT_FOUND_EPISODE_NAME);
-				result.put(FandubSource.ANIDUB, BaseConstants.TITLE_NOT_FOUND_EPISODE_NAME);
-				result.put(FandubSource.SHIZAPROJECT, BaseConstants.TITLE_NOT_FOUND_EPISODE_NAME);
-				break;
+		if (titleType == TitleType.AVAILABLE) {
+			result.put(FandubSource.ANIDUB, ANIDUB_EPISODE_NAME);
 		}
 		return result;
 	}

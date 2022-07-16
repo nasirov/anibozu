@@ -1,6 +1,7 @@
 package nasirov.yv.service.impl;
 
 import java.util.Collections;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -49,7 +50,7 @@ public class HttpRequestServiceDtoBuilder implements HttpRequestServiceDtoBuilde
 	public HttpRequestServiceDto<Map<Integer, Map<FandubSource, List<CommonTitle>>>> fandubTitlesService(
 			Set<FandubSource> fandubSources, List<MalTitle> watchingTitles) {
 		Map<Integer, Integer> malIdToEpisode = watchingTitles.stream()
-				.collect(Collectors.toMap(MalTitle::getId, MalUtils::getNextEpisodeForWatch));
+				.collect(Collectors.toMap(MalTitle::getId, MalUtils::getNextEpisodeForWatch, (o, n) -> o, LinkedHashMap::new));
 		return new HttpRequestServiceDto<>(externalServicesProps.getFandubTitlesServiceUrl() + "titles", HttpMethod.POST,
 				Collections.singletonMap(HttpHeaders.AUTHORIZATION, externalServicesProps.getFandubTitlesServiceBasicAuth()),
 				FandubTitlesServiceRequestDto.builder().fandubSources(fandubSources).malIdToEpisode(malIdToEpisode).build(),

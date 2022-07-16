@@ -11,9 +11,5 @@ public enum TitleType {
 	/**
 	 * New episode is not available
 	 */
-	NOT_AVAILABLE,
-	/**
-	 * Title is not found on Fandub sites
-	 */
-	NOT_FOUND
+	NOT_AVAILABLE
 }

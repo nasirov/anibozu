@@ -1,4 +1,4 @@
-#container, html, body {
+.container, html, body {
   width: 100%;
   height: 100%;
   position: fixed;
@@ -9,6 +9,11 @@
   align-content: center;
   justify-content: center;
   overflow: auto;
+}
+
+body {
+  color: rgb(247, 219, 167);
+  background-color: rgb(34, 40, 49);
 }
 
 .inner {
@@ -22,4 +27,28 @@
 
 .nes-container.is-centered > .nes-field > form > :not(:last-child) {
   margin-bottom: 0.5rem !important;
+}
+
+.is_centered {
+  text-align: center;
+}
+
+.nes-container:not(:last-child) {
+  margin-bottom: 1rem;
+}
+
+.width_full {
+  width: 100%;
+}
+
+.height_full {
+  height: 100%;
+}
+
+.font_x-small {
+  font-size: x-small;
+}
+
+.is_text_left {
+  text-align: left;
 }

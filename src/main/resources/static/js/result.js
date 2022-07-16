@@ -2,90 +2,39 @@
  * @author Nasirov Yuriy
  */
 $(document).ready(function () {
-  let fandubList = $('#fandubList').val();
-  let availableTitles = JSON.parse($('#availableTitles').val());
-  let notAvailableTitles = JSON.parse($('#notAvailableTitles').val());
-  let notFoundTitles = JSON.parse($('#notFoundTitles').val());
-  let header = $('header');
-  if (availableTitles.length > 0) {
-    addAfter(header, buildSection('available-section', 'Available'));
+  let titles = JSON.parse($('#titles').val());
+  if (titles.length > 0) {
     let i;
-    let fandubListArray = fandubList.split(',');
-    for (i in availableTitles) {
-      buildAvailable(availableTitles[i], fandubListArray);
+    let fandubListArray = $('#fandubList').val().split(',');
+    for (i in titles) {
+      let title = titles[i];
+      if ('AVAILABLE' === title.type) {
+        buildAvailable(title, fandubListArray);
+      } else {
+        buildNotAvailable(title);
+      }
     }
-  }
-  if (notAvailableTitles.length > 0) {
-    let availableSection = getAvailableSection();
-    let newNotAvailableSection = buildSection('not-available-section',
-        'Not Available');
-    if (sectionExists(availableSection)) {
-      addAfter(availableSection, newNotAvailableSection);
-    } else {
-      addAfter(header, newNotAvailableSection);
-    }
-    let i;
-    for (i in notAvailableTitles) {
-      buildNotAvailable(notAvailableTitles[i]);
-    }
-  }
-  if (notFoundTitles.length > 0) {
-    let newNotFoundSection = buildSection('not-found-section', 'Not'
-        + ' Found');
-    let availableSection = getAvailableSection();
-    let notAvailableSection = getNotAvailableSection();
-    if (sectionExists(notAvailableSection)) {
-      addAfter(notAvailableSection, newNotFoundSection);
-    } else if (sectionExists(availableSection)) {
-      addAfter(availableSection, newNotFoundSection);
-    } else {
-      addAfter(header, newNotFoundSection);
-    }
-    let i;
-    for (i in notFoundTitles) {
-      buildNotFound(notFoundTitles[i]);
-    }
-  }
-  if (sectionDoesNotExist(getAvailableSection()) && sectionDoesNotExist(
-      getNotAvailableSection()) && sectionDoesNotExist(getNotFoundSection())) {
+  } else {
     setStatus('Sorry, something went wrong. Please try again later.');
   }
 });
 
-function getAvailableSection() {
-  return $('#available-section');
-}
-
-function getNotAvailableSection() {
-  return $('#not-available-section');
-}
-
-function getNotFoundSection() {
-  return $('#not-found-section');
-}
-
-function sectionExists(section) {
-  return section[0] !== undefined;
-}
-
-function sectionDoesNotExist(section) {
-  return section[0] === undefined;
-}
-
-function addAfter(topElement, afterElement) {
-  topElement.after(afterElement);
+function getTitlesSection() {
+  return $('#titles-section');
 }
 
 function buildAvailable(titleDto, fandubList) {
-  let item = buildItem();
+  let animeTitle = buildAnimeTitle();
   let nameOnMal = titleDto.nameOnMal;
   let episodeNumberOnMal = titleDto.episodeNumberOnMal;
-  let img = buildImg(titleDto.posterUrlOnMal, nameOnMal,
+  let animeTitlePoster = buildAnimeTitlePoster(titleDto.posterUrlOnMal,
+      nameOnMal,
       nameOnMal + ' episode ' + episodeNumberOnMal);
   let malEpisodeOverlay = buildMalEpisodeOverlay(episodeNumberOnMal);
-  let overlayFullCover = buildOverlayFullCover();
-  let linkToMal = buildLink('full_cover', titleDto.animeUrlOnMal);
-  overlayFullCover.append(linkToMal);
+  let overlay = buildOverlay();
+  let malLink = buildLink('anime-title__overlay__mal_link',
+      titleDto.animeUrlOnMal);
+  overlay.append(malLink);
   let linkHolder = buildLinkHolder();
   let linksAmount = appendLinks(titleDto, linkHolder, fandubList);
   let fandubSlider = buildFandubSlider(titleDto);
@@ -93,109 +42,90 @@ function buildAvailable(titleDto, fandubList) {
     let leftSliderArrow = buildLeftSliderArrow();
     let rightSliderArrow = buildRightSliderArrow();
     fandubSlider.append(leftSliderArrow, linkHolder, rightSliderArrow);
-    overlayFullCover.append(fandubSlider);
+    overlay.append(fandubSlider);
   } else {
     fandubSlider.append(linkHolder);
-    overlayFullCover.append(fandubSlider);
+    overlay.append(fandubSlider);
   }
-  item.append(img, malEpisodeOverlay, overlayFullCover);
-  appendFandubEpisodes(titleDto, item, fandubList);
-  let availableSection = getAvailableSection();
-  availableSection.append(item);
+  animeTitle.append(animeTitlePoster, malEpisodeOverlay, overlay);
+  appendFandubEpisodes(titleDto, animeTitle, fandubList);
+  getTitlesSection().append(animeTitle);
 }
 
 function buildNotAvailable(titleDto) {
-  let item = buildItem();
-  let img = buildImg(titleDto.posterUrlOnMal, titleDto.nameOnMal,
+  let animeTitle = buildAnimeTitle();
+  let animeTitlePoster = buildAnimeTitlePoster(titleDto.posterUrlOnMal,
+      titleDto.nameOnMal,
       titleDto.nameOnMal);
-  let malEpisodeOverlay = buildMalEpisodeOverlay(titleDto.episodeNumberOnMal);
-  let overlayFullCover = buildOverlayFullCover();
-  let linkToMal = buildLink('full_cover', titleDto.animeUrlOnMal);
-  overlayFullCover.append(linkToMal);
-  item.append(img, malEpisodeOverlay, overlayFullCover);
-  let notAvailableSection = getNotAvailableSection();
-  notAvailableSection.append(item);
-}
-
-function buildNotFound(titleDto) {
-  let item = buildItem();
-  let img = buildImg(titleDto.posterUrlOnMal, titleDto.nameOnMal,
-      titleDto.nameOnMal);
-  let overlayFullCover = buildOverlayFullCover();
-  let linkToMal = buildLink('full_cover', titleDto.animeUrlOnMal);
-  overlayFullCover.append(linkToMal);
-  item.append(img, overlayFullCover);
-  let notFoundSection = getNotFoundSection();
-  notFoundSection.append(item);
+  let overlay = buildOverlay();
+  let malLink = buildLink('anime-title__overlay__mal_link',
+      titleDto.animeUrlOnMal);
+  overlay.append(malLink);
+  animeTitle.append(animeTitlePoster, overlay);
+  getTitlesSection().append(animeTitle);
 }
 
 function setStatus(message) {
   $('#status').text(message);
 }
 
-function buildSection(id, text) {
-  let section = $(
-      '<section class="nes-container with-title is-centered"></section>')
-  .attr('id', id);
-  let title = $('<p class="title"></p>').text(text);
-  section.append(title);
-  return section;
+function buildAnimeTitle() {
+  return $('<div class="anime-title"></div>');
 }
 
-function buildItem() {
-  return $('<div class="item"></div>');
-}
-
-function buildImg(src, alt, title) {
-  return $('<img class="width_full height_full" loading="lazy">')
+function buildAnimeTitlePoster(src, alt, title) {
+  return $('<img class="anime-title__poster" loading="lazy">')
   .attr('src', src)
   .attr('alt', alt)
   .attr('title', title);
 }
 
 function buildMalEpisodeOverlay(targetEpisode) {
-  let episodeOverlay = $('<div class="mal_episode_overlay"></div>');
-  let episodeSpan = $('<span></span>').text(targetEpisode);
-  episodeOverlay.append(episodeSpan, '<span>episode</span>');
+  let episodeOverlay = $(
+      '<div class="anime-title__mal_episode_overlay"></div>');
+  let episodeSpan = $(
+      '<span class="anime-title__mal_episode_overlay--block"></span>').text(
+      targetEpisode);
+  episodeOverlay.append(episodeSpan,
+      '<span class="anime-title__mal_episode_overlay--block">episode</span>');
   return episodeOverlay;
 }
 
-function appendFandubEpisodes(anime, item, fandubList) {
+function appendFandubEpisodes(titleDto, animeTitle, fandubList) {
   let i;
   for (i in fandubList) {
     let fandub = fandubList[i];
-    let fanDubUrl = anime.fandubToUrl[fandub];
-    let fanDubEpisodeName = anime.fandubToEpisodeName[fandub];
-    if (fanDubUrl.startsWith('http')) {
-      let id = buildFandubEpisodeOverlayId(anime, fandub);
+    let fanDubEpisodeName = titleDto.fandubToEpisodeName[fandub];
+    if (fanDubEpisodeName !== undefined) {
+      let id = buildFandubEpisodeOverlayId(titleDto, fandub);
       let fandubEpisodeOverlay = buildFandubEpisodeOverlay(fanDubEpisodeName,
           fandub, id);
-      item.append(fandubEpisodeOverlay);
+      animeTitle.append(fandubEpisodeOverlay);
     }
   }
 }
 
-function buildFandubEpisodeOverlayId(anime, fandub) {
-  return anime.nameOnMal.replace(/[^a-zA-Z\d_-]/g, '_') + '_' + fandub;
+function buildFandubEpisodeOverlayId(titleDto, fandub) {
+  return titleDto.nameOnMal.replace(/[^a-zA-Z\d_-]/g, '_') + '_' + fandub;
 }
 
-function buildFandubSliderId(anime) {
-  return anime.nameOnMal.replace(/[^a-zA-Z\d_-]/g, '_') + '_fandub_slider';
+function buildFandubSliderId(titleDto) {
+  return titleDto.nameOnMal.replace(/[^a-zA-Z\d_-]/g, '_') + '_fandub_slider';
 }
 
 function buildFandubEpisodeOverlay(targetEpisode, fandub, id) {
   return $('<div></div>').attr('class',
-      'fandub_episode_overlay is_disabled').attr(
+      'anime-title__fandub_episode_overlay is_disabled').attr(
       'fandub', fandub).attr('id', id).text(targetEpisode);
 }
 
-function buildOverlayFullCover() {
-  return $('<div class="overlay full_cover"></div>');
+function buildOverlay() {
+  return $('<div class="anime-title__overlay"></div>');
 }
 
-function buildFandubSlider(anime) {
-  return $('<div class="fandub_slider"></div>').attr('id',
-      buildFandubSliderId(anime));
+function buildFandubSlider(titleDto) {
+  return $('<div class="anime-title__fandub_slider"></div>').attr('id',
+      buildFandubSliderId(titleDto));
 }
 
 const SliderArrowDirection = {LEFT: 'left', RIGHT: 'right'};
@@ -210,11 +140,12 @@ function buildRightSliderArrow() {
 
 function buildSliderArrow(direction) {
   let container = $(
-      '<div id="arrow ' + direction + '" class="slider_arrow is_' + direction
-      + '_arrow"></div>');
+      '<div id="arrow ' + direction + '" '
+      + 'class="anime-title__fandub_slider__arrow'
+      + ' anime-title__fandub_slider__arrow--' + direction + '"></div>');
   container.mousedown(function () {
     let fandubLinks = this.parentNode.getElementsByClassName(
-        'link_holder')[0].children;
+        'anime-title__link_holder')[0].children;
     let fandubLinkToDisable;
     let fandubLinkToEnable;
     for (let i = getLoopCounter(direction, fandubLinks);
@@ -276,24 +207,25 @@ function modifyLoopCounter(direction, counter) {
 }
 
 function buildLinkHolder() {
-  return $('<div class="link_holder"></div>');
+  return $('<div class="anime-title__link_holder"></div>');
 }
 
-function appendLinks(anime, linkHolder, fandubList) {
+function appendLinks(titleDto, linkHolder, fandubList) {
   let i;
   let linksAmount = 0;
   for (i in fandubList) {
     let fandub = fandubList[i];
-    let fanDubUrl = anime.fandubToUrl[fandub];
-    if (fanDubUrl.startsWith('http')) {
+    let fanDubUrl = titleDto.fandubToUrl[fandub];
+    if (fanDubUrl !== undefined) {
       linksAmount++;
-      let targetClass = 'outbound_link ' + fandub + '_background';
+      let targetClass = 'anime-title__link_holder__link anime-title__link_holder__link--'
+          + fandub;
       if (linksAmount > 3) {
         targetClass += ' is_disabled';
       }
       let link = buildLink(targetClass, fanDubUrl);
       link.attr('fandub', fandub);
-      registerOutboundLinkEvents(link, fandub, anime);
+      registerLinkEvents(link, fandub, titleDto);
       linkHolder.append(link);
     }
   }
@@ -306,18 +238,18 @@ function buildLink(targetClass, href) {
   .attr('href', href);
 }
 
-function registerOutboundLinkEvents(outboundLink, fandub, anime) {
-  let id = buildFandubEpisodeOverlayId(anime, fandub);
-  outboundLink.mouseover(function () {
+function registerLinkEvents(link, fandub, titleDto) {
+  let id = buildFandubEpisodeOverlayId(titleDto, fandub);
+  link.mouseover(function () {
     changeFandubOverlayClass(fandub, id);
   });
-  outboundLink.mouseout(function () {
+  link.mouseout(function () {
     changeFandubOverlayClass(fandub, id);
   });
 }
 
 function changeFandubOverlayClass(fandub, id) {
   let fandubEpisodeOverlay = $(
-      '[fandub="' + fandub + '"].fandub_episode_overlay#' + id);
+      '[fandub="' + fandub + '"].anime-title__fandub_episode_overlay#' + id);
   fandubEpisodeOverlay.toggleClass('is_disabled');
 }

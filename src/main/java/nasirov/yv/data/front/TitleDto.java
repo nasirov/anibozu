@@ -1,6 +1,5 @@
 package nasirov.yv.data.front;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.util.Map;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -18,7 +17,6 @@ import nasirov.yv.fandub.service.spring.boot.starter.constant.FandubSource;
 @AllArgsConstructor
 public class TitleDto {
 
-	@JsonIgnore
 	private TitleType type;
 
 	private String nameOnMal;

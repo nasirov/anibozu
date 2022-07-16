@@ -13,6 +13,7 @@ $(document).ready(function () {
       if (isValidUsername && isAtLeastOnFandubChecked) {
         addReadonlyAttr(usernameInputField);
         changeClasses(usernameInputField, true);
+        changeClasses(fanDubCheckboxes, true);
         changeClasses(submitButton, true);
         let submitButtonElement = submitButton[0];
         setScheduledLoadingMessages(submitButtonElement)

@@ -806,6 +806,22 @@ input[type=checkbox], input[type=radio] {
     box-shadow: inset -4px -4px #adafbc
 }
 
+.nes-btn.is-dark-alt {
+    border-image-source: url('data:image/svg+xml;utf8,<?xml version="1.0" encoding="UTF-8" ?><svg version="1.1" width="5" height="5" xmlns="http://www.w3.org/2000/svg"><path d="M2 1 h1 v1 h-1 z M1 2 h1 v1 h-1 z M3 2 h1 v1 h-1 z M2 3 h1 v1 h-1 z" fill="rgb(247,219,167)" /></svg>');
+}
+
+.nes-btn.is-primary.is-dark-alt {
+    color: rgb(247, 219, 167);
+}
+
+.nes-btn.is-error.is-dark-alt {
+    color: rgb(247, 219, 167);
+}
+
+.nes-btn.is-success.is-dark-alt {
+    color: rgb(247, 219, 167);
+}
+
 .nes-btn:focus, .nes-btn:hover {
     background-color: #e7e7e7
 }
@@ -991,6 +1007,25 @@ input[type=checkbox], input[type=radio] {
     z-index: -1;
     content: "";
     background-color: #212529
+}
+
+.nes-container.is-dark-alt {
+    position: relative;
+    margin: 4px;
+    color: rgb(247, 219, 167);
+    background-color: rgb(34, 40, 49);
+    border-color: rgb(247, 219, 167)
+}
+
+.nes-container.is-dark-alt::after {
+    position: absolute;
+    top: -7.2px;
+    right: -7.2px;
+    bottom: -7.2px;
+    left: -7.2px;
+    z-index: -1;
+    content: "";
+    background-color: rgb(34, 40, 49)
 }
 
 .nes-container.is-dark.with-title > .title {
@@ -1411,6 +1446,13 @@ input[type=checkbox], input[type=radio] {
     background-color: #212529
 }
 
+.nes-input.is-dark-alt {
+    border-image-source: url('data:image/svg+xml;utf8,<?xml version="1.0" encoding="UTF-8" ?><svg version="1.1" width="5" height="5" xmlns="http://www.w3.org/2000/svg"><path d="M2 1 h1 v1 h-1 z M1 2 h1 v1 h-1 z M3 2 h1 v1 h-1 z M2 3 h1 v1 h-1 z" fill="rgb(247,219,167)" /></svg>');
+    outline-color: rgb(247, 219, 167);
+    color: rgb(247, 219, 167);
+    background-color: rgb(34, 40, 49)
+}
+
 .nes-input.is-success, .nes-textarea.is-success {
     border-image-source: url('data:image/svg+xml;utf8,<?xml version="1.0" encoding="UTF-8" ?><svg version="1.1" width="5" height="5" xmlns="http://www.w3.org/2000/svg"><path d="M2 1 h1 v1 h-1 z M1 2 h1 v1 h-1 z M3 2 h1 v1 h-1 z M2 3 h1 v1 h-1 z" fill="rgb(146,204,65)" /></svg>');
     outline-color: #76c442
@@ -1520,12 +1562,6 @@ input[type=checkbox], input[type=radio] {
     appearance: none
 }
 
-.nes-checkbox.is-success {
-}
-
-.nes-checkbox.is-error {
-}
-
 .nes-checkbox + span {
     position: relative;
     cursor: url('data:image/svg+xml,<?xml version="1.0" encoding="UTF-8" standalone="no"?><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd"><svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="32px" height="32px" viewBox="0 0 32 32" enable-background="new 0 0 32 32" xml:space="preserve">  <image id="image0" width="32" height="32" x="0" y="0"    href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAQAAADZc7J/AAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAAAmJLR0QA/4ePzL8AAAAHdElNRQfmBQ0INDc7xwLSAAAAiElEQVRIx+2VwQ7AIAhD22X//8vdZQdkSoiip3ExGobPWiYxCr0jEcaFxejXlwMIKJYJ/gLAncqSm5tbOUNgPSEANAuFBEnv23SqrBf0BVDy43ojKbV3UGBOA6eDT1Bn3KABQWZNUKlBrhsH2pT0QltgQof970J0/o0EAwrrxjME3Wz341gmeAAJixtHd0MpWAAAACV0RVh0ZGF0ZTpjcmVhdGUAMjAyMi0wNS0xM1QwODo1Mjo1NSswMDowMIdR06gAAAAldEVYdGRhdGU6bW9kaWZ5ADIwMjItMDUtMTNUMDg6NTI6NTUrMDA6MDD2DGsUAAAAAElFTkSuQmCC" /></svg>'), pointer
@@ -1623,6 +1659,111 @@ input[type=checkbox], input[type=radio] {
 @-moz-document url-prefix() {
     .nes-checkbox.is-dark:checked:focus + span::before {
         -webkit-box-shadow: 2px 2 px0 .020px, 4px 2 px0 .020px, 6px 2 px0 .020px, 8px 2 px0 .020px, 10px 2 px0 .020px, 12px 2 px0 .020px, 14px 2 px0 .020px, 18px 2 px0 .020px #fff, 20px 2 px0 .020px #fff, 2px 4 px0 .020px, 16px 4 px0 .020px #fff, 18px 4 px0 .020px #fff, 20px 4 px0 .020px #fff, 2px 6 px0 .020px #fff, 14px 6 px0 .020px #fff, 16px 6 px0 .020px #fff, 2px 8 px0 .020px #fff, 4px 8 px0 .020px #fff, 12px 8 px0 .020px #fff, 14px 8 px0 .020px #fff, 2px 10 px0 .020px, 4px 10 px0 .020px #fff, 6px 10 px0 .020px #fff, 10px 10 px0 .020px #fff, 12px 10 px0 .020px #fff, 16px 10 px0 .020px, 2px 12 px0 .020px, 6px 12 px0 .020px #fff, 8px 12 px0 .020px #fff, 10px 12 px0 .020px #fff, 16px 12 px0 .020px, 2px 14 px0 .020px, 8px 14 px0 .020px #fff, 16px 14 px0 .020px, 2px 16 px0 .020px, 4px 16 px0 .020px, 6px 16 px0 .020px, 8px 16 px0 .020px, 10px 16 px0 .020px, 12px 16 px0 .020px, 14px 16 px0 .020px, 16px 16 px0 .020px
+    }
+}
+
+.nes-checkbox.is-dark-alt + span {
+    color: rgb(247, 219, 167)
+}
+
+.nes-checkbox.is-dark-alt + span::before {
+    color: rgb(247, 219, 167)
+}
+
+.nes-checkbox.is-dark-alt:checked + span::before {
+    width: 2px;
+    height: 2px;
+    color: rgb(247, 219, 167);
+    box-shadow: 2px 2px, 4px 2px, 6px 2px, 8px 2px, 10px 2px, 12px 2px, 14px 2px, 18px 2px #f7dba7, 20px 2px #f7dba7, 2px 4px, 16px 4px #f7dba7, 18px 4px #f7dba7, 20px 4px #f7dba7, 2px 6px #f7dba7, 14px 6px #f7dba7, 16px 6px #f7dba7, 2px 8px #f7dba7, 4px 8px #f7dba7, 12px 8px #f7dba7, 14px 8px #f7dba7, 2px 10px, 4px 10px #f7dba7, 6px 10px #f7dba7, 10px 10px #f7dba7, 12px 10px #f7dba7, 16px 10px, 2px 12px, 6px 12px #f7dba7, 8px 12px #f7dba7, 10px 12px #f7dba7, 16px 12px, 2px 14px, 8px 14px #f7dba7, 16px 14px, 2px 16px, 4px 16px, 6px 16px, 8px 16px, 10px 16px, 12px 16px, 14px 16px, 16px 16px;
+    color: rgb(247, 219, 167)
+}
+
+@-moz-document url-prefix() {
+    .nes-checkbox.is-dark-alt:checked + span::before {
+        -webkit-box-shadow: 2px 2 px0 .020px, 4px 2 px0 .020px, 6px 2 px0 .020px, 8px 2 px0 .020px, 10px 2 px0 .020px, 12px 2 px0 .020px, 14px 2 px0 .020px, 18px 2 px0 .020px #f7dba7, 20px 2 px0 .020px #f7dba7, 2px 4 px0 .020px, 16px 4 px0 .020px #f7dba7, 18px 4 px0 .020px #f7dba7, 20px 4 px0 .020px #f7dba7, 2px 6 px0 .020px #f7dba7, 14px 6 px0 .020px #f7dba7, 16px 6 px0 .020px #f7dba7, 2px 8 px0 .020px #f7dba7, 4px 8 px0 .020px #f7dba7, 12px 8 px0 .020px #f7dba7, 14px 8 px0 .020px #f7dba7, 2px 10 px0 .020px, 4px 10 px0 .020px #f7dba7, 6px 10 px0 .020px #f7dba7, 10px 10 px0 .020px #f7dba7, 12px 10 px0 .020px #f7dba7, 16px 10 px0 .020px, 2px 12 px0 .020px, 6px 12 px0 .020px #f7dba7, 8px 12 px0 .020px #f7dba7, 10px 12 px0 .020px #f7dba7, 16px 12 px0 .020px, 2px 14 px0 .020px, 8px 14 px0 .020px #f7dba7, 16px 14 px0 .020px, 2px 16 px0 .020px, 4px 16 px0 .020px, 6px 16 px0 .020px, 8px 16 px0 .020px, 10px 16 px0 .020px, 12px 16 px0 .020px, 14px 16 px0 .020px, 16px 16 px0 .020px
+    }
+}
+
+.nes-checkbox.is-dark-alt:checked:focus + span::before {
+    width: 2px;
+    height: 2px;
+    color: rgb(247, 219, 167);
+    box-shadow: 2px 2px, 4px 2px, 6px 2px, 8px 2px, 10px 2px, 12px 2px, 14px 2px, 18px 2px #f7dba7, 20px 2px #f7dba7, 2px 4px, 16px 4px #f7dba7, 18px 4px #f7dba7, 20px 4px #f7dba7, 2px 6px #f7dba7, 14px 6px #f7dba7, 16px 6px #f7dba7, 2px 8px #f7dba7, 4px 8px #f7dba7, 12px 8px #f7dba7, 14px 8px #f7dba7, 2px 10px, 4px 10px #f7dba7, 6px 10px #f7dba7, 10px 10px #f7dba7, 12px 10px #f7dba7, 16px 10px, 2px 12px, 6px 12px #f7dba7, 8px 12px #f7dba7, 10px 12px #f7dba7, 16px 12px, 2px 14px, 8px 14px #f7dba7, 16px 14px, 2px 16px, 4px 16px, 6px 16px, 8px 16px, 10px 16px, 12px 16px, 14px 16px, 16px 16px;
+    color: rgb(247, 219, 167)
+}
+
+@-moz-document url-prefix() {
+    .nes-checkbox.is-dark-alt:checked:focus + span::before {
+        -webkit-box-shadow: 2px 2 px0 .020px, 4px 2 px0 .020px, 6px 2 px0 .020px, 8px 2 px0 .020px, 10px 2 px0 .020px, 12px 2 px0 .020px, 14px 2 px0 .020px, 18px 2 px0 .020px #f7dba7, 20px 2 px0 .020px #f7dba7, 2px 4 px0 .020px, 16px 4 px0 .020px #f7dba7, 18px 4 px0 .020px #f7dba7, 20px 4 px0 .020px #f7dba7, 2px 6 px0 .020px #f7dba7, 14px 6 px0 .020px #f7dba7, 16px 6 px0 .020px #f7dba7, 2px 8 px0 .020px #f7dba7, 4px 8 px0 .020px #f7dba7, 12px 8 px0 .020px #f7dba7, 14px 8 px0 .020px #f7dba7, 2px 10 px0 .020px, 4px 10 px0 .020px #f7dba7, 6px 10 px0 .020px #f7dba7, 10px 10 px0 .020px #f7dba7, 12px 10 px0 .020px #f7dba7, 16px 10 px0 .020px, 2px 12 px0 .020px, 6px 12 px0 .020px #f7dba7, 8px 12 px0 .020px #f7dba7, 10px 12 px0 .020px #f7dba7, 16px 12 px0 .020px, 2px 14 px0 .020px, 8px 14 px0 .020px #f7dba7, 16px 14 px0 .020px, 2px 16 px0 .020px, 4px 16 px0 .020px, 6px 16 px0 .020px, 8px 16 px0 .020px, 10px 16 px0 .020px, 12px 16 px0 .020px, 14px 16 px0 .020px, 16px 16 px0 .020px
+    }
+}
+
+.nes-checkbox.is-success + span {
+    color: inherit;
+}
+
+.nes-checkbox.is-success + span::before {
+    color: #76c442;
+}
+
+.nes-checkbox.is-success:checked + span::before {
+    width: 2px;
+    height: 2px;
+    color: #76c442;
+    box-shadow: 2px 2px, 4px 2px, 6px 2px, 8px 2px, 10px 2px, 12px 2px, 14px 2px, 18px 2px #76c442, 20px 2px #76c442, 2px 4px, 16px 4px #76c442, 18px 4px #76c442, 20px 4px #76c442, 2px 6px #76c442, 14px 6px #76c442, 16px 6px #76c442, 2px 8px #76c442, 4px 8px #76c442, 12px 8px #76c442, 14px 8px #76c442, 2px 10px, 4px 10px #76c442, 6px 10px #76c442, 10px 10px #76c442, 12px 10px #76c442, 16px 10px, 2px 12px, 6px 12px #76c442, 8px 12px #76c442, 10px 12px #76c442, 16px 12px, 2px 14px, 8px 14px #76c442, 16px 14px, 2px 16px, 4px 16px, 6px 16px, 8px 16px, 10px 16px, 12px 16px, 14px 16px, 16px 16px;
+}
+
+@-moz-document url-prefix() {
+    .nes-checkbox.is-success:checked + span::before {
+        -webkit-box-shadow: 2px 2 px0 .020px, 4px 2 px0 .020px, 6px 2 px0 .020px, 8px 2 px0 .020px, 10px 2 px0 .020px, 12px 2 px0 .020px, 14px 2 px0 .020px, 18px 2 px0 .020px #76c442, 20px 2 px0 .020px #76c442, 2px 4 px0 .020px, 16px 4 px0 .020px #76c442, 18px 4 px0 .020px #76c442, 20px 4 px0 .020px #76c442, 2px 6 px0 .020px #76c442, 14px 6 px0 .020px #76c442, 16px 6 px0 .020px #76c442, 2px 8 px0 .020px #76c442, 4px 8 px0 .020px #76c442, 12px 8 px0 .020px #76c442, 14px 8 px0 .020px #76c442, 2px 10 px0 .020px, 4px 10 px0 .020px #76c442, 6px 10 px0 .020px #76c442, 10px 10 px0 .020px #76c442, 12px 10 px0 .020px #76c442, 16px 10 px0 .020px, 2px 12 px0 .020px, 6px 12 px0 .020px #76c442, 8px 12 px0 .020px #76c442, 10px 12 px0 .020px #76c442, 16px 12 px0 .020px, 2px 14 px0 .020px, 8px 14 px0 .020px #76c442, 16px 14 px0 .020px, 2px 16 px0 .020px, 4px 16 px0 .020px, 6px 16 px0 .020px, 8px 16 px0 .020px, 10px 16 px0 .020px, 12px 16 px0 .020px, 14px 16 px0 .020px, 16px 16 px0 .020px
+    }
+}
+
+.nes-checkbox.is-success:checked:focus + span::before {
+    width: 2px;
+    height: 2px;
+    color: #76c442;
+    box-shadow: 2px 2px, 4px 2px, 6px 2px, 8px 2px, 10px 2px, 12px 2px, 14px 2px, 18px 2px #76c442, 20px 2px #76c442, 2px 4px, 16px 4px #76c442, 18px 4px #76c442, 20px 4px #76c442, 2px 6px #76c442, 14px 6px #76c442, 16px 6px #76c442, 2px 8px #76c442, 4px 8px #76c442, 12px 8px #76c442, 14px 8px #76c442, 2px 10px, 4px 10px #76c442, 6px 10px #76c442, 10px 10px #76c442, 12px 10px #76c442, 16px 10px, 2px 12px, 6px 12px #76c442, 8px 12px #76c442, 10px 12px #76c442, 16px 12px, 2px 14px, 8px 14px #76c442, 16px 14px, 2px 16px, 4px 16px, 6px 16px, 8px 16px, 10px 16px, 12px 16px, 14px 16px, 16px 16px;
+    color: #76c442
+}
+
+@-moz-document url-prefix() {
+    .nes-checkbox.is-success:checked:focus + span::before {
+        -webkit-box-shadow: 2px 2 px0 .020px, 4px 2 px0 .020px, 6px 2 px0 .020px, 8px 2 px0 .020px, 10px 2 px0 .020px, 12px 2 px0 .020px, 14px 2 px0 .020px, 18px 2 px0 .020px #76c442, 20px 2 px0 .020px #76c442, 2px 4 px0 .020px, 16px 4 px0 .020px #76c442, 18px 4 px0 .020px #76c442, 20px 4 px0 .020px #76c442, 2px 6 px0 .020px #76c442, 14px 6 px0 .020px #76c442, 16px 6 px0 .020px #76c442, 2px 8 px0 .020px #76c442, 4px 8 px0 .020px #76c442, 12px 8 px0 .020px #76c442, 14px 8 px0 .020px #76c442, 2px 10 px0 .020px, 4px 10 px0 .020px #76c442, 6px 10 px0 .020px #76c442, 10px 10 px0 .020px #76c442, 12px 10 px0 .020px #76c442, 16px 10 px0 .020px, 2px 12 px0 .020px, 6px 12 px0 .020px #76c442, 8px 12 px0 .020px #76c442, 10px 12 px0 .020px #76c442, 16px 12 px0 .020px, 2px 14 px0 .020px, 8px 14 px0 .020px #76c442, 16px 14 px0 .020px, 2px 16 px0 .020px, 4px 16 px0 .020px, 6px 16 px0 .020px, 8px 16 px0 .020px, 10px 16 px0 .020px, 12px 16 px0 .020px, 14px 16 px0 .020px, 16px 16 px0 .020px
+    }
+}
+
+.nes-checkbox.is-error + span {
+    color: inherit;
+}
+
+.nes-checkbox.is-error + span::before {
+    color: #ce372b;
+}
+
+.nes-checkbox.is-error:checked + span::before {
+    width: 2px;
+    height: 2px;
+    color: #ce372b;
+    box-shadow: 2px 2px, 4px 2px, 6px 2px, 8px 2px, 10px 2px, 12px 2px, 14px 2px, 18px 2px #ce372b, 20px 2px #ce372b, 2px 4px, 16px 4px #ce372b, 18px 4px #ce372b, 20px 4px #ce372b, 2px 6px #ce372b, 14px 6px #ce372b, 16px 6px #ce372b, 2px 8px #ce372b, 4px 8px #ce372b, 12px 8px #ce372b, 14px 8px #ce372b, 2px 10px, 4px 10px #ce372b, 6px 10px #ce372b, 10px 10px #ce372b, 12px 10px #ce372b, 16px 10px, 2px 12px, 6px 12px #ce372b, 8px 12px #ce372b, 10px 12px #ce372b, 16px 12px, 2px 14px, 8px 14px #ce372b, 16px 14px, 2px 16px, 4px 16px, 6px 16px, 8px 16px, 10px 16px, 12px 16px, 14px 16px, 16px 16px;
+}
+
+@-moz-document url-prefix() {
+    .nes-checkbox.is-error:checked + span::before {
+        -webkit-box-shadow: 2px 2 px0 .020px, 4px 2 px0 .020px, 6px 2 px0 .020px, 8px 2 px0 .020px, 10px 2 px0 .020px, 12px 2 px0 .020px, 14px 2 px0 .020px, 18px 2 px0 .020px #ce372b, 20px 2 px0 .020px #ce372b, 2px 4 px0 .020px, 16px 4 px0 .020px #ce372b, 18px 4 px0 .020px #ce372b, 20px 4 px0 .020px #ce372b, 2px 6 px0 .020px #ce372b, 14px 6 px0 .020px #ce372b, 16px 6 px0 .020px #ce372b, 2px 8 px0 .020px #ce372b, 4px 8 px0 .020px #ce372b, 12px 8 px0 .020px #ce372b, 14px 8 px0 .020px #ce372b, 2px 10 px0 .020px, 4px 10 px0 .020px #ce372b, 6px 10 px0 .020px #ce372b, 10px 10 px0 .020px #ce372b, 12px 10 px0 .020px #ce372b, 16px 10 px0 .020px, 2px 12 px0 .020px, 6px 12 px0 .020px #ce372b, 8px 12 px0 .020px #ce372b, 10px 12 px0 .020px #ce372b, 16px 12 px0 .020px, 2px 14 px0 .020px, 8px 14 px0 .020px #ce372b, 16px 14 px0 .020px, 2px 16 px0 .020px, 4px 16 px0 .020px, 6px 16 px0 .020px, 8px 16 px0 .020px, 10px 16 px0 .020px, 12px 16 px0 .020px, 14px 16 px0 .020px, 16px 16 px0 .020px
+    }
+}
+
+.nes-checkbox.is-error:checked:focus + span::before {
+    width: 2px;
+    height: 2px;
+    color: #ce372b;
+    box-shadow: 2px 2px, 4px 2px, 6px 2px, 8px 2px, 10px 2px, 12px 2px, 14px 2px, 18px 2px #ce372b, 20px 2px #ce372b, 2px 4px, 16px 4px #ce372b, 18px 4px #ce372b, 20px 4px #ce372b, 2px 6px #ce372b, 14px 6px #ce372b, 16px 6px #ce372b, 2px 8px #ce372b, 4px 8px #ce372b, 12px 8px #ce372b, 14px 8px #ce372b, 2px 10px, 4px 10px #ce372b, 6px 10px #ce372b, 10px 10px #ce372b, 12px 10px #ce372b, 16px 10px, 2px 12px, 6px 12px #ce372b, 8px 12px #ce372b, 10px 12px #ce372b, 16px 12px, 2px 14px, 8px 14px #ce372b, 16px 14px, 2px 16px, 4px 16px, 6px 16px, 8px 16px, 10px 16px, 12px 16px, 14px 16px, 16px 16px;
+}
+
+@-moz-document url-prefix() {
+    .nes-checkbox.is-error:checked:focus + span::before {
+        -webkit-box-shadow: 2px 2 px0 .020px, 4px 2 px0 .020px, 6px 2 px0 .020px, 8px 2 px0 .020px, 10px 2 px0 .020px, 12px 2 px0 .020px, 14px 2 px0 .020px, 18px 2 px0 .020px #ce372b, 20px 2 px0 .020px #ce372b, 2px 4 px0 .020px, 16px 4 px0 .020px #ce372b, 18px 4 px0 .020px #ce372b, 20px 4 px0 .020px #ce372b, 2px 6 px0 .020px #ce372b, 14px 6 px0 .020px #ce372b, 16px 6 px0 .020px #ce372b, 2px 8 px0 .020px #ce372b, 4px 8 px0 .020px #ce372b, 12px 8 px0 .020px #ce372b, 14px 8 px0 .020px #ce372b, 2px 10 px0 .020px, 4px 10 px0 .020px #ce372b, 6px 10 px0 .020px #ce372b, 10px 10 px0 .020px #ce372b, 12px 10 px0 .020px #ce372b, 16px 10 px0 .020px, 2px 12 px0 .020px, 6px 12 px0 .020px #ce372b, 8px 12 px0 .020px #ce372b, 10px 12 px0 .020px #ce372b, 16px 12 px0 .020px, 2px 14 px0 .020px, 8px 14 px0 .020px #ce372b, 16px 14 px0 .020px, 2px 16 px0 .020px, 4px 16 px0 .020px, 6px 16 px0 .020px, 8px 16 px0 .020px, 10px 16 px0 .020px, 12px 16 px0 .020px, 14px 16 px0 .020px, 16px 16 px0 .020px
     }
 }
 
