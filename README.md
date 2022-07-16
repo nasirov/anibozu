@@ -30,6 +30,5 @@ The application analyzes a user's watching titles list from **[MyAnimeList](http
 
 1. Open **[Anime Checker](https://anime-checker.herokuapp.com/)** via browser with enabled JavaScript
 2. Enter your **[MyAnimeList](https://myanimelist.net/)** username. **Your anime list must be public!**
-3. Choose at least one Fandub site
-4. Submit the form
-5. Wait several seconds for a result
+3. Submit the form
+4. Wait several seconds for a result
