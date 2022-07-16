@@ -4,6 +4,13 @@ on:
   push:
     branches:
       - master
+    paths-ignore:
+      - 'images/**'
+      - '**/.gitattributes'
+      - '**/.gitignore'
+      - '**/docker-compose.yml'
+      - '**/LICENSE'
+      - '**/README.md'
 
 env:
   HEROKU_USERNAME: ${{ secrets.HEROKU_USERNAME }}
