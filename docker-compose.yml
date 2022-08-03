@@ -5,17 +5,10 @@ services:
   anime-checker:
     image: registry.heroku.com/anime-checker/web
     container_name: anime-checker
-    restart: on-failure
+    restart: unless-stopped
     ports:
-      - 8080:8080
+      - "8080:8080"
     environment:
       PORT: 8080
       FTS_BASIC_AUTH: ${FTS_BASIC_AUTH}
       MS_BASIC_AUTH: ${MS_BASIC_AUTH}
-      SS_BASIC_AUTH: ${SS_BASIC_AUTH}
-      RABBITMQ_HOST: ${RABBITMQ_HOST}
-      RABBITMQ_USERNAME: ${RABBITMQ_USERNAME}
-      RABBITMQ_PASSWORD: ${RABBITMQ_PASSWORD}
-      RABBITMQ_HOST_2: ${RABBITMQ_HOST_2}
-      RABBITMQ_USERNAME_2: ${RABBITMQ_USERNAME_2}
-      RABBITMQ_PASSWORD_2: ${RABBITMQ_PASSWORD_2}

@@ -1,19 +1,10 @@
 /target/
-!.mvn/wrapper/maven-wrapper.ja
 
 ### IntelliJ IDEA ###
 .idea
 *.iws
 *.iml
 *.ipr
-
-### NetBeans ###
-/nbproject/private/
-/build/
-/nbbuild/
-/dist/
-/nbdist/
-/.nb-gradle/
 
 logs/
 /*.json

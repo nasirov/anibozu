@@ -22,11 +22,11 @@ import nasirov.yv.data.front.InputDto;
 import nasirov.yv.data.front.ResultDto;
 import nasirov.yv.data.front.TitleDto;
 import nasirov.yv.data.front.TitleType;
-import nasirov.yv.fandub.service.spring.boot.starter.constant.FandubSource;
-import nasirov.yv.fandub.service.spring.boot.starter.dto.fandub.common.CommonTitle;
-import nasirov.yv.fandub.service.spring.boot.starter.dto.mal.MalTitle;
-import nasirov.yv.fandub.service.spring.boot.starter.dto.mal.MalTitleWatchingStatus;
-import nasirov.yv.fandub.service.spring.boot.starter.dto.mal_service.MalServiceResponseDto;
+import nasirov.yv.starter.common.constant.FandubSource;
+import nasirov.yv.starter.common.dto.fandub.common.CommonTitle;
+import nasirov.yv.starter.common.dto.mal.MalTitle;
+import nasirov.yv.starter.common.dto.mal.MalTitleWatchingStatus;
+import nasirov.yv.starter.common.dto.mal_service.MalServiceResponseDto;
 import nasirov.yv.util.MalUtils;
 import nasirov.yv.utils.CommonTitleTestFactory;
 import nasirov.yv.utils.MalTitleTestFactory;
@@ -75,8 +75,10 @@ class ResultProcessingServiceTest extends AbstractTest {
 		assertEquals(resultDto, cachedResult);
 		assertEquals(cachedResult, resultProcessingService.getResult(inputDto).block());
 		verify(httpRequestService).performHttpRequest(argThat(x -> x.getUrl()
-				.equals(externalServicesProps.getMalServiceUrl() + "titles?username=" + MAL_USERNAME + "&status="
-						+ MalTitleWatchingStatus.WATCHING.name())));
+				.equals(
+						starterCommonProperties.getExternalServices().getMalServiceUrl() + "titles?username=" + MAL_USERNAME +
+								"&status="
+								+ MalTitleWatchingStatus.WATCHING.name())));
 	}
 
 	@Test
@@ -165,19 +167,21 @@ class ResultProcessingServiceTest extends AbstractTest {
 	private void mockExternalFandubTitlesServiceResponse(
 			Map<Integer, Map<FandubSource, List<CommonTitle>>> commonTitlesForMalTitles) {
 		doReturn(Mono.just(commonTitlesForMalTitles)).when(httpRequestService)
-				.performHttpRequest(argThat(x -> x.getUrl().equals(externalServicesProps.getFandubTitlesServiceUrl() + "titles")));
+				.performHttpRequest(argThat(
+						x -> x.getUrl().equals(starterCommonProperties.getExternalServices().getFandubTitlesServiceUrl() + "titles")));
 	}
 
 	private void mockExternalFandubTitlesServiceException() {
 		doThrow(new RuntimeException("foo bar cause")).when(httpRequestService)
-				.performHttpRequest(argThat(x -> x.getUrl().equals(externalServicesProps.getFandubTitlesServiceUrl() + "titles")));
+				.performHttpRequest(argThat(
+						x -> x.getUrl().equals(starterCommonProperties.getExternalServices().getFandubTitlesServiceUrl() + "titles")));
 	}
 
 	private void mockExternalMalServiceException() {
 		doThrow(new RuntimeException("foo bar cause")).when(httpRequestService)
 				.performHttpRequest(argThat(x -> x.getUrl()
-						.equals(externalServicesProps.getMalServiceUrl() + "titles?username=" + MAL_USERNAME + "&status="
-								+ MalTitleWatchingStatus.WATCHING.name())));
+						.equals(starterCommonProperties.getExternalServices().getMalServiceUrl() + "titles?username=" + MAL_USERNAME
+								+ "&status=" + MalTitleWatchingStatus.WATCHING.name())));
 	}
 
 	private void checkTitle(TitleDto actualTitle, TitleType expectedTitleType, MalTitle malTitle) {
@@ -200,7 +204,7 @@ class ResultProcessingServiceTest extends AbstractTest {
 
 	private Map<FandubSource, String> buildFandubUrls(TitleType titleType) {
 		Map<FandubSource, String> result = new LinkedHashMap<>();
-		Map<FandubSource, String> fandubUrls = fandubProps.getUrls();
+		Map<FandubSource, String> fandubUrls = starterCommonProperties.getFandub().getUrls();
 		if (titleType == TitleType.AVAILABLE) {
 			result.put(FandubSource.ANILIBRIA, fandubUrls.get(FandubSource.ANILIBRIA) + REGULAR_TITLE_ANILIBRIA_URL);
 		}

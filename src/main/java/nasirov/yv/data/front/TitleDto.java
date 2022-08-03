@@ -6,7 +6,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.Singular;
-import nasirov.yv.fandub.service.spring.boot.starter.constant.FandubSource;
+import nasirov.yv.starter.common.constant.FandubSource;
 
 /**
  * @author Nasirov Yuriy

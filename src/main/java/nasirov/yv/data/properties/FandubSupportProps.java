@@ -6,7 +6,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import javax.validation.constraints.NotEmpty;
 import lombok.Data;
-import nasirov.yv.fandub.service.spring.boot.starter.constant.FandubSource;
+import nasirov.yv.starter.common.constant.FandubSource;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.validation.annotation.Validated;

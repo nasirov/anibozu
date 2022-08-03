@@ -7,7 +7,7 @@ import java.util.Set;
 import javax.validation.constraints.NotNull;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import nasirov.yv.fandub.service.spring.boot.starter.constant.FandubSource;
+import nasirov.yv.starter.common.constant.FandubSource;
 
 /**
  * @author Nasirov Yuriy

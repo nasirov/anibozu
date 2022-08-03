@@ -1,3 +1,14 @@
+spring:
+  application:
+    name: anime-checker
+
+starter-reactive-services:
+  web-client:
+    enabled: true
+    connection-timeout: 2s
+    read-timeout: 13s
+    max-attempts: 0
+
 application:
   fandub-support:
     enabled: ANIDUB,ANILIBRIA,ANIMEDIA,ANIMEPIK,ANYTHING_GROUP,JAMCLUB,JISEDAI,JUTSU,NINEANIME,SHIZAPROJECT,SOVETROMANTICA
@@ -6,20 +17,9 @@ application:
       name: result
       ttl: 5m
       max-size: 50
-  feign:
-    enabled: false
-  web-client:
-    enabled: true
-    connection-timeout: 2s
-    read-timeout: 13s
-    max-attempts: 0
 
 server:
-  port: ${PORT}
-
-spring:
-  application:
-    name: anime-checker
+  port: ${PORT:8080}
 
 logging:
   level:

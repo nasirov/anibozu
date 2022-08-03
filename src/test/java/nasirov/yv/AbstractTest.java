@@ -10,15 +10,14 @@ import java.util.Set;
 import nasirov.yv.data.front.InputDto;
 import nasirov.yv.data.properties.CacheProps;
 import nasirov.yv.data.properties.FandubSupportProps;
-import nasirov.yv.fandub.service.spring.boot.starter.constant.FandubSource;
-import nasirov.yv.fandub.service.spring.boot.starter.dto.mal.MalTitle;
-import nasirov.yv.fandub.service.spring.boot.starter.dto.mal.MalTitleWatchingStatus;
-import nasirov.yv.fandub.service.spring.boot.starter.dto.mal_service.MalServiceResponseDto;
-import nasirov.yv.fandub.service.spring.boot.starter.properties.ExternalServicesProps;
-import nasirov.yv.fandub.service.spring.boot.starter.properties.FandubProps;
-import nasirov.yv.fandub.service.spring.boot.starter.service.HttpRequestServiceI;
 import nasirov.yv.service.HttpRequestServiceDtoBuilderI;
 import nasirov.yv.service.ResultProcessingServiceI;
+import nasirov.yv.starter.common.constant.FandubSource;
+import nasirov.yv.starter.common.dto.mal.MalTitle;
+import nasirov.yv.starter.common.dto.mal.MalTitleWatchingStatus;
+import nasirov.yv.starter.common.dto.mal_service.MalServiceResponseDto;
+import nasirov.yv.starter.common.properties.StarterCommonProperties;
+import nasirov.yv.starter.reactive.services.service.HttpRequestServiceI;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -54,10 +53,7 @@ public abstract class AbstractTest {
 	protected ApplicationContext applicationContext;
 
 	@Autowired
-	protected ExternalServicesProps externalServicesProps;
-
-	@Autowired
-	protected FandubProps fandubProps;
+	protected StarterCommonProperties starterCommonProperties;
 
 	@Autowired
 	protected HttpRequestServiceDtoBuilderI httpRequestServiceDtoBuilder;
@@ -86,8 +82,8 @@ public abstract class AbstractTest {
 	protected void mockExternalMalServiceResponse(MalServiceResponseDto malServiceResponseDto) {
 		doReturn(Mono.just(malServiceResponseDto)).when(httpRequestService)
 				.performHttpRequest(argThat(x -> x.getUrl()
-						.equals(externalServicesProps.getMalServiceUrl() + "titles?username=" + MAL_USERNAME + "&status="
-								+ MalTitleWatchingStatus.WATCHING.name())));
+						.equals(starterCommonProperties.getExternalServices().getMalServiceUrl() + "titles?username=" + MAL_USERNAME
+								+ "&status=" + MalTitleWatchingStatus.WATCHING.name())));
 	}
 
 	protected MalServiceResponseDto buildMalServiceResponseDto(List<MalTitle> malTitles, String errorMessage) {

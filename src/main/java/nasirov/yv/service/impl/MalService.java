@@ -3,11 +3,11 @@ package nasirov.yv.service.impl;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import nasirov.yv.data.front.InputDto;
-import nasirov.yv.fandub.service.spring.boot.starter.dto.mal.MalTitleWatchingStatus;
-import nasirov.yv.fandub.service.spring.boot.starter.dto.mal_service.MalServiceResponseDto;
-import nasirov.yv.fandub.service.spring.boot.starter.service.HttpRequestServiceI;
 import nasirov.yv.service.HttpRequestServiceDtoBuilderI;
 import nasirov.yv.service.MalServiceI;
+import nasirov.yv.starter.common.dto.mal.MalTitleWatchingStatus;
+import nasirov.yv.starter.common.dto.mal_service.MalServiceResponseDto;
+import nasirov.yv.starter.reactive.services.service.HttpRequestServiceI;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
 

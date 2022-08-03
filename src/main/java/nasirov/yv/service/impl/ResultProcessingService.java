@@ -17,14 +17,14 @@ import nasirov.yv.data.front.TitleDto.TitleDtoBuilder;
 import nasirov.yv.data.front.TitleType;
 import nasirov.yv.data.properties.CacheProps;
 import nasirov.yv.data.properties.FandubSupportProps;
-import nasirov.yv.fandub.service.spring.boot.starter.constant.FandubSource;
-import nasirov.yv.fandub.service.spring.boot.starter.dto.fandub.common.CommonTitle;
-import nasirov.yv.fandub.service.spring.boot.starter.dto.mal.MalTitle;
-import nasirov.yv.fandub.service.spring.boot.starter.dto.mal_service.MalServiceResponseDto;
-import nasirov.yv.fandub.service.spring.boot.starter.properties.FandubProps;
 import nasirov.yv.service.FandubTitlesServiceI;
 import nasirov.yv.service.MalServiceI;
 import nasirov.yv.service.ResultProcessingServiceI;
+import nasirov.yv.starter.common.constant.FandubSource;
+import nasirov.yv.starter.common.dto.fandub.common.CommonTitle;
+import nasirov.yv.starter.common.dto.mal.MalTitle;
+import nasirov.yv.starter.common.dto.mal_service.MalServiceResponseDto;
+import nasirov.yv.starter.common.properties.StarterCommonProperties;
 import nasirov.yv.util.MalUtils;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -52,7 +52,7 @@ public class ResultProcessingService implements ResultProcessingServiceI {
 
 	private final CacheProps cacheProps;
 
-	private final FandubProps fanDubProps;
+	private final StarterCommonProperties starterCommonProperties;
 
 	private final FandubSupportProps fandubSupportProps;
 
@@ -109,7 +109,8 @@ public class ResultProcessingService implements ResultProcessingServiceI {
 			FandubSource fandubSource = entry.getKey();
 			Optional<Pair<String, String>> result = Optional.of(entry.getValue())
 					.filter(CollectionUtils::isNotEmpty)
-					.flatMap(x -> buildNameAndUrlPair(nextEpisodeForWatch, x, fanDubProps.getUrls().get(fandubSource)));
+					.flatMap(x -> buildNameAndUrlPair(nextEpisodeForWatch, x,
+							starterCommonProperties.getFandub().getUrls().get(fandubSource)));
 			if (result.isPresent()) {
 				Pair<String, String> episodeNameToUrl = result.get();
 				titleDtoBuilder.fandubToEpisodeName(fandubSource, episodeNameToUrl.getKey());

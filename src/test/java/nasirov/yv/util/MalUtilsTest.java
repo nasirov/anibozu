@@ -6,7 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import lombok.SneakyThrows;
-import nasirov.yv.fandub.service.spring.boot.starter.dto.mal.MalTitle;
+import nasirov.yv.starter.common.dto.mal.MalTitle;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -17,10 +17,7 @@ class MalUtilsTest {
 	@Test
 	void shouldReturnNextEpisodeForWatch() {
 		//given
-		MalTitle malTitle = MalTitle.builder()
-				.id(1)
-				.numWatchedEpisodes(0)
-				.build();
+		MalTitle malTitle = MalTitle.builder().id(1).numWatchedEpisodes(0).build();
 		//when
 		Integer nextEpisodeForWatch = MalUtils.getNextEpisodeForWatch(malTitle);
 		//then
@@ -38,9 +35,7 @@ class MalUtilsTest {
 		try {
 			declaredConstructors[0].newInstance();
 		} catch (InvocationTargetException e) {
-			assertEquals(UnsupportedOperationException.class,
-					e.getCause()
-							.getClass());
+			assertEquals(UnsupportedOperationException.class, e.getCause().getClass());
 		}
 	}
 }

@@ -9,13 +9,14 @@ import java.util.Map;
 import java.util.Set;
 import nasirov.yv.AbstractTest;
 import nasirov.yv.data.constants.BaseConstants;
-import nasirov.yv.fandub.service.spring.boot.starter.constant.FandubSource;
-import nasirov.yv.fandub.service.spring.boot.starter.dto.fandub.common.CommonTitle;
-import nasirov.yv.fandub.service.spring.boot.starter.dto.fandub_titles_service.FandubTitlesServiceRequestDto;
-import nasirov.yv.fandub.service.spring.boot.starter.dto.http_request_service.HttpRequestServiceDto;
-import nasirov.yv.fandub.service.spring.boot.starter.dto.mal.MalTitle;
-import nasirov.yv.fandub.service.spring.boot.starter.dto.mal.MalTitleWatchingStatus;
-import nasirov.yv.fandub.service.spring.boot.starter.dto.mal_service.MalServiceResponseDto;
+import nasirov.yv.starter.common.constant.FandubSource;
+import nasirov.yv.starter.common.dto.fandub.common.CommonTitle;
+import nasirov.yv.starter.common.dto.fandub_titles_service.FandubTitlesServiceRequestDto;
+import nasirov.yv.starter.common.dto.mal.MalTitle;
+import nasirov.yv.starter.common.dto.mal.MalTitleWatchingStatus;
+import nasirov.yv.starter.common.dto.mal_service.MalServiceResponseDto;
+import nasirov.yv.starter.common.properties.ExternalServicesProperties;
+import nasirov.yv.starter.reactive.services.dto.HttpRequestServiceDto;
 import nasirov.yv.util.MalUtils;
 import nasirov.yv.utils.MalTitleTestFactory;
 import org.junit.jupiter.api.Test;
@@ -32,10 +33,11 @@ class HttpRequestServiceDtoBuilderTest extends AbstractTest {
 	@Test
 	void shouldBuildHttpRequestServiceDtoForMalService() {
 		//given
-		String url = externalServicesProps.getMalServiceUrl() + "titles?username=" + MAL_USERNAME + "&status=WATCHING";
+		ExternalServicesProperties externalServicesProperties = starterCommonProperties.getExternalServices();
+		String url = externalServicesProperties.getMalServiceUrl() + "titles?username=" + MAL_USERNAME + "&status=WATCHING";
 		HttpMethod method = HttpMethod.GET;
 		Map<String, String> headers = Collections.singletonMap(HttpHeaders.AUTHORIZATION,
-				externalServicesProps.getMalServiceBasicAuth());
+				externalServicesProperties.getMalServiceBasicAuth());
 		Set<Integer> retryableStatusCodes = Collections.emptySet();
 		MalServiceResponseDto fallback = MalServiceResponseDto.builder()
 				.username(MAL_USERNAME)
@@ -52,10 +54,11 @@ class HttpRequestServiceDtoBuilderTest extends AbstractTest {
 	@Test
 	void shouldBuildHttpRequestServiceDtoForFandubTitlesService() {
 		//given
-		String url = externalServicesProps.getFandubTitlesServiceUrl() + "titles";
+		ExternalServicesProperties externalServicesProperties = starterCommonProperties.getExternalServices();
+		String url = externalServicesProperties.getFandubTitlesServiceUrl() + "titles";
 		HttpMethod method = HttpMethod.POST;
 		Map<String, String> headers = Collections.singletonMap(HttpHeaders.AUTHORIZATION,
-				externalServicesProps.getFandubTitlesServiceBasicAuth());
+				externalServicesProperties.getFandubTitlesServiceBasicAuth());
 		Set<Integer> retryableStatusCodes = Collections.emptySet();
 		FandubSource fandubSource = FandubSource.ANIMEDIA;
 		Set<FandubSource> fandubSources = Set.of(fandubSource);

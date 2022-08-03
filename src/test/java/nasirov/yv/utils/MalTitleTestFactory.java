@@ -1,7 +1,7 @@
 package nasirov.yv.utils;
 
 import lombok.experimental.UtilityClass;
-import nasirov.yv.fandub.service.spring.boot.starter.dto.mal.MalTitle;
+import nasirov.yv.starter.common.dto.mal.MalTitle;
 
 /**
  * @author Nasirov Yuriy

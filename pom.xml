@@ -5,8 +5,8 @@
 
   <parent>
     <groupId>nasirov.yv</groupId>
-    <artifactId>fandub-service-parent</artifactId>
-    <version>1.0.4</version>
+    <artifactId>microservice-parent</artifactId>
+    <version>0.1.2</version>
     <relativePath/>
   </parent>
 
@@ -20,21 +20,13 @@
 
   <properties>
     <docker.buildArg.JAR_FILE>target/${project.build.finalName}.jar</docker.buildArg.JAR_FILE>
-    <fandub-service-spring-boot-starter.version>24.0.1</fandub-service-spring-boot-starter.version>
   </properties>
 
   <dependencies>
 
     <dependency>
       <groupId>nasirov.yv</groupId>
-      <artifactId>fandub-service-spring-boot-starter</artifactId>
-      <version>${fandub-service-spring-boot-starter.version}</version>
-      <exclusions>
-        <exclusion>
-          <groupId>org.springframework.boot</groupId>
-          <artifactId>spring-boot-starter-web</artifactId>
-        </exclusion>
-      </exclusions>
+      <artifactId>starter-reactive-services</artifactId>
     </dependency>
 
     <dependency>
@@ -50,12 +42,6 @@
     <dependency>
       <groupId>com.github.ben-manes.caffeine</groupId>
       <artifactId>caffeine</artifactId>
-    </dependency>
-
-    <dependency>
-      <groupId>org.projectlombok</groupId>
-      <artifactId>lombok</artifactId>
-      <optional>true</optional>
     </dependency>
 
     <dependency>
@@ -78,34 +64,13 @@
       <artifactId>commons-collections4</artifactId>
     </dependency>
 
-    <dependency>
-      <groupId>org.springframework.boot</groupId>
-      <artifactId>spring-boot-starter-test</artifactId>
-      <scope>test</scope>
-    </dependency>
-
   </dependencies>
 
   <repositories>
 
     <repository>
-      <id>fandub-service-parent</id>
-      <name>GitHub nasirov/fandub-service-parent Apache Maven Packages</name>
-      <url>https://maven.pkg.github.com/nasirov/fandub-service-parent</url>
-      <releases>
-        <updatePolicy>always</updatePolicy>
-        <enabled>true</enabled>
-      </releases>
-      <snapshots>
-        <updatePolicy>always</updatePolicy>
-        <enabled>true</enabled>
-      </snapshots>
-    </repository>
-
-    <repository>
-      <id>fandub-service-spring-boot-starter</id>
-      <name>GitHub nasirov/fandub-service-spring-boot-starter Apache Maven Packages</name>
-      <url>https://maven.pkg.github.com/nasirov/fandub-service-spring-boot-starter</url>
+      <id>fandub-microservices</id>
+      <url>https://maven.pkg.github.com/nasirov/fandub-microservices</url>
       <releases>
         <updatePolicy>always</updatePolicy>
         <enabled>true</enabled>
@@ -121,20 +86,6 @@
   <build>
 
     <plugins>
-
-      <plugin>
-        <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-maven-plugin</artifactId>
-      </plugin>
-
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-compiler-plugin</artifactId>
-        <configuration>
-          <source>${java.version}</source>
-          <target>${java.version}</target>
-        </configuration>
-      </plugin>
 
       <plugin>
         <groupId>io.fabric8</groupId>

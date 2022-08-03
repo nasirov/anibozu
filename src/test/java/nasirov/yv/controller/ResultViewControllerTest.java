@@ -15,10 +15,10 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import nasirov.yv.AbstractTest;
 import nasirov.yv.data.front.InputDto;
-import nasirov.yv.fandub.service.spring.boot.starter.constant.FandubSource;
-import nasirov.yv.fandub.service.spring.boot.starter.dto.fandub.common.CommonTitle;
-import nasirov.yv.fandub.service.spring.boot.starter.dto.mal.MalTitle;
-import nasirov.yv.fandub.service.spring.boot.starter.dto.mal_service.MalServiceResponseDto;
+import nasirov.yv.starter.common.constant.FandubSource;
+import nasirov.yv.starter.common.dto.fandub.common.CommonTitle;
+import nasirov.yv.starter.common.dto.mal.MalTitle;
+import nasirov.yv.starter.common.dto.mal_service.MalServiceResponseDto;
 import nasirov.yv.utils.CommonTitleTestFactory;
 import nasirov.yv.utils.IOUtils;
 import nasirov.yv.utils.MalTitleTestFactory;
@@ -130,7 +130,8 @@ class ResultViewControllerTest extends AbstractTest {
 	private void mockExternalFandubTitlesServiceResponse(
 			Map<Integer, Map<FandubSource, List<CommonTitle>>> commonTitlesForMalTitles) {
 		doReturn(Mono.just(commonTitlesForMalTitles)).when(httpRequestService)
-				.performHttpRequest(argThat(x -> x.getUrl().equals(externalServicesProps.getFandubTitlesServiceUrl() + "titles")));
+				.performHttpRequest(argThat(
+						x -> x.getUrl().equals(starterCommonProperties.getExternalServices().getFandubTitlesServiceUrl() + "titles")));
 	}
 
 	private void mockTitlesServiceException() {

@@ -1,7 +1,7 @@
 package nasirov.yv.service;
 
 import nasirov.yv.data.front.InputDto;
-import nasirov.yv.fandub.service.spring.boot.starter.dto.mal_service.MalServiceResponseDto;
+import nasirov.yv.starter.common.dto.mal_service.MalServiceResponseDto;
 import reactor.core.publisher.Mono;
 
 /**
