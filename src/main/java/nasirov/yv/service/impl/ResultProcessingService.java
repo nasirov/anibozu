@@ -124,8 +124,7 @@ public class ResultProcessingService implements ResultProcessingServiceI {
 	private Optional<Pair<String, String>> buildNameAndUrlPair(Integer nextEpisodeForWatch, List<CommonTitle> matchedTitles,
 			String fandubUrl) {
 		return matchedTitles.stream()
-				.map(CommonTitle::getEpisodes)
-				.flatMap(List::stream)
+				.flatMap(x -> x.getMalIdToEpisodes().values().stream().flatMap(List::stream))
 				.filter(x -> nextEpisodeForWatch.equals(x.getMalEpisodeId()))
 				.findFirst()
 				.map(x -> Pair.of(x.getName(), fandubUrl + x.getUrl()));
