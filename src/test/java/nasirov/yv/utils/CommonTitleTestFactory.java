@@ -18,6 +18,7 @@ import nasirov.yv.starter.common.constant.FandubSource;
 import nasirov.yv.starter.common.dto.fandub.common.CommonEpisode;
 import nasirov.yv.starter.common.dto.fandub.common.CommonTitle;
 import nasirov.yv.starter.common.dto.fandub.common.Id;
+import nasirov.yv.starter.common.dto.fandub.common.TitleType;
 import org.springframework.util.Assert;
 
 /**
@@ -96,20 +97,21 @@ public class CommonTitleTestFactory {
 
 	public static CommonTitle getRegular(String url, String episodeUrl, String episodeName) {
 		return buildCommonTitle(REGULAR_TITLE_ID, url, REGULAR_TITLE_MAL_ID,
-				Lists.newArrayList(buildEpisode(episodeUrl, episodeName, 1)));
+				Lists.newArrayList(buildEpisode(episodeUrl, episodeName, 1)), TitleType.MAIN);
 	}
 
 	public static CommonTitle getConcretized(String url, String episodeUrl, String episodeName) {
 		return buildCommonTitle(CONCRETIZED_TITLE_ID, url, CONCRETIZED_TITLE_MAL_ID,
-				Lists.newArrayList(buildEpisode(episodeUrl, episodeName, 1)));
+				Lists.newArrayList(buildEpisode(episodeUrl, episodeName, 1)), TitleType.EXTRA);
 	}
 
-	private static CommonTitle buildCommonTitle(String id, String url, Integer malId, List<CommonEpisode> episodes) {
+	private static CommonTitle buildCommonTitle(String id, String url, Integer malId, List<CommonEpisode> episodes,
+			TitleType type) {
 		List<Integer> malIds = new ArrayList<>();
 		malIds.add(malId);
 		Map<Integer, List<CommonEpisode>> malIdToEpisodes = new java.util.HashMap<>();
 		malIdToEpisodes.put(malId, episodes);
-		return new CommonTitle(new Id(id), url, malIds, malIdToEpisodes);
+		return new CommonTitle(new Id(id), url, type, malIds, malIdToEpisodes);
 	}
 
 	private static CommonEpisode buildEpisode(String episodeUrl, String episodeName, Integer malEpisodeId) {
