@@ -6,9 +6,4 @@
 *.iml
 *.ipr
 
-logs/
-/*.json
 /*.txt
-/*.bat
-temp/
-docker/
