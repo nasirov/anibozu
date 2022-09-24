@@ -7,3 +7,5 @@
 *.ipr
 
 /*.txt
+/install.sh
+/uninstall.sh

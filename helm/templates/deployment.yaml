@@ -11,7 +11,7 @@ spec:
       {{- include "default_labels" . | indent 6 }}
   strategy:
     rollingUpdate:
-      maxSurge: 100%
+      maxSurge: 0
       maxUnavailable: 25%
     type: RollingUpdate
   template:
