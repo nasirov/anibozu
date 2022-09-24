@@ -1,7 +1,5 @@
 starter-common:
   external-services:
-    fandub-titles-service-basic-auth: Basic foobar
-    mal-service-basic-auth: Basic foobar
     fandub-titles-service-url: http://localhost:8089/
     mal-service-url: http://localhost:8087/
 

@@ -28,7 +28,7 @@ The application analyzes a user's watching titles list from **[MyAnimeList](http
 
 ![Flow](/images/flow.gif)
 
-1. Open **[Anime Checker](https://anime-checker.herokuapp.com/)** via browser with enabled JavaScript
+1. Open **[Anime Checker](https://anime-checker.nasirov.info/)** via browser with enabled JavaScript
 2. Enter your **[MyAnimeList](https://myanimelist.net/)** username. **Your anime list must be public!**
 3. Submit the form
-4. Wait several seconds for a result
+4. Wait some time for a result

@@ -6,38 +6,32 @@ on:
       - master
     paths-ignore:
       - 'images/**'
+      - '.github/**'
       - '**/.gitattributes'
       - '**/.gitignore'
-      - '**/docker-compose.yml'
       - '**/LICENSE'
       - '**/README.md'
 
 env:
-  HEROKU_USERNAME: ${{ secrets.HEROKU_USERNAME }}
-  HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
-  HEROKU_APP_NAME: ${{ secrets.HEROKU_APP_NAME }}
-  HEROKU_APP_TYPE: web
-  HEROKU_REGISTRY: registry.heroku.com
-  SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
-  SONAR_LOGIN: ${{ secrets.SONAR_LOGIN }}
-  SONAR_ORGANIZATION: ${{ secrets.SONAR_ORGANIZATION }}
-  SONAR_PROJECTKEY: ${{ secrets.SONAR_PROJECTKEY }}
   USERNAME: ${{ secrets.USERNAME }}
   TOKEN: ${{ secrets.TOKEN }}
+  PROJECT: anime-checker
 
 jobs:
 
   test-build-deploy:
+
     runs-on: ubuntu-latest
+
     steps:
 
       - name: Checkout repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Set up Java
         uses: actions/setup-java@v3
         with:
-          java-version: 11
+          java-version: 17
           distribution: 'zulu'
           server-id: fandub-microservices
           server-username: USERNAME
@@ -47,37 +41,36 @@ jobs:
         uses: actions/cache@v3
         with:
           path: ~/.m2/repository
-          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+          key: ${{ runner.os }}-maven-${{ hashFiles('${{ env.PROJECT }}/pom.xml') }}
           restore-keys: |
             ${{ runner.os }}-maven-
 
-      - name: Tests and sonar
-        run: |
-          mvn clean package && \
-          mvn sonar:sonar -Dsonar.host.url=${{ env.SONAR_HOST_URL }} -Dsonar.projectKey=${{ env.SONAR_PROJECTKEY }} \
-          -Dsonar.organization=${{ env.SONAR_ORGANIZATION }} -Dsonar.login=${{ env.SONAR_LOGIN }}
+      - name: Tests
+        run: mvn clean test
 
-      - name: Build and push docker image
-        id: build-and-push-docker-image
-        run: |
-          echo "${{ env.HEROKU_API_KEY }}" | docker login -u ${{ env.HEROKU_USERNAME }} --password-stdin ${{ env.HEROKU_REGISTRY }}
-          mvn docker:build && mvn docker:push
+      - name: Validate helm chart
+        uses: wahyd4/kubectl-helm-action@master
+        env:
+          KUBE_CONFIG_DATA: ${{ secrets.KUBECTL_CONFIG }}
+        with:
+          args: helm lint helm
 
-          image_id=$(docker inspect ${{ env.HEROKU_REGISTRY }}/${{ env.HEROKU_APP_NAME }}/${{ env.HEROKU_APP_TYPE }} --format={{.Id}})
-          echo "::set-output name=image_id::$(echo ${image_id})"
-
-      - name: Trigger deploy to Heroku
+      - name: Build and push image
+        id: build-and-push-image
+        env:
+          CONTAINER_REGISTRY_USER: ${{ secrets.CONTAINER_REGISTRY_USER }}
+          CONTAINER_REGISTRY_PASS: ${{ secrets.CONTAINER_REGISTRY_PASS }}
         run: |
-          curl -X PATCH \
-            https://api.heroku.com/apps/${{ env.HEROKU_APP_NAME }}/formation \
-            -H "Accept: application/vnd.heroku+json; version=3.docker-releases" \
-            -H "Authorization: Bearer ${{ env.HEROKU_API_KEY }}" \
-            -H "Content-Type: application/json" \
-            -d '{
-            "updates": [
-              {
-                "type": "${{ env.HEROKU_APP_TYPE }}",
-                "docker_image": "'${{ steps.build-and-push-docker-image.outputs.image_id }}'"
-              }
-            ]
-          }'
+          app_name=$(mvn help:evaluate -Dexpression=project.name -q -DforceStdout)
+          registry_path=$(mvn help:evaluate -Dexpression=registry-path -q -DforceStdout)
+          commit_hash=$(git rev-parse --short HEAD)
+
+          mvn jib:build -Djib.to.image="${registry_path}/${app_name}:${commit_hash}"
+          echo "::set-output name=commit-hash::$(echo ${commit_hash})"
+
+      - name: Deploy to k8s
+        uses: wahyd4/kubectl-helm-action@master
+        env:
+          KUBE_CONFIG_DATA: ${{ secrets.KUBECTL_CONFIG }}
+        with:
+          args: helm upgrade --install --set image.tag=${{ steps.build-and-push-image.outputs.commit-hash }} ${{ env.PROJECT }} helm

@@ -9,6 +9,12 @@ starter-reactive-services:
     read-timeout: 13s
     max-attempts: 0
 
+management:
+  endpoint:
+    health:
+      probes:
+        enabled: true
+
 application:
   fandub-support:
     enabled: ANIDUB,ANILIBRIA,ANIMEDIA,ANIMEPIK,ANYTHING_GROUP,JAMCLUB,JISEDAI,JUTSU,NINEANIME,SHIZAPROJECT,SOVETROMANTICA
@@ -19,7 +25,7 @@ application:
       max-size: 50
 
 server:
-  port: ${PORT:8080}
+  port: 8080
 
 logging:
   level:

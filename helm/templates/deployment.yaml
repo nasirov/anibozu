@@ -1,0 +1,70 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  {{- include "default_metadata" . | indent 2 }}
+spec:
+  revisionHistoryLimit: 1
+  progressDeadlineSeconds: {{ .Values.docker.progressDeadlineSeconds }}
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      {{- include "default_labels" . | indent 6 }}
+  strategy:
+    rollingUpdate:
+      maxSurge: 100%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  template:
+    metadata:
+      annotations:
+      {{- range $key, $value := .Values.annotations }}
+        {{ $key }}: {{ $value | quote }}
+      {{- end }}
+      {{- include "extended_labels" . | indent 6 }}
+    spec:
+      containers:
+        - name: {{ template "chart.name" . }}
+          image: {{ .Values.image.registry }}/{{ .Values.image.name }}:{{ .Values.image.tag }}
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          ports:
+            - name: http
+              containerPort: {{ .Values.docker.containerPort }}
+              protocol: TCP
+
+          {{- if .Values.resources }}
+          resources:
+{{ toYaml .Values.resources | indent 12 }}
+          {{- end }}
+
+          readinessProbe:
+            httpGet:
+              path: /actuator/health/readiness
+              port: http
+            periodSeconds: 5
+            failureThreshold: 3
+            successThreshold: 1
+            timeoutSeconds: 1
+            initialDelaySeconds: 3
+          livenessProbe:
+            httpGet:
+              path: /actuator/health/liveness
+              port: http
+            periodSeconds: 10
+            failureThreshold: 3
+            successThreshold: 1
+            timeoutSeconds: 3
+            initialDelaySeconds: 3
+          startupProbe:
+            httpGet:
+              path: /actuator/health/liveness
+              port: http
+            timeoutSeconds: 1
+            failureThreshold: 30
+            successThreshold: 1
+            periodSeconds: 4
+            initialDelaySeconds: 40
+
+      {{- if .Values.docker.pullSecretName }}
+      imagePullSecrets:
+        - name: {{ .Values.docker.pullSecretName }}
+      {{- end }}
