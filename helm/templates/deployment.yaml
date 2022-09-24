@@ -62,7 +62,7 @@ spec:
             failureThreshold: 30
             successThreshold: 1
             periodSeconds: 4
-            initialDelaySeconds: 40
+            initialDelaySeconds: 45
 
       {{- if .Values.docker.pullSecretName }}
       imagePullSecrets:
