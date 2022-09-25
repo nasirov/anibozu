@@ -46,7 +46,17 @@ jobs:
             ${{ runner.os }}-maven-
 
       - name: Tests
-        run: mvn clean test
+        run: |
+          skip_tests_message="[microservices] set parent version"
+          current_commit_message=$(git log -1 --pretty=format:%s)
+          
+          if [[ "${skip_tests_message}" == "${current_commit_message}" ]]; then
+              echo "Tests have been run during [EVENT] microservice-parent-released"
+              echo "Will skip tests"
+          else
+              echo "Regular commit, will run tests"
+              mvn clean test
+          fi
 
       - name: Validate helm chart
         uses: wahyd4/kubectl-helm-action@master
@@ -65,7 +75,7 @@ jobs:
           registry_path=$(mvn help:evaluate -Dexpression=registry-path -q -DforceStdout)
           commit_hash=$(git rev-parse --short HEAD)
 
-          mvn jib:build -Djib.to.image="${registry_path}/${app_name}:${commit_hash}"
+          mvn clean compile jib:build -Djib.to.image="${registry_path}/${app_name}:${commit_hash}"
           echo "::set-output name=commit-hash::$(echo ${commit_hash})"
 
       - name: Deploy to k8s
