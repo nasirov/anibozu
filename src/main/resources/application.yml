@@ -6,8 +6,8 @@ starter-reactive-services:
   web-client:
     enabled: true
     connection-timeout: 2s
-    read-timeout: 13s
-    max-attempts: 0
+    read-timeout: 60s
+    max-attempts: 2
 
 management:
   endpoint:
