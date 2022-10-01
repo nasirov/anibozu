@@ -60,7 +60,7 @@ class ResultProcessingServiceTest extends AbstractTest {
 		Mono<ResultDto> result = resultProcessingService.getResult(inputDto);
 		//then
 		String cacheKey = buildCacheKeyForUser();
-		Cache resultCache = cacheManager.getCache(cacheProps.getResult().getName());
+		Cache resultCache = cacheManager.getCache(cachesNames.getResultCache());
 		assertNotNull(resultCache);
 		ResultDto resultDto = result.block();
 		assertNotNull(resultDto);
@@ -92,7 +92,7 @@ class ResultProcessingServiceTest extends AbstractTest {
 		Mono<ResultDto> result = resultProcessingService.getResult(inputDto);
 		//then
 		String cacheKey = buildCacheKeyForUser();
-		Cache resultCache = cacheManager.getCache(cacheProps.getResult().getName());
+		Cache resultCache = cacheManager.getCache(cachesNames.getResultCache());
 		assertNotNull(resultCache);
 		ResultDto resultDto = result.block();
 		assertNotNull(resultDto);
@@ -113,7 +113,7 @@ class ResultProcessingServiceTest extends AbstractTest {
 		Mono<ResultDto> result = resultProcessingService.getResult(inputDto);
 		//then
 		String cacheKey = buildCacheKeyForUser();
-		Cache resultCache = cacheManager.getCache(cacheProps.getResult().getName());
+		Cache resultCache = cacheManager.getCache(cachesNames.getResultCache());
 		assertNotNull(resultCache);
 		ResultDto resultDto = result.block();
 		assertNotNull(resultDto);
@@ -132,7 +132,7 @@ class ResultProcessingServiceTest extends AbstractTest {
 		Mono<ResultDto> result = resultProcessingService.getResult(inputDto);
 		//then
 		String cacheKey = buildCacheKeyForUser();
-		Cache resultCache = cacheManager.getCache(cacheProps.getResult().getName());
+		Cache resultCache = cacheManager.getCache(cachesNames.getResultCache());
 		assertNotNull(resultCache);
 		ResultDto resultDto = result.block();
 		assertNotNull(resultDto);
@@ -154,7 +154,7 @@ class ResultProcessingServiceTest extends AbstractTest {
 		Mono<ResultDto> result = resultProcessingService.getResult(inputDto);
 		//then
 		String cacheKey = buildCacheKeyForUser();
-		Cache resultCache = cacheManager.getCache(cacheProps.getResult().getName());
+		Cache resultCache = cacheManager.getCache(cachesNames.getResultCache());
 		assertNotNull(resultCache);
 		ResultDto resultDto = result.block();
 		assertNotNull(resultDto);

@@ -9,6 +9,14 @@ starter-reactive-services:
     read-timeout: 60s
     max-attempts: 2
 
+starter-cache:
+  enabled: true
+  type: CAFFEINE
+  caches:
+    - name: ${application.caches-names.result-cache:}
+      expire-after-write: 5m
+      maximum-size: 50
+
 management:
   endpoint:
     health:
@@ -18,11 +26,8 @@ management:
 application:
   fandub-support:
     enabled: ANIDUB,ANILIBRIA,ANIMEDIA,ANIMEPIK,ANYTHING_GROUP,JAMCLUB,JISEDAI,JUTSU,NINEANIME,SHIZAPROJECT,SOVETROMANTICA
-  cache:
-    result:
-      name: result
-      ttl: 5m
-      max-size: 50
+  caches-names:
+    result-cache: result-cache
 
 server:
   port: 8080

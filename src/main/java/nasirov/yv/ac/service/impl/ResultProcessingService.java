@@ -15,7 +15,7 @@ import nasirov.yv.ac.data.front.ResultDto;
 import nasirov.yv.ac.data.front.TitleDto;
 import nasirov.yv.ac.data.front.TitleDto.TitleDtoBuilder;
 import nasirov.yv.ac.data.front.TitleType;
-import nasirov.yv.ac.data.properties.CacheProps;
+import nasirov.yv.ac.data.properties.CachesNames;
 import nasirov.yv.ac.data.properties.FandubSupportProps;
 import nasirov.yv.ac.service.FandubTitlesServiceI;
 import nasirov.yv.ac.service.MalServiceI;
@@ -50,7 +50,7 @@ public class ResultProcessingService implements ResultProcessingServiceI {
 
 	private final CacheManager cacheManager;
 
-	private final CacheProps cacheProps;
+	private final CachesNames cachesNames;
 
 	private final StarterCommonProperties starterCommonProperties;
 
@@ -140,6 +140,6 @@ public class ResultProcessingService implements ResultProcessingServiceI {
 	}
 
 	private Optional<Cache> getCache() {
-		return Optional.ofNullable(cacheManager.getCache(cacheProps.getResult().getName()));
+		return Optional.ofNullable(cacheManager.getCache(cachesNames.getResultCache()));
 	}
 }

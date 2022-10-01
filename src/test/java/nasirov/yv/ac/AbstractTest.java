@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 import nasirov.yv.ac.data.front.InputDto;
-import nasirov.yv.ac.data.properties.CacheProps;
+import nasirov.yv.ac.data.properties.CachesNames;
 import nasirov.yv.ac.data.properties.FandubSupportProps;
 import nasirov.yv.ac.service.HttpRequestServiceDtoBuilderI;
 import nasirov.yv.ac.service.ResultProcessingServiceI;
@@ -59,7 +59,7 @@ public abstract class AbstractTest {
 	protected HttpRequestServiceDtoBuilderI httpRequestServiceDtoBuilder;
 
 	@Autowired
-	protected CacheProps cacheProps;
+	protected CachesNames cachesNames;
 
 	@Autowired
 	protected FandubSupportProps fandubSupportProps;
