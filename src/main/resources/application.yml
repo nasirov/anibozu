@@ -1,7 +1,7 @@
 spring:
-  redis:
-    host: redis-master.default.svc.cluster.local
-    port: 6379
+  autoconfigure:
+    exclude:
+      - org.springframework.boot.autoconfigure.data.redis.RedisAutoConfiguration
   application:
     name: anime-checker
 
@@ -14,7 +14,7 @@ starter-reactive-services:
 
 starter-cache:
   enabled: true
-  type: REDIS
+  type: CAFFEINE
   caches:
     - name: ${application.caches-names.result-cache:}
       expire-after-write: 5m
