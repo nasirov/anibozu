@@ -46,7 +46,7 @@ public abstract class AbstractTest {
 	@SpyBean
 	protected ResultProcessingServiceI resultProcessingService;
 
-	@Autowired
+	@SpyBean
 	protected CacheManager cacheManager;
 
 	@Autowired

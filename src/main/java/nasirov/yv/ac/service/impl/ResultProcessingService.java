@@ -5,6 +5,8 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Optional;
 import java.util.Set;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.TimeUnit;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
@@ -58,14 +60,34 @@ public class ResultProcessingService implements ResultProcessingServiceI {
 
 	@Override
 	public Mono<ResultDto> getResult(InputDto inputDto) {
-		return getCache().map(x -> x.get(inputDto.getUsername(), ResultDto.class))
-				.map(Mono::just)
-				.orElse(Mono.just(inputDto)
-						.flatMap(malService::getUserWatchingTitles)
-						.flatMap(this::buildResult)
-						.defaultIfEmpty(FALLBACK_VALUE)
-						.onErrorReturn(FALLBACK_VALUE)
-						.doOnSuccess(x -> cacheResult(inputDto, x)));
+		Cache cache = cacheManager.getCache(cachesNames.getResultCache());
+		return Mono.justOrEmpty(cache)
+				.flatMap(x -> getResultFromCache(inputDto, x))
+				.filter(Optional::isPresent)
+				.map(Optional::get)
+				.switchIfEmpty(buildResult(inputDto, cache))
+				.doOnSubscribe(x -> log.info("Processing [{}]...", inputDto.getUsername()));
+	}
+
+	private Mono<Optional<ResultDto>> getResultFromCache(InputDto inputDto, Cache cache) {
+		return Mono.fromFuture(
+						() -> CompletableFuture.supplyAsync(() -> Optional.ofNullable(cache.get(inputDto.getUsername(),
+										ResultDto.class)))
+								.orTimeout(2, TimeUnit.SECONDS))
+				.doOnError(e -> log.error("Failed to lookup cache", e))
+				.onErrorReturn(Optional.empty())
+				.doOnSuccess(x -> x.ifPresent(
+						r -> log.info("Found cached Titles [{}], Error Message [{}] for [{}].", r.getTitles().size(),
+								r.getErrorMessage(), inputDto.getUsername())));
+	}
+
+	private Mono<ResultDto> buildResult(InputDto inputDto, Cache cache) {
+		return Mono.just(inputDto)
+				.flatMap(malService::getUserWatchingTitles)
+				.flatMap(this::buildResult)
+				.defaultIfEmpty(FALLBACK_VALUE)
+				.onErrorReturn(FALLBACK_VALUE)
+				.doOnSuccess(x -> cacheResult(inputDto, x, cache));
 	}
 
 	private Mono<ResultDto> buildResult(MalServiceResponseDto malServiceResponseDto) {
@@ -130,16 +152,18 @@ public class ResultProcessingService implements ResultProcessingServiceI {
 				.map(x -> Pair.of(x.getName(), fandubUrl + x.getUrl()));
 	}
 
-	private void cacheResult(InputDto inputDto, ResultDto result) {
+	private void cacheResult(InputDto inputDto, ResultDto result, Cache cache) {
 		String username = inputDto.getUsername();
 		String errorMessage = result.getErrorMessage();
-		log.info("Titles [{}], Error Message [{}] for [{}].", result.getTitles().size(), errorMessage, username);
 		if (!StringUtils.equals(BaseConstants.GENERIC_ERROR_MESSAGE, errorMessage)) {
-			getCache().ifPresent(x -> x.put(username, result));
+			CompletableFuture.runAsync(() -> {
+				cache.put(username, result);
+				log.info("Cached Titles [{}], Error Message [{}] for [{}].", result.getTitles().size(), errorMessage, username);
+			}).orTimeout(2, TimeUnit.SECONDS).exceptionally(x -> {
+				log.error("Failed to cache Titles [{}], Error Message [{}] for [{}].", result.getTitles().size(), errorMessage,
+						username, x);
+				return null;
+			});
 		}
-	}
-
-	private Optional<Cache> getCache() {
-		return Optional.ofNullable(cacheManager.getCache(cachesNames.getResultCache()));
 	}
 }
