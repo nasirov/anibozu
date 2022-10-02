@@ -3,6 +3,9 @@ starter-common:
     fandub-titles-service-url: http://localhost:8089/
     mal-service-url: http://localhost:8087/
 
+starter-cache:
+  type: CAFFEINE
+
 application:
   fandub-support:
     enabled: ANIDUB,ANILIBRIA,SHIZAPROJECT
