@@ -176,6 +176,14 @@ a {
   transform: scale(1.3);
 }
 
+.anime-title__fandub_slider__arrow--left:active {
+  transform: scale(1.3) translateX(-10px);
+}
+
+.anime-title__fandub_slider__arrow--right:active {
+  transform: scale(1.3) translateX(10px);
+}
+
 .anime-title__fandub_slider__arrow:focus {
   outline: 0;
 }
