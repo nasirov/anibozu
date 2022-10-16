@@ -7,15 +7,15 @@ docker:
   progressDeadlineSeconds: 600
   containerPort: 8080
   pullSecretName: gitlab-registry-credentials
-replicaCount: 2
+replicaCount: 1
 service:
   type: ClusterIP
   port: 80
 resources:
   limits:
-    memory: 500Mi
+    memory: 1Gi
   requests:
-    memory: 500Mi
+    memory: 1Gi
     cpu: 500m
 ingress:
   annotations:
