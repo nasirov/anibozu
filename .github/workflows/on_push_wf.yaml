@@ -76,7 +76,7 @@ jobs:
           commit_hash=$(git rev-parse --short HEAD)
 
           mvn clean compile jib:build -Djib.to.image="${registry_path}/${app_name}:${commit_hash}"
-          echo "::set-output name=commit-hash::$(echo ${commit_hash})"
+          echo "commit-hash=${commit_hash}" >> $GITHUB_OUTPUT
 
       - name: Deploy to k8s
         uses: wahyd4/kubectl-helm-action@master
