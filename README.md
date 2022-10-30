@@ -13,6 +13,7 @@ The application analyzes a user's watching titles list from **[MyAnimeList](http
 | Supported Fandub Sites                                                                                                                  | Link Contains a New Episode |
 |:----------------------------------------------------------------------------------------------------------------------------------------|:---------------------------:|
 | [![9anime](/images/favicons/9anime.png)](https://9anime.id/) **[9Anime](https://9anime.id/)**                                           |      :heavy_plus_sign:      |
+| [![akariGroup](/images/favicons/akariGroup.png)](https://akari-anime.com/) **[Akari Group](https://akari-anime.com/)**                  |     :heavy_minus_sign:      |
 | [![anidub](/images/favicons/anidub.png)](https://anime.anidub.life/) **[Anidub](https://anime.anidub.life/)**                           |     :heavy_minus_sign:      |
 | [![anilibria](/images/favicons/anilibria.png)](https://www.anilibria.tv/) **[Anilibria](https://www.anilibria.tv/)**                    |     :heavy_minus_sign:      |
 | [![animeBest](/images/favicons/animeBest.png)](https://animebesst.org/) **[AnimeBest](https://animebesst.org/)**                        |     :heavy_minus_sign:      |
@@ -21,7 +22,7 @@ The application analyzes a user's watching titles list from **[MyAnimeList](http
 | [![jamClub](/images/favicons/jamClub.png)](https://jam-club.org/) **[Jam Club](https://jam-club.org/)**                                 |     :heavy_minus_sign:      |
 | [![jisedai](/images/favicons/jisedai.png)](https://jisedai.tv/) **[Jisedai](https://jisedai.tv/)**                                      |     :heavy_minus_sign:      |
 | [![jutsu](/images/favicons/jutsu.png)](https://jut.su/) **[Jutsu](https://jut.su/)**                                                    |      :heavy_plus_sign:      |
-| [![shizaProject](/images/favicons/shizaProject.png)](https://shiza-project.com/) **[SHIZA Project](https://shiza-project.com/)**         |     :heavy_minus_sign:      |
+| [![shizaProject](/images/favicons/shizaProject.png)](https://shiza-project.com/) **[SHIZA Project](https://shiza-project.com/)**        |     :heavy_minus_sign:      |
 | [![sovetRomantica](/images/favicons/sovetRomantica.png)](https://sovetromantica.com/) **[SovetRomantica](https://sovetromantica.com/)** |      :heavy_plus_sign:      |
 
 # Try It Out
