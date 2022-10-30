@@ -119,7 +119,7 @@
       <id>fandub-microservices</id>
       <url>https://maven.pkg.github.com/nasirov/fandub-microservices</url>
       <releases>
-        <updatePolicy>always</updatePolicy>
+        <updatePolicy>never</updatePolicy>
         <enabled>true</enabled>
       </releases>
       <snapshots>
