@@ -38,9 +38,9 @@ function buildAvailable(titleDto, fandubList) {
   let linkHolder = buildLinkHolder();
   let linksAmount = appendLinks(titleDto, linkHolder, fandubList);
   let fandubSlider = buildFandubSlider(titleDto);
-  if (linksAmount > 3) {
-    let leftSliderArrow = buildLeftSliderArrow();
-    let rightSliderArrow = buildRightSliderArrow();
+  if (linksAmount > LINKS_TO_SHOW_IN_SLIDER) {
+    let leftSliderArrow = buildSliderArrow(SliderArrowDirection.LEFT);
+    let rightSliderArrow = buildSliderArrow(SliderArrowDirection.RIGHT);
     fandubSlider.append(leftSliderArrow, linkHolder, rightSliderArrow);
     overlay.append(fandubSlider);
   } else {
@@ -130,13 +130,7 @@ function buildFandubSlider(titleDto) {
 
 const SliderArrowDirection = {LEFT: 'left', RIGHT: 'right'};
 
-function buildLeftSliderArrow() {
-  return buildSliderArrow(SliderArrowDirection.LEFT);
-}
-
-function buildRightSliderArrow() {
-  return buildSliderArrow(SliderArrowDirection.RIGHT);
-}
+const LINKS_TO_SHOW_IN_SLIDER = 3;
 
 function buildSliderArrow(direction) {
   let container = $(
@@ -144,66 +138,75 @@ function buildSliderArrow(direction) {
       + 'class="anime-title__fandub_slider__arrow'
       + ' anime-title__fandub_slider__arrow--' + direction + '"></div>');
   container.mousedown(function () {
-    let fandubLinks = this.parentNode.getElementsByClassName(
-        'anime-title__link_holder')[0].children;
-    let fandubLinkToDisable;
-    let fandubLinkToEnable;
+    let linkHolder = this.parentNode.getElementsByClassName('anime-title__link_holder')[0];
+    let fandubLinks = linkHolder.children;
+    let shiftedFandubLinks = [];
+    let previousFandubLink = fandubLinks[getInitPreviousFandubLinkIndex(direction, fandubLinks)];
     for (let i = getLoopCounter(direction, fandubLinks);
         getLoopCondition(direction, i, fandubLinks);
         i = modifyLoopCounter(direction, i)) {
-      let currentFandubLink = $(fandubLinks[i]);
-      let currentFandubLinkDisabled = currentFandubLink.hasClass('is_disabled');
-      if (fandubLinkToDisable === undefined && !currentFandubLinkDisabled) {
-        fandubLinkToDisable = currentFandubLink;
-      } else if (fandubLinkToDisable !== undefined
-          && currentFandubLinkDisabled) {
-        fandubLinkToEnable = currentFandubLink;
-        fandubLinkToDisable.toggleClass('is_disabled');
-        fandubLinkToEnable.toggleClass('is_disabled');
-        break;
-      }
+      let currentFandubLink = fandubLinks[i];
+      shiftedFandubLinks[i] = previousFandubLink;
+      previousFandubLink = currentFandubLink;
     }
+    disableAndEnableFandubLinks(direction, shiftedFandubLinks);
+    linkHolder.replaceChildren(...shiftedFandubLinks);
   });
   return container;
 }
 
 function getLoopCounter(direction, fandubLinks) {
   let result;
-  switch (direction) {
-    case SliderArrowDirection.LEFT:
-      result = fandubLinks.length - 1;
-      break;
-    case SliderArrowDirection.RIGHT:
-      result = 0;
-      break;
+  if (SliderArrowDirection.LEFT === direction) {
+    result = 0;
+  } else if (SliderArrowDirection.RIGHT === direction) {
+    result = fandubLinks.length - 1;
   }
   return result;
 }
 
 function getLoopCondition(direction, counter, fandubLinks) {
   let result;
-  switch (direction) {
-    case SliderArrowDirection.LEFT:
-      result = counter >= 0;
-      break;
-    case SliderArrowDirection.RIGHT:
-      result = counter < fandubLinks.length;
-      break;
+  if (SliderArrowDirection.LEFT === direction) {
+    result = counter < fandubLinks.length;
+  } else if (SliderArrowDirection.RIGHT === direction) {
+    result = counter >= 0;
   }
   return result;
 }
 
 function modifyLoopCounter(direction, counter) {
   let result;
-  switch (direction) {
-    case SliderArrowDirection.LEFT:
-      result = counter - 1;
-      break;
-    case SliderArrowDirection.RIGHT:
-      result = counter + 1;
-      break;
+  if (SliderArrowDirection.LEFT === direction) {
+    result = counter + 1;
+  } else if (SliderArrowDirection.RIGHT === direction) {
+    result = counter - 1;
   }
   return result;
+}
+
+function getInitPreviousFandubLinkIndex(direction, fandubLinks) {
+  let result;
+  if (SliderArrowDirection.LEFT === direction) {
+    result = fandubLinks.length - 1;
+  } else if (SliderArrowDirection.RIGHT === direction) {
+    result = 0;
+  }
+  return result;
+}
+
+function disableAndEnableFandubLinks(direction, shiftedFandubLinks) {
+  let fandubLinkToDisableIndex;
+  let fandubLinkToEnableIndex;
+  if (SliderArrowDirection.LEFT === direction) {
+    fandubLinkToDisableIndex = LINKS_TO_SHOW_IN_SLIDER;
+    fandubLinkToEnableIndex = 0;
+  } else if (SliderArrowDirection.RIGHT === direction) {
+    fandubLinkToDisableIndex = shiftedFandubLinks.length - 1;
+    fandubLinkToEnableIndex = LINKS_TO_SHOW_IN_SLIDER - 1;
+  }
+  $(shiftedFandubLinks[fandubLinkToDisableIndex]).toggleClass('is_disabled');
+  $(shiftedFandubLinks[fandubLinkToEnableIndex]).toggleClass('is_disabled');
 }
 
 function buildLinkHolder() {
@@ -220,7 +223,7 @@ function appendLinks(titleDto, linkHolder, fandubList) {
       linksAmount++;
       let targetClass = 'anime-title__link_holder__link anime-title__link_holder__link--'
           + fandub;
-      if (linksAmount > 3) {
+      if (linksAmount > LINKS_TO_SHOW_IN_SLIDER) {
         targetClass += ' is_disabled';
       }
       let link = buildLink(targetClass, fanDubUrl);
