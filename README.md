@@ -13,6 +13,7 @@ supported Fandub Sites.
 | [![9anime](/images/favicons/9anime.png)](https://9anime.id/) **[9anime](https://9anime.id/)**                                           |         :heavy_plus_sign:         |
 | [![akariGroup](/images/favicons/akariGroup.png)](https://akari-anime.com/) **[Akari Group](https://akari-anime.com/)**                  |        :heavy_minus_sign:         |
 | [![amber](/images/favicons/amber.png)](https://vkstudioamber.github.io/) **[Amber](https://vkstudioamber.github.io/)**                  |         :heavy_plus_sign:         |
+| [![aniNyaTv](/images/favicons/aniNyaTv.png)](https://aninyatv.ru/) **[AniNya.TV](https://aninyatv.ru/)**                                |         :heavy_plus_sign:         |
 | [![anidub](/images/favicons/anidub.png)](https://anime.anidub.life/) **[Anidub](https://anime.anidub.life/)**                           |        :heavy_minus_sign:         |
 | [![anilibria](/images/favicons/anilibria.png)](https://www.anilibria.tv/) **[Anilibria](https://www.anilibria.tv/)**                    |        :heavy_minus_sign:         |
 | [![animeBest](/images/favicons/animeBest.png)](https://anime1.animebesst.org/) **[AnimeBest](https://anime1.animebesst.org/)**          |        :heavy_minus_sign:         |
