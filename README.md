@@ -25,11 +25,12 @@ supported Fandub Sites.
 | [![jisedai](/images/favicons/jisedai.png)](https://jisedai.tv/) **[Jisedai](https://jisedai.tv/)**                                      |        :heavy_minus_sign:         |
 | [![jutsu](/images/favicons/jutsu.png)](https://jut.su/) **[Jutsu](https://jut.su/)**                                                    |         :heavy_plus_sign:         |
 | [![shizaProject](/images/favicons/shizaProject.png)](https://shiza-project.com/) **[SHIZA Project](https://shiza-project.com/)**        |        :heavy_minus_sign:         |
+| [![stepOnee](/images/favicons/stepOnee.png)](https://steponee.tv/) **[STEPonee](https://steponee.tv/)**                                 |        :heavy_minus_sign:         |
 | **[Shiroi Kitsune](https://shiroikitsune.org/)**                                                                                        |        :heavy_minus_sign:         |
 | [![sovetRomantica](/images/favicons/sovetRomantica.png)](https://sovetromantica.com/) **[SovetRomantica](https://sovetromantica.com/)** |         :heavy_plus_sign:         |
 
-> :memo: **Note:** 
-> 
+> :memo: **Note:**
+>
 > If a Fandub site doesn't provide direct links to episodes, you will have to choose it manually by name in the site's embedded video player.
 > You can see target episodes names by hovering Fandub sites logos.
 

@@ -46,6 +46,7 @@ application:
       - SHIROI_KITSUNE
       - SHIZAPROJECT
       - SOVETROMANTICA
+      - STEP_ONEE
   caches-names:
     result-cache: result-cache
 
