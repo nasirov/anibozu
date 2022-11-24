@@ -22,6 +22,7 @@ supported Fandub Sites.
 | [![anythingGroup](/images/favicons/anythingGroup.png)](https://a-g.site/) **[Anything Group](https://a-g.site/)**                       |         :heavy_plus_sign:         |
 | [![dubClub](/images/favicons/dubClub.png)](https://dubclub.online/) **[DubClub](https://dubclub.online/)**                              |        :heavy_minus_sign:         |
 | [![frondaStudio](/images/favicons/frondaStudio.png)](https://frondastudio.ru/) **[Fronda Studio](https://frondastudio.ru/)**            |        :heavy_minus_sign:         |
+| [![fumoDub](/images/favicons/fumoDub.png)](https://fumodub.ru/) **[FumoDub](https://fumodub.ru/)**                                      |         :heavy_plus_sign:         |
 | [![haronMedia](/images/favicons/haronMedia.png)](https://haronmedia.online/) **[Haron Media](https://haronmedia.online/)**              |         :heavy_plus_sign:         |
 | [![insomniaStudio](/images/favicons/insomniaStudio.png)](https://somnis.ru/) **[INSOMNIA Studio](https://somnis.ru/)**                  |         :heavy_plus_sign:         |
 | [![jnUnion](/images/favicons/jnUnion.png)](https://jn-union.com/) **[J&N union](https://jn-union.com/)**                                |        :heavy_minus_sign:         |
