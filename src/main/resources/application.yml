@@ -37,6 +37,7 @@ application:
       - ANIMEDIA
       - ANIME_BEST
       - ANI_NYA_TV
+      - ANI_PLAY_TV
       - ANYTHING_GROUP
       - DREAM_CAST
       - DUB_CLUB

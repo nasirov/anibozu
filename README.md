@@ -15,6 +15,7 @@ supported Fandub Sites.
 | [![amber](/images/favicons/amber.png)](https://vkstudioamber.github.io/) **[Amber](https://vkstudioamber.github.io/)**                     |         :heavy_plus_sign:         |
 | [![anibreeze](/images/favicons/anibreeze.png)](http://anibreeze.ru/) **[AniBreeze](http://anibreeze.ru/)**                                 |        :heavy_minus_sign:         |
 | [![aniNyaTv](/images/favicons/aniNyaTv.png)](https://aninyatv.ru/) **[AniNya.TV](https://aninyatv.ru/)**                                   |         :heavy_plus_sign:         |
+| [![aniPlayTv](/images/favicons/aniPlayTv.png)](https://aniplay.tv/) **[AniPlay.TV](https://aniplay.tv/)**                                  |         :heavy_plus_sign:         |
 | [![anidub](/images/favicons/anidub.png)](https://anime.anidub.life/) **[Anidub](https://anime.anidub.life/)**                              |        :heavy_minus_sign:         |
 | [![anilibria](/images/favicons/anilibria.png)](https://www.anilibria.tv/) **[Anilibria](https://www.anilibria.tv/)**                       |        :heavy_minus_sign:         |
 | [![animeBest](/images/favicons/animeBest.png)](https://anime1.animebesst.org/) **[AnimeBest](https://anime1.animebesst.org/)**             |        :heavy_minus_sign:         |
