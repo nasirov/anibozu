@@ -38,6 +38,7 @@ application:
       - ANIME_BEST
       - ANI_NYA_TV
       - ANYTHING_GROUP
+      - DREAM_CAST
       - DUB_CLUB
       - FREE_DUB
       - FRONDA_STUDIO
