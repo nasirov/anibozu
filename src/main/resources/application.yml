@@ -36,8 +36,11 @@ application:
       - ANILIBRIA
       - ANIMEDIA
       - ANIME_BEST
+      - ANIME_JET
       - ANI_NYA_TV
+      - ANI_PLAGUE
       - ANI_PLAY_TV
+      - ANI_RISE
       - ANYTHING_GROUP
       - DREAM_CAST
       - DUB_CLUB
