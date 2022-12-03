@@ -37,6 +37,7 @@ application:
       - ANIMEDIA
       - ANIME_BEST
       - ANIME_JET
+      - ANI_MAUNT
       - ANI_NYA_TV
       - ANI_PLAGUE
       - ANI_PLAY_TV

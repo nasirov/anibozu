@@ -14,6 +14,7 @@ supported Fandub Sites.
 | [![akariGroup](/images/favicons/akariGroup.png)](https://akari-anime.com/) **[Akari Group](https://akari-anime.com/)**                  |        :heavy_minus_sign:         |
 | [![amber](/images/favicons/amber.png)](https://vkstudioamber.github.io/) **[Amber](https://vkstudioamber.github.io/)**                  |         :heavy_plus_sign:         |
 | [![anibreeze](/images/favicons/anibreeze.png)](http://anibreeze.ru/) **[AniBreeze](http://anibreeze.ru/)**                              |        :heavy_minus_sign:         |
+| [![aniMaunt](/images/favicons/aniMaunt.png)](https://animaunt.org/) **[AniMaunt](https://animaunt.org/)**                               |        :heavy_minus_sign:         |
 | [![aniNyaTv](/images/favicons/aniNyaTv.png)](https://aninyatv.ru/) **[AniNya.TV](https://aninyatv.ru/)**                                |         :heavy_plus_sign:         |
 | [![aniPlague](/images/favicons/aniPlague.png)](https://plaguestudios.nl/) **[AniPlague](https://plaguestudios.nl/)**                    |        :heavy_minus_sign:         |
 | [![aniPlayTv](/images/favicons/aniPlayTv.png)](https://aniplay.tv/) **[AniPlay.TV](https://aniplay.tv/)**                               |         :heavy_plus_sign:         |
