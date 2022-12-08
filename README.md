@@ -39,7 +39,7 @@ supported Fandub Sites.
 | [![kalabsStudio](/images/favicons/kalabsStudio.png)](https://kalabs.bicbai.ru/) **[Kalabs Studio](https://kalabs.bicbai.ru/)**          |        :heavy_minus_sign:         |
 | [![komnataDidi](/images/favicons/komnataDidi.png)](https://komnatadidi.com/) **[Komnata DiDi](https://komnatadidi.com/)**               |        :heavy_minus_sign:         |
 | [![senuProject](/images/favicons/senuProject.png)](https://senu.pro/) **[SENU Project](https://senu.pro/)**                             |        :heavy_minus_sign:         |
-| [![shizaProject](/images/favicons/shizaProject.png)](https://shiza-project.com/) **[SHIZA Project](https://shiza-project.com/)**        |        :heavy_minus_sign:         |
+| ~~![shizaProject](/images/favicons/shizaProject.png) SHIZA Project~~                                                                    |        :heavy_minus_sign:         |
 | [![stepOnee](/images/favicons/stepOnee.png)](https://steponee.tv/) **[STEPonee](https://steponee.tv/)**                                 |        :heavy_minus_sign:         |
 | **[Shiroi Kitsune](https://shiroikitsune.org/)**                                                                                        |        :heavy_minus_sign:         |
 | [![sovetRomantica](/images/favicons/sovetRomantica.png)](https://sovetromantica.com/) **[SovetRomantica](https://sovetromantica.com/)** |         :heavy_plus_sign:         |

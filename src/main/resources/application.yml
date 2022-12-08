@@ -59,7 +59,6 @@ application:
       - NINEANIME
       - SENU_PROJECT
       - SHIROI_KITSUNE
-      - SHIZAPROJECT
       - SOVETROMANTICA
       - STEP_ONEE
   caches-names:
