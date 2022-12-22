@@ -1,5 +1,6 @@
 package nasirov.yv.ac.data.front;
 
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -18,6 +19,7 @@ import org.springframework.validation.annotation.Validated;
 @AllArgsConstructor
 public class InputDto {
 
+	@NotNull
 	@Pattern(regexp = "^[\\w-]{2,16}$", message =
 			"Please enter a valid mal username between 2 and 16 characters(latin letters, numbers, underscores "
 					+ "and dashes only)")

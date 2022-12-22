@@ -64,7 +64,7 @@ class ResultViewControllerTest extends AbstractTest {
 	@Test
 	void shouldReturn400ForInvalidUsernames() {
 		//given
-		String[] invalidUsernameArray = {"", "moreThan16Charssss", "space between ", "@#!sd"};
+		String[] invalidUsernameArray = {null, "", "moreThan16Charssss", "space between ", "@#!sd"};
 		//when
 		List<ResponseSpec> result = Arrays.stream(invalidUsernameArray)
 				.map(x -> call(x, Collections.singletonMap(HttpHeaders.ACCEPT, MediaType.TEXT_HTML_VALUE)))
