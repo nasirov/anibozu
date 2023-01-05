@@ -5,8 +5,7 @@ spring:
 
 starter-common:
   external-services:
-    fandub-titles-service-url: http://localhost:8089/
-    mal-service-url: http://localhost:8087/
+    mal-access-service-url: http://localhost:8088/
 
 starter-reactive-services:
   web-client:

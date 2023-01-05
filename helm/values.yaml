@@ -28,4 +28,4 @@ ingress:
       - anime-checker.nasirov.info
     secretName: certificate-nasirov-info
   paths:
-    - /((?!((actuator))).*)
+    - /((?!((actuator|refresh/cache/github))).*)

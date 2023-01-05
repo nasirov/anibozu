@@ -1,0 +1,18 @@
+[
+  {
+    "anime_id": 444,
+    "num_watched_episodes": 5,
+    "anime_num_episodes": 12,
+    "anime_title": "TITLE NAME 444",
+    "anime_image_path": "https://cdn.myanimelist.net/r/96x136/images/anime/444/1011.jpg?s=2c645b8c2a73c6f3efdf3840d97cac41",
+    "anime_url": "/anime/444/Title_Name_444"
+  },
+  {
+    "anime_id": 555,
+    "num_watched_episodes": 12,
+    "anime_num_episodes": 12,
+    "anime_title": "TITLE NAME 555",
+    "anime_image_path": "https://cdn.myanimelist.net/r/96x136/images/anime/555/789.jpg?s=3c645b8c2a73c6f3efdf3840d97cac41",
+    "anime_url": "/anime/555/Title_Name_555"
+  }
+]

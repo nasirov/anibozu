@@ -1,7 +1,5 @@
 package nasirov.yv.ac.controller;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
 import nasirov.yv.ac.AbstractTest;
 import nasirov.yv.ac.utils.IOUtils;
 import org.junit.jupiter.api.Test;
@@ -20,13 +18,11 @@ class IndexViewControllerTest extends AbstractTest {
 		//when
 		ResponseSpec result = webTestClient.get().uri("/").exchange();
 		//then
-		String responseBody = result.expectStatus()
+		result.expectStatus()
 				.isEqualTo(HttpStatus.OK)
 				.expectHeader()
 				.cacheControl(CacheControl.noStore().mustRevalidate())
 				.expectBody(String.class)
-				.returnResult()
-				.getResponseBody();
-		assertEquals(IOUtils.readFromFile("classpath:view/test-index-view.html"), responseBody);
+				.isEqualTo(IOUtils.readFromFile("classpath:__files/view/test-index-view.html"));
 	}
 }

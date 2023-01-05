@@ -64,6 +64,17 @@
       <artifactId>commons-collections4</artifactId>
     </dependency>
 
+    <dependency>
+      <groupId>org.jsoup</groupId>
+      <artifactId>jsoup</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>org.springframework.cloud</groupId>
+      <artifactId>spring-cloud-starter-contract-stub-runner</artifactId>
+      <scope>test</scope>
+    </dependency>
+
   </dependencies>
 
   <build>
@@ -73,6 +84,13 @@
       <plugin>
         <groupId>com.google.cloud.tools</groupId>
         <artifactId>jib-maven-plugin</artifactId>
+        <configuration>
+          <container>
+            <environment>
+              <GITHUB_ACCESS_TOKEN>${env.GITHUB_ACCESS_TOKEN}</GITHUB_ACCESS_TOKEN>
+            </environment>
+          </container>
+        </configuration>
       </plugin>
 
       <plugin>
@@ -97,7 +115,8 @@
         <configuration>
           <excludes>
             <exclude>**/configuration/**</exclude>
-            <exclude>**/data/**</exclude>
+            <exclude>**/dto/**</exclude>
+            <exclude>**/properties/**</exclude>
             <exclude>**/exception/**</exclude>
             <exclude>**/AnimeCheckerApplication**</exclude>
           </excludes>

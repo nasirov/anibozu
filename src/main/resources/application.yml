@@ -7,18 +7,15 @@ spring:
 
 starter-reactive-services:
   web-client:
-    enabled: true
-    connection-timeout: 2s
     read-timeout: 60s
-    max-attempts: 2
+    max-attempts: 1
 
 starter-cache:
   enabled: true
   type: CAFFEINE
   caches:
-    - name: ${application.caches-names.result-cache:}
-      expire-after-write: 5m
-      maximum-size: 50
+    - name: ${application.cache-props.github-cache-name:}
+      expire-after-write: 24h
 
 management:
   endpoint:
@@ -27,44 +24,48 @@ management:
         enabled: true
 
 application:
-  fandub-support:
-    enabled:
-      - AKARI_GROUP
-      - AMBER
-      - ANIBREEZE
-      - ANIDUB
-      - ANILIBRIA
-      - ANIMEDIA
-      - ANIME_BEST
-      - ANIME_JET
-      - ANI_FILM
-      - ANI_MAUNT
-      - ANI_NYA_TV
-      - ANI_PLAGUE
-      - ANI_PLAY_TV
-      - ANI_RISE
-      - ANYTHING_GROUP
-      - DREAM_CAST
-      - DUB_CLUB
-      - FREE_DUB
-      - FRONDA_STUDIO
-      - FUMO_DUB
-      - HARON_MEDIA
-      - INSOMNIA_STUDIO
-      - JAMCLUB
-      - JISEDAI
-      - JN_UNION
-      - JUTSU
-      - KALABS_STUDIO
-      - KOMNATA_DIDI
-      - LE_PRODUCTION_TV
-      - NINEANIME
-      - SENU_PROJECT
-      - SHIROI_KITSUNE
-      - SOVETROMANTICA
-      - STEP_ONEE
-  caches-names:
-    result-cache: result-cache
+  cache-props:
+    cache-on-startup: true
+    github-cache-name: github
+    github-cache-key: common-titles
+  mal-props:
+    offset-step: 300
+    url: https://myanimelist.net
+  enabled-fandub-sources:
+    - AKARI_GROUP
+    - AMBER
+    - ANIBREEZE
+    - ANIDUB
+    - ANILIBRIA
+    - ANIMEDIA
+    - ANIME_BEST
+    - ANIME_JET
+    - ANI_FILM
+    - ANI_MAUNT
+    - ANI_NYA_TV
+    - ANI_PLAGUE
+    - ANI_PLAY_TV
+    - ANI_RISE
+    - ANYTHING_GROUP
+    - DREAM_CAST
+    - DUB_CLUB
+    - FREE_DUB
+    - FRONDA_STUDIO
+    - FUMO_DUB
+    - HARON_MEDIA
+    - INSOMNIA_STUDIO
+    - JAMCLUB
+    - JISEDAI
+    - JN_UNION
+    - JUTSU
+    - KALABS_STUDIO
+    - KOMNATA_DIDI
+    - LE_PRODUCTION_TV
+    - NINEANIME
+    - SENU_PROJECT
+    - SHIROI_KITSUNE
+    - SOVETROMANTICA
+    - STEP_ONEE
 
 server:
   port: 8080

@@ -4,35 +4,28 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Optional;
-import java.util.Set;
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.TimeUnit;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import nasirov.yv.ac.data.constants.BaseConstants;
-import nasirov.yv.ac.data.front.InputDto;
-import nasirov.yv.ac.data.front.ResultDto;
-import nasirov.yv.ac.data.front.TitleDto;
-import nasirov.yv.ac.data.front.TitleDto.TitleDtoBuilder;
-import nasirov.yv.ac.data.front.TitleType;
-import nasirov.yv.ac.data.properties.CachesNames;
-import nasirov.yv.ac.data.properties.FandubSupportProps;
-import nasirov.yv.ac.service.FandubTitlesServiceI;
+import nasirov.yv.ac.dto.fe.InputDto;
+import nasirov.yv.ac.dto.fe.ResultDto;
+import nasirov.yv.ac.dto.fe.TitleDto;
+import nasirov.yv.ac.dto.fe.TitleDto.TitleDtoBuilder;
+import nasirov.yv.ac.dto.fe.TitleType;
+import nasirov.yv.ac.dto.mal.MalUserInfo;
+import nasirov.yv.ac.properties.AppProps;
+import nasirov.yv.ac.service.CommonTitlesServiceI;
 import nasirov.yv.ac.service.MalServiceI;
 import nasirov.yv.ac.service.ResultProcessingServiceI;
-import nasirov.yv.ac.util.MalUtils;
 import nasirov.yv.starter.common.constant.FandubSource;
 import nasirov.yv.starter.common.dto.fandub.common.CommonTitle;
 import nasirov.yv.starter.common.dto.mal.MalTitle;
-import nasirov.yv.starter.common.dto.mal_service.MalServiceResponseDto;
+import nasirov.yv.starter.common.dto.mal.MalTitleWatchingStatus;
 import nasirov.yv.starter.common.properties.StarterCommonProperties;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.tuple.Pair;
-import org.springframework.cache.Cache;
-import org.springframework.cache.CacheManager;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
 
@@ -44,72 +37,47 @@ import reactor.core.publisher.Mono;
 @RequiredArgsConstructor
 public class ResultProcessingService implements ResultProcessingServiceI {
 
-	private static final ResultDto FALLBACK_VALUE = new ResultDto(BaseConstants.GENERIC_ERROR_MESSAGE);
+	public static final String GENERIC_ERROR_MESSAGE = "Sorry, something went wrong.";
+
+	private static final ResultDto FALLBACK_VALUE = new ResultDto(GENERIC_ERROR_MESSAGE);
 
 	private final MalServiceI malService;
 
-	private final FandubTitlesServiceI fandubTitlesService;
+	private final CommonTitlesServiceI commonTitlesService;
 
-	private final CacheManager cacheManager;
-
-	private final CachesNames cachesNames;
+	private final AppProps appProps;
 
 	private final StarterCommonProperties starterCommonProperties;
 
-	private final FandubSupportProps fandubSupportProps;
-
 	@Override
 	public Mono<ResultDto> getResult(InputDto inputDto) {
-		Cache cache = cacheManager.getCache(cachesNames.getResultCache());
-		return Mono.justOrEmpty(cache)
-				.flatMap(x -> getResultFromCache(inputDto, x))
-				.filter(Optional::isPresent)
-				.map(Optional::get)
-				.switchIfEmpty(buildResult(inputDto, cache))
-				.doOnSubscribe(x -> log.info("Processing [{}]...", inputDto.getUsername()));
-	}
-
-	private Mono<Optional<ResultDto>> getResultFromCache(InputDto inputDto, Cache cache) {
-		return Mono.fromFuture(
-						() -> CompletableFuture.supplyAsync(() -> Optional.ofNullable(cache.get(inputDto.getUsername(),
-										ResultDto.class)))
-								.orTimeout(2, TimeUnit.SECONDS))
-				.doOnError(e -> log.error("Failed to lookup cache", e))
-				.onErrorReturn(Optional.empty())
-				.doOnSuccess(x -> x.ifPresent(
-						r -> log.info("Found cached Titles [{}], Error Message [{}] for [{}].", r.getTitles().size(),
-								r.getErrorMessage(), inputDto.getUsername())));
-	}
-
-	private Mono<ResultDto> buildResult(InputDto inputDto, Cache cache) {
 		return Mono.just(inputDto)
-				.flatMap(malService::getUserWatchingTitles)
+				.flatMap(x -> malService.getMalUserInfo(x.getUsername(), MalTitleWatchingStatus.WATCHING))
 				.flatMap(this::buildResult)
 				.defaultIfEmpty(FALLBACK_VALUE)
 				.onErrorReturn(FALLBACK_VALUE)
-				.doOnSuccess(x -> cacheResult(inputDto, x, cache));
+				.doOnSubscribe(x -> log.info("Processing [{}]...", inputDto.getUsername()))
+				.doOnSuccess(x -> log.info("Titles [{}], Error Message [{}] for [{}].", x.getTitles().size(), x.getErrorMessage(),
+						inputDto.getUsername()));
 	}
 
-	private Mono<ResultDto> buildResult(MalServiceResponseDto malServiceResponseDto) {
+	private Mono<ResultDto> buildResult(MalUserInfo malUserInfo) {
 		Mono<ResultDto> result;
-		String malServiceErrorMessage = malServiceResponseDto.getErrorMessage();
-		if (StringUtils.isBlank(malServiceErrorMessage) && CollectionUtils.isNotEmpty(malServiceResponseDto.getMalTitles())) {
-			result = fandubTitlesService.getCommonTitles(getEnabledFandubSources(), malServiceResponseDto.getMalTitles())
-					.map(y -> buildResult(y, malServiceResponseDto.getMalTitles()));
+		String malServiceErrorMessage = malUserInfo.getErrorMessage();
+		boolean blankMalServiceErrorMessage = StringUtils.isBlank(malServiceErrorMessage);
+		List<MalTitle> malTitles = malUserInfo.getMalTitles();
+		if (blankMalServiceErrorMessage && CollectionUtils.isNotEmpty(malTitles)) {
+			result = commonTitlesService.getCommonTitles(appProps.getEnabledFandubSources(), malTitles)
+					.map(x -> buildResult(x, malTitles));
 		} else {
-			result = Mono.just(
-					StringUtils.isBlank(malServiceErrorMessage) ? FALLBACK_VALUE : new ResultDto(malServiceErrorMessage));
+			result = Mono.just(blankMalServiceErrorMessage ? FALLBACK_VALUE : new ResultDto(malServiceErrorMessage));
 		}
 		return result;
 	}
 
-	private Set<FandubSource> getEnabledFandubSources() {
-		return fandubSupportProps.getEnabled();
-	}
-
 	private ResultDto buildResult(Map<Integer, Map<FandubSource, List<CommonTitle>>> malIdToMatchedCommonTitlesByFandubSource,
 			List<MalTitle> malTitles) {
-		ResultDto result = new ResultDto(getEnabledFandubSources());
+		ResultDto result = new ResultDto(appProps.getEnabledFandubSources());
 		Map<Integer, MalTitle> malIdToMalTitle = malTitles.stream()
 				.collect(Collectors.toMap(MalTitle::getId, Function.identity()));
 		for (Entry<Integer, Map<FandubSource, List<CommonTitle>>> entry : malIdToMatchedCommonTitlesByFandubSource.entrySet()) {
@@ -120,7 +88,7 @@ public class ResultProcessingService implements ResultProcessingServiceI {
 	}
 
 	private TitleDto buildTitle(MalTitle watchingTitle, Map<FandubSource, List<CommonTitle>> commonTitlesByFandubSource) {
-		Integer nextEpisodeForWatch = MalUtils.getNextEpisodeForWatch(watchingTitle);
+		Integer nextEpisodeForWatch = watchingTitle.getNextEpisodeForWatch();
 		TitleDtoBuilder titleDtoBuilder = TitleDto.builder()
 				.nameOnMal(watchingTitle.getName())
 				.episodeNumberOnMal(nextEpisodeForWatch.toString())
@@ -150,20 +118,5 @@ public class ResultProcessingService implements ResultProcessingServiceI {
 				.filter(x -> nextEpisodeForWatch.equals(x.getMalEpisodeId()))
 				.findFirst()
 				.map(x -> Pair.of(x.getName(), fandubUrl + x.getUrl()));
-	}
-
-	private void cacheResult(InputDto inputDto, ResultDto result, Cache cache) {
-		String username = inputDto.getUsername();
-		String errorMessage = result.getErrorMessage();
-		if (!StringUtils.equals(BaseConstants.GENERIC_ERROR_MESSAGE, errorMessage)) {
-			CompletableFuture.runAsync(() -> {
-				cache.put(username, result);
-				log.info("Cached Titles [{}], Error Message [{}] for [{}].", result.getTitles().size(), errorMessage, username);
-			}).orTimeout(2, TimeUnit.SECONDS).exceptionally(x -> {
-				log.error("Failed to cache Titles [{}], Error Message [{}] for [{}].", result.getTitles().size(), errorMessage,
-						username, x);
-				return null;
-			});
-		}
 	}
 }

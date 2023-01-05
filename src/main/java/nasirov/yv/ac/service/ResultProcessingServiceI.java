@@ -1,7 +1,7 @@
 package nasirov.yv.ac.service;
 
-import nasirov.yv.ac.data.front.InputDto;
-import nasirov.yv.ac.data.front.ResultDto;
+import nasirov.yv.ac.dto.fe.InputDto;
+import nasirov.yv.ac.dto.fe.ResultDto;
 import reactor.core.publisher.Mono;
 
 /**

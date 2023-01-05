@@ -1,7 +1,7 @@
 package nasirov.yv.ac.service;
 
-import nasirov.yv.ac.data.front.InputDto;
-import nasirov.yv.starter.common.dto.mal_service.MalServiceResponseDto;
+import nasirov.yv.ac.dto.mal.MalUserInfo;
+import nasirov.yv.starter.common.dto.mal.MalTitleWatchingStatus;
 import reactor.core.publisher.Mono;
 
 /**
@@ -9,5 +9,5 @@ import reactor.core.publisher.Mono;
  */
 public interface MalServiceI {
 
-	Mono<MalServiceResponseDto> getUserWatchingTitles(InputDto inputDto);
+	Mono<MalUserInfo> getMalUserInfo(String username, MalTitleWatchingStatus status);
 }

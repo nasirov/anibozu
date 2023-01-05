@@ -4,16 +4,28 @@ spring:
       - org.springframework.boot.autoconfigure.data.redis.RedisAutoConfiguration
 
 starter-common:
+  github:
+    token: foobar
+    url: http://localhost:${wiremock.server.port}/
   external-services:
-    fandub-titles-service-url: http://localhost:8089/
-    mal-service-url: http://localhost:8087/
+    mal-access-service-url: http://localhost:${wiremock.server.port}/
+
+starter-reactive-services:
+  web-client:
+    max-attempts: 0
 
 starter-cache:
   type: CAFFEINE
 
 application:
-  fandub-support:
-    enabled: ANIDUB,ANILIBRIA,SHIZAPROJECT
+  cache-props:
+    cache-on-startup: false
+  mal-props:
+    offset-step: 3
+    url: http://localhost:${wiremock.server.port}
+  enabled-fandub-sources:
+    - ANILIBRIA
+    - NINEANIME
 
 logging:
   level:

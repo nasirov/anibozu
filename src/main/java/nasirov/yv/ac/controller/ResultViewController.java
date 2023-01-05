@@ -7,9 +7,9 @@ import java.util.stream.Collectors;
 import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import nasirov.yv.ac.data.front.InputDto;
-import nasirov.yv.ac.data.front.ResultDto;
-import nasirov.yv.ac.data.front.TitleDto;
+import nasirov.yv.ac.dto.fe.InputDto;
+import nasirov.yv.ac.dto.fe.ResultDto;
+import nasirov.yv.ac.dto.fe.TitleDto;
 import nasirov.yv.ac.service.ResultProcessingServiceI;
 import nasirov.yv.starter.common.constant.FandubSource;
 import nasirov.yv.starter.common.service.WrappedObjectMapperI;
@@ -37,7 +37,7 @@ public class ResultViewController {
 		return Mono.just(inputDto)
 				.flatMap(titlesService::getResult)
 				.map(x -> determineView(inputDto, model, x))
-				.doOnSuccess(x -> log.info("Got result view [{}] for [{}].", x, inputDto.getUsername()));
+				.doOnSuccess(x -> log.info("Got view [{}] for [{}].", x, inputDto.getUsername()));
 	}
 
 	private String determineView(InputDto inputDto, Model model, ResultDto resultDto) {

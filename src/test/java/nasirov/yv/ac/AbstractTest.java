@@ -1,32 +1,45 @@
 package nasirov.yv.ac;
 
-import static org.mockito.ArgumentMatchers.argThat;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.doReturn;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.spy;
+import static org.mockito.Mockito.verify;
 
-import java.time.Duration;
+import com.github.tomakehurst.wiremock.WireMockServer;
+import com.github.tomakehurst.wiremock.client.WireMock;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
-import nasirov.yv.ac.data.front.InputDto;
-import nasirov.yv.ac.data.properties.CachesNames;
-import nasirov.yv.ac.data.properties.FandubSupportProps;
-import nasirov.yv.ac.service.HttpRequestServiceDtoBuilderI;
+import lombok.SneakyThrows;
+import nasirov.yv.ac.dto.cache.CacheEntity;
+import nasirov.yv.ac.properties.AppProps;
+import nasirov.yv.ac.service.CacheServiceI;
+import nasirov.yv.ac.service.CommonTitlesServiceI;
+import nasirov.yv.ac.service.MalAccessRestorerI;
+import nasirov.yv.ac.service.MalServiceI;
 import nasirov.yv.ac.service.ResultProcessingServiceI;
+import nasirov.yv.ac.utils.AwareHelper;
+import nasirov.yv.ac.utils.IOUtils;
 import nasirov.yv.starter.common.constant.FandubSource;
-import nasirov.yv.starter.common.dto.mal.MalTitle;
-import nasirov.yv.starter.common.dto.mal.MalTitleWatchingStatus;
-import nasirov.yv.starter.common.dto.mal_service.MalServiceResponseDto;
-import nasirov.yv.starter.common.properties.StarterCommonProperties;
-import nasirov.yv.starter.reactive.services.service.HttpRequestServiceI;
+import nasirov.yv.starter.common.dto.fandub.common.CommonTitle;
+import nasirov.yv.starter.common.service.GitHubResourcesServiceI;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
+import org.mockito.invocation.InvocationOnMock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.boot.test.mock.mockito.SpyBean;
 import org.springframework.cache.Cache;
 import org.springframework.cache.CacheManager;
+import org.springframework.cloud.contract.wiremock.AutoConfigureWireMock;
 import org.springframework.context.ApplicationContext;
+import org.springframework.http.HttpStatus;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.reactive.server.WebTestClient;
 import reactor.core.publisher.Mono;
@@ -35,13 +48,12 @@ import reactor.core.publisher.Mono;
  * @author Nasirov Yuriy
  */
 @ActiveProfiles("test")
+@AutoConfigureWireMock(port = 0)
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 public abstract class AbstractTest {
 
-	public static final String MAL_USERNAME = "foobarbaz";
-
 	@SpyBean
-	protected HttpRequestServiceI httpRequestService;
+	protected GitHubResourcesServiceI<Mono<List<CommonTitle>>, Mono<Map<FandubSource, Integer>>> gitHubResourcesService;
 
 	@SpyBean
 	protected ResultProcessingServiceI resultProcessingService;
@@ -49,60 +61,121 @@ public abstract class AbstractTest {
 	@SpyBean
 	protected CacheManager cacheManager;
 
+	@SpyBean
+	protected CommonTitlesServiceI commonTitlesService;
+
+	@SpyBean
+	protected MalServiceI malService;
+
+	@SpyBean
+	protected MalAccessRestorerI malAccessRestorer;
+
 	@Autowired
 	protected ApplicationContext applicationContext;
 
 	@Autowired
-	protected StarterCommonProperties starterCommonProperties;
+	protected AppProps appProps;
 
 	@Autowired
-	protected HttpRequestServiceDtoBuilderI httpRequestServiceDtoBuilder;
+	protected CacheServiceI cacheService;
 
 	@Autowired
-	protected CachesNames cachesNames;
-
-	@Autowired
-	protected FandubSupportProps fandubSupportProps;
+	protected WireMockServer wireMockServer;
 
 	protected WebTestClient webTestClient;
 
+	protected AwareHelper awareHelper;
+
 	@BeforeEach
-	void setUp() {
-		webTestClient = WebTestClient.bindToApplicationContext(applicationContext)
-				.configureClient()
-				.responseTimeout(Duration.ofDays(1))
-				.build();
+	protected void setUp() {
+		this.webTestClient = WebTestClient.bindToApplicationContext(applicationContext).build();
+		this.awareHelper = new AwareHelper();
 	}
 
 	@AfterEach
-	void tearDown() {
+	protected void tearDown() {
 		clearCaches();
+		clearAllStub();
 	}
 
-	protected void mockExternalMalServiceResponse(MalServiceResponseDto malServiceResponseDto) {
-		doReturn(Mono.just(malServiceResponseDto)).when(httpRequestService)
-				.performHttpRequest(argThat(x -> x.getUrl()
-						.equals(starterCommonProperties.getExternalServices().getMalServiceUrl() + "titles?username=" + MAL_USERNAME
-								+ "&status=" + MalTitleWatchingStatus.WATCHING.name())));
+	protected void stubHttpRequest(String url, String bodyFilePath, HttpStatus httpStatus) {
+		wireMockServer.addStubMapping(WireMock.get(url)
+				.willReturn(WireMock.aResponse().withBodyFile(bodyFilePath).withStatus(httpStatus.value()))
+				.build());
 	}
 
-	protected MalServiceResponseDto buildMalServiceResponseDto(List<MalTitle> malTitles, String errorMessage) {
-		return MalServiceResponseDto.builder().username(MAL_USERNAME).malTitles(malTitles).errorMessage(errorMessage).build();
-	}
-
-	protected InputDto buildInputDto() {
-		return InputDto.builder().username(MAL_USERNAME).build();
-	}
-
-	protected String buildCacheKeyForUser() {
-		return MAL_USERNAME;
+	protected void stubHttpRequest(String url, HttpStatus httpStatus) {
+		wireMockServer.addStubMapping(WireMock.get(url).willReturn(WireMock.aResponse().withStatus(httpStatus.value())).build());
 	}
 
 	protected Set<FandubSource> getEnabledFandubSources() {
-		return fandubSupportProps.getEnabled();
+		return appProps.getEnabledFandubSources();
+	}
+
+	protected void mockGitHubResourcesService() {
+		getEnabledFandubSources().forEach(x -> doReturn(Mono.just(
+				IOUtils.unmarshalToListFromFile("classpath:__files/github/" + x.getName() + "-titles.json",
+						CommonTitle.class))).when(gitHubResourcesService).getResource(x));
+	}
+
+	protected void fillGithubCache() {
+		mockGitHubResourcesService();
+		spyGithubCachePut();
+		cacheService.fillGithubCache().block();
+		waitForCachePut();
+		checkGithubCacheIsFilled();
+		verify(gitHubResourcesService, never()).getResourcesParts();
+	}
+
+	protected Cache spyGithubCachePut() {
+		Cache spiedCache = getSpiedGithubCache();
+		doAnswer(this::doAnswerAsRealMethodAndSignal).when(spiedCache).put(eq(getGithubCacheKey()), any(List.class));
+		return spiedCache;
+	}
+
+	@SneakyThrows
+	protected Class<Void> doAnswerAsRealMethodAndSignal(InvocationOnMock invocation) {
+		invocation.callRealMethod();
+		awareHelper.signal();
+		return Void.TYPE;
+	}
+
+	protected void waitForCachePut() {
+		awareHelper.await();
+	}
+
+	protected void checkGithubCacheIsFilled() {
+		Cache githubCache = getGithubCache();
+		assertNotNull(githubCache);
+		List<CacheEntity> cached = githubCache.get(getGithubCacheKey(), List.class);
+		assertNotNull(cached);
+	}
+
+	protected Cache getGithubCache() {
+		return cacheManager.getCache(getGithubCacheName());
+	}
+
+	protected String getGithubCacheName() {
+		return appProps.getCacheProps().getGithubCacheName();
+	}
+
+	protected Cache getSpiedGithubCache() {
+		Cache githubCache = getGithubCache();
+		assertNotNull(githubCache);
+		Cache spiedCache = spy(githubCache);
+		doReturn(spiedCache).when(cacheManager).getCache(getGithubCacheName());
+		return spiedCache;
+	}
+
+	protected String getGithubCacheKey() {
+		return appProps.getCacheProps().getGithubCacheKey();
 	}
 
 	private void clearCaches() {
 		cacheManager.getCacheNames().stream().map(cacheManager::getCache).filter(Objects::nonNull).forEach(Cache::clear);
+	}
+
+	private void clearAllStub() {
+		wireMockServer.resetAll();
 	}
 }
