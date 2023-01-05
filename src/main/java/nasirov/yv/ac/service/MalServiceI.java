@@ -1,7 +1,6 @@
 package nasirov.yv.ac.service;
 
 import nasirov.yv.ac.dto.mal.MalUserInfo;
-import nasirov.yv.starter.common.dto.mal.MalTitleWatchingStatus;
 import reactor.core.publisher.Mono;
 
 /**
@@ -9,5 +8,5 @@ import reactor.core.publisher.Mono;
  */
 public interface MalServiceI {
 
-	Mono<MalUserInfo> getMalUserInfo(String username, MalTitleWatchingStatus status);
+	Mono<MalUserInfo> getMalUserInfo(String username);
 }

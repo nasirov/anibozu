@@ -105,7 +105,7 @@ public class CommonTitlesService implements CommonTitlesServiceI {
 		if (malIds.size() > 1) {
 			result = malIds.stream()
 					.map(x -> new CommonTitle(commonTitle, List.of(x), Map.of(x, malIdToEpisodes.getOrDefault(x, List.of()))))
-					.collect(Collectors.toList());
+					.toList();
 		} else {
 			result = List.of(commonTitle);
 		}
@@ -141,7 +141,7 @@ public class CommonTitlesService implements CommonTitlesServiceI {
 				.getOrDefault(malId, List.of())
 				.stream()
 				.map(x -> buildCommonTitleWithTargetEpisode(malEpisodeId, x, malId))
-				.collect(Collectors.toList()));
+				.toList());
 	}
 
 	private CommonTitle buildCommonTitleWithTargetEpisode(Integer malEpisodeId, CommonTitle commonTitle, Integer malId) {

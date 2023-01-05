@@ -21,7 +21,6 @@ import nasirov.yv.ac.service.ResultProcessingServiceI;
 import nasirov.yv.starter.common.constant.FandubSource;
 import nasirov.yv.starter.common.dto.fandub.common.CommonTitle;
 import nasirov.yv.starter.common.dto.mal.MalTitle;
-import nasirov.yv.starter.common.dto.mal.MalTitleWatchingStatus;
 import nasirov.yv.starter.common.properties.StarterCommonProperties;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -52,7 +51,7 @@ public class ResultProcessingService implements ResultProcessingServiceI {
 	@Override
 	public Mono<ResultDto> getResult(InputDto inputDto) {
 		return Mono.just(inputDto)
-				.flatMap(x -> malService.getMalUserInfo(x.getUsername(), MalTitleWatchingStatus.WATCHING))
+				.flatMap(x -> malService.getMalUserInfo(x.getUsername()))
 				.flatMap(this::buildResult)
 				.defaultIfEmpty(FALLBACK_VALUE)
 				.onErrorReturn(FALLBACK_VALUE)

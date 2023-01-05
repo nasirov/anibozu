@@ -18,9 +18,6 @@ import nasirov.yv.starter.common.dto.mal.MalTitle;
 public class MalUserInfo {
 
 	@NotNull
-	private String username;
-
-	@NotNull
 	private List<MalTitle> malTitles;
 
 	@NotNull

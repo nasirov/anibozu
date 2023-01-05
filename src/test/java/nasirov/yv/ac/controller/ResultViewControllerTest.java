@@ -1,6 +1,5 @@
 package nasirov.yv.ac.controller;
 
-import static nasirov.yv.starter.common.dto.mal.MalTitleWatchingStatus.WATCHING;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.ArgumentMatchers.any;
@@ -259,7 +258,7 @@ class ResultViewControllerTest extends AbstractTest {
 	@Test
 	void shouldReturnErrorViewMalServiceException() {
 		//given
-		doThrow(new RuntimeException("MalService cause")).when(malService).getMalUserInfo(MAL_USERNAME, WATCHING);
+		doThrow(new RuntimeException("MalService cause")).when(malService).getMalUserInfo(MAL_USERNAME);
 		//when
 		ResponseSpec result = call(MAL_USERNAME, Map.of());
 		//then

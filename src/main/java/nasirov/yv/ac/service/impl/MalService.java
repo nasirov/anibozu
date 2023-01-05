@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -48,21 +47,22 @@ public class MalService implements MalServiceI {
 	private final AppProps appProps;
 
 	@Override
-	public Mono<MalUserInfo> getMalUserInfo(String username, MalTitleWatchingStatus status) {
+	public Mono<MalUserInfo> getMalUserInfo(String username) {
+		MalTitleWatchingStatus status = MalTitleWatchingStatus.WATCHING;
 		return Mono.just(username)
 				.flatMap(this::getUserProfile)
 				.map(x -> getAmountOfTitles(status, x))
 				.flatMap(x -> buildResult(username, status, x))
 				.onErrorReturn(MalUserAccountNotFoundException.class::isInstance,
-						buildErrorResponse(username, "MAL account " + username + " is not found."))
+						buildErrorResponse("MAL account " + username + " is not found."))
 				.onErrorReturn(MalForbiddenException.class::isInstance,
-						buildErrorResponse(username, "Sorry, " + username + ", but MAL rejected our requests with status 403."))
+						buildErrorResponse("Sorry, " + username + ", but MAL rejected our requests with status 403."))
 				.onErrorReturn(UnexpectedCallingException.class::isInstance,
-						buildErrorResponse(username, "Sorry, " + username + ", unexpected error has occurred."))
+						buildErrorResponse("Sorry, " + username + ", unexpected error has occurred."))
 				.onErrorReturn(WatchingTitlesNotFoundException.class::isInstance,
-						buildErrorResponse(username, "Not found watching titles for " + username + " !"))
+						buildErrorResponse("Not found watching titles for " + username + " !"))
 				.onErrorReturn(MalUserAnimeListAccessException.class::isInstance,
-						buildErrorResponse(username, username + "'s anime list has private access!"))
+						buildErrorResponse(username + "'s anime list has private access!"))
 				.doOnSubscribe(x -> log.debug("Trying to build MalUserInfo for [{}]", username))
 				.doOnSuccess(x -> log.debug("Built MalUserInfo for [{}].", username));
 	}
@@ -100,12 +100,12 @@ public class MalService implements MalServiceI {
 		return Flux.fromIterable(generateOffsets(amountOfTitles))
 				.flatMap(x -> getPartOfTitles(x, username, status))
 				.collectList()
-				.map(x -> new MalUserInfo(username, mergeLists(x, status), StringUtils.EMPTY));
+				.map(x -> new MalUserInfo(mergeLists(x), StringUtils.EMPTY));
 	}
 
 	private List<Integer> generateOffsets(int amountOfTitles) {
 		int offsetStep = appProps.getMalProps().getOffsetStep();
-		return IntStream.iterate(0, x -> x < amountOfTitles, x -> x + offsetStep).boxed().collect(Collectors.toList());
+		return IntStream.iterate(0, x -> x < amountOfTitles, x -> x + offsetStep).boxed().toList();
 	}
 
 	private Mono<List<MalTitle>> getPartOfTitles(Integer currentOffset, String username, MalTitleWatchingStatus status) {
@@ -115,24 +115,20 @@ public class MalService implements MalServiceI {
 				.mapNotNull(ResponseEntity::getBody);
 	}
 
-	private List<MalTitle> mergeLists(List<List<MalTitle>> malTitleLists, MalTitleWatchingStatus status) {
+	private List<MalTitle> mergeLists(List<List<MalTitle>> malTitleLists) {
 		return malTitleLists.stream()
 				.flatMap(List::stream)
-				.filter(x -> isWatchingNotCompleted(x, status))
-				.peek(this::formatMalTitle)
-				.collect(Collectors.toList());
+				.filter(this::isWatchingNotCompleted)
+				.map(this::formatMalTitle)
+				.toList();
 	}
 
-	private boolean isWatchingNotCompleted(MalTitle malTitle, MalTitleWatchingStatus status) {
-		boolean result = true;
-		if (MalTitleWatchingStatus.WATCHING == status) {
-			Integer animeNumEpisodes = malTitle.getAnimeNumEpisodes();
-			result = animeNumEpisodes == 0 || malTitle.getNumWatchedEpisodes() < animeNumEpisodes;
-		}
-		return result;
+	private boolean isWatchingNotCompleted(MalTitle malTitle) {
+		Integer animeNumEpisodes = malTitle.getAnimeNumEpisodes();
+		return animeNumEpisodes == 0 || malTitle.getNumWatchedEpisodes() < animeNumEpisodes;
 	}
 
-	private void formatMalTitle(MalTitle malTitle) {
+	private MalTitle formatMalTitle(MalTitle malTitle) {
 		String changedPosterUrl = StringUtils.EMPTY;
 		Matcher matcher = POSTER_URL_RESOLUTION_PATTERN.matcher(malTitle.getPosterUrl());
 		if (matcher.find()) {
@@ -142,12 +138,15 @@ public class MalService implements MalServiceI {
 		if (matcher.find()) {
 			changedPosterUrl = matcher.replaceAll(StringUtils.EMPTY);
 		}
-		malTitle.setPosterUrl(changedPosterUrl);
+		if (StringUtils.isNotBlank(changedPosterUrl)) {
+			malTitle.setPosterUrl(changedPosterUrl);
+		}
 		malTitle.setAnimeUrl(appProps.getMalProps().getUrl() + malTitle.getAnimeUrl());
 		malTitle.setName(HtmlUtils.htmlUnescape(malTitle.getName()));
+		return malTitle;
 	}
 
-	private MalUserInfo buildErrorResponse(String username, String errorMessage) {
-		return MalUserInfo.builder().username(username).malTitles(List.of()).errorMessage(errorMessage).build();
+	private MalUserInfo buildErrorResponse(String errorMessage) {
+		return MalUserInfo.builder().malTitles(List.of()).errorMessage(errorMessage).build();
 	}
 }
