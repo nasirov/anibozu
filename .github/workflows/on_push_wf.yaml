@@ -6,7 +6,6 @@ on:
       - master
     paths-ignore:
       - 'images/**'
-      - '.github/**'
       - '**/.gitattributes'
       - '**/.gitignore'
       - '**/LICENSE'
