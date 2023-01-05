@@ -16,6 +16,10 @@ env:
   USERNAME: ${{ secrets.USERNAME }}
   TOKEN: ${{ secrets.TOKEN }}
   PROJECT: anime-checker
+  SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
+  SONAR_LOGIN: ${{ secrets.SONAR_LOGIN }}
+  SONAR_ORGANIZATION: ${{ secrets.SONAR_ORGANIZATION }}
+  SONAR_PROJECTKEY: ${{ secrets.SONAR_PROJECTKEY }}
 
 jobs:
 
@@ -45,17 +49,18 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-maven-default
 
-      - name: Tests
+      - name: Tests and Sonar
         run: |
           skip_tests_message="[microservices] set parent version"
           current_commit_message=$(git log -1 --pretty=format:%s)
           
           if [[ "${skip_tests_message}" == "${current_commit_message}" ]]; then
               echo "Tests have been run during [EVENT] microservice-parent-released"
-              echo "Will skip tests"
+              echo "Will skip tests and push to Sonar"
           else
-              echo "Regular commit, will run tests"
-              mvn clean test
+              echo "Regular commit, will run tests and push to Sonar"
+              mvn clean package && mvn sonar:sonar -Dsonar.host.url=${{ env.SONAR_HOST_URL }} -Dsonar.projectKey=${{ env.SONAR_PROJECTKEY }} \
+              -Dsonar.organization=${{ env.SONAR_ORGANIZATION }} -Dsonar.login=${{ env.SONAR_LOGIN }}
           fi
 
       - name: Validate helm chart
