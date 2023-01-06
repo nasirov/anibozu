@@ -32,41 +32,18 @@ application:
     offset-step: 300
     url: https://myanimelist.net
   enabled-fandub-sources:
-    - AKARI_GROUP
-    - AMBER
-    - ANIBREEZE
     - ANIDUB
     - ANILIBRIA
     - ANIMEDIA
-    - ANIME_BEST
-    - ANIME_JET
     - ANI_FILM
     - ANI_MAUNT
-    - ANI_NYA_TV
-    - ANI_PLAGUE
-    - ANI_PLAY_TV
-    - ANI_RISE
     - ANYTHING_GROUP
     - DREAM_CAST
-    - DUB_CLUB
     - FREE_DUB
-    - FRONDA_STUDIO
-    - FUMO_DUB
-    - HARON_MEDIA
-    - INSOMNIA_STUDIO
-    - JAMCLUB
-    - JISEDAI
-    - JN_UNION
-    - JUTSU
-    - KALABS_STUDIO
     - KODIK
-    - KOMNATA_DIDI
-    - LE_PRODUCTION_TV
     - NINEANIME
     - SENU_PROJECT
-    - SHIROI_KITSUNE
     - SOVETROMANTICA
-    - STEP_ONEE
   ignore-next-episode-for-watch:
     - KODIK
 
