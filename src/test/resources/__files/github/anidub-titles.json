@@ -1,0 +1,70 @@
+[
+  {
+    "id": {
+      "id": "100",
+      "extra": {}
+    },
+    "url": "anidub-url-100",
+    "type": "MAIN",
+    "malIds": [
+      111
+    ],
+    "malIdToEpisodes": {
+      "111": [
+        {
+          "malEpisodeId": 10,
+          "name": "1 Серия для 111",
+          "url": "anidub-url-100/10"
+        }
+      ]
+    }
+  },
+  {
+    "id": {
+      "id": "200",
+      "extra": {}
+    },
+    "url": "anidub-url-200",
+    "type": "EXTRA",
+    "malIds": [
+      222,
+      333
+    ],
+    "malIdToEpisodes": {
+      "222": [
+        {
+          "malEpisodeId": 10,
+          "name": "1 Серия для 222",
+          "url": "anidub-url-200/10"
+        }
+      ],
+      "333": [
+        {
+          "malEpisodeId": 10,
+          "name": "1 Серия для 333",
+          "url": "anidub-url-200/20"
+        }
+      ]
+    }
+  },
+  {
+    "id": {
+      "id": "300",
+      "extra": {}
+    },
+    "url": "anidub-url-300",
+    "type": "NOT_FOUND",
+    "malIds": [],
+    "malIdToEpisodes": {}
+  },
+  {
+    "id": {
+      "id": "400",
+      "extra": {}
+    },
+    "url": "anidub-url-400",
+    "type": "NOT_FOUND",
+    "malIds": [],
+    "malIdToEpisodes": {}
+  }
+]

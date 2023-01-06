@@ -1,13 +1,13 @@
 package nasirov.yv.ac.service.impl;
 
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.TimeUnit;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -55,13 +55,10 @@ public class CommonTitlesService implements CommonTitlesServiceI {
 	@Override
 	public Mono<Map<Integer, Map<FandubSource, List<CommonTitle>>>> getCommonTitles(Set<FandubSource> fandubSources,
 			List<MalTitle> malTitles) {
-		Map<Integer, Integer> malIdToEpisode = malTitles.stream()
-				.collect(Collectors.toMap(MalTitle::getId, MalTitle::getNextEpisodeForWatch, (o, n) -> o, LinkedHashMap::new));
-		return getCommonTitlesMappedByMalId().flatMapMany(
-						x -> Flux.fromStream(malIdToEpisode.entrySet().stream().map(y -> Pair.of(x, y))))
-				.map(x -> buildMalIdToFandubSourcesCommonTitlesPair(fandubSources, x.getValue().getKey(), x.getValue().getValue(),
-						x.getKey()))
-				.collectMap(Pair::getKey, Pair::getValue, LinkedHashMap::new)
+		return getCommonTitlesMappedByMalId().map(map -> malTitles.stream()
+						.collect(Collectors.toMap(MalTitle::getId, malTitle -> fandubSources.stream()
+								.collect(Collectors.toMap(Function.identity(),
+										fandubSource -> map.getOrDefault(fandubSource, Map.of()).getOrDefault(malTitle.getId(), List.of()))))))
 				.doOnSubscribe(x -> log.debug("Trying to get common titles..."))
 				.doOnSuccess(x -> log.debug("Got [{}] common titles.", x.size()));
 	}
@@ -124,34 +121,5 @@ public class CommonTitlesService implements CommonTitlesServiceI {
 			log.error("Failed to cache common titles mapped by mal id.", x);
 			return null;
 		});
-	}
-
-	private Pair<Integer, Map<FandubSource, List<CommonTitle>>> buildMalIdToFandubSourcesCommonTitlesPair(
-			Set<FandubSource> fandubSources, Integer malId, Integer malEpisodeId,
-			Map<FandubSource, Map<Integer, List<CommonTitle>>> cache) {
-		return Pair.of(malId, fandubSources.stream()
-				.map(x -> buildFandubSourceToCommonTitlesPair(x, malId, malEpisodeId, cache))
-				.collect(Collectors.toMap(Pair::getKey, Pair::getValue)));
-	}
-
-	private Pair<FandubSource, List<CommonTitle>> buildFandubSourceToCommonTitlesPair(FandubSource fandubSource,
-			Integer malId,
-			Integer malEpisodeId, Map<FandubSource, Map<Integer, List<CommonTitle>>> cache) {
-		return Pair.of(fandubSource, cache.getOrDefault(fandubSource, Map.of())
-				.getOrDefault(malId, List.of())
-				.stream()
-				.map(x -> buildCommonTitleWithTargetEpisode(malEpisodeId, x, malId))
-				.toList());
-	}
-
-	private CommonTitle buildCommonTitleWithTargetEpisode(Integer malEpisodeId, CommonTitle commonTitle, Integer malId) {
-		List<CommonEpisode> listWithTargetEpisode = commonTitle.getMalIdToEpisodes()
-				.getOrDefault(malId, List.of())
-				.stream()
-				.filter(x -> x.getMalEpisodeId().equals(malEpisodeId))
-				.findFirst()
-				.map(List::of)
-				.orElse(List.of());
-		return new CommonTitle(commonTitle, Map.of(malId, listWithTargetEpisode));
 	}
 }

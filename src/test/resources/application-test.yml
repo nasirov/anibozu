@@ -24,8 +24,11 @@ application:
     offset-step: 3
     url: http://localhost:${wiremock.server.port}
   enabled-fandub-sources:
+    - ANIDUB
     - ANILIBRIA
     - NINEANIME
+  ignore-next-episode-for-watch:
+    - ANIDUB
 
 logging:
   level:

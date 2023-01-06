@@ -27,6 +27,9 @@ public class AppProps {
 	private Set<FandubSource> enabledFandubSources;
 
 	@NotNull
+	private Set<FandubSource> ignoreNextEpisodeForWatch;
+
+	@NotNull
 	private MalProps malProps;
 
 	public void setEnabledFandubSources(Set<FandubSource> enabledFandubSources) {

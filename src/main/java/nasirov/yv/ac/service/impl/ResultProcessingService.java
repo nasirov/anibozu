@@ -98,8 +98,7 @@ public class ResultProcessingService implements ResultProcessingServiceI {
 			FandubSource fandubSource = entry.getKey();
 			Optional<Pair<String, String>> result = Optional.of(entry.getValue())
 					.filter(CollectionUtils::isNotEmpty)
-					.flatMap(x -> buildNameAndUrlPair(nextEpisodeForWatch, x,
-							starterCommonProperties.getFandub().getUrls().get(fandubSource)));
+					.flatMap(x -> buildNameAndUrlPair(x, fandubSource, nextEpisodeForWatch));
 			if (result.isPresent()) {
 				Pair<String, String> episodeNameToUrl = result.get();
 				titleDtoBuilder.fandubToEpisodeName(fandubSource, episodeNameToUrl.getKey());
@@ -110,11 +109,13 @@ public class ResultProcessingService implements ResultProcessingServiceI {
 		return titleDtoBuilder.type(titleType).build();
 	}
 
-	private Optional<Pair<String, String>> buildNameAndUrlPair(Integer nextEpisodeForWatch, List<CommonTitle> matchedTitles,
-			String fandubUrl) {
+	private Optional<Pair<String, String>> buildNameAndUrlPair(List<CommonTitle> matchedTitles, FandubSource fandubSource,
+			Integer nextEpisodeForWatch) {
+		String fandubUrl = starterCommonProperties.getFandub().getUrls().get(fandubSource);
+		boolean ignoreNextEpisodeForWatch = appProps.getIgnoreNextEpisodeForWatch().contains(fandubSource);
 		return matchedTitles.stream()
 				.flatMap(x -> x.getMalIdToEpisodes().values().stream().flatMap(List::stream))
-				.filter(x -> nextEpisodeForWatch.equals(x.getMalEpisodeId()))
+				.filter(x -> ignoreNextEpisodeForWatch || nextEpisodeForWatch.equals(x.getMalEpisodeId()))
 				.findFirst()
 				.map(x -> Pair.of(x.getName(), fandubUrl + x.getUrl()));
 	}

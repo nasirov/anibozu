@@ -59,6 +59,7 @@ application:
     - JN_UNION
     - JUTSU
     - KALABS_STUDIO
+    - KODIK
     - KOMNATA_DIDI
     - LE_PRODUCTION_TV
     - NINEANIME
@@ -66,6 +67,8 @@ application:
     - SHIROI_KITSUNE
     - SOVETROMANTICA
     - STEP_ONEE
+  ignore-next-episode-for-watch:
+    - KODIK
 
 server:
   port: 8080
