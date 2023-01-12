@@ -32,7 +32,6 @@ application:
     offset-step: 300
     url: https://myanimelist.net
   enabled-fandub-sources:
-    - ANIDUB
     - ANILIBRIA
     - ANIMEDIA
     - ANI_FILM
