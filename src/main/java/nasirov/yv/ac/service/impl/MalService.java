@@ -41,6 +41,8 @@ public class MalService implements MalServiceI {
 
 	private static final Pattern S_VARIABLE_PATTERN = Pattern.compile("(\\?s=.+)");
 
+	private static final String ERROR_MESSAGE_PREFIX = "Sorry, ";
+
 	private final HttpRequestServiceI httpRequestService;
 
 	private final HttpRequestServiceDtoBuilderI httpRequestServiceDtoBuilder;
@@ -57,11 +59,11 @@ public class MalService implements MalServiceI {
 				.onErrorReturn(MalUserAccountNotFoundException.class::isInstance,
 						buildErrorResponse("MAL account " + username + " is not found."))
 				.onErrorReturn(MalForbiddenException.class::isInstance,
-						buildErrorResponse("Sorry, " + username + ", but MAL rejected our requests with status 403."))
+						buildErrorResponse(ERROR_MESSAGE_PREFIX + username + ", but MAL rejected our requests with status 403."))
 				.onErrorReturn(MalUnavailableException.class::isInstance,
-						buildErrorResponse("Sorry, " + username + ", but MAL is unavailable now."))
+						buildErrorResponse(ERROR_MESSAGE_PREFIX + username + ", but MAL is unavailable now."))
 				.onErrorReturn(UnexpectedCallingException.class::isInstance,
-						buildErrorResponse("Sorry, " + username + ", unexpected error has occurred."))
+						buildErrorResponse(ERROR_MESSAGE_PREFIX + username + ", unexpected error has occurred."))
 				.onErrorReturn(WatchingTitlesNotFoundException.class::isInstance,
 						buildErrorResponse("Not found watching titles for " + username + " !"))
 				.onErrorReturn(MalUserAnimeListAccessException.class::isInstance,
