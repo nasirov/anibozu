@@ -140,6 +140,20 @@ class ResultViewControllerTest extends AbstractTest {
 	}
 
 	@Test
+	void shouldReturnErrorViewMalUnavailableException() {
+		//given
+		stubMalUserProfileHttpRequest(HttpStatus.SERVICE_UNAVAILABLE);
+		//when
+		ResponseSpec result = call(MAL_USERNAME, Map.of());
+		//then
+		result.expectStatus().isEqualTo(HttpStatus.OK);
+		Document document = getDocument(result);
+		String expectedErrorMessage = "Sorry, " + MAL_USERNAME + ", but MAL is unavailable now.";
+		assertEquals(expectedErrorMessage, getTitleText(document));
+		assertEquals(expectedErrorMessage, getHeaderText(document));
+	}
+
+	@Test
 	void shouldReturnErrorViewUnexpectedCallingException() {
 		//given
 		stubMalUserProfileHttpRequest(HttpStatus.GATEWAY_TIMEOUT);
@@ -191,6 +205,20 @@ class ResultViewControllerTest extends AbstractTest {
 		result.expectStatus().isEqualTo(HttpStatus.OK);
 		Document document = getDocument(result);
 		String expectedErrorMessage = "Sorry, " + MAL_USERNAME + ", unexpected error has occurred.";
+		assertEquals(expectedErrorMessage, getTitleText(document));
+		assertEquals(expectedErrorMessage, getHeaderText(document));
+	}
+
+	@Test
+	void shouldReturnErrorViewMalUnavailableExceptionOnAnimeList() {
+		//given
+		stubMalHttpRequests(HttpStatus.SERVICE_UNAVAILABLE);
+		//when
+		ResponseSpec result = call(MAL_USERNAME, Map.of());
+		//then
+		result.expectStatus().isEqualTo(HttpStatus.OK);
+		Document document = getDocument(result);
+		String expectedErrorMessage = "Sorry, " + MAL_USERNAME + ", but MAL is unavailable now.";
 		assertEquals(expectedErrorMessage, getTitleText(document));
 		assertEquals(expectedErrorMessage, getHeaderText(document));
 	}

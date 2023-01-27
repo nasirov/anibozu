@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import nasirov.yv.ac.dto.mal.MalUserInfo;
 import nasirov.yv.ac.exception.MalForbiddenException;
+import nasirov.yv.ac.exception.MalUnavailableException;
 import nasirov.yv.ac.exception.MalUserAccountNotFoundException;
 import nasirov.yv.ac.exception.MalUserAnimeListAccessException;
 import nasirov.yv.ac.exception.UnexpectedCallingException;
@@ -57,6 +58,8 @@ public class MalService implements MalServiceI {
 						buildErrorResponse("MAL account " + username + " is not found."))
 				.onErrorReturn(MalForbiddenException.class::isInstance,
 						buildErrorResponse("Sorry, " + username + ", but MAL rejected our requests with status 403."))
+				.onErrorReturn(MalUnavailableException.class::isInstance,
+						buildErrorResponse("Sorry, " + username + ", but MAL is unavailable now."))
 				.onErrorReturn(UnexpectedCallingException.class::isInstance,
 						buildErrorResponse("Sorry, " + username + ", unexpected error has occurred."))
 				.onErrorReturn(WatchingTitlesNotFoundException.class::isInstance,
@@ -78,6 +81,7 @@ public class MalService implements MalServiceI {
 			case NOT_FOUND -> throw new MalUserAccountNotFoundException();
 			case BAD_REQUEST -> throw new MalUserAnimeListAccessException();
 			case FORBIDDEN -> throw new MalForbiddenException();
+			case SERVICE_UNAVAILABLE -> throw new MalUnavailableException();
 			default -> {
 				if (responseStatus != HttpStatus.OK) {
 					throw new UnexpectedCallingException();
