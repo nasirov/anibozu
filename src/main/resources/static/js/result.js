@@ -81,13 +81,9 @@ function buildAnimeTitlePoster(src, alt, title) {
 }
 
 function buildMalEpisodeOverlay(targetEpisode) {
-  let episodeOverlay = $(
-      '<div class="anime-title__mal_episode_overlay"></div>');
-  let episodeSpan = $(
-      '<span class="anime-title__mal_episode_overlay--block"></span>').text(
-      targetEpisode);
-  episodeOverlay.append(episodeSpan,
-      '<span class="anime-title__mal_episode_overlay--block">episode</span>');
+  let episodeOverlay = $('<div class="anime-title__mal_episode_overlay"></div>');
+  let episodeSpan = $('<div></div>').text(targetEpisode);
+  episodeOverlay.append(episodeSpan, '<div>episode</div>');
   return episodeOverlay;
 }
 
@@ -134,8 +130,7 @@ const LINKS_TO_SHOW_IN_SLIDER = 3;
 
 function buildSliderArrow(direction) {
   let container = $(
-      '<div id="arrow ' + direction + '" '
-      + 'class="anime-title__fandub_slider__arrow'
+      '<div class="anime-title__fandub_slider__arrow'
       + ' anime-title__fandub_slider__arrow--' + direction + '"></div>');
   container.mousedown(function () {
     let linkHolder = this.parentNode.getElementsByClassName('anime-title__link_holder')[0];

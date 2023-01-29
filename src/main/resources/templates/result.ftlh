@@ -8,14 +8,14 @@
   <meta charset="UTF-8">
 </head>
 <body>
-<div class="container result result--centered">
+<div class="flex-wrapper">
   <input id="username" type="hidden" value="${username}"/>
   <input id="fandubList" type="hidden" value="${fandubList}"/>
   <input id="titles" type="hidden" value="${titles}"/>
-  <header class="result__header">
+  <div class="container">
     <h1 id="status">${username}'s currently watching titles</h1>
-  </header>
-  <section id="titles-section" class="titles"></section>
+    <section id="titles-section" class="titles"></section>
+  </div>
 </div>
 </body>
 <script src="/js/jquery.min.js"></script>

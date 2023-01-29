@@ -10,18 +10,17 @@
 </head>
 
 <body>
-<div class="container">
-  <div class="inner">
-    <h1 class="is_centered">Anime Checker</h1>
-    <section class="nes-container is-centered is-dark-alt">
-      <div class="nes-field is-dark-alt">
-        <form id="username-submit-form" action="/result" method="get">
-          <input type="text" id="username" name="username" value="" class="nes-input is-dark-alt" placeholder="Enter MAL username..."
-                 title="Please enter a valid mal username between 2 and 16 characters(latin letters, numbers, underscores and dashes only)" autofocus>
-          <button type="submit" class="nes-btn is-dark-alt is-primary width_full">Search For New Episodes</button>
-        </form>
-      </div>
-    </section>
+<div class="flex-wrapper height-full-vh">
+  <div class="container">
+    <h1>Anime Checker</h1>
+    <div class="nes-container is-dark-alt width-full-percents">
+      <form id="username-submit-form" class="nes-field is-dark-alt username-submit-form" action="/result" method="get">
+        <input type="text" id="username" name="username" value="" class="nes-input is-dark-alt width-full-percents"
+               placeholder="Enter MAL username..."
+               title="Please enter a valid mal username between 2 and 16 characters(latin letters, numbers, underscores and dashes only)" autofocus>
+        <button type="submit" class="nes-btn is-dark-alt is-primary width-full-percents">Search For New Episodes</button>
+      </form>
+    </div>
   </div>
 </div>
 </body>

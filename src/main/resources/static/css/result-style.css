@@ -1,31 +1,22 @@
 *, ::after, ::before {
-  box-sizing: border-box
+  box-sizing: border-box;
 }
 
 html {
-  width: 100%;
-  height: 100%;
-  display: table;
-  cursor: url('data:image/svg+xml,<?xml version="1.0" encoding="UTF-8" standalone="no"?><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd"><svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="32px" height="32px" viewBox="0 0 32 32" enable-background="new 0 0 32 32" xml:space="preserve">  <image id="image0" width="32" height="32" x="0" y="0"    href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAQAAADZc7J/AAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAAAmJLR0QA/4ePzL8AAAAHdElNRQfmBQ0IJTGBfYT3AAAAjklEQVRIx8WV2w6AMAhDi/H/fxkfnIbUASYD7ctuYT3plk0AAIpTgqfU9CfrGxYlUAK4XNQBIIpaggkAJKFYJth5gp012aAgg2GbOdksbA5FBAEFO2srgWlcit4MJt24SL7KwMtDajMY9hkBFxcTOBR8D+7C2lMgimDYdRM9afOb+IogqviAwFJ0/I3/6wBXASctloIZagAAACV0RVh0ZGF0ZTpjcmVhdGUAMjAyMi0wNS0xM1QwODozNzo0OSswMDowMILHuEUAAAAldEVYdGRhdGU6bW9kaWZ5ADIwMjItMDUtMTNUMDg6Mzc6NDkrMDA6MDDzmgD5AAAAAElFTkSuQmCC" /></svg>'), auto;
+  font-size: 16px;
 }
 
 body {
-  width: 100%;
-  display: table-cell;
-  font-size: 16px;
   color: rgb(247, 219, 167);
   background-color: rgb(34, 40, 49);
-  -webkit-font-smoothing: antialiased;
-  line-height: 1.5;
-}
-
-html, body {
   margin: 0;
   padding: 0;
+  line-height: 1.5;
+  cursor: url('data:image/svg+xml,<?xml version="1.0" encoding="UTF-8" standalone="no"?><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd"><svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="32px" height="32px" viewBox="0 0 32 32" enable-background="new 0 0 32 32" xml:space="preserve">  <image id="image0" width="32" height="32" x="0" y="0"    href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAQAAADZc7J/AAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAAAmJLR0QA/4ePzL8AAAAHdElNRQfmBQ0IJTGBfYT3AAAAjklEQVRIx8WV2w6AMAhDi/H/fxkfnIbUASYD7ctuYT3plk0AAIpTgqfU9CfrGxYlUAK4XNQBIIpaggkAJKFYJth5gp012aAgg2GbOdksbA5FBAEFO2srgWlcit4MJt24SL7KwMtDajMY9hkBFxcTOBR8D+7C2lMgimDYdRM9afOb+IogqviAwFJ0/I3/6wBXASctloIZagAAACV0RVh0ZGF0ZTpjcmVhdGUAMjAyMi0wNS0xM1QwODozNzo0OSswMDowMILHuEUAAAAldEVYdGRhdGU6bW9kaWZ5ADIwMjItMDUtMTNUMDg6Mzc6NDkrMDA6MDDzmgD5AAAAAElFTkSuQmCC" /></svg>'), auto;
 }
 
-a, button {
-  cursor: url('data:image/svg+xml,<?xml version="1.0" encoding="UTF-8" standalone="no"?><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd"><svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="32px" height="32px" viewBox="0 0 32 32" enable-background="new 0 0 32 32" xml:space="preserve">  <image id="image0" width="32" height="32" x="0" y="0"    href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAQAAADZc7J/AAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAAAmJLR0QA/4ePzL8AAAAHdElNRQfmBQ0INDc7xwLSAAAAiElEQVRIx+2VwQ7AIAhD22X//8vdZQdkSoiip3ExGobPWiYxCr0jEcaFxejXlwMIKJYJ/gLAncqSm5tbOUNgPSEANAuFBEnv23SqrBf0BVDy43ojKbV3UGBOA6eDT1Bn3KABQWZNUKlBrhsH2pT0QltgQof970J0/o0EAwrrxjME3Wz341gmeAAJixtHd0MpWAAAACV0RVh0ZGF0ZTpjcmVhdGUAMjAyMi0wNS0xM1QwODo1Mjo1NSswMDowMIdR06gAAAAldEVYdGRhdGU6bW9kaWZ5ADIwMjItMDUtMTNUMDg6NTI6NTUrMDA6MDD2DGsUAAAAAElFTkSuQmCC" /></svg>'), pointer
+a, button, .anime-title__fandub_slider__arrow {
+  cursor: url('data:image/svg+xml,<?xml version="1.0" encoding="UTF-8" standalone="no"?><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd"><svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="32px" height="32px" viewBox="0 0 32 32" enable-background="new 0 0 32 32" xml:space="preserve">  <image id="image0" width="32" height="32" x="0" y="0"    href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAQAAADZc7J/AAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAAAmJLR0QA/4ePzL8AAAAHdElNRQfmBQ0INDc7xwLSAAAAiElEQVRIx+2VwQ7AIAhD22X//8vdZQdkSoiip3ExGobPWiYxCr0jEcaFxejXlwMIKJYJ/gLAncqSm5tbOUNgPSEANAuFBEnv23SqrBf0BVDy43ojKbV3UGBOA6eDT1Bn3KABQWZNUKlBrhsH2pT0QltgQof970J0/o0EAwrrxjME3Wz341gmeAAJixtHd0MpWAAAACV0RVh0ZGF0ZTpjcmVhdGUAMjAyMi0wNS0xM1QwODo1Mjo1NSswMDowMIdR06gAAAAldEVYdGRhdGU6bW9kaWZ5ADIwMjItMDUtMTNUMDg6NTI6NTUrMDA6MDD2DGsUAAAAAElFTkSuQmCC" /></svg>'), pointer;
 }
 
 body, code, html, kbd, pre, samp {
@@ -37,25 +28,26 @@ a {
   outline: 0;
 }
 
+.flex-wrapper {
+  height: 100vh;
+  display: flex;
+  justify-content: safe center;
+  align-items: safe center;
+}
+
 .container {
-  width: 80%;
-  margin: 0 auto;
-}
-
-.result {
-  padding: 50px;
-}
-
-.result--centered {
-  text-align: center;
+  width: 60%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
 .titles {
-  position: relative;
-}
-
-.result__header {
-  margin: 1rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
 }
 
 .anime-title__overlay__mal_link {
@@ -68,12 +60,12 @@ a {
 
 .anime-title {
   position: relative;
-  display: inline-block;
   width: 225px;
   height: 320px;
   margin: 1.5rem;
   border: 4px solid rgb(247, 219, 167);
   transition: transform 0.5s;
+  flex-shrink: 0;
 }
 
 .anime-title__poster {
@@ -118,6 +110,7 @@ a {
   max-height: 45%;
   overflow: hidden;
   display: block;
+  text-align: center;
 }
 
 .anime-title__mal_episode_overlay {
@@ -129,10 +122,7 @@ a {
   width: 100%;
   height: 15%;
   overflow: hidden;
-}
-
-.anime-title__mal_episode_overlay--block {
-  display: block;
+  text-align: center;
 }
 
 .anime-title:hover .anime-title__overlay {

@@ -12,8 +12,8 @@
   <link rel="shortcut icon" type="image/x-icon" href="/img/faviconError.ico"/>
 </head>
 <body>
-<div class="container">
-  <div class="inner">
+<div class="flex-wrapper height-full-vh">
+  <div class="container">
   <#if errorMsg??>
     <h2>${errorMsg}</h2>
   <#else>
@@ -21,7 +21,7 @@
   </#if>
     <span>
             <a href="/">
-                <button type="button" class="nes-btn is-dark-alt is-primary width_full">Home</button>
+                <button type="button" class="nes-btn is-dark-alt is-primary">Home</button>
             </a>
         </span>
   </div>
