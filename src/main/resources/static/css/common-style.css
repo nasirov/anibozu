@@ -19,8 +19,7 @@ body {
 }
 
 .container {
-  width: 620px;
-  min-width: 290px;
+  width: 600px;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -33,4 +32,14 @@ body {
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
+}
+
+@media screen and (max-width: 576px) {
+  .container {
+    width: 100%;
+  }
+
+  .username-submit-form {
+    height: auto;
+  }
 }
