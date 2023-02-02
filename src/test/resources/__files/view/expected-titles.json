@@ -6,7 +6,7 @@
     "posterUrlOnMal": "https://cdn.myanimelist.net/images/anime/111/123.jpg",
     "animeUrlOnMal": "/anime/111/Title_Name_111",
     "fandubToUrl": {
-      "ANIDUB": "https://anime.anidub.life/anidub-url-100/10",
+      "ANIDUB": "https://anidub.com/anidub-url-100/10",
       "ANILIBRIA": "https://www.anilibria.tv/anilibria-url-100/1",
       "NINEANIME": "https://9anime.pl/9anime-url-100/1"
     },
@@ -23,7 +23,7 @@
     "posterUrlOnMal": "https://cdn.myanimelist.net/images/anime/222/456.jpg",
     "animeUrlOnMal": "/anime/222/Title_Name_222",
     "fandubToUrl": {
-      "ANIDUB": "https://anime.anidub.life/anidub-url-200/10",
+      "ANIDUB": "https://anidub.com/anidub-url-200/10",
       "ANILIBRIA": "https://www.anilibria.tv/anilibria-url-200/1",
       "NINEANIME": "https://9anime.pl/9anime-url-200/1"
     },
@@ -40,7 +40,7 @@
     "posterUrlOnMal": "https://cdn.myanimelist.net/images/anime/333/789.jpg",
     "animeUrlOnMal": "/anime/333/Title_Name_333",
     "fandubToUrl": {
-      "ANIDUB": "https://anime.anidub.life/anidub-url-200/20",
+      "ANIDUB": "https://anidub.com/anidub-url-200/20",
       "ANILIBRIA": "https://www.anilibria.tv/anilibria-url-200/2",
       "NINEANIME": "https://9anime.pl/9anime-url-200/2"
     },

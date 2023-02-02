@@ -7,6 +7,11 @@ starter-common:
   github:
     token: foobar
     url: http://localhost:${wiremock.server.port}/
+  fandub:
+    urls:
+      ANIDUB: https://anidub.com/
+      ANILIBRIA: https://www.anilibria.tv/
+      NINEANIME: https://9anime.pl/
   external-services:
     mal-access-service-url: http://localhost:${wiremock.server.port}/
 
