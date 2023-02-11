@@ -2,20 +2,20 @@
    Author: Nasirov Yuriy
 */
 
+const SLIDER_ARROW_DIRECTION = {LEFT: 'left', RIGHT: 'right'};
+
 $(document).ready(function () {
-	let titles = JSON.parse($('#titlesJson').val());
+	const titles = JSON.parse($('#titlesJson').val());
 	if (titles.length > 0) {
-		let i;
-		let fandubMap = new Map(Object.entries(JSON.parse($('#fandubMapJson').val())));
-		for (i in titles) {
-			let titleDto = titles[i];
-			let animeTitle = buildAnimeTitle();
-			registerHoverEvents(animeTitle);
-			let animeTitlePoster = buildAnimeTitlePoster(titleDto);
-			let animeTitleOverlay = buildAnimeTitleOverlay();
-			let animeTitleMalEpisodeOverlay = buildAnimeTitleMalEpisodeOverlay(titleDto);
+		const fandubMap = new Map(Object.entries(JSON.parse($('#fandubMapJson').val())));
+		for (const i in titles) {
+			const titleDto = titles[i];
+			const animeTitle = buildAnimeTitle();
+			const animeTitlePoster = buildAnimeTitlePoster(titleDto);
+			const animeTitleOverlay = buildAnimeTitleOverlay();
+			const animeTitleMalEpisodeOverlay = buildAnimeTitleMalEpisodeOverlay(titleDto);
 			if ('AVAILABLE' === titleDto.type) {
-				let animeTitleFandubSlider = buildAnimeTitleFandubSlider(titleDto, fandubMap);
+				const animeTitleFandubSlider = buildAnimeTitleFandubSlider(titleDto, fandubMap);
 				animeTitleOverlay.append(animeTitleFandubSlider);
 				appendFandubEpisodes(titleDto, animeTitleOverlay, fandubMap);
 			}
@@ -29,28 +29,26 @@ $(document).ready(function () {
 });
 
 function buildAnimeTitle() {
-	return $('<div class="anime-title"></div>');
-}
-
-function registerHoverEvents(animeTitle) {
-	animeTitle.mouseover(function () {
+	const result = $('<div class="anime-title"></div>');
+	result.mouseover(function () {
 		fitFandubText(this);
 	});
+	return result;
 }
 
-function fitFandubText(e) {
-	fitText(e.querySelector('.anime-title__link_holder__link--active'));
-	fitText(e.querySelector('.anime-title__fandub_episode_overlay--active'));
+function fitFandubText(element) {
+	fitText(element.querySelector('.anime-title__link_holder__link--active'));
+	fitText(element.querySelector('.anime-title__fandub_episode_overlay--active'));
 }
 
-function fitText(e) {
-	if (e !== null) {
-		textFit(e);
+function fitText(element) {
+	if (element !== null) {
+		textFit(element);
 	}
 }
 
 function buildAnimeTitlePoster(titleDto) {
-	let nameOnMal = titleDto.nameOnMal;
+	const nameOnMal = titleDto.nameOnMal;
 	return $('<img class="anime-title__poster" loading="lazy">')
 	.attr('src', titleDto.posterUrlOnMal)
 	.attr('alt', nameOnMal)
@@ -58,23 +56,23 @@ function buildAnimeTitlePoster(titleDto) {
 }
 
 function buildAnimeTitleMalEpisodeOverlay(titleDto) {
-	let result = $('<div class="anime-title__mal_info"></div>');
-	let episode = $('<span class="anime-title__mal_info__episode"></span>').text(titleDto.episodeNumberOnMal + ' ep.');
-	let malLink = buildLink('anime-title__mal_info__link mal-icon sized-icon-50', titleDto.animeUrlOnMal);
+	const result = $('<div class="anime-title__mal_info"></div>');
+	const episode = $('<span class="anime-title__mal_info__episode"></span>').text(titleDto.episodeNumberOnMal + ' ep.');
+	const malLink = buildLink('anime-title__mal_info__link mal-icon sized-icon-50', titleDto.animeUrlOnMal);
 	result.append(episode);
 	result.append(malLink);
 	return result;
 }
 
 function appendFandubEpisodes(titleDto, animeTitleOverlay, fandubMap) {
-	let firstNotActive = true;
+	let isFirstNotActive = true;
 	for (const fandub of fandubMap.keys()) {
-		let fanDubEpisodeName = titleDto.fandubToEpisodeName[fandub];
+		const fanDubEpisodeName = titleDto.fandubToEpisodeName[fandub];
 		if (fanDubEpisodeName !== undefined) {
-			let fandubEpisodeOverlay = buildFandubEpisodeOverlay(fanDubEpisodeName, fandub);
-			if (firstNotActive) {
+			const fandubEpisodeOverlay = buildFandubEpisodeOverlay(fanDubEpisodeName, fandub);
+			if (isFirstNotActive) {
 				fandubEpisodeOverlay.toggleClass('anime-title__fandub_episode_overlay--active');
-				firstNotActive = false;
+				isFirstNotActive = false;
 			}
 			animeTitleOverlay.append(fandubEpisodeOverlay);
 		}
@@ -90,11 +88,11 @@ function buildAnimeTitleOverlay() {
 }
 
 function buildAnimeTitleFandubSlider(titleDto, fandubMap) {
-	let result = $('<div class="anime-title__fandub_slider"></div>');
-	let animeTitleLinkHolder = buildAnimeTitleLinkHolder(titleDto, fandubMap);
-	if (animeTitleLinkHolder.children().length > LINKS_TO_SHOW_IN_SLIDER) {
-		let leftSliderArrow = buildSliderArrow(SliderArrowDirection.LEFT);
-		let rightSliderArrow = buildSliderArrow(SliderArrowDirection.RIGHT);
+	const result = $('<div class="anime-title__fandub_slider"></div>');
+	const animeTitleLinkHolder = buildAnimeTitleLinkHolder(titleDto, fandubMap);
+	if (animeTitleLinkHolder.children().length > 1) {
+		const leftSliderArrow = buildSliderArrow(SLIDER_ARROW_DIRECTION.LEFT);
+		const rightSliderArrow = buildSliderArrow(SLIDER_ARROW_DIRECTION.RIGHT);
 		result.append(leftSliderArrow, animeTitleLinkHolder, rightSliderArrow);
 	} else {
 		result.append(animeTitleLinkHolder);
@@ -102,39 +100,25 @@ function buildAnimeTitleFandubSlider(titleDto, fandubMap) {
 	return result;
 }
 
-const SliderArrowDirection = {LEFT: 'left', RIGHT: 'right'};
-
-const LINKS_TO_SHOW_IN_SLIDER = 1;
-
 function buildSliderArrow(direction) {
-	let result = $(
+	const result = $(
 			'<div class="anime-title__fandub_slider__arrow' + ' anime-title__fandub_slider__arrow--' + direction + '"></div>');
 	result.mousedown(function () {
-		let linkHolder = this.parentNode.getElementsByClassName('anime-title__link_holder')[0];
-		let fandubLinks = linkHolder.children;
-		let shiftedFandubLinks = [];
+		const linkHolder = this.parentNode.getElementsByClassName('anime-title__link_holder')[0];
+		const fandubLinks = linkHolder.children;
+		const shiftedFandubLinks = [];
 		let previousFandubLink = fandubLinks[getInitPreviousFandubLinkIndex(direction, fandubLinks)];
 		for (let i = getLoopCounter(direction, fandubLinks); getLoopCondition(direction, i, fandubLinks);
 				i = modifyLoopCounter(direction, i)) {
-			let currentFandubLink = fandubLinks[i];
 			shiftedFandubLinks[i] = previousFandubLink;
-			previousFandubLink = currentFandubLink;
+			previousFandubLink = fandubLinks[i];
 		}
-		let fandubLinkToDisableIndex;
-		let fandubLinkToEnableIndex;
-		if (SliderArrowDirection.LEFT === direction) {
-			fandubLinkToDisableIndex = LINKS_TO_SHOW_IN_SLIDER;
-			fandubLinkToEnableIndex = 0;
-		} else if (SliderArrowDirection.RIGHT === direction) {
-			fandubLinkToDisableIndex = shiftedFandubLinks.length - 1;
-			fandubLinkToEnableIndex = LINKS_TO_SHOW_IN_SLIDER - 1;
-		}
-		let fandubLinkToDisable = shiftedFandubLinks[fandubLinkToDisableIndex];
-		toggleLinkHolderLinkActive(fandubLinkToDisable);
-		let fandubLinkToEnable = shiftedFandubLinks[fandubLinkToEnableIndex];
-		toggleLinkHolderLinkActive(fandubLinkToEnable);
+		const fandubLinkToDisableIndex = SLIDER_ARROW_DIRECTION.LEFT === direction ? 1 : shiftedFandubLinks.length - 1;
+		const fandubLinkToDisable = getFandubLink(shiftedFandubLinks, fandubLinkToDisableIndex);
+		const fandubLinkToEnableIndex = 0;
+		const fandubLinkToEnable = getFandubLink(shiftedFandubLinks, fandubLinkToEnableIndex);
 		linkHolder.replaceChildren(...shiftedFandubLinks);
-		let animeTitle = this.parentNode.parentNode.parentNode;
+		const animeTitle = this.parentNode.parentNode.parentNode;
 		toggleFandubEpisodeOverlayActive(animeTitle, fandubLinkToDisable);
 		toggleFandubEpisodeOverlayActive(animeTitle, fandubLinkToEnable);
 		fitFandubText(animeTitle);
@@ -144,9 +128,9 @@ function buildSliderArrow(direction) {
 
 function getLoopCounter(direction, fandubLinks) {
 	let result;
-	if (SliderArrowDirection.LEFT === direction) {
+	if (SLIDER_ARROW_DIRECTION.LEFT === direction) {
 		result = 0;
-	} else if (SliderArrowDirection.RIGHT === direction) {
+	} else if (SLIDER_ARROW_DIRECTION.RIGHT === direction) {
 		result = fandubLinks.length - 1;
 	}
 	return result;
@@ -154,9 +138,9 @@ function getLoopCounter(direction, fandubLinks) {
 
 function getLoopCondition(direction, counter, fandubLinks) {
 	let result;
-	if (SliderArrowDirection.LEFT === direction) {
+	if (SLIDER_ARROW_DIRECTION.LEFT === direction) {
 		result = counter < fandubLinks.length;
-	} else if (SliderArrowDirection.RIGHT === direction) {
+	} else if (SLIDER_ARROW_DIRECTION.RIGHT === direction) {
 		result = counter >= 0;
 	}
 	return result;
@@ -164,9 +148,9 @@ function getLoopCondition(direction, counter, fandubLinks) {
 
 function modifyLoopCounter(direction, counter) {
 	let result;
-	if (SliderArrowDirection.LEFT === direction) {
+	if (SLIDER_ARROW_DIRECTION.LEFT === direction) {
 		result = counter + 1;
-	} else if (SliderArrowDirection.RIGHT === direction) {
+	} else if (SLIDER_ARROW_DIRECTION.RIGHT === direction) {
 		result = counter - 1;
 	}
 	return result;
@@ -174,11 +158,17 @@ function modifyLoopCounter(direction, counter) {
 
 function getInitPreviousFandubLinkIndex(direction, fandubLinks) {
 	let result;
-	if (SliderArrowDirection.LEFT === direction) {
+	if (SLIDER_ARROW_DIRECTION.LEFT === direction) {
 		result = fandubLinks.length - 1;
-	} else if (SliderArrowDirection.RIGHT === direction) {
+	} else if (SLIDER_ARROW_DIRECTION.RIGHT === direction) {
 		result = 0;
 	}
+	return result;
+}
+
+function getFandubLink(shiftedFandubLinks, index) {
+	const result = shiftedFandubLinks[index];
+	toggleLinkHolderLinkActive(result);
 	return result;
 }
 
@@ -193,18 +183,18 @@ function toggleLinkHolderLinkActive(fandubLink) {
 }
 
 function buildAnimeTitleLinkHolder(titleDto, fandubMap) {
-	let result = $('<div class="anime-title__link_holder"></div>');
-	let firstNotActive = true;
+	const result = $('<div class="anime-title__link_holder"></div>');
+	let isFirstNotActive = true;
 	for (const entry of fandubMap.entries()) {
-		let fandub = entry[0];
-		let fanDubUrl = titleDto.fandubToUrl[fandub];
+		const fandub = entry[0];
+		const fanDubUrl = titleDto.fandubToUrl[fandub];
 		if (fanDubUrl !== undefined) {
 			let targetClass = 'anime-title__link_holder__link';
-			if (firstNotActive) {
+			if (isFirstNotActive) {
 				targetClass += ' anime-title__link_holder__link--active';
-				firstNotActive = false;
+				isFirstNotActive = false;
 			}
-			let fandubLink = buildLink(targetClass, fanDubUrl);
+			const fandubLink = buildLink(targetClass, fanDubUrl);
 			fandubLink.attr('fandub', fandub);
 			fandubLink.text(entry[1]);
 			result.append(fandubLink);
