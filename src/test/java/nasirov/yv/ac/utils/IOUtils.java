@@ -4,6 +4,7 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.apache.commons.io.FileUtils.readFileToString;
 import static org.springframework.util.ResourceUtils.getFile;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.type.CollectionType;
@@ -36,5 +37,10 @@ public class IOUtils {
 	@SneakyThrows
 	public <T> List<T> unmarshalToListFromFile(String pathToFile, Class<T> targetClass) {
 		return unmarshalToListFromString(readFromFile(pathToFile), targetClass);
+	}
+
+	@SneakyThrows
+	public <T> T unmarshal(String content, TypeReference<T> targetType) {
+		return OBJECT_MAPPER.readValue(content, targetType);
 	}
 }

@@ -1,13 +1,8 @@
 package nasirov.yv.ac.dto.fe;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
 import javax.validation.constraints.NotNull;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import nasirov.yv.starter.common.constant.FandubSource;
 
 /**
  * @author Nasirov Yuriy
@@ -17,10 +12,10 @@ import nasirov.yv.starter.common.constant.FandubSource;
 public class ResultDto {
 
 	@NotNull
-	private List<TitleDto> titles = new ArrayList<>();
+	private String titlesJson = "";
 
 	@NotNull
-	private Set<FandubSource> fandubSources = new HashSet<>();
+	private String fandubMapJson = "";
 
 	@NotNull
 	private String errorMessage = "";
@@ -29,7 +24,8 @@ public class ResultDto {
 		this.errorMessage = errorMessage;
 	}
 
-	public ResultDto(Set<FandubSource> fandubSources) {
-		this.fandubSources = fandubSources;
+	public ResultDto(String titlesJson, String fandubMapJson) {
+		this.titlesJson = titlesJson;
+		this.fandubMapJson = fandubMapJson;
 	}
 }

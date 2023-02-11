@@ -1,23 +1,15 @@
 package nasirov.yv.ac.controller;
 
-import java.nio.charset.StandardCharsets;
-import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
 import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import nasirov.yv.ac.dto.fe.InputDto;
 import nasirov.yv.ac.dto.fe.ResultDto;
-import nasirov.yv.ac.dto.fe.TitleDto;
 import nasirov.yv.ac.service.ResultProcessingServiceI;
-import nasirov.yv.starter.common.constant.FandubSource;
-import nasirov.yv.starter.common.service.WrappedObjectMapperI;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.util.HtmlUtils;
 import reactor.core.publisher.Mono;
 
 /**
@@ -29,8 +21,6 @@ import reactor.core.publisher.Mono;
 public class ResultViewController {
 
 	private final ResultProcessingServiceI titlesService;
-
-	private final WrappedObjectMapperI wrappedObjectMapper;
 
 	@GetMapping("/result")
 	public Mono<String> getResultView(@Valid InputDto inputDto, Model model) {
@@ -53,17 +43,9 @@ public class ResultViewController {
 
 	private String handleSuccess(InputDto inputDto, Model model, ResultDto resultDto) {
 		model.addAttribute("username", inputDto.getUsername());
-		model.addAttribute("fandubList", buildFandubList(resultDto.getFandubSources()));
-		model.addAttribute("titles", toEscapedJson(resultDto.getTitles()));
+		model.addAttribute("fandubMapJson", resultDto.getFandubMapJson());
+		model.addAttribute("titlesJson", resultDto.getTitlesJson());
 		return "result";
-	}
-
-	private String buildFandubList(Set<FandubSource> fandubSources) {
-		return fandubSources.stream().map(FandubSource::name).collect(Collectors.joining(","));
-	}
-
-	private String toEscapedJson(List<TitleDto> titles) {
-		return HtmlUtils.htmlEscape(wrappedObjectMapper.toJson(titles), StandardCharsets.UTF_8.name());
 	}
 
 	private String handleError(String errorMsg, Model model) {

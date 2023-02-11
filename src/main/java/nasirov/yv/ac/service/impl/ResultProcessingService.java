@@ -1,11 +1,14 @@
 package nasirov.yv.ac.service.impl;
 
+import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Optional;
 import java.util.function.Function;
 import java.util.stream.Collectors;
+import javax.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import nasirov.yv.ac.dto.fe.InputDto;
@@ -22,10 +25,12 @@ import nasirov.yv.starter.common.constant.FandubSource;
 import nasirov.yv.starter.common.dto.fandub.common.CommonTitle;
 import nasirov.yv.starter.common.dto.mal.MalTitle;
 import nasirov.yv.starter.common.properties.StarterCommonProperties;
+import nasirov.yv.starter.common.service.WrappedObjectMapperI;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.tuple.Pair;
 import org.springframework.stereotype.Service;
+import org.springframework.web.util.HtmlUtils;
 import reactor.core.publisher.Mono;
 
 /**
@@ -48,6 +53,17 @@ public class ResultProcessingService implements ResultProcessingServiceI {
 
 	private final StarterCommonProperties starterCommonProperties;
 
+	private final WrappedObjectMapperI wrappedObjectMapper;
+
+	private String fandubMapJson;
+
+	@PostConstruct
+	public void init() {
+		this.fandubMapJson = toEscapedJson(appProps.getEnabledFandubSources()
+				.stream()
+				.collect(Collectors.toMap(FandubSource::name, FandubSource::getCanonicalName)));
+	}
+
 	@Override
 	public Mono<ResultDto> getResult(InputDto inputDto) {
 		return Mono.just(inputDto)
@@ -56,8 +72,8 @@ public class ResultProcessingService implements ResultProcessingServiceI {
 				.defaultIfEmpty(FALLBACK_VALUE)
 				.onErrorReturn(FALLBACK_VALUE)
 				.doOnSubscribe(x -> log.info("Processing [{}]...", inputDto.getUsername()))
-				.doOnSuccess(x -> log.info("Titles [{}], Error Message [{}] for [{}].", x.getTitles().size(), x.getErrorMessage(),
-						inputDto.getUsername()));
+				.doOnSuccess(x -> log.info("Processed [{}]{}", inputDto.getUsername(),
+						StringUtils.isNotBlank(x.getErrorMessage()) ? " with Error Message [" + x.getErrorMessage() + "]" : ""));
 	}
 
 	private Mono<ResultDto> buildResult(MalUserInfo malUserInfo) {
@@ -76,14 +92,14 @@ public class ResultProcessingService implements ResultProcessingServiceI {
 
 	private ResultDto buildResult(Map<Integer, Map<FandubSource, List<CommonTitle>>> malIdToMatchedCommonTitlesByFandubSource,
 			List<MalTitle> malTitles) {
-		ResultDto result = new ResultDto(appProps.getEnabledFandubSources());
 		Map<Integer, MalTitle> malIdToMalTitle = malTitles.stream()
 				.collect(Collectors.toMap(MalTitle::getId, Function.identity()));
+		List<TitleDto> titleDtos = new ArrayList<>();
 		for (Entry<Integer, Map<FandubSource, List<CommonTitle>>> entry : malIdToMatchedCommonTitlesByFandubSource.entrySet()) {
 			TitleDto titleDto = buildTitle(malIdToMalTitle.get(entry.getKey()), entry.getValue());
-			result.getTitles().add(titleDto);
+			titleDtos.add(titleDto);
 		}
-		return result;
+		return new ResultDto(toEscapedJson(titleDtos), fandubMapJson);
 	}
 
 	private TitleDto buildTitle(MalTitle watchingTitle, Map<FandubSource, List<CommonTitle>> commonTitlesByFandubSource) {
@@ -118,5 +134,9 @@ public class ResultProcessingService implements ResultProcessingServiceI {
 				.filter(x -> ignoreNextEpisodeForWatch || nextEpisodeForWatch.equals(x.getMalEpisodeId()))
 				.findFirst()
 				.map(x -> Pair.of(x.getName(), fandubUrl + x.getUrl()));
+	}
+
+	private String toEscapedJson(Object value) {
+		return HtmlUtils.htmlEscape(wrappedObjectMapper.toJson(value), StandardCharsets.UTF_8.name());
 	}
 }

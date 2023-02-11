@@ -10,10 +10,13 @@ import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import java.util.Arrays;
 import java.util.Comparator;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 import nasirov.yv.ac.AbstractTest;
 import nasirov.yv.ac.dto.fe.InputDto;
@@ -51,11 +54,10 @@ class ResultViewControllerTest extends AbstractTest {
 		//then
 		result.expectStatus().isEqualTo(HttpStatus.OK);
 		Document document = getDocument(result);
-		assertEquals("Result for " + MAL_USERNAME, getTitleText(document));
+		assertEquals(MAL_USERNAME, getTitleText(document));
 		assertEquals(MAL_USERNAME, getInputValue(document, "username"));
-		assertEquals(getExpectedFandubList(), getInputValue(document, "fandubList"));
-		assertEquals(getExpectedTitleDtos(), getActualTitleDtos(document));
-		assertEquals(MAL_USERNAME + "'s currently watching titles", getStatusText(document));
+		assertEquals(getExpectedFandubMap(), getActualFandubMap(document));
+		assertEquals(getExpectedTitles(), getActualTitles(document));
 	}
 
 	@Test
@@ -72,11 +74,10 @@ class ResultViewControllerTest extends AbstractTest {
 		//then
 		result.expectStatus().isEqualTo(HttpStatus.OK);
 		Document document = getDocument(result);
-		assertEquals("Result for " + MAL_USERNAME, getTitleText(document));
+		assertEquals(MAL_USERNAME, getTitleText(document));
 		assertEquals(MAL_USERNAME, getInputValue(document, "username"));
-		assertEquals(getExpectedFandubList(), getInputValue(document, "fandubList"));
-		assertEquals(getExpectedTitleDtos(), getActualTitleDtos(document));
-		assertEquals(MAL_USERNAME + "'s currently watching titles", getStatusText(document));
+		assertEquals(getExpectedFandubMap(), getActualFandubMap(document));
+		assertEquals(getExpectedTitles(), getActualTitles(document));
 		verify(gitHubResourcesService, never()).getResourcesParts();
 	}
 
@@ -91,7 +92,7 @@ class ResultViewControllerTest extends AbstractTest {
 		Document document = getDocument(result);
 		String expectedErrorMessage = "MAL account " + MAL_USERNAME + " is not found.";
 		assertEquals(expectedErrorMessage, getTitleText(document));
-		assertEquals(expectedErrorMessage, getHeaderText(document));
+		assertEquals(expectedErrorMessage, getErrorMessage(document));
 	}
 
 	@Test
@@ -106,7 +107,7 @@ class ResultViewControllerTest extends AbstractTest {
 		Document document = getDocument(result);
 		String expectedErrorMessage = "Sorry, " + MAL_USERNAME + ", but MAL rejected our requests with status 403.";
 		assertEquals(expectedErrorMessage, getTitleText(document));
-		assertEquals(expectedErrorMessage, getHeaderText(document));
+		assertEquals(expectedErrorMessage, getErrorMessage(document));
 	}
 
 	@Test
@@ -121,7 +122,7 @@ class ResultViewControllerTest extends AbstractTest {
 		Document document = getDocument(result);
 		String expectedErrorMessage = "Sorry, " + MAL_USERNAME + ", unexpected error has occurred.";
 		assertEquals(expectedErrorMessage, getTitleText(document));
-		assertEquals(expectedErrorMessage, getHeaderText(document));
+		assertEquals(expectedErrorMessage, getErrorMessage(document));
 	}
 
 	@Test
@@ -136,7 +137,7 @@ class ResultViewControllerTest extends AbstractTest {
 		Document document = getDocument(result);
 		String expectedErrorMessage = "Sorry, " + MAL_USERNAME + ", unexpected error has occurred.";
 		assertEquals(expectedErrorMessage, getTitleText(document));
-		assertEquals(expectedErrorMessage, getHeaderText(document));
+		assertEquals(expectedErrorMessage, getErrorMessage(document));
 	}
 
 	@Test
@@ -150,7 +151,7 @@ class ResultViewControllerTest extends AbstractTest {
 		Document document = getDocument(result);
 		String expectedErrorMessage = "Sorry, " + MAL_USERNAME + ", but MAL is unavailable now.";
 		assertEquals(expectedErrorMessage, getTitleText(document));
-		assertEquals(expectedErrorMessage, getHeaderText(document));
+		assertEquals(expectedErrorMessage, getErrorMessage(document));
 	}
 
 	@Test
@@ -164,7 +165,7 @@ class ResultViewControllerTest extends AbstractTest {
 		Document document = getDocument(result);
 		String expectedErrorMessage = "Sorry, " + MAL_USERNAME + ", unexpected error has occurred.";
 		assertEquals(expectedErrorMessage, getTitleText(document));
-		assertEquals(expectedErrorMessage, getHeaderText(document));
+		assertEquals(expectedErrorMessage, getErrorMessage(document));
 	}
 
 	@Test
@@ -178,7 +179,7 @@ class ResultViewControllerTest extends AbstractTest {
 		Document document = getDocument(result);
 		String expectedErrorMessage = "Not found watching titles for " + MAL_USERNAME + " !";
 		assertEquals(expectedErrorMessage, getTitleText(document));
-		assertEquals(expectedErrorMessage, getHeaderText(document));
+		assertEquals(expectedErrorMessage, getErrorMessage(document));
 	}
 
 	@Test
@@ -192,7 +193,7 @@ class ResultViewControllerTest extends AbstractTest {
 		Document document = getDocument(result);
 		String expectedErrorMessage = MAL_USERNAME + "'s anime list has private access!";
 		assertEquals(expectedErrorMessage, getTitleText(document));
-		assertEquals(expectedErrorMessage, getHeaderText(document));
+		assertEquals(expectedErrorMessage, getErrorMessage(document));
 	}
 
 	@Test
@@ -206,7 +207,7 @@ class ResultViewControllerTest extends AbstractTest {
 		Document document = getDocument(result);
 		String expectedErrorMessage = "Sorry, " + MAL_USERNAME + ", unexpected error has occurred.";
 		assertEquals(expectedErrorMessage, getTitleText(document));
-		assertEquals(expectedErrorMessage, getHeaderText(document));
+		assertEquals(expectedErrorMessage, getErrorMessage(document));
 	}
 
 	@Test
@@ -220,7 +221,7 @@ class ResultViewControllerTest extends AbstractTest {
 		Document document = getDocument(result);
 		String expectedErrorMessage = "Sorry, " + MAL_USERNAME + ", but MAL is unavailable now.";
 		assertEquals(expectedErrorMessage, getTitleText(document));
-		assertEquals(expectedErrorMessage, getHeaderText(document));
+		assertEquals(expectedErrorMessage, getErrorMessage(document));
 	}
 
 	@Test
@@ -235,7 +236,7 @@ class ResultViewControllerTest extends AbstractTest {
 		Document document = getDocument(result);
 		String expectedErrorMessage = "Sorry, " + MAL_USERNAME + ", but MAL rejected our requests with status 403.";
 		assertEquals(expectedErrorMessage, getTitleText(document));
-		assertEquals(expectedErrorMessage, getHeaderText(document));
+		assertEquals(expectedErrorMessage, getErrorMessage(document));
 	}
 
 	@Test
@@ -250,7 +251,7 @@ class ResultViewControllerTest extends AbstractTest {
 		Document document = getDocument(result);
 		String expectedErrorMessage = "Sorry, " + MAL_USERNAME + ", unexpected error has occurred.";
 		assertEquals(expectedErrorMessage, getTitleText(document));
-		assertEquals(expectedErrorMessage, getHeaderText(document));
+		assertEquals(expectedErrorMessage, getErrorMessage(document));
 	}
 
 	@Test
@@ -265,7 +266,7 @@ class ResultViewControllerTest extends AbstractTest {
 		Document document = getDocument(result);
 		String expectedErrorMessage = "Sorry, " + MAL_USERNAME + ", unexpected error has occurred.";
 		assertEquals(expectedErrorMessage, getTitleText(document));
-		assertEquals(expectedErrorMessage, getHeaderText(document));
+		assertEquals(expectedErrorMessage, getErrorMessage(document));
 	}
 
 	@Test
@@ -280,7 +281,7 @@ class ResultViewControllerTest extends AbstractTest {
 		Document document = getDocument(result);
 		String expectedErrorMessage = ResultProcessingService.GENERIC_ERROR_MESSAGE;
 		assertEquals(expectedErrorMessage, getTitleText(document));
-		assertEquals(expectedErrorMessage, getHeaderText(document));
+		assertEquals(expectedErrorMessage, getErrorMessage(document));
 	}
 
 	@Test
@@ -294,7 +295,7 @@ class ResultViewControllerTest extends AbstractTest {
 		Document document = getDocument(result);
 		String expectedErrorMessage = ResultProcessingService.GENERIC_ERROR_MESSAGE;
 		assertEquals(expectedErrorMessage, getTitleText(document));
-		assertEquals(expectedErrorMessage, getHeaderText(document));
+		assertEquals(expectedErrorMessage, getErrorMessage(document));
 	}
 
 	@Test
@@ -310,7 +311,7 @@ class ResultViewControllerTest extends AbstractTest {
 		Document document = getDocument(result);
 		String expectedErrorMessage = ResultProcessingService.GENERIC_ERROR_MESSAGE;
 		assertEquals(expectedErrorMessage, getTitleText(document));
-		assertEquals(expectedErrorMessage, getHeaderText(document));
+		assertEquals(expectedErrorMessage, getErrorMessage(document));
 	}
 
 	@Test
@@ -405,34 +406,36 @@ class ResultViewControllerTest extends AbstractTest {
 		return Jsoup.parse(body);
 	}
 
-	private String getExpectedFandubList() {
-		return getEnabledFandubSources().stream().map(FandubSource::name).collect(Collectors.joining(","));
-	}
-
-	private List<TitleDto> getExpectedTitleDtos() {
+	private List<TitleDto> getExpectedTitles() {
 		return IOUtils.unmarshalToListFromFile("classpath:__files/view/expected-titles.json", TitleDto.class)
 				.stream()
 				.peek(x -> x.setAnimeUrlOnMal(appProps.getMalProps().getUrl() + x.getAnimeUrlOnMal()))
 				.collect(Collectors.toList());
 	}
 
-	private List<TitleDto> getActualTitleDtos(Document document) {
-		return IOUtils.unmarshalToListFromString(getInputValue(document, "titles"), TitleDto.class)
+	private Map<FandubSource, String> getExpectedFandubMap() {
+		return getEnabledFandubSources().stream().collect(Collectors.toMap(Function.identity(),
+				FandubSource::getCanonicalName));
+	}
+
+	private List<TitleDto> getActualTitles(Document document) {
+		return IOUtils.unmarshalToListFromString(getInputValue(document, "titlesJson"), TitleDto.class)
 				.stream()
 				.sorted(Comparator.comparing(TitleDto::getNameOnMal))
 				.collect(Collectors.toList());
 	}
 
-	private String getStatusText(Document document) {
-		return document.selectFirst("h1[id=\"status\"]").ownText();
+	private Map<FandubSource, String> getActualFandubMap(Document document) {
+		return IOUtils.unmarshal(getInputValue(document, "fandubMapJson"),
+				new TypeReference<LinkedHashMap<FandubSource, String>>() {});
 	}
 
 	private String getTitleText(Document document) {
 		return document.selectFirst("title").ownText();
 	}
 
-	private String getHeaderText(Document document) {
-		return document.selectFirst("h2").ownText();
+	private String getErrorMessage(Document document) {
+		return document.selectFirst("h1.error-message").ownText();
 	}
 
 	private String getInputValue(Document document, String inputId) {

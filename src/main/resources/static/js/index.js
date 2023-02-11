@@ -1,119 +1,81 @@
-/**
- * @author Nasirov Yuriy
- */
-$(document).ready(function () {
-  $('#username-submit-form').on('submit', function (e) {
-    let usernameInputField = $('#username');
-    let submitButton = $('.nes-btn');
-    let username = usernameInputField.val();
-    if (!isElementHasReadonlyAttr(usernameInputField[0])) {
-      let isValidUsername = checkMalUsername(username);
-      if (isValidUsername) {
-        addReadonlyAttr(usernameInputField);
-        changeClasses(usernameInputField, true);
-        changeClasses(submitButton, true);
-        let submitButtonElement = submitButton[0];
-        setScheduledLoadingMessages(submitButtonElement);
-        setDisabledAttributeValue(submitButtonElement, true);
-      } else {
-        disableEvents(e);
-        changeClasses(usernameInputField, isValidUsername);
-        changeClasses(submitButton, false);
-      }
-    } else {
-      disableEvents(e);
-    }
-  });
+/*
+   Author: Nasirov Yuriy
+*/
 
-  $('#username.nes-input').on({
-    keypress: function (e) {
-      replaceIllegalChars(e);
-    },
-    keydown: function (e) {
-      replaceIllegalChars(e);
-    },
-    keyup: function (e) {
-      replaceIllegalChars(e);
-    },
-    onpaste: function (e) {
-      replaceIllegalChars(e);
-    }
-  });
+$(function () {
+	$('#username-form').on('submit', function (e) {
+		let usernameInput = $('#username-form-input');
+		if (!usernameInput[0].hasAttribute('readonly')) {
+			let validUsername = isValidUsername(usernameInput.val());
+			if (validUsername) {
+				usernameInput.attr('readonly', '');
+				let submitButton = $('#username-form >button')[0];
+				setScheduledLoadingMessages(submitButton);
+				submitButton.disabled = true;
+			} else {
+				disableEvents(e);
+				toggleErrorClass(usernameInput, validUsername);
+			}
+		} else {
+			disableEvents(e);
+		}
+	});
+
+	$('#username-form-input').on({
+		keypress: function (e) {
+			replaceIllegalChars(e);
+		}, keydown: function (e) {
+			replaceIllegalChars(e);
+		}, keyup: function (e) {
+			replaceIllegalChars(e);
+		}, onpaste: function (e) {
+			replaceIllegalChars(e);
+		},
+	});
 });
 
 function replaceIllegalChars(e) {
-  setTimeout(function () {
-    let element = $(e.target);
-    element.val(element.val().replace(/[^\w-_]/g, ''));
-    let usernameLength = element.val().length;
-    let maxUsernameLength = 16;
-    if (usernameLength >= maxUsernameLength) {
-      element.val(element.val().substring(0, 16));
-    }
-  }, 0);
+	setTimeout(function () {
+		let element = $(e.target);
+		element.val(element.val().replace(/[^\w-_]/g, ''));
+		let usernameLength = element.val().length;
+		let maxUsernameLength = 16;
+		if (usernameLength >= maxUsernameLength) {
+			element.val(element.val().substring(0, maxUsernameLength));
+		}
+		if (usernameLength > 0) {
+			let validUsername = isValidUsername(element.val());
+			toggleErrorClass(element, validUsername);
+		}
+	}, 0);
 }
 
-function changeClasses(element, isInputValueValid) {
-  let is_success = 'is-success';
-  let is_error = 'is-error';
-  let is_primary = 'is-primary';
-  if (element.hasClass(is_primary)) {
-    element.toggleClass(is_primary);
-  }
-  if (isInputValueValid) {
-    if (!element.hasClass(is_success)) {
-      element.toggleClass(is_success);
-    }
-    if (element.hasClass(is_error)) {
-      element.toggleClass(is_error);
-    }
-  } else {
-    if (element.hasClass(is_success)) {
-      element.toggleClass(is_success);
-    }
-    if (!element.hasClass(is_error)) {
-      element.toggleClass(is_error);
-    }
-  }
+function toggleErrorClass(element, validUsername) {
+	element.toggleClass('username-form__input--error', !validUsername);
 }
 
-function checkMalUsername(username) {
-  if (username === undefined || username === null) {
-    return false;
-  }
-  return username.match(/^[\w_-]{2,16}$/) !== null;
-}
-
-function addReadonlyAttr(element) {
-  element.attr('readonly', '');
-}
-
-function isElementHasReadonlyAttr(element) {
-  return element.hasAttribute('readonly');
+function isValidUsername(username) {
+	if (username === undefined || username === null) {
+		return false;
+	}
+	return username.match(/^[\w_-]{2,16}$/) !== null;
 }
 
 function disableEvents(element) {
-  element.preventDefault();
-  element.stopImmediatePropagation();
+	element.preventDefault();
+	element.stopImmediatePropagation();
 }
 
 function setInnerHtmlValue(element, value) {
-  element.innerHTML = value;
+	element.innerHTML = value;
 }
 
-function setDisabledAttributeValue(element, value) {
-  element.disabled = value;
-}
-
-function setScheduledLoadingMessages(submitButtonElement) {
-  let msg = 'Searching for Watching Titles';
-  let initLoadingSuffix = ' -';
-  let loadingMessages = [msg + initLoadingSuffix, msg + ' \\', msg + ' |',
-    msg + ' /'];
-  let counter = 0;
-  setInnerHtmlValue(submitButtonElement, msg + initLoadingSuffix);
-  setInterval(function () {
-    setInnerHtmlValue(submitButtonElement, loadingMessages[counter]);
-    counter = (counter + 1) % loadingMessages.length;
-  }, 150);
+function setScheduledLoadingMessages(element) {
+	let progressBarSymbols = ['-', '\\', '|', '/'];
+	let counter = 0;
+	setInnerHtmlValue(element, '*');
+	setInterval(function () {
+		setInnerHtmlValue(element, progressBarSymbols[counter]);
+		counter = (counter + 1) % progressBarSymbols.length;
+	}, 100);
 }

@@ -102,7 +102,7 @@ public class MalService implements MalServiceI {
 	}
 
 	private Mono<MalUserInfo> buildResult(String username, MalTitleWatchingStatus status, Integer amountOfTitles) {
-		log.debug("[{}] has [{}] {} titles.", username, amountOfTitles, status);
+		log.info("[{}] has [{}] {} titles.", username, amountOfTitles, status);
 		return Flux.fromIterable(generateOffsets(amountOfTitles))
 				.flatMap(x -> getPartOfTitles(x, username, status))
 				.collectList()

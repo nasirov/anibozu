@@ -1,0 +1,64 @@
+/*
+   Author: Nasirov Yuriy
+*/
+
+.username-form {
+  max-width: max-content;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  padding: 1.5rem 2rem;
+  border: var(--main-border);
+  box-shadow: var(--main-box-shadow);
+  border-radius: 20px;
+}
+
+.username-form > * {
+  width: inherit;
+  font-size: x-large;
+}
+
+.username-form__input_label {
+  margin-bottom: 0.3rem;
+}
+
+.username-form__input {
+  margin-bottom: 1rem;
+  padding: 0.5rem 1rem;
+  border: none;
+  text-align: center;
+}
+
+.username-form__button {
+  text-align: center;
+  padding: 6px 8px;
+  background-color: rgb(56, 145, 166);
+  border-radius: 10px;
+}
+
+.username-form__button {
+  border: none;
+}
+
+.username-form__input:focus,
+.username-form__input:active {
+  outline: 0;
+}
+
+.username-form__button:focus {
+  outline: 0;
+  box-shadow: var(--main-box-shadow);
+}
+
+.username-form__button:active {
+  transform: scale(0.98);
+}
+
+.username-form__button:hover {
+  background-color: rgba(56, 145, 166, 0.7);
+}
+
+.username-form__input--error,
+.username-form__input.username-form__input--error:focus {
+  color: rgb(209, 73, 91);
+}
