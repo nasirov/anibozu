@@ -1,12 +1,12 @@
-# Anime Checker
+# Anibozu
 
-[![Tests, sonar and deploy](https://github.com/nasirov/anime-checker/actions/workflows/on_push_wf.yaml/badge.svg?branch=master&event=push)](https://github.com/nasirov/anime-checker/actions/workflows/on_push_wf.yaml)
-[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=nasirov_anime-checker&metric=alert_status)](https://sonarcloud.io/dashboard?id=nasirov_anime-checker)
-[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=nasirov_anime-checker&metric=coverage)](https://sonarcloud.io/dashboard?id=nasirov_anime-checker)
+[![Backend](https://github.com/nasirov/anibozu/actions/workflows/backend-on_push.yaml/badge.svg?branch=master&event=push)](https://github.com/nasirov/anibozu/actions/workflows/backend-on_push.yaml)
+[![Frontend](https://github.com/nasirov/anibozu/actions/workflows/frontend-on_push.yaml/badge.svg?branch=master&event=push)](https://github.com/nasirov/anibozu/actions/workflows/frontend-on_push.yaml)
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=nasirov_anibozu&metric=alert_status)](https://sonarcloud.io/dashboard?id=nasirov_anibozu)
+[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=nasirov_anibozu&metric=coverage)](https://sonarcloud.io/dashboard?id=nasirov_anibozu)
 [![Apache License 2](https://img.shields.io/badge/license-ASF2-blue.svg)](https://www.apache.org/licenses/LICENSE-2.0.txt)
 
-The application analyzes a user's watching titles list from **[MyAnimeList](https://myanimelist.net/)** and searches for next episodes on the
-supported Fandub Sites.
+Provides links to Fandub sites for your watching titles from **[MyAnimeList](https://myanimelist.net/)**.
 
 | Supported Fandub Sites                                                                                                                  | Provides direct links to episodes |
 |:----------------------------------------------------------------------------------------------------------------------------------------|:---------------------------------:|
@@ -25,14 +25,13 @@ supported Fandub Sites.
 
 > :memo: **Note:**
 >
-> If a Fandub site doesn't provide direct links to episodes, you will have to choose it manually by name in the site's embedded video player.
-> You can see target episodes names by hovering Fandub sites logos.
+> If a Fandub site doesn't support direct links to episodes, you will have to choose it manually by name in the site's embedded video player.
 
 # Try It Out
 
 ![Flow](/images/flow.gif)
 
-1. Open **[Anime Checker](https://anime-checker.nasirov.info/)** via browser with ***enabled JavaScript***
+1. Open **[Anibozu](https://anibozu.nasirov.info/)** via browser with ***enabled JavaScript***
 2. Enter your **[MyAnimeList](https://myanimelist.net/)** username. ***Your anime list must be public!***
 3. Submit the form
 4. Wait for a result

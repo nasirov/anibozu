@@ -1,7 +1,7 @@
 image:
   pullPolicy: Always
   registry: registry.gitlab.com/fandub/images
-  name: anime-checker
+  name: anibozu
   tag: short-commit-hash
 docker:
   progressDeadlineSeconds: 600
@@ -22,10 +22,10 @@ ingress:
     kubernetes.io/ingress.class: nginx
     nginx.ingress.kubernetes.io/rewrite-target: "/$1"
   hosts:
-    - anime-checker.nasirov.info
+    - anibozu.backend.nasirov.info
   tls:
     hosts:
-      - anime-checker.nasirov.info
+      - anibozu.backend.nasirov.info
     secretName: certificate-nasirov-info
   paths:
-    - /((?!((actuator|refresh/cache/github))).*)
+    - /(process/.*)

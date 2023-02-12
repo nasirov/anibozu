@@ -1,0 +1,90 @@
+name: "Backend"
+
+on:
+  push:
+    branches:
+      - master
+    paths:
+      - '.github/workflows/backend-on_push.yaml'
+      - 'helm/**'
+      - 'src/**'
+      - 'pom.xml'
+
+env:
+  USERNAME: ${{ secrets.USERNAME }}
+  TOKEN: ${{ secrets.TOKEN }}
+  PROJECT: anibozu
+  SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
+  SONAR_LOGIN: ${{ secrets.SONAR_LOGIN }}
+  SONAR_ORGANIZATION: ${{ secrets.SONAR_ORGANIZATION }}
+  SONAR_PROJECTKEY: ${{ secrets.SONAR_PROJECTKEY }}
+
+jobs:
+
+  test-build-deploy:
+
+    runs-on: ubuntu-latest
+
+    steps:
+
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up Java
+        uses: actions/setup-java@v3
+        with:
+          java-version: 17
+          distribution: 'zulu'
+          server-id: fandub-microservices
+          server-username: USERNAME
+          server-password: TOKEN
+
+      - name: Cache maven dependencies
+        uses: actions/cache@v3
+        with:
+          path: ~/.m2/repository
+          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+          restore-keys: |
+            ${{ runner.os }}-maven-default
+
+      - name: Tests and Sonar
+        run: |
+          skip_tests_message="[microservices] set parent version"
+          current_commit_message=$(git log -1 --pretty=format:%s)
+          
+          if [[ "${skip_tests_message}" == "${current_commit_message}" ]]; then
+              echo "Tests have been run during [EVENT] microservice-parent-released"
+              echo "Will skip tests and push to Sonar"
+          else
+              echo "Regular commit, will run tests and push to Sonar"
+              mvn clean package && mvn sonar:sonar -Dsonar.host.url=${{ env.SONAR_HOST_URL }} -Dsonar.projectKey=${{ env.SONAR_PROJECTKEY }} \
+              -Dsonar.organization=${{ env.SONAR_ORGANIZATION }} -Dsonar.login=${{ env.SONAR_LOGIN }}
+          fi
+
+      - name: Validate helm chart
+        uses: wahyd4/kubectl-helm-action@master
+        env:
+          KUBE_CONFIG_DATA: ${{ secrets.KUBECTL_CONFIG }}
+        with:
+          args: helm lint helm
+
+      - name: Build and push image
+        id: build-and-push-image
+        env:
+          CONTAINER_REGISTRY_USER: ${{ secrets.CONTAINER_REGISTRY_USER }}
+          CONTAINER_REGISTRY_PASS: ${{ secrets.CONTAINER_REGISTRY_PASS }}
+          GITHUB_ACCESS_TOKEN: ${{ secrets.TOKEN }}
+        run: |
+          app_name=$(mvn help:evaluate -Dexpression=project.name -q -DforceStdout)
+          registry_path=$(mvn help:evaluate -Dexpression=registry-path -q -DforceStdout)
+          commit_hash=$(git rev-parse --short HEAD)
+
+          mvn clean compile jib:build -Djib.to.image="${registry_path}/${app_name}:${commit_hash}"
+          echo "commit-hash=${commit_hash}" >> $GITHUB_OUTPUT
+
+      - name: Deploy to k8s
+        uses: wahyd4/kubectl-helm-action@master
+        env:
+          KUBE_CONFIG_DATA: ${{ secrets.KUBECTL_CONFIG }}
+        with:
+          args: helm upgrade --install --set image.tag=${{ steps.build-and-push-image.outputs.commit-hash }} ${{ env.PROJECT }} helm

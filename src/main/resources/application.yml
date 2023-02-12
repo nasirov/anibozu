@@ -3,7 +3,7 @@ spring:
     exclude:
       - org.springframework.boot.autoconfigure.data.redis.RedisAutoConfiguration
   application:
-    name: anime-checker
+    name: anibozu
 
 starter-reactive-services:
   web-client:

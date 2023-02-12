@@ -10,16 +10,14 @@
     <relativePath/>
   </parent>
 
-  <artifactId>anime-checker</artifactId>
+  <artifactId>anibozu</artifactId>
   <version>0.1.0</version>
-  <name>anime-checker</name>
-  <description>The application analyzes a user's watching titles list from MyAnimeList(https://myanimelist.net/) and searches for new episodes on
-    Fandub Sites
-  </description>
+  <name>anibozu</name>
+  <description>Provides links to Fandub sites for your watching titles from MyAnimeList</description>
 
   <properties>
     <from.image.architecture>arm64</from.image.architecture>
-    <main-class>nasirov.yv.ac.AnimeCheckerApplication</main-class>
+    <main-class>nasirov.yv.ab.AnibozuApplication</main-class>
   </properties>
 
   <dependencies>
@@ -37,11 +35,6 @@
     <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-actuator</artifactId>
-    </dependency>
-
-    <dependency>
-      <groupId>org.springframework.boot</groupId>
-      <artifactId>spring-boot-starter-freemarker</artifactId>
     </dependency>
 
     <dependency>
@@ -114,11 +107,10 @@
         </executions>
         <configuration>
           <excludes>
-            <exclude>**/configuration/**</exclude>
             <exclude>**/dto/**</exclude>
             <exclude>**/properties/**</exclude>
             <exclude>**/exception/**</exclude>
-            <exclude>**/AnimeCheckerApplication**</exclude>
+            <exclude>**/AnibozuApplication**</exclude>
           </excludes>
         </configuration>
       </plugin>
