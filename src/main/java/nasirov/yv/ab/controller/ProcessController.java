@@ -3,7 +3,6 @@ package nasirov.yv.ab.controller;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import nasirov.yv.ab.dto.fe.ProcessResult;
 import nasirov.yv.ab.service.ProcessServiceI;
 import org.springframework.validation.annotation.Validated;
@@ -15,7 +14,6 @@ import reactor.core.publisher.Mono;
 /**
  * @author Nasirov Yuriy
  */
-@Slf4j
 @Validated
 @RestController
 @RequiredArgsConstructor
