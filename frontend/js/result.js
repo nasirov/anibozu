@@ -8,7 +8,7 @@ const GENERIC_ERROR_MESSAGE = 'Sorry, something went wrong. Please try again lat
 
 async function getAndRenderTitles(username) {
 	try {
-		const response = await fetch('https://anibozu.backend.nasirov.info/process/' + username);
+		const response = await fetch('https://anibozu-backend.nasirov.info/process/' + username);
 		document.querySelector('title').textContent = username;
 		if (response.ok) {
 			const processResult = await response.json();
