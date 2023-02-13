@@ -29,8 +29,6 @@ Provides links to Fandub sites for your watching titles from **[MyAnimeList](htt
 
 # Try It Out
 
-![Flow](/images/flow.gif)
-
 1. Open **[Anibozu](https://anibozu.nasirov.info/)** via browser with ***enabled JavaScript***
 2. Enter your **[MyAnimeList](https://myanimelist.net/)** username. ***Your anime list must be public!***
 3. Submit the form
