@@ -3,7 +3,7 @@ name: "Frontend"
 on:
   push:
     branches:
-      - master
+      - main
     paths:
       - '.github/workflows/frontend-on_push.yaml'
       - 'frontend/**'

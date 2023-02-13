@@ -3,7 +3,7 @@ name: "Backend"
 on:
   push:
     branches:
-      - master
+      - main
     paths:
       - '.github/workflows/backend-on_push.yaml'
       - 'helm/**'

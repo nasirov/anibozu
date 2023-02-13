@@ -1,7 +1,7 @@
 # Anibozu
 
-[![Backend](https://github.com/nasirov/anibozu/actions/workflows/backend-on_push.yaml/badge.svg?branch=master&event=push)](https://github.com/nasirov/anibozu/actions/workflows/backend-on_push.yaml)
-[![Frontend](https://github.com/nasirov/anibozu/actions/workflows/frontend-on_push.yaml/badge.svg?branch=master&event=push)](https://github.com/nasirov/anibozu/actions/workflows/frontend-on_push.yaml)
+[![Backend](https://github.com/nasirov/anibozu/actions/workflows/backend-on_push.yaml/badge.svg?branch=main&event=push)](https://github.com/nasirov/anibozu/actions/workflows/backend-on_push.yaml)
+[![Frontend](https://github.com/nasirov/anibozu/actions/workflows/frontend-on_push.yaml/badge.svg?branch=main&event=push)](https://github.com/nasirov/anibozu/actions/workflows/frontend-on_push.yaml)
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=nasirov_anibozu&metric=alert_status)](https://sonarcloud.io/dashboard?id=nasirov_anibozu)
 [![Coverage](https://sonarcloud.io/api/project_badges/measure?project=nasirov_anibozu&metric=coverage)](https://sonarcloud.io/dashboard?id=nasirov_anibozu)
 [![Apache License 2](https://img.shields.io/badge/license-ASF2-blue.svg)](https://www.apache.org/licenses/LICENSE-2.0.txt)
