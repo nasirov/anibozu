@@ -4,7 +4,9 @@
 
 document.addEventListener('DOMContentLoaded', function () {
 	const usernameInput = document.querySelector('#username-form-input');
-	document.querySelector('#username-form-button').addEventListener('click',
+	const submitButton = document.querySelector('#username-form-button');
+
+	submitButton.addEventListener('click',
 			function (e) {
 				const readonlyAttribute = 'readonly';
 				if (!usernameInput.hasAttribute(readonlyAttribute)) {
@@ -12,7 +14,6 @@ document.addEventListener('DOMContentLoaded', function () {
 					const validUsername = isValidUsername(username);
 					if (validUsername) {
 						usernameInput.setAttribute(readonlyAttribute, '');
-						let submitButton = e.target;
 						setScheduledLoadingMessages(submitButton);
 						getAndRenderTitles(username);
 					} else {
@@ -21,6 +22,14 @@ document.addEventListener('DOMContentLoaded', function () {
 					}
 				} else {
 					disableEvents(e);
+				}
+			});
+
+	usernameInput.addEventListener('keypress',
+			function (e) {
+				if (e.key === 'Enter') {
+					disableEvents(e);
+					submitButton.click();
 				}
 			});
 
