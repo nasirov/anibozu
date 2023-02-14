@@ -5,14 +5,11 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.doReturn;
-import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.spy;
-import static org.mockito.Mockito.verify;
 
 import com.github.tomakehurst.wiremock.WireMockServer;
 import com.github.tomakehurst.wiremock.client.WireMock;
 import java.util.List;
-import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 import lombok.SneakyThrows;
@@ -53,7 +50,7 @@ import reactor.core.publisher.Mono;
 public abstract class AbstractTest {
 
 	@SpyBean
-	protected GitHubResourcesServiceI<Mono<List<CommonTitle>>, Mono<Map<FandubSource, Integer>>> gitHubResourcesService;
+	protected GitHubResourcesServiceI<Mono<List<CommonTitle>>> gitHubResourcesService;
 
 	@SpyBean
 	protected ProcessServiceI processService;
@@ -124,7 +121,6 @@ public abstract class AbstractTest {
 		cacheService.fillGithubCache().block();
 		waitForCachePut();
 		checkGithubCacheIsFilled();
-		verify(gitHubResourcesService, never()).getResourcesParts();
 	}
 
 	protected Cache spyGithubCachePut() {

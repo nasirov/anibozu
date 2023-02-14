@@ -1,8 +1,6 @@
 package nasirov.yv.ab.controller;
 
 import static org.junit.jupiter.api.Assertions.assertNull;
-import static org.mockito.Mockito.never;
-import static org.mockito.Mockito.verify;
 
 import java.util.List;
 import nasirov.yv.ab.AbstractTest;
@@ -28,7 +26,6 @@ class CacheControllerTest extends AbstractTest {
 		//then
 		result.expectStatus().isEqualTo(HttpStatus.OK.value()).expectBody(String.class).isEqualTo(CacheController.INFO_MESSAGE);
 		checkGithubCacheIsFilled();
-		verify(gitHubResourcesService, never()).getResourcesParts();
 	}
 
 	@Test

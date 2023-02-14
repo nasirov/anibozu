@@ -35,7 +35,7 @@ import reactor.core.publisher.Mono;
 @RequiredArgsConstructor
 public class CommonTitlesService implements CommonTitlesServiceI {
 
-	private final GitHubResourcesServiceI<Mono<List<CommonTitle>>, Mono<Map<FandubSource, Integer>>> gitHubResourcesService;
+	private final GitHubResourcesServiceI<Mono<List<CommonTitle>>> gitHubResourcesService;
 
 	private final CacheManager cacheManager;
 

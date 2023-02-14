@@ -5,8 +5,6 @@ import static org.mockito.ArgumentMatchers.anyList;
 import static org.mockito.ArgumentMatchers.anySet;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.doThrow;
-import static org.mockito.Mockito.never;
-import static org.mockito.Mockito.verify;
 
 import java.util.Arrays;
 import java.util.List;
@@ -62,7 +60,6 @@ class ProcessControllerTest extends AbstractTest {
 		ResponseSpec result = call(MAL_USERNAME);
 		//then
 		checkResponse(result);
-		verify(gitHubResourcesService, never()).getResourcesParts();
 	}
 
 	@Test
