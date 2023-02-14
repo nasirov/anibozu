@@ -90,9 +90,9 @@ function buildAnimeTitleMalEpisodeOverlay(titleDto) {
 function appendFandubEpisodes(titleDto, animeTitleOverlay, fandubMap) {
 	let isFirstNotActive = true;
 	for (const fandub of fandubMap.keys()) {
-		const fanDubEpisodeName = titleDto.fandubToEpisodeName[fandub];
-		if (fanDubEpisodeName !== undefined) {
-			const fandubEpisodeOverlay = buildFandubEpisodeOverlay(fanDubEpisodeName, fandub);
+		const fandubEpisodeName = titleDto.fandubToEpisodeName[fandub];
+		if (fandubEpisodeName !== undefined) {
+			const fandubEpisodeOverlay = buildFandubEpisodeOverlay(fandubEpisodeName, fandub);
 			if (isFirstNotActive) {
 				fandubEpisodeOverlay.classList.toggle('anime-title__fandub_episode_overlay--active');
 				isFirstNotActive = false;
@@ -214,14 +214,14 @@ function buildAnimeTitleLinkHolder(titleDto, fandubMap) {
 	let isFirstNotActive = true;
 	for (const entry of fandubMap.entries()) {
 		const fandub = entry[0];
-		const fanDubUrl = titleDto.fandubToUrl[fandub];
-		if (fanDubUrl !== undefined) {
+		const fandubUrl = titleDto.fandubToUrl[fandub];
+		if (fandubUrl !== undefined) {
 			let targetClass = 'anime-title__link_holder__link';
 			if (isFirstNotActive) {
 				targetClass += ' anime-title__link_holder__link--active';
 				isFirstNotActive = false;
 			}
-			const fandubLink = buildLink(targetClass, fanDubUrl);
+			const fandubLink = buildLink(targetClass, fandubUrl);
 			fandubLink.setAttribute('fandub', fandub);
 			fandubLink.textContent = entry[1];
 			result.appendChild(fandubLink);
