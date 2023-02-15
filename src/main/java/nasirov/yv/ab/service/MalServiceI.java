@@ -1,6 +1,7 @@
 package nasirov.yv.ab.service;
 
-import nasirov.yv.ab.dto.mal.MalUserInfo;
+import java.util.List;
+import nasirov.yv.starter.common.dto.mal.MalTitle;
 import reactor.core.publisher.Mono;
 
 /**
@@ -8,5 +9,5 @@ import reactor.core.publisher.Mono;
  */
 public interface MalServiceI {
 
-	Mono<MalUserInfo> getMalUserInfo(String username);
+	Mono<List<MalTitle>> getMalTitles(String username);
 }

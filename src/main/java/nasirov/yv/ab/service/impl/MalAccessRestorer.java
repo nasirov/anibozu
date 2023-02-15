@@ -1,5 +1,7 @@
 package nasirov.yv.ab.service.impl;
 
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.Semaphore;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import nasirov.yv.ab.service.MalAccessRestorerI;
@@ -19,6 +21,8 @@ import reactor.core.publisher.Mono;
 @RequiredArgsConstructor
 public class MalAccessRestorer implements MalAccessRestorerI {
 
+	private static final Semaphore SEMAPHORE = new Semaphore(1);
+
 	private final HttpRequestServiceI httpRequestService;
 
 	private final StarterCommonProperties starterCommonProperties;
@@ -29,6 +33,20 @@ public class MalAccessRestorer implements MalAccessRestorerI {
 				.mapNotNull(ResponseEntity::getBody)
 				.doOnSubscribe(x -> log.info("Trying to restore MAL access..."))
 				.doOnSuccess(x -> log.info("Is MAL access restored? [{}]", x ? "YES" : "NO"));
+	}
+
+	@Override
+	public void restoreMalAccessAsync() {
+		if (SEMAPHORE.tryAcquire()) {
+			CompletableFuture.runAsync(() -> {
+				restoreMalAccess().block();
+				SEMAPHORE.release();
+			}).exceptionally(e -> {
+				SEMAPHORE.release();
+				log.error("Exception has occurred during mal access restoring", e);
+				return null;
+			});
+		}
 	}
 
 	private HttpRequestServiceDto<ResponseEntity<Boolean>> restoreMalAccessDto() {

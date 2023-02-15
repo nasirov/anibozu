@@ -5,13 +5,18 @@ import static org.mockito.ArgumentMatchers.anyList;
 import static org.mockito.ArgumentMatchers.anySet;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.doThrow;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 
+import java.time.Duration;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.concurrent.TimeUnit;
 import java.util.function.Function;
 import java.util.stream.Collectors;
+import lombok.SneakyThrows;
 import nasirov.yv.ab.AbstractTest;
 import nasirov.yv.ab.dto.fe.ProcessResult;
 import nasirov.yv.ab.dto.fe.Title;
@@ -34,13 +39,19 @@ class ProcessControllerTest extends AbstractTest {
 
 	private static final String MAL_USERNAME = "foobarbaz";
 
-	private static final String USER_PROFILE_URL = "/profile/" + MAL_USERNAME;
+	private static final String ANIME_LIST_URL =
+			"/animelist/" + MAL_USERNAME + "/load.json?offset=0&status=" + MalTitleWatchingStatus.WATCHING.getCode();
+
+	private static final String MAR_ENDPOINT = "/access/restore";
+
+	private static final String ERROR_MESSAGE_FORBIDDEN =
+			"Sorry, " + MAL_USERNAME + ", but MAL has restricted our access to it. Please, try again later.";
 
 	@Test
 	void shouldReturnProcessResult() {
 		//given
 		fillGithubCache();
-		stubMalHttpRequests(5);
+		stubAnimeListOk();
 		//when
 		ResponseSpec result = call(MAL_USERNAME);
 		//then
@@ -51,7 +62,7 @@ class ProcessControllerTest extends AbstractTest {
 	void shouldReturnProcessResultCommonTitlesCacheFails() {
 		//given
 		mockGitHubResourcesService();
-		stubMalHttpRequests(5);
+		stubAnimeListOk();
 		String cacheKey = getGithubCacheKey();
 		Cache spiedCache = getSpiedGithubCache();
 		doThrow(new RuntimeException("fail on get")).when(spiedCache).get(cacheKey, List.class);
@@ -63,172 +74,87 @@ class ProcessControllerTest extends AbstractTest {
 	}
 
 	@Test
-	void shouldReturnErrorMalUserAccountNotFoundException() {
+	void shouldReturnErrorMalServiceException() {
 		//given
-		stubMalUserProfileHttpRequest(HttpStatus.NOT_FOUND);
+		doThrow(new RuntimeException("MalService cause")).when(malService).getMalTitles(MAL_USERNAME);
 		//when
 		ResponseSpec result = call(MAL_USERNAME);
 		//then
-		checkResponse(result, HttpStatus.OK, "MAL account " + MAL_USERNAME + " is not found.");
+		checkResponse(result, HttpStatus.INTERNAL_SERVER_ERROR, ExceptionHandlers.GENERIC_ERROR_MESSAGE);
 	}
 
 	@Test
-	void shouldReturnErrorMalForbiddenExceptionMalAccessRestored() {
+	void shouldReturnErrorAnimeListPrivateOrDoesNotExist() {
 		//given
-		stubMalUserProfileHttpRequest(HttpStatus.FORBIDDEN);
-		stubMalAccessRestorerHttpRequest(true);
+		stubAnimeListError(HttpStatus.BAD_REQUEST);
 		//when
 		ResponseSpec result = call(MAL_USERNAME);
 		//then
-		checkResponse(result, HttpStatus.OK, "Sorry, " + MAL_USERNAME + ", but MAL rejected our requests with status 403.");
+		checkResponse(result, HttpStatus.OK, MAL_USERNAME + "'s anime list is private or does not exist.");
 	}
 
 	@Test
-	void shouldReturnErrorMalForbiddenExceptionMalAccessNotRestored() {
-		//given
-		stubMalUserProfileHttpRequest(HttpStatus.FORBIDDEN);
-		stubMalAccessRestorerHttpRequest(false);
-		//when
-		ResponseSpec result = call(MAL_USERNAME);
-		//then
-		checkResponse(result, HttpStatus.OK, "Sorry, " + MAL_USERNAME + ", unexpected error has occurred.");
+	void shouldReturnErrorMalForbiddenMalAccessRestored() {
+		testWithMalAccessRestorer(true);
 	}
 
 	@Test
-	void shouldReturnErrorMalForbiddenExceptionMalAccessRestorerException() {
-		//given
-		stubMalUserProfileHttpRequest(HttpStatus.FORBIDDEN);
-		mockMalAccessRestorerException();
-		//when
-		ResponseSpec result = call(MAL_USERNAME);
-		//then
-		checkResponse(result, HttpStatus.OK, "Sorry, " + MAL_USERNAME + ", unexpected error has occurred.");
+	void shouldReturnErrorMalForbiddenMalAccessNotRestored() {
+		testWithMalAccessRestorer(false);
 	}
 
 	@Test
-	void shouldReturnErrorMalUnavailableException() {
+	void shouldReturnErrorMalForbiddenMalAccessRestorerException() {
 		//given
-		stubMalUserProfileHttpRequest(HttpStatus.SERVICE_UNAVAILABLE);
+		stubAnimeListError(HttpStatus.FORBIDDEN);
+		doThrow(new RuntimeException("MalAccessRestorer cause")).when(malAccessRestorer).restoreMalAccess();
 		//when
 		ResponseSpec result = call(MAL_USERNAME);
 		//then
-		checkResponse(result, HttpStatus.OK, "Sorry, " + MAL_USERNAME + ", but MAL is unavailable now.");
+		checkResponse(result, HttpStatus.OK, ERROR_MESSAGE_FORBIDDEN);
+	}
+
+	@Test
+	void shouldReturnErrorMalUnavailable() {
+		//given
+		stubAnimeListError(HttpStatus.SERVICE_UNAVAILABLE);
+		//when
+		ResponseSpec result = call(MAL_USERNAME);
+		//then
+		checkResponse(result, HttpStatus.OK,
+				"Sorry, " + MAL_USERNAME + ", but MAL is being unavailable now. Please, try again later.");
 	}
 
 	@Test
 	void shouldReturnErrorUnexpectedCallingException() {
 		//given
-		stubMalUserProfileHttpRequest(HttpStatus.GATEWAY_TIMEOUT);
+		stubAnimeListError(HttpStatus.INTERNAL_SERVER_ERROR);
 		//when
 		ResponseSpec result = call(MAL_USERNAME);
 		//then
-		checkResponse(result, HttpStatus.OK, "Sorry, " + MAL_USERNAME + ", unexpected error has occurred.");
-	}
-
-	@Test
-	void shouldReturnErrorWatchingTitlesNotFoundException() {
-		//given
-		stubMalUserProfileHttpRequest(0);
-		//when
-		ResponseSpec result = call(MAL_USERNAME);
-		//then
-		checkResponse(result, HttpStatus.OK, "Not found watching titles for " + MAL_USERNAME + " !");
-	}
-
-	@Test
-	void shouldReturnErrorMalUserAnimeListAccessException() {
-		//given
-		stubMalHttpRequests(HttpStatus.BAD_REQUEST);
-		//when
-		ResponseSpec result = call(MAL_USERNAME);
-		//then
-		checkResponse(result, HttpStatus.OK, MAL_USERNAME + "'s anime list has private access!");
-	}
-
-	@Test
-	void shouldReturnErrorUnexpectedCallingExceptionOnAnimeList() {
-		//given
-		stubMalHttpRequests(HttpStatus.INTERNAL_SERVER_ERROR);
-		//when
-		ResponseSpec result = call(MAL_USERNAME);
-		//then
-		checkResponse(result, HttpStatus.OK, "Sorry, " + MAL_USERNAME + ", unexpected error has occurred.");
-	}
-
-	@Test
-	void shouldReturnErrorMalUnavailableExceptionOnAnimeList() {
-		//given
-		stubMalHttpRequests(HttpStatus.SERVICE_UNAVAILABLE);
-		//when
-		ResponseSpec result = call(MAL_USERNAME);
-		//then
-		checkResponse(result, HttpStatus.OK, "Sorry, " + MAL_USERNAME + ", but MAL is unavailable now.");
-	}
-
-	@Test
-	void shouldReturnErrorMalForbiddenExceptionOnAnimeListMalAccessRestored() {
-		//given
-		stubMalHttpRequests(HttpStatus.FORBIDDEN);
-		stubMalAccessRestorerHttpRequest(true);
-		//when
-		ResponseSpec result = call(MAL_USERNAME);
-		//then
-		checkResponse(result, HttpStatus.OK, "Sorry, " + MAL_USERNAME + ", but MAL rejected our requests with status 403.");
-	}
-
-	@Test
-	void shouldReturnErrorMalForbiddenExceptionOnAnimeListMalAccessNotRestored() {
-		//given
-		stubMalHttpRequests(HttpStatus.FORBIDDEN);
-		stubMalAccessRestorerHttpRequest(false);
-		//when
-		ResponseSpec result = call(MAL_USERNAME);
-		//then
-		checkResponse(result, HttpStatus.OK, "Sorry, " + MAL_USERNAME + ", unexpected error has occurred.");
-	}
-
-	@Test
-	void shouldReturnErrorMalForbiddenExceptionOnAnimeListMalAccessRestorerException() {
-		//given
-		stubMalHttpRequests(HttpStatus.FORBIDDEN);
-		mockMalAccessRestorerException();
-		//when
-		ResponseSpec result = call(MAL_USERNAME);
-		//then
-		checkResponse(result, HttpStatus.OK, "Sorry, " + MAL_USERNAME + ", unexpected error has occurred.");
+		checkResponse(result, HttpStatus.INTERNAL_SERVER_ERROR, ExceptionHandlers.GENERIC_ERROR_MESSAGE);
 	}
 
 	@Test
 	void shouldReturnErrorEmptyAnimeList() {
 		//given
-		stubMalUserProfileHttpRequest(1);
-		stubMalAnimeListHttpRequest(0, "mal/watching-titles-empty.json");
+		stubHttpRequest(ANIME_LIST_URL, "mal/watching-titles-empty.json", HttpStatus.OK);
 		//when
 		ResponseSpec result = call(MAL_USERNAME);
 		//then
-		checkResponse(result, HttpStatus.OK, ExceptionHandlers.GENERIC_ERROR_MESSAGE);
-	}
-
-	@Test
-	void shouldReturnErrorMalServiceException() {
-		//given
-		doThrow(new RuntimeException("MalService cause")).when(malService).getMalUserInfo(MAL_USERNAME);
-		//when
-		ResponseSpec result = call(MAL_USERNAME);
-		//then
-		checkResponse(result, HttpStatus.OK, ExceptionHandlers.GENERIC_ERROR_MESSAGE);
+		checkResponse(result, HttpStatus.OK, "Not found actual watching titles for " + MAL_USERNAME);
 	}
 
 	@Test
 	void shouldReturnErrorCommonTitlesServiceException() {
 		//given
-		stubMalHttpRequests(1);
+		stubAnimeListOk();
 		doThrow(new RuntimeException("CommonTitlesService cause")).when(commonTitlesService)
 				.getCommonTitles(anySet(), anyList());
 		//when
 		ResponseSpec result = call(MAL_USERNAME);
 		//then
-		checkResponse(result, HttpStatus.OK, ExceptionHandlers.GENERIC_ERROR_MESSAGE);
+		checkResponse(result, HttpStatus.INTERNAL_SERVER_ERROR, ExceptionHandlers.GENERIC_ERROR_MESSAGE);
 	}
 
 	@Test
@@ -236,7 +162,7 @@ class ProcessControllerTest extends AbstractTest {
 		//given
 		String[] invalidUsernameArray = {"moreThan16Charssss", "space between ", "@#!sd", "1"};
 		//when
-		List<ResponseSpec> result = Arrays.stream(invalidUsernameArray).map(x -> call(x)).toList();
+		List<ResponseSpec> result = Arrays.stream(invalidUsernameArray).map(this::call).toList();
 		//then
 		result.forEach(x -> checkResponse(x, HttpStatus.BAD_REQUEST, ProcessController.USERNAME_VALIDATION_MESSAGE));
 	}
@@ -251,40 +177,32 @@ class ProcessControllerTest extends AbstractTest {
 		checkResponse(result, HttpStatus.INTERNAL_SERVER_ERROR, ExceptionHandlers.GENERIC_ERROR_MESSAGE);
 	}
 
-	private void stubMalHttpRequests(int amountOfTitles) {
-		stubMalUserProfileHttpRequest(amountOfTitles);
-		int offsetStep = appProps.getMalProps().getOffsetStep();
-		for (int i = 0, offset = 0; i <= amountOfTitles / offsetStep; i++, offset += offsetStep) {
-			stubMalAnimeListHttpRequest(offset, "mal/watching-titles-offset-" + offset + ".json");
-		}
+	private void stubAnimeListOk() {
+		stubHttpRequest(ANIME_LIST_URL, "mal/watching-titles-offset-0.json", HttpStatus.OK);
 	}
 
-	private void stubMalHttpRequests(HttpStatus animeListStatus) {
-		stubMalUserProfileHttpRequest(1);
-		for (int i = 0, offset = 0; i < 1; i++, offset += appProps.getMalProps().getOffsetStep()) {
-			stubHttpRequest(buildWatchingTitlesAnimeListUrl(offset), animeListStatus);
-		}
+	private void stubAnimeListError(HttpStatus httpStatus) {
+		stubHttpRequest(ANIME_LIST_URL, "mal/not-expected-response.json", httpStatus);
 	}
 
-	private void stubMalAnimeListHttpRequest(int offset, String bodyFilePath) {
-		stubHttpRequest(buildWatchingTitlesAnimeListUrl(offset), bodyFilePath, HttpStatus.OK);
+	@SneakyThrows
+	private void testWithMalAccessRestorer(boolean restored) {
+		//given
+		stubAnimeListError(HttpStatus.FORBIDDEN);
+		int delaySeconds = 1;
+		stubMalAccessRestorerHttpRequest(restored, Duration.ofSeconds(delaySeconds));
+		//when
+		ResponseSpec firstCall = call(MAL_USERNAME);
+		ResponseSpec secondCall = call(MAL_USERNAME);
+		//then
+		checkResponse(firstCall, HttpStatus.OK, ERROR_MESSAGE_FORBIDDEN);
+		checkResponse(secondCall, HttpStatus.OK, ERROR_MESSAGE_FORBIDDEN);
+		TimeUnit.SECONDS.sleep(delaySeconds + 1);
+		verify(malAccessRestorer, times(1)).restoreMalAccess();
 	}
 
-	private String buildWatchingTitlesAnimeListUrl(int offset) {
-		return "/animelist/" + MAL_USERNAME + "/load.json?offset=" + offset + "&status="
-				+ MalTitleWatchingStatus.WATCHING.getCode();
-	}
-
-	private void stubMalUserProfileHttpRequest(int amountOfTitles) {
-		stubHttpRequest(USER_PROFILE_URL, "mal/user-profile-" + amountOfTitles + ".html", HttpStatus.OK);
-	}
-
-	private void stubMalUserProfileHttpRequest(HttpStatus status) {
-		stubHttpRequest(USER_PROFILE_URL, status);
-	}
-
-	private void stubMalAccessRestorerHttpRequest(boolean restored) {
-		stubHttpRequest("/access/restore", "mal-access-restorer/" + (restored ? "" : "not-") + "restored.txt", HttpStatus.OK);
+	private void stubMalAccessRestorerHttpRequest(boolean restored, Duration delay) {
+		stubHttpRequest(MAR_ENDPOINT, "mal-access-restorer/" + (restored ? "" : "not-") + "restored.txt", HttpStatus.OK, delay);
 	}
 
 	private ResponseSpec call(String username) {
@@ -293,9 +211,7 @@ class ProcessControllerTest extends AbstractTest {
 	}
 
 	private void checkResponse(ResponseSpec result) {
-		result.expectStatus()
-				.isEqualTo(HttpStatus.OK)
-				.expectBody(new ParameterizedTypeReference<ProcessResult>() {})
+		result.expectStatus().isEqualTo(HttpStatus.OK).expectBody(new ParameterizedTypeReference<ProcessResult>() {})
 				.value(new CustomTypeSafeMatcher<>("unordered fields should be equal") {
 					@Override
 					protected boolean matchesSafely(ProcessResult actual) {
@@ -344,9 +260,5 @@ class ProcessControllerTest extends AbstractTest {
 	private Map<FandubSource, String> getExpectedFandubMap() {
 		return getEnabledFandubSources().stream().collect(Collectors.toMap(Function.identity(),
 				FandubSource::getCanonicalName));
-	}
-
-	private void mockMalAccessRestorerException() {
-		doThrow(new RuntimeException("MalAccessRestorer cause")).when(malAccessRestorer).restoreMalAccess();
 	}
 }

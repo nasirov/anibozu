@@ -1,32 +1,25 @@
 package nasirov.yv.ab.service.impl;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import java.util.stream.IntStream;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import nasirov.yv.ab.dto.mal.MalUserInfo;
-import nasirov.yv.ab.exception.MalForbiddenException;
-import nasirov.yv.ab.exception.MalUnavailableException;
-import nasirov.yv.ab.exception.MalUserAccountNotFoundException;
-import nasirov.yv.ab.exception.MalUserAnimeListAccessException;
+import nasirov.yv.ab.exception.MalException;
 import nasirov.yv.ab.exception.UnexpectedCallingException;
-import nasirov.yv.ab.exception.WatchingTitlesNotFoundException;
 import nasirov.yv.ab.properties.AppProps;
-import nasirov.yv.ab.service.HttpRequestServiceDtoBuilderI;
 import nasirov.yv.ab.service.MalServiceI;
 import nasirov.yv.starter.common.dto.mal.MalTitle;
 import nasirov.yv.starter.common.dto.mal.MalTitleWatchingStatus;
+import nasirov.yv.starter.reactive.services.dto.HttpRequestServiceDto;
 import nasirov.yv.starter.reactive.services.service.HttpRequestServiceI;
+import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.jsoup.Jsoup;
+import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.util.HtmlUtils;
-import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 /**
@@ -45,45 +38,28 @@ public class MalService implements MalServiceI {
 
 	private final HttpRequestServiceI httpRequestService;
 
-	private final HttpRequestServiceDtoBuilderI httpRequestServiceDtoBuilder;
-
 	private final AppProps appProps;
 
 	@Override
-	public Mono<MalUserInfo> getMalUserInfo(String username) {
-		MalTitleWatchingStatus status = MalTitleWatchingStatus.WATCHING;
-		return Mono.just(username)
-				.flatMap(this::getUserProfile)
-				.map(x -> getAmountOfTitles(status, x))
-				.flatMap(x -> buildResult(username, status, x))
-				.onErrorReturn(MalUserAccountNotFoundException.class::isInstance,
-						buildErrorResponse("MAL account " + username + " is not found."))
-				.onErrorReturn(MalForbiddenException.class::isInstance,
-						buildErrorResponse(ERROR_MESSAGE_PREFIX + username + ", but MAL rejected our requests with status 403."))
-				.onErrorReturn(MalUnavailableException.class::isInstance,
-						buildErrorResponse(ERROR_MESSAGE_PREFIX + username + ", but MAL is unavailable now."))
-				.onErrorReturn(UnexpectedCallingException.class::isInstance,
-						buildErrorResponse(ERROR_MESSAGE_PREFIX + username + ", unexpected error has occurred."))
-				.onErrorReturn(WatchingTitlesNotFoundException.class::isInstance,
-						buildErrorResponse("Not found watching titles for " + username + " !"))
-				.onErrorReturn(MalUserAnimeListAccessException.class::isInstance,
-						buildErrorResponse(username + "'s anime list has private access!"))
-				.doOnSubscribe(x -> log.debug("Trying to build MalUserInfo for [{}]", username))
-				.doOnSuccess(x -> log.debug("Built MalUserInfo for [{}].", username));
+	public Mono<List<MalTitle>> getMalTitles(String username) {
+		return httpRequestService.performHttpRequest(buildWatchingTitlesRequest(username))
+				.doOnNext(x -> validateMalResponse(x.getStatusCode(), username))
+				.mapNotNull(ResponseEntity::getBody)
+				.map(x -> filterTitles(x, username))
+				.doOnSubscribe(x -> log.info("Getting titles for {}", username))
+				.doOnSuccess(x -> log.info("Got {} titles for {}", x.size(), username));
 	}
 
-	private Mono<String> getUserProfile(String username) {
-		return httpRequestService.performHttpRequest(httpRequestServiceDtoBuilder.buildUserProfileDto(username))
-				.doOnNext(x -> validateMalResponse(x.getStatusCode()))
-				.mapNotNull(ResponseEntity::getBody);
-	}
-
-	private void validateMalResponse(HttpStatus responseStatus) {
+	private void validateMalResponse(HttpStatus responseStatus, String username) {
 		switch (responseStatus) {
-			case NOT_FOUND -> throw new MalUserAccountNotFoundException();
-			case BAD_REQUEST -> throw new MalUserAnimeListAccessException();
-			case FORBIDDEN -> throw new MalForbiddenException();
-			case SERVICE_UNAVAILABLE -> throw new MalUnavailableException();
+			case BAD_REQUEST ->
+					throw new MalException(username + "'s anime list is private or does not exist.", HttpStatus.BAD_REQUEST);
+			case FORBIDDEN -> throw new MalException(
+					ERROR_MESSAGE_PREFIX + username + ", but MAL has restricted our access to it. Please, try again later.",
+					HttpStatus.FORBIDDEN);
+			case SERVICE_UNAVAILABLE -> throw new MalException(
+					ERROR_MESSAGE_PREFIX + username + ", but MAL is being unavailable now. Please, try again later.",
+					HttpStatus.SERVICE_UNAVAILABLE);
 			default -> {
 				if (responseStatus != HttpStatus.OK) {
 					throw new UnexpectedCallingException();
@@ -92,41 +68,30 @@ public class MalService implements MalServiceI {
 		}
 	}
 
-	private Integer getAmountOfTitles(MalTitleWatchingStatus status, String profile) {
-		return Optional.ofNullable(Jsoup.parse(profile).selectFirst("li:has(a.anime." + status.getDescription() + ") >span"))
-				.map(x -> x.ownText().replace(",", StringUtils.EMPTY))
-				.filter(StringUtils::isNotBlank)
-				.map(Integer::valueOf)
-				.filter(x -> x > 0)
-				.orElseThrow(WatchingTitlesNotFoundException::new);
+	private HttpRequestServiceDto<ResponseEntity<List<MalTitle>>> buildWatchingTitlesRequest(String username) {
+		return HttpRequestServiceDto.<ResponseEntity<List<MalTitle>>>builder()
+				.url(appProps.getMalProps().getUrl() + "/animelist/" + username + "/load.json?offset=0&status="
+						+ MalTitleWatchingStatus.WATCHING.getCode())
+				.clientResponseFunction(x -> {
+					Mono<ResponseEntity<List<MalTitle>>> result;
+					HttpStatus responseHttpStatus = x.statusCode();
+					if (responseHttpStatus == HttpStatus.OK) {
+						result = x.toEntity(new ParameterizedTypeReference<>() {});
+					} else {
+						result = Mono.just(ResponseEntity.status(responseHttpStatus).body(List.of()));
+					}
+					return result;
+				})
+				.fallback(ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(List.of()))
+				.build();
 	}
 
-	private Mono<MalUserInfo> buildResult(String username, MalTitleWatchingStatus status, Integer amountOfTitles) {
-		log.info("[{}] has [{}] {} titles.", username, amountOfTitles, status);
-		return Flux.fromIterable(generateOffsets(amountOfTitles))
-				.flatMap(x -> getPartOfTitles(x, username, status))
-				.collectList()
-				.map(x -> new MalUserInfo(mergeLists(x), StringUtils.EMPTY));
-	}
-
-	private List<Integer> generateOffsets(int amountOfTitles) {
-		int offsetStep = appProps.getMalProps().getOffsetStep();
-		return IntStream.iterate(0, x -> x < amountOfTitles, x -> x + offsetStep).boxed().toList();
-	}
-
-	private Mono<List<MalTitle>> getPartOfTitles(Integer currentOffset, String username, MalTitleWatchingStatus status) {
-		return httpRequestService.performHttpRequest(
-						httpRequestServiceDtoBuilder.buildPartOfTitlesDto(currentOffset, username, status))
-				.doOnNext(x -> validateMalResponse(x.getStatusCode()))
-				.mapNotNull(ResponseEntity::getBody);
-	}
-
-	private List<MalTitle> mergeLists(List<List<MalTitle>> malTitleLists) {
-		return malTitleLists.stream()
-				.flatMap(List::stream)
-				.filter(this::isWatchingNotCompleted)
-				.map(this::formatMalTitle)
-				.toList();
+	private List<MalTitle> filterTitles(List<MalTitle> malTitles, String username) {
+		List<MalTitle> result = malTitles.stream().filter(this::isWatchingNotCompleted).map(this::formatMalTitle).toList();
+		if (CollectionUtils.isEmpty(result)) {
+			throw new MalException("Not found actual watching titles for " + username, HttpStatus.NOT_FOUND);
+		}
+		return result;
 	}
 
 	private boolean isWatchingNotCompleted(MalTitle malTitle) {
@@ -150,9 +115,5 @@ public class MalService implements MalServiceI {
 		malTitle.setAnimeUrl(appProps.getMalProps().getUrl() + malTitle.getAnimeUrl());
 		malTitle.setName(HtmlUtils.htmlUnescape(malTitle.getName()));
 		return malTitle;
-	}
-
-	private MalUserInfo buildErrorResponse(String errorMessage) {
-		return MalUserInfo.builder().malTitles(List.of()).errorMessage(errorMessage).build();
 	}
 }
