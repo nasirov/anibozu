@@ -117,7 +117,7 @@ public abstract class AbstractTest {
 
 	protected void mockGitHubResourcesService() {
 		getEnabledFandubSources().forEach(x -> doReturn(Mono.just(
-				IOUtils.unmarshalToListFromFile("classpath:__files/github/" + x.getName() + "-titles.json",
+				IOUtils.unmarshalToListFromFile("classpath:__files/github/" + x.name() + "-titles.json",
 						CommonTitle.class))).when(gitHubResourcesService).getResource(x));
 	}
 

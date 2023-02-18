@@ -32,18 +32,18 @@ application:
     offset-step: 300
     url: https://myanimelist.net
   enabled-fandub-sources:
-    - ANIDUB
-    - ANILIBRIA
-    - ANIMEDIA
+    - ANI_DUB
     - ANI_FILM
+    - ANI_LIBRIA
     - ANI_MAUNT
+    - ANI_MEDIA
     - ANYTHING_GROUP
     - DREAM_CAST
     - FREE_DUB
     - KODIK
-    - NINEANIME
+    - NINE_ANIME
     - SENU_PROJECT
-    - SOVETROMANTICA
+    - SOVET_ROMANTICA
   ignore-next-episode-for-watch:
     - KODIK
 

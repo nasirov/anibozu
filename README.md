@@ -11,11 +11,11 @@ Provides links to Fandub sites for your watching titles from **[MyAnimeList](htt
 | Supported Fandub Sites                                                                                                                  | Provides direct links to episodes |
 |:----------------------------------------------------------------------------------------------------------------------------------------|:---------------------------------:|
 | [![9anime](/images/favicons/9anime.png)](https://9anime.id/) **[9anime](https://9anime.id/)**                                           |         :heavy_plus_sign:         |
+| [![aniDub](/images/favicons/aniDub.png)](https://anidub.com/) **[AniDUB](https://anidub.com/)**                                         |        :heavy_minus_sign:         |
 | [![aniFilm](/images/favicons/aniFilm.png)](https://www.anifilm.tv/) **[AniFilm](https://www.anifilm.tv/)**                              |        :heavy_minus_sign:         |
+| [![aniLibria](/images/favicons/aniLibria.png)](https://www.anilibria.tv/) **[AniLibria](https://www.anilibria.tv/)**                    |        :heavy_minus_sign:         |
 | [![aniMaunt](/images/favicons/aniMaunt.png)](https://animaunt.org/) **[AniMaunt](https://animaunt.org/)**                               |        :heavy_minus_sign:         |
-| [![anidub](/images/favicons/anidub.png)](https://anidub.com/) **[Anidub](https://anidub.com/)**                                         |        :heavy_minus_sign:         |
-| [![anilibria](/images/favicons/anilibria.png)](https://www.anilibria.tv/) **[Anilibria](https://www.anilibria.tv/)**                    |        :heavy_minus_sign:         |
-| [![animedia](/images/favicons/animedia.png)](https://online.animedia.tv/) **[Animedia](https://online.animedia.tv/)**                   |         :heavy_plus_sign:         |
+| [![aniMedia](/images/favicons/aniMedia.png)](https://online.animedia.tv/) **[AniMedia](https://online.animedia.tv/)**                   |         :heavy_plus_sign:         |
 | [![anythingGroup](/images/favicons/anythingGroup.png)](https://a-g.site/) **[Anything Group](https://a-g.site/)**                       |         :heavy_plus_sign:         |
 | [![dreamCast](/images/favicons/dreamCast.png)](https://dreamerscast.com/) **[Dream Cast](https://dreamerscast.com/)**                   |        :heavy_minus_sign:         |
 | [![freeDub](/images/favicons/freeDub.png)](https://freedubstudio.club/) **[FreeDub](https://freedubstudio.club/)**                      |        :heavy_minus_sign:         |

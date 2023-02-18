@@ -6,14 +6,14 @@
     "posterUrlOnMal": "https://cdn.myanimelist.net/images/anime/111/123.jpg",
     "animeUrlOnMal": "/anime/111/Title_Name_111",
     "fandubToUrl": {
-      "ANIDUB": "https://anidub.com/anidub-url-100/10",
-      "ANILIBRIA": "https://www.anilibria.tv/anilibria-url-100/1",
-      "NINEANIME": "https://9anime.pl/9anime-url-100/1"
+      "ANI_DUB": "https://anidub.com/anidub-url-100/10",
+      "ANI_LIBRIA": "https://www.anilibria.tv/anilibria-url-100/1",
+      "NINE_ANIME": "https://9anime.pl/9anime-url-100/1"
     },
     "fandubToEpisodeName": {
-      "ANIDUB": "1 Серия для 111",
-      "ANILIBRIA": "Серия 1 для 111",
-      "NINEANIME": "1 for 111"
+      "ANI_DUB": "1 Серия для 111",
+      "ANI_LIBRIA": "Серия 1 для 111",
+      "NINE_ANIME": "1 for 111"
     }
   },
   {
@@ -23,14 +23,14 @@
     "posterUrlOnMal": "https://cdn.myanimelist.net/images/anime/222/456.jpg",
     "animeUrlOnMal": "/anime/222/Title_Name_222",
     "fandubToUrl": {
-      "ANIDUB": "https://anidub.com/anidub-url-200/10",
-      "ANILIBRIA": "https://www.anilibria.tv/anilibria-url-200/1",
-      "NINEANIME": "https://9anime.pl/9anime-url-200/1"
+      "ANI_DUB": "https://anidub.com/anidub-url-200/10",
+      "ANI_LIBRIA": "https://www.anilibria.tv/anilibria-url-200/1",
+      "NINE_ANIME": "https://9anime.pl/9anime-url-200/1"
     },
     "fandubToEpisodeName": {
-      "ANIDUB": "1 Серия для 222",
-      "ANILIBRIA": "Серия 1 для 222",
-      "NINEANIME": "1 for 222"
+      "ANI_DUB": "1 Серия для 222",
+      "ANI_LIBRIA": "Серия 1 для 222",
+      "NINE_ANIME": "1 for 222"
     }
   },
   {
@@ -40,14 +40,14 @@
     "posterUrlOnMal": "https://cdn.myanimelist.net/images/anime/333/789.jpg",
     "animeUrlOnMal": "/anime/333/Title_Name_333",
     "fandubToUrl": {
-      "ANIDUB": "https://anidub.com/anidub-url-200/20",
-      "ANILIBRIA": "https://www.anilibria.tv/anilibria-url-200/2",
-      "NINEANIME": "https://9anime.pl/9anime-url-200/2"
+      "ANI_DUB": "https://anidub.com/anidub-url-200/20",
+      "ANI_LIBRIA": "https://www.anilibria.tv/anilibria-url-200/2",
+      "NINE_ANIME": "https://9anime.pl/9anime-url-200/2"
     },
     "fandubToEpisodeName": {
-      "ANIDUB": "1 Серия для 333",
-      "ANILIBRIA": "Серия 1 для 333",
-      "NINEANIME": "1 for 333"
+      "ANI_DUB": "1 Серия для 333",
+      "ANI_LIBRIA": "Серия 1 для 333",
+      "NINE_ANIME": "1 for 333"
     }
   },
   {

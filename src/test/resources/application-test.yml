@@ -9,9 +9,9 @@ starter-common:
     url: http://localhost:${wiremock.server.port}/
   fandub:
     urls:
-      ANIDUB: https://anidub.com/
-      ANILIBRIA: https://www.anilibria.tv/
-      NINEANIME: https://9anime.pl/
+      ANI_DUB: https://anidub.com/
+      ANI_LIBRIA: https://www.anilibria.tv/
+      NINE_ANIME: https://9anime.pl/
   external-services:
     mal-access-service-url: http://localhost:${wiremock.server.port}/
 
@@ -29,11 +29,11 @@ application:
     offset-step: 3
     url: http://localhost:${wiremock.server.port}
   enabled-fandub-sources:
-    - ANIDUB
-    - ANILIBRIA
-    - NINEANIME
+    - ANI_DUB
+    - ANI_LIBRIA
+    - NINE_ANIME
   ignore-next-episode-for-watch:
-    - ANIDUB
+    - ANI_DUB
 
 logging:
   level:
