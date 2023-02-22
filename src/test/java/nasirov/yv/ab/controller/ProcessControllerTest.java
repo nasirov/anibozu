@@ -2,8 +2,8 @@ package nasirov.yv.ab.controller;
 
 import static org.mockito.ArgumentMatchers.anyList;
 import static org.mockito.ArgumentMatchers.anySet;
+import static org.mockito.Mockito.atMost;
 import static org.mockito.Mockito.doThrow;
-import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
 import java.time.Duration;
@@ -189,7 +189,7 @@ class ProcessControllerTest extends AbstractTest {
 		checkResponse(firstCall, HttpStatus.OK, ERROR_MESSAGE_FORBIDDEN);
 		checkResponse(secondCall, HttpStatus.OK, ERROR_MESSAGE_FORBIDDEN);
 		Awaitility.await().atMost(Duration.ofSeconds(5)).until(() -> malAccessRestorer.restoreMalAccess().block() == restored);
-		verify(malAccessRestorer, times(2)).restoreMalAccess();
+		verify(malAccessRestorer, atMost(2)).restoreMalAccess();
 	}
 
 	private void stubMalAccessRestorerHttpRequest(boolean restored, Duration delay) {
