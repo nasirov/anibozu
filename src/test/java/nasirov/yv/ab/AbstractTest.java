@@ -1,34 +1,27 @@
 package nasirov.yv.ab;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.doReturn;
-import static org.mockito.Mockito.spy;
 
 import com.github.tomakehurst.wiremock.WireMockServer;
 import com.github.tomakehurst.wiremock.client.WireMock;
 import java.time.Duration;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
-import lombok.SneakyThrows;
-import nasirov.yv.ab.dto.cache.CacheEntity;
 import nasirov.yv.ab.properties.AppProps;
 import nasirov.yv.ab.service.CacheServiceI;
 import nasirov.yv.ab.service.CommonTitlesServiceI;
 import nasirov.yv.ab.service.MalAccessRestorerI;
 import nasirov.yv.ab.service.MalServiceI;
 import nasirov.yv.ab.service.ProcessServiceI;
-import nasirov.yv.ab.utils.AwareHelper;
 import nasirov.yv.ab.utils.IOUtils;
 import nasirov.yv.starter.common.constant.FandubSource;
 import nasirov.yv.starter.common.dto.fandub.common.CommonTitle;
 import nasirov.yv.starter.common.service.GitHubResourcesServiceI;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
-import org.mockito.invocation.InvocationOnMock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
@@ -82,12 +75,9 @@ public abstract class AbstractTest {
 
 	protected WebTestClient webTestClient;
 
-	protected AwareHelper awareHelper;
-
 	@BeforeEach
 	protected void setUp() {
 		this.webTestClient = WebTestClient.bindToApplicationContext(applicationContext).build();
-		this.awareHelper = new AwareHelper();
 	}
 
 	@AfterEach
@@ -123,50 +113,19 @@ public abstract class AbstractTest {
 
 	protected void fillGithubCache() {
 		mockGitHubResourcesService();
-		spyGithubCachePut();
 		cacheService.fillGithubCache().block();
-		waitForCachePut();
 		checkGithubCacheIsFilled();
-	}
-
-	protected Cache spyGithubCachePut() {
-		Cache spiedCache = getSpiedGithubCache();
-		doAnswer(this::doAnswerAsRealMethodAndSignal).when(spiedCache).put(eq(getGithubCacheKey()), any(List.class));
-		return spiedCache;
-	}
-
-	@SneakyThrows
-	protected Class<Void> doAnswerAsRealMethodAndSignal(InvocationOnMock invocation) {
-		invocation.callRealMethod();
-		awareHelper.signal();
-		return Void.TYPE;
-	}
-
-	protected void waitForCachePut() {
-		awareHelper.await();
 	}
 
 	protected void checkGithubCacheIsFilled() {
 		Cache githubCache = getGithubCache();
 		assertNotNull(githubCache);
-		List<CacheEntity> cached = githubCache.get(getGithubCacheKey(), List.class);
+		Map<FandubSource, Map<Integer, List<CommonTitle>>> cached = githubCache.get(getGithubCacheKey(), Map.class);
 		assertNotNull(cached);
 	}
 
 	protected Cache getGithubCache() {
-		return cacheManager.getCache(getGithubCacheName());
-	}
-
-	protected String getGithubCacheName() {
-		return appProps.getCacheProps().getGithubCacheName();
-	}
-
-	protected Cache getSpiedGithubCache() {
-		Cache githubCache = getGithubCache();
-		assertNotNull(githubCache);
-		Cache spiedCache = spy(githubCache);
-		doReturn(spiedCache).when(cacheManager).getCache(getGithubCacheName());
-		return spiedCache;
+		return cacheManager.getCache(appProps.getCacheProps().getGithubCacheName());
 	}
 
 	protected String getGithubCacheKey() {

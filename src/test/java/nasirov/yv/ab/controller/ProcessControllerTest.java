@@ -1,9 +1,7 @@
 package nasirov.yv.ab.controller;
 
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyList;
 import static org.mockito.ArgumentMatchers.anySet;
-import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -26,7 +24,6 @@ import nasirov.yv.starter.common.dto.mal.MalTitleWatchingStatus;
 import org.apache.commons.lang3.StringUtils;
 import org.hamcrest.CustomTypeSafeMatcher;
 import org.junit.jupiter.api.Test;
-import org.springframework.cache.Cache;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpStatus;
 import org.springframework.test.web.reactive.server.WebTestClient.RequestHeadersSpec;
@@ -50,23 +47,20 @@ class ProcessControllerTest extends AbstractTest {
 	@Test
 	void shouldReturnProcessResult() {
 		//given
-		fillGithubCache();
+		mockGitHubResourcesService();
 		stubAnimeListOk();
 		//when
 		ResponseSpec result = call(MAL_USERNAME);
 		//then
 		checkResponse(result);
+		checkGithubCacheIsFilled();
 	}
 
 	@Test
-	void shouldReturnProcessResultCommonTitlesCacheFails() {
+	void shouldReturnProcessResultGithubCacheIsFilled() {
 		//given
-		mockGitHubResourcesService();
+		fillGithubCache();
 		stubAnimeListOk();
-		String cacheKey = getGithubCacheKey();
-		Cache spiedCache = getSpiedGithubCache();
-		doThrow(new RuntimeException("fail on get")).when(spiedCache).get(cacheKey, List.class);
-		doThrow(new RuntimeException("fail on put")).when(spiedCache).put(eq(cacheKey), any(List.class));
 		//when
 		ResponseSpec result = call(MAL_USERNAME);
 		//then

@@ -18,11 +18,10 @@ class CacheControllerTest extends AbstractTest {
 	void shouldRefreshEmptyGithubCache() {
 		//given
 		mockGitHubResourcesService();
-		Cache spiedCache = spyGithubCachePut();
-		assertNull(spiedCache.get(getGithubCacheKey(), List.class));
+		Cache githubCache = getGithubCache();
+		assertNull(githubCache.get(getGithubCacheKey(), List.class));
 		//when
 		ResponseSpec result = call();
-		waitForCachePut();
 		//then
 		result.expectStatus().isEqualTo(HttpStatus.OK.value()).expectBody(String.class).isEqualTo(CacheController.INFO_MESSAGE);
 		checkGithubCacheIsFilled();
@@ -34,7 +33,6 @@ class CacheControllerTest extends AbstractTest {
 		fillGithubCache();
 		//when
 		ResponseSpec result = call();
-		waitForCachePut();
 		//then
 		result.expectStatus().isEqualTo(HttpStatus.OK.value()).expectBody(String.class).isEqualTo(CacheController.INFO_MESSAGE);
 		checkGithubCacheIsFilled();
