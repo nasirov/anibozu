@@ -2,7 +2,7 @@ package nasirov.yv.ab.controller;
 
 import static org.junit.jupiter.api.Assertions.assertNull;
 
-import java.util.List;
+import java.util.Map;
 import nasirov.yv.ab.AbstractTest;
 import org.junit.jupiter.api.Test;
 import org.springframework.cache.Cache;
@@ -19,7 +19,7 @@ class CacheControllerTest extends AbstractTest {
 		//given
 		mockGitHubResourcesService();
 		Cache githubCache = getGithubCache();
-		assertNull(githubCache.get(getGithubCacheKey(), List.class));
+		assertNull(githubCache.get(getGithubCacheKey(), Map.class));
 		//when
 		ResponseSpec result = call();
 		//then

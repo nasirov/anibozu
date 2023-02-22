@@ -1,12 +1,11 @@
 package nasirov.yv.ab.dto.fe;
 
-import java.util.Map;
+import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.Singular;
-import nasirov.yv.starter.common.constant.FandubSource;
 
 /**
  * @author Nasirov Yuriy
@@ -17,19 +16,14 @@ import nasirov.yv.starter.common.constant.FandubSource;
 @AllArgsConstructor
 public class Title {
 
-	private TitleType type;
+	private String name;
 
-	private String nameOnMal;
+	private String nextEpisodeNumber;
 
-	private String episodeNumberOnMal;
+	private String posterUrl;
 
-	private String posterUrlOnMal;
+	private String malUrl;
 
-	private String animeUrlOnMal;
-
-	@Singular("fandubToUrl")
-	private Map<FandubSource, String> fandubToUrl;
-
-	@Singular("fandubToEpisodeName")
-	private Map<FandubSource, String> fandubToEpisodeName;
+	@Singular("fandubInfoList")
+	private List<FandubInfo> fandubInfoList;
 }

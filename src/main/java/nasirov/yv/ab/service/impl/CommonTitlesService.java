@@ -1,5 +1,6 @@
 package nasirov.yv.ab.service.impl;
 
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -55,10 +56,12 @@ public class CommonTitlesService implements CommonTitlesServiceI {
 	@Override
 	public Mono<Map<Integer, Map<FandubSource, List<CommonTitle>>>> getCommonTitles(Set<FandubSource> fandubSources,
 			List<MalTitle> malTitles) {
-		return getCommonTitlesMappedByMalId().map(map -> malTitles.stream()
-						.collect(Collectors.toMap(MalTitle::getId, malTitle -> fandubSources.stream()
-								.collect(Collectors.toMap(Function.identity(),
-										fandubSource -> map.getOrDefault(fandubSource, Map.of()).getOrDefault(malTitle.getId(), List.of()))))))
+		return getCommonTitlesMappedByMalId().<Map<Integer, Map<FandubSource, List<CommonTitle>>>>map(
+						commonTitlesMappedByMalId -> malTitles.stream()
+								.collect(Collectors.toMap(MalTitle::getId, malTitle -> fandubSources.stream()
+										.collect(Collectors.toMap(Function.identity(),
+												fandubSource -> commonTitlesMappedByMalId.getOrDefault(fandubSource, Map.of())
+														.getOrDefault(malTitle.getId(), List.of()))), (o, n) -> o, LinkedHashMap::new)))
 				.doOnSubscribe(x -> log.debug("Trying to get common titles..."))
 				.doOnSuccess(x -> log.debug("Got [{}] common titles.", x.size()));
 	}

@@ -11,17 +11,15 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
-import java.util.concurrent.TimeUnit;
 import java.util.function.Function;
 import java.util.stream.Collectors;
-import lombok.SneakyThrows;
 import nasirov.yv.ab.AbstractTest;
 import nasirov.yv.ab.dto.fe.ProcessResult;
 import nasirov.yv.ab.dto.fe.Title;
 import nasirov.yv.ab.utils.IOUtils;
-import nasirov.yv.starter.common.constant.FandubSource;
 import nasirov.yv.starter.common.dto.mal.MalTitleWatchingStatus;
 import org.apache.commons.lang3.StringUtils;
+import org.awaitility.Awaitility;
 import org.hamcrest.CustomTypeSafeMatcher;
 import org.junit.jupiter.api.Test;
 import org.springframework.core.ParameterizedTypeReference;
@@ -179,7 +177,6 @@ class ProcessControllerTest extends AbstractTest {
 		stubHttpRequest(ANIME_LIST_URL, "mal/not-expected-response.json", httpStatus);
 	}
 
-	@SneakyThrows
 	private void testWithMalAccessRestorer(boolean restored) {
 		//given
 		stubAnimeListError(HttpStatus.FORBIDDEN);
@@ -191,8 +188,8 @@ class ProcessControllerTest extends AbstractTest {
 		//then
 		checkResponse(firstCall, HttpStatus.OK, ERROR_MESSAGE_FORBIDDEN);
 		checkResponse(secondCall, HttpStatus.OK, ERROR_MESSAGE_FORBIDDEN);
-		TimeUnit.SECONDS.sleep(delaySeconds + 1);
-		verify(malAccessRestorer, times(1)).restoreMalAccess();
+		Awaitility.await().atMost(Duration.ofSeconds(5)).until(() -> malAccessRestorer.restoreMalAccess().block() == restored);
+		verify(malAccessRestorer, times(2)).restoreMalAccess();
 	}
 
 	private void stubMalAccessRestorerHttpRequest(boolean restored, Duration delay) {
@@ -205,34 +202,25 @@ class ProcessControllerTest extends AbstractTest {
 	}
 
 	private void checkResponse(ResponseSpec result) {
-		result.expectStatus().isEqualTo(HttpStatus.OK).expectBody(new ParameterizedTypeReference<ProcessResult>() {})
+		result.expectStatus()
+				.isEqualTo(HttpStatus.OK)
+				.expectBody(new ParameterizedTypeReference<ProcessResult>() {})
 				.value(new CustomTypeSafeMatcher<>("unordered fields should be equal") {
 					@Override
 					protected boolean matchesSafely(ProcessResult actual) {
 						List<Title> expectedTitles = getExpectedTitles();
-						Map<FandubSource, String> expectedFandubMap = getExpectedFandubMap();
 						List<Title> actualTitles = actual.getTitles();
 						Map<String, Title> nameToTitle = actualTitles.stream()
-								.collect(Collectors.toMap(Title::getNameOnMal, Function.identity()));
-						Map<FandubSource, String> actualFandubMap = actual.getFandubMap();
+								.collect(Collectors.toMap(Title::getName, Function.identity()));
 						return StringUtils.isBlank(actual.getErrorMessage()) && Objects.equals(expectedTitles.size(),
-								(actualTitles.size())) && expectedTitles.stream().allMatch(x -> {
-							Title actualTitle = nameToTitle.get(x.getNameOnMal());
-							return Objects.nonNull(actualTitle) && x.getType() == actualTitle.getType() && Objects.equals(
-									x.getEpisodeNumberOnMal(), actualTitle.getEpisodeNumberOnMal()) && Objects.equals(x.getPosterUrlOnMal(),
-									actualTitle.getPosterUrlOnMal()) && Objects.equals(x.getAnimeUrlOnMal(), actualTitle.getAnimeUrlOnMal())
-									&& x.getFandubToUrl().size() == actualTitle.getFandubToUrl().size() && x.getFandubToUrl()
-									.entrySet()
-									.stream()
-									.allMatch(e -> Objects.equals(e.getValue(), actualTitle.getFandubToUrl().get(e.getKey())))
-									&& x.getFandubToEpisodeName().size() == actualTitle.getFandubToEpisodeName().size()
-									&& x.getFandubToEpisodeName()
-									.entrySet()
-									.stream()
-									.allMatch(e -> Objects.equals(e.getValue(), actualTitle.getFandubToEpisodeName().get(e.getKey())));
-						}) && Objects.equals(expectedFandubMap.size(), (actualFandubMap.size())) && expectedFandubMap.entrySet()
-								.stream()
-								.allMatch(e -> Objects.equals(e.getValue(), actualFandubMap.get(e.getKey())));
+								actualTitles.size()) && expectedTitles.stream().allMatch(x -> {
+							Title actualTitle = nameToTitle.get(x.getName());
+							return Objects.nonNull(actualTitle) && Objects.equals(x.getNextEpisodeNumber(),
+									actualTitle.getNextEpisodeNumber()) && Objects.equals(x.getPosterUrl(), actualTitle.getPosterUrl())
+									&& Objects.equals(x.getMalUrl(), actualTitle.getMalUrl())
+									&& x.getFandubInfoList().size() == actualTitle.getFandubInfoList().size()
+									&& actualTitle.getFandubInfoList().containsAll(x.getFandubInfoList());
+						});
 					}
 				});
 	}
@@ -247,12 +235,7 @@ class ProcessControllerTest extends AbstractTest {
 	private List<Title> getExpectedTitles() {
 		return IOUtils.unmarshalToListFromFile("classpath:__files/result/expected-titles.json", Title.class)
 				.stream()
-				.peek(x -> x.setAnimeUrlOnMal(appProps.getMalProps().getUrl() + x.getAnimeUrlOnMal()))
+				.peek(x -> x.setMalUrl(appProps.getMalProps().getUrl() + x.getMalUrl()))
 				.collect(Collectors.toList());
-	}
-
-	private Map<FandubSource, String> getExpectedFandubMap() {
-		return getEnabledFandubSources().stream().collect(Collectors.toMap(Function.identity(),
-				FandubSource::getCanonicalName));
 	}
 }

@@ -1,62 +1,87 @@
 [
   {
-    "type": "AVAILABLE",
-    "nameOnMal": "title name 111",
-    "episodeNumberOnMal": "1",
-    "posterUrlOnMal": "https://cdn.myanimelist.net/images/anime/111/123.jpg",
-    "animeUrlOnMal": "/anime/111/Title_Name_111",
-    "fandubToUrl": {
-      "ANI_DUB": "https://anidub.com/anidub-url-100/10",
-      "ANI_LIBRIA": "https://www.anilibria.tv/anilibria-url-100/1",
-      "NINE_ANIME": "https://9anime.pl/9anime-url-100/1"
-    },
-    "fandubToEpisodeName": {
-      "ANI_DUB": "1 Серия для 111",
-      "ANI_LIBRIA": "Серия 1 для 111",
-      "NINE_ANIME": "1 for 111"
-    }
+    "name": "title name 111",
+    "nextEpisodeNumber": "1",
+    "posterUrl": "https://cdn.myanimelist.net/images/anime/111/123.jpg",
+    "malUrl": "/anime/111/Title_Name_111",
+    "fandubInfoList": [
+      {
+        "fandubSource": "ANI_DUB",
+        "fandubSourceCanonicalName": "AniDUB",
+        "episodeUrl": "https://anidub.com/anidub-url-100/10",
+        "episodeName": "1 Серия для 111"
+      },
+      {
+        "fandubSource": "NINE_ANIME",
+        "fandubSourceCanonicalName": "9anime",
+        "episodeUrl": "https://9anime.pl/9anime-url-100/1",
+        "episodeName": "1 for 111"
+      },
+      {
+        "fandubSource": "ANI_LIBRIA",
+        "fandubSourceCanonicalName": "AniLibria",
+        "episodeUrl": "https://www.anilibria.tv/anilibria-url-100/1",
+        "episodeName": "Серия 1 для 111"
+      }
+    ]
   },
   {
-    "type": "AVAILABLE",
-    "nameOnMal": "title name 222 '",
-    "episodeNumberOnMal": "1",
-    "posterUrlOnMal": "https://cdn.myanimelist.net/images/anime/222/456.jpg",
-    "animeUrlOnMal": "/anime/222/Title_Name_222",
-    "fandubToUrl": {
-      "ANI_DUB": "https://anidub.com/anidub-url-200/10",
-      "ANI_LIBRIA": "https://www.anilibria.tv/anilibria-url-200/1",
-      "NINE_ANIME": "https://9anime.pl/9anime-url-200/1"
-    },
-    "fandubToEpisodeName": {
-      "ANI_DUB": "1 Серия для 222",
-      "ANI_LIBRIA": "Серия 1 для 222",
-      "NINE_ANIME": "1 for 222"
-    }
+    "name": "title name 222 '",
+    "nextEpisodeNumber": "1",
+    "posterUrl": "https://cdn.myanimelist.net/images/anime/222/456.jpg",
+    "malUrl": "/anime/222/Title_Name_222",
+    "fandubInfoList": [
+      {
+        "fandubSource": "ANI_DUB",
+        "fandubSourceCanonicalName": "AniDUB",
+        "episodeUrl": "https://anidub.com/anidub-url-200/10",
+        "episodeName": "1 Серия для 222"
+      },
+      {
+        "fandubSource": "NINE_ANIME",
+        "fandubSourceCanonicalName": "9anime",
+        "episodeUrl": "https://9anime.pl/9anime-url-200/1",
+        "episodeName": "1 for 222"
+      },
+      {
+        "fandubSource": "ANI_LIBRIA",
+        "fandubSourceCanonicalName": "AniLibria",
+        "episodeUrl": "https://www.anilibria.tv/anilibria-url-200/1",
+        "episodeName": "Серия 1 для 222"
+      }
+    ]
   },
   {
-    "type": "AVAILABLE",
-    "nameOnMal": "title name 333",
-    "episodeNumberOnMal": "1",
-    "posterUrlOnMal": "https://cdn.myanimelist.net/images/anime/333/789.jpg",
-    "animeUrlOnMal": "/anime/333/Title_Name_333",
-    "fandubToUrl": {
-      "ANI_DUB": "https://anidub.com/anidub-url-200/20",
-      "ANI_LIBRIA": "https://www.anilibria.tv/anilibria-url-200/2",
-      "NINE_ANIME": "https://9anime.pl/9anime-url-200/2"
-    },
-    "fandubToEpisodeName": {
-      "ANI_DUB": "1 Серия для 333",
-      "ANI_LIBRIA": "Серия 1 для 333",
-      "NINE_ANIME": "1 for 333"
-    }
+    "name": "title name 333",
+    "nextEpisodeNumber": "1",
+    "posterUrl": "https://cdn.myanimelist.net/images/anime/333/789.jpg",
+    "malUrl": "/anime/333/Title_Name_333",
+    "fandubInfoList": [
+      {
+        "fandubSource": "ANI_DUB",
+        "fandubSourceCanonicalName": "AniDUB",
+        "episodeUrl": "https://anidub.com/anidub-url-200/20",
+        "episodeName": "1 Серия для 333"
+      },
+      {
+        "fandubSource": "NINE_ANIME",
+        "fandubSourceCanonicalName": "9anime",
+        "episodeUrl": "https://9anime.pl/9anime-url-200/2",
+        "episodeName": "1 for 333"
+      },
+      {
+        "fandubSource": "ANI_LIBRIA",
+        "fandubSourceCanonicalName": "AniLibria",
+        "episodeUrl": "https://www.anilibria.tv/anilibria-url-200/2",
+        "episodeName": "Серия 1 для 333"
+      }
+    ]
   },
   {
-    "type": "NOT_AVAILABLE",
-    "nameOnMal": "title name 444",
-    "episodeNumberOnMal": "6",
-    "posterUrlOnMal": "https://cdn.myanimelist.net/images/anime/444/1011.jpg",
-    "animeUrlOnMal": "/anime/444/Title_Name_444",
-    "fandubToUrl": {},
-    "fandubToEpisodeName": {}
+    "name": "title name 444",
+    "nextEpisodeNumber": "6",
+    "posterUrl": "https://cdn.myanimelist.net/images/anime/444/1011.jpg",
+    "malUrl": "/anime/444/Title_Name_444",
+    "fandubInfoList": []
   }
 ]
