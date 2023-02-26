@@ -43,7 +43,7 @@ class ProcessControllerTest extends AbstractTest {
 			"Sorry, " + MAL_USERNAME + ", but MAL has restricted our access to it. Please, try again later.";
 
 	@Test
-	void shouldReturnProcessResult() {
+	void shouldReturnProcessResultCacheIsEmpty() {
 		//given
 		mockGitHubResourcesService();
 		stubAnimeListOk();

@@ -45,12 +45,8 @@ public class CommonTitlesService implements CommonTitlesServiceI {
 		return Mono.justOrEmpty(
 						cacheOpt.map(x -> x.get(githubCacheKey, Map.class)).map(x -> (Map<FandubSource,
 								Map<Integer, List<CommonTitle>>>) x))
-				.switchIfEmpty(buildResult())
-				.doOnSubscribe(x -> log.debug("Trying to get common titles mapped by mal id..."))
-				.doOnSuccess(x -> cacheOpt.ifPresent(cache -> {
-					cache.put(githubCacheKey, x);
-					log.info("Cached common titles mapped by mal id.");
-				}));
+				.switchIfEmpty(buildAndCacheResult(cacheOpt, githubCacheKey))
+				.doOnSubscribe(x -> log.debug("Trying to get common titles mapped by mal id..."));
 	}
 
 	@Override
@@ -66,11 +62,16 @@ public class CommonTitlesService implements CommonTitlesServiceI {
 				.doOnSuccess(x -> log.debug("Got [{}] common titles.", x.size()));
 	}
 
-	private Mono<Map<FandubSource, Map<Integer, List<CommonTitle>>>> buildResult() {
+	private Mono<Map<FandubSource, Map<Integer, List<CommonTitle>>>> buildAndCacheResult(Optional<Cache> cacheOpt,
+			String githubCacheKey) {
 		return Flux.fromIterable(appProps.getEnabledFandubSources())
 				.flatMap(x -> gitHubResourcesService.getResource(x).map(y -> Pair.of(x, groupByMalId(y))))
 				.collectList()
-				.map(x -> x.stream().collect(Collectors.toMap(Pair::getKey, Pair::getValue)));
+				.map(x -> x.stream().collect(Collectors.toMap(Pair::getKey, Pair::getValue)))
+				.doOnSuccess(x -> cacheOpt.ifPresent(cache -> {
+					cache.put(githubCacheKey, x);
+					log.info("Cached common titles mapped by mal id.");
+				}));
 	}
 
 	private Map<Integer, List<CommonTitle>> groupByMalId(List<CommonTitle> titles) {
