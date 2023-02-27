@@ -21,7 +21,7 @@ import reactor.core.publisher.Mono;
 @RequiredArgsConstructor
 public class MalAccessRestorer implements MalAccessRestorerI {
 
-	private static final Semaphore SEMAPHORE = new Semaphore(1);
+	private static final Semaphore RESTORE_MAL_ACCESS_ASYNC_SEMAPHORE = new Semaphore(1);
 
 	private final HttpRequestServiceI httpRequestService;
 
@@ -37,12 +37,12 @@ public class MalAccessRestorer implements MalAccessRestorerI {
 
 	@Override
 	public void restoreMalAccessAsync() {
-		if (SEMAPHORE.tryAcquire()) {
+		if (RESTORE_MAL_ACCESS_ASYNC_SEMAPHORE.tryAcquire()) {
 			CompletableFuture.runAsync(() -> {
 				restoreMalAccess().block();
-				SEMAPHORE.release();
+				RESTORE_MAL_ACCESS_ASYNC_SEMAPHORE.release();
 			}).exceptionally(e -> {
-				SEMAPHORE.release();
+				RESTORE_MAL_ACCESS_ASYNC_SEMAPHORE.release();
 				log.error("Exception has occurred during mal access restoring", e);
 				return null;
 			});

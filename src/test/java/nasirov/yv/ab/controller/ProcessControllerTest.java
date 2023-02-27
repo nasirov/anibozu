@@ -2,8 +2,8 @@ package nasirov.yv.ab.controller;
 
 import static org.mockito.ArgumentMatchers.anyList;
 import static org.mockito.ArgumentMatchers.anySet;
-import static org.mockito.Mockito.atMost;
 import static org.mockito.Mockito.doThrow;
+import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
 import java.time.Duration;
@@ -11,11 +11,13 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.concurrent.Semaphore;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import nasirov.yv.ab.AbstractTest;
 import nasirov.yv.ab.dto.fe.ProcessResult;
 import nasirov.yv.ab.dto.fe.Title;
+import nasirov.yv.ab.service.impl.MalAccessRestorer;
 import nasirov.yv.ab.utils.IOUtils;
 import nasirov.yv.starter.common.dto.mal.MalTitleWatchingStatus;
 import org.apache.commons.lang3.StringUtils;
@@ -188,8 +190,12 @@ class ProcessControllerTest extends AbstractTest {
 		//then
 		checkResponse(firstCall, HttpStatus.OK, ERROR_MESSAGE_FORBIDDEN);
 		checkResponse(secondCall, HttpStatus.OK, ERROR_MESSAGE_FORBIDDEN);
-		Awaitility.await().atMost(Duration.ofSeconds(5)).until(() -> malAccessRestorer.restoreMalAccess().block() == restored);
-		verify(malAccessRestorer, atMost(2)).restoreMalAccess();
+		Awaitility.await()
+				.atMost(Duration.ofSeconds(5))
+				.until(Awaitility.fieldIn(MalAccessRestorer.class)
+						.ofType(Semaphore.class)
+						.andWithName("RESTORE_MAL_ACCESS_ASYNC_SEMAPHORE"), x -> x.availablePermits() == 1);
+		verify(malAccessRestorer, times(1)).restoreMalAccess();
 	}
 
 	private void stubMalAccessRestorerHttpRequest(boolean restored, Duration delay) {
