@@ -1,8 +1,8 @@
 package nasirov.yv.ab.controller;
 
+import jakarta.validation.ConstraintViolation;
+import jakarta.validation.ConstraintViolationException;
 import java.util.stream.Collectors;
-import javax.validation.ConstraintViolation;
-import javax.validation.ConstraintViolationException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import nasirov.yv.ab.dto.fe.ProcessResult;

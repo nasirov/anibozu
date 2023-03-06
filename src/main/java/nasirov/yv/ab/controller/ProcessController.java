@@ -1,7 +1,7 @@
 package nasirov.yv.ab.controller;
 
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
 import lombok.RequiredArgsConstructor;
 import nasirov.yv.ab.dto.fe.ProcessResult;
 import nasirov.yv.ab.service.ProcessServiceI;

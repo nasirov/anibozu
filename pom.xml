@@ -6,7 +6,7 @@
   <parent>
     <groupId>nasirov.yv</groupId>
     <artifactId>microservice-parent</artifactId>
-    <version>8.0.1</version>
+    <version>9.0.0</version>
     <relativePath/>
   </parent>
 
@@ -25,6 +25,12 @@
     <dependency>
       <groupId>nasirov.yv</groupId>
       <artifactId>starter-reactive-services</artifactId>
+      <exclusions>
+        <exclusion>
+          <groupId>org.springframework.boot</groupId>
+          <artifactId>spring-boot-starter-web</artifactId>
+        </exclusion>
+      </exclusions>
     </dependency>
 
     <dependency>
@@ -71,7 +77,6 @@
     <dependency>
       <groupId>org.awaitility</groupId>
       <artifactId>awaitility</artifactId>
-      <version>4.2.0</version>
       <scope>test</scope>
     </dependency>
 

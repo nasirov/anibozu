@@ -1,10 +1,10 @@
 package nasirov.yv.ab.properties;
 
+import jakarta.validation.constraints.NotNull;
 import java.util.Comparator;
 import java.util.LinkedHashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
-import javax.validation.constraints.NotNull;
 import lombok.Data;
 import nasirov.yv.starter.common.constant.FandubSource;
 import org.springframework.boot.context.properties.ConfigurationProperties;

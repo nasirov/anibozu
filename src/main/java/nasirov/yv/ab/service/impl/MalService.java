@@ -17,6 +17,7 @@ import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.util.HtmlUtils;
@@ -50,20 +51,20 @@ public class MalService implements MalServiceI {
 				.doOnSuccess(x -> log.info("Got {} titles for {}", x.size(), username));
 	}
 
-	private void validateMalResponse(HttpStatus responseStatus, String username) {
-		switch (responseStatus) {
-			case BAD_REQUEST ->
-					throw new MalException(username + "'s anime list is private or does not exist.", HttpStatus.BAD_REQUEST);
-			case FORBIDDEN -> throw new MalException(
+	private void validateMalResponse(HttpStatusCode responseStatus, String username) {
+		if (HttpStatus.BAD_REQUEST.equals(responseStatus)) {
+			throw new MalException(username + "'s anime list is private or does not exist.", HttpStatus.BAD_REQUEST);
+		} else if (HttpStatus.FORBIDDEN.equals(responseStatus)) {
+			throw new MalException(
 					ERROR_MESSAGE_PREFIX + username + ", but MAL has restricted our access to it. Please, try again later.",
 					HttpStatus.FORBIDDEN);
-			case SERVICE_UNAVAILABLE -> throw new MalException(
+		} else if (HttpStatus.SERVICE_UNAVAILABLE.equals(responseStatus)) {
+			throw new MalException(
 					ERROR_MESSAGE_PREFIX + username + ", but MAL is being unavailable now. Please, try again later.",
 					HttpStatus.SERVICE_UNAVAILABLE);
-			default -> {
-				if (responseStatus != HttpStatus.OK) {
-					throw new UnexpectedCallingException();
-				}
+		} else {
+			if (responseStatus != HttpStatus.OK) {
+				throw new UnexpectedCallingException();
 			}
 		}
 	}
@@ -74,7 +75,7 @@ public class MalService implements MalServiceI {
 						+ MalTitleWatchingStatus.WATCHING.getCode())
 				.clientResponseFunction(x -> {
 					Mono<ResponseEntity<List<MalTitle>>> result;
-					HttpStatus responseHttpStatus = x.statusCode();
+					HttpStatusCode responseHttpStatus = x.statusCode();
 					if (responseHttpStatus == HttpStatus.OK) {
 						result = x.toEntity(new ParameterizedTypeReference<>() {});
 					} else {

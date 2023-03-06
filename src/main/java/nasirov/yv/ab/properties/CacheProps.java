@@ -1,6 +1,6 @@
 package nasirov.yv.ab.properties;
 
-import javax.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 
 /**

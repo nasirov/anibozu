@@ -1,8 +1,8 @@
 package nasirov.yv.ab.dto.fe;
 
+import jakarta.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
-import javax.validation.constraints.NotNull;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
