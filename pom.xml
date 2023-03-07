@@ -25,12 +25,6 @@
     <dependency>
       <groupId>nasirov.yv</groupId>
       <artifactId>starter-reactive-services</artifactId>
-      <exclusions>
-        <exclusion>
-          <groupId>org.springframework.boot</groupId>
-          <artifactId>spring-boot-starter-web</artifactId>
-        </exclusion>
-      </exclusions>
     </dependency>
 
     <dependency>
