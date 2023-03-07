@@ -192,10 +192,12 @@ class ProcessControllerTest extends AbstractTest {
 		checkResponse(secondCall, HttpStatus.OK, ERROR_MESSAGE_FORBIDDEN);
 		Awaitility.await()
 				.atMost(Duration.ofSeconds(5))
+				.untilAsserted(() -> verify(malAccessRestorer, times(1)).restoreMalAccess());
+		Awaitility.await()
+				.atMost(Duration.ofSeconds(5))
 				.until(Awaitility.fieldIn(MalAccessRestorer.class)
 						.ofType(Semaphore.class)
 						.andWithName("RESTORE_MAL_ACCESS_ASYNC_SEMAPHORE"), x -> x.availablePermits() == 1);
-		verify(malAccessRestorer, times(1)).restoreMalAccess();
 	}
 
 	private void stubMalAccessRestorerHttpRequest(boolean restored, Duration delay) {
