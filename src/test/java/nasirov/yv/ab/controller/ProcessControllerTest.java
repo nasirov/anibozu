@@ -105,6 +105,10 @@ class ProcessControllerTest extends AbstractTest {
 		//when
 		ResponseSpec result = call(MAL_USERNAME);
 		//then
+		Awaitility.await()
+				.atMost(Duration.ofSeconds(5))
+				.untilAsserted(() -> verify(malAccessRestorer, times(1)).restoreMalAccess());
+		awaitSemaphoreAvailable();
 		checkResponse(result, HttpStatus.OK, ERROR_MESSAGE_FORBIDDEN);
 	}
 
@@ -192,7 +196,15 @@ class ProcessControllerTest extends AbstractTest {
 		checkResponse(secondCall, HttpStatus.OK, ERROR_MESSAGE_FORBIDDEN);
 		Awaitility.await()
 				.atMost(Duration.ofSeconds(5))
-				.untilAsserted(() -> verify(malAccessRestorer, times(1)).restoreMalAccess());
+				.until(() -> wireMockServer.getServeEvents()
+						.getRequests()
+						.stream()
+						.anyMatch(x -> StringUtils.equals(x.getRequest().getUrl(), MAR_ENDPOINT)));
+		awaitSemaphoreAvailable();
+		verify(malAccessRestorer, times(1)).restoreMalAccess();
+	}
+
+	private void awaitSemaphoreAvailable() {
 		Awaitility.await()
 				.atMost(Duration.ofSeconds(5))
 				.until(Awaitility.fieldIn(MalAccessRestorer.class)
@@ -202,6 +214,11 @@ class ProcessControllerTest extends AbstractTest {
 
 	private void stubMalAccessRestorerHttpRequest(boolean restored, Duration delay) {
 		stubHttpRequest(MAR_ENDPOINT, "mal-access-restorer/" + (restored ? "" : "not-") + "restored.txt", HttpStatus.OK, delay);
+		Awaitility.await()
+				.atMost(Duration.ofSeconds(5))
+				.until(() -> wireMockServer.getStubMappings()
+						.stream()
+						.anyMatch(x -> StringUtils.equals(x.getRequest().getUrl(), MAR_ENDPOINT)));
 	}
 
 	private ResponseSpec call(String username) {
