@@ -75,6 +75,8 @@ jobs:
   docker:
     runs-on: ubuntu-latest
     needs: tests
+    outputs:
+      image-tag: ${{ steps.build-and-push-image.outputs.image-tag }}
     steps:
 
       - name: Checkout
@@ -97,6 +99,7 @@ jobs:
 
 
       - name: Build and Push image
+        id: build-and-push-image
         env:
           CONTAINER_REGISTRY_USER: ${{ secrets.CONTAINER_REGISTRY_USER }}
           CONTAINER_REGISTRY_PASS: ${{ secrets.CONTAINER_REGISTRY_PASS }}
@@ -105,6 +108,7 @@ jobs:
           app_name=$(mvn help:evaluate -Dexpression=project.name -q -DforceStdout)
           registry_path=$(mvn help:evaluate -Dexpression=registry-path -q -DforceStdout)
           commit_hash=$(git rev-parse --short HEAD)
+          echo "image-tag=${commit_hash}" >> $GITHUB_OUTPUT
 
           mvn clean compile jib:build -Djib.to.image="${registry_path}/${app_name}:${commit_hash}"
 
@@ -116,16 +120,9 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
-      - name: Get image tag
-        id: get-image-tag
-        shell: bash
-        run: |
-          commit_hash=$(git rev-parse --short HEAD)
-          echo "image-tag=${commit_hash}" >> $GITHUB_OUTPUT
-
       - name: Deploy to k8s
         uses: wahyd4/kubectl-helm-action@master
         env:
           KUBE_CONFIG_DATA: ${{ secrets.KUBECTL_CONFIG }}
         with:
-          args: helm upgrade --install --set image.tag=${{ steps.get-image-tag.outputs.image-tag }} ${{ env.PROJECT }} helm
+          args: helm upgrade --install --set image.tag=${{ needs.docker.outputs.image-tag }} ${{ env.PROJECT }} helm
