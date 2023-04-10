@@ -105,12 +105,9 @@ jobs:
           CONTAINER_REGISTRY_PASS: ${{ secrets.CONTAINER_REGISTRY_PASS }}
           GITHUB_ACCESS_TOKEN: ${{ secrets.TOKEN }}
         run: |
-          app_name=$(mvn help:evaluate -Dexpression=project.name -q -DforceStdout)
-          registry_path=$(mvn help:evaluate -Dexpression=registry-path -q -DforceStdout)
           commit_hash=$(git rev-parse --short HEAD)
           echo "image-tag=${commit_hash}" >> $GITHUB_OUTPUT
-
-          mvn clean compile jib:build -Djib.to.image="${registry_path}/${app_name}:${commit_hash}"
+          mvn clean compile jib:build -Dto.image.version=${commit_hash}
 
   k8s:
     runs-on: ubuntu-latest
