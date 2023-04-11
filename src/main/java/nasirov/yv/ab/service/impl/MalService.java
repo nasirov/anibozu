@@ -10,7 +10,7 @@ import nasirov.yv.ab.exception.UnexpectedCallingException;
 import nasirov.yv.ab.properties.AppProps;
 import nasirov.yv.ab.service.MalServiceI;
 import nasirov.yv.starter.common.dto.mal.MalTitle;
-import nasirov.yv.starter.common.dto.mal.MalTitleWatchingStatus;
+import nasirov.yv.starter.common.dto.mal.WatchingStatus;
 import nasirov.yv.starter.reactive.services.dto.HttpRequestServiceDto;
 import nasirov.yv.starter.reactive.services.service.HttpRequestServiceI;
 import org.apache.commons.collections4.CollectionUtils;
@@ -72,7 +72,7 @@ public class MalService implements MalServiceI {
 	private HttpRequestServiceDto<ResponseEntity<List<MalTitle>>> buildWatchingTitlesRequest(String username) {
 		return HttpRequestServiceDto.<ResponseEntity<List<MalTitle>>>builder()
 				.url(appProps.getMalProps().getUrl() + "/animelist/" + username + "/load.json?offset=0&status="
-						+ MalTitleWatchingStatus.WATCHING.getCode())
+						+ WatchingStatus.WATCHING.getCode())
 				.clientResponseFunction(x -> {
 					Mono<ResponseEntity<List<MalTitle>>> result;
 					HttpStatusCode responseHttpStatus = x.statusCode();

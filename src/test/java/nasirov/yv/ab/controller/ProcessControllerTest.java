@@ -19,7 +19,7 @@ import nasirov.yv.ab.dto.fe.ProcessResult;
 import nasirov.yv.ab.dto.fe.Title;
 import nasirov.yv.ab.service.impl.MalAccessRestorer;
 import nasirov.yv.ab.utils.IOUtils;
-import nasirov.yv.starter.common.dto.mal.MalTitleWatchingStatus;
+import nasirov.yv.starter.common.dto.mal.WatchingStatus;
 import org.apache.commons.lang3.StringUtils;
 import org.awaitility.Awaitility;
 import org.hamcrest.CustomTypeSafeMatcher;
@@ -37,7 +37,7 @@ class ProcessControllerTest extends AbstractTest {
 	private static final String MAL_USERNAME = "foobarbaz";
 
 	private static final String ANIME_LIST_URL =
-			"/animelist/" + MAL_USERNAME + "/load.json?offset=0&status=" + MalTitleWatchingStatus.WATCHING.getCode();
+			"/animelist/" + MAL_USERNAME + "/load.json?offset=0&status=" + WatchingStatus.WATCHING.getCode();
 
 	private static final String MAR_ENDPOINT = "/access/restore";
 
