@@ -106,8 +106,10 @@ jobs:
           GITHUB_ACCESS_TOKEN: ${{ secrets.TOKEN }}
         run: |
           commit_hash=$(git rev-parse --short HEAD)
-          echo "image-tag=${commit_hash}" >> $GITHUB_OUTPUT
-          mvn clean compile jib:build -Dto.image.version=${commit_hash}
+          image_architecture=$(mvn help:evaluate -Dexpression=image.architecture -q -DforceStdout)
+          version="${commit_hash}-${image_architecture}"
+          mvn clean compile jib:build -Dto.image.version=${version}
+          echo "image-tag=${version}" >> $GITHUB_OUTPUT
 
   k8s:
     runs-on: ubuntu-latest

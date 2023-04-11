@@ -1,7 +1,7 @@
 image:
   pullPolicy: Always
   registry: registry.gitlab.com/fandub/images
-  name: anibozu-arm64
+  name: anibozu
   tag: short-commit-hash
 docker:
   progressDeadlineSeconds: 600

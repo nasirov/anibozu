@@ -16,7 +16,7 @@
   <description>Provides links to Fandub sites for your watching titles from MyAnimeList</description>
 
   <properties>
-    <from.image.architecture>arm64</from.image.architecture>
+    <image.architecture>arm64</image.architecture>
     <main-class>nasirov.yv.ab.AnibozuApplication</main-class>
   </properties>
 
