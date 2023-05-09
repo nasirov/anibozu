@@ -42,28 +42,23 @@ public class CommonTitlesService implements CommonTitlesServiceI {
 	public Mono<Map<FandubSource, Map<Integer, List<CommonTitle>>>> getCommonTitlesMappedByMalId() {
 		Optional<Cache> cacheOpt = Optional.ofNullable(cacheManager.getCache(appProps.getCacheProps().getGithubCacheName()));
 		String githubCacheKey = appProps.getCacheProps().getGithubCacheKey();
-		return Mono.justOrEmpty(
-						cacheOpt.map(x -> x.get(githubCacheKey, Map.class)).map(x -> (Map<FandubSource,
-								Map<Integer, List<CommonTitle>>>) x))
+		return Mono.justOrEmpty(cacheOpt.map(x -> x.get(githubCacheKey, Map.class)).map(x -> (Map<FandubSource, Map<Integer, List<CommonTitle>>>) x))
 				.switchIfEmpty(buildAndCacheResult(cacheOpt, githubCacheKey))
 				.doOnSubscribe(x -> log.debug("Trying to get common titles mapped by mal id..."));
 	}
 
 	@Override
-	public Mono<Map<Integer, Map<FandubSource, List<CommonTitle>>>> getCommonTitles(Set<FandubSource> fandubSources,
-			List<MalTitle> malTitles) {
-		return getCommonTitlesMappedByMalId().<Map<Integer, Map<FandubSource, List<CommonTitle>>>>map(
-						commonTitlesMappedByMalId -> malTitles.stream()
-								.collect(Collectors.toMap(MalTitle::getId, malTitle -> fandubSources.stream()
+	public Mono<Map<Integer, Map<FandubSource, List<CommonTitle>>>> getCommonTitles(Set<FandubSource> fandubSources, List<MalTitle> malTitles) {
+		return getCommonTitlesMappedByMalId().<Map<Integer, Map<FandubSource, List<CommonTitle>>>>map(commonTitlesMappedByMalId -> malTitles.stream()
+						.collect(Collectors.toMap(MalTitle::getId, malTitle -> fandubSources.stream()
 										.collect(Collectors.toMap(Function.identity(),
-												fandubSource -> commonTitlesMappedByMalId.getOrDefault(fandubSource, Map.of())
-														.getOrDefault(malTitle.getId(), List.of()))), (o, n) -> o, LinkedHashMap::new)))
+												fandubSource -> commonTitlesMappedByMalId.getOrDefault(fandubSource, Map.of()).getOrDefault(malTitle.getId(), List.of()))),
+								(o, n) -> o, LinkedHashMap::new)))
 				.doOnSubscribe(x -> log.debug("Trying to get common titles..."))
 				.doOnSuccess(x -> log.debug("Got [{}] common titles.", x.size()));
 	}
 
-	private Mono<Map<FandubSource, Map<Integer, List<CommonTitle>>>> buildAndCacheResult(Optional<Cache> cacheOpt,
-			String githubCacheKey) {
+	private Mono<Map<FandubSource, Map<Integer, List<CommonTitle>>>> buildAndCacheResult(Optional<Cache> cacheOpt, String githubCacheKey) {
 		return Flux.fromIterable(appProps.getEnabledFandubSources())
 				.flatMap(x -> gitHubResourcesService.getResource(x).map(y -> Pair.of(x, groupByMalId(y))))
 				.collectList()
@@ -86,9 +81,7 @@ public class CommonTitlesService implements CommonTitlesServiceI {
 		Map<Integer, List<CommonEpisode>> malIdToEpisodes = commonTitle.getMalIdToEpisodes();
 		List<CommonTitle> result;
 		if (malIds.size() > 1) {
-			result = malIds.stream()
-					.map(x -> new CommonTitle(commonTitle, List.of(x), Map.of(x, malIdToEpisodes.getOrDefault(x, List.of()))))
-					.toList();
+			result = malIds.stream().map(x -> new CommonTitle(commonTitle, List.of(x), Map.of(x, malIdToEpisodes.getOrDefault(x, List.of())))).toList();
 		} else {
 			result = List.of(commonTitle);
 		}

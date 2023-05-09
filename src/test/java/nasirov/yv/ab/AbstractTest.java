@@ -87,17 +87,13 @@ public abstract class AbstractTest {
 	}
 
 	protected void stubHttpRequest(String url, String bodyFilePath, HttpStatus httpStatus) {
-		wireMockServer.addStubMapping(WireMock.get(url)
-				.willReturn(WireMock.aResponse().withBodyFile(bodyFilePath).withStatus(httpStatus.value()))
-				.build());
+		wireMockServer.addStubMapping(
+				WireMock.get(url).willReturn(WireMock.aResponse().withBodyFile(bodyFilePath).withStatus(httpStatus.value())).build());
 	}
 
 	protected void stubHttpRequest(String url, String bodyFilePath, HttpStatus httpStatus, Duration delay) {
 		wireMockServer.addStubMapping(WireMock.get(url)
-				.willReturn(WireMock.aResponse()
-						.withBodyFile(bodyFilePath)
-						.withStatus(httpStatus.value())
-						.withFixedDelay((int) delay.toMillis()))
+				.willReturn(WireMock.aResponse().withBodyFile(bodyFilePath).withStatus(httpStatus.value()).withFixedDelay((int) delay.toMillis()))
 				.build());
 	}
 
@@ -106,9 +102,9 @@ public abstract class AbstractTest {
 	}
 
 	protected void mockGitHubResourcesService() {
-		getEnabledFandubSources().forEach(x -> doReturn(Mono.just(
-				IOUtils.unmarshalToListFromFile("classpath:__files/github/" + x.name() + "-titles.json",
-						CommonTitle.class))).when(gitHubResourcesService).getResource(x));
+		getEnabledFandubSources().forEach(
+				x -> doReturn(Mono.just(IOUtils.unmarshalToListFromFile("classpath:__files/github/" + x.name() + "-titles.json", CommonTitle.class))).when(
+						gitHubResourcesService).getResource(x));
 	}
 
 	protected void fillGithubCache() {

@@ -15,6 +15,5 @@ public interface CommonTitlesServiceI {
 
 	Mono<Map<FandubSource, Map<Integer, List<CommonTitle>>>> getCommonTitlesMappedByMalId();
 
-	Mono<Map<Integer, Map<FandubSource, List<CommonTitle>>>> getCommonTitles(Set<FandubSource> fandubSources,
-			List<MalTitle> malTitles);
+	Mono<Map<Integer, Map<FandubSource, List<CommonTitle>>>> getCommonTitles(Set<FandubSource> fandubSources, List<MalTitle> malTitles);
 }

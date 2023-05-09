@@ -36,8 +36,7 @@ class ProcessControllerTest extends AbstractTest {
 
 	private static final String MAL_USERNAME = "foobarbaz";
 
-	private static final String ANIME_LIST_URL =
-			"/animelist/" + MAL_USERNAME + "/load.json?offset=0&status=" + WatchingStatus.WATCHING.getCode();
+	private static final String ANIME_LIST_URL = "/animelist/" + MAL_USERNAME + "/load.json?offset=0&status=" + WatchingStatus.WATCHING.getCode();
 
 	private static final String MAR_ENDPOINT = "/access/restore";
 
@@ -105,9 +104,7 @@ class ProcessControllerTest extends AbstractTest {
 		//when
 		ResponseSpec result = call(MAL_USERNAME);
 		//then
-		Awaitility.await()
-				.atMost(Duration.ofSeconds(5))
-				.untilAsserted(() -> verify(malAccessRestorer, times(1)).restoreMalAccess());
+		Awaitility.await().atMost(Duration.ofSeconds(5)).untilAsserted(() -> verify(malAccessRestorer, times(1)).restoreMalAccess());
 		awaitSemaphoreAvailable();
 		checkResponse(result, HttpStatus.OK, ERROR_MESSAGE_FORBIDDEN);
 	}
@@ -119,8 +116,7 @@ class ProcessControllerTest extends AbstractTest {
 		//when
 		ResponseSpec result = call(MAL_USERNAME);
 		//then
-		checkResponse(result, HttpStatus.OK,
-				"Sorry, " + MAL_USERNAME + ", but MAL is being unavailable now. Please, try again later.");
+		checkResponse(result, HttpStatus.OK, "Sorry, " + MAL_USERNAME + ", but MAL is being unavailable now. Please, try again later.");
 	}
 
 	@Test
@@ -147,8 +143,7 @@ class ProcessControllerTest extends AbstractTest {
 	void shouldReturnErrorCommonTitlesServiceException() {
 		//given
 		stubAnimeListOk();
-		doThrow(new RuntimeException("CommonTitlesService cause")).when(commonTitlesService)
-				.getCommonTitles(anySet(), anyList());
+		doThrow(new RuntimeException("CommonTitlesService cause")).when(commonTitlesService).getCommonTitles(anySet(), anyList());
 		//when
 		ResponseSpec result = call(MAL_USERNAME);
 		//then
@@ -196,10 +191,8 @@ class ProcessControllerTest extends AbstractTest {
 		checkResponse(secondCall, HttpStatus.OK, ERROR_MESSAGE_FORBIDDEN);
 		Awaitility.await()
 				.atMost(Duration.ofSeconds(5))
-				.until(() -> wireMockServer.getServeEvents()
-						.getRequests()
-						.stream()
-						.anyMatch(x -> StringUtils.equals(x.getRequest().getUrl(), MAR_ENDPOINT)));
+				.until(() -> wireMockServer.getServeEvents().getRequests().stream().anyMatch(x -> StringUtils.equals(x.getRequest().getUrl(),
+						MAR_ENDPOINT)));
 		awaitSemaphoreAvailable();
 		verify(malAccessRestorer, times(1)).restoreMalAccess();
 	}
@@ -207,18 +200,15 @@ class ProcessControllerTest extends AbstractTest {
 	private void awaitSemaphoreAvailable() {
 		Awaitility.await()
 				.atMost(Duration.ofSeconds(5))
-				.until(Awaitility.fieldIn(MalAccessRestorer.class)
-						.ofType(Semaphore.class)
-						.andWithName("RESTORE_MAL_ACCESS_ASYNC_SEMAPHORE"), x -> x.availablePermits() == 1);
+				.until(Awaitility.fieldIn(MalAccessRestorer.class).ofType(Semaphore.class).andWithName("RESTORE_MAL_ACCESS_ASYNC_SEMAPHORE"),
+						x -> x.availablePermits() == 1);
 	}
 
 	private void stubMalAccessRestorerHttpRequest(boolean restored, Duration delay) {
 		stubHttpRequest(MAR_ENDPOINT, "mal-access-restorer/" + (restored ? "" : "not-") + "restored.txt", HttpStatus.OK, delay);
 		Awaitility.await()
 				.atMost(Duration.ofSeconds(5))
-				.until(() -> wireMockServer.getStubMappings()
-						.stream()
-						.anyMatch(x -> StringUtils.equals(x.getRequest().getUrl(), MAR_ENDPOINT)));
+				.until(() -> wireMockServer.getStubMappings().stream().anyMatch(x -> StringUtils.equals(x.getRequest().getUrl(), MAR_ENDPOINT)));
 	}
 
 	private ResponseSpec call(String username) {
@@ -235,16 +225,14 @@ class ProcessControllerTest extends AbstractTest {
 					protected boolean matchesSafely(ProcessResult actual) {
 						List<Title> expectedTitles = getExpectedTitles();
 						List<Title> actualTitles = actual.getTitles();
-						Map<String, Title> nameToTitle = actualTitles.stream()
-								.collect(Collectors.toMap(Title::getName, Function.identity()));
-						return StringUtils.isBlank(actual.getErrorMessage()) && Objects.equals(expectedTitles.size(),
-								actualTitles.size()) && expectedTitles.stream().allMatch(x -> {
+						Map<String, Title> nameToTitle = actualTitles.stream().collect(Collectors.toMap(Title::getName, Function.identity()));
+						return StringUtils.isBlank(actual.getErrorMessage()) && Objects.equals(expectedTitles.size(), actualTitles.size())
+								&& expectedTitles.stream().allMatch(x -> {
 							Title actualTitle = nameToTitle.get(x.getName());
-							return Objects.nonNull(actualTitle) && Objects.equals(x.getNextEpisodeNumber(),
-									actualTitle.getNextEpisodeNumber()) && Objects.equals(x.getPosterUrl(), actualTitle.getPosterUrl())
-									&& Objects.equals(x.getMalUrl(), actualTitle.getMalUrl())
-									&& x.getFandubInfoList().size() == actualTitle.getFandubInfoList().size()
-									&& actualTitle.getFandubInfoList().containsAll(x.getFandubInfoList());
+							return Objects.nonNull(actualTitle) && Objects.equals(x.getNextEpisodeNumber(), actualTitle.getNextEpisodeNumber()) && Objects.equals(
+									x.getPosterUrl(), actualTitle.getPosterUrl()) && Objects.equals(x.getMalUrl(), actualTitle.getMalUrl())
+									&& x.getFandubInfoList().size() == actualTitle.getFandubInfoList().size() && actualTitle.getFandubInfoList()
+									.containsAll(x.getFandubInfoList());
 						});
 					}
 				});

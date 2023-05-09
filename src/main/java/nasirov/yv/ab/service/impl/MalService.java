@@ -55,12 +55,10 @@ public class MalService implements MalServiceI {
 		if (HttpStatus.BAD_REQUEST.equals(responseStatus)) {
 			throw new MalException(username + "'s anime list is private or does not exist.", HttpStatus.BAD_REQUEST);
 		} else if (HttpStatus.FORBIDDEN.equals(responseStatus)) {
-			throw new MalException(
-					ERROR_MESSAGE_PREFIX + username + ", but MAL has restricted our access to it. Please, try again later.",
+			throw new MalException(ERROR_MESSAGE_PREFIX + username + ", but MAL has restricted our access to it. Please, try again later.",
 					HttpStatus.FORBIDDEN);
 		} else if (HttpStatus.SERVICE_UNAVAILABLE.equals(responseStatus)) {
-			throw new MalException(
-					ERROR_MESSAGE_PREFIX + username + ", but MAL is being unavailable now. Please, try again later.",
+			throw new MalException(ERROR_MESSAGE_PREFIX + username + ", but MAL is being unavailable now. Please, try again later.",
 					HttpStatus.SERVICE_UNAVAILABLE);
 		} else {
 			if (responseStatus != HttpStatus.OK) {
@@ -71,8 +69,7 @@ public class MalService implements MalServiceI {
 
 	private HttpRequestServiceDto<ResponseEntity<List<MalTitle>>> buildWatchingTitlesRequest(String username) {
 		return HttpRequestServiceDto.<ResponseEntity<List<MalTitle>>>builder()
-				.url(appProps.getMalProps().getUrl() + "/animelist/" + username + "/load.json?offset=0&status="
-						+ WatchingStatus.WATCHING.getCode())
+				.url(appProps.getMalProps().getUrl() + "/animelist/" + username + "/load.json?offset=0&status=" + WatchingStatus.WATCHING.getCode())
 				.clientResponseFunction(x -> {
 					Mono<ResponseEntity<List<MalTitle>>> result;
 					HttpStatusCode responseHttpStatus = x.statusCode();

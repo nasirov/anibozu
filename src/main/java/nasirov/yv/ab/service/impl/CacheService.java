@@ -30,8 +30,6 @@ public class CacheService implements CacheServiceI {
 	@EventListener(classes = ApplicationReadyEvent.class, condition = "@appProps.getCacheProps().isCacheOnStartup()")
 	public Mono<Void> fillGithubCache() {
 		log.info("Trying to fill github cache...");
-		return commonTitlesService.getCommonTitlesMappedByMalId()
-				.then()
-				.doOnSuccess(x -> log.info("github cache has been filled."));
+		return commonTitlesService.getCommonTitlesMappedByMalId().then().doOnSuccess(x -> log.info("github cache has been filled."));
 	}
 }

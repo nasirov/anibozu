@@ -49,11 +49,9 @@ public class ProcessService implements ProcessServiceI {
 	}
 
 	private Mono<ProcessResult> buildProcessResult(List<MalTitle> malTitles) {
-		Map<Integer, MalTitle> malIdToMalTitle = malTitles.stream()
-				.collect(Collectors.toMap(MalTitle::getId, Function.identity()));
+		Map<Integer, MalTitle> malIdToMalTitle = malTitles.stream().collect(Collectors.toMap(MalTitle::getId, Function.identity()));
 		return commonTitlesService.getCommonTitles(appProps.getEnabledFandubSources(), malTitles)
-				.map(x -> new ProcessResult(
-						x.entrySet().stream().map(e -> buildTitle(malIdToMalTitle.get(e.getKey()), e.getValue())).toList()));
+				.map(x -> new ProcessResult(x.entrySet().stream().map(e -> buildTitle(malIdToMalTitle.get(e.getKey()), e.getValue())).toList()));
 	}
 
 	private Title buildTitle(MalTitle watchingTitle, Map<FandubSource, List<CommonTitle>> commonTitlesByFandubSource) {

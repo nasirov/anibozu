@@ -19,8 +19,8 @@ import lombok.experimental.UtilityClass;
 @UtilityClass
 public class IOUtils {
 
-	private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper().disable(
-			DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES).registerModules(new ParameterNamesModule());
+	private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper().disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES)
+			.registerModules(new ParameterNamesModule());
 
 	@SneakyThrows
 	public static String readFromFile(String pathToFile) {

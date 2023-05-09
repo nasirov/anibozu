@@ -43,8 +43,7 @@ public class ExceptionHandlers {
 	@ExceptionHandler(ConstraintViolationException.class)
 	public Mono<ProcessResult> handleValidationException(ConstraintViolationException e) {
 		logException(e);
-		return Mono.just(new ProcessResult(
-				e.getConstraintViolations().stream().map(ConstraintViolation::getMessage).collect(Collectors.joining(","))));
+		return Mono.just(new ProcessResult(e.getConstraintViolations().stream().map(ConstraintViolation::getMessage).collect(Collectors.joining(","))));
 	}
 
 	@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
