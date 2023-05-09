@@ -38,9 +38,9 @@ class ProcessControllerTest extends AbstractTest {
 
 	private static final String ANIME_LIST_URL = "/animelist/" + MAL_USERNAME + "/load.json?offset=0&status=" + WatchingStatus.WATCHING.getCode();
 
-	private static final String MAR_ENDPOINT = "/access/restore";
+	private static final String MAS_ENDPOINT = "/access/restore";
 
-	private static final String ERROR_MESSAGE_FORBIDDEN =
+	private static final String MAL_RESTRICTED_ACCESS =
 			"Sorry, " + MAL_USERNAME + ", but MAL has restricted our access to it. Please, try again later.";
 
 	@Test
@@ -87,26 +87,34 @@ class ProcessControllerTest extends AbstractTest {
 	}
 
 	@Test
-	void shouldReturnErrorMalForbiddenMalAccessRestored() {
-		testWithMalAccessRestorer(true);
+	void shouldReturnMalRestrictedAccessError403MalAccessRestored() {
+		testWithMalAccessRestorer(true, HttpStatus.FORBIDDEN);
 	}
 
 	@Test
-	void shouldReturnErrorMalForbiddenMalAccessNotRestored() {
-		testWithMalAccessRestorer(false);
+	void shouldReturnMalRestrictedAccessError403MalAccessNotRestored() {
+		testWithMalAccessRestorer(false, HttpStatus.FORBIDDEN);
 	}
 
 	@Test
-	void shouldReturnErrorMalForbiddenMalAccessRestorerException() {
+	void shouldReturnMalRestrictedAccessError403MalAccessRestorerException() {
+		testWithMalAccessRestorerFail(HttpStatus.FORBIDDEN);
+	}
+
+	@Test
+	void shouldReturnMalRestrictedAccessError429MalAccessRestored() {
+		testWithMalAccessRestorer(true, HttpStatus.TOO_MANY_REQUESTS);
+	}
+
+	@Test
+	void shouldReturnMalRestrictedAccessError429MalAccessNotRestored() {
+		testWithMalAccessRestorer(false, HttpStatus.TOO_MANY_REQUESTS);
+	}
+
+	@Test
+	void shouldReturnMalRestrictedAccessError429MalAccessRestorerException() {
 		//given
-		stubAnimeListError(HttpStatus.FORBIDDEN);
-		doThrow(new RuntimeException("MalAccessRestorer cause")).when(malAccessRestorer).restoreMalAccess();
-		//when
-		ResponseSpec result = call(MAL_USERNAME);
-		//then
-		Awaitility.await().atMost(Duration.ofSeconds(5)).untilAsserted(() -> verify(malAccessRestorer, times(1)).restoreMalAccess());
-		awaitSemaphoreAvailable();
-		checkResponse(result, HttpStatus.OK, ERROR_MESSAGE_FORBIDDEN);
+		testWithMalAccessRestorerFail(HttpStatus.TOO_MANY_REQUESTS);
 	}
 
 	@Test
@@ -178,23 +186,35 @@ class ProcessControllerTest extends AbstractTest {
 		stubHttpRequest(ANIME_LIST_URL, "mal/not-expected-response.json", httpStatus);
 	}
 
-	private void testWithMalAccessRestorer(boolean restored) {
+	private void testWithMalAccessRestorer(boolean restored, HttpStatus httpStatus) {
 		//given
-		stubAnimeListError(HttpStatus.FORBIDDEN);
+		stubAnimeListError(httpStatus);
 		int delaySeconds = 1;
-		stubMalAccessRestorerHttpRequest(restored, Duration.ofSeconds(delaySeconds));
+		stubMalAccessServiceResponse(restored, Duration.ofSeconds(delaySeconds));
 		//when
 		ResponseSpec firstCall = call(MAL_USERNAME);
 		ResponseSpec secondCall = call(MAL_USERNAME);
 		//then
-		checkResponse(firstCall, HttpStatus.OK, ERROR_MESSAGE_FORBIDDEN);
-		checkResponse(secondCall, HttpStatus.OK, ERROR_MESSAGE_FORBIDDEN);
+		checkResponse(firstCall, HttpStatus.OK, MAL_RESTRICTED_ACCESS);
+		checkResponse(secondCall, HttpStatus.OK, MAL_RESTRICTED_ACCESS);
 		Awaitility.await()
 				.atMost(Duration.ofSeconds(5))
 				.until(() -> wireMockServer.getServeEvents().getRequests().stream().anyMatch(x -> StringUtils.equals(x.getRequest().getUrl(),
-						MAR_ENDPOINT)));
+						MAS_ENDPOINT)));
 		awaitSemaphoreAvailable();
 		verify(malAccessRestorer, times(1)).restoreMalAccess();
+	}
+
+	private void testWithMalAccessRestorerFail(HttpStatus httpStatus) {
+		//given
+		stubAnimeListError(httpStatus);
+		doThrow(new RuntimeException("MalAccessRestorer cause")).when(malAccessRestorer).restoreMalAccess();
+		//when
+		ResponseSpec result = call(MAL_USERNAME);
+		//then
+		Awaitility.await().atMost(Duration.ofSeconds(5)).untilAsserted(() -> verify(malAccessRestorer, times(1)).restoreMalAccess());
+		awaitSemaphoreAvailable();
+		checkResponse(result, HttpStatus.OK, MAL_RESTRICTED_ACCESS);
 	}
 
 	private void awaitSemaphoreAvailable() {
@@ -204,11 +224,11 @@ class ProcessControllerTest extends AbstractTest {
 						x -> x.availablePermits() == 1);
 	}
 
-	private void stubMalAccessRestorerHttpRequest(boolean restored, Duration delay) {
-		stubHttpRequest(MAR_ENDPOINT, "mal-access-restorer/" + (restored ? "" : "not-") + "restored.txt", HttpStatus.OK, delay);
+	private void stubMalAccessServiceResponse(boolean restored, Duration delay) {
+		stubHttpRequest(MAS_ENDPOINT, "mal-access-service/" + (restored ? "" : "not-") + "restored.txt", HttpStatus.OK, delay);
 		Awaitility.await()
 				.atMost(Duration.ofSeconds(5))
-				.until(() -> wireMockServer.getStubMappings().stream().anyMatch(x -> StringUtils.equals(x.getRequest().getUrl(), MAR_ENDPOINT)));
+				.until(() -> wireMockServer.getStubMappings().stream().anyMatch(x -> StringUtils.equals(x.getRequest().getUrl(), MAS_ENDPOINT)));
 	}
 
 	private ResponseSpec call(String username) {

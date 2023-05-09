@@ -54,7 +54,7 @@ public class MalService implements MalServiceI {
 	private void validateMalResponse(HttpStatusCode responseStatus, String username) {
 		if (HttpStatus.BAD_REQUEST.equals(responseStatus)) {
 			throw new MalException(username + "'s anime list is private or does not exist.", HttpStatus.BAD_REQUEST);
-		} else if (HttpStatus.FORBIDDEN.equals(responseStatus)) {
+		} else if (HttpStatus.FORBIDDEN.equals(responseStatus) || HttpStatus.TOO_MANY_REQUESTS.equals(responseStatus)) {
 			throw new MalException(ERROR_MESSAGE_PREFIX + username + ", but MAL has restricted our access to it. Please, try again later.",
 					HttpStatus.FORBIDDEN);
 		} else if (HttpStatus.SERVICE_UNAVAILABLE.equals(responseStatus)) {

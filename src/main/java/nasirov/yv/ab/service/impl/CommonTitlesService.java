@@ -52,8 +52,7 @@ public class CommonTitlesService implements CommonTitlesServiceI {
 		return getCommonTitlesMappedByMalId().<Map<Integer, Map<FandubSource, List<CommonTitle>>>>map(commonTitlesMappedByMalId -> malTitles.stream()
 						.collect(Collectors.toMap(MalTitle::getId, malTitle -> fandubSources.stream()
 										.collect(Collectors.toMap(Function.identity(),
-												fandubSource -> commonTitlesMappedByMalId.getOrDefault(fandubSource, Map.of()).getOrDefault(malTitle.getId(), List.of()))),
-								(o, n) -> o, LinkedHashMap::new)))
+												fandubSource -> commonTitlesMappedByMalId.getOrDefault(fandubSource, Map.of()).getOrDefault(malTitle.getId(), List.of()))), (o, n) -> o, LinkedHashMap::new)))
 				.doOnSubscribe(x -> log.debug("Trying to get common titles..."))
 				.doOnSuccess(x -> log.debug("Got [{}] common titles.", x.size()));
 	}
