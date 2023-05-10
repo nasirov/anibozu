@@ -44,6 +44,13 @@
           "name": "1 Серия для 333",
           "url": "anidub-url-200/20"
         }
+      ],
+      "-1": [
+        {
+          "malEpisodeId": 10,
+          "name": "Unknown",
+          "url": "anidub-url-200/30"
+        }
       ]
     }
   },

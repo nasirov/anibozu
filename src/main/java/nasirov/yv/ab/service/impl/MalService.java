@@ -47,8 +47,8 @@ public class MalService implements MalServiceI {
 				.doOnNext(x -> validateMalResponse(x.getStatusCode(), username))
 				.mapNotNull(ResponseEntity::getBody)
 				.map(x -> filterTitles(x, username))
-				.doOnSubscribe(x -> log.info("Getting titles for {}", username))
-				.doOnSuccess(x -> log.info("Got {} titles for {}", x.size(), username));
+				.doOnSubscribe(x -> log.info("Getting titles for [{}]", username))
+				.doOnSuccess(x -> log.info("Got [{}] titles for [{}]", x.size(), username));
 	}
 
 	private void validateMalResponse(HttpStatusCode responseStatus, String username) {

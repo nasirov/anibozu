@@ -1,7 +1,5 @@
 package nasirov.yv.ab.controller;
 
-import static org.mockito.ArgumentMatchers.anyList;
-import static org.mockito.ArgumentMatchers.anySet;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -151,7 +149,7 @@ class ProcessControllerTest extends AbstractTest {
 	void shouldReturnErrorCommonTitlesServiceException() {
 		//given
 		stubAnimeListOk();
-		doThrow(new RuntimeException("CommonTitlesService cause")).when(commonTitlesService).getCommonTitles(anySet(), anyList());
+		doThrow(new RuntimeException("CommonTitlesService cause")).when(commonTitlesService).getCommonEpisodesMappedByKey();
 		//when
 		ResponseSpec result = call(MAL_USERNAME);
 		//then

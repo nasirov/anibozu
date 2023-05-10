@@ -42,7 +42,6 @@ application:
     - SHIZA_PROJECT
     - SOVET_ROMANTICA
   ignore-next-episode-for-watch:
-    - KODIK
 
 server:
   port: 8080
