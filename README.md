@@ -8,20 +8,20 @@
 
 Provides links to Fandub sites for your watching titles from **[MyAnimeList](https://myanimelist.net/)**.
 
-| Supported Fandub Sites                                                                                                                                    | Provides direct links to episodes |
-|:----------------------------------------------------------------------------------------------------------------------------------------------------------|:---------------------------------:|
-| [![9anime](/images/favicons/9anime.png)](https://9anime.id/) **[9anime](https://9anime.id/)**                                                             |         :heavy_plus_sign:         |
-| [![aniDub](/images/favicons/aniDub.png)](https://anidub.com/) **[AniDUB](https://anidub.com/)**                                                           |        :heavy_minus_sign:         |
-| [![aniFilm](/images/favicons/aniFilm.png)](https://www.anifilm.tv/) **[AniFilm](https://www.anifilm.tv/)**                                                |        :heavy_minus_sign:         |
-| [![aniLibria](/images/favicons/aniLibria.png)](https://www.anilibria.tv/) **[AniLibria](https://www.anilibria.tv/)**                                      |        :heavy_minus_sign:         |
-| [![aniMaunt](/images/favicons/aniMaunt.png)](https://animaunt.org/) **[AniMaunt](https://animaunt.org/)**                                                 |        :heavy_minus_sign:         |
-| [![anythingGroup](/images/favicons/anythingGroup.png)](https://a-g.site/) **[Anything Group](https://a-g.site/)**                                         |         :heavy_plus_sign:         |
-| [![dreamCast](/images/favicons/dreamCast.png)](https://dreamerscast.com/) **[Dream Cast](https://dreamerscast.com/)**                                     |        :heavy_minus_sign:         |
-| [![freeDub](/images/favicons/freeDub.png)](https://freedubstudio.club/) **[FreeDub](https://freedubstudio.club/)**                                        |        :heavy_minus_sign:         |
-| **[MAL-To-Kodik](https://mal-to-kodik.github.io/?mal-id=1)**                                                                                              |        :heavy_minus_sign:         |
-| [![senuProject](/images/favicons/senuProject.png)](https://senu.pro/) **[SENU Project](https://senu.pro/)**                                               |        :heavy_minus_sign:         |
-| [![shizaProject](/images/favicons/shizaProject.png)](https://shiza-project.com/) **[SHIZA Project](https://shiza-project.com/)**                          |        :heavy_minus_sign:         |
-| [![sovetRomantica](/images/favicons/sovetRomantica.png)](https://sovetromantica.com/) **[SovetRomantica](https://sovetromantica.com/)**                   |         :heavy_plus_sign:         |
+| Supported Fandub Sites                                                                                                                                                | Provides direct links to episodes |
+|:----------------------------------------------------------------------------------------------------------------------------------------------------------------------|:---------------------------------:|
+| [![9anime](/images/favicons/9anime.png)](https://9anime.id/) **[9anime](https://9anime.id/)**                                                                         |         :heavy_plus_sign:         |
+| [![aniDub](/images/favicons/aniDub.png)](https://anidub.com/) **[AniDUB](https://anidub.com/)**                                                                       |        :heavy_minus_sign:         |
+| [![aniFilm](/images/favicons/aniFilm.png)](https://www.anifilm.tv/) **[AniFilm](https://www.anifilm.tv/)**                                                            |        :heavy_minus_sign:         |
+| [![aniLibria](/images/favicons/aniLibria.png)](https://www.anilibria.tv/) **[AniLibria](https://www.anilibria.tv/)**                                                  |        :heavy_minus_sign:         |
+| [![aniMaunt](/images/favicons/aniMaunt.png)](https://animaunt.org/) **[AniMaunt](https://animaunt.org/)**                                                             |        :heavy_minus_sign:         |
+| [![anythingGroup](/images/favicons/anythingGroup.png)](https://a-g.site/) **[Anything Group](https://a-g.site/)**                                                     |         :heavy_plus_sign:         |
+| [![dreamCast](/images/favicons/dreamCast.png)](https://dreamerscast.com/) **[Dream Cast](https://dreamerscast.com/)**                                                 |        :heavy_minus_sign:         |
+| [![freeDub](/images/favicons/freeDub.png)](https://freedubstudio.club/) **[FreeDub](https://freedubstudio.club/)**                                                    |        :heavy_minus_sign:         |
+| **[MAL-To-Kodik](https://github.com/mal-to-kodik/mal-to-kodik.github.io)**                                                                                            |         :heavy_plus_sign:         |
+| [![senuProject](/images/favicons/senuProject.png)](https://senu.pro/) **[SENU Project](https://senu.pro/)**                                                           |        :heavy_minus_sign:         |
+| [![shizaProject](/images/favicons/shizaProject.png)](https://shiza-project.com/) **[SHIZA Project](https://shiza-project.com/)**                                      |        :heavy_minus_sign:         |
+| [![sovetRomantica](/images/favicons/sovetRomantica.png)](https://sovetromantica.com/) **[SovetRomantica](https://sovetromantica.com/)**                               |         :heavy_plus_sign:         |
 
 > :memo: **Note:**
 >
