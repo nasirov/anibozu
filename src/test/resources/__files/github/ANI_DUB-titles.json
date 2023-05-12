@@ -1,9 +1,6 @@
 [
   {
-    "id": {
-      "id": "100",
-      "extra": {}
-    },
+    "id": "100",
     "url": "anidub-url-100",
     "type": "MAIN",
     "malIds": [
@@ -20,10 +17,7 @@
     }
   },
   {
-    "id": {
-      "id": "200",
-      "extra": {}
-    },
+    "id": "200",
     "url": "anidub-url-200",
     "type": "EXTRA",
     "malIds": [
@@ -55,20 +49,14 @@
     }
   },
   {
-    "id": {
-      "id": "300",
-      "extra": {}
-    },
+    "id": "300",
     "url": "anidub-url-300",
     "type": "NOT_FOUND",
     "malIds": [],
     "malIdToEpisodes": {}
   },
   {
-    "id": {
-      "id": "400",
-      "extra": {}
-    },
+    "id": "400",
     "url": "anidub-url-400",
     "type": "NOT_FOUND",
     "malIds": [],

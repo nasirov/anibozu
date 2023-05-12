@@ -1,9 +1,6 @@
 [
   {
-    "id": {
-      "id": "100",
-      "extra": {}
-    },
+    "id": "100",
     "url": "9anime-url-100",
     "type": "MAIN",
     "malIds": [
@@ -20,10 +17,7 @@
     }
   },
   {
-    "id": {
-      "id": "200",
-      "extra": {}
-    },
+    "id": "200",
     "url": "9anime-url-200",
     "type": "EXTRA",
     "malIds": [
@@ -48,10 +42,7 @@
     }
   },
   {
-    "id": {
-      "id": "300",
-      "extra": {}
-    },
+    "id": "300",
     "url": "9anime-url-300",
     "type": "MAIN",
     "malIds": [
@@ -68,10 +59,7 @@
     }
   },
   {
-    "id": {
-      "id": "400",
-      "extra": {}
-    },
+    "id": "400",
     "url": "9anime-url-400",
     "type": "NOT_FOUND",
     "malIds": [],
