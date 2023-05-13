@@ -23,9 +23,10 @@ Provides links to Fandub sites for your watching titles from **[MyAnimeList](htt
 | [![shizaProject](/images/favicons/shizaProject.png)](https://shiza-project.com/) **[SHIZA Project](https://shiza-project.com/)**                                      |        :heavy_minus_sign:         |
 | [![sovetRomantica](/images/favicons/sovetRomantica.png)](https://sovetromantica.com/) **[SovetRomantica](https://sovetromantica.com/)**                               |         :heavy_plus_sign:         |
 
-> :memo: **Note:**
->
-> If a Fandub site doesn't support direct links to episodes, you will have to choose it manually by name in the site's embedded video player.
+# Limitations
+1. 300 MAL watching titles per user
+2. Fandub to MAL titles mapping is not 100% accurate
+3. Some Fandub sites doesn't support direct episodes links, therefore you will have to choose it manually by name in the site's embedded video player
 
 # Try It Out
 
