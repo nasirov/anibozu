@@ -32,8 +32,6 @@ application:
     - ANI_DUB
     - ANI_FILM
     - ANI_LIBRIA
-    - ANI_MAUNT
-    - ANYTHING_GROUP
     - DREAM_CAST
     - FREE_DUB
     - KODIK

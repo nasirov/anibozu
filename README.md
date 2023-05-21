@@ -14,8 +14,6 @@ Provides links to Fandub sites for your watching titles from **[MyAnimeList](htt
 | [![aniDub](/images/favicons/aniDub.png)](https://anidub.com/) **[AniDUB](https://anidub.com/)**                                                                       |        :heavy_minus_sign:         |
 | [![aniFilm](/images/favicons/aniFilm.png)](https://www.anifilm.tv/) **[AniFilm](https://www.anifilm.tv/)**                                                            |        :heavy_minus_sign:         |
 | [![aniLibria](/images/favicons/aniLibria.png)](https://www.anilibria.tv/) **[AniLibria](https://www.anilibria.tv/)**                                                  |        :heavy_minus_sign:         |
-| [![aniMaunt](/images/favicons/aniMaunt.png)](https://animaunt.org/) **[AniMaunt](https://animaunt.org/)**                                                             |        :heavy_minus_sign:         |
-| [![anythingGroup](/images/favicons/anythingGroup.png)](https://a-g.site/) **[Anything Group](https://a-g.site/)**                                                     |         :heavy_plus_sign:         |
 | [![dreamCast](/images/favicons/dreamCast.png)](https://dreamerscast.com/) **[Dream Cast](https://dreamerscast.com/)**                                                 |        :heavy_minus_sign:         |
 | [![freeDub](/images/favicons/freeDub.png)](https://freedubstudio.club/) **[FreeDub](https://freedubstudio.club/)**                                                    |        :heavy_minus_sign:         |
 | **[MAL-To-Kodik](https://github.com/mal-to-kodik/mal-to-kodik.github.io)**                                                                                            |         :heavy_plus_sign:         |
