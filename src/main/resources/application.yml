@@ -35,7 +35,6 @@ application:
     - DREAM_CAST
     - KODIK
     - NINE_ANIME
-    - SENU_PROJECT
     - SHIZA_PROJECT
     - SOVET_ROMANTICA
   ignore-next-episode-for-watch:

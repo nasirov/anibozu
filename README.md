@@ -16,7 +16,6 @@ Provides links to Fandub sites for your watching titles from **[MyAnimeList](htt
 | [![aniLibria](/images/favicons/aniLibria.png)](https://www.anilibria.tv/) **[AniLibria](https://www.anilibria.tv/)**                                                  |        :heavy_minus_sign:         |
 | [![dreamCast](/images/favicons/dreamCast.png)](https://dreamerscast.com/) **[Dream Cast](https://dreamerscast.com/)**                                                 |        :heavy_minus_sign:         |
 | **[MAL-To-Kodik](https://github.com/mal-to-kodik/mal-to-kodik.github.io)**                                                                                            |         :heavy_plus_sign:         |
-| [![senuProject](/images/favicons/senuProject.png)](https://senu.pro/) **[SENU Project](https://senu.pro/)**                                                           |        :heavy_minus_sign:         |
 | [![shizaProject](/images/favicons/shizaProject.png)](https://shiza-project.com/) **[SHIZA Project](https://shiza-project.com/)**                                      |        :heavy_minus_sign:         |
 | [![sovetRomantica](/images/favicons/sovetRomantica.png)](https://sovetromantica.com/) **[SovetRomantica](https://sovetromantica.com/)**                               |         :heavy_plus_sign:         |
 
