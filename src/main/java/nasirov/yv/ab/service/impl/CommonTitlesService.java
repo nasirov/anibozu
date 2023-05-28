@@ -14,6 +14,7 @@ import nasirov.yv.ab.service.CommonTitlesServiceI;
 import nasirov.yv.starter.common.constant.FandubSource;
 import nasirov.yv.starter.common.dto.fandub.common.CommonEpisode;
 import nasirov.yv.starter.common.dto.fandub.common.CommonTitle;
+import nasirov.yv.starter.common.dto.fandub.common.IgnoredTitle;
 import nasirov.yv.starter.common.dto.fandub.common.TitleType;
 import nasirov.yv.starter.common.service.GitHubResourcesServiceI;
 import org.springframework.cache.Cache;
@@ -30,7 +31,7 @@ import reactor.core.publisher.Mono;
 @RequiredArgsConstructor
 public class CommonTitlesService implements CommonTitlesServiceI {
 
-	private final GitHubResourcesServiceI<Mono<List<CommonTitle>>> gitHubResourcesService;
+	private final GitHubResourcesServiceI<Mono<List<CommonTitle>>, Mono<List<IgnoredTitle>>> gitHubResourcesService;
 
 	private final CacheManager cacheManager;
 
@@ -46,7 +47,7 @@ public class CommonTitlesService implements CommonTitlesServiceI {
 
 	private Mono<Map<GithubCacheKey, List<CommonEpisode>>> buildAndCacheResult(Optional<Cache> cacheOpt, String githubCacheKey) {
 		return Flux.fromIterable(appProps.getEnabledFandubSources())
-				.flatMap(fandubSource -> gitHubResourcesService.getResource(fandubSource).map(titles -> groupCommonEpisodesByKey(fandubSource, titles)))
+				.flatMap(fandubSource -> gitHubResourcesService.getCommonTitles(fandubSource).map(titles -> groupCommonEpisodesByKey(fandubSource, titles)))
 				.collectList()
 				.map(x -> x.stream().map(Map::entrySet).flatMap(Set::stream).collect(Collectors.toMap(Entry::getKey, Entry::getValue)))
 				.doOnSuccess(x -> cacheOpt.ifPresent(cache -> {

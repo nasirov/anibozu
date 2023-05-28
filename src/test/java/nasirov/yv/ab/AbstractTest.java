@@ -19,6 +19,7 @@ import nasirov.yv.ab.service.ProcessServiceI;
 import nasirov.yv.ab.utils.IOUtils;
 import nasirov.yv.starter.common.constant.FandubSource;
 import nasirov.yv.starter.common.dto.fandub.common.CommonTitle;
+import nasirov.yv.starter.common.dto.fandub.common.IgnoredTitle;
 import nasirov.yv.starter.common.service.GitHubResourcesServiceI;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -44,7 +45,7 @@ import reactor.core.publisher.Mono;
 public abstract class AbstractTest {
 
 	@SpyBean
-	protected GitHubResourcesServiceI<Mono<List<CommonTitle>>> gitHubResourcesService;
+	protected GitHubResourcesServiceI<Mono<List<CommonTitle>>, Mono<List<IgnoredTitle>>> gitHubResourcesService;
 
 	@SpyBean
 	protected ProcessServiceI processService;
@@ -104,7 +105,7 @@ public abstract class AbstractTest {
 	protected void mockGitHubResourcesService() {
 		getEnabledFandubSources().forEach(
 				x -> doReturn(Mono.just(IOUtils.unmarshalToListFromFile("classpath:__files/github/" + x.name() + "-titles.json", CommonTitle.class))).when(
-						gitHubResourcesService).getResource(x));
+						gitHubResourcesService).getCommonTitles(x));
 	}
 
 	protected void fillGithubCache() {
