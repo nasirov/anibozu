@@ -28,4 +28,4 @@ ingress:
       - anibozu-backend.nasirov.info
     secretName: certificate-nasirov-info
   paths:
-    - /(process/.*)
+    - /(process/[\w-]{2,16}$)
