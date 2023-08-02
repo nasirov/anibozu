@@ -6,7 +6,7 @@ starter-common:
     urls:
       ANI_DUB: https://anidub.com/
       ANI_LIBRIA: https://www.anilibria.tv/
-      NINE_ANIME: https://9anime.pl/
+      ANI_WAVE: https://aniwave.to/
   external-services:
     mal-access-service-url: http://localhost:${wiremock.server.port}/
 
@@ -26,7 +26,7 @@ application:
   enabled-fandub-sources:
     - ANI_DUB
     - ANI_LIBRIA
-    - NINE_ANIME
+    - ANI_WAVE
   ignore-next-episode-for-watch:
     - ANI_DUB
 

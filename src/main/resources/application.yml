@@ -34,7 +34,7 @@ application:
     - ANI_LIBRIA
     - DREAM_CAST
     - KODIK
-    - NINE_ANIME
+    - ANI_WAVE
     - SHIZA_PROJECT
     - SOVET_ROMANTICA
   ignore-next-episode-for-watch:
