@@ -13,7 +13,6 @@ import java.util.Set;
 import nasirov.yv.ab.properties.AppProps;
 import nasirov.yv.ab.service.CacheServiceI;
 import nasirov.yv.ab.service.CommonTitlesServiceI;
-import nasirov.yv.ab.service.MalAccessRestorerI;
 import nasirov.yv.ab.service.MalServiceI;
 import nasirov.yv.ab.service.ProcessServiceI;
 import nasirov.yv.ab.utils.IOUtils;
@@ -21,6 +20,7 @@ import nasirov.yv.starter.common.constant.FandubSource;
 import nasirov.yv.starter.common.dto.fandub.common.CommonTitle;
 import nasirov.yv.starter.common.dto.fandub.common.IgnoredTitle;
 import nasirov.yv.starter.common.service.GitHubResourcesServiceI;
+import nasirov.yv.starter.common.service.MalAccessRestorerAsyncI;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -60,7 +60,7 @@ public abstract class AbstractTest {
 	protected MalServiceI malService;
 
 	@SpyBean
-	protected MalAccessRestorerI malAccessRestorer;
+	protected MalAccessRestorerAsyncI malAccessRestorerAsync;
 
 	@Autowired
 	protected ApplicationContext applicationContext;
