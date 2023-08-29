@@ -24,17 +24,17 @@
 
     <dependency>
       <groupId>nasirov.yv</groupId>
+      <artifactId>starter-management</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>nasirov.yv</groupId>
       <artifactId>starter-reactive-services</artifactId>
     </dependency>
 
     <dependency>
       <groupId>nasirov.yv</groupId>
       <artifactId>starter-cache</artifactId>
-    </dependency>
-
-    <dependency>
-      <groupId>org.springframework.boot</groupId>
-      <artifactId>spring-boot-starter-actuator</artifactId>
     </dependency>
 
     <dependency>

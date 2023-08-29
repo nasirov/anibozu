@@ -14,12 +14,6 @@ starter-cache:
     - name: ${application.cache-props.github-cache-name:}
       expire-after-write: 24h
 
-management:
-  endpoint:
-    health:
-      probes:
-        enabled: true
-
 application:
   cache-props:
     cache-on-startup: true
