@@ -1,4 +1,6 @@
-![anibozu](/frontend/img/logo.png)
+<p align="center">
+  <img alt="anibozu-logo" src="https://raw.githubusercontent.com/nasirov/anibozu/main/frontend/img/logo.png">
+</p>
 
 **[Anibozu](https://anibozu.nasirov.info/)** is a free service that provides links to the next episodes on Fandub sites for your watching titles
 from **[MyAnimeList](https://myanimelist.net/)**.
