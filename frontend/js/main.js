@@ -31,9 +31,7 @@ function setTheme() {
 }
 
 function switchTheme(lightTheme) {
-	const body = document.querySelector('body');
-	body.classList.toggle(Themes.LIGHT, lightTheme);
-	body.classList.toggle(Themes.DARK, !lightTheme);
+	document.documentElement.setAttribute('theme', lightTheme ? Themes.LIGHT : Themes.DARK);
 }
 
 function configSwitchThemeCheckbox() {

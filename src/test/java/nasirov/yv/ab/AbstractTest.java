@@ -5,7 +5,6 @@ import static org.mockito.Mockito.doReturn;
 
 import com.github.tomakehurst.wiremock.WireMockServer;
 import com.github.tomakehurst.wiremock.client.WireMock;
-import java.time.Duration;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -90,12 +89,6 @@ public abstract class AbstractTest {
 	protected void stubHttpRequest(String url, String bodyFilePath, HttpStatus httpStatus) {
 		wireMockServer.addStubMapping(
 				WireMock.get(url).willReturn(WireMock.aResponse().withBodyFile(bodyFilePath).withStatus(httpStatus.value())).build());
-	}
-
-	protected void stubHttpRequest(String url, String bodyFilePath, HttpStatus httpStatus, Duration delay) {
-		wireMockServer.addStubMapping(WireMock.get(url)
-				.willReturn(WireMock.aResponse().withBodyFile(bodyFilePath).withStatus(httpStatus.value()).withFixedDelay((int) delay.toMillis()))
-				.build());
 	}
 
 	protected Set<FandubSource> getEnabledFandubSources() {
