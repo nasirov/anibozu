@@ -1,5 +1,5 @@
 <p align="center">
-  <img alt="anibozu-logo" src="https://raw.githubusercontent.com/nasirov/anibozu/main/frontend/img/logo.png">
+  <img width="325" height="215" alt="anibozu-logo" src="https://raw.githubusercontent.com/nasirov/anibozu/main/frontend/img/logo.png">
 </p>
 
 **[Anibozu](https://anibozu.nasirov.info/)** is a free service that provides links to the next episodes on Fandub sites for your watching titles
