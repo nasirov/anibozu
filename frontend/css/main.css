@@ -228,5 +228,6 @@ body {
 }
 
 .error-message {
+  color: var(--secondary-color);
   text-align: center;
 }
