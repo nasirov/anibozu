@@ -2,6 +2,7 @@
   {
     "name": "title name 111",
     "nextEpisodeNumber": "1",
+    "animeNumEpisodes": "12",
     "posterUrl": "https://cdn.myanimelist.net/images/anime/111/123.jpg",
     "malUrl": "/anime/111/Title_Name_111",
     "fandubInfoList": [
@@ -28,6 +29,7 @@
   {
     "name": "title name 222 '",
     "nextEpisodeNumber": "1",
+    "animeNumEpisodes": "0",
     "posterUrl": "https://cdn.myanimelist.net/images/anime/222/456.jpg",
     "malUrl": "/anime/222/Title_Name_222",
     "fandubInfoList": [
@@ -54,6 +56,7 @@
   {
     "name": "title name 333",
     "nextEpisodeNumber": "1",
+    "animeNumEpisodes": "12",
     "posterUrl": "https://cdn.myanimelist.net/images/anime/333/789.jpg",
     "malUrl": "/anime/333/Title_Name_333",
     "fandubInfoList": [
@@ -80,6 +83,7 @@
   {
     "name": "title name 444",
     "nextEpisodeNumber": "6",
+    "animeNumEpisodes": "12",
     "posterUrl": "https://cdn.myanimelist.net/images/anime/444/1011.jpg",
     "malUrl": "/anime/444/Title_Name_444",
     "fandubInfoList": []

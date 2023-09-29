@@ -55,6 +55,7 @@ public class ProcessService implements ProcessServiceI {
 			Integer nextEpisodeForWatch = malTitle.getNextEpisodeForWatch();
 			TitleBuilder titleBuilder = Title.builder()
 					.name(malTitle.getName())
+					.animeNumEpisodes(malTitle.getAnimeNumEpisodes().toString())
 					.nextEpisodeNumber(nextEpisodeForWatch.toString())
 					.posterUrl(malTitle.getPosterUrl())
 					.malUrl(malTitle.getAnimeUrl());

@@ -20,6 +20,8 @@ public class Title {
 
 	private String nextEpisodeNumber;
 
+	private String animeNumEpisodes;
+
 	private String posterUrl;
 
 	private String malUrl;

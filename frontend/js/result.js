@@ -74,7 +74,8 @@ function buildAnimeTitle() {
 function buildMalEpisode(titleDto) {
 	let result = document.createElement('div');
 	result.setAttribute('class', 'anime-title__mal_episode');
-	result.textContent = titleDto.nextEpisodeNumber + ' ep.';
+	const animeNumEpisodes = titleDto.animeNumEpisodes;
+	result.textContent = titleDto.nextEpisodeNumber + ' / ' + (animeNumEpisodes === '0' ? '?' : animeNumEpisodes);
 	return result;
 }
 
