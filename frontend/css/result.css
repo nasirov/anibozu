@@ -11,10 +11,8 @@
 :root {
   --max-poster-width: 225px;
   --max-poster-height: 320px;
-  --anime-titles-per-row: 5;
   --anime-titles-gap: 1.5rem;
   --anime-title-border-radius: 10px;
-  --max-width: calc(var(--anime-titles-per-row) * (var(--max-poster-width) + var(--main-border-width) * 2) + (var(--anime-titles-per-row) - 1) * var(--anime-titles-gap));
   --fandub-slider-row-height: 60px;
   --anime-title-badge-indent: 10px;
   --anime-title-badge-max-width: calc(var(--max-poster-width) - var(--anime-title-badge-indent) * 2);
@@ -64,6 +62,7 @@
 
 .anime-title * {
   background-color: unset;
+  border-radius: inherit;
 }
 
 .anime-title__mal_episode {
@@ -74,7 +73,6 @@
   padding: var(--anime-title-padding);
   color: rgb(255, 255, 255);
   background-color: rgb(46, 81, 162);
-  border-radius: var(--anime-title-border-radius);
   overflow: hidden;
   font-size: x-large;
   z-index: 200;
@@ -111,7 +109,6 @@
   left: var(--anime-title-badge-indent);
   padding: var(--anime-title-padding);
   overflow: hidden;
-  border-radius: var(--anime-title-border-radius);
   background-color: var(--secondary-color);
   font-size: x-large;
   z-index: 200;
@@ -160,7 +157,6 @@
   width: 135px;
   height: 40px;
   background-color: var(--primary-color);
-  border-radius: var(--anime-title-border-radius);
 }
 
 .anime-title__fandub_link_holder:hover {
@@ -183,7 +179,6 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  border-radius: inherit;
 }
 
 .anime-title__fandub_link_holder__link:focus {

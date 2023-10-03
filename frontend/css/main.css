@@ -25,7 +25,7 @@
 }
 
 :root {
-  --max-width: 576px;
+  --max-width: 1250px;
   --main-border-width: 1px;
   --main-border: var(--main-border-width) solid var(--secondary-color);
 }
