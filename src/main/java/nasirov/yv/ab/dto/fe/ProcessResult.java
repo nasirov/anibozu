@@ -14,7 +14,7 @@ import lombok.NoArgsConstructor;
 public class ProcessResult {
 
 	@NotNull
-	private List<Title> titles = new ArrayList<>();
+	private List<Anime> animeList = new ArrayList<>();
 
 	@NotNull
 	private String errorMessage = "";
@@ -23,7 +23,7 @@ public class ProcessResult {
 		this.errorMessage = errorMessage;
 	}
 
-	public ProcessResult(List<Title> titles) {
-		this.titles = titles;
+	public ProcessResult(List<Anime> animeList) {
+		this.animeList = animeList;
 	}
 }

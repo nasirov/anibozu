@@ -3,40 +3,40 @@
     "anime_id": 111,
     "num_watched_episodes": 0,
     "anime_num_episodes": 12,
-    "anime_title": "TITLE NAME 111",
+    "anime_title": "ANIME NAME 111",
     "anime_image_path": "https://cdn.myanimelist.net/r/96x136/images/anime/111/123.jpg?s=1c645b8c2a73c6f3efdf3840d97cac41",
-    "anime_url": "/anime/111/Title_Name_111"
+    "anime_url": "/anime/111/Anime_Name_111"
   },
   {
     "anime_id": 222,
     "num_watched_episodes": 0,
     "anime_num_episodes": 0,
-    "anime_title": "TITLE NAME 222 &#39;",
+    "anime_title": "ANIME NAME 222 &#39;",
     "anime_image_path": "https://cdn.myanimelist.net/images/anime/222/456.jpg",
-    "anime_url": "/anime/222/Title_Name_222"
+    "anime_url": "/anime/222/Anime_Name_222"
   },
   {
     "anime_id": 333,
     "num_watched_episodes": 0,
     "anime_num_episodes": 12,
-    "anime_title": "TITLE NAME 333",
+    "anime_title": "ANIME NAME 333",
     "anime_image_path": "https://cdn.myanimelist.net/r/96x136/images/anime/333/789.jpg?s=0c645b8c2a73c6f3efdf3840d97cac41",
-    "anime_url": "/anime/333/Title_Name_333"
+    "anime_url": "/anime/333/Anime_Name_333"
   },
   {
     "anime_id": 444,
     "num_watched_episodes": 5,
     "anime_num_episodes": 12,
-    "anime_title": "TITLE NAME 444",
+    "anime_title": "ANIME NAME 444",
     "anime_image_path": "https://cdn.myanimelist.net/r/96x136/images/anime/444/1011.jpg?s=2c645b8c2a73c6f3efdf3840d97cac41",
-    "anime_url": "/anime/444/Title_Name_444"
+    "anime_url": "/anime/444/Anime_Name_444"
   },
   {
     "anime_id": 555,
     "num_watched_episodes": 12,
     "anime_num_episodes": 12,
-    "anime_title": "TITLE NAME 555",
+    "anime_title": "ANIME NAME 555",
     "anime_image_path": "https://cdn.myanimelist.net/r/96x136/images/anime/555/789.jpg?s=3c645b8c2a73c6f3efdf3840d97cac41",
-    "anime_url": "/anime/555/Title_Name_555"
+    "anime_url": "/anime/555/Anime_Name_555"
   }
 ]

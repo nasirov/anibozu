@@ -14,13 +14,13 @@ import lombok.Singular;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Title {
+public class Anime {
 
 	private String name;
 
-	private String nextEpisodeNumber;
+	private String nextEpisode;
 
-	private String animeNumEpisodes;
+	private String maxEpisodes;
 
 	private String posterUrl;
 

@@ -3,7 +3,7 @@ package nasirov.yv.ab.service.impl;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import nasirov.yv.ab.service.CacheServiceI;
-import nasirov.yv.ab.service.CommonTitlesServiceI;
+import nasirov.yv.ab.service.FandubAnimeServiceI;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.context.event.EventListener;
@@ -18,7 +18,7 @@ import reactor.core.publisher.Mono;
 @RequiredArgsConstructor
 public class CacheService implements CacheServiceI {
 
-	private final CommonTitlesServiceI commonTitlesService;
+	private final FandubAnimeServiceI fandubAnimeService;
 
 	@Override
 	@CacheEvict(value = "github", allEntries = true)
@@ -30,6 +30,6 @@ public class CacheService implements CacheServiceI {
 	@EventListener(classes = ApplicationReadyEvent.class, condition = "@appProps.getCacheProps().isCacheOnStartup()")
 	public Mono<Void> fillGithubCache() {
 		log.info("Trying to fill github cache...");
-		return commonTitlesService.getCommonEpisodesMappedByKey().then().doOnSuccess(x -> log.info("github cache has been filled."));
+		return fandubAnimeService.getEpisodesMappedByKey().then().doOnSuccess(x -> log.info("github cache has been filled."));
 	}
 }

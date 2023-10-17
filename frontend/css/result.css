@@ -11,12 +11,12 @@
 :root {
   --max-poster-width: 225px;
   --max-poster-height: 320px;
-  --anime-titles-gap: 1.5rem;
-  --anime-title-border-radius: 10px;
+  --anime-items-gap: 1.5rem;
+  --anime-item-border-radius: 10px;
   --fandub-slider-row-height: 60px;
-  --anime-title-badge-indent: 10px;
-  --anime-title-badge-max-width: calc(var(--max-poster-width) - var(--anime-title-badge-indent) * 2);
-  --anime-title-padding: 5px;
+  --anime-item-badge-indent: 10px;
+  --anime-item-badge-max-width: calc(var(--max-poster-width) - var(--anime-item-badge-indent) * 2);
+  --anime-item-padding: 5px;
 }
 
 /*
@@ -41,13 +41,13 @@
    =======
 */
 
-.titles-container {
+.anime-container {
   align-content: center;
   flex-wrap: wrap;
-  gap: var(--anime-titles-gap);
+  gap: var(--anime-items-gap);
 }
 
-.anime-title {
+.anime-item {
   display: grid;
   grid-template-rows: var(--max-poster-height) var(--fandub-slider-row-height);
   grid-template-columns: var(--max-poster-width);
@@ -57,20 +57,20 @@
   align-items: center;
   position: relative;
   border: var(--main-border);
-  border-radius: var(--anime-title-border-radius);
+  border-radius: var(--anime-item-border-radius);
 }
 
-.anime-title * {
+.anime-item * {
   background-color: unset;
   border-radius: inherit;
 }
 
-.anime-title__mal_episode {
-  max-width: var(--anime-title-badge-max-width);
+.anime-item__mal_episode {
+  max-width: var(--anime-item-badge-max-width);
   position: absolute;
-  top: var(--anime-title-badge-indent);
-  left: var(--anime-title-badge-indent);
-  padding: var(--anime-title-padding);
+  top: var(--anime-item-badge-indent);
+  left: var(--anime-item-badge-indent);
+  padding: var(--anime-item-padding);
   color: rgb(255, 255, 255);
   background-color: rgb(46, 81, 162);
   overflow: hidden;
@@ -78,54 +78,57 @@
   z-index: 200;
 }
 
-.anime-title__mal_link {
+.anime-item__mal_link {
 }
 
-.anime-title__mal_link:focus {
+.anime-item__mal_link:focus {
   outline: 0;
 }
 
-.anime-title__mal_poster {
+.anime-item__mal_poster {
   grid-area: a-title_poster;
   width: 100%;
   height: 100%;
   position: relative;
-  border-radius: var(--anime-title-border-radius) var(--anime-title-border-radius) 0 0;
+  border-radius: var(--anime-item-border-radius) var(--anime-item-border-radius) 0 0;
   z-index: 100;
+  text-align: center;
+  overflow: hidden;
+  color: var(--secondary-color);
 }
 
-.anime-title__mal_poster:hover {
+.anime-item__mal_poster:hover {
   filter: grayscale(0.5);
   transition: 0.3s;
 }
 
-.anime-title__fandub_episode {
-  max-width: var(--anime-title-badge-max-width);
+.anime-item__fandub_episode {
+  max-width: var(--anime-item-badge-max-width);
   height: fit-content;
   max-height: 200px;
   display: none;
   position: absolute;
-  bottom: calc(var(--fandub-slider-row-height) + var(--anime-title-badge-indent));
-  left: var(--anime-title-badge-indent);
-  padding: var(--anime-title-padding);
+  bottom: calc(var(--fandub-slider-row-height) + var(--anime-item-badge-indent));
+  left: var(--anime-item-badge-indent);
+  padding: var(--anime-item-padding);
   overflow: hidden;
   background-color: var(--secondary-color);
   font-size: x-large;
   z-index: 200;
 }
 
-.anime-title__fandub_episode--active {
+.anime-item__fandub_episode--active {
   display: block;
 }
 
-.anime-title__fandub_slider {
+.anime-item__fandub_slider {
   grid-area: a-fandub_slider;
   display: flex;
   justify-content: space-around;
   align-items: center;
 }
 
-.anime-title__fandub_slider__arrow {
+.anime-item__fandub_slider__arrow {
   width: 50px;
   height: 30px;
   background-repeat: no-repeat;
@@ -133,41 +136,41 @@
   cursor: pointer;
 }
 
-.anime-title__fandub_slider__arrow:hover {
+.anime-item__fandub_slider__arrow:hover {
   transform: scale(1.1);
 }
 
-.anime-title__fandub_slider__arrow--left {
+.anime-item__fandub_slider__arrow--left {
   background-image: var(--slider-arrow-left);
 }
 
-.anime-title__fandub_slider__arrow--left:active {
+.anime-item__fandub_slider__arrow--left:active {
   transform: scale(1.1) translateX(-5px);
 }
 
-.anime-title__fandub_slider__arrow--right {
+.anime-item__fandub_slider__arrow--right {
   background-image: var(--slider-arrow-right);
 }
 
-.anime-title__fandub_slider__arrow--right:active {
+.anime-item__fandub_slider__arrow--right:active {
   transform: scale(1.1) translateX(5px);
 }
 
-.anime-title__fandub_link_holder {
+.anime-item__fandub_link_holder {
   width: 135px;
   height: 40px;
   background-color: var(--primary-color);
 }
 
-.anime-title__fandub_link_holder:hover {
+.anime-item__fandub_link_holder:hover {
   opacity: 0.8;
 }
 
-.anime-title__fandub_link_holder:active {
+.anime-item__fandub_link_holder:active {
   transform: scale(0.98);
 }
 
-.anime-title__fandub_link_holder__link {
+.anime-item__fandub_link_holder__link {
   width: 100%;
   height: 100%;
   display: none;
@@ -175,12 +178,12 @@
   text-align: center;
 }
 
-.anime-title__fandub_link_holder__link--active {
+.anime-item__fandub_link_holder__link--active {
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
-.anime-title__fandub_link_holder__link:focus {
+.anime-item__fandub_link_holder__link:focus {
   outline: 0;
 }

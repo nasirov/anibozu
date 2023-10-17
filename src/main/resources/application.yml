@@ -18,7 +18,7 @@ application:
   cache-props:
     cache-on-startup: true
     github-cache-name: github
-    github-cache-key: common-titles
+    github-cache-key: fandub-anime
   mal-props:
     offset-step: 300
     url: https://myanimelist.net
@@ -31,7 +31,7 @@ application:
     - ANI_WAVE
     - SHIZA_PROJECT
     - SOVET_ROMANTICA
-  ignore-next-episode-for-watch:
+  ignore-next-episode:
 
 server:
   port: 8080

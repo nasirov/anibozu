@@ -6,14 +6,14 @@
   <parent>
     <groupId>nasirov.yv</groupId>
     <artifactId>microservice-parent</artifactId>
-    <version>20.0.4</version>
+    <version>22.0.0</version>
     <relativePath/>
   </parent>
 
   <artifactId>anibozu</artifactId>
   <version>0.1.0</version>
   <name>anibozu</name>
-  <description>Provides links to Fandub sites for your watching titles from MyAnimeList</description>
+  <description>Provides links to the next episodes on Fandub sites for your watching anime from MyAnimeList</description>
 
   <properties>
     <image.architecture>arm64</image.architecture>
@@ -38,11 +38,6 @@
     </dependency>
 
     <dependency>
-      <groupId>com.google.guava</groupId>
-      <artifactId>guava</artifactId>
-    </dependency>
-
-    <dependency>
       <groupId>commons-io</groupId>
       <artifactId>commons-io</artifactId>
     </dependency>
@@ -53,24 +48,8 @@
     </dependency>
 
     <dependency>
-      <groupId>org.apache.commons</groupId>
-      <artifactId>commons-collections4</artifactId>
-    </dependency>
-
-    <dependency>
-      <groupId>org.jsoup</groupId>
-      <artifactId>jsoup</artifactId>
-    </dependency>
-
-    <dependency>
       <groupId>org.springframework.cloud</groupId>
       <artifactId>spring-cloud-starter-contract-stub-runner</artifactId>
-      <scope>test</scope>
-    </dependency>
-
-    <dependency>
-      <groupId>org.awaitility</groupId>
-      <artifactId>awaitility</artifactId>
       <scope>test</scope>
     </dependency>
 

@@ -11,13 +11,13 @@ import java.util.Objects;
 import java.util.Set;
 import nasirov.yv.ab.properties.AppProps;
 import nasirov.yv.ab.service.CacheServiceI;
-import nasirov.yv.ab.service.CommonTitlesServiceI;
-import nasirov.yv.ab.service.MalServiceI;
+import nasirov.yv.ab.service.FandubAnimeServiceI;
+import nasirov.yv.ab.service.MalAnimeServiceI;
 import nasirov.yv.ab.service.ProcessServiceI;
 import nasirov.yv.ab.utils.IOUtils;
 import nasirov.yv.starter.common.constant.FandubSource;
-import nasirov.yv.starter.common.dto.fandub.common.CommonTitle;
-import nasirov.yv.starter.common.dto.fandub.common.IgnoredTitle;
+import nasirov.yv.starter.common.dto.fandub.common.FandubAnime;
+import nasirov.yv.starter.common.dto.fandub.common.IgnoredAnime;
 import nasirov.yv.starter.common.service.GitHubResourcesServiceI;
 import nasirov.yv.starter.common.service.MalAccessRestorerAsyncI;
 import org.junit.jupiter.api.AfterEach;
@@ -44,7 +44,7 @@ import reactor.core.publisher.Mono;
 public abstract class AbstractTest {
 
 	@SpyBean
-	protected GitHubResourcesServiceI<Mono<List<CommonTitle>>, Mono<List<IgnoredTitle>>> gitHubResourcesService;
+	protected GitHubResourcesServiceI<Mono<List<FandubAnime>>, Mono<List<IgnoredAnime>>> gitHubResourcesService;
 
 	@SpyBean
 	protected ProcessServiceI processService;
@@ -53,10 +53,10 @@ public abstract class AbstractTest {
 	protected CacheManager cacheManager;
 
 	@SpyBean
-	protected CommonTitlesServiceI commonTitlesService;
+	protected FandubAnimeServiceI fandubAnimeService;
 
 	@SpyBean
-	protected MalServiceI malService;
+	protected MalAnimeServiceI malAnimeService;
 
 	@SpyBean
 	protected MalAccessRestorerAsyncI malAccessRestorerAsync;
@@ -96,9 +96,9 @@ public abstract class AbstractTest {
 	}
 
 	protected void mockGitHubResourcesService() {
-		getEnabledFandubSources().forEach(
-				x -> doReturn(Mono.just(IOUtils.unmarshalToListFromFile("classpath:__files/github/" + x.name() + "-titles.json", CommonTitle.class))).when(
-						gitHubResourcesService).getCommonTitles(x));
+		getEnabledFandubSources().forEach(x -> doReturn(
+				Mono.just(IOUtils.unmarshalToListFromFile("classpath:__files/github/" + x.name() + "_fandub_anime.json", FandubAnime.class))).when(
+				gitHubResourcesService).getFandubAnime(x));
 	}
 
 	protected void fillGithubCache() {
@@ -110,7 +110,7 @@ public abstract class AbstractTest {
 	protected void checkGithubCacheIsFilled() {
 		Cache githubCache = getGithubCache();
 		assertNotNull(githubCache);
-		Map<FandubSource, Map<Integer, List<CommonTitle>>> cached = githubCache.get(getGithubCacheKey(), Map.class);
+		Map<FandubSource, Map<Integer, List<FandubAnime>>> cached = githubCache.get(getGithubCacheKey(), Map.class);
 		assertNotNull(cached);
 	}
 

@@ -2,7 +2,7 @@
   <img width="325" height="215" alt="anibozu-logo" src="https://raw.githubusercontent.com/nasirov/anibozu/main/frontend/img/logo.png"> <br>
   <a href="https://anibozu.nasirov.info/">Anibozu</a> is a free service that provides links to the next episodes on 
   <a href="https://github.com/nasirov/anibozu#supported-fandub-sites">Fandub sites</a> <br>
-  for your watching titles from <a href="https://myanimelist.net/">MyAnimeList</a>. <br>
+  for your watching anime from <a href="https://myanimelist.net/">MyAnimeList</a>. <br>
 </p>
 
 ### Status
@@ -28,5 +28,5 @@
 
 ### Limitations
 
-- 300 MAL watching titles per user
-- Fandub to MAL titles mapping is not 100% accurate
+- 300 MAL watching anime per user
+- Fandub to MAL anime mapping is not 100% accurate

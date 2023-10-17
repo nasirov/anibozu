@@ -22,7 +22,7 @@ import reactor.core.publisher.Mono;
 @RequiredArgsConstructor
 public class ExceptionHandlers {
 
-	public static final String GENERIC_ERROR_MESSAGE = "Sorry, something went wrong. Please, try again later.";
+	private static final String GENERIC_ERROR_MESSAGE = "Sorry, something went wrong. Please, try again later.";
 
 	private static final ProcessResult FALLBACK = new ProcessResult(GENERIC_ERROR_MESSAGE);
 

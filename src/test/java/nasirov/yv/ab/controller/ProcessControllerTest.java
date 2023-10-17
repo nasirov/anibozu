@@ -12,8 +12,8 @@ import java.util.Objects;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import nasirov.yv.ab.AbstractTest;
+import nasirov.yv.ab.dto.fe.Anime;
 import nasirov.yv.ab.dto.fe.ProcessResult;
-import nasirov.yv.ab.dto.fe.Title;
 import nasirov.yv.ab.utils.IOUtils;
 import nasirov.yv.starter.common.dto.mal.WatchingStatus;
 import org.apache.commons.lang3.StringUtils;
@@ -33,8 +33,12 @@ class ProcessControllerTest extends AbstractTest {
 
 	private static final String ANIME_LIST_URL = "/animelist/" + MAL_USERNAME + "/load.json?offset=0&status=" + WatchingStatus.WATCHING.getCode();
 
-	private static final String MAL_RESTRICTED_ACCESS =
+	private static final String MAL_RESTRICTED_ACCESS_ERROR_MESSAGE =
 			"Sorry, " + MAL_USERNAME + ", but MAL has restricted our access to it. Please, try again later.";
+
+	private static final String GENERIC_ERROR_MESSAGE = "Sorry, something went wrong. Please, try again later.";
+
+	private static final String EMPTY_ANIME_LIST_ERROR_MESSAGE = "Not found actual watching anime! Please, try again later.";
 
 	@Test
 	void shouldReturnProcessResultCacheIsEmpty() {
@@ -60,13 +64,13 @@ class ProcessControllerTest extends AbstractTest {
 	}
 
 	@Test
-	void shouldReturnErrorMalServiceException() {
+	void shouldReturnErrorMalAnimeServiceException() {
 		//given
-		doThrow(new RuntimeException("MalService cause")).when(malService).getMalTitles(MAL_USERNAME);
+		doThrow(new RuntimeException("MalAnimeService cause")).when(malAnimeService).getAnimeList(MAL_USERNAME);
 		//when
 		ResponseSpec result = call(MAL_USERNAME);
 		//then
-		checkResponse(result, HttpStatus.INTERNAL_SERVER_ERROR, ExceptionHandlers.GENERIC_ERROR_MESSAGE);
+		checkResponse(result, HttpStatus.INTERNAL_SERVER_ERROR, GENERIC_ERROR_MESSAGE);
 	}
 
 	@Test
@@ -106,28 +110,28 @@ class ProcessControllerTest extends AbstractTest {
 		//when
 		ResponseSpec result = call(MAL_USERNAME);
 		//then
-		checkResponse(result, HttpStatus.INTERNAL_SERVER_ERROR, ExceptionHandlers.GENERIC_ERROR_MESSAGE);
+		checkResponse(result, HttpStatus.INTERNAL_SERVER_ERROR, GENERIC_ERROR_MESSAGE);
 	}
 
 	@Test
 	void shouldReturnErrorEmptyAnimeList() {
 		//given
-		stubHttpRequest(ANIME_LIST_URL, "mal/watching-titles-empty.json", HttpStatus.OK);
+		stubHttpRequest(ANIME_LIST_URL, "mal/watching_anime_empty.json", HttpStatus.OK);
 		//when
 		ResponseSpec result = call(MAL_USERNAME);
 		//then
-		checkResponse(result, HttpStatus.OK, "Not found actual watching titles for " + MAL_USERNAME);
+		checkResponse(result, HttpStatus.OK, EMPTY_ANIME_LIST_ERROR_MESSAGE);
 	}
 
 	@Test
-	void shouldReturnErrorCommonTitlesServiceException() {
+	void shouldReturnErrorFandubAnimeServiceException() {
 		//given
 		stubAnimeListOk();
-		doThrow(new RuntimeException("CommonTitlesService cause")).when(commonTitlesService).getCommonEpisodesMappedByKey();
+		doThrow(new RuntimeException("FandubAnimeService cause")).when(fandubAnimeService).getEpisodesMappedByKey();
 		//when
 		ResponseSpec result = call(MAL_USERNAME);
 		//then
-		checkResponse(result, HttpStatus.INTERNAL_SERVER_ERROR, ExceptionHandlers.GENERIC_ERROR_MESSAGE);
+		checkResponse(result, HttpStatus.INTERNAL_SERVER_ERROR, GENERIC_ERROR_MESSAGE);
 	}
 
 	@Test
@@ -147,15 +151,15 @@ class ProcessControllerTest extends AbstractTest {
 		//when
 		ResponseSpec result = call(MAL_USERNAME);
 		//then
-		checkResponse(result, HttpStatus.INTERNAL_SERVER_ERROR, ExceptionHandlers.GENERIC_ERROR_MESSAGE);
+		checkResponse(result, HttpStatus.INTERNAL_SERVER_ERROR, GENERIC_ERROR_MESSAGE);
 	}
 
 	private void stubAnimeListOk() {
-		stubHttpRequest(ANIME_LIST_URL, "mal/watching-titles-offset-0.json", HttpStatus.OK);
+		stubHttpRequest(ANIME_LIST_URL, "mal/watching_anime_offset_0.json", HttpStatus.OK);
 	}
 
 	private void stubAnimeListError(HttpStatus httpStatus) {
-		stubHttpRequest(ANIME_LIST_URL, "mal/not-expected-response.json", httpStatus);
+		stubHttpRequest(ANIME_LIST_URL, "mal/not_expected_response.json", httpStatus);
 	}
 
 	private void testWithMalAccessRestorer(HttpStatus httpStatus) {
@@ -165,7 +169,7 @@ class ProcessControllerTest extends AbstractTest {
 		//when
 		ResponseSpec result = call(MAL_USERNAME);
 		//then
-		checkResponse(result, HttpStatus.OK, MAL_RESTRICTED_ACCESS);
+		checkResponse(result, HttpStatus.OK, MAL_RESTRICTED_ACCESS_ERROR_MESSAGE);
 		verify(malAccessRestorerAsync, times(1)).restoreMalAccessAsync();
 	}
 
@@ -181,16 +185,16 @@ class ProcessControllerTest extends AbstractTest {
 				.value(new CustomTypeSafeMatcher<>("unordered fields should be equal") {
 					@Override
 					protected boolean matchesSafely(ProcessResult actual) {
-						List<Title> expectedTitles = getExpectedTitles();
-						List<Title> actualTitles = actual.getTitles();
-						Map<String, Title> nameToTitle = actualTitles.stream().collect(Collectors.toMap(Title::getName, Function.identity()));
-						return StringUtils.isBlank(actual.getErrorMessage()) && Objects.equals(expectedTitles.size(), actualTitles.size())
-								&& expectedTitles.stream().allMatch(x -> {
-							Title actualTitle = nameToTitle.get(x.getName());
-							return Objects.nonNull(actualTitle) && Objects.equals(x.getNextEpisodeNumber(), actualTitle.getNextEpisodeNumber()) && Objects.equals(
-									x.getPosterUrl(), actualTitle.getPosterUrl()) && Objects.equals(x.getMalUrl(), actualTitle.getMalUrl())
-									&& x.getFandubInfoList().size() == actualTitle.getFandubInfoList().size() && actualTitle.getFandubInfoList()
-									.containsAll(x.getFandubInfoList());
+						List<Anime> expectedAnimeList = getExpectedAnimeList();
+						List<Anime> actualAnimeList = actual.getAnimeList();
+						Map<String, Anime> animeMappedByName = actualAnimeList.stream().collect(Collectors.toMap(Anime::getName, Function.identity()));
+						return StringUtils.isBlank(actual.getErrorMessage()) && Objects.equals(expectedAnimeList.size(), actualAnimeList.size())
+									 && expectedAnimeList.stream().allMatch(x -> {
+							Anime actualAnime = animeMappedByName.get(x.getName());
+							return Objects.nonNull(actualAnime) && Objects.equals(x.getNextEpisode(), actualAnime.getNextEpisode()) && Objects.equals(
+									x.getPosterUrl(), actualAnime.getPosterUrl()) && Objects.equals(x.getMalUrl(), actualAnime.getMalUrl())
+										 && x.getFandubInfoList().size() == actualAnime.getFandubInfoList().size() && actualAnime.getFandubInfoList()
+												 .containsAll(x.getFandubInfoList());
 						});
 					}
 				});
@@ -203,8 +207,8 @@ class ProcessControllerTest extends AbstractTest {
 				.isEqualTo(new ProcessResult(expectedErrorMessage));
 	}
 
-	private List<Title> getExpectedTitles() {
-		return IOUtils.unmarshalToListFromFile("classpath:__files/result/expected-titles.json", Title.class)
+	private List<Anime> getExpectedAnimeList() {
+		return IOUtils.unmarshalToListFromFile("classpath:__files/result/expected_anime_list.json", Anime.class)
 				.stream()
 				.peek(x -> x.setMalUrl(appProps.getMalProps().getUrl() + x.getMalUrl()))
 				.collect(Collectors.toList());

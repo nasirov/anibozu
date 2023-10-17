@@ -6,18 +6,20 @@ import java.util.Map;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import nasirov.yv.ab.dto.fe.Anime;
+import nasirov.yv.ab.dto.fe.Anime.AnimeBuilder;
 import nasirov.yv.ab.dto.fe.FandubInfo;
 import nasirov.yv.ab.dto.fe.ProcessResult;
-import nasirov.yv.ab.dto.fe.Title;
-import nasirov.yv.ab.dto.fe.Title.TitleBuilder;
 import nasirov.yv.ab.dto.internal.GithubCacheKey;
 import nasirov.yv.ab.properties.AppProps;
-import nasirov.yv.ab.service.CommonTitlesServiceI;
-import nasirov.yv.ab.service.MalServiceI;
+import nasirov.yv.ab.service.FandubAnimeServiceI;
+import nasirov.yv.ab.service.MalAnimeFilterI;
+import nasirov.yv.ab.service.MalAnimeFormatterI;
+import nasirov.yv.ab.service.MalAnimeServiceI;
 import nasirov.yv.ab.service.ProcessServiceI;
 import nasirov.yv.starter.common.constant.FandubSource;
-import nasirov.yv.starter.common.dto.fandub.common.CommonEpisode;
-import nasirov.yv.starter.common.dto.mal.MalTitle;
+import nasirov.yv.starter.common.dto.fandub.common.FandubEpisode;
+import nasirov.yv.starter.common.dto.mal.MalAnime;
 import nasirov.yv.starter.common.properties.StarterCommonProperties;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.tuple.Pair;
@@ -32,9 +34,17 @@ import reactor.core.publisher.Mono;
 @RequiredArgsConstructor
 public class ProcessService implements ProcessServiceI {
 
-	private final MalServiceI malService;
+	private static final String EMPTY_ANIME_LIST_ERROR_MESSAGE = "Not found actual watching anime! Please, try again later.";
 
-	private final CommonTitlesServiceI commonTitlesService;
+	private static final ProcessResult EMPTY_ANIME_LIST_FALLBACK = new ProcessResult(EMPTY_ANIME_LIST_ERROR_MESSAGE);
+
+	private final MalAnimeServiceI malAnimeService;
+
+	private final MalAnimeFilterI malAnimeFilter;
+
+	private final MalAnimeFormatterI malAnimeFormatter;
+
+	private final FandubAnimeServiceI fandubAnimeService;
 
 	private final AppProps appProps;
 
@@ -42,46 +52,46 @@ public class ProcessService implements ProcessServiceI {
 
 	@Override
 	public Mono<ProcessResult> process(String username) {
-		return malService.getMalTitles(username)
-				.flatMap(x -> commonTitlesService.getCommonEpisodesMappedByKey().map(m -> buildProcessResult(m, x)))
-				.doOnSubscribe(x -> log.info("Processing [{}]", username))
+		log.info("Processing [{}]", username);
+		return malAnimeService.getAnimeList(username)
+				.map(x -> x.stream().filter(malAnimeFilter::filter).map(malAnimeFormatter::format).toList())
+				.flatMap(x -> fandubAnimeService.getEpisodesMappedByKey().map(m -> buildProcessResult(m, x)))
 				.doOnSuccess(x -> log.info("Done [{}]", username));
 	}
 
-	private ProcessResult buildProcessResult(Map<GithubCacheKey, List<CommonEpisode>> keyToCommonEpisodes, List<MalTitle> malTitles) {
-		List<Title> titles = new ArrayList<>();
-		for (MalTitle malTitle : malTitles) {
-			Integer malId = malTitle.getId();
-			Integer nextEpisodeForWatch = malTitle.getNextEpisodeForWatch();
-			TitleBuilder titleBuilder = Title.builder()
-					.name(malTitle.getName())
-					.animeNumEpisodes(malTitle.getAnimeNumEpisodes().toString())
-					.nextEpisodeNumber(nextEpisodeForWatch.toString())
-					.posterUrl(malTitle.getPosterUrl())
-					.malUrl(malTitle.getAnimeUrl());
+	private ProcessResult buildProcessResult(Map<GithubCacheKey, List<FandubEpisode>> keyToEpisodes, List<MalAnime> malAnimeList) {
+		List<Anime> animeList = new ArrayList<>();
+		for (MalAnime malAnime : malAnimeList) {
+			Integer malId = malAnime.getId();
+			Integer nextEpisode = malAnime.getWatchedEpisodes() + 1;
+			AnimeBuilder animeBuilder = Anime.builder()
+					.name(malAnime.getName())
+					.nextEpisode(nextEpisode.toString())
+					.maxEpisodes(String.valueOf(malAnime.getMaxEpisodes()))
+					.posterUrl(malAnime.getPosterUrl())
+					.malUrl(malAnime.getUrl());
 			for (FandubSource fandubSource : appProps.getEnabledFandubSources()) {
 				GithubCacheKey key = new GithubCacheKey(fandubSource, malId);
-				Optional.ofNullable(keyToCommonEpisodes.get(key))
+				Optional.ofNullable(keyToEpisodes.get(key))
 						.filter(CollectionUtils::isNotEmpty)
-						.flatMap(x -> buildNameAndUrlPair(x, fandubSource, nextEpisodeForWatch))
-						.ifPresent(x -> titleBuilder.fandubInfoList(FandubInfo.builder()
+						.flatMap(x -> buildNameAndUrlPair(x, fandubSource, nextEpisode))
+						.ifPresent(x -> animeBuilder.fandubInfoList(FandubInfo.builder()
 								.fandubSource(fandubSource)
 								.fandubSourceCanonicalName(fandubSource.getCanonicalName())
 								.episodeUrl(x.getValue())
 								.episodeName(x.getKey())
 								.build()));
 			}
-			titles.add(titleBuilder.build());
+			animeList.add(animeBuilder.build());
 		}
-		return new ProcessResult(titles);
+		return CollectionUtils.isNotEmpty(animeList) ? new ProcessResult(animeList) : EMPTY_ANIME_LIST_FALLBACK;
 	}
 
-	private Optional<Pair<String, String>> buildNameAndUrlPair(List<CommonEpisode> commonEpisodesByMalId, FandubSource fandubSource,
-			Integer nextEpisodeForWatch) {
+	private Optional<Pair<String, String>> buildNameAndUrlPair(List<FandubEpisode> episodes, FandubSource fandubSource, Integer nextEpisode) {
 		String fandubUrl = starterCommonProperties.getFandub().getUrls().get(fandubSource);
-		boolean ignoreNextEpisodeForWatch = appProps.getIgnoreNextEpisodeForWatch().contains(fandubSource);
-		return commonEpisodesByMalId.stream()
-				.filter(x -> ignoreNextEpisodeForWatch || nextEpisodeForWatch.equals(x.getMalEpisodeId()))
+		boolean ignoreNextEpisode = appProps.getIgnoreNextEpisode().contains(fandubSource);
+		return episodes.stream()
+				.filter(x -> ignoreNextEpisode || nextEpisode.equals(x.getMalEpisodeId()))
 				.findFirst()
 				.map(x -> Pair.of(x.getName(), fandubUrl + x.getUrl()));
 	}

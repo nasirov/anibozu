@@ -15,7 +15,7 @@ document.addEventListener('DOMContentLoaded', function () {
 					if (validUsername) {
 						usernameInput.setAttribute(readonlyAttribute, '');
 						setScheduledLoadingMessages(submitButton);
-						getAndRenderTitles(username);
+						getAndRenderAnimeItems(username);
 					} else {
 						disableEvents(e);
 						toggleErrorClass(usernameInput, validUsername);
