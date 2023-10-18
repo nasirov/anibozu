@@ -3,6 +3,7 @@ package nasirov.yv.ab;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.Mockito.doReturn;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.github.tomakehurst.wiremock.WireMockServer;
 import com.github.tomakehurst.wiremock.client.WireMock;
 import java.util.List;
@@ -14,12 +15,12 @@ import nasirov.yv.ab.service.CacheServiceI;
 import nasirov.yv.ab.service.FandubAnimeServiceI;
 import nasirov.yv.ab.service.MalAnimeServiceI;
 import nasirov.yv.ab.service.ProcessServiceI;
-import nasirov.yv.ab.utils.IOUtils;
 import nasirov.yv.starter.common.constant.FandubSource;
 import nasirov.yv.starter.common.dto.fandub.common.FandubAnime;
 import nasirov.yv.starter.common.dto.fandub.common.IgnoredAnime;
 import nasirov.yv.starter.common.service.GitHubResourcesServiceI;
 import nasirov.yv.starter.common.service.MalAccessRestorerAsyncI;
+import nasirov.yv.starter.common.service.WrappedObjectMapperI;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -73,6 +74,9 @@ public abstract class AbstractTest {
 	@Autowired
 	protected WireMockServer wireMockServer;
 
+	@Autowired
+	protected WrappedObjectMapperI wrappedObjectMapper;
+
 	protected WebTestClient webTestClient;
 
 	@BeforeEach
@@ -96,9 +100,9 @@ public abstract class AbstractTest {
 	}
 
 	protected void mockGitHubResourcesService() {
-		getEnabledFandubSources().forEach(x -> doReturn(
-				Mono.just(IOUtils.unmarshalToListFromFile("classpath:__files/github/" + x.name() + "_fandub_anime.json", FandubAnime.class))).when(
-				gitHubResourcesService).getFandubAnime(x));
+		getEnabledFandubSources().forEach(
+				x -> doReturn(Mono.just(unmarshal("github", x.name() + "_fandub_anime.json", new TypeReference<List<FandubAnime>>() {}))).when(
+						gitHubResourcesService).getFandubAnime(x));
 	}
 
 	protected void fillGithubCache() {
@@ -120,6 +124,18 @@ public abstract class AbstractTest {
 
 	protected String getGithubCacheKey() {
 		return appProps.getCacheProps().getGithubCacheKey();
+	}
+
+	protected <T> T unmarshal(String content, TypeReference<T> type) {
+		return wrappedObjectMapper.unmarshal(content, type);
+	}
+
+	protected <T> T unmarshal(String directory, String file, TypeReference<T> type) {
+		return unmarshal(readTestResource(directory, file), type);
+	}
+
+	protected String readTestResource(String directory, String file) {
+		return wrappedObjectMapper.readFromFile("classpath:__files/" + directory + "/" + file);
 	}
 
 	private void clearCaches() {

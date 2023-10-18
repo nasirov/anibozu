@@ -5,6 +5,7 @@ import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -14,7 +15,6 @@ import java.util.stream.Collectors;
 import nasirov.yv.ab.AbstractTest;
 import nasirov.yv.ab.dto.fe.Anime;
 import nasirov.yv.ab.dto.fe.ProcessResult;
-import nasirov.yv.ab.utils.IOUtils;
 import nasirov.yv.starter.common.dto.mal.WatchingStatus;
 import org.apache.commons.lang3.StringUtils;
 import org.hamcrest.CustomTypeSafeMatcher;
@@ -208,8 +208,7 @@ class ProcessControllerTest extends AbstractTest {
 	}
 
 	private List<Anime> getExpectedAnimeList() {
-		return IOUtils.unmarshalToListFromFile("classpath:__files/result/expected_anime_list.json", Anime.class)
-				.stream()
+		return unmarshal("result", "expected_anime_list.json", new TypeReference<List<Anime>>() {}).stream()
 				.peek(x -> x.setMalUrl(appProps.getMalProps().getUrl() + x.getMalUrl()))
 				.collect(Collectors.toList());
 	}
