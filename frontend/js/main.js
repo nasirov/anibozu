@@ -4,6 +4,7 @@
 
 document.addEventListener('DOMContentLoaded', function () {
 	setTheme();
+	configSwitchContainer();
 	configSwitchThemeCheckbox();
 });
 
@@ -26,7 +27,7 @@ function setTheme() {
 	if (theme != null) {
 		const lightTheme = theme === Themes.LIGHT;
 		switchTheme(lightTheme);
-		document.querySelector('#switch-theme-checkbox').checked = lightTheme;
+		getSwitchThemeCheckbox().checked = lightTheme;
 	}
 }
 
@@ -34,14 +35,34 @@ function switchTheme(lightTheme) {
 	document.documentElement.setAttribute('theme', lightTheme ? Themes.LIGHT : Themes.DARK);
 }
 
-function configSwitchThemeCheckbox() {
-	document.querySelector('#switch-theme-checkbox').addEventListener('change',
+function getSwitchThemeCheckbox() {
+	return document.querySelector('#switch-theme-checkbox');
+}
+
+function configSwitchContainer() {
+	document.querySelector('#switch-container').addEventListener('keypress',
 			function (e) {
-				const lightTheme = e.target.checked;
-				switchTheme(lightTheme);
-				if (window.localStorage) {
-					localStorage.setItem(THEME_COOKIE, lightTheme ? Themes.LIGHT : Themes.DARK);
+				if (e.key === 'Enter') {
+					const switchThemeCheckbox = getSwitchThemeCheckbox();
+					switchThemeCheckbox.checked = !switchThemeCheckbox.checked;
+					switchThemeOnEvent(switchThemeCheckbox);
 				}
 			}
 	);
+}
+
+function configSwitchThemeCheckbox() {
+	getSwitchThemeCheckbox().addEventListener('change',
+			function (e) {
+				switchThemeOnEvent(e.target);
+			}
+	);
+}
+
+function switchThemeOnEvent(switchThemeCheckbox) {
+	const lightTheme = switchThemeCheckbox.checked;
+	switchTheme(lightTheme);
+	if (window.localStorage) {
+		localStorage.setItem(THEME_COOKIE, lightTheme ? Themes.LIGHT : Themes.DARK);
+	}
 }

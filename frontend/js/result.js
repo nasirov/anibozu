@@ -20,9 +20,7 @@ async function getAndRenderAnimeItems(username) {
 					const anime = animeList[i];
 					const animeItem = buildAnimeItem();
 					const malEpisode = buildMalEpisode(anime);
-					const malLink = buildMalLink(anime);
-					malLink.appendChild(malEpisode);
-					animeItem.appendChild(malLink);
+					animeItem.appendChild(malEpisode);
 					const malPoster = buildMalPoster(anime);
 					animeItem.appendChild(malPoster);
 					const fandubInfoList = anime.fandubInfoList;
@@ -38,8 +36,10 @@ async function getAndRenderAnimeItems(username) {
 								fandubLinkTargetClass += ' anime-item__fandub_link_holder__link--active';
 								fandubEpisode.classList.toggle('anime-item__fandub_episode--active');
 							}
+							fandubLinkTargetClass += ' navigable';
 							const fandubLink = buildLink(fandubLinkTargetClass, fandubInfo.episodeUrl);
 							fandubLink.setAttribute('fandub', fandub);
+							fandubLink.setAttribute('tabindex', '0');
 							fandubLink.textContent = fandubInfo.fandubSourceCanonicalName;
 							fandubLinkHolder.appendChild(fandubLink);
 						}
@@ -72,15 +72,10 @@ function buildAnimeItem() {
 }
 
 function buildMalEpisode(anime) {
-	let result = document.createElement('div');
-	result.setAttribute('class', 'anime-item__mal_episode');
+	const result = buildLink('anime-item__mal_episode', anime.malUrl);
 	const maxEpisodes = anime.maxEpisodes;
 	result.textContent = 'Next ' + anime.nextEpisode + ' / ' + (maxEpisodes === '0' ? '?' : maxEpisodes);
 	return result;
-}
-
-function buildMalLink(anime) {
-	return buildLink('anime-item__mal_link', anime.malUrl);
 }
 
 function buildMalPoster(anime) {
@@ -112,27 +107,35 @@ function buildFandubSlider() {
 
 function buildSliderArrow(direction) {
 	const result = document.createElement('div');
-	result.setAttribute('class', 'anime-item__fandub_slider__arrow anime-item__fandub_slider__arrow--' + direction);
-	result.addEventListener('mousedown', function () {
-		const fandubLinkHolder = this.parentNode.querySelector('.anime-item__fandub_link_holder');
-		const fandubLinks = fandubLinkHolder.children;
-		const shiftedFandubLinks = [];
-		let previousFandubLink = fandubLinks[getInitPreviousFandubLinkIndex(direction, fandubLinks)];
-		for (let i = getLoopCounter(direction, fandubLinks); getLoopCondition(direction, i, fandubLinks);
-				i = modifyLoopCounter(direction, i)) {
-			shiftedFandubLinks[i] = previousFandubLink;
-			previousFandubLink = fandubLinks[i];
-		}
-		const fandubLinkToDisableIndex = SLIDER_ARROW_DIRECTION.LEFT === direction ? 1 : shiftedFandubLinks.length - 1;
-		const fandubLinkToDisable = getFandubLink(shiftedFandubLinks, fandubLinkToDisableIndex);
-		const fandubLinkToEnableIndex = 0;
-		const fandubLinkToEnable = getFandubLink(shiftedFandubLinks, fandubLinkToEnableIndex);
-		fandubLinkHolder.replaceChildren(...shiftedFandubLinks);
-		const animeItem = this.parentNode.parentNode;
-		toggleFandubEpisodeActive(animeItem, fandubLinkToDisable);
-		toggleFandubEpisodeActive(animeItem, fandubLinkToEnable);
-		fitFandubName(animeItem);
-	});
+	result.setAttribute('class',
+			'anime-item__fandub_slider__arrow anime-item__fandub_slider__arrow--' + direction);
+	result.setAttribute('tabindex', '0');
+	const mousedownEventType = 'mousedown';
+	const keypressEventType = 'keypress';
+	[mousedownEventType, keypressEventType].forEach(type =>
+			result.addEventListener(type, function (e) {
+				if (e.type === mousedownEventType || (e.type === keypressEventType && e.key === 'Enter')) {
+					const fandubLinkHolder = this.parentNode.querySelector('.anime-item__fandub_link_holder');
+					const fandubLinks = fandubLinkHolder.children;
+					const shiftedFandubLinks = [];
+					let previousFandubLink = fandubLinks[getInitPreviousFandubLinkIndex(direction, fandubLinks)];
+					for (let i = getLoopCounter(direction, fandubLinks); getLoopCondition(direction, i, fandubLinks);
+							i = modifyLoopCounter(direction, i)) {
+						shiftedFandubLinks[i] = previousFandubLink;
+						previousFandubLink = fandubLinks[i];
+					}
+					const fandubLinkToDisableIndex = SLIDER_ARROW_DIRECTION.LEFT === direction ? 1 : shiftedFandubLinks.length - 1;
+					const fandubLinkToDisable = getFandubLink(shiftedFandubLinks, fandubLinkToDisableIndex);
+					const fandubLinkToEnableIndex = 0;
+					const fandubLinkToEnable = getFandubLink(shiftedFandubLinks, fandubLinkToEnableIndex);
+					fandubLinkHolder.replaceChildren(...shiftedFandubLinks);
+					const animeItem = this.parentNode.parentNode;
+					toggleFandubEpisodeActive(animeItem, fandubLinkToDisable);
+					toggleFandubEpisodeActive(animeItem, fandubLinkToEnable);
+					fitFandubName(animeItem);
+				}
+			})
+	);
 	return result;
 }
 

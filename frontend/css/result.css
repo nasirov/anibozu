@@ -78,11 +78,8 @@
   z-index: 200;
 }
 
-.anime-item__mal_link {
-}
-
-.anime-item__mal_link:focus {
-  outline: 0;
+.anime-item__mal_episode:is(:hover, :focus-visible) {
+  transform: scale(1.08);
 }
 
 .anime-item__mal_poster {
@@ -136,8 +133,8 @@
   cursor: pointer;
 }
 
-.anime-item__fandub_slider__arrow:hover {
-  transform: scale(1.1);
+.anime-item__fandub_slider__arrow:is(:hover, :focus-visible) {
+  transform: scale(1.3);
 }
 
 .anime-item__fandub_slider__arrow--left {
@@ -182,8 +179,4 @@
   display: flex;
   justify-content: center;
   align-items: center;
-}
-
-.anime-item__fandub_link_holder__link:focus {
-  outline: 0;
 }

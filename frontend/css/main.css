@@ -17,6 +17,7 @@
 * {
   margin: 0;
   padding: 0;
+  outline: none;
   font-family: inherit;
   color: inherit;
   background-color: inherit;
@@ -179,10 +180,6 @@ body {
   background-position: center;
 }
 
-[class*="-icon"]:focus {
-  outline: 0;
-}
-
 .sized-icon-50 {
   width: 50px;
   height: 50px;
@@ -230,4 +227,15 @@ body {
 .error-message {
   color: var(--secondary-color);
   text-align: center;
+}
+
+/*
+   ==============
+   ACCESSIBILITY
+   ==============
+*/
+
+.navigable:focus-visible {
+  outline: 2px solid var(--secondary-color);
+  outline-offset: 2px;
 }
