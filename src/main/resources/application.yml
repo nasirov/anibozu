@@ -24,7 +24,6 @@ application:
     url: https://myanimelist.net
   enabled-fandub-sources:
     - ANI_DUB
-    - ANI_FILM
     - ANI_LIBRIA
     - DREAM_CAST
     - KODIK
