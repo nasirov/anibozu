@@ -1,7 +1,7 @@
 [
   {
     "id": "100",
-    "url": "anilibria-url-100",
+    "path": "anilibria-url-100",
     "type": "MAIN",
     "malIds": [
       111
@@ -11,14 +11,14 @@
         {
           "malEpisodeId": 1,
           "name": "Серия 1 для 111",
-          "url": "anilibria-url-100/1"
+          "path": "anilibria-url-100/1"
         }
       ]
     }
   },
   {
     "id": "200",
-    "url": "anilibria-url-200",
+    "path": "anilibria-url-200",
     "type": "EXTRA",
     "malIds": [
       222,
@@ -29,21 +29,21 @@
         {
           "malEpisodeId": 1,
           "name": "Серия 1 для 222",
-          "url": "anilibria-url-200/1"
+          "path": "anilibria-url-200/1"
         }
       ],
       "333": [
         {
           "malEpisodeId": 1,
           "name": "Серия 1 для 333",
-          "url": "anilibria-url-200/2"
+          "path": "anilibria-url-200/2"
         }
       ]
     }
   },
   {
     "id": "300",
-    "url": "anilibria-url-300",
+    "path": "anilibria-url-300",
     "type": "MAIN",
     "malIds": [
       444
@@ -53,14 +53,14 @@
         {
           "malEpisodeId": 1,
           "name": "Серия 1 для 444",
-          "url": "anilibria-url-300/1"
+          "path": "anilibria-url-300/1"
         }
       ]
     }
   },
   {
     "id": "400",
-    "url": "anilibria-url-400",
+    "path": "anilibria-url-400",
     "type": "NOT_FOUND",
     "malIds": [],
     "malIdToEpisodes": {}

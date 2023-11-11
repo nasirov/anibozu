@@ -1,7 +1,7 @@
 [
   {
     "id": "100",
-    "url": "aniwave-url-100",
+    "path": "aniwave-url-100",
     "type": "MAIN",
     "malIds": [
       111
@@ -11,14 +11,14 @@
         {
           "malEpisodeId": 1,
           "name": "1 for 111",
-          "url": "aniwave-url-100/1"
+          "path": "aniwave-url-100/1"
         }
       ]
     }
   },
   {
     "id": "200",
-    "url": "aniwave-url-200",
+    "path": "aniwave-url-200",
     "type": "EXTRA",
     "malIds": [
       222,
@@ -29,21 +29,21 @@
         {
           "malEpisodeId": 1,
           "name": "1 for 222",
-          "url": "aniwave-url-200/1"
+          "path": "aniwave-url-200/1"
         }
       ],
       "333": [
         {
           "malEpisodeId": 1,
           "name": "1 for 333",
-          "url": "aniwave-url-200/2"
+          "path": "aniwave-url-200/2"
         }
       ]
     }
   },
   {
     "id": "300",
-    "url": "aniwave-url-300",
+    "path": "aniwave-url-300",
     "type": "MAIN",
     "malIds": [
       444
@@ -53,14 +53,14 @@
         {
           "malEpisodeId": 1,
           "name": "1 for 444",
-          "url": "aniwave-url-300/1"
+          "path": "aniwave-url-300/1"
         }
       ]
     }
   },
   {
     "id": "400",
-    "url": "aniwave-url-400",
+    "path": "aniwave-url-400",
     "type": "NOT_FOUND",
     "malIds": [],
     "malIdToEpisodes": {}

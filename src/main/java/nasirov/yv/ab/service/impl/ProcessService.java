@@ -93,6 +93,6 @@ public class ProcessService implements ProcessServiceI {
 		return episodes.stream()
 				.filter(x -> ignoreNextEpisode || nextEpisode.equals(x.getMalEpisodeId()))
 				.findFirst()
-				.map(x -> Pair.of(x.getName(), fandubUrl + x.getUrl()));
+				.map(x -> Pair.of(x.getName(), fandubUrl + x.getPath()));
 	}
 }
