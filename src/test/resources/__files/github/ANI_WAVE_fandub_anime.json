@@ -2,7 +2,20 @@
   {
     "id": "100",
     "path": "aniwave-url-100",
-    "type": "MAIN",
+    "originalName": "original name",
+    "airedStart": "-999999999-01-01",
+    "airedEnd": "+999999999-12-31",
+    "seasonNumber": 0,
+    "durationSeconds": 0,
+    "amountOfEpisodes": 0,
+    "posterUrl": "",
+    "premiered": "",
+    "broadcast": "",
+    "producers": [],
+    "studios": [],
+    "genres": [],
+    "type": "TV",
+    "mappingType": "MAIN",
     "malIds": [
       111
     ],
@@ -10,7 +23,13 @@
       "111": [
         {
           "malEpisodeId": 1,
+          "id": 1,
           "name": "1 for 111",
+          "number": "1",
+          "range": false,
+          "dub": true,
+          "sub": true,
+          "softSub": true,
           "path": "aniwave-url-100/1"
         }
       ]
@@ -19,7 +38,20 @@
   {
     "id": "200",
     "path": "aniwave-url-200",
-    "type": "EXTRA",
+    "originalName": "original name",
+    "airedStart": "-999999999-01-01",
+    "airedEnd": "+999999999-12-31",
+    "seasonNumber": 0,
+    "durationSeconds": 0,
+    "amountOfEpisodes": 0,
+    "posterUrl": "",
+    "premiered": "",
+    "broadcast": "",
+    "producers": [],
+    "studios": [],
+    "genres": [],
+    "type": "TV",
+    "mappingType": "EXTRA",
     "malIds": [
       222,
       333
@@ -28,14 +60,26 @@
       "222": [
         {
           "malEpisodeId": 1,
+          "id": 1,
           "name": "1 for 222",
+          "number": "1",
+          "range": false,
+          "dub": true,
+          "sub": true,
+          "softSub": true,
           "path": "aniwave-url-200/1"
         }
       ],
       "333": [
         {
           "malEpisodeId": 1,
+          "id": 1,
           "name": "1 for 333",
+          "number": "1",
+          "range": false,
+          "dub": true,
+          "sub": true,
+          "softSub": true,
           "path": "aniwave-url-200/2"
         }
       ]
@@ -44,7 +88,20 @@
   {
     "id": "300",
     "path": "aniwave-url-300",
-    "type": "MAIN",
+    "originalName": "original name",
+    "airedStart": "-999999999-01-01",
+    "airedEnd": "+999999999-12-31",
+    "seasonNumber": 0,
+    "durationSeconds": 0,
+    "amountOfEpisodes": 0,
+    "posterUrl": "",
+    "premiered": "",
+    "broadcast": "",
+    "producers": [],
+    "studios": [],
+    "genres": [],
+    "type": "TV",
+    "mappingType": "MAIN",
     "malIds": [
       444
     ],
@@ -52,7 +109,13 @@
       "444": [
         {
           "malEpisodeId": 1,
+          "id": 1,
           "name": "1 for 444",
+          "number": "1",
+          "range": false,
+          "dub": true,
+          "sub": true,
+          "softSub": true,
           "path": "aniwave-url-300/1"
         }
       ]
@@ -61,7 +124,20 @@
   {
     "id": "400",
     "path": "aniwave-url-400",
-    "type": "NOT_FOUND",
+    "originalName": "original name",
+    "airedStart": "-999999999-01-01",
+    "airedEnd": "+999999999-12-31",
+    "seasonNumber": 0,
+    "durationSeconds": 0,
+    "amountOfEpisodes": 0,
+    "posterUrl": "",
+    "premiered": "",
+    "broadcast": "",
+    "producers": [],
+    "studios": [],
+    "genres": [],
+    "type": "TV",
+    "mappingType": "NOT_FOUND",
     "malIds": [],
     "malIdToEpisodes": {}
   }

@@ -1,6 +1,7 @@
 package nasirov.yv.ab.dto.fe;
 
 import jakarta.validation.constraints.NotNull;
+import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -27,4 +28,7 @@ public class FandubInfo {
 
 	@NotNull
 	private String episodeName;
+
+	@NotNull
+	private List<String> types;
 }

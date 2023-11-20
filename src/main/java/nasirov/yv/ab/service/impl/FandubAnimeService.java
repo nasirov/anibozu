@@ -13,9 +13,10 @@ import nasirov.yv.ab.properties.AppProps;
 import nasirov.yv.ab.service.FandubAnimeServiceI;
 import nasirov.yv.starter.common.constant.FandubSource;
 import nasirov.yv.starter.common.dto.fandub.common.FandubAnime;
-import nasirov.yv.starter.common.dto.fandub.common.FandubAnimeType;
 import nasirov.yv.starter.common.dto.fandub.common.FandubEpisode;
 import nasirov.yv.starter.common.dto.fandub.common.IgnoredAnime;
+import nasirov.yv.starter.common.dto.fandub.common.MappingType;
+import nasirov.yv.starter.common.properties.StarterCommonProperties;
 import nasirov.yv.starter.common.service.GitHubResourcesServiceI;
 import org.springframework.cache.Cache;
 import org.springframework.cache.CacheManager;
@@ -36,6 +37,8 @@ public class FandubAnimeService implements FandubAnimeServiceI {
 	private final CacheManager cacheManager;
 
 	private final AppProps appProps;
+
+	private final StarterCommonProperties starterCommonProperties;
 
 	public Mono<Map<GithubCacheKey, List<FandubEpisode>>> getEpisodesMappedByKey() {
 		Optional<Cache> cacheOpt = Optional.ofNullable(cacheManager.getCache(appProps.getCacheProps().getGithubCacheName()));
@@ -58,8 +61,10 @@ public class FandubAnimeService implements FandubAnimeServiceI {
 
 	private Map<GithubCacheKey, List<FandubEpisode>> groupEpisodesByKey(FandubSource fandubSource, List<FandubAnime> animeList) {
 		return animeList.stream()
-				.filter(x -> x.getType() != FandubAnimeType.NOT_FOUND)
+				.filter(x -> x.getMappingType() != MappingType.NOT_FOUND)
 				.flatMap(x -> x.getMalIdToEpisodes().entrySet().stream().filter(e -> e.getKey() > 0))
+				.peek(x -> x.getValue()
+						.forEach(episode -> episode.setPath(starterCommonProperties.getFandub().getUrls().get(fandubSource) + episode.getPath())))
 				.collect(Collectors.groupingBy(x -> new GithubCacheKey(fandubSource, x.getKey()),
 						Collectors.flatMapping(x -> x.getValue().stream(), Collectors.toList())));
 	}

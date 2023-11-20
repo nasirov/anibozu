@@ -20,9 +20,7 @@ import nasirov.yv.ab.service.ProcessServiceI;
 import nasirov.yv.starter.common.constant.FandubSource;
 import nasirov.yv.starter.common.dto.fandub.common.FandubEpisode;
 import nasirov.yv.starter.common.dto.mal.MalAnime;
-import nasirov.yv.starter.common.properties.StarterCommonProperties;
 import org.apache.commons.collections4.CollectionUtils;
-import org.apache.commons.lang3.tuple.Pair;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
 
@@ -48,8 +46,6 @@ public class ProcessService implements ProcessServiceI {
 
 	private final AppProps appProps;
 
-	private final StarterCommonProperties starterCommonProperties;
-
 	@Override
 	public Mono<ProcessResult> process(String username) {
 		log.info("Processing [{}]", username);
@@ -72,24 +68,37 @@ public class ProcessService implements ProcessServiceI {
 					.malUrl(malAnime.getUrl());
 			for (FandubSource fandubSource : appProps.getEnabledFandubSources()) {
 				GithubCacheKey key = new GithubCacheKey(fandubSource, malId);
-				Optional.ofNullable(keyToEpisodes.get(key))
-						.filter(CollectionUtils::isNotEmpty)
-						.flatMap(x -> buildNameAndUrlPair(x, fandubSource, nextEpisode))
-						.ifPresent(x -> animeBuilder.fandubInfoList(FandubInfo.builder()
-								.fandubSource(fandubSource)
-								.fandubSourceCanonicalName(fandubSource.getCanonicalName())
-								.episodeUrl(x.getValue())
-								.episodeName(x.getKey())
-								.build()));
+				List<FandubEpisode> matchedEpisodes = Optional.ofNullable(keyToEpisodes.get(key))
+						.map(x -> getMatchedEpisodes(x, nextEpisode))
+						.orElse(List.of());
+				matchedEpisodes.forEach(x -> animeBuilder.fandubInfoList(FandubInfo.builder()
+						.fandubSource(fandubSource)
+						.fandubSourceCanonicalName(fandubSource.getCanonicalName())
+						.episodeUrl(x.getPath())
+						.episodeName(x.getName())
+						.types(getTypes(x))
+						.build()));
 			}
 			animeList.add(animeBuilder.build());
 		}
 		return CollectionUtils.isNotEmpty(animeList) ? new ProcessResult(animeList) : EMPTY_ANIME_LIST_FALLBACK;
 	}
 
-	private Optional<Pair<String, String>> buildNameAndUrlPair(List<FandubEpisode> episodes, FandubSource fandubSource, Integer nextEpisode) {
-		String fandubUrl = starterCommonProperties.getFandub().getUrls().get(fandubSource);
-		return episodes.stream().filter(x -> nextEpisode.equals(x.getMalEpisodeId())).findFirst().map(x -> Pair.of(x.getName(),
-				fandubUrl + x.getPath()));
+	private List<FandubEpisode> getMatchedEpisodes(List<FandubEpisode> episodes, Integer nextEpisode) {
+		return episodes.stream().filter(x -> nextEpisode.equals(x.getMalEpisodeId())).toList();
+	}
+
+	private List<String> getTypes(FandubEpisode episode) {
+		List<String> result = new ArrayList<>();
+		if (episode.isDub()) {
+			result.add("dub");
+		}
+		if (episode.isSub()) {
+			result.add("sub");
+		}
+		if (episode.isSoftSub()) {
+			result.add("soft sub");
+		}
+		return result;
 	}
 }

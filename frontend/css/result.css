@@ -17,6 +17,7 @@
   --anime-item-badge-indent: 10px;
   --anime-item-badge-max-width: calc(var(--max-poster-width) - var(--anime-item-badge-indent) * 2);
   --anime-item-padding: 5px;
+  --anime-item__mal_episode-max-width: 50px;
 }
 
 /*
@@ -67,6 +68,7 @@
 
 .anime-item__mal_episode {
   max-width: var(--anime-item-badge-max-width);
+  max-height: var(--anime-item__mal_episode-max-width);
   position: absolute;
   top: var(--anime-item-badge-indent);
   left: var(--anime-item-badge-indent);
@@ -80,6 +82,28 @@
 
 .anime-item__mal_episode:is(:hover, :focus-visible) {
   transform: scale(1.08);
+}
+
+.anime-item__fandub_types {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  max-width: var(--anime-item-badge-max-width);
+  position: absolute;
+  top: calc(var(--anime-item-badge-indent) * 2 + var(--anime-item__mal_episode-max-width));
+  left: var(--anime-item-badge-indent);
+  z-index: 200;
+}
+
+.anime-item__fandub_types--active {
+  display: flex;
+}
+
+.anime-item__fandub_types__type {
+  max-width: inherit;
+  width: fit-content;
+  background-color: var(--secondary-color);
+  padding: var(--anime-item-padding);
 }
 
 .anime-item__mal_poster {
@@ -101,14 +125,14 @@
 
 .anime-item__fandub_episode {
   max-width: var(--anime-item-badge-max-width);
-  height: fit-content;
-  max-height: 200px;
   display: none;
   position: absolute;
   bottom: calc(var(--fandub-slider-row-height) + var(--anime-item-badge-indent));
   left: var(--anime-item-badge-indent);
   padding: var(--anime-item-padding);
   overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
   background-color: var(--secondary-color);
   font-size: x-large;
   z-index: 200;
