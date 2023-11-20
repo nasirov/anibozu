@@ -27,8 +27,6 @@ application:
     - ANI_DUB
     - ANI_LIBRIA
     - ANI_WAVE
-  ignore-next-episode:
-    - ANI_DUB
 
 logging:
   level:

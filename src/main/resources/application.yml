@@ -30,7 +30,6 @@ application:
     - ANI_WAVE
     - SHIZA_PROJECT
     - SOVET_ROMANTICA
-  ignore-next-episode:
 
 server:
   port: 8080

@@ -9,9 +9,9 @@
     "malIdToEpisodes": {
       "111": [
         {
-          "malEpisodeId": 10,
+          "malEpisodeId": 1,
           "name": "1 Серия для 111",
-          "path": "anidub-url-100/10"
+          "path": "anidub-url-100/1"
         }
       ]
     }
@@ -27,23 +27,23 @@
     "malIdToEpisodes": {
       "222": [
         {
-          "malEpisodeId": 10,
+          "malEpisodeId": 1,
           "name": "1 Серия для 222",
-          "path": "anidub-url-200/10"
+          "path": "anidub-url-200/1"
         }
       ],
       "333": [
         {
-          "malEpisodeId": 10,
+          "malEpisodeId": 1,
           "name": "1 Серия для 333",
-          "path": "anidub-url-200/20"
+          "path": "anidub-url-200/2"
         }
       ],
       "-1": [
         {
-          "malEpisodeId": 10,
+          "malEpisodeId": 1,
           "name": "Unknown",
-          "path": "anidub-url-200/30"
+          "path": "anidub-url-200/3"
         }
       ]
     }

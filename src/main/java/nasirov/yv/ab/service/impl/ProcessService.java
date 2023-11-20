@@ -89,10 +89,7 @@ public class ProcessService implements ProcessServiceI {
 
 	private Optional<Pair<String, String>> buildNameAndUrlPair(List<FandubEpisode> episodes, FandubSource fandubSource, Integer nextEpisode) {
 		String fandubUrl = starterCommonProperties.getFandub().getUrls().get(fandubSource);
-		boolean ignoreNextEpisode = appProps.getIgnoreNextEpisode().contains(fandubSource);
-		return episodes.stream()
-				.filter(x -> ignoreNextEpisode || nextEpisode.equals(x.getMalEpisodeId()))
-				.findFirst()
-				.map(x -> Pair.of(x.getName(), fandubUrl + x.getPath()));
+		return episodes.stream().filter(x -> nextEpisode.equals(x.getMalEpisodeId())).findFirst().map(x -> Pair.of(x.getName(),
+				fandubUrl + x.getPath()));
 	}
 }
