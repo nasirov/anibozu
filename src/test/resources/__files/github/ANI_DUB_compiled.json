@@ -1,0 +1,49 @@
+{
+  "resource": {
+    "111": {
+      "1": [
+        {
+          "malEpisodeId": 1,
+          "id": 1,
+          "name": "1 Серия для 111",
+          "number": "1",
+          "range": false,
+          "dub": true,
+          "sub": false,
+          "softSub": false,
+          "path": "https://anidub.com/anidub-url-100/1"
+        }
+      ]
+    },
+    "222": {
+      "1": [
+        {
+          "malEpisodeId": 1,
+          "id": 1,
+          "name": "1 Серия для 222",
+          "number": "1",
+          "range": false,
+          "dub": false,
+          "sub": false,
+          "softSub": false,
+          "path": "https://anidub.com/anidub-url-200/1"
+        }
+      ]
+    },
+    "333": {
+      "1": [
+        {
+          "malEpisodeId": 1,
+          "id": 1,
+          "name": "1 Серия для 333",
+          "number": "1",
+          "range": false,
+          "dub": false,
+          "sub": true,
+          "softSub": false,
+          "path": "https://anidub.com/anidub-url-200/2"
+        }
+      ]
+    }
+  }
+}

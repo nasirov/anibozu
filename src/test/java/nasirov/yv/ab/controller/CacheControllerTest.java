@@ -2,8 +2,8 @@ package nasirov.yv.ab.controller;
 
 import static org.junit.jupiter.api.Assertions.assertNull;
 
-import java.util.Map;
 import nasirov.yv.ab.AbstractTest;
+import nasirov.yv.ab.dto.internal.FandubData;
 import org.junit.jupiter.api.Test;
 import org.springframework.cache.Cache;
 import org.springframework.http.HttpStatus;
@@ -17,9 +17,9 @@ class CacheControllerTest extends AbstractTest {
 	@Test
 	void shouldRefreshEmptyGithubCache() {
 		//given
-		mockGitHubResourcesService();
+		mockCompiledAnimeResourcesService();
 		Cache githubCache = getGithubCache();
-		assertNull(githubCache.get(getGithubCacheKey(), Map.class));
+		assertNull(githubCache.get(getGithubCacheKey(), FandubData.class));
 		//when
 		ResponseSpec result = call();
 		//then

@@ -6,19 +6,17 @@ import static org.mockito.Mockito.doReturn;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.github.tomakehurst.wiremock.WireMockServer;
 import com.github.tomakehurst.wiremock.client.WireMock;
-import java.util.List;
-import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import nasirov.yv.ab.dto.internal.FandubData;
 import nasirov.yv.ab.properties.AppProps;
 import nasirov.yv.ab.service.CacheServiceI;
-import nasirov.yv.ab.service.FandubAnimeServiceI;
+import nasirov.yv.ab.service.FandubDataServiceI;
 import nasirov.yv.ab.service.MalAnimeServiceI;
 import nasirov.yv.ab.service.ProcessServiceI;
 import nasirov.yv.starter.common.constant.FandubSource;
-import nasirov.yv.starter.common.dto.fandub.common.FandubAnime;
-import nasirov.yv.starter.common.dto.fandub.common.IgnoredAnime;
-import nasirov.yv.starter.common.service.GitHubResourcesServiceI;
+import nasirov.yv.starter.common.dto.fandub.common.CompiledAnimeResource;
+import nasirov.yv.starter.common.service.CompiledAnimeResourcesServiceI;
 import nasirov.yv.starter.common.service.MalAccessRestorerAsyncI;
 import nasirov.yv.starter.common.service.WrappedObjectMapperI;
 import org.junit.jupiter.api.AfterEach;
@@ -45,7 +43,7 @@ import reactor.core.publisher.Mono;
 public abstract class AbstractTest {
 
 	@SpyBean
-	protected GitHubResourcesServiceI<Mono<List<FandubAnime>>, Mono<List<IgnoredAnime>>> gitHubResourcesService;
+	protected CompiledAnimeResourcesServiceI<Mono<CompiledAnimeResource>> compiledAnimeResourcesService;
 
 	@SpyBean
 	protected ProcessServiceI processService;
@@ -54,7 +52,7 @@ public abstract class AbstractTest {
 	protected CacheManager cacheManager;
 
 	@SpyBean
-	protected FandubAnimeServiceI fandubAnimeService;
+	protected FandubDataServiceI fandubDataService;
 
 	@SpyBean
 	protected MalAnimeServiceI malAnimeService;
@@ -99,14 +97,14 @@ public abstract class AbstractTest {
 		return appProps.getEnabledFandubSources();
 	}
 
-	protected void mockGitHubResourcesService() {
-		getEnabledFandubSources().forEach(
-				x -> doReturn(Mono.just(unmarshal("github", x.name() + "_fandub_anime.json", new TypeReference<List<FandubAnime>>() {}))).when(
-						gitHubResourcesService).getFandubAnime(x));
+	protected void mockCompiledAnimeResourcesService() {
+		getEnabledFandubSources().forEach(x -> doReturn(Mono.just(
+				unmarshal("github", x.name() + "_" + CompiledAnimeResourcesServiceI.FILE_NAME, new TypeReference<CompiledAnimeResource>() {}))).when(
+				compiledAnimeResourcesService).getCompiledAnimeResource(x));
 	}
 
 	protected void fillGithubCache() {
-		mockGitHubResourcesService();
+		mockCompiledAnimeResourcesService();
 		cacheService.fillGithubCache().block();
 		checkGithubCacheIsFilled();
 	}
@@ -114,7 +112,7 @@ public abstract class AbstractTest {
 	protected void checkGithubCacheIsFilled() {
 		Cache githubCache = getGithubCache();
 		assertNotNull(githubCache);
-		Map<FandubSource, Map<Integer, List<FandubAnime>>> cached = githubCache.get(getGithubCacheKey(), Map.class);
+		FandubData cached = githubCache.get(getGithubCacheKey(), FandubData.class);
 		assertNotNull(cached);
 	}
 

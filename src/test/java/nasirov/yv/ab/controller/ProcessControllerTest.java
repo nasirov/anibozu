@@ -43,7 +43,7 @@ class ProcessControllerTest extends AbstractTest {
 	@Test
 	void shouldReturnProcessResultCacheIsEmpty() {
 		//given
-		mockGitHubResourcesService();
+		mockCompiledAnimeResourcesService();
 		stubAnimeListOk();
 		//when
 		ResponseSpec result = call(MAL_USERNAME);
@@ -127,7 +127,7 @@ class ProcessControllerTest extends AbstractTest {
 	void shouldReturnErrorFandubAnimeServiceException() {
 		//given
 		stubAnimeListOk();
-		doThrow(new RuntimeException("FandubAnimeService cause")).when(fandubAnimeService).getEpisodesMappedByKey();
+		doThrow(new RuntimeException("FandubAnimeService cause")).when(fandubDataService).getFandubData();
 		//when
 		ResponseSpec result = call(MAL_USERNAME);
 		//then

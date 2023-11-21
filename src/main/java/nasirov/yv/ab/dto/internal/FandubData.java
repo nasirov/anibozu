@@ -1,9 +1,11 @@
 package nasirov.yv.ab.dto.internal;
 
+import java.util.List;
+import java.util.Map;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import nasirov.yv.starter.common.constant.FandubSource;
+import nasirov.yv.starter.common.dto.fandub.common.FandubEpisode;
 
 /**
  * @author Nasirov Yuriy
@@ -11,9 +13,7 @@ import nasirov.yv.starter.common.constant.FandubSource;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class GithubCacheKey {
+public class FandubData {
 
-	private FandubSource fandubSource;
-
-	private Integer malId;
+	private Map<FandubKey, Map<Integer, List<FandubEpisode>>> episodes;
 }

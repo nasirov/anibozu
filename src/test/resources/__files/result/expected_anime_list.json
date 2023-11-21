@@ -21,7 +21,15 @@
         "episodeUrl": "https://aniwave.to/aniwave-url-100/1",
         "episodeName": "1 for 111",
         "types": [
-          "dub",
+          "dub"
+        ]
+      },
+      {
+        "fandubSource": "ANI_WAVE",
+        "fandubSourceCanonicalName": "AniWave",
+        "episodeUrl": "https://aniwave.to/aniwave-url-100/1",
+        "episodeName": "1 for 111",
+        "types": [
           "sub",
           "soft sub"
         ]

@@ -10,9 +10,10 @@ import nasirov.yv.ab.dto.fe.Anime;
 import nasirov.yv.ab.dto.fe.Anime.AnimeBuilder;
 import nasirov.yv.ab.dto.fe.FandubInfo;
 import nasirov.yv.ab.dto.fe.ProcessResult;
-import nasirov.yv.ab.dto.internal.GithubCacheKey;
+import nasirov.yv.ab.dto.internal.FandubData;
+import nasirov.yv.ab.dto.internal.FandubKey;
 import nasirov.yv.ab.properties.AppProps;
-import nasirov.yv.ab.service.FandubAnimeServiceI;
+import nasirov.yv.ab.service.FandubDataServiceI;
 import nasirov.yv.ab.service.MalAnimeFilterI;
 import nasirov.yv.ab.service.MalAnimeFormatterI;
 import nasirov.yv.ab.service.MalAnimeServiceI;
@@ -42,7 +43,7 @@ public class ProcessService implements ProcessServiceI {
 
 	private final MalAnimeFormatterI malAnimeFormatter;
 
-	private final FandubAnimeServiceI fandubAnimeService;
+	private final FandubDataServiceI fandubDataService;
 
 	private final AppProps appProps;
 
@@ -50,12 +51,16 @@ public class ProcessService implements ProcessServiceI {
 	public Mono<ProcessResult> process(String username) {
 		log.info("Processing [{}]", username);
 		return malAnimeService.getAnimeList(username)
-				.map(x -> x.stream().filter(malAnimeFilter::filter).map(malAnimeFormatter::format).toList())
-				.flatMap(x -> fandubAnimeService.getEpisodesMappedByKey().map(m -> buildProcessResult(m, x)))
+				.map(this::processMalAnime)
+				.flatMap(x -> fandubDataService.getFandubData().map(m -> buildProcessResult(m, x)))
 				.doOnSuccess(x -> log.info("Done [{}]", username));
 	}
 
-	private ProcessResult buildProcessResult(Map<GithubCacheKey, List<FandubEpisode>> keyToEpisodes, List<MalAnime> malAnimeList) {
+	private List<MalAnime> processMalAnime(List<MalAnime> malAnime) {
+		return malAnime.stream().filter(malAnimeFilter::filter).map(malAnimeFormatter::format).toList();
+	}
+
+	private ProcessResult buildProcessResult(FandubData fandubData, List<MalAnime> malAnimeList) {
 		List<Anime> animeList = new ArrayList<>();
 		for (MalAnime malAnime : malAnimeList) {
 			Integer malId = malAnime.getId();
@@ -66,29 +71,32 @@ public class ProcessService implements ProcessServiceI {
 					.maxEpisodes(String.valueOf(malAnime.getMaxEpisodes()))
 					.posterUrl(malAnime.getPosterUrl())
 					.malUrl(malAnime.getUrl());
-			for (FandubSource fandubSource : appProps.getEnabledFandubSources()) {
-				GithubCacheKey key = new GithubCacheKey(fandubSource, malId);
-				List<FandubEpisode> matchedEpisodes = Optional.ofNullable(keyToEpisodes.get(key))
-						.map(x -> getMatchedEpisodes(x, nextEpisode))
-						.orElse(List.of());
-				matchedEpisodes.forEach(x -> animeBuilder.fandubInfoList(FandubInfo.builder()
-						.fandubSource(fandubSource)
-						.fandubSourceCanonicalName(fandubSource.getCanonicalName())
-						.episodeUrl(x.getPath())
-						.episodeName(x.getName())
-						.types(getTypes(x))
-						.build()));
-			}
+			enrichFandubInfoList(fandubData, malId, nextEpisode, animeBuilder);
 			animeList.add(animeBuilder.build());
 		}
 		return CollectionUtils.isNotEmpty(animeList) ? new ProcessResult(animeList) : EMPTY_ANIME_LIST_FALLBACK;
 	}
 
-	private List<FandubEpisode> getMatchedEpisodes(List<FandubEpisode> episodes, Integer nextEpisode) {
-		return episodes.stream().filter(x -> nextEpisode.equals(x.getMalEpisodeId())).toList();
+	private void enrichFandubInfoList(FandubData fandubData, Integer malId, Integer nextEpisode, AnimeBuilder animeBuilder) {
+		for (FandubSource fandubSource : appProps.getEnabledFandubSources()) {
+			FandubKey key = new FandubKey(fandubSource, malId);
+			Map<FandubKey, Map<Integer, List<FandubEpisode>>> episodes = fandubData.getEpisodes();
+			List<FandubEpisode> matchedEpisodes = Optional.ofNullable(episodes.get(key)).map(x -> x.get(nextEpisode)).orElse(List.of());
+			matchedEpisodes.forEach(x -> animeBuilder.fandubInfoList(buildFandubInfo(fandubSource, x)));
+		}
 	}
 
-	private List<String> getTypes(FandubEpisode episode) {
+	private FandubInfo buildFandubInfo(FandubSource fandubSource, FandubEpisode episode) {
+		return FandubInfo.builder()
+				.fandubSource(fandubSource)
+				.fandubSourceCanonicalName(fandubSource.getCanonicalName())
+				.episodeUrl(episode.getPath())
+				.episodeName(episode.getName())
+				.types(buildTypes(episode))
+				.build();
+	}
+
+	private List<String> buildTypes(FandubEpisode episode) {
 		List<String> result = new ArrayList<>();
 		if (episode.isDub()) {
 			result.add("dub");

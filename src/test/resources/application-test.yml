@@ -2,11 +2,6 @@ starter-common:
   github:
     token: foobar
     url: http://localhost:${wiremock.server.port}/
-  fandub:
-    urls:
-      ANI_DUB: https://anidub.com/
-      ANI_LIBRIA: https://www.anilibria.tv/
-      ANI_WAVE: https://aniwave.to/
   external-services:
     mal-access-service-url: http://localhost:${wiremock.server.port}/
 
