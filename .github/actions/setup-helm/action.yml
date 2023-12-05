@@ -1,0 +1,45 @@
+name: "Setup helm"
+description: "Sets up helm"
+inputs:
+  kube-config-data:
+    description: "kubectl configuration"
+    required: true
+  kubectl-version:
+    description: "kubectl version"
+    required: false
+    default: "1.28.4"
+  helm-version:
+    description: "helm version"
+    required: false
+    default: "3.13.2"
+  target-os:
+    description: "target os"
+    required: false
+    default: "linux"
+  target-arch:
+    description: "target architecture"
+    required: false
+    default: "amd64"
+runs:
+  using: "composite"
+  steps:
+
+    - name: Setup kubectl, helm, kubectl configuration
+      shell: bash
+      run: |
+        kubectl_version=${{ inputs.kubectl-version }}
+        helm_version=${{ inputs.helm-version }}
+        target_os=${{ inputs.target-os }}
+        target_arch=${{ inputs.target-arch }}
+
+        sudo curl -L https://dl.k8s.io/release/v${kubectl_version}/bin/${target_os}/${target_arch}/kubectl -o /usr/bin/kubectl && \
+        curl -L https://get.helm.sh/helm-v${helm_version}-${target_os}-${target_arch}.tar.gz -o - | 
+        tar -xzO ${target_os}-${target_arch}/helm > helm-temp && \
+        sudo mv helm-temp /usr/bin/helm
+        sudo chmod +x /usr/bin/helm /usr/bin/kubectl && \
+        helm repo add "stable" "https://charts.helm.sh/stable" --force-update && \
+        kubectl version --client && \
+        helm version && \
+        mkdir ~/.kube && \
+        touch ~/.kube/config && \
+        echo "${{ inputs.kube-config-data }}" | base64 -d > ~/.kube/config

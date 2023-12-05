@@ -28,12 +28,14 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
-      - name: Validate helm chart
-        uses: wahyd4/kubectl-helm-action@master
-        env:
-          KUBE_CONFIG_DATA: ${{ secrets.KUBECTL_CONFIG }}
+      - name: Setup helm
+        uses: ./.github/actions/setup-helm
         with:
-          args: helm lint helm
+          kube-config-data: ${{ secrets.KUBECTL_CONFIG }}
+
+      - name: Validate helm chart
+        shell: bash
+        run: helm lint helm
 
   tests:
     runs-on: ubuntu-latest
@@ -119,9 +121,22 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
-      - name: Deploy to k8s
-        uses: wahyd4/kubectl-helm-action@master
-        env:
-          KUBE_CONFIG_DATA: ${{ secrets.KUBECTL_CONFIG }}
+      - name: Setup helm
+        uses: ./.github/actions/setup-helm
         with:
-          args: helm upgrade --install --set image.tag=${{ needs.docker.outputs.image-tag }} ${{ env.PROJECT }} helm
+          kube-config-data: ${{ secrets.KUBECTL_CONFIG }}
+
+      - name: Setup cloudflared
+        uses: debugci/setup-cloudflared@v1
+        with:
+          cloudflared-version: 2023.10.0
+
+      - name: Create a tcp connection
+        shell: bash
+        run: nohup cloudflared access tcp --hostname ${{ secrets.K8S_HOST }} --url 127.0.0.1:1234 &
+
+      - name: Deploy to k8s
+        shell: bash
+        env:
+          HTTPS_PROXY: "socks5://127.0.0.1:1234"
+        run: helm upgrade --install --set image.tag=${{ needs.docker.outputs.image-tag }} ${{ env.PROJECT }} helm
