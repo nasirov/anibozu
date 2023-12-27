@@ -7,7 +7,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import nasirov.yv.ab.dto.fe.ProcessResult;
 import nasirov.yv.ab.exception.MalException;
-import nasirov.yv.starter.common.service.MalAccessRestorerAsyncI;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -26,16 +25,11 @@ public class ExceptionHandlers {
 
 	private static final ProcessResult FALLBACK = new ProcessResult(GENERIC_ERROR_MESSAGE);
 
-	private final MalAccessRestorerAsyncI malAccessRestorerAsync;
-
 	@ResponseStatus(HttpStatus.OK)
 	@ExceptionHandler(MalException.class)
 	public Mono<ProcessResult> handleMalException(MalException e) {
 		String errorMessage = e.getMessage();
 		log.error("{}", errorMessage);
-		if (e.getHttpStatus() == HttpStatus.FORBIDDEN) {
-			malAccessRestorerAsync.restoreMalAccessAsync();
-		}
 		return Mono.just(new ProcessResult(errorMessage));
 	}
 

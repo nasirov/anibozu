@@ -2,8 +2,6 @@ starter-common:
   github:
     token: foobar
     url: http://localhost:${wiremock.server.port}/
-  external-services:
-    mal-access-service-url: http://localhost:${wiremock.server.port}/
 
 starter-reactive-services:
   web-client:

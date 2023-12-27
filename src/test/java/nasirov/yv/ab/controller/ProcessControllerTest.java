@@ -1,9 +1,6 @@
 package nasirov.yv.ab.controller;
 
-import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.doThrow;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import java.util.Arrays;
@@ -85,12 +82,17 @@ class ProcessControllerTest extends AbstractTest {
 
 	@Test
 	void shouldReturnMalRestrictedAccessError403() {
-		testWithMalAccessRestorer(HttpStatus.FORBIDDEN);
+		testWithRestrictedMalAccess(HttpStatus.FORBIDDEN);
 	}
 
 	@Test
 	void shouldReturnMalRestrictedAccessError429() {
-		testWithMalAccessRestorer(HttpStatus.TOO_MANY_REQUESTS);
+		testWithRestrictedMalAccess(HttpStatus.TOO_MANY_REQUESTS);
+	}
+
+	@Test
+	void shouldReturnMalRestrictedAccessError405() {
+		testWithRestrictedMalAccess(HttpStatus.METHOD_NOT_ALLOWED);
 	}
 
 	@Test
@@ -162,15 +164,13 @@ class ProcessControllerTest extends AbstractTest {
 		stubHttpRequest(ANIME_LIST_URL, "mal/not_expected_response.json", httpStatus);
 	}
 
-	private void testWithMalAccessRestorer(HttpStatus httpStatus) {
+	private void testWithRestrictedMalAccess(HttpStatus httpStatus) {
 		//given
 		stubAnimeListError(httpStatus);
-		doNothing().when(malAccessRestorerAsync).restoreMalAccessAsync();
 		//when
 		ResponseSpec result = call(MAL_USERNAME);
 		//then
 		checkResponse(result, HttpStatus.OK, MAL_RESTRICTED_ACCESS_ERROR_MESSAGE);
-		verify(malAccessRestorerAsync, times(1)).restoreMalAccessAsync();
 	}
 
 	private ResponseSpec call(String username) {

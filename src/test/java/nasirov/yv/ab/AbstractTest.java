@@ -17,7 +17,6 @@ import nasirov.yv.ab.service.ProcessServiceI;
 import nasirov.yv.starter.common.constant.FandubSource;
 import nasirov.yv.starter.common.dto.fandub.common.CompiledAnimeResource;
 import nasirov.yv.starter.common.service.CompiledAnimeResourcesServiceI;
-import nasirov.yv.starter.common.service.MalAccessRestorerAsyncI;
 import nasirov.yv.starter.common.service.WrappedObjectMapperI;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -56,9 +55,6 @@ public abstract class AbstractTest {
 
 	@SpyBean
 	protected MalAnimeServiceI malAnimeService;
-
-	@SpyBean
-	protected MalAccessRestorerAsyncI malAccessRestorerAsync;
 
 	@Autowired
 	protected ApplicationContext applicationContext;
