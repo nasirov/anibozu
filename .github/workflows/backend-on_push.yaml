@@ -128,9 +128,15 @@ jobs:
           kube-config-data: ${{ secrets.KUBECTL_CONFIG }}
 
       - name: Setup cloudflared
-        uses: debugci/setup-cloudflared@v1
-        with:
-          cloudflared-version: 2023.10.0
+        shell: bash
+        run: |
+          version="2023.10.0"
+          target_os="linux"
+          target_arch="amd64"
+          
+          sudo curl -L https://github.com/cloudflare/cloudflared/releases/download/${version}/cloudflared-${target_os}-${target_arch} -o /usr/bin/cloudflared && \
+          sudo chmod +x /usr/bin/cloudflared && \
+          cloudflared -v
 
       - name: Create a tcp connection
         shell: bash
