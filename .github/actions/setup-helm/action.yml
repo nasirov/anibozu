@@ -7,11 +7,11 @@ inputs:
   kubectl-version:
     description: "kubectl version"
     required: false
-    default: "1.28.4"
+    default: "1.29.1"
   helm-version:
     description: "helm version"
     required: false
-    default: "3.13.2"
+    default: "3.14.0"
   target-os:
     description: "target os"
     required: false
