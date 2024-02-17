@@ -17,7 +17,7 @@
 
 | Site                                       |                                         Link                                          | Direct links to episodes | Language  |
 |:-------------------------------------------|:-------------------------------------------------------------------------------------:|:------------------------:|:---------:|
-| AniDUB                                     |             [![aniDub](/images/favicons/aniDub.png)](https://anidub.com/)             |    :heavy_minus_sign:    |   :ru:    |
+| AniDUB                                     |             [![aniDub](/images/favicons/aniDub.png)](https://anidub.pro/)             |    :heavy_minus_sign:    |   :ru:    |
 | AniLibria                                  |       [![aniLibria](/images/favicons/aniLibria.png)](https://www.anilibria.tv/)       |    :heavy_minus_sign:    |   :ru:    |
 | AniWave                                    |            [![aniWave](/images/favicons/aniWave.png)](https://aniwave.to/)            |    :heavy_plus_sign:     | :uk: :jp: |
 | Dream Cast                                 |       [![dreamCast](/images/favicons/dreamCast.png)](https://dreamerscast.com/)       |    :heavy_minus_sign:    |   :ru:    |
