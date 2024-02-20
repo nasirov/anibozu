@@ -120,16 +120,8 @@ public abstract class AbstractTest {
 		return appProps.getCacheProps().getGithubCacheKey();
 	}
 
-	protected <T> T unmarshal(String content, TypeReference<T> type) {
-		return wrappedObjectMapper.unmarshal(content, type);
-	}
-
 	protected <T> T unmarshal(String directory, String file, TypeReference<T> type) {
-		return unmarshal(readTestResource(directory, file), type);
-	}
-
-	protected String readTestResource(String directory, String file) {
-		return wrappedObjectMapper.readFromFile("classpath:__files/" + directory + "/" + file);
+		return wrappedObjectMapper.unmarshalFromFile("classpath:__files/" + directory + "/" + file, type);
 	}
 
 	private void clearCaches() {
