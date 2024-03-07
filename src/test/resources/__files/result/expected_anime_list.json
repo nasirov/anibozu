@@ -7,9 +7,9 @@
     "malUrl": "/anime/111/Anime_Name_111",
     "fandubInfoList": [
       {
-        "fandubSource": "ANI_DUB",
-        "fandubSourceCanonicalName": "AniDUB",
-        "episodeUrl": "https://anidub.com/anidub-url-100/1",
+        "fandubSource": "DREAM_CAST",
+        "fandubSourceCanonicalName": "Dream Cast",
+        "episodeUrl": "https://dreamerscast.com/dreamcast-url-100/1",
         "episodeName": "1 Серия для 111",
         "types": [
           "dub"
@@ -53,9 +53,9 @@
     "malUrl": "/anime/222/Anime_Name_222",
     "fandubInfoList": [
       {
-        "fandubSource": "ANI_DUB",
-        "fandubSourceCanonicalName": "AniDUB",
-        "episodeUrl": "https://anidub.com/anidub-url-200/1",
+        "fandubSource": "DREAM_CAST",
+        "fandubSourceCanonicalName": "Dream Cast",
+        "episodeUrl": "https://dreamerscast.com/dreamcast-url-200/1",
         "episodeName": "1 Серия для 222",
         "types": []
       },
@@ -89,9 +89,9 @@
     "malUrl": "/anime/333/Anime_Name_333",
     "fandubInfoList": [
       {
-        "fandubSource": "ANI_DUB",
-        "fandubSourceCanonicalName": "AniDUB",
-        "episodeUrl": "https://anidub.com/anidub-url-200/2",
+        "fandubSource": "DREAM_CAST",
+        "fandubSourceCanonicalName": "Dream Cast",
+        "episodeUrl": "https://dreamerscast.com/dreamcast-url-200/2",
         "episodeName": "1 Серия для 333",
         "types": [
           "sub"

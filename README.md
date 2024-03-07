@@ -17,13 +17,10 @@
 
 | Site                                       |                                         Link                                          | Direct links to episodes | Language  |
 |:-------------------------------------------|:-------------------------------------------------------------------------------------:|:------------------------:|:---------:|
-| AniDUB                                     |             [![aniDub](/images/favicons/aniDub.png)](https://anidub.pro/)             |    :heavy_minus_sign:    |   :ru:    |
 | AniLibria                                  |       [![aniLibria](/images/favicons/aniLibria.png)](https://www.anilibria.tv/)       |    :heavy_minus_sign:    |   :ru:    |
 | AniWave                                    |            [![aniWave](/images/favicons/aniWave.png)](https://aniwave.to/)            |    :heavy_plus_sign:     | :uk: :jp: |
 | Dream Cast                                 |       [![dreamCast](/images/favicons/dreamCast.png)](https://dreamerscast.com/)       |    :heavy_minus_sign:    |   :ru:    |
 | MAL-To-Kodik                               |           [:link:](https://github.com/mal-to-kodik/mal-to-kodik.github.io)            |    :heavy_plus_sign:     |   :ru:    |
-| SHIZA Project                              |   [![shizaProject](/images/favicons/shizaProject.png)](https://shiza-project.com/)    |    :heavy_minus_sign:    |   :ru:    |
-| SovetRomantica                             | [![sovetRomantica](/images/favicons/sovetRomantica.png)](https://sovetromantica.com/) |    :heavy_plus_sign:     |   :ru:    |
 
 ### Limitations
 

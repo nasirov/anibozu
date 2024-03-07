@@ -23,13 +23,10 @@ application:
     offset-step: 300
     url: https://myanimelist.net
   enabled-fandub-sources:
-    - ANI_DUB
     - ANI_LIBRIA
     - DREAM_CAST
     - KODIK
     - ANI_WAVE
-    - SHIZA_PROJECT
-    - SOVET_ROMANTICA
 
 server:
   port: 8080

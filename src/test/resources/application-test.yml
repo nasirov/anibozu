@@ -17,9 +17,9 @@ application:
     offset-step: 3
     url: http://localhost:${wiremock.server.port}
   enabled-fandub-sources:
-    - ANI_DUB
     - ANI_LIBRIA
     - ANI_WAVE
+    - DREAM_CAST
 
 logging:
   level:

@@ -11,7 +11,7 @@
           "dub": true,
           "sub": false,
           "softSub": false,
-          "path": "https://anidub.com/anidub-url-100/1"
+          "path": "https://dreamerscast.com/dreamcast-url-100/1"
         }
       ]
     },
@@ -26,7 +26,7 @@
           "dub": false,
           "sub": false,
           "softSub": false,
-          "path": "https://anidub.com/anidub-url-200/1"
+          "path": "https://dreamerscast.com/dreamcast-url-200/1"
         }
       ]
     },
@@ -41,7 +41,7 @@
           "dub": false,
           "sub": true,
           "softSub": false,
-          "path": "https://anidub.com/anidub-url-200/2"
+          "path": "https://dreamerscast.com/dreamcast-url-200/2"
         }
       ]
     }
