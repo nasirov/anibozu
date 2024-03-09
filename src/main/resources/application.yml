@@ -21,6 +21,7 @@ application:
     github-cache-key: fandub-anime
   mal-props:
     offset-step: 300
+    limit: 50
     url: https://myanimelist.net
   enabled-fandub-sources:
     - ANI_LIBRIA

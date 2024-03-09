@@ -15,14 +15,27 @@
 
 ### Supported Fandub sites
 
-| Site                                       |                                         Link                                          | Direct links to episodes | Language  |
-|:-------------------------------------------|:-------------------------------------------------------------------------------------:|:------------------------:|:---------:|
-| AniLibria                                  |       [![aniLibria](/images/favicons/aniLibria.png)](https://www.anilibria.tv/)       |    :heavy_minus_sign:    |   :ru:    |
-| AniWave                                    |            [![aniWave](/images/favicons/aniWave.png)](https://aniwave.to/)            |    :heavy_plus_sign:     | :uk: :jp: |
-| Dream Cast                                 |       [![dreamCast](/images/favicons/dreamCast.png)](https://dreamerscast.com/)       |    :heavy_minus_sign:    |   :ru:    |
-| MAL-To-Kodik                               |           [:link:](https://github.com/mal-to-kodik/mal-to-kodik.github.io)            |    :heavy_plus_sign:     |   :ru:    |
+| Site         | Type       |                                    Link                                     | Direct links to episodes | Languages |        Dub        |        Sub         |      Soft-Sub      |      Torrents      |
+|:-------------|:-----------|:---------------------------------------------------------------------------:|:------------------------:|:---------:|:-----------------:|:------------------:|:------------------:|:------------------:|
+| AniLibria    | Original   | [![ani_libria](/images/favicons/ani_libria.png)](https://www.anilibria.tv/) |    :heavy_minus_sign:    |   :ru:    | :heavy_plus_sign: | :heavy_plus_sign:  | :heavy_plus_sign:  | :heavy_plus_sign:  |
+| AniWave      | Aggregator |      [![ani_wave](/images/favicons/ani_wave.png)](https://aniwave.to/)      |    :heavy_plus_sign:     | :uk: :jp: | :heavy_plus_sign: | :heavy_plus_sign:  | :heavy_plus_sign:  | :heavy_minus_sign: |
+| Dream Cast   | Original   | [![dream_cast](/images/favicons/dream_cast.png)](https://dreamerscast.com/) |    :heavy_minus_sign:    |   :ru:    | :heavy_plus_sign: | :heavy_minus_sign: | :heavy_minus_sign: | :heavy_minus_sign: |
+| MAL-To-Kodik | Aggregator |      [:link:](https://github.com/mal-to-kodik/mal-to-kodik.github.io)       |    :heavy_plus_sign:     |   :ru:    | :heavy_plus_sign: | :heavy_plus_sign:  | :heavy_minus_sign: | :heavy_minus_sign: |
 
-### Limitations
+### Who would use it?
 
-- 300 MAL watching anime per user
-- Fandub to MAL anime mapping is not 100% accurate
+Folks that don't stick to one Fandub site and are lazy enough to check their anime for new episodes manually.
+
+<img alt="sw_obi_wan" src="https://raw.githubusercontent.com/nasirov/anibozu/main/images/extra/sw_obi_wan.gif">
+
+### How does it work?
+
+It's pretty simple. First, you submit a MAL username, then the service gets the user's watching anime list from MAL, builds and renders the
+anime list with available information, and that's it.
+
+### Notes
+
+- Works only for public anime lists
+- Handles at max 50 watching anime per user
+- Depends on MAL availability
+- Anime mapping is not 100% accurate and has a delay less than 24 hours

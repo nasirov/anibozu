@@ -3,7 +3,7 @@
     "name": "ANIME NAME 111",
     "nextEpisode": "1",
     "maxEpisodes": "12",
-    "posterUrl": "https://cdn.myanimelist.net/images/anime/111/123.jpg",
+    "posterUrl": "https://cdn.myanimelist.net/images/anime/111/1111.jpg",
     "malUrl": "/anime/111/Anime_Name_111",
     "fandubInfoList": [
       {
@@ -49,7 +49,7 @@
     "name": "ANIME NAME 222 '",
     "nextEpisode": "1",
     "maxEpisodes": "0",
-    "posterUrl": "https://cdn.myanimelist.net/images/anime/222/456.jpg",
+    "posterUrl": "https://cdn.myanimelist.net/images/anime/222/2222.jpg",
     "malUrl": "/anime/222/Anime_Name_222",
     "fandubInfoList": [
       {
@@ -85,13 +85,13 @@
     "name": "ANIME NAME 333",
     "nextEpisode": "1",
     "maxEpisodes": "12",
-    "posterUrl": "https://cdn.myanimelist.net/images/anime/333/789.jpg",
+    "posterUrl": "https://cdn.myanimelist.net/images/anime/333/3333.jpg",
     "malUrl": "/anime/333/Anime_Name_333",
     "fandubInfoList": [
       {
         "fandubSource": "DREAM_CAST",
         "fandubSourceCanonicalName": "Dream Cast",
-        "episodeUrl": "https://dreamerscast.com/dreamcast-url-200/2",
+        "episodeUrl": "https://dreamerscast.com/dreamcast-url-300/1",
         "episodeName": "1 Серия для 333",
         "types": [
           "sub"
@@ -100,7 +100,7 @@
       {
         "fandubSource": "ANI_WAVE",
         "fandubSourceCanonicalName": "AniWave",
-        "episodeUrl": "https://aniwave.to/aniwave-url-200/2",
+        "episodeUrl": "https://aniwave.to/aniwave-url-300/1",
         "episodeName": "1 for 333",
         "types": [
           "dub",
@@ -111,7 +111,7 @@
       {
         "fandubSource": "ANI_LIBRIA",
         "fandubSourceCanonicalName": "AniLibria",
-        "episodeUrl": "https://www.anilibria.tv/anilibria-url-200/2",
+        "episodeUrl": "https://www.anilibria.tv/anilibria-url-300/1",
         "episodeName": "Серия 1 для 333",
         "types": [
           "dub"
@@ -123,7 +123,7 @@
     "name": "ANIME NAME 444",
     "nextEpisode": "6",
     "maxEpisodes": "12",
-    "posterUrl": "https://cdn.myanimelist.net/images/anime/444/1011.jpg",
+    "posterUrl": "https://cdn.myanimelist.net/images/anime/444/4444.jpg",
     "malUrl": "/anime/444/Anime_Name_444",
     "fandubInfoList": []
   }

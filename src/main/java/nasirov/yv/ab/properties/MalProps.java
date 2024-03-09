@@ -15,4 +15,7 @@ public class MalProps {
 
 	@NotBlank
 	private String url;
+
+	@NotNull
+	private Integer limit;
 }

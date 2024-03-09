@@ -41,6 +41,7 @@ public class MalAnimeService implements MalAnimeServiceI {
 		return httpRequestService.performHttpRequest(buildAnimeListRequest(username))
 				.doOnNext(x -> validateMalResponse(x.getStatusCode(), username))
 				.mapNotNull(ResponseEntity::getBody)
+				.map(x -> x.stream().limit(appProps.getMalProps().getLimit()).toList())
 				.doOnSubscribe(x -> log.info("Get anime for [{}]", username))
 				.doOnSuccess(x -> log.info("Got [{}] anime for [{}]", x.size(), username));
 	}

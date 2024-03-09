@@ -15,6 +15,7 @@ application:
     cache-on-startup: false
   mal-props:
     offset-step: 3
+    limit: 5
     url: http://localhost:${wiremock.server.port}
   enabled-fandub-sources:
     - ANI_LIBRIA
