@@ -24,7 +24,7 @@
 
 ### Who would use it?
 
-Folks that don't stick to one Fandub site and are lazy enough to check their anime for new episodes manually.
+Folks that don't stick to one Fandub site and are lazy enough to check their anime for new episodes on the Fandub sites manually.
 
 <img alt="sw_obi_wan" src="https://raw.githubusercontent.com/nasirov/anibozu/main/images/extra/sw_obi_wan.gif">
 
