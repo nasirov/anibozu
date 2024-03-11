@@ -1,9 +1,11 @@
 apiVersion: v1
 kind: Service
 metadata:
-  {{- include "default_metadata" . | indent 2}}
+  {{- include "anibozu.metadata" . | indent 2 }}
+  labels:
+    {{- include "anibozu.labels" . | indent 4 }}
   annotations:
-
+    {{- include "anibozu.annotations" . | indent 4 }}
 spec:
   type: {{ .Values.service.type }}
   ports:
@@ -12,4 +14,4 @@ spec:
       protocol: TCP
       name: http
   selector:
-    {{- include "default_labels" . | indent 4 }}
+    {{- include "anibozu.labels" . | indent 4 }}

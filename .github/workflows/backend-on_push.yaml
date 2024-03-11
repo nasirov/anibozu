@@ -100,13 +100,11 @@ jobs:
           path: ~/.m2/repository
           key: ${{ hashFiles('**/pom.xml') }}
 
-
       - name: Build and Push image
         id: build-and-push-image
         env:
           CONTAINER_REGISTRY_USER: ${{ secrets.CONTAINER_REGISTRY_USER }}
           CONTAINER_REGISTRY_PASS: ${{ secrets.CONTAINER_REGISTRY_PASS }}
-          GITHUB_ACCESS_TOKEN: ${{ secrets.TOKEN }}
         run: |
           commit_hash=$(git rev-parse --short HEAD)
           image_architecture=$(mvn help:evaluate -Dexpression=image.architecture -q -DforceStdout)

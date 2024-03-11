@@ -29,3 +29,11 @@ ingress:
     secretName: certificate-nasirov-info
   paths:
     - /(process/[\w-]{2,16}$)
+vault:
+  enabled: true
+  secrets:
+    - name: third-party-data-github
+      path: third-party/data/github
+      variables:
+        - name: token
+          bindTo: GITHUB_ACCESS_TOKEN

@@ -27,4 +27,4 @@ jobs:
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           projectName: ${{ secrets.CLOUDFLARE_PROJECT_NAME }}
           directory: 'frontend'
-          gitHubToken: ${{ secrets.TOKEN }}
+          gitHubToken: ${{ secrets.GITHUB_TOKEN }}

@@ -2,14 +2,18 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  {{- include "default_metadata" . | indent 2 }}
+  {{- include "anibozu.metadata" . | indent 2 }}
+  labels:
+    {{- include "anibozu.labels" . | indent 4 }}
+  annotations:
+    {{- include "anibozu.annotations" . | indent 4 }}
 spec:
   revisionHistoryLimit: 1
   progressDeadlineSeconds: {{ .Values.docker.progressDeadlineSeconds }}
   replicas: {{ $replicaCount }}
   selector:
     matchLabels:
-      {{- include "default_labels" . | indent 6 }}
+      {{- include "anibozu.labels" . | indent 6 }}
   strategy:
     rollingUpdate:
       {{- if gt $replicaCount 1 }}
@@ -22,26 +26,24 @@ spec:
     type: RollingUpdate
   template:
     metadata:
+      labels:
+        {{- include "anibozu.labels" . | indent 8 }}
       annotations:
-      {{- range $key, $value := .Values.annotations }}
-        {{ $key }}: {{ $value | quote }}
-      {{- end }}
-      {{- include "extended_labels" . | indent 6 }}
+        {{- include "anibozu.annotations" . | indent 8 }}
+        {{- include "vault.injector.annotations" . | indent 8 }}
     spec:
+      {{- include "vault.injector.service-account" . | indent 6 }}
       containers:
-        - name: {{ template "chart.name" . }}
+        - name: {{ .Chart.Name }}
           image: {{ .Values.image.registry }}/{{ .Values.image.name }}:{{ .Values.image.tag }}
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           ports:
             - name: http
               containerPort: {{ .Values.docker.containerPort }}
               protocol: TCP
-
           {{- if .Values.resources }}
-          resources:
-{{ toYaml .Values.resources | indent 12 }}
+          resources: {{ toYaml .Values.resources | nindent 12 }}
           {{- end }}
-
           readinessProbe:
             httpGet:
               path: /actuator/health/readiness
@@ -69,7 +71,6 @@ spec:
             successThreshold: 1
             periodSeconds: 4
             initialDelaySeconds: 45
-
       {{- if .Values.docker.pullSecretName }}
       imagePullSecrets:
         - name: {{ .Values.docker.pullSecretName }}

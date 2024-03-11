@@ -62,13 +62,6 @@
       <plugin>
         <groupId>com.google.cloud.tools</groupId>
         <artifactId>jib-maven-plugin</artifactId>
-        <configuration>
-          <container>
-            <environment>
-              <GITHUB_ACCESS_TOKEN>${env.GITHUB_ACCESS_TOKEN}</GITHUB_ACCESS_TOKEN>
-            </environment>
-          </container>
-        </configuration>
       </plugin>
 
       <plugin>
