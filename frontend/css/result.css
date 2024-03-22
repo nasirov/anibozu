@@ -57,13 +57,23 @@
     "a-fandub_slider";
   align-items: center;
   position: relative;
-  border: var(--main-border);
+  box-shadow: var(--main-box-shadow);
   border-radius: var(--anime-item-border-radius);
 }
 
 .anime-item * {
   background-color: unset;
   border-radius: inherit;
+}
+
+.anime-item:not(:has(.anime-item__fandub_slider)) {
+  box-shadow: unset;
+}
+
+.anime-item:not(:has(.anime-item__fandub_slider)) > .anime-item__mal_poster {
+  box-shadow: var(--main-box-shadow);
+  border-radius: inherit;
+  filter: grayscale(1);
 }
 
 .anime-item__mal_episode {
