@@ -21,7 +21,7 @@ import reactor.core.publisher.Mono;
 @RequiredArgsConstructor
 public class ProcessController {
 
-	public static final String USERNAME_VALIDATION_MESSAGE =
+	private static final String USERNAME_VALIDATION_MESSAGE =
 			"Please enter a valid mal username between 2 and 16 characters(latin letters, numbers, underscores and dashes only)";
 
 	private final ProcessServiceI processService;

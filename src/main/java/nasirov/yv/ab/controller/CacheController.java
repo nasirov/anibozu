@@ -15,7 +15,7 @@ import reactor.core.publisher.Mono;
 @RequiredArgsConstructor
 public class CacheController {
 
-	public static final String INFO_MESSAGE = "github cache has been refreshed.";
+	private static final String CACHE_REFRESHED_MESSAGE = "github cache has been refreshed.";
 
 	private final CacheServiceI cacheService;
 
@@ -24,7 +24,7 @@ public class CacheController {
 		log.info("Trying to refresh github cache...");
 		return cacheService.evictGithubCache()
 				.then(cacheService.fillGithubCache())
-				.then(Mono.just(INFO_MESSAGE))
-				.doOnSuccess(x -> log.info(INFO_MESSAGE));
+				.then(Mono.just(CACHE_REFRESHED_MESSAGE))
+				.doOnSuccess(x -> log.info(CACHE_REFRESHED_MESSAGE));
 	}
 }

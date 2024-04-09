@@ -14,6 +14,8 @@ import org.springframework.test.web.reactive.server.WebTestClient.ResponseSpec;
  */
 class CacheControllerTest extends AbstractTest {
 
+	private static final String CACHE_REFRESHED_MESSAGE = "github cache has been refreshed.";
+
 	@Test
 	void shouldRefreshEmptyGithubCache() {
 		//given
@@ -23,7 +25,7 @@ class CacheControllerTest extends AbstractTest {
 		//when
 		ResponseSpec result = call();
 		//then
-		result.expectStatus().isEqualTo(HttpStatus.OK.value()).expectBody(String.class).isEqualTo(CacheController.INFO_MESSAGE);
+		result.expectStatus().isEqualTo(HttpStatus.OK.value()).expectBody(String.class).isEqualTo(CACHE_REFRESHED_MESSAGE);
 		checkGithubCacheIsFilled();
 	}
 
@@ -34,7 +36,7 @@ class CacheControllerTest extends AbstractTest {
 		//when
 		ResponseSpec result = call();
 		//then
-		result.expectStatus().isEqualTo(HttpStatus.OK.value()).expectBody(String.class).isEqualTo(CacheController.INFO_MESSAGE);
+		result.expectStatus().isEqualTo(HttpStatus.OK.value()).expectBody(String.class).isEqualTo(CACHE_REFRESHED_MESSAGE);
 		checkGithubCacheIsFilled();
 	}
 

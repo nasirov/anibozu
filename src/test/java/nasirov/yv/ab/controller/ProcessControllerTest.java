@@ -37,6 +37,9 @@ class ProcessControllerTest extends AbstractTest {
 
 	private static final String EMPTY_ANIME_LIST_ERROR_MESSAGE = "Not found actual watching anime! Please, try again later.";
 
+	private static final String USERNAME_VALIDATION_MESSAGE =
+			"Please enter a valid mal username between 2 and 16 characters(latin letters, numbers, " + "underscores and dashes only)";
+
 	@Test
 	void shouldReturnProcessResultCacheIsEmpty() {
 		//given
@@ -143,7 +146,7 @@ class ProcessControllerTest extends AbstractTest {
 		//when
 		List<ResponseSpec> result = Arrays.stream(invalidUsernameArray).map(this::call).toList();
 		//then
-		result.forEach(x -> checkResponse(x, HttpStatus.BAD_REQUEST, ProcessController.USERNAME_VALIDATION_MESSAGE));
+		result.forEach(x -> checkResponse(x, HttpStatus.BAD_REQUEST, USERNAME_VALIDATION_MESSAGE));
 	}
 
 	@Test
