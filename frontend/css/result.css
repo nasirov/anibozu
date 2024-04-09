@@ -152,6 +152,10 @@
   display: block;
 }
 
+.anime-item__fandub_episode--active:empty {
+  display: none;
+}
+
 .anime-item__fandub_slider {
   grid-area: a-fandub_slider;
   display: flex;
