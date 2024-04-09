@@ -218,3 +218,18 @@
   justify-content: center;
   align-items: center;
 }
+
+.anime-item__fandub_types--active,
+.anime-item__fandub_episode--active,
+.anime-item__fandub_link_holder__link--active {
+  animation: fade-in 500ms forwards;
+}
+
+@keyframes fade-in {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
