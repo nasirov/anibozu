@@ -20,7 +20,7 @@ resources:
 ingress:
   annotations:
     kubernetes.io/ingress.class: nginx
-    nginx.ingress.kubernetes.io/rewrite-target: "/$1"
+    nginx.ingress.kubernetes.io/use-regex: true
   hosts:
     - anibozu-backend.nasirov.info
   tls:
@@ -28,7 +28,7 @@ ingress:
       - anibozu-backend.nasirov.info
     secretName: certificate-nasirov-info
   paths:
-    - /(user/[\w-]{2,16}/anime-list$)
+    - /user/[\w-]{2,16}/anime-list$
 vault:
   enabled: true
   secrets:
