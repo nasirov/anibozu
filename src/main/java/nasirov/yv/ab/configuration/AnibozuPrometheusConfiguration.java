@@ -12,6 +12,6 @@ public class AnibozuPrometheusConfiguration {
 
 	@Bean
 	public NettyServerCustomizer nettyServerCustomizer() {
-		return httpServer -> httpServer.metrics(true, x -> x.replaceAll("/process/.+", "/process/{username}"));
+		return httpServer -> httpServer.metrics(true, x -> x.replaceAll("/user/.+/anime-list", "/user/{username}/anime-list"));
 	}
 }

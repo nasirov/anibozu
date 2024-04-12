@@ -39,24 +39,19 @@ public class FandubDataService implements FandubDataServiceI {
 
 	public Mono<FandubData> getFandubData() {
 		CacheProps cacheProps = appProps.getCacheProps();
-		String githubCacheName = cacheProps.getGithubCacheName();
-		Optional<Cache> cacheOpt = Optional.ofNullable(cacheManager.getCache(githubCacheName));
+		Optional<Cache> cacheOpt = Optional.ofNullable(cacheManager.getCache(cacheProps.getGithubCacheName()));
 		String githubCacheKey = cacheProps.getGithubCacheKey();
 		Optional<FandubData> cachedFandubData = cacheOpt.map(x -> x.get(githubCacheKey, FandubData.class));
 		return Mono.justOrEmpty(cachedFandubData)
-				.switchIfEmpty(buildAndCacheFandubData(cacheOpt, githubCacheKey))
+				.switchIfEmpty(buildFandubData().doOnSuccess(x -> cacheFandubData(cacheOpt, githubCacheKey, x)))
 				.doOnSubscribe(x -> log.debug("Trying to get fandub data..."));
 	}
 
-	private Mono<FandubData> buildAndCacheFandubData(Optional<Cache> cacheOpt, String githubCacheKey) {
+	private Mono<FandubData> buildFandubData() {
 		return Flux.fromIterable(appProps.getEnabledFandubSources())
 				.flatMap(this::getCompiledAnimeResourcePairs)
 				.collectList()
-				.map(this::buildFandubData)
-				.doOnSuccess(x -> cacheOpt.ifPresent(cache -> {
-					cache.put(githubCacheKey, x);
-					log.info("Cached.");
-				}));
+				.map(x -> new FandubData(x.stream().flatMap(List::stream).collect(Collectors.toMap(Entry::getKey, Entry::getValue))));
 	}
 
 	private Mono<List<Pair<FandubKey, Map<Integer, List<FandubEpisode>>>>> getCompiledAnimeResourcePairs(FandubSource fandubSource) {
@@ -68,7 +63,10 @@ public class FandubDataService implements FandubDataServiceI {
 		return compiledAnimeResource.getResource().entrySet().stream().map(x -> Pair.of(new FandubKey(fandubSource, x.getKey()), x.getValue())).toList();
 	}
 
-	private FandubData buildFandubData(List<List<Pair<FandubKey, Map<Integer, List<FandubEpisode>>>>> lists) {
-		return new FandubData(lists.stream().flatMap(List::stream).collect(Collectors.toMap(Entry::getKey, Entry::getValue)));
+	private void cacheFandubData(Optional<Cache> cacheOpt, String githubCacheKey, FandubData fandubData) {
+		cacheOpt.ifPresent(cache -> {
+			cache.put(githubCacheKey, fandubData);
+			log.info("Cached.");
+		});
 	}
 }

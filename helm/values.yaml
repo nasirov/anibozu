@@ -28,7 +28,7 @@ ingress:
       - anibozu-backend.nasirov.info
     secretName: certificate-nasirov-info
   paths:
-    - /(process/[\w-]{2,16}$)
+    - /(user/[\w-]{2,16}/anime-list$)
 vault:
   enabled: true
   secrets:

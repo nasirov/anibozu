@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
  */
 @Data
 @NoArgsConstructor
-public class ProcessResult {
+public class AnimeListResponse {
 
 	@NotNull
 	private List<Anime> animeList = new ArrayList<>();
@@ -19,11 +19,11 @@ public class ProcessResult {
 	@NotNull
 	private String errorMessage = "";
 
-	public ProcessResult(String errorMessage) {
+	public AnimeListResponse(String errorMessage) {
 		this.errorMessage = errorMessage;
 	}
 
-	public ProcessResult(List<Anime> animeList) {
+	public AnimeListResponse(List<Anime> animeList) {
 		this.animeList = animeList;
 	}
 }

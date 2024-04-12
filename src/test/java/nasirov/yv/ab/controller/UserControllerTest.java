@@ -11,7 +11,7 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 import nasirov.yv.ab.AbstractTest;
 import nasirov.yv.ab.dto.fe.Anime;
-import nasirov.yv.ab.dto.fe.ProcessResult;
+import nasirov.yv.ab.dto.fe.AnimeListResponse;
 import nasirov.yv.starter.common.dto.mal.WatchingStatus;
 import org.apache.commons.lang3.StringUtils;
 import org.hamcrest.CustomTypeSafeMatcher;
@@ -24,7 +24,7 @@ import org.springframework.test.web.reactive.server.WebTestClient.ResponseSpec;
 /**
  * @author Nasirov Yuriy
  */
-class ProcessControllerTest extends AbstractTest {
+class UserControllerTest extends AbstractTest {
 
 	private static final String MAL_USERNAME = "foobarbaz";
 
@@ -41,7 +41,7 @@ class ProcessControllerTest extends AbstractTest {
 			"Please enter a valid mal username between 2 and 16 characters(latin letters, numbers, " + "underscores and dashes only)";
 
 	@Test
-	void shouldReturnProcessResultCacheIsEmpty() {
+	void shouldReturnResultCacheIsEmpty() {
 		//given
 		mockCompiledAnimeResourcesService();
 		stubAnimeListOk();
@@ -53,7 +53,7 @@ class ProcessControllerTest extends AbstractTest {
 	}
 
 	@Test
-	void shouldReturnProcessResultGithubCacheIsFilled() {
+	void shouldReturnResultGithubCacheIsFilled() {
 		//given
 		fillGithubCache();
 		stubAnimeListOk();
@@ -64,9 +64,9 @@ class ProcessControllerTest extends AbstractTest {
 	}
 
 	@Test
-	void shouldReturnErrorMalAnimeServiceException() {
+	void shouldReturnErrorMalServiceException() {
 		//given
-		doThrow(new RuntimeException("MalAnimeService cause")).when(malAnimeService).getAnimeList(MAL_USERNAME);
+		doThrow(new RuntimeException("MalService cause")).when(malService).getAnimeList(MAL_USERNAME);
 		//when
 		ResponseSpec result = call(MAL_USERNAME);
 		//then
@@ -129,10 +129,10 @@ class ProcessControllerTest extends AbstractTest {
 	}
 
 	@Test
-	void shouldReturnErrorFandubAnimeServiceException() {
+	void shouldReturnErrorFandubDataServiceException() {
 		//given
 		stubAnimeListOk();
-		doThrow(new RuntimeException("FandubAnimeService cause")).when(fandubDataService).getFandubData();
+		doThrow(new RuntimeException("FandubDataService cause")).when(fandubDataService).getFandubData();
 		//when
 		ResponseSpec result = call(MAL_USERNAME);
 		//then
@@ -152,7 +152,7 @@ class ProcessControllerTest extends AbstractTest {
 	@Test
 	void shouldReturn500Error() {
 		//given
-		doThrow(new RuntimeException("ProcessService cause")).when(processService).process(MAL_USERNAME);
+		doThrow(new RuntimeException("UserService cause")).when(userService).getAnimeList(MAL_USERNAME);
 		//when
 		ResponseSpec result = call(MAL_USERNAME);
 		//then
@@ -177,17 +177,15 @@ class ProcessControllerTest extends AbstractTest {
 	}
 
 	private ResponseSpec call(String username) {
-		RequestHeadersSpec<?> spec = webTestClient.get().uri(x -> x.pathSegment("process").pathSegment(username).build());
+		RequestHeadersSpec<?> spec = webTestClient.get().uri(x -> x.pathSegment("user").pathSegment(username).pathSegment("anime-list").build());
 		return spec.exchange();
 	}
 
 	private void checkResponse(ResponseSpec result) {
-		result.expectStatus()
-				.isEqualTo(HttpStatus.OK)
-				.expectBody(new ParameterizedTypeReference<ProcessResult>() {})
+		result.expectStatus().isEqualTo(HttpStatus.OK).expectBody(new ParameterizedTypeReference<AnimeListResponse>() {})
 				.value(new CustomTypeSafeMatcher<>("unordered fields should be equal") {
 					@Override
-					protected boolean matchesSafely(ProcessResult actual) {
+					protected boolean matchesSafely(AnimeListResponse actual) {
 						List<Anime> expectedAnimeList = getExpectedAnimeList();
 						List<Anime> actualAnimeList = actual.getAnimeList();
 						Map<String, Anime> animeMappedByName = actualAnimeList.stream().collect(Collectors.toMap(Anime::getName, Function.identity()));
@@ -206,8 +204,8 @@ class ProcessControllerTest extends AbstractTest {
 	private void checkResponse(ResponseSpec result, HttpStatus expectedHttpStatus, String expectedErrorMessage) {
 		result.expectStatus()
 				.isEqualTo(expectedHttpStatus)
-				.expectBody(new ParameterizedTypeReference<ProcessResult>() {})
-				.isEqualTo(new ProcessResult(expectedErrorMessage));
+				.expectBody(new ParameterizedTypeReference<AnimeListResponse>() {})
+				.isEqualTo(new AnimeListResponse(expectedErrorMessage));
 	}
 
 	private List<Anime> getExpectedAnimeList() {

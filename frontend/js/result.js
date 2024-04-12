@@ -8,11 +8,11 @@ const GENERIC_ERROR_MESSAGE = 'Sorry, something went wrong. Please try again lat
 
 async function getAndRenderAnimeItems(username) {
 	try {
-		const response = await fetch('https://anibozu-backend.nasirov.info/process/' + username);
+		const response = await fetch(`https://anibozu-backend.nasirov.info/user/${username}/anime-list`);
 		document.querySelector('title').textContent = username;
 		if (response.ok) {
-			const processResult = await response.json();
-			const animeList = processResult.animeList;
+			const animeListResponse = await response.json();
+			const animeList = animeListResponse.animeList;
 			emptyMainContainer();
 			if (animeList.length > 0) {
 				getMainContainer().classList.toggle('anime-container');
@@ -59,7 +59,7 @@ async function getAndRenderAnimeItems(username) {
 					fitFandubName(animeItem);
 				}
 			} else {
-				renderErrorMessage(processResult.errorMessage);
+				renderErrorMessage(animeListResponse.errorMessage);
 			}
 		} else {
 			renderGenericErrorMessage();

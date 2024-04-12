@@ -6,7 +6,7 @@ import lombok.extern.slf4j.Slf4j;
 import nasirov.yv.ab.exception.MalException;
 import nasirov.yv.ab.exception.UnexpectedCallingException;
 import nasirov.yv.ab.properties.AppProps;
-import nasirov.yv.ab.service.MalAnimeServiceI;
+import nasirov.yv.ab.service.MalServiceI;
 import nasirov.yv.starter.common.dto.mal.MalAnime;
 import nasirov.yv.starter.common.dto.mal.WatchingStatus;
 import nasirov.yv.starter.reactive.services.dto.HttpRequestServiceDto;
@@ -24,7 +24,7 @@ import reactor.core.publisher.Mono;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class MalAnimeService implements MalAnimeServiceI {
+public class MalService implements MalServiceI {
 
 	private static final ResponseEntity<List<MalAnime>> ANIME_LIST_FALLBACK = ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(List.of());
 

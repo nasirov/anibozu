@@ -8,16 +8,16 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import nasirov.yv.ab.dto.fe.Anime;
 import nasirov.yv.ab.dto.fe.Anime.AnimeBuilder;
+import nasirov.yv.ab.dto.fe.AnimeListResponse;
 import nasirov.yv.ab.dto.fe.FandubInfo;
-import nasirov.yv.ab.dto.fe.ProcessResult;
 import nasirov.yv.ab.dto.internal.FandubData;
 import nasirov.yv.ab.dto.internal.FandubKey;
 import nasirov.yv.ab.properties.AppProps;
 import nasirov.yv.ab.service.FandubDataServiceI;
 import nasirov.yv.ab.service.MalAnimeFilterI;
 import nasirov.yv.ab.service.MalAnimeFormatterI;
-import nasirov.yv.ab.service.MalAnimeServiceI;
-import nasirov.yv.ab.service.ProcessServiceI;
+import nasirov.yv.ab.service.MalServiceI;
+import nasirov.yv.ab.service.UserServiceI;
 import nasirov.yv.starter.common.constant.FandubSource;
 import nasirov.yv.starter.common.dto.fandub.common.FandubEpisode;
 import nasirov.yv.starter.common.dto.mal.MalAnime;
@@ -31,13 +31,13 @@ import reactor.core.publisher.Mono;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class ProcessService implements ProcessServiceI {
+public class UserService implements UserServiceI {
 
 	private static final String EMPTY_ANIME_LIST_ERROR_MESSAGE = "Not found actual watching anime! Please, try again later.";
 
-	private static final ProcessResult EMPTY_ANIME_LIST_FALLBACK = new ProcessResult(EMPTY_ANIME_LIST_ERROR_MESSAGE);
+	private static final AnimeListResponse EMPTY_ANIME_LIST_FALLBACK = new AnimeListResponse(EMPTY_ANIME_LIST_ERROR_MESSAGE);
 
-	private final MalAnimeServiceI malAnimeService;
+	private final MalServiceI malService;
 
 	private final MalAnimeFilterI malAnimeFilter;
 
@@ -48,11 +48,10 @@ public class ProcessService implements ProcessServiceI {
 	private final AppProps appProps;
 
 	@Override
-	public Mono<ProcessResult> process(String username) {
-		log.info("Processing [{}]", username);
-		return malAnimeService.getAnimeList(username)
+	public Mono<AnimeListResponse> getAnimeList(String username) {
+		return malService.getAnimeList(username)
 				.map(this::processMalAnime)
-				.flatMap(x -> fandubDataService.getFandubData().map(m -> buildProcessResult(m, x)))
+				.flatMap(x -> fandubDataService.getFandubData().map(m -> buildResult(m, x)))
 				.doOnSuccess(x -> log.info("Done [{}]", username));
 	}
 
@@ -60,7 +59,7 @@ public class ProcessService implements ProcessServiceI {
 		return malAnime.stream().filter(malAnimeFilter::filter).map(malAnimeFormatter::format).toList();
 	}
 
-	private ProcessResult buildProcessResult(FandubData fandubData, List<MalAnime> malAnimeList) {
+	private AnimeListResponse buildResult(FandubData fandubData, List<MalAnime> malAnimeList) {
 		List<Anime> animeList = new ArrayList<>();
 		for (MalAnime malAnime : malAnimeList) {
 			Integer malId = malAnime.getId();
@@ -74,7 +73,7 @@ public class ProcessService implements ProcessServiceI {
 			enrichFandubInfoList(fandubData, malId, nextEpisode, animeBuilder);
 			animeList.add(animeBuilder.build());
 		}
-		return CollectionUtils.isNotEmpty(animeList) ? new ProcessResult(animeList) : EMPTY_ANIME_LIST_FALLBACK;
+		return CollectionUtils.isNotEmpty(animeList) ? new AnimeListResponse(animeList) : EMPTY_ANIME_LIST_FALLBACK;
 	}
 
 	private void enrichFandubInfoList(FandubData fandubData, Integer malId, Integer nextEpisode, AnimeBuilder animeBuilder) {

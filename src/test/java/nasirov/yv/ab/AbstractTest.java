@@ -12,8 +12,8 @@ import nasirov.yv.ab.dto.internal.FandubData;
 import nasirov.yv.ab.properties.AppProps;
 import nasirov.yv.ab.service.CacheServiceI;
 import nasirov.yv.ab.service.FandubDataServiceI;
-import nasirov.yv.ab.service.MalAnimeServiceI;
-import nasirov.yv.ab.service.ProcessServiceI;
+import nasirov.yv.ab.service.MalServiceI;
+import nasirov.yv.ab.service.UserServiceI;
 import nasirov.yv.starter.common.constant.FandubSource;
 import nasirov.yv.starter.common.dto.fandub.common.CompiledAnimeResource;
 import nasirov.yv.starter.common.service.CompiledAnimeResourcesServiceI;
@@ -45,7 +45,7 @@ public abstract class AbstractTest {
 	protected CompiledAnimeResourcesServiceI<Mono<CompiledAnimeResource>> compiledAnimeResourcesService;
 
 	@SpyBean
-	protected ProcessServiceI processService;
+	protected UserServiceI userService;
 
 	@SpyBean
 	protected CacheManager cacheManager;
@@ -54,7 +54,7 @@ public abstract class AbstractTest {
 	protected FandubDataServiceI fandubDataService;
 
 	@SpyBean
-	protected MalAnimeServiceI malAnimeService;
+	protected MalServiceI malService;
 
 	@Autowired
 	protected ApplicationContext applicationContext;

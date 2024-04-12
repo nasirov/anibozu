@@ -7,7 +7,7 @@ import reactor.core.publisher.Mono;
 /**
  * @author Nasirov Yuriy
  */
-public interface MalAnimeServiceI {
+public interface MalServiceI {
 
 	Mono<List<MalAnime>> getAnimeList(String username);
 }
