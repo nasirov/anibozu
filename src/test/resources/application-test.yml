@@ -1,26 +1,20 @@
-starter-common:
-  github:
-    token: foobar
-    url: http://localhost:${wiremock.server.port}/
+spring:
+  data:
+    redis:
+      host: localhost
 
 starter-reactive-services:
   web-client:
     max-attempts: 0
 
-starter-cache:
-  type: CAFFEINE
-
 application:
-  cache-props:
-    cache-on-startup: false
-  mal-props:
-    offset-step: 3
-    limit: 5
+  mal:
     url: http://localhost:${wiremock.server.port}
-  enabled-fandub-sources:
-    - ANI_LIBRIA
-    - ANI_WAVE
-    - DREAM_CAST
+    limit: 5
+  security:
+    admin:
+      username: foo
+      password: bar
 
 logging:
   level:

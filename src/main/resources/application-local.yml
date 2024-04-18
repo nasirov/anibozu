@@ -1,6 +1,3 @@
 starter-reactive-services:
   web-client:
     proxy-type: HTTP
-
-starter-cache:
-  type: CAFFEINE

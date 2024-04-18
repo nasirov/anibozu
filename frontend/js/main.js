@@ -2,7 +2,7 @@
    Author: Nasirov Yuriy
 */
 
-document.addEventListener('DOMContentLoaded', function () {
+document.addEventListener('DOMContentLoaded', () => {
 	setTheme();
 	configSwitchContainer();
 	configSwitchThemeCheckbox();
@@ -41,7 +41,7 @@ function getSwitchThemeCheckbox() {
 
 function configSwitchContainer() {
 	document.querySelector('#switch-container').addEventListener('keypress',
-			function (e) {
+			e => {
 				if (e.key === 'Enter') {
 					const switchThemeCheckbox = getSwitchThemeCheckbox();
 					switchThemeCheckbox.checked = !switchThemeCheckbox.checked;
@@ -53,7 +53,7 @@ function configSwitchContainer() {
 
 function configSwitchThemeCheckbox() {
 	getSwitchThemeCheckbox().addEventListener('change',
-			function (e) {
+			e => {
 				switchThemeOnEvent(e.target);
 			}
 	);

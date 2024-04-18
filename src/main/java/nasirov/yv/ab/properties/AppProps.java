@@ -1,12 +1,10 @@
 package nasirov.yv.ab.properties;
 
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
-import java.util.Comparator;
-import java.util.LinkedHashSet;
-import java.util.Set;
-import java.util.stream.Collectors;
+import java.util.List;
 import lombok.Data;
-import nasirov.yv.starter.common.constant.FandubSource;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.validation.annotation.Validated;
@@ -21,17 +19,38 @@ import org.springframework.validation.annotation.Validated;
 public class AppProps {
 
 	@NotNull
-	private CacheProps cacheProps;
+	private Mal mal;
 
 	@NotNull
-	private Set<FandubSource> enabledFandubSources;
+	private Security security;
 
-	@NotNull
-	private MalProps malProps;
+	@Data
+	public static class Mal {
 
-	public void setEnabledFandubSources(Set<FandubSource> enabledFandubSources) {
-		this.enabledFandubSources = enabledFandubSources.stream()
-				.sorted(Comparator.comparing(FandubSource::name))
-				.collect(Collectors.toCollection(LinkedHashSet::new));
+		@NotBlank
+		private String url;
+
+		@NotNull
+		private Integer limit;
+	}
+
+	@Data
+	public static class Security {
+
+		@NotNull
+		private Admin admin;
+
+		@Data
+		public static class Admin {
+
+			@NotBlank
+			private String username;
+
+			@NotBlank
+			private String password;
+
+			@NotEmpty
+			private List<String> roles;
+		}
 	}
 }

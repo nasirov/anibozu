@@ -1,0 +1,157 @@
+{
+  "111": {
+    "1": [
+      {
+        "fandubSource": "ANI_LIBRIA",
+        "fandubSourceCanonicalName": "AniLibria",
+        "episodeUrl": "https://www.anilibria.tv/anilibria-url-100/1",
+        "episodeName": "Серия 1 для 111",
+        "types": [
+          "dub"
+        ]
+      },
+      {
+        "fandubSource": "ANI_WAVE",
+        "fandubSourceCanonicalName": "AniWave",
+        "episodeName": "1 for 111",
+        "types": [
+          "dub"
+        ],
+        "episodeUrl": "https://aniwave.to/aniwave-url-100/1"
+      },
+      {
+        "fandubSource": "ANI_WAVE",
+        "fandubSourceCanonicalName": "AniWave",
+        "episodeName": "1 for 111",
+        "types": [
+          "sub",
+          "soft sub"
+        ],
+        "episodeUrl": "https://aniwave.to/aniwave-url-100/1"
+      },
+      {
+        "fandubSource": "DREAM_CAST",
+        "fandubSourceCanonicalName": "Dream Cast",
+        "episodeName": "1 Серия для 111",
+        "types": [
+          "dub"
+        ],
+        "episodeUrl": "https://dreamerscast.com/dreamcast-url-100/1"
+      }
+    ]
+  },
+  "222": {
+    "1": [
+      {
+        "fandubSource": "ANI_LIBRIA",
+        "fandubSourceCanonicalName": "AniLibria",
+        "episodeName": "Серия 1 для 222",
+        "types": [
+          "dub"
+        ],
+        "episodeUrl": "https://www.anilibria.tv/anilibria-url-200/1"
+      },
+      {
+        "fandubSource": "ANI_WAVE",
+        "fandubSourceCanonicalName": "AniWave",
+        "episodeName": "1 for 222",
+        "types": [
+          "dub",
+          "sub",
+          "soft sub"
+        ],
+        "episodeUrl": "https://aniwave.to/aniwave-url-200/1"
+      },
+      {
+        "fandubSource": "DREAM_CAST",
+        "fandubSourceCanonicalName": "Dream Cast",
+        "episodeName": "1 Серия для 222",
+        "types": [
+          "dub"
+        ],
+        "episodeUrl": "https://dreamerscast.com/dreamcast-url-200/1"
+      }
+    ]
+  },
+  "333": {
+    "1": [
+      {
+        "fandubSource": "ANI_LIBRIA",
+        "fandubSourceCanonicalName": "AniLibria",
+        "episodeName": "Серия 1 для 333",
+        "types": [
+          "dub"
+        ],
+        "episodeUrl": "https://www.anilibria.tv/anilibria-url-300/1"
+      },
+      {
+        "fandubSource": "ANI_WAVE",
+        "fandubSourceCanonicalName": "AniWave",
+        "episodeName": "1 for 333",
+        "types": [
+          "dub",
+          "sub",
+          "soft sub"
+        ],
+        "episodeUrl": "https://aniwave.to/aniwave-url-300/1"
+      },
+      {
+        "fandubSource": "DREAM_CAST",
+        "fandubSourceCanonicalName": "Dream Cast",
+        "episodeName": "1 Серия для 333",
+        "types": [
+          "sub"
+        ],
+        "episodeUrl": "https://dreamerscast.com/dreamcast-url-300/1"
+      }
+    ]
+  },
+  "444": {
+    "1": [
+      {
+        "fandubSource": "ANI_LIBRIA",
+        "fandubSourceCanonicalName": "AniLibria",
+        "episodeName": "Серия 1 для 444",
+        "types": [
+          "dub"
+        ],
+        "episodeUrl": "https://www.anilibria.tv/anilibria-url-400/1"
+      },
+      {
+        "fandubSource": "ANI_WAVE",
+        "fandubSourceCanonicalName": "AniWave",
+        "episodeName": "1 for 444",
+        "types": [
+          "dub",
+          "sub",
+          "soft sub"
+        ],
+        "episodeUrl": "https://aniwave.to/aniwave-url-400/1"
+      }
+    ]
+  },
+  "666": {
+    "1": [
+      {
+        "fandubSource": "ANI_LIBRIA",
+        "fandubSourceCanonicalName": "AniLibria",
+        "episodeName": "Серия 1 для 666",
+        "types": [
+          "dub"
+        ],
+        "episodeUrl": "https://www.anilibria.tv/anilibria-url-600/1"
+      },
+      {
+        "fandubSource": "ANI_WAVE",
+        "fandubSourceCanonicalName": "AniWave",
+        "episodeName": "1 for 666",
+        "types": [
+          "dub",
+          "sub",
+          "soft sub"
+        ],
+        "episodeUrl": "https://aniwave.to/aniwave-url-600/1"
+      }
+    ]
+  }
+}

@@ -2,12 +2,12 @@
    Author: Nasirov Yuriy
 */
 
-document.addEventListener('DOMContentLoaded', function () {
+document.addEventListener('DOMContentLoaded', () => {
 	const usernameInput = document.querySelector('#username-form-input');
 	const submitButton = document.querySelector('#username-form-button');
 
 	submitButton.addEventListener('click',
-			function (e) {
+			async e => {
 				const readonlyAttribute = 'readonly';
 				if (!usernameInput.hasAttribute(readonlyAttribute)) {
 					const username = usernameInput.value;
@@ -15,7 +15,8 @@ document.addEventListener('DOMContentLoaded', function () {
 					if (validUsername) {
 						usernameInput.setAttribute(readonlyAttribute, '');
 						setScheduledLoadingMessages(submitButton);
-						getAndRenderAnimeItems(username);
+						const animeListResponse = await getAnimeList(username);
+						renderResult(username, animeListResponse);
 					} else {
 						disableEvents(e);
 						toggleErrorClass(usernameInput, validUsername);
@@ -26,7 +27,7 @@ document.addEventListener('DOMContentLoaded', function () {
 			});
 
 	usernameInput.addEventListener('keypress',
-			function (e) {
+			e => {
 				if (e.key === 'Enter') {
 					disableEvents(e);
 					submitButton.click();
@@ -40,7 +41,7 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 function replaceIllegalChars(e) {
-	setTimeout(function () {
+	setTimeout(() => {
 		const usernameInput = e.target;
 		const username = usernameInput.value;
 		usernameInput.value = username.replace(/[^\w-_]/g, '');
@@ -79,7 +80,7 @@ function setScheduledLoadingMessages(element) {
 	const progressBarSymbols = ['-', '\\', '|', '/'];
 	let counter = 0;
 	setText(element, '*');
-	setInterval(function () {
+	setInterval(() => {
 		setText(element, progressBarSymbols[counter]);
 		counter = (counter + 1) % progressBarSymbols.length;
 	}, 100);

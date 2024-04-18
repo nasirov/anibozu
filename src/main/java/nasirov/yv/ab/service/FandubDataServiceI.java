@@ -1,6 +1,7 @@
 package nasirov.yv.ab.service;
 
-import nasirov.yv.ab.dto.internal.FandubData;
+import nasirov.yv.ab.dto.fandub_data.FandubDataId;
+import nasirov.yv.starter.common.dto.fandub.common.FandubDataDto;
 import reactor.core.publisher.Mono;
 
 /**
@@ -8,5 +9,9 @@ import reactor.core.publisher.Mono;
  */
 public interface FandubDataServiceI {
 
-	Mono<FandubData> getFandubData();
+	Mono<Boolean> createOrUpdateFandubData(FandubDataId fandubDataId, FandubDataDto fandubData);
+
+	Mono<FandubDataDto> getFandubData(FandubDataId fandubDataId);
+
+	Mono<Boolean> deleteFandubData(FandubDataId fandubDataId);
 }

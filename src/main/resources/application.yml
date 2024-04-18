@@ -1,33 +1,24 @@
 spring:
   application:
     name: anibozu
+  data:
+    redis:
+      host: redis-master
 
 starter-reactive-services:
   web-client:
     read-timeout: 10s
     max-attempts: 0
 
-starter-cache:
-  enabled: true
-  type: CAFFEINE
-  caches:
-    - name: ${application.cache-props.github-cache-name:}
-      expire-after-write: 24h
-
 application:
-  cache-props:
-    cache-on-startup: true
-    github-cache-name: github
-    github-cache-key: fandub-anime
-  mal-props:
-    offset-step: 300
-    limit: 50
+  mal:
     url: https://myanimelist.net
-  enabled-fandub-sources:
-    - ANI_LIBRIA
-    - DREAM_CAST
-    - KODIK
-    - ANI_WAVE
+    limit: 50
+  security:
+    admin:
+      username: ${ANIBOZU_ADMIN_USERNAME}
+      password: ${ANIBOZU_ADMIN_PASSWORD}
+      roles: ADMIN
 
 server:
   port: 8080

@@ -1,6 +1,6 @@
 package nasirov.yv.ab.service;
 
-import nasirov.yv.ab.dto.fe.AnimeListResponse;
+import nasirov.yv.ab.dto.user.AnimeList;
 import reactor.core.publisher.Mono;
 
 /**
@@ -8,5 +8,5 @@ import reactor.core.publisher.Mono;
  */
 public interface UserServiceI {
 
-	Mono<AnimeListResponse> getAnimeList(String username);
+	Mono<AnimeList> getAnimeList(String username);
 }

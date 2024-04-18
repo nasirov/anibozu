@@ -37,7 +37,7 @@ public class MalAnimeFormatter implements MalAnimeFormatterI {
 		if (StringUtils.isNotBlank(changedPosterUrl)) {
 			anime.setPosterUrl(changedPosterUrl);
 		}
-		anime.setUrl(appProps.getMalProps().getUrl() + anime.getUrl());
+		anime.setUrl(appProps.getMal().getUrl() + anime.getUrl());
 		anime.setName(HtmlUtils.htmlUnescape(anime.getName()));
 		return anime;
 	}

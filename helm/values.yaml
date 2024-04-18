@@ -28,12 +28,15 @@ ingress:
       - anibozu-backend.nasirov.info
     secretName: certificate-nasirov-info
   paths:
-    - /user/[\w-]{2,16}/anime-list$
+    - /api/v1/user/[\w-]{2,16}/anime-list$
+    - /api/v1/anime/\d+/episode/\d+$
 vault:
   enabled: true
   secrets:
-    - name: third-party-data-github
-      path: third-party/data/github
+    - name: anibozu-data-admin
+      path: anibozu/data/admin
       variables:
-        - name: token
-          bindTo: GITHUB_ACCESS_TOKEN
+        - name: username
+          bindTo: ANIBOZU_ADMIN_USERNAME
+        - name: password
+          bindTo: ANIBOZU_ADMIN_PASSWORD
