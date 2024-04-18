@@ -13,9 +13,9 @@ service:
   port: 80
 resources:
   limits:
-    memory: 1Gi
+    memory: 500Mi
   requests:
-    memory: 1Gi
+    memory: 500Mi
     cpu: 500m
 ingress:
   annotations:
