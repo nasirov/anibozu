@@ -94,6 +94,7 @@ body {
 
 .main-grid {
   min-height: 100vh;
+  min-height: 100svh;
   display: grid;
   grid-template-columns: 1fr minmax(auto, var(--max-width)) 1fr;
   grid-template-rows: minmax(60px, auto) 1fr minmax(60px, auto);
