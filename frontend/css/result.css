@@ -44,17 +44,15 @@
 
 .anime-container {
   align-content: center;
+  align-items: flex-start;
   flex-wrap: wrap;
   gap: var(--anime-items-gap);
 }
 
 .anime-item {
-  display: grid;
-  grid-template-rows: var(--max-poster-height) var(--fandub-slider-row-height);
-  grid-template-columns: var(--max-poster-width);
-  grid-template-areas:
-    "a-title_poster"
-    "a-fandub_slider";
+  width: var(--max-poster-width);
+  display: flex;
+  flex-direction: column;
   align-items: center;
   position: relative;
   box-shadow: var(--main-box-shadow);
@@ -117,9 +115,8 @@
 }
 
 .anime-item__mal_poster {
-  grid-area: a-title_poster;
-  width: 100%;
-  height: 100%;
+  width: var(--max-poster-width);
+  height: var(--max-poster-height);
   position: relative;
   border-radius: var(--anime-item-border-radius) var(--anime-item-border-radius) 0 0;
   z-index: 100;
@@ -157,10 +154,12 @@
 }
 
 .anime-item__fandub_slider {
-  grid-area: a-fandub_slider;
+  width: 100%;
+  height: var(--fandub-slider-row-height);
   display: flex;
   justify-content: space-around;
   align-items: center;
+  padding-block: 10px;
 }
 
 .anime-item__fandub_slider__arrow {
