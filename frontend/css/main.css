@@ -106,8 +106,7 @@ body {
 .nav-bar__container,
 .footer__container,
 .main-container {
-  max-width: var(--max-width);
-  width: 100%;
+  width: min(var(--max-width), 100%);
 }
 
 .nav-bar,
