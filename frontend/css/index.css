@@ -3,27 +3,24 @@
 */
 
 .username-form {
-  max-width: max-content;
-  width: 100%;
+  width: min(500px, 90%);
   display: flex;
-  flex-direction: column;
+  flex-wrap: wrap;
+  justify-content: center;
   gap: 1rem;
-  padding: 1.5rem 2rem;
+  padding: 1rem 1rem;
   border: var(--main-border);
   border-radius: 20px;
 }
 
 .username-form > * {
-  width: inherit;
+  flex-grow: 1;
   font-size: x-large;
   border-radius: inherit;
 }
 
-.username-form__input_label {
-  margin-bottom: 0.3rem;
-}
-
 .username-form__input {
+  width: min(350px, 100%);
   padding: 0.5rem 1rem;
   border: none;
   text-align: center;
@@ -31,6 +28,7 @@
 }
 
 .username-form__button {
+  width: min(100px, 100%);
   text-align: center;
   padding: 6px 8px;
   background-color: var(--primary-color);
