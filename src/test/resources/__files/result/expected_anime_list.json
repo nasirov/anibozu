@@ -34,15 +34,6 @@
             "sub",
             "soft sub"
           ]
-        },
-        {
-          "fandubSource": "ANI_LIBRIA",
-          "fandubSourceCanonicalName": "AniLibria",
-          "episodeUrl": "https://www.anilibria.tv/anilibria-url-100/1",
-          "episodeName": "Серия 1 для 111",
-          "types": [
-            "dub"
-          ]
         }
       ]
     },
@@ -72,15 +63,6 @@
             "sub",
             "soft sub"
           ]
-        },
-        {
-          "fandubSource": "ANI_LIBRIA",
-          "fandubSourceCanonicalName": "AniLibria",
-          "episodeUrl": "https://www.anilibria.tv/anilibria-url-200/1",
-          "episodeName": "Серия 1 для 222",
-          "types": [
-            "dub"
-          ]
         }
       ]
     },
@@ -109,15 +91,6 @@
             "dub",
             "sub",
             "soft sub"
-          ]
-        },
-        {
-          "fandubSource": "ANI_LIBRIA",
-          "fandubSourceCanonicalName": "AniLibria",
-          "episodeUrl": "https://www.anilibria.tv/anilibria-url-300/1",
-          "episodeName": "Серия 1 для 333",
-          "types": [
-            "dub"
           ]
         }
       ]

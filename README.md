@@ -17,7 +17,6 @@
 
 | Site         | Type       |                                    Link                                     | Direct links to episodes | Languages |        Dub        |        Sub         |      Soft-Sub      |      Torrents      |
 |:-------------|:-----------|:---------------------------------------------------------------------------:|:------------------------:|:---------:|:-----------------:|:------------------:|:------------------:|:------------------:|
-| AniLibria    | Original   | [![ani_libria](/images/favicons/ani_libria.png)](https://www.anilibria.tv/) |    :heavy_minus_sign:    |   :ru:    | :heavy_plus_sign: | :heavy_plus_sign:  | :heavy_plus_sign:  | :heavy_plus_sign:  |
 | AniWave      | Aggregator |      [![ani_wave](/images/favicons/ani_wave.png)](https://aniwave.to/)      |    :heavy_plus_sign:     | :uk: :jp: | :heavy_plus_sign: | :heavy_plus_sign:  | :heavy_plus_sign:  | :heavy_minus_sign: |
 | Dream Cast   | Original   | [![dream_cast](/images/favicons/dream_cast.png)](https://dreamerscast.com/) |    :heavy_minus_sign:    |   :ru:    | :heavy_plus_sign: | :heavy_minus_sign: | :heavy_minus_sign: | :heavy_minus_sign: |
 | MAL-To-Kodik | Aggregator |      [:link:](https://github.com/mal-to-kodik/mal-to-kodik.github.io)       |    :heavy_plus_sign:     |   :ru:    | :heavy_plus_sign: | :heavy_plus_sign:  | :heavy_minus_sign: | :heavy_minus_sign: |
