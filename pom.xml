@@ -76,6 +76,13 @@
       <plugin>
         <groupId>com.google.cloud.tools</groupId>
         <artifactId>jib-maven-plugin</artifactId>
+        <configuration>
+          <container>
+            <environment>
+              <JVM_EXTRA_PROPERTIES>-Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.port=3637 -Dcom.sun.management.jmxremote.local.only=false -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false -Dcom.sun.management.jmxremote.rmi.port=3637 -Djava.rmi.server.hostname=localhost</JVM_EXTRA_PROPERTIES>
+            </environment>
+          </container>
+        </configuration>
       </plugin>
 
       <plugin>
