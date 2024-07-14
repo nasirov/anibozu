@@ -31,8 +31,7 @@
           "episodeUrl": "https://aniwave.to/aniwave-url-100/1",
           "episodeName": "1 for 111",
           "types": [
-            "sub",
-            "soft sub"
+            "sub"
           ]
         }
       ]
@@ -60,8 +59,7 @@
           "episodeName": "1 for 222",
           "types": [
             "dub",
-            "sub",
-            "soft sub"
+            "sub"
           ]
         }
       ]
@@ -89,8 +87,7 @@
           "episodeName": "1 for 333",
           "types": [
             "dub",
-            "sub",
-            "soft sub"
+            "sub"
           ]
         }
       ]

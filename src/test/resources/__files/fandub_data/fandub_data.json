@@ -15,8 +15,7 @@
         "fandubSourceCanonicalName": "AniWave",
         "episodeName": "1 for 111",
         "types": [
-          "sub",
-          "soft sub"
+          "sub"
         ],
         "episodeUrl": "https://aniwave.to/aniwave-url-100/1"
       },
@@ -39,8 +38,7 @@
         "episodeName": "1 for 222",
         "types": [
           "dub",
-          "sub",
-          "soft sub"
+          "sub"
         ],
         "episodeUrl": "https://aniwave.to/aniwave-url-200/1"
       },
@@ -63,8 +61,7 @@
         "episodeName": "1 for 333",
         "types": [
           "dub",
-          "sub",
-          "soft sub"
+          "sub"
         ],
         "episodeUrl": "https://aniwave.to/aniwave-url-300/1"
       },
@@ -87,8 +84,7 @@
         "episodeName": "1 for 444",
         "types": [
           "dub",
-          "sub",
-          "soft sub"
+          "sub"
         ],
         "episodeUrl": "https://aniwave.to/aniwave-url-400/1"
       }
@@ -102,8 +98,7 @@
         "episodeName": "1 for 666",
         "types": [
           "dub",
-          "sub",
-          "soft sub"
+          "sub"
         ],
         "episodeUrl": "https://aniwave.to/aniwave-url-600/1"
       }

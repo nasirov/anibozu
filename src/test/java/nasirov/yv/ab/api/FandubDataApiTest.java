@@ -224,7 +224,7 @@ class FandubDataApiTest extends AbstractTest {
 				.fandubSourceCanonicalName(FandubSource.ANI_WAVE.getCanonicalName())
 				.episodeUrl("https://foo.bar/42")
 				.episodeName("1 foo")
-				.types(List.of("dub", "sub", "soft sub"))
+				.types(List.of("dub", "sub"))
 				.build());
 	}
 
