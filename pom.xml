@@ -6,7 +6,7 @@
   <parent>
     <groupId>nasirov.yv</groupId>
     <artifactId>microservice-parent</artifactId>
-    <version>39.0.4</version>
+    <version>39.0.5</version>
     <relativePath/>
   </parent>
 
