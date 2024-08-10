@@ -21,6 +21,10 @@ ingress:
   annotations:
     kubernetes.io/ingress.class: nginx
     nginx.ingress.kubernetes.io/use-regex: true
+    nginx.ingress.kubernetes.io/limit-burst-multiplier: '1'
+    nginx.ingress.kubernetes.io/limit-connections: '1'
+    nginx.ingress.kubernetes.io/limit-rpm: '5'
+    nginx.ingress.kubernetes.io/limit-rps: '1'
   hosts:
     - anibozu-backend.nasirov.info
   tls:

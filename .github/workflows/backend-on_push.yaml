@@ -144,4 +144,7 @@ jobs:
         shell: bash
         env:
           HTTPS_PROXY: "socks5://127.0.0.1:1234"
-        run: helm upgrade --install --set image.tag=${{ needs.docker.outputs.image-tag }} ${{ env.PROJECT }} helm
+        run: |
+          helm upgrade --install --set image.tag=${{ needs.docker.outputs.image-tag }} \
+          --set ingress.annotations."nginx\.ingress\.kubernetes\.io/limit-whitelist"="${{ secrets.LIMIT_WHITELIST }}" \
+          ${{ env.PROJECT }} helm
