@@ -37,7 +37,6 @@ function renderResult(username, animeListResponse) {
 				animeItem.appendChild(buildFandubSlider(buildFandubLinkHolder(episodes, animeItem)));
 			}
 			getMainContainer().appendChild(animeItem);
-			fitFandubName(animeItem);
 		}
 	} catch (e) {
 		emptyMainContainer();
@@ -72,16 +71,6 @@ function buildMalPoster(anime) {
 	result.setAttribute('alt', name);
 	result.setAttribute('title', name);
 	return result;
-}
-
-function fitFandubName(element) {
-	fitText(element.querySelector('.anime-item__fandub_link_holder__link--active'));
-}
-
-function fitText(element) {
-	if (element) {
-		textFit(element);
-	}
 }
 
 function buildFandubSlider(fandubLinkHolder) {
@@ -121,7 +110,6 @@ function buildSliderArrow(direction) {
 						toggleFandubEpisodeActive(animeItem, fandubLinkToEnable);
 						toggleFandubTypesActive(animeItem, fandubLinkToDisable);
 						toggleFandubTypesActive(animeItem, fandubLinkToEnable);
-						fitFandubName(animeItem);
 					}
 				});
 			}
@@ -262,7 +250,7 @@ function buildFandubLink(fandubLinkTargetClass, fandub, id, episode) {
 	result.setAttribute('fandub', fandub);
 	result.setAttribute('id', id);
 	result.setAttribute('tabindex', '0');
-	result.textContent = episode.fandubSourceCanonicalName;
+	result.textContent = 'Watch';
 	return result;
 }
 

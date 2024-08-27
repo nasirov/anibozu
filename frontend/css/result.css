@@ -188,6 +188,7 @@
   display: none;
   overflow: hidden;
   text-align: center;
+  font-size: 2rem;
 }
 
 .anime-item__fandub_link_holder__link--active {

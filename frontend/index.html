@@ -20,7 +20,6 @@
   <link rel="stylesheet" type="text/css" href="/css/main.css"/>
   <link rel="stylesheet" type="text/css" href="/css/index.css"/>
   <link rel="stylesheet" type="text/css" href="/css/result.css"/>
-  <script type="application/javascript" src="/js/textFit.js"></script>
   <script type="application/javascript" src="/js/main.js"></script>
   <script type="application/javascript" src="/js/index.js"></script>
   <script type="application/javascript" src="/js/result.js"></script>
@@ -57,7 +56,7 @@
   </nav>
 
   <main class="main-container">
-    <div
+    <form
         id="username-form"
         class="username-form"
     >
@@ -67,9 +66,12 @@
           placeholder="MAL Username"
           autofocus=""
           class="username-form__input navigable"
+          required
+          pattern="^[\w\-]{2,16}$"
+          title="letters, numbers, underscores and dashes between 2 and 16 characters"
       />
       <button type="submit" id="username-form-button" class="username-form__button navigable">Submit</button>
-    </div>
+    </form>
   </main>
 
   <footer class="footer">

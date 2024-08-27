@@ -22,7 +22,7 @@
 .username-form__input {
   width: min(350px, 100%);
   padding: 0.5rem 1rem;
-  border: none;
+  border: var(--main-border);
   text-align: center;
   color: var(--secondary-color);
 }
@@ -43,7 +43,10 @@
   opacity: 0.8;
 }
 
-.username-form__input--error,
-.username-form__input.username-form__input--error:focus {
-  color: rgb(209, 73, 91);
+input.username-form__input:not(:placeholder-shown):valid {
+  border-color: green;
+}
+
+input.username-form__input:not(:placeholder-shown):invalid {
+  border-color: red;
 }

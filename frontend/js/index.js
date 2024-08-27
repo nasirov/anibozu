@@ -3,85 +3,39 @@
 */
 
 document.addEventListener('DOMContentLoaded', () => {
-	const usernameInput = document.querySelector('#username-form-input');
-	const submitButton = document.querySelector('#username-form-button');
-
-	submitButton.addEventListener('click',
+	document.querySelector('#username-form').addEventListener('submit',
 			async e => {
-				const readonlyAttribute = 'readonly';
-				if (!usernameInput.hasAttribute(readonlyAttribute)) {
-					const username = usernameInput.value;
-					const validUsername = isValidUsername(username);
-					if (validUsername) {
-						usernameInput.setAttribute(readonlyAttribute, '');
-						setScheduledLoadingMessages(submitButton);
-						const animeListResponse = await getAnimeList(username);
-						renderResult(username, animeListResponse);
-					} else {
-						disableEvents(e);
-						toggleErrorClass(usernameInput, validUsername);
-					}
-				} else {
-					disableEvents(e);
-				}
+				e.preventDefault();
+				await submitUsernameForm();
 			});
-
-	usernameInput.addEventListener('keypress',
-			e => {
-				if (e.key === 'Enter') {
-					disableEvents(e);
-					submitButton.click();
-				}
-			});
-
-	usernameInput.addEventListener('keypress', replaceIllegalChars);
-	usernameInput.addEventListener('keydown', replaceIllegalChars);
-	usernameInput.addEventListener('keyup', replaceIllegalChars);
-	usernameInput.addEventListener('onpaste', replaceIllegalChars);
 });
 
-function replaceIllegalChars(e) {
-	setTimeout(() => {
-		const usernameInput = e.target;
+async function submitUsernameForm() {
+	const usernameInput = document.querySelector('#username-form-input:valid');
+	if (usernameInput) {
 		const username = usernameInput.value;
-		usernameInput.value = username.replace(/[^\w-_]/g, '');
-		const usernameLength = username.length;
-		const maxUsernameLength = 16;
-		if (usernameLength >= maxUsernameLength) {
-			usernameInput.value = username.substring(0, maxUsernameLength);
-		}
-		if (usernameLength > 0) {
-			toggleErrorClass(usernameInput, isValidUsername(username));
-		}
-	}, 0);
-}
-
-function toggleErrorClass(element, validUsername) {
-	element.classList.toggle('username-form__input--error', !validUsername);
-}
-
-function isValidUsername(username) {
-	if (username === undefined || username === null) {
-		return false;
+		usernameInput.setAttribute('readonly', '');
+		setLoadingProgress();
+		const animeListResponse = await getAnimeList(username);
+		renderResult(username, animeListResponse);
 	}
-	return username.match(/^[\w_-]{2,16}$/) !== null;
 }
 
-function disableEvents(element) {
-	element.preventDefault();
-	element.stopImmediatePropagation();
+function getUsernameFormButton() {
+	return document.querySelector('#username-form-button');
+}
+
+function setLoadingProgress() {
+	const usernameFormButton = getUsernameFormButton();
+	const progressBarSymbols = ['-', '\\', '|', '/'];
+	let counter = 0;
+	setText(usernameFormButton, '*');
+	setInterval(() => {
+		setText(usernameFormButton, progressBarSymbols[counter]);
+		counter = (counter + 1) % progressBarSymbols.length;
+	}, 100);
 }
 
 function setText(element, value) {
 	element.textContent = value;
-}
-
-function setScheduledLoadingMessages(element) {
-	const progressBarSymbols = ['-', '\\', '|', '/'];
-	let counter = 0;
-	setText(element, '*');
-	setInterval(() => {
-		setText(element, progressBarSymbols[counter]);
-		counter = (counter + 1) % progressBarSymbols.length;
-	}, 100);
 }
