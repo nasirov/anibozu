@@ -9,7 +9,6 @@
       "episodes": [
         {
           "fandubSource": "DREAM_CAST",
-          "fandubSourceCanonicalName": "Dream Cast",
           "episodeUrl": "https://dreamerscast.com/dreamcast-url-100/1",
           "episodeName": "1 Серия для 111",
           "types": [
@@ -18,7 +17,6 @@
         },
         {
           "fandubSource": "ANI_WAVE",
-          "fandubSourceCanonicalName": "AniWave",
           "episodeUrl": "https://aniwave.to/aniwave-url-100/1",
           "episodeName": "1 for 111",
           "types": [
@@ -27,7 +25,6 @@
         },
         {
           "fandubSource": "ANI_WAVE",
-          "fandubSourceCanonicalName": "AniWave",
           "episodeUrl": "https://aniwave.to/aniwave-url-100/1",
           "episodeName": "1 for 111",
           "types": [
@@ -45,7 +42,6 @@
       "episodes": [
         {
           "fandubSource": "DREAM_CAST",
-          "fandubSourceCanonicalName": "Dream Cast",
           "episodeUrl": "https://dreamerscast.com/dreamcast-url-200/1",
           "episodeName": "1 Серия для 222",
           "types": [
@@ -54,7 +50,6 @@
         },
         {
           "fandubSource": "ANI_WAVE",
-          "fandubSourceCanonicalName": "AniWave",
           "episodeUrl": "https://aniwave.to/aniwave-url-200/1",
           "episodeName": "1 for 222",
           "types": [
@@ -73,7 +68,6 @@
       "episodes": [
         {
           "fandubSource": "DREAM_CAST",
-          "fandubSourceCanonicalName": "Dream Cast",
           "episodeUrl": "https://dreamerscast.com/dreamcast-url-300/1",
           "episodeName": "1 Серия для 333",
           "types": [
@@ -82,7 +76,6 @@
         },
         {
           "fandubSource": "ANI_WAVE",
-          "fandubSourceCanonicalName": "AniWave",
           "episodeUrl": "https://aniwave.to/aniwave-url-300/1",
           "episodeName": "1 for 333",
           "types": [

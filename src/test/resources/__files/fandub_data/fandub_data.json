@@ -3,7 +3,6 @@
     "1": [
       {
         "fandubSource": "ANI_WAVE",
-        "fandubSourceCanonicalName": "AniWave",
         "episodeName": "1 for 111",
         "types": [
           "dub"
@@ -12,7 +11,6 @@
       },
       {
         "fandubSource": "ANI_WAVE",
-        "fandubSourceCanonicalName": "AniWave",
         "episodeName": "1 for 111",
         "types": [
           "sub"
@@ -21,7 +19,6 @@
       },
       {
         "fandubSource": "DREAM_CAST",
-        "fandubSourceCanonicalName": "Dream Cast",
         "episodeName": "1 Серия для 111",
         "types": [
           "dub"
@@ -34,7 +31,6 @@
     "1": [
       {
         "fandubSource": "ANI_WAVE",
-        "fandubSourceCanonicalName": "AniWave",
         "episodeName": "1 for 222",
         "types": [
           "dub",
@@ -44,7 +40,6 @@
       },
       {
         "fandubSource": "DREAM_CAST",
-        "fandubSourceCanonicalName": "Dream Cast",
         "episodeName": "1 Серия для 222",
         "types": [
           "dub"
@@ -57,7 +52,6 @@
     "1": [
       {
         "fandubSource": "ANI_WAVE",
-        "fandubSourceCanonicalName": "AniWave",
         "episodeName": "1 for 333",
         "types": [
           "dub",
@@ -67,7 +61,6 @@
       },
       {
         "fandubSource": "DREAM_CAST",
-        "fandubSourceCanonicalName": "Dream Cast",
         "episodeName": "1 Серия для 333",
         "types": [
           "sub"
@@ -80,7 +73,6 @@
     "1": [
       {
         "fandubSource": "ANI_WAVE",
-        "fandubSourceCanonicalName": "AniWave",
         "episodeName": "1 for 444",
         "types": [
           "dub",
@@ -94,7 +86,6 @@
     "1": [
       {
         "fandubSource": "ANI_WAVE",
-        "fandubSourceCanonicalName": "AniWave",
         "episodeName": "1 for 666",
         "types": [
           "dub",

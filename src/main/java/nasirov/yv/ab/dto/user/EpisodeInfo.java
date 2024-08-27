@@ -8,5 +8,4 @@ import lombok.Builder;
  * @author Nasirov Yuriy
  */
 @Builder
-public record EpisodeInfo(@NotNull String fandubSource, @NotNull String fandubSourceCanonicalName, @NotNull String episodeUrl,
-													@NotNull String episodeName, @NotNull List<String> types) {}
+public record EpisodeInfo(@NotNull String fandubSource, @NotNull String episodeUrl, @NotNull String episodeName, @NotNull List<String> types) {}
