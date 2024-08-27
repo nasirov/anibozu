@@ -220,17 +220,15 @@ class FandubDataApiTest extends AbstractTest {
 
 	private List<FandubEpisodeDataDto> buildFandubEpisodeDataDtoList() {
 		return List.of(FandubEpisodeDataDto.builder()
-				.fandubSource(FandubSource.ANI_WAVE.name())
-				.episodeUrl("https://foo.bar/42")
-				.episodeName("1 foo")
-				.types(List.of("dub", "sub"))
+				.fandubSource(FandubSource.KODIK.name())
+				.link("https://foo.bar/42")
+				.name("1 foo")
+				.extra(List.of("dub", "sub"))
 				.build());
 	}
 
 	private List<FandubEpisodeData> buildFandubEpisodeDataList() {
-		return buildFandubEpisodeDataDtoList().stream()
-				.map(x -> new FandubEpisodeData(x.fandubSource(), x.episodeUrl(), x.episodeName(), x.types()))
-				.toList();
+		return buildFandubEpisodeDataDtoList().stream().map(x -> new FandubEpisodeData(x.fandubSource(), x.link(), x.name(), x.extra())).toList();
 	}
 
 	private void checkResponse(ResponseSpec result, HttpStatus expectedStatus) {

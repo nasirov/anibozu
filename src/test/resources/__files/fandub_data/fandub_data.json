@@ -2,96 +2,96 @@
   "111": {
     "1": [
       {
-        "fandubSource": "ANI_WAVE",
-        "episodeName": "1 for 111",
-        "types": [
+        "fandubSource": "KODIK",
+        "name": "1 for 111",
+        "extra": [
           "dub"
         ],
-        "episodeUrl": "https://aniwave.to/aniwave-url-100/1"
+        "link": "https://mal-to-kodik.github.io/kodik-url-100/1"
       },
       {
-        "fandubSource": "ANI_WAVE",
-        "episodeName": "1 for 111",
-        "types": [
+        "fandubSource": "KODIK",
+        "name": "1 for 111",
+        "extra": [
           "sub"
         ],
-        "episodeUrl": "https://aniwave.to/aniwave-url-100/1"
+        "link": "https://mal-to-kodik.github.io/kodik-url-100/1"
       },
       {
         "fandubSource": "DREAM_CAST",
-        "episodeName": "1 Серия для 111",
-        "types": [
+        "name": "1 Серия для 111",
+        "extra": [
           "dub"
         ],
-        "episodeUrl": "https://dreamerscast.com/dreamcast-url-100/1"
+        "link": "https://dreamerscast.com/dreamcast-url-100/1"
       }
     ]
   },
   "222": {
     "1": [
       {
-        "fandubSource": "ANI_WAVE",
-        "episodeName": "1 for 222",
-        "types": [
+        "fandubSource": "KODIK",
+        "name": "1 for 222",
+        "extra": [
           "dub",
           "sub"
         ],
-        "episodeUrl": "https://aniwave.to/aniwave-url-200/1"
+        "link": "https://mal-to-kodik.github.io/kodik-url-200/1"
       },
       {
         "fandubSource": "DREAM_CAST",
-        "episodeName": "1 Серия для 222",
-        "types": [
+        "name": "1 Серия для 222",
+        "extra": [
           "dub"
         ],
-        "episodeUrl": "https://dreamerscast.com/dreamcast-url-200/1"
+        "link": "https://dreamerscast.com/dreamcast-url-200/1"
       }
     ]
   },
   "333": {
     "1": [
       {
-        "fandubSource": "ANI_WAVE",
-        "episodeName": "1 for 333",
-        "types": [
+        "fandubSource": "KODIK",
+        "name": "1 for 333",
+        "extra": [
           "dub",
           "sub"
         ],
-        "episodeUrl": "https://aniwave.to/aniwave-url-300/1"
+        "link": "https://mal-to-kodik.github.io/kodik-url-300/1"
       },
       {
         "fandubSource": "DREAM_CAST",
-        "episodeName": "1 Серия для 333",
-        "types": [
+        "name": "1 Серия для 333",
+        "extra": [
           "sub"
         ],
-        "episodeUrl": "https://dreamerscast.com/dreamcast-url-300/1"
+        "link": "https://dreamerscast.com/dreamcast-url-300/1"
       }
     ]
   },
   "444": {
     "1": [
       {
-        "fandubSource": "ANI_WAVE",
-        "episodeName": "1 for 444",
-        "types": [
+        "fandubSource": "KODIK",
+        "name": "1 for 444",
+        "extra": [
           "dub",
           "sub"
         ],
-        "episodeUrl": "https://aniwave.to/aniwave-url-400/1"
+        "link": "https://mal-to-kodik.github.io/kodik-url-400/1"
       }
     ]
   },
   "666": {
     "1": [
       {
-        "fandubSource": "ANI_WAVE",
-        "episodeName": "1 for 666",
-        "types": [
+        "fandubSource": "KODIK",
+        "name": "1 for 666",
+        "extra": [
           "dub",
           "sub"
         ],
-        "episodeUrl": "https://aniwave.to/aniwave-url-600/1"
+        "link": "https://mal-to-kodik.github.io/kodik-url-600/1"
       }
     ]
   }

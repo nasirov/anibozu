@@ -76,7 +76,7 @@
   transform: scale(1.08);
 }
 
-.anime-item__fandub_types {
+.anime-item__fandub_extra {
   display: none;
   flex-direction: column;
   gap: 5px;
@@ -87,11 +87,11 @@
   z-index: 200;
 }
 
-.anime-item__fandub_types--active {
+.anime-item__fandub_extra--active {
   display: flex;
 }
 
-.anime-item__fandub_types__type {
+.anime-item__fandub_extra__line {
   max-width: inherit;
   width: fit-content;
   background-color: var(--secondary-color);
@@ -197,7 +197,7 @@
   align-items: center;
 }
 
-.anime-item__fandub_types--active,
+.anime-item__fandub_extra--active,
 .anime-item__fandub_episode--active,
 .anime-item__fandub_link_holder__link--active {
   animation: fade-in 500ms forwards;
