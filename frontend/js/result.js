@@ -34,7 +34,7 @@ function renderResult(username, animeListResponse) {
 			animeItem.appendChild(buildMalPoster(anime));
 			const episodes = anime.episodes;
 			if (episodes.length > 0) {
-				animeItem.appendChild(buildFandubSlider(buildFandubLinkHolder(episodes, animeItem)));
+				animeItem.appendChild(buildAnimeLinksSlider(buildAnimeLinksHolder(episodes, animeItem)));
 			}
 			getMainContainer().appendChild(animeItem);
 		}
@@ -73,11 +73,11 @@ function buildMalPoster(anime) {
 	return result;
 }
 
-function buildFandubSlider(fandubLinkHolder) {
+function buildAnimeLinksSlider(animeLinksHolder) {
 	const result = document.createElement('div');
-	result.setAttribute('class', 'anime-item__fandub_slider');
-	result.appendChild(fandubLinkHolder);
-	if (fandubLinkHolder.childElementCount > 1) {
+	result.setAttribute('class', 'anime-item__anime_links_slider');
+	result.appendChild(animeLinksHolder);
+	if (animeLinksHolder.childElementCount > 1) {
 		result.prepend(buildSliderArrow(SLIDER_ARROW_DIRECTION.LEFT));
 		result.appendChild(buildSliderArrow(SLIDER_ARROW_DIRECTION.RIGHT));
 	}
@@ -91,25 +91,25 @@ function buildSliderArrow(direction) {
 	[mousedownEventType, keypressEventType].forEach(type => {
 				result.addEventListener(type, function (e) {
 					if (e.type === mousedownEventType || (e.type === keypressEventType && e.key === 'Enter')) {
-						const fandubLinkHolder = this.parentNode.querySelector('.anime-item__fandub_link_holder');
-						const fandubLinks = fandubLinkHolder.children;
-						const shiftedFandubLinks = [];
-						let previousFandubLink = fandubLinks[getInitPreviousFandubLinkIndex(direction, fandubLinks)];
-						for (let i = getLoopCounter(direction, fandubLinks); getLoopCondition(direction, i, fandubLinks);
+						const animeLinksHolder = this.parentNode.querySelector('.anime-item__anime_links_holder');
+						const animeLinks = animeLinksHolder.children;
+						const shiftedAnimeLinks = [];
+						let previousAnimeLink = animeLinks[getInitPreviousAnimeLinkIndex(direction, animeLinks)];
+						for (let i = getLoopCounter(direction, animeLinks); getLoopCondition(direction, i, animeLinks);
 								i = modifyLoopCounter(direction, i)) {
-							shiftedFandubLinks[i] = previousFandubLink;
-							previousFandubLink = fandubLinks[i];
+							shiftedAnimeLinks[i] = previousAnimeLink;
+							previousAnimeLink = animeLinks[i];
 						}
-						const fandubLinkToDisableIndex = SLIDER_ARROW_DIRECTION.LEFT === direction ? 1 : shiftedFandubLinks.length - 1;
-						const fandubLinkToDisable = getFandubLink(shiftedFandubLinks, fandubLinkToDisableIndex);
-						const fandubLinkToEnableIndex = 0;
-						const fandubLinkToEnable = getFandubLink(shiftedFandubLinks, fandubLinkToEnableIndex);
-						fandubLinkHolder.replaceChildren(...shiftedFandubLinks);
+						const animeLinkToDisableIndex = SLIDER_ARROW_DIRECTION.LEFT === direction ? 1 : shiftedAnimeLinks.length - 1;
+						const animeLinkToDisable = getAnimeLink(shiftedAnimeLinks, animeLinkToDisableIndex);
+						const animeLinkToEnableIndex = 0;
+						const animeLinkToEnable = getAnimeLink(shiftedAnimeLinks, animeLinkToEnableIndex);
+						animeLinksHolder.replaceChildren(...shiftedAnimeLinks);
 						const animeItem = this.parentNode.parentNode;
-						toggleFandubEpisodeActive(animeItem, fandubLinkToDisable);
-						toggleFandubEpisodeActive(animeItem, fandubLinkToEnable);
-						toggleFandubExtraActive(animeItem, fandubLinkToDisable);
-						toggleFandubExtraActive(animeItem, fandubLinkToEnable);
+						toggleAnimeEpisodeActive(animeItem, animeLinkToDisable);
+						toggleAnimeEpisodeActive(animeItem, animeLinkToEnable);
+						toggleAnimeExtraActive(animeItem, animeLinkToDisable);
+						toggleAnimeExtraActive(animeItem, animeLinkToEnable);
 					}
 				});
 			}
@@ -120,7 +120,7 @@ function buildSliderArrow(direction) {
 function buildArrowSvg(direction) {
 	const result = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
 	result.setAttribute('class',
-			'anime-item__fandub_slider__arrow anime-item__fandub_slider__arrow--' + direction);
+			'anime-item__anime_links_slider__arrow anime-item__anime_links_slider__arrow--' + direction);
 	result.setAttribute('viewBox', '0 0 384 512');
 	result.setAttribute('tabindex', '0');
 	const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
@@ -137,20 +137,20 @@ function buildArrowSvg(direction) {
 	return result;
 }
 
-function getLoopCounter(direction, fandubLinks) {
+function getLoopCounter(direction, animeLinks) {
 	let result;
 	if (SLIDER_ARROW_DIRECTION.LEFT === direction) {
 		result = 0;
 	} else if (SLIDER_ARROW_DIRECTION.RIGHT === direction) {
-		result = fandubLinks.length - 1;
+		result = animeLinks.length - 1;
 	}
 	return result;
 }
 
-function getLoopCondition(direction, counter, fandubLinks) {
+function getLoopCondition(direction, counter, animeLinks) {
 	let result;
 	if (SLIDER_ARROW_DIRECTION.LEFT === direction) {
-		result = counter < fandubLinks.length;
+		result = counter < animeLinks.length;
 	} else if (SLIDER_ARROW_DIRECTION.RIGHT === direction) {
 		result = counter >= 0;
 	}
@@ -167,87 +167,87 @@ function modifyLoopCounter(direction, counter) {
 	return result;
 }
 
-function getInitPreviousFandubLinkIndex(direction, fandubLinks) {
+function getInitPreviousAnimeLinkIndex(direction, animeLinks) {
 	let result;
 	if (SLIDER_ARROW_DIRECTION.LEFT === direction) {
-		result = fandubLinks.length - 1;
+		result = animeLinks.length - 1;
 	} else if (SLIDER_ARROW_DIRECTION.RIGHT === direction) {
 		result = 0;
 	}
 	return result;
 }
 
-function getFandubLink(shiftedFandubLinks, index) {
-	const result = shiftedFandubLinks[index];
-	result.classList.toggle('anime-item__fandub_link_holder__link--active');
+function getAnimeLink(shiftedAnimeLinks, index) {
+	const result = shiftedAnimeLinks[index];
+	result.classList.toggle('anime-item__anime_links_holder__link--active');
 	return result;
 }
 
-function toggleFandubEpisodeActive(animeItem, fandubLink) {
-	toggleActive(animeItem, fandubLink, 'anime-item__fandub_episode');
+function toggleAnimeEpisodeActive(animeItem, animeLink) {
+	toggleActive(animeItem, animeLink, 'anime-item__anime_episode');
 }
 
-function toggleFandubExtraActive(animeItem, fandubLink) {
-	toggleActive(animeItem, fandubLink, 'anime-item__fandub_extra');
+function toggleAnimeExtraActive(animeItem, animeLink) {
+	toggleActive(animeItem, animeLink, 'anime-item__anime_extra');
 }
 
-function toggleActive(animeItem, fandubLink, targetClass) {
+function toggleActive(animeItem, animeLink, targetClass) {
 	animeItem.querySelector(
-			'.' + targetClass + '[fandub="' + fandubLink.getAttribute('fandub') + '"][id="'
-			+ fandubLink.getAttribute('id') + '"]').classList.toggle(
+			'.' + targetClass + '[animeSite="' + animeLink.getAttribute('animeSite') + '"][id="'
+			+ animeLink.getAttribute('id') + '"]').classList.toggle(
 			targetClass + '--active');
 }
 
-function buildFandubLinkHolder(episodes, animeItem) {
+function buildAnimeLinksHolder(episodes, animeItem) {
 	const result = document.createElement('div');
-	result.setAttribute('class', 'anime-item__fandub_link_holder');
+	result.setAttribute('class', 'anime-item__anime_links_holder');
 	for (const i in episodes) {
 		const episode = episodes[i];
-		const fandub = episode.fandubSource;
-		const fandubExtra = buildFandubExtra(episode, fandub, i);
-		animeItem.appendChild(fandubExtra);
-		const fandubEpisode = buildFandubEpisode(episode.name, fandub, i);
-		animeItem.appendChild(fandubEpisode);
-		let fandubLinkTargetClass = 'anime-item__fandub_link_holder__link';
+		const animeSite = episode.animeSite;
+		const animeExtra = buildAnimeExtra(episode, animeSite, i);
+		animeItem.appendChild(animeExtra);
+		const animeEpisode = buildAnimeEpisode(episode.name, animeSite, i);
+		animeItem.appendChild(animeEpisode);
+		let animeLinkTargetClass = 'anime-item__anime_links_holder__link';
 		if (i === '0') {
-			fandubLinkTargetClass += ' anime-item__fandub_link_holder__link--active';
-			fandubEpisode.classList.toggle('anime-item__fandub_episode--active');
-			fandubExtra.classList.toggle('anime-item__fandub_extra--active');
+			animeLinkTargetClass += ' anime-item__anime_links_holder__link--active';
+			animeEpisode.classList.toggle('anime-item__anime_episode--active');
+			animeExtra.classList.toggle('anime-item__anime_extra--active');
 		}
-		fandubLinkTargetClass += ' navigable';
-		result.appendChild(buildFandubLink(fandubLinkTargetClass, fandub, i, episode));
+		animeLinkTargetClass += ' navigable';
+		result.appendChild(buildAnimeLink(animeLinkTargetClass, animeSite, i, episode));
 	}
 	return result;
 }
 
-function buildFandubEpisode(targetEpisode, fandub, id) {
+function buildAnimeEpisode(targetEpisode, animeSite, id) {
 	const result = document.createElement('div');
-	result.setAttribute('class', 'anime-item__fandub_episode');
-	result.setAttribute('fandub', fandub);
+	result.setAttribute('class', 'anime-item__anime_episode');
+	result.setAttribute('animeSite', animeSite);
 	result.setAttribute('id', id);
 	result.setAttribute('title', targetEpisode);
 	result.textContent = targetEpisode;
 	return result;
 }
 
-function buildFandubExtra(fandubInfo, fandub, id) {
+function buildAnimeExtra(animeInfo, animeSite, id) {
 	const result = document.createElement('div');
-	result.setAttribute('class', 'anime-item__fandub_extra');
-	result.setAttribute('fandub', fandub);
+	result.setAttribute('class', 'anime-item__anime_extra');
+	result.setAttribute('animeSite', animeSite);
 	result.setAttribute('id', id);
-	const extra = fandubInfo.extra;
+	const extra = animeInfo.extra;
 	for (const i in extra) {
 		let extraElement = document.createElement('div');
-		extraElement.setAttribute('class', 'anime-item__fandub_extra__line');
+		extraElement.setAttribute('class', 'anime-item__anime_extra__line');
 		extraElement.textContent = extra[i];
 		result.appendChild(extraElement);
 	}
 	return result;
 }
 
-function buildFandubLink(fandubLinkTargetClass, fandub, id, episode) {
-	const result = buildLink(fandubLinkTargetClass, episode.link);
-	result.setAttribute('fandub', fandub);
+function buildAnimeLink(animeLinkTargetClass, animeSite, id, episode) {
+	const result = buildLink(animeLinkTargetClass, episode.link);
+	result.setAttribute('animeSite', animeSite);
 	result.setAttribute('id', id);
 	result.setAttribute('tabindex', '0');
 	result.textContent = 'Watch';

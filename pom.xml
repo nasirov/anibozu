@@ -5,19 +5,19 @@
 
   <parent>
     <groupId>nasirov.yv</groupId>
-    <artifactId>microservice-parent</artifactId>
-    <version>40.0.0</version>
+    <artifactId>parent-ms</artifactId>
+    <version>1.0.0</version>
     <relativePath/>
   </parent>
 
   <artifactId>anibozu</artifactId>
   <version>0.1.0</version>
   <name>anibozu</name>
-  <description>Provides links to the next episodes on Fandub sites for your watching anime from MyAnimeList</description>
+  <description>Provides links to the next episodes on anime sites for your watching anime from MyAnimeList</description>
 
   <properties>
     <image.architecture>arm64</image.architecture>
-    <main-class>nasirov.yv.ab.AnibozuApplication</main-class>
+    <main-class>nasirov.yv.anibozu.Application</main-class>
     <mapstruct.version>1.5.5.Final</mapstruct.version>
     <lombok-mapstruct-binding.version>0.2.0</lombok-mapstruct-binding.version>
   </properties>
@@ -154,8 +154,8 @@
   <repositories>
 
     <repository>
-      <id>fandub-microservices</id>
-      <url>https://maven.pkg.github.com/nasirov/fandub-microservices</url>
+      <id>anime-project</id>
+      <url>https://maven.pkg.github.com/nasirov/anime-project</url>
       <releases>
         <updatePolicy>never</updatePolicy>
         <enabled>true</enabled>

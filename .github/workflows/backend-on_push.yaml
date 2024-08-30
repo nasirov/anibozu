@@ -51,7 +51,7 @@ jobs:
         with:
           java-version: 17
           distribution: 'zulu'
-          server-id: fandub-microservices
+          server-id: anime-project
           server-username: SERVER_USERNAME
           server-password: SERVER_PASSWORD
 
@@ -67,7 +67,7 @@ jobs:
           current_commit_message=$(git log -1 --pretty=format:%s)
           
           if [[ "${skip_tests_message}" == "${current_commit_message}" ]]; then
-              echo "Tests have been run during [EVENT] microservice-parent-released"
+              echo "Tests have been run during [EVENT] parent-ms-released"
               echo "Will skip tests and push to Sonar"
           else
               echo "Regular commit, will run tests and push to Sonar"
@@ -90,7 +90,7 @@ jobs:
         with:
           java-version: 17
           distribution: 'zulu'
-          server-id: fandub-microservices
+          server-id: anime-project
           server-username: SERVER_USERNAME
           server-password: SERVER_PASSWORD
 

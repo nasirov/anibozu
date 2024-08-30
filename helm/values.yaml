@@ -1,6 +1,6 @@
 image:
   pullPolicy: Always
-  registry: registry.gitlab.com/fandub/images
+  registry: registry.gitlab.com/anime-project/images
   name: anibozu
   tag: short-commit-hash
 docker:

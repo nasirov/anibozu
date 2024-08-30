@@ -8,7 +8,7 @@
       "malUrl": "/anime/111/Anime_Name_111",
       "episodes": [
         {
-          "fandubSource": "DREAM_CAST",
+          "animeSite": "DREAM_CAST",
           "link": "https://dreamerscast.com/dreamcast-url-100/1",
           "name": "1 Серия для 111",
           "extra": [
@@ -16,7 +16,7 @@
           ]
         },
         {
-          "fandubSource": "KODIK",
+          "animeSite": "KODIK",
           "link": "https://mal-to-kodik.github.io/kodik-url-100/1",
           "name": "1 for 111",
           "extra": [
@@ -24,7 +24,7 @@
           ]
         },
         {
-          "fandubSource": "KODIK",
+          "animeSite": "KODIK",
           "link": "https://mal-to-kodik.github.io/kodik-url-100/1",
           "name": "1 for 111",
           "extra": [
@@ -41,7 +41,7 @@
       "malUrl": "/anime/222/Anime_Name_222",
       "episodes": [
         {
-          "fandubSource": "DREAM_CAST",
+          "animeSite": "DREAM_CAST",
           "link": "https://dreamerscast.com/dreamcast-url-200/1",
           "name": "1 Серия для 222",
           "extra": [
@@ -49,7 +49,7 @@
           ]
         },
         {
-          "fandubSource": "KODIK",
+          "animeSite": "KODIK",
           "link": "https://mal-to-kodik.github.io/kodik-url-200/1",
           "name": "1 for 222",
           "extra": [
@@ -67,7 +67,7 @@
       "malUrl": "/anime/333/Anime_Name_333",
       "episodes": [
         {
-          "fandubSource": "DREAM_CAST",
+          "animeSite": "DREAM_CAST",
           "link": "https://dreamerscast.com/dreamcast-url-300/1",
           "name": "1 Серия для 333",
           "extra": [
@@ -75,7 +75,7 @@
           ]
         },
         {
-          "fandubSource": "KODIK",
+          "animeSite": "KODIK",
           "link": "https://mal-to-kodik.github.io/kodik-url-300/1",
           "name": "1 for 333",
           "extra": [

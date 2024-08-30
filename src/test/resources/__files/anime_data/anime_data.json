@@ -1,0 +1,98 @@
+{
+  "111": {
+    "1": [
+      {
+        "animeSite": "KODIK",
+        "name": "1 for 111",
+        "extra": [
+          "dub"
+        ],
+        "link": "https://mal-to-kodik.github.io/kodik-url-100/1"
+      },
+      {
+        "animeSite": "KODIK",
+        "name": "1 for 111",
+        "extra": [
+          "sub"
+        ],
+        "link": "https://mal-to-kodik.github.io/kodik-url-100/1"
+      },
+      {
+        "animeSite": "DREAM_CAST",
+        "name": "1 Серия для 111",
+        "extra": [
+          "dub"
+        ],
+        "link": "https://dreamerscast.com/dreamcast-url-100/1"
+      }
+    ]
+  },
+  "222": {
+    "1": [
+      {
+        "animeSite": "KODIK",
+        "name": "1 for 222",
+        "extra": [
+          "dub",
+          "sub"
+        ],
+        "link": "https://mal-to-kodik.github.io/kodik-url-200/1"
+      },
+      {
+        "animeSite": "DREAM_CAST",
+        "name": "1 Серия для 222",
+        "extra": [
+          "dub"
+        ],
+        "link": "https://dreamerscast.com/dreamcast-url-200/1"
+      }
+    ]
+  },
+  "333": {
+    "1": [
+      {
+        "animeSite": "KODIK",
+        "name": "1 for 333",
+        "extra": [
+          "dub",
+          "sub"
+        ],
+        "link": "https://mal-to-kodik.github.io/kodik-url-300/1"
+      },
+      {
+        "animeSite": "DREAM_CAST",
+        "name": "1 Серия для 333",
+        "extra": [
+          "sub"
+        ],
+        "link": "https://dreamerscast.com/dreamcast-url-300/1"
+      }
+    ]
+  },
+  "444": {
+    "1": [
+      {
+        "animeSite": "KODIK",
+        "name": "1 for 444",
+        "extra": [
+          "dub",
+          "sub"
+        ],
+        "link": "https://mal-to-kodik.github.io/kodik-url-400/1"
+      }
+    ]
+  },
+  "666": {
+    "1": [
+      {
+        "animeSite": "KODIK",
+        "name": "1 for 666",
+        "extra": [
+          "dub",
+          "sub"
+        ],
+        "link": "https://mal-to-kodik.github.io/kodik-url-600/1"
+      }
+    ]
+  }
+}
