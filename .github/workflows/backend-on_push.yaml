@@ -15,10 +15,6 @@ env:
   SERVER_USERNAME: ${{ secrets.USERNAME }}
   SERVER_PASSWORD: ${{ secrets.TOKEN }}
   PROJECT: anibozu
-  SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
-  SONAR_LOGIN: ${{ secrets.SONAR_LOGIN }}
-  SONAR_ORGANIZATION: ${{ secrets.SONAR_ORGANIZATION }}
-  SONAR_PROJECTKEY: ${{ secrets.SONAR_PROJECTKEY }}
 
 jobs:
 
@@ -71,8 +67,8 @@ jobs:
               echo "Will skip tests and push to Sonar"
           else
               echo "Regular commit, will run tests and push to Sonar"
-              mvn clean package && mvn sonar:sonar -Dsonar.host.url=${{ env.SONAR_HOST_URL }} -Dsonar.projectKey=${{ env.SONAR_PROJECTKEY }} \
-              -Dsonar.organization=${{ env.SONAR_ORGANIZATION }} -Dsonar.login=${{ env.SONAR_LOGIN }}
+              mvn clean package && mvn sonar:sonar -Dsonar.host.url=${{ secrets.SONAR_HOST_URL }} -Dsonar.projectKey=${{ secrets.SONAR_PROJECTKEY }} \
+              -Dsonar.organization=${{ secrets.SONAR_ORGANIZATION }} -Dsonar.token=${{ secrets.SONAR_TOKEN }}
           fi
 
   docker:
