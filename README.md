@@ -15,10 +15,11 @@
 
 ### Supported Anime sites
 
-| Site         | Type       |                                    Link                                     | Direct links to episodes | Languages |        Dub        |        Sub         |
-|:-------------|:-----------|:---------------------------------------------------------------------------:|:------------------------:|:---------:|:-----------------:|:------------------:|
-| Dream Cast   | Original   | [![dream_cast](/images/favicons/dream_cast.png)](https://dreamerscast.com/) |    :heavy_minus_sign:    |   :ru:    | :heavy_plus_sign: | :heavy_minus_sign: |
-| MAL-To-Kodik | Aggregator |      [:link:](https://github.com/mal-to-kodik/mal-to-kodik.github.io)       |    :heavy_plus_sign:     |   :ru:    | :heavy_plus_sign: | :heavy_plus_sign:  |
+| Site         | Type        |                                    Link                                     | Direct links to episodes | Languages |        Dub        |        Sub         |
+|:-------------|:------------|:---------------------------------------------------------------------------:|:------------------------:|:---------:|:-----------------:|:------------------:|
+| Dream Cast   | Original    | [![dream_cast](/images/favicons/dream_cast.png)](https://dreamerscast.com/) |    :heavy_minus_sign:    |   :ru:    | :heavy_plus_sign: | :heavy_minus_sign: |
+| HiAnime      | Aggregator  |      [![hi_anime](/images/favicons/hi_anime.png)](https://hianime.to/)      |    :heavy_plus_sign:     | :uk: :jp: | :heavy_plus_sign: | :heavy_plus_sign:  |
+| MAL-To-Kodik | Aggregator  |      [:link:](https://github.com/mal-to-kodik/mal-to-kodik.github.io)       |    :heavy_plus_sign:     |   :ru:    | :heavy_plus_sign: | :heavy_plus_sign:  |
 
 ### Who would use it?
 
