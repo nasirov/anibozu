@@ -17,7 +17,7 @@
   --anime-item-badge-indent: 10px;
   --anime-item-badge-max-width: calc(var(--max-poster-width) - var(--anime-item-badge-indent) * 2);
   --anime-item-padding: 5px;
-  --anime-item__mal_episode-max-width: 50px;
+  --mal_episode-max-width: 50px;
 }
 
 /*
@@ -48,19 +48,19 @@
   border-radius: inherit;
 }
 
-.anime-item:not(:has(.anime-item__anime_links_slider)) {
+.anime-item:not(:has(.links_slider)) {
   box-shadow: unset;
 }
 
-.anime-item:not(:has(.anime-item__anime_links_slider)) > .anime-item__mal_poster {
+.anime-item:not(:has(.links_slider)) > .mal_poster {
   box-shadow: var(--main-box-shadow);
   border-radius: inherit;
   filter: grayscale(1);
 }
 
-.anime-item__mal_episode {
+.mal_episode {
   max-width: var(--anime-item-badge-max-width);
-  max-height: var(--anime-item__mal_episode-max-width);
+  max-height: var(--mal_episode-max-width);
   position: absolute;
   top: var(--anime-item-badge-indent);
   left: var(--anime-item-badge-indent);
@@ -72,36 +72,11 @@
   z-index: 200;
 }
 
-.anime-item__mal_episode:is(:hover, :focus-visible) {
+.mal_episode:is(:hover, :focus-visible) {
   transform: scale(1.08);
 }
 
-.anime-item__anime_extra {
-  display: none;
-  flex-direction: column;
-  gap: 5px;
-  max-width: var(--anime-item-badge-max-width);
-  position: absolute;
-  top: calc(var(--anime-item-badge-indent) * 2 + var(--anime-item__mal_episode-max-width));
-  left: var(--anime-item-badge-indent);
-  z-index: 200;
-}
-
-.anime-item__anime_extra--active {
-  display: flex;
-}
-
-.anime-item__anime_extra__line {
-  max-width: inherit;
-  width: fit-content;
-  background-color: var(--secondary-color);
-  padding: var(--anime-item-padding);
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-.anime-item__mal_poster {
+.mal_poster {
   width: var(--max-poster-width);
   height: var(--max-poster-height);
   position: relative;
@@ -112,95 +87,105 @@
   color: var(--secondary-color);
 }
 
-.anime-item__mal_poster:hover {
+.mal_poster:hover {
   filter: grayscale(0.5);
   transition: 0.3s;
 }
 
-.anime-item__anime_episode {
-  max-width: var(--anime-item-badge-max-width);
+.anime_site_info {
   display: none;
+  flex-direction: column;
+  gap: 5px;
+  width: 100%;
+  max-width: var(--anime-item-badge-max-width);
   position: absolute;
   bottom: calc(var(--anime-links-slider-row-height) + var(--anime-item-badge-indent));
   left: var(--anime-item-badge-indent);
+  z-index: 200;
+}
+
+.anime_site_info--active {
+  display: flex;
+}
+
+.anime_site_info__item {
+  max-width: inherit;
+  width: fit-content;
+  background-color: var(--primary-color);
   padding: var(--anime-item-padding);
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  background-color: var(--secondary-color);
-  font-size: x-large;
-  z-index: 200;
+  font-size: large;
 }
 
-.anime-item__anime_episode--active {
-  display: block;
-}
-
-.anime-item__anime_episode--active:empty {
+.anime_site_info__item:empty {
   display: none;
 }
 
-.anime-item__anime_links_slider {
-  width: 100%;
-  height: var(--anime-links-slider-row-height);
-  display: flex;
-  justify-content: space-around;
+.anime_site_info__item:not(:last-child) {
+  animation: fade-in 500ms forwards;
+}
+
+.anime_site_info__item:last-child {
+  align-self: center;
+}
+
+.links_slider {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: var(--anime-links-slider-row-height);
+  grid-template-areas: "arrow-left anime-link arrow-right";
   align-items: center;
-  padding-block: 10px;
+  justify-items: center;
 }
 
-.anime-item__anime_links_slider__arrow {
-  width: 50px;
-  height: 30px;
+.links_slider__arrow {
+  width: 100%;
+  height: 65%;
+  display: block;
   cursor: pointer;
-  fill: var(--secondary-color);
+  fill: var(--primary-color);
 }
 
-.anime-item__anime_links_slider__arrow:is(:hover, :focus-visible) {
+.links_slider__arrow:is(:hover, :focus-visible) {
   transform: scale(1.3);
 }
 
-.anime-item__anime_links_slider__arrow--left:active {
+.links_slider__arrow--left {
+  grid-area: arrow-left;
+}
+
+.links_slider__arrow--left:active {
   transform: scale(1.1) translateX(-5px);
 }
 
-.anime-item__anime_links_slider__arrow--right:active {
+.links_slider__arrow--right:active {
   transform: scale(1.1) translateX(5px);
 }
 
-.anime-item__anime_links_holder {
+.links_slider__arrow--right {
+  grid-area: arrow-right;
+}
+
+.anime_link {
+  grid-area: anime-link;
   width: 135px;
-  height: 40px;
+  height: 75%;
   background-color: var(--primary-color);
-}
-
-.anime-item__anime_links_holder:hover {
-  opacity: 0.8;
-}
-
-.anime-item__anime_links_holder:active {
-  transform: scale(0.98);
-}
-
-.anime-item__anime_links_holder__link {
-  width: 100%;
-  height: 100%;
-  display: none;
-  overflow: hidden;
-  text-align: center;
-  font-size: 2rem;
-}
-
-.anime-item__anime_links_holder__link--active {
   display: flex;
   justify-content: center;
   align-items: center;
+  overflow: hidden;
+  font-size: 2rem;
 }
 
-.anime-item__anime_extra--active,
-.anime-item__anime_episode--active,
-.anime-item__anime_links_holder__link--active {
-  animation: fade-in 500ms forwards;
+.anime_link:hover {
+  opacity: 0.8;
+}
+
+.anime_link:active {
+  transform: scale(0.98);
 }
 
 @keyframes fade-in {

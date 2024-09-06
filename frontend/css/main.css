@@ -87,9 +87,9 @@ body {
   grid-template-columns: 1fr minmax(auto, var(--max-width)) 1fr;
   grid-template-rows: minmax(60px, auto) 1fr minmax(60px, auto);
   grid-template-areas:
-    ". a-nav ."
-    ". a-main ."
-    ". a-footer .";
+    ". nav ."
+    ". main ."
+    ". footer .";
 }
 
 .nav-bar__container,
@@ -109,7 +109,7 @@ body {
 }
 
 .nav-bar {
-  grid-area: a-nav;
+  grid-area: nav;
   flex-wrap: wrap;
   border-bottom: var(--main-border);
   padding: 5px;
@@ -122,7 +122,7 @@ body {
 }
 
 .footer {
-  grid-area: a-footer;
+  grid-area: footer;
   border-top: var(--main-border);
 }
 
@@ -131,7 +131,7 @@ body {
 }
 
 .main-container {
-  grid-area: a-main;
+  grid-area: main;
   margin: 1.5rem 0 1.5rem 0;
 }
 

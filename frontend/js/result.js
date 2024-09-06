@@ -26,7 +26,8 @@ function renderResult(username, animeListResponse) {
 		if (!animeList || animeList.length === 0) {
 			renderErrorMessage(animeListResponse.errorMessage);
 		}
-		getMainContainer().classList.toggle('anime-container');
+		const mainContainer = getMainContainer();
+		mainContainer.classList.toggle('anime-container');
 		for (const i in animeList) {
 			const anime = animeList[i];
 			const animeItem = buildAnimeItem();
@@ -34,9 +35,16 @@ function renderResult(username, animeListResponse) {
 			animeItem.appendChild(buildMalPoster(anime));
 			const episodes = anime.episodes;
 			if (episodes.length > 0) {
-				animeItem.appendChild(buildAnimeLinksSlider(buildAnimeLinksHolder(episodes, animeItem)));
+				const animeSiteInfoList = buildAnimeSiteInfoList(episodes);
+				animeItem.append(...animeSiteInfoList);
+				const linksSlider = buildLinksSlider(episodes[0]);
+				if (episodes.length > 1) {
+					linksSlider.prepend(buildSliderArrow(SLIDER_ARROW_DIRECTION.LEFT));
+					linksSlider.appendChild(buildSliderArrow(SLIDER_ARROW_DIRECTION.RIGHT));
+				}
+				animeItem.appendChild(linksSlider);
 			}
-			getMainContainer().appendChild(animeItem);
+			mainContainer.appendChild(animeItem);
 		}
 	} catch (e) {
 		emptyMainContainer();
@@ -50,22 +58,23 @@ function setTitle(username) {
 }
 
 function buildAnimeItem() {
-	const result = document.createElement('div',);
+	const result = document.createElement('div');
 	result.setAttribute('class', 'anime-item');
+	result.setAttribute('data-id', '1');
 	return result;
 }
 
 function buildMalEpisode(anime) {
-	const result = buildLink('anime-item__mal_episode', anime.malUrl);
+	const result = buildLink('mal_episode', anime.malUrl);
 	const maxEpisodes = anime.maxEpisodes;
-	result.textContent = 'Next ' + anime.nextEpisode + ' / ' + (maxEpisodes === 0 ? '?' : maxEpisodes);
+	result.textContent = 'Ep. ' + anime.nextEpisode + ' / ' + (maxEpisodes === 0 ? '?' : maxEpisodes);
 	return result;
 }
 
 function buildMalPoster(anime) {
 	const name = anime.name;
 	const result = document.createElement('img');
-	result.setAttribute('class', 'anime-item__mal_poster');
+	result.setAttribute('class', 'mal_poster');
 	result.setAttribute('loading', 'lazy');
 	result.setAttribute('src', anime.posterUrl);
 	result.setAttribute('alt', name);
@@ -73,14 +82,10 @@ function buildMalPoster(anime) {
 	return result;
 }
 
-function buildAnimeLinksSlider(animeLinksHolder) {
+function buildLinksSlider(episode) {
 	const result = document.createElement('div');
-	result.setAttribute('class', 'anime-item__anime_links_slider');
-	result.appendChild(animeLinksHolder);
-	if (animeLinksHolder.childElementCount > 1) {
-		result.prepend(buildSliderArrow(SLIDER_ARROW_DIRECTION.LEFT));
-		result.appendChild(buildSliderArrow(SLIDER_ARROW_DIRECTION.RIGHT));
-	}
+	result.setAttribute('class', 'links_slider');
+	result.appendChild(buildAnimeLink(episode));
 	return result;
 }
 
@@ -91,25 +96,15 @@ function buildSliderArrow(direction) {
 	[mousedownEventType, keypressEventType].forEach(type => {
 				result.addEventListener(type, function (e) {
 					if (e.type === mousedownEventType || (e.type === keypressEventType && e.key === 'Enter')) {
-						const animeLinksHolder = this.parentNode.querySelector('.anime-item__anime_links_holder');
-						const animeLinks = animeLinksHolder.children;
-						const shiftedAnimeLinks = [];
-						let previousAnimeLink = animeLinks[getInitPreviousAnimeLinkIndex(direction, animeLinks)];
-						for (let i = getLoopCounter(direction, animeLinks); getLoopCondition(direction, i, animeLinks);
-								i = modifyLoopCounter(direction, i)) {
-							shiftedAnimeLinks[i] = previousAnimeLink;
-							previousAnimeLink = animeLinks[i];
-						}
-						const animeLinkToDisableIndex = SLIDER_ARROW_DIRECTION.LEFT === direction ? 1 : shiftedAnimeLinks.length - 1;
-						const animeLinkToDisable = getAnimeLink(shiftedAnimeLinks, animeLinkToDisableIndex);
-						const animeLinkToEnableIndex = 0;
-						const animeLinkToEnable = getAnimeLink(shiftedAnimeLinks, animeLinkToEnableIndex);
-						animeLinksHolder.replaceChildren(...shiftedAnimeLinks);
 						const animeItem = this.parentNode.parentNode;
-						toggleAnimeEpisodeActive(animeItem, animeLinkToDisable);
-						toggleAnimeEpisodeActive(animeItem, animeLinkToEnable);
-						toggleAnimeExtraActive(animeItem, animeLinkToDisable);
-						toggleAnimeExtraActive(animeItem, animeLinkToEnable);
+						const currentDataId = animeItem.getAttribute('data-id');
+						const firstId = 1;
+						const lastId = animeItem.querySelectorAll('div[id]').length;
+						const nextDataId = getNextDataId(direction, currentDataId, firstId, lastId);
+						toggleAnimeSiteInfoActive(animeItem, currentDataId);
+						animeItem.setAttribute('data-id', nextDataId);
+						toggleAnimeSiteInfoActive(animeItem, nextDataId);
+						setNextAnimeLink(animeItem, nextDataId);
 					}
 				});
 			}
@@ -119,8 +114,7 @@ function buildSliderArrow(direction) {
 
 function buildArrowSvg(direction) {
 	const result = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
-	result.setAttribute('class',
-			'anime-item__anime_links_slider__arrow anime-item__anime_links_slider__arrow--' + direction);
+	result.setAttribute('class', 'links_slider__arrow links_slider__arrow--' + direction);
 	result.setAttribute('viewBox', '0 0 384 512');
 	result.setAttribute('tabindex', '0');
 	const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
@@ -137,118 +131,69 @@ function buildArrowSvg(direction) {
 	return result;
 }
 
-function getLoopCounter(direction, animeLinks) {
+function getNextDataId(direction, currentId, firstId, lastId) {
 	let result;
+	currentId = Number.parseInt(currentId);
 	if (SLIDER_ARROW_DIRECTION.LEFT === direction) {
-		result = 0;
-	} else if (SLIDER_ARROW_DIRECTION.RIGHT === direction) {
-		result = animeLinks.length - 1;
+		result = currentId - 1;
+		if (result < firstId) {
+			result = firstId;
+		}
+	} else {
+		result = currentId + 1;
+		if (result > lastId) {
+			result = lastId;
+		}
 	}
 	return result;
 }
 
-function getLoopCondition(direction, counter, animeLinks) {
-	let result;
-	if (SLIDER_ARROW_DIRECTION.LEFT === direction) {
-		result = counter < animeLinks.length;
-	} else if (SLIDER_ARROW_DIRECTION.RIGHT === direction) {
-		result = counter >= 0;
-	}
-	return result;
+function toggleAnimeSiteInfoActive(animeItem, id) {
+	animeItem.querySelector('div[id="' + id + '"]').classList.toggle('anime_site_info--active');
 }
 
-function modifyLoopCounter(direction, counter) {
-	let result;
-	if (SLIDER_ARROW_DIRECTION.LEFT === direction) {
-		result = counter + 1;
-	} else if (SLIDER_ARROW_DIRECTION.RIGHT === direction) {
-		result = counter - 1;
-	}
-	return result;
+function setNextAnimeLink(animeItem, dataId) {
+	const nextAnimeLink = animeItem.querySelector('div[id="' + dataId + '"]').getAttribute('anime-link');
+	animeItem.querySelector('div.links_slider >a').setAttribute('href', nextAnimeLink);
 }
 
-function getInitPreviousAnimeLinkIndex(direction, animeLinks) {
-	let result;
-	if (SLIDER_ARROW_DIRECTION.LEFT === direction) {
-		result = animeLinks.length - 1;
-	} else if (SLIDER_ARROW_DIRECTION.RIGHT === direction) {
-		result = 0;
-	}
-	return result;
-}
-
-function getAnimeLink(shiftedAnimeLinks, index) {
-	const result = shiftedAnimeLinks[index];
-	result.classList.toggle('anime-item__anime_links_holder__link--active');
-	return result;
-}
-
-function toggleAnimeEpisodeActive(animeItem, animeLink) {
-	toggleActive(animeItem, animeLink, 'anime-item__anime_episode');
-}
-
-function toggleAnimeExtraActive(animeItem, animeLink) {
-	toggleActive(animeItem, animeLink, 'anime-item__anime_extra');
-}
-
-function toggleActive(animeItem, animeLink, targetClass) {
-	animeItem.querySelector(
-			'.' + targetClass + '[animeSite="' + animeLink.getAttribute('animeSite') + '"][id="'
-			+ animeLink.getAttribute('id') + '"]').classList.toggle(
-			targetClass + '--active');
-}
-
-function buildAnimeLinksHolder(episodes, animeItem) {
-	const result = document.createElement('div');
-	result.setAttribute('class', 'anime-item__anime_links_holder');
+function buildAnimeSiteInfoList(episodes) {
+	const result = [];
 	for (const i in episodes) {
 		const episode = episodes[i];
-		const animeSite = episode.animeSite;
-		const animeExtra = buildAnimeExtra(episode, animeSite, i);
-		animeItem.appendChild(animeExtra);
-		const animeEpisode = buildAnimeEpisode(episode.name, animeSite, i);
-		animeItem.appendChild(animeEpisode);
-		let animeLinkTargetClass = 'anime-item__anime_links_holder__link';
+		const id = Number.parseInt(i) + 1;
+		const animeSiteInfo = buildAnimeSiteInfo(episode, id);
+		animeSiteInfo.appendChild(buildAnimeSiteInfoItem(episode.name));
+		animeSiteInfo.appendChild(buildAnimeSiteInfoItem(id + ' / ' + episodes.length));
 		if (i === '0') {
-			animeLinkTargetClass += ' anime-item__anime_links_holder__link--active';
-			animeEpisode.classList.toggle('anime-item__anime_episode--active');
-			animeExtra.classList.toggle('anime-item__anime_extra--active');
+			animeSiteInfo.classList.toggle('anime_site_info--active');
 		}
-		animeLinkTargetClass += ' navigable';
-		result.appendChild(buildAnimeLink(animeLinkTargetClass, animeSite, i, episode));
+		result.push(animeSiteInfo);
 	}
 	return result;
 }
 
-function buildAnimeEpisode(targetEpisode, animeSite, id) {
+function buildAnimeSiteInfo(episode, id) {
 	const result = document.createElement('div');
-	result.setAttribute('class', 'anime-item__anime_episode');
-	result.setAttribute('animeSite', animeSite);
+	result.setAttribute('class', 'anime_site_info');
 	result.setAttribute('id', id);
-	result.setAttribute('title', targetEpisode);
-	result.textContent = targetEpisode;
-	return result;
-}
-
-function buildAnimeExtra(animeInfo, animeSite, id) {
-	const result = document.createElement('div');
-	result.setAttribute('class', 'anime-item__anime_extra');
-	result.setAttribute('animeSite', animeSite);
-	result.setAttribute('id', id);
-	const extra = animeInfo.extra;
-	for (const i in extra) {
-		let extraElement = document.createElement('div');
-		extraElement.setAttribute('class', 'anime-item__anime_extra__line');
-		extraElement.textContent = extra[i];
-		result.appendChild(extraElement);
+	result.setAttribute('anime-link', episode.link);
+	for (const value of episode.extra) {
+		result.appendChild(buildAnimeSiteInfoItem(value));
 	}
 	return result;
 }
 
-function buildAnimeLink(animeLinkTargetClass, animeSite, id, episode) {
-	const result = buildLink(animeLinkTargetClass, episode.link);
-	result.setAttribute('animeSite', animeSite);
-	result.setAttribute('id', id);
+function buildAnimeSiteInfoItem(value) {
+	const result = document.createElement('div');
+	result.setAttribute('class', 'anime_site_info__item');
+	result.setAttribute('title', value);
+	result.textContent = value;
+	return result;
+}
+
+function buildAnimeLink(episode) {
+	const result = buildLink('anime_link navigable', episode.link);
 	result.setAttribute('tabindex', '0');
 	result.textContent = 'Watch';
 	return result;
