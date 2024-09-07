@@ -84,7 +84,7 @@
   z-index: 100;
   text-align: center;
   overflow: hidden;
-  color: var(--secondary-color);
+  color: var(--secondary);
 }
 
 .mal_poster:hover {
@@ -111,7 +111,7 @@
 .anime_site_info__item {
   max-width: inherit;
   width: fit-content;
-  background-color: var(--primary-color);
+  background-color: var(--primary);
   padding: var(--anime-item-padding);
   overflow: hidden;
   text-overflow: ellipsis;
@@ -145,11 +145,12 @@
   height: 65%;
   display: block;
   cursor: pointer;
-  fill: var(--primary-color);
+  fill: var(--primary);
 }
 
 .links_slider__arrow:is(:hover, :focus-visible) {
   transform: scale(1.3);
+  fill: var(--secondary)
 }
 
 .links_slider__arrow--left {
@@ -172,7 +173,7 @@
   grid-area: anime-link;
   width: 135px;
   height: 75%;
-  background-color: var(--primary-color);
+  background-color: var(--primary);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -180,8 +181,8 @@
   font-size: 2rem;
 }
 
-.anime_link:hover {
-  opacity: 0.8;
+.anime_link:is(:hover, :focus-visible) {
+  background-color: var(--secondary);
 }
 
 .anime_link:active {

@@ -28,9 +28,9 @@
 :root {
   --max-width: 1250px;
   --main-border-width: 1px;
-  --main-border: var(--main-border-width) solid var(--secondary-color);
+  --main-border: var(--main-border-width) solid var(--secondary);
   --main-box-shadow-width: var(--main-border-width);
-  --main-box-shadow: 0 0 0 var(--main-box-shadow-width) var(--secondary-color);
+  --main-box-shadow: 0 0 0 var(--main-box-shadow-width) var(--secondary);
 }
 
 html {
@@ -39,8 +39,8 @@ html {
 
 body {
   user-select: none;
-  background-color: var(--background-color);
-  color: var(--text-color);
+  background-color: var(--background);
+  color: var(--text);
 }
 
 a,
@@ -61,17 +61,17 @@ body {
 */
 
 :root[theme="dark"] {
-  --text-color: rgb(255, 255, 255);
-  --background-color: rgb(27, 36, 48);
-  --primary-color: rgb(129, 103, 151);
-  --secondary-color: rgb(129, 135, 201);
+  --text: rgb(255, 255, 255);
+  --background: rgb(27, 36, 48);
+  --primary: rgb(129, 103, 151);
+  --secondary: rgb(129, 135, 201);
 }
 
 :root[theme="light"] {
-  --text-color: rgb(255, 255, 255);
-  --background-color: rgb(228, 251, 255);
-  --primary-color: rgb(120, 104, 230);
-  --secondary-color: rgb(69, 112, 143);
+  --text: rgb(4, 26, 20);
+  --background: rgb(246, 254, 251);
+  --primary: rgb(52, 222, 172);
+  --secondary: rgb(94, 165, 229);
 }
 
 /*
@@ -144,7 +144,7 @@ body {
 .icon {
   width: inherit;
   height: inherit;
-  fill: var(--secondary-color);
+  fill: var(--secondary);
 }
 
 .size-50 {
@@ -171,7 +171,7 @@ body {
   padding: 5px;
   display: flex;
   align-items: center;
-  background-color: var(--secondary-color);
+  background-color: var(--secondary);
   border-radius: 25px;
 }
 
@@ -182,7 +182,7 @@ body {
 .theme_switcher__slider {
   width: 15px;
   height: 15px;
-  background-color: var(--background-color);
+  background-color: var(--background);
   border-radius: 50%;
   transition: 0.2s;
 }
@@ -192,7 +192,7 @@ body {
 }
 
 .error-message {
-  color: var(--secondary-color);
+  color: var(--secondary);
   text-align: center;
 }
 
@@ -203,6 +203,6 @@ body {
 */
 
 .navigable:focus-visible {
-  outline: 2px solid var(--secondary-color);
+  outline: 2px solid var(--secondary);
   outline-offset: 2px;
 }
