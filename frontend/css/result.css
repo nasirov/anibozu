@@ -11,13 +11,12 @@
 :root {
   --max-poster-width: 225px;
   --max-poster-height: 320px;
-  --anime-items-gap: 1.5rem;
-  --anime-item-border-radius: 10px;
-  --anime-links-slider-row-height: 60px;
-  --anime-item-badge-indent: 10px;
-  --anime-item-badge-max-width: calc(var(--max-poster-width) - var(--anime-item-badge-indent) * 2);
-  --anime-item-padding: 5px;
-  --mal_episode-max-width: 50px;
+  --items-gap: 1.5rem;
+  --item-border-radius: 10px;
+  --slider-height: 60px;
+  --item-badge-indent: 10px;
+  --item-badge-max-width: calc(var(--max-poster-width) - var(--item-badge-indent) * 2);
+  --item-padding: 5px;
 }
 
 /*
@@ -26,48 +25,49 @@
    =======
 */
 
-.anime-container {
+.items-container {
   align-content: center;
   align-items: flex-start;
   flex-wrap: wrap;
-  gap: var(--anime-items-gap);
+  gap: var(--items-gap);
 }
 
-.anime-item {
+.item {
   width: var(--max-poster-width);
   display: flex;
   flex-direction: column;
   align-items: center;
   position: relative;
   box-shadow: var(--main-box-shadow);
-  border-radius: var(--anime-item-border-radius);
+  border-radius: var(--item-border-radius);
 }
 
-.anime-item * {
+.item * {
   background-color: unset;
   border-radius: inherit;
 }
 
-.anime-item:not(:has(.links_slider)) {
+.item:not(:has(.slider)) {
   box-shadow: unset;
 }
 
-.anime-item:not(:has(.links_slider)) > .mal_poster {
+.item:not(:has(.slider)) > .mal_poster {
   box-shadow: var(--main-box-shadow);
   border-radius: inherit;
   filter: grayscale(1);
 }
 
 .mal_episode {
-  max-width: var(--anime-item-badge-max-width);
-  max-height: var(--mal_episode-max-width);
+  max-width: var(--item-badge-max-width);
   position: absolute;
-  top: var(--anime-item-badge-indent);
-  left: var(--anime-item-badge-indent);
-  padding: var(--anime-item-padding);
+  top: var(--item-badge-indent);
+  left: var(--item-badge-indent);
+  padding: var(--item-padding);
   color: rgb(255, 255, 255);
   background-color: rgb(46, 81, 162);
   overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
   font-size: x-large;
   z-index: 200;
 }
@@ -80,7 +80,7 @@
   width: var(--max-poster-width);
   height: var(--max-poster-height);
   position: relative;
-  border-radius: var(--anime-item-border-radius) var(--anime-item-border-radius) 0 0;
+  border-radius: var(--item-border-radius) var(--item-border-radius) 0 0;
   z-index: 100;
   text-align: center;
   overflow: hidden;
@@ -97,10 +97,10 @@
   flex-direction: column;
   gap: 5px;
   width: 100%;
-  max-width: var(--anime-item-badge-max-width);
+  max-width: var(--item-badge-max-width);
   position: absolute;
-  bottom: calc(var(--anime-links-slider-row-height) + var(--anime-item-badge-indent));
-  left: var(--anime-item-badge-indent);
+  bottom: calc(var(--slider-height) + var(--item-badge-indent));
+  left: var(--item-badge-indent);
   z-index: 200;
 }
 
@@ -112,7 +112,7 @@
   max-width: inherit;
   width: fit-content;
   background-color: var(--primary);
-  padding: var(--anime-item-padding);
+  padding: var(--item-padding);
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -131,16 +131,16 @@
   align-self: center;
 }
 
-.links_slider {
+.slider {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  grid-template-rows: var(--anime-links-slider-row-height);
+  grid-template-rows: var(--slider-height);
   grid-template-areas: "arrow-left anime-link arrow-right";
   align-items: center;
   justify-items: center;
 }
 
-.links_slider__arrow {
+.slider__arrow {
   width: 100%;
   height: 65%;
   display: block;
@@ -148,25 +148,25 @@
   fill: var(--primary);
 }
 
-.links_slider__arrow:is(:hover, :focus-visible) {
+.slider__arrow:is(:hover, :focus-visible) {
   transform: scale(1.3);
   fill: var(--secondary)
 }
 
-.links_slider__arrow--left {
+.slider__arrow--left {
   grid-area: arrow-left;
 }
 
-.links_slider__arrow--left:active {
+.slider__arrow--left:active {
   transform: scale(1.1) translateX(-5px);
 }
 
-.links_slider__arrow--right:active {
-  transform: scale(1.1) translateX(5px);
+.slider__arrow--right {
+  grid-area: arrow-right;
 }
 
-.links_slider__arrow--right {
-  grid-area: arrow-right;
+.slider__arrow--right:active {
+  transform: scale(1.1) translateX(5px);
 }
 
 .anime_link {

@@ -2,7 +2,7 @@
    Author: Nasirov Yuriy
 */
 
-const SLIDER_ARROW_DIRECTION = {LEFT: 'left', RIGHT: 'right'};
+const DIRECTION = {LEFT: 'left', RIGHT: 'right'};
 const GENERIC_ERROR_MESSAGE = 'Sorry, something went wrong. Please try again later.';
 
 async function getAnimeList(username) {
@@ -27,24 +27,24 @@ function renderResult(username, animeListResponse) {
 			renderErrorMessage(animeListResponse.errorMessage);
 		}
 		const mainContainer = getMainContainer();
-		mainContainer.classList.toggle('anime-container');
+		mainContainer.classList.toggle('items-container');
 		for (const i in animeList) {
 			const anime = animeList[i];
-			const animeItem = buildAnimeItem();
-			animeItem.appendChild(buildMalEpisode(anime));
-			animeItem.appendChild(buildMalPoster(anime));
+			const item = buildItem();
+			item.appendChild(buildMalEpisode(anime));
+			item.appendChild(buildMalPoster(anime));
 			const episodes = anime.episodes;
 			if (episodes.length > 0) {
 				const animeSiteInfoList = buildAnimeSiteInfoList(episodes);
-				animeItem.append(...animeSiteInfoList);
-				const linksSlider = buildLinksSlider(episodes[0]);
+				item.append(...animeSiteInfoList);
+				const slider = buildSlider(episodes[0]);
 				if (episodes.length > 1) {
-					linksSlider.prepend(buildSliderArrow(SLIDER_ARROW_DIRECTION.LEFT));
-					linksSlider.appendChild(buildSliderArrow(SLIDER_ARROW_DIRECTION.RIGHT));
+					slider.prepend(buildSliderArrow(DIRECTION.LEFT));
+					slider.appendChild(buildSliderArrow(DIRECTION.RIGHT));
 				}
-				animeItem.appendChild(linksSlider);
+				item.appendChild(slider);
 			}
-			mainContainer.appendChild(animeItem);
+			mainContainer.appendChild(item);
 		}
 	} catch (e) {
 		emptyMainContainer();
@@ -57,9 +57,9 @@ function setTitle(username) {
 	document.querySelector('title').textContent = `${username}'s watching anime list`;
 }
 
-function buildAnimeItem() {
+function buildItem() {
 	const result = document.createElement('div');
-	result.setAttribute('class', 'anime-item');
+	result.setAttribute('class', 'item');
 	result.setAttribute('data-id', '1');
 	return result;
 }
@@ -82,9 +82,9 @@ function buildMalPoster(anime) {
 	return result;
 }
 
-function buildLinksSlider(episode) {
+function buildSlider(episode) {
 	const result = document.createElement('div');
-	result.setAttribute('class', 'links_slider');
+	result.setAttribute('class', 'slider');
 	result.appendChild(buildAnimeLink(episode));
 	return result;
 }
@@ -96,15 +96,15 @@ function buildSliderArrow(direction) {
 	[mousedownEventType, keypressEventType].forEach(type => {
 				result.addEventListener(type, function (e) {
 					if (e.type === mousedownEventType || (e.type === keypressEventType && e.key === 'Enter')) {
-						const animeItem = this.parentNode.parentNode;
-						const currentDataId = animeItem.getAttribute('data-id');
+						const item = this.parentNode.parentNode;
+						const currentDataId = item.getAttribute('data-id');
 						const firstId = 1;
-						const lastId = animeItem.querySelectorAll('div[id]').length;
+						const lastId = item.querySelectorAll('div[id]').length;
 						const nextDataId = getNextDataId(direction, currentDataId, firstId, lastId);
-						toggleAnimeSiteInfoActive(animeItem, currentDataId);
-						animeItem.setAttribute('data-id', nextDataId);
-						toggleAnimeSiteInfoActive(animeItem, nextDataId);
-						setNextAnimeLink(animeItem, nextDataId);
+						toggleAnimeSiteInfoActive(item, currentDataId);
+						item.setAttribute('data-id', nextDataId);
+						toggleAnimeSiteInfoActive(item, nextDataId);
+						setNextAnimeLink(item, nextDataId);
 					}
 				});
 			}
@@ -114,12 +114,12 @@ function buildSliderArrow(direction) {
 
 function buildArrowSvg(direction) {
 	const result = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
-	result.setAttribute('class', 'links_slider__arrow links_slider__arrow--' + direction);
+	result.setAttribute('class', 'slider__arrow slider__arrow--' + direction);
 	result.setAttribute('viewBox', '0 0 384 512');
 	result.setAttribute('tabindex', '0');
 	const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
 	let dValue;
-	if (SLIDER_ARROW_DIRECTION.LEFT === direction) {
+	if (DIRECTION.LEFT === direction) {
 		dValue = 'M380.6 81.7c7.9 15.8 1.5 35-14.3 42.9L103.6 256 366.3 387.4c15.8 7.9 22.2 27.1 14.3 42.9s-27.1 22.2-42.9'
 				+ ' 14.3l-320-160C6.8 279.2 0 268.1 0 256s6.8-23.2 17.7-28.6l320-160c15.8-7.9 35-1.5 42.9 14.3z';
 	} else {
@@ -134,7 +134,7 @@ function buildArrowSvg(direction) {
 function getNextDataId(direction, currentId, firstId, lastId) {
 	let result;
 	currentId = Number.parseInt(currentId);
-	if (SLIDER_ARROW_DIRECTION.LEFT === direction) {
+	if (DIRECTION.LEFT === direction) {
 		result = currentId - 1;
 		if (result < firstId) {
 			result = firstId;
@@ -148,13 +148,13 @@ function getNextDataId(direction, currentId, firstId, lastId) {
 	return result;
 }
 
-function toggleAnimeSiteInfoActive(animeItem, id) {
-	animeItem.querySelector('div[id="' + id + '"]').classList.toggle('anime_site_info--active');
+function toggleAnimeSiteInfoActive(item, id) {
+	item.querySelector('div[id="' + id + '"]').classList.toggle('anime_site_info--active');
 }
 
-function setNextAnimeLink(animeItem, dataId) {
-	const nextAnimeLink = animeItem.querySelector('div[id="' + dataId + '"]').getAttribute('anime-link');
-	animeItem.querySelector('div.links_slider >a').setAttribute('href', nextAnimeLink);
+function setNextAnimeLink(item, dataId) {
+	const nextAnimeLink = item.querySelector('div[id="' + dataId + '"]').getAttribute('anime-link');
+	item.querySelector('div.slider >a').setAttribute('href', nextAnimeLink);
 }
 
 function buildAnimeSiteInfoList(episodes) {
@@ -164,7 +164,7 @@ function buildAnimeSiteInfoList(episodes) {
 		const id = Number.parseInt(i) + 1;
 		const animeSiteInfo = buildAnimeSiteInfo(episode, id);
 		animeSiteInfo.appendChild(buildAnimeSiteInfoItem(episode.name));
-		animeSiteInfo.appendChild(buildAnimeSiteInfoItem(id + ' / ' + episodes.length));
+		animeSiteInfo.appendChild(buildAnimeSiteInfoItem('Link ' + id + ' / ' + episodes.length));
 		if (i === '0') {
 			animeSiteInfo.classList.toggle('anime_site_info--active');
 		}
