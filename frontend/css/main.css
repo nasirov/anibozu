@@ -45,7 +45,7 @@ body {
 
 a,
 button,
-.theme_switcher {
+.switch-container {
   cursor: pointer;
 }
 
@@ -72,6 +72,14 @@ body {
   --background: rgb(246, 254, 251);
   --primary: rgb(52, 222, 172);
   --secondary: rgb(94, 165, 229);
+}
+
+:root[theme="dark"] *[theme="light"] {
+  display: none;
+}
+
+:root[theme="light"] *[theme="dark"] {
+  display: none;
 }
 
 /*
@@ -162,38 +170,6 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 5px;
-}
-
-.theme_switcher {
-  width: 40px;
-  height: 25px;
-  padding: 5px;
-  display: flex;
-  align-items: center;
-  background-color: var(--secondary);
-  border-radius: 25px;
-}
-
-.theme_switcher__checkbox {
-  display: none;
-}
-
-.theme_switcher__slider {
-  width: 15px;
-  height: 15px;
-  background-color: var(--background);
-  border-radius: 50%;
-  transition: 0.2s;
-}
-
-.theme_switcher__checkbox:checked + .theme_switcher__slider {
-  transform: translateX(15px);
-}
-
-.error-message {
-  color: var(--secondary);
-  text-align: center;
 }
 
 /*
@@ -205,4 +181,9 @@ body {
 .navigable:focus-visible {
   outline: 2px solid var(--secondary);
   outline-offset: 2px;
+}
+
+.error-message {
+  color: var(--secondary);
+  text-align: center;
 }

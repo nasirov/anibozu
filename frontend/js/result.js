@@ -91,11 +91,11 @@ function buildSlider(episode) {
 
 function buildSliderArrow(direction) {
 	const result = buildArrowSvg(direction);
-	const mousedownEventType = 'mousedown';
+	const clickType = 'click';
 	const keypressEventType = 'keypress';
-	[mousedownEventType, keypressEventType].forEach(type => {
+	[clickType, keypressEventType].forEach(type => {
 				result.addEventListener(type, function (e) {
-					if (e.type === mousedownEventType || (e.type === keypressEventType && e.key === 'Enter')) {
+					if (e.type === clickType || (e.type === keypressEventType && e.key === 'Enter')) {
 						const item = this.parentNode.parentNode;
 						const currentDataId = item.getAttribute('data-id');
 						const firstId = 1;
