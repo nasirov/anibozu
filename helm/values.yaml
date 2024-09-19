@@ -26,11 +26,7 @@ ingress:
     nginx.ingress.kubernetes.io/limit-rpm: '5'
     nginx.ingress.kubernetes.io/limit-rps: '1'
   hosts:
-    - anibozu-backend.nasirov.info
-  tls:
-    hosts:
-      - anibozu-backend.nasirov.info
-    secretName: certificate-nasirov-info
+    - api.anibozu.moe
   paths:
     - /api/v1/user/[\w-]{2,16}/anime-list$
     - /api/v1/anime/\d+/episode/\d+$

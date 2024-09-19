@@ -1,6 +1,6 @@
 <p align="center">
   <img width="325" height="215" alt="anibozu-logo" src="https://raw.githubusercontent.com/nasirov/anibozu/main/frontend/img/logo.png"> <br>
-  <a href="https://anibozu.nasirov.info/">Anibozu</a> is a free service that provides links to the next episodes on 
+  <a href="https://anibozu.moe/">Anibozu</a> is a free service that provides links to the next episodes on 
   <a href="https://github.com/nasirov/anibozu#supported-anime-sites">anime sites</a> <br>
   for your watching anime from <a href="https://myanimelist.net/">MyAnimeList</a>. <br>
 </p>

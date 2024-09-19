@@ -16,7 +16,7 @@ import reactor.core.publisher.Mono;
  * @author Nasirov Yuriy
  */
 @Validated
-@CrossOrigin(origins = "https://anibozu.nasirov.info")
+@CrossOrigin(origins = "https://anibozu.moe")
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/user/{username}")
