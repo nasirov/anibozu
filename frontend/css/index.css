@@ -10,7 +10,7 @@
   gap: 1rem;
   padding: 1rem;
   border: var(--main-border);
-  border-radius: 20px;
+  border-radius: var(--main-border-radius);
 }
 
 .username-form > * {

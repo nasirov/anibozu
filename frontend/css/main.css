@@ -28,6 +28,7 @@
 :root {
   --max-width: 1250px;
   --main-border-width: 1px;
+  --main-border-radius: 20px;
   --main-border: var(--main-border-width) solid var(--secondary);
   --main-box-shadow-width: var(--main-border-width);
   --main-box-shadow: 0 0 0 var(--main-box-shadow-width) var(--secondary);

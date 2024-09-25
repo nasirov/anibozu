@@ -12,11 +12,10 @@
   --max-poster-width: 225px;
   --max-poster-height: 320px;
   --items-gap: 1.5rem;
-  --item-border-radius: 10px;
   --slider-height: 60px;
   --item-badge-indent: 10px;
   --item-badge-max-width: calc(var(--max-poster-width) - var(--item-badge-indent) * 2);
-  --item-padding: 5px;
+  --item-padding: 5px 10px;
 }
 
 /*
@@ -39,7 +38,7 @@
   align-items: center;
   position: relative;
   box-shadow: var(--main-box-shadow);
-  border-radius: var(--item-border-radius);
+  border-radius: var(--main-border-radius);
 }
 
 .item * {
@@ -80,14 +79,15 @@
   width: var(--max-poster-width);
   height: var(--max-poster-height);
   position: relative;
-  border-radius: var(--item-border-radius) var(--item-border-radius) 0 0;
+  border-radius: var(--main-border-radius) var(--main-border-radius) 0 0;
   z-index: 100;
   text-align: center;
   overflow: hidden;
   color: var(--secondary);
 }
 
-.mal_poster:hover {
+.mal_poster:hover,
+.item:has(.anime_site_info:hover) > .mal_poster {
   filter: grayscale(0.5);
   transition: 0.3s;
 }
