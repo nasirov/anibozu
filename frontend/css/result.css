@@ -9,12 +9,12 @@
 */
 
 :root {
-  --max-poster-width: 225px;
-  --max-poster-height: 320px;
+  --item-width: 225px;
+  --item-height: 320px;
   --items-gap: 1.5rem;
   --slider-height: 60px;
   --item-badge-indent: 10px;
-  --item-badge-max-width: calc(var(--max-poster-width) - var(--item-badge-indent) * 2);
+  --item-badge-max-width: calc(var(--item-width) - var(--item-badge-indent) * 2);
   --item-padding: 5px 10px;
 }
 
@@ -32,27 +32,24 @@
 }
 
 .item {
-  width: var(--max-poster-width);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  width: var(--item-width);
+  height: var(--item-height);
   position: relative;
-  box-shadow: var(--main-box-shadow);
   border-radius: var(--main-border-radius);
 }
 
 .item * {
   background-color: unset;
   border-radius: inherit;
+  z-index: 200;
 }
 
-.item:not(:has(.slider)) {
-  box-shadow: unset;
+.item:has(.slider):hover > .mal_poster {
+  filter: grayscale(0.5);
+  transition: 0.3s;
 }
 
 .item:not(:has(.slider)) > .mal_poster {
-  box-shadow: var(--main-box-shadow);
-  border-radius: inherit;
   filter: grayscale(1);
 }
 
@@ -68,7 +65,6 @@
   text-overflow: ellipsis;
   white-space: nowrap;
   font-size: x-large;
-  z-index: 200;
 }
 
 .mal_episode:is(:hover, :focus-visible) {
@@ -76,20 +72,12 @@
 }
 
 .mal_poster {
-  width: var(--max-poster-width);
-  height: var(--max-poster-height);
+  width: 100%;
+  height: 100%;
   position: relative;
-  border-radius: var(--main-border-radius) var(--main-border-radius) 0 0;
   z-index: 100;
   text-align: center;
   overflow: hidden;
-  color: var(--secondary);
-}
-
-.mal_poster:hover,
-.item:has(.anime_site_info:hover) > .mal_poster {
-  filter: grayscale(0.5);
-  transition: 0.3s;
 }
 
 .anime_site_info {
@@ -101,7 +89,6 @@
   position: absolute;
   bottom: calc(var(--slider-height) + var(--item-badge-indent));
   left: var(--item-badge-indent);
-  z-index: 200;
 }
 
 .anime_site_info--active {
@@ -138,6 +125,11 @@
   grid-template-areas: "arrow-left anime-link arrow-right";
   align-items: center;
   justify-items: center;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  border-radius: 0 0 var(--main-border-radius) var(--main-border-radius);
+  backdrop-filter: blur(3rem);
 }
 
 .slider__arrow {
@@ -179,6 +171,7 @@
   align-items: center;
   overflow: hidden;
   font-size: 2rem;
+  border-radius: var(--main-border-radius);
 }
 
 .anime_link:is(:hover, :focus-visible) {

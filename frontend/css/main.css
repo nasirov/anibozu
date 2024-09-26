@@ -62,10 +62,10 @@ body {
 */
 
 :root[theme="dark"] {
-  --text: rgb(255, 255, 255);
+  --text: rgb(4, 26, 20);
   --background: rgb(27, 36, 48);
-  --primary: rgb(129, 103, 151);
-  --secondary: rgb(129, 135, 201);
+  --primary: rgb(129, 103, 200);
+  --secondary: rgb(129, 150, 255);
 }
 
 :root[theme="light"] {
