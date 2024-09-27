@@ -31,8 +31,8 @@ function renderResult(username, animeListResponse) {
 		for (const i in animeList) {
 			const anime = animeList[i];
 			const item = buildItem();
-			item.appendChild(buildMalEpisode(anime));
 			item.appendChild(buildMalPoster(anime));
+			item.appendChild(buildMalEpisode(anime));
 			const episodes = anime.episodes;
 			if (episodes.length > 0) {
 				const animeSiteInfoList = buildAnimeSiteInfoList(episodes);
@@ -65,7 +65,7 @@ function buildItem() {
 }
 
 function buildMalEpisode(anime) {
-	const result = buildLink('mal_episode', anime.malUrl);
+	const result = buildLink('mal_episode navigable', anime.malUrl);
 	const maxEpisodes = anime.maxEpisodes;
 	result.textContent = 'Ep. ' + anime.nextEpisode + ' / ' + (maxEpisodes === 0 ? '?' : maxEpisodes);
 	return result;

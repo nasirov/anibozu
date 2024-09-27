@@ -41,7 +41,6 @@
 .item * {
   background-color: unset;
   border-radius: inherit;
-  z-index: 200;
 }
 
 .item:has(.slider):hover > .mal_poster {
@@ -59,8 +58,7 @@
   top: var(--item-badge-indent);
   left: var(--item-badge-indent);
   padding: var(--item-padding);
-  color: rgb(255, 255, 255);
-  background-color: rgb(46, 81, 162);
+  background-color: var(--primary);
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -68,14 +66,14 @@
 }
 
 .mal_episode:is(:hover, :focus-visible) {
-  transform: scale(1.08);
+  background-color: var(--secondary);
 }
 
 .mal_poster {
   width: 100%;
   height: 100%;
   position: relative;
-  z-index: 100;
+  z-index: 0;
   text-align: center;
   overflow: hidden;
 }
@@ -179,7 +177,7 @@
 }
 
 .anime_link:active {
-  transform: scale(0.98);
+  transform: scale(0.90);
 }
 
 @keyframes fade-in {
