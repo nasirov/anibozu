@@ -31,12 +31,14 @@ function renderResult(username, animeListResponse) {
 		for (const i in animeList) {
 			const anime = animeList[i];
 			const item = buildItem();
-			item.appendChild(buildMalPoster(anime));
-			item.appendChild(buildMalEpisode(anime));
+			item.appendChild(buildPoster(anime));
+			const itemBadges = buildItemBadges();
+			itemBadges.appendChild(buildMalEpisodeBadge(anime));
+			item.appendChild(itemBadges);
 			const episodes = anime.episodes;
 			if (episodes.length > 0) {
-				const animeSiteInfoList = buildAnimeSiteInfoList(episodes);
-				item.append(...animeSiteInfoList);
+				const animeSiteBadgesList = buildAnimeSiteBadgesList(episodes);
+				itemBadges.append(...animeSiteBadgesList);
 				const slider = buildSlider(episodes[0]);
 				if (episodes.length > 1) {
 					slider.prepend(buildSliderArrow(DIRECTION.LEFT));
@@ -64,21 +66,27 @@ function buildItem() {
 	return result;
 }
 
-function buildMalEpisode(anime) {
-	const result = buildLink('mal_episode navigable', anime.malUrl);
-	const maxEpisodes = anime.maxEpisodes;
-	result.textContent = 'Ep. ' + anime.nextEpisode + ' / ' + (maxEpisodes === 0 ? '?' : maxEpisodes);
-	return result;
-}
-
-function buildMalPoster(anime) {
+function buildPoster(anime) {
 	const name = anime.name;
 	const result = document.createElement('img');
-	result.setAttribute('class', 'mal_poster');
+	result.setAttribute('class', 'item__poster');
 	result.setAttribute('loading', 'lazy');
 	result.setAttribute('src', anime.posterUrl);
 	result.setAttribute('alt', name);
 	result.setAttribute('title', name);
+	return result;
+}
+
+function buildItemBadges() {
+	const result = document.createElement('div');
+	result.setAttribute('class', 'item__badges');
+	return result;
+}
+
+function buildMalEpisodeBadge(anime) {
+	const result = buildLink('badge navigable', anime.malUrl);
+	const maxEpisodes = anime.maxEpisodes;
+	result.textContent = 'Ep. ' + anime.nextEpisode + ' / ' + (maxEpisodes === 0 ? '?' : maxEpisodes);
 	return result;
 }
 
@@ -101,9 +109,9 @@ function buildSliderArrow(direction) {
 						const firstId = 1;
 						const lastId = item.querySelectorAll('div[id]').length;
 						const nextDataId = getNextDataId(direction, currentDataId, firstId, lastId);
-						toggleAnimeSiteInfoActive(item, currentDataId);
+						toggleAnimeSiteBadgesActive(item, currentDataId);
 						item.setAttribute('data-id', nextDataId);
-						toggleAnimeSiteInfoActive(item, nextDataId);
+						toggleAnimeSiteBadgesActive(item, nextDataId);
 						setNextAnimeLink(item, nextDataId);
 					}
 				});
@@ -148,8 +156,8 @@ function getNextDataId(direction, currentId, firstId, lastId) {
 	return result;
 }
 
-function toggleAnimeSiteInfoActive(item, id) {
-	item.querySelector('div[id="' + id + '"]').classList.toggle('anime_site_info--active');
+function toggleAnimeSiteBadgesActive(item, id) {
+	item.querySelector('div[id="' + id + '"]').classList.toggle('anime_site_badges--active');
 }
 
 function setNextAnimeLink(item, dataId) {
@@ -157,38 +165,38 @@ function setNextAnimeLink(item, dataId) {
 	item.querySelector('div.slider >a').setAttribute('href', nextAnimeLink);
 }
 
-function buildAnimeSiteInfoList(episodes) {
+function buildAnimeSiteBadgesList(episodes) {
 	const result = [];
 	for (const i in episodes) {
 		const episode = episodes[i];
 		const id = Number.parseInt(i) + 1;
-		const animeSiteInfo = buildAnimeSiteInfo(episode, id);
-		animeSiteInfo.appendChild(buildAnimeSiteInfoItem(episode.name));
-		animeSiteInfo.appendChild(buildAnimeSiteInfoItem('Link ' + id + ' / ' + episodes.length));
+		const badges = buildAnimeSiteBadges(episode, id);
+		badges.appendChild(buildBadge(episode.name));
+		badges.appendChild(buildBadge('Link ' + id + ' / ' + episodes.length));
 		if (i === '0') {
-			animeSiteInfo.classList.toggle('anime_site_info--active');
+			badges.classList.toggle('anime_site_badges--active');
 		}
-		result.push(animeSiteInfo);
+		result.push(badges);
 	}
 	return result;
 }
 
-function buildAnimeSiteInfo(episode, id) {
+function buildAnimeSiteBadges(episode, id) {
 	const result = document.createElement('div');
-	result.setAttribute('class', 'anime_site_info');
+	result.setAttribute('class', 'anime_site_badges');
 	result.setAttribute('id', id);
 	result.setAttribute('anime-link', episode.link);
 	for (const value of episode.extra) {
-		result.appendChild(buildAnimeSiteInfoItem(value));
+		result.appendChild(buildBadge(value));
 	}
 	return result;
 }
 
-function buildAnimeSiteInfoItem(value) {
+function buildBadge(title) {
 	const result = document.createElement('div');
-	result.setAttribute('class', 'anime_site_info__item');
-	result.setAttribute('title', value);
-	result.textContent = value;
+	result.setAttribute('class', 'badge');
+	result.setAttribute('title', title);
+	result.textContent = title;
 	return result;
 }
 

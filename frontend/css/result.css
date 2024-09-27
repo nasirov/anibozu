@@ -43,33 +43,16 @@
   border-radius: inherit;
 }
 
-.item:has(.slider):hover > .mal_poster {
+.item:has(.slider):hover > .item__poster {
   filter: grayscale(0.5);
   transition: 0.3s;
 }
 
-.item:not(:has(.slider)) > .mal_poster {
+.item:not(:has(.slider)) > .item__poster {
   filter: grayscale(1);
 }
 
-.mal_episode {
-  max-width: var(--item-badge-max-width);
-  position: absolute;
-  top: var(--item-badge-indent);
-  left: var(--item-badge-indent);
-  padding: var(--item-padding);
-  background-color: var(--primary);
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  font-size: x-large;
-}
-
-.mal_episode:is(:hover, :focus-visible) {
-  background-color: var(--secondary);
-}
-
-.mal_poster {
+.item__poster {
   width: 100%;
   height: 100%;
   position: relative;
@@ -78,41 +61,55 @@
   overflow: hidden;
 }
 
-.anime_site_info {
-  display: none;
-  flex-direction: column;
-  gap: 5px;
+.item__badges {
   width: 100%;
+  height: 100%;
   max-width: var(--item-badge-max-width);
+  max-height: calc(var(--item-height) - var(--slider-height) - var(--item-badge-indent) * 2);
   position: absolute;
-  bottom: calc(var(--slider-height) + var(--item-badge-indent));
+  top: var(--item-badge-indent);
   left: var(--item-badge-indent);
-}
-
-.anime_site_info--active {
   display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
-.anime_site_info__item {
-  max-width: inherit;
+.badge {
   width: fit-content;
-  background-color: var(--primary);
+  max-width: inherit;
   padding: var(--item-padding);
+  background-color: var(--primary);
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
   font-size: large;
 }
 
-.anime_site_info__item:empty {
+.badge:empty {
   display: none;
 }
 
-.anime_site_info__item:not(:last-child) {
+.item__badges > .badge:is(:hover, :focus-visible) {
+  background-color: var(--secondary);
+}
+
+.anime_site_badges {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  width: 100%;
+  max-width: inherit;
+}
+
+.anime_site_badges--active {
+  display: flex;
+}
+
+.anime_site_badges > .badge:not(:last-child) {
   animation: fade-in 500ms forwards;
 }
 
-.anime_site_info__item:last-child {
+.anime_site_badges > .badge:last-child {
   align-self: center;
 }
 
