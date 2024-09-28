@@ -24,7 +24,7 @@
 .username-form__input {
   width: min(350px, 100%);
   border: var(--main-border);
-  color: var(--secondary);
+  color: var(--primary);
 }
 
 .username-form__button {
@@ -37,8 +37,8 @@
   transform: scale(0.98);
 }
 
-.username-form__button:is(:hover, :focus-visible) {
-  background-color: var(--secondary);
+.username-form__button:is(:hover, :focus, :focus-visible) {
+  background-color: var(--accent);
 }
 
 input.username-form__input:not(:placeholder-shown):valid {

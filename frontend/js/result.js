@@ -120,23 +120,31 @@ function buildSliderArrow(direction) {
 	return result;
 }
 
-function buildArrowSvg(direction) {
+function buildSvg(targetClass, viewBox, dValue) {
 	const result = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
-	result.setAttribute('class', 'slider__arrow slider__arrow--' + direction);
-	result.setAttribute('viewBox', '0 0 384 512');
-	result.setAttribute('tabindex', '0');
+	result.setAttribute('class', targetClass);
+	result.setAttribute('viewBox', viewBox);
 	const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
-	let dValue;
-	if (DIRECTION.LEFT === direction) {
-		dValue = 'M380.6 81.7c7.9 15.8 1.5 35-14.3 42.9L103.6 256 366.3 387.4c15.8 7.9 22.2 27.1 14.3 42.9s-27.1 22.2-42.9'
-				+ ' 14.3l-320-160C6.8 279.2 0 268.1 0 256s6.8-23.2 17.7-28.6l320-160c15.8-7.9 35-1.5 42.9 14.3z';
-	} else {
-		dValue = 'M3.4 81.7c-7.9 15.8-1.5 35 14.3 42.9L280.5 256 17.7 387.4C1.9 395.3-4.5 414.5 3.4 430.3s27.1 22.2 42.9'
-				+ ' 14.3l320-160c10.8-5.4 17.7-16.5 17.7-28.6s-6.8-23.2-17.7-28.6l-320-160c-15.8-7.9-35-1.5-42.9 14.3z';
-	}
 	path.setAttribute('d', dValue);
 	result.appendChild(path);
 	return result;
+}
+
+function buildArrowSvg(direction) {
+	let dValue;
+	if (DIRECTION.LEFT === direction) {
+		dValue = 'M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z';
+	} else {
+		dValue = 'M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z';
+	}
+	const result = buildSvg('slider__arrow slider__arrow--' + direction, '0 0 320 512', dValue);
+	result.setAttribute('tabindex', '0');
+	return result;
+}
+
+function buildPlayIconSvg() {
+	let dValue = 'M73 39c-14.8-9.1-33.4-9.4-48.5-.9S0 62.6 0 80L0 432c0 17.4 9.4 33.4 24.5 41.9s33.7 8.1 48.5-.9L361 297c14.3-8.7 23-24.2 23-41s-8.7-32.2-23-41L73 39z';
+	return buildSvg('play_icon', '0 0 384 512', dValue);
 }
 
 function getNextDataId(direction, currentId, firstId, lastId) {
@@ -201,9 +209,9 @@ function buildBadge(title) {
 }
 
 function buildAnimeLink(episode) {
-	const result = buildLink('anime_link navigable', episode.link);
+	const result = buildLink('anime_link', episode.link);
 	result.setAttribute('tabindex', '0');
-	result.textContent = 'Watch';
+	result.appendChild(buildPlayIconSvg());
 	return result;
 }
 

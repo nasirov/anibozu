@@ -31,7 +31,7 @@
   --main-border-radius: 20px;
   --main-border: var(--main-border-width) solid var(--secondary);
   --main-box-shadow-width: var(--main-border-width);
-  --main-box-shadow: 0 0 0 var(--main-box-shadow-width) var(--secondary);
+  --main-box-shadow: 0 0 0 var(--main-box-shadow-width) var(--primary);
 }
 
 html {
@@ -64,15 +64,17 @@ body {
 :root[theme="dark"] {
   --text: rgb(4, 26, 20);
   --background: rgb(27, 36, 48);
-  --primary: rgb(56, 192, 215);
+  --primary: rgb(52, 222, 172);
   --secondary: rgb(208, 153, 191);
+  --accent: rgb(20, 204, 247);
 }
 
 :root[theme="light"] {
   --text: rgb(4, 26, 20);
   --background: rgb(246, 254, 251);
   --primary: rgb(52, 222, 172);
-  --secondary: rgb(94, 165, 229);
+  --secondary: rgb(208, 153, 191);
+  --accent: rgb(20, 204, 247);
 }
 
 :root[theme="dark"] *[theme="light"] {
@@ -180,8 +182,12 @@ body {
 */
 
 .navigable:focus-visible {
-  outline: 2px solid var(--secondary);
+  outline: 2px solid var(--accent);
   outline-offset: 2px;
+}
+
+.navigable:is(:hover, :focus , :focus-visible) svg.icon {
+  fill: var(--accent);
 }
 
 .error-message {
