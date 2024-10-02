@@ -72,9 +72,9 @@ body {
 :root[theme="light"] {
   --text: rgb(4, 26, 20);
   --background: rgb(246, 254, 251);
-  --primary: rgb(52, 222, 172);
+  --primary: rgb(178, 137, 231);
   --secondary: rgb(208, 153, 191);
-  --accent: rgb(20, 204, 247);
+  --accent: rgb(69, 193, 184);
 }
 
 :root[theme="dark"] *[theme="light"] {
