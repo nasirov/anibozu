@@ -16,6 +16,7 @@
   --item-badge-indent: 10px;
   --item-badge-max-width: calc(var(--item-width) - var(--item-badge-indent) * 2);
   --item-padding: 5px 10px;
+  --item-box-shadow: 0px 0px 20px 10px var(--accent);
 }
 
 /*
@@ -35,7 +36,6 @@
   height: var(--item-height);
   position: relative;
   border-radius: var(--main-border-radius);
-  transition: transform 300ms ease-in-out;
 }
 
 .item * {
@@ -44,7 +44,9 @@
 }
 
 .item:has(:hover, :focus, :focus-visible) {
-  transform: scale(1.05);
+  -webkit-box-shadow: var(--item-box-shadow);
+  -moz-box-shadow: var(--item-box-shadow);
+  box-shadow: var(--item-box-shadow);
 }
 
 .item:not(:has(.slider)) > .item__poster {
