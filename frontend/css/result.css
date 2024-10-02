@@ -58,6 +58,7 @@
   z-index: 0;
   text-align: center;
   overflow: hidden;
+  object-fit: cover;
 }
 
 .item__badges {
