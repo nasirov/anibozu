@@ -11,7 +11,7 @@
 :root {
   --item-width: 225px;
   --item-height: 320px;
-  --items-gap: 1.5rem;
+  --items-gap: 3rem;
   --slider-height: 50px;
   --item-badge-indent: 10px;
   --item-badge-max-width: calc(var(--item-width) - var(--item-badge-indent) * 2);
@@ -26,7 +26,6 @@
 
 .items-container {
   align-content: center;
-  align-items: flex-start;
   flex-wrap: wrap;
   gap: var(--items-gap);
 }
