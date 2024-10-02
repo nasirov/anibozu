@@ -28,14 +28,8 @@ Folks that don't stick to one anime site and are lazy enough to check their anim
 
 <img alt="sw_obi_wan" src="https://raw.githubusercontent.com/nasirov/anibozu/main/images/extra/sw_obi_wan.gif">
 
-### How does it work?
+### Limitations
 
-It's pretty simple. First, you submit a MAL username, then the service gets the user's watching anime list from MAL, builds and renders the
-anime list with available information, and that's it.
-
-### Notes
-
-- Works only for public anime lists
-- Handles at max 50 watching anime per user
 - Depends on MAL availability
-- Anime mapping is not 100% accurate and has a delay less than 24 hours
+- Handles at max 50 watching anime per user with a public anime list
+- Anime mapping is not 100% accurate and updates once a day
