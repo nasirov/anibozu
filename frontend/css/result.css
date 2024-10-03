@@ -23,7 +23,7 @@
 }
 
 :root[theme="light"] {
-  --item-box-shadow: 10px 10px 20px rgb(98, 102, 100), -10px -10px 20px rgb(255, 255, 255);
+  --item-box-shadow: 0 10px 20px rgb(98, 102, 100);
 }
 
 /*
@@ -43,6 +43,7 @@
   height: var(--item-height);
   position: relative;
   border-radius: var(--main-border-radius);
+  transition: box-shadow 0.1s linear;
 }
 
 .item * {
