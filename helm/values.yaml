@@ -26,7 +26,7 @@ ingress:
     nginx.ingress.kubernetes.io/limit-rpm: '5'
     nginx.ingress.kubernetes.io/limit-rps: '1'
   hosts:
-    - api.anibozu.moe
+    - api.anibozu.fun
   paths:
     - /api/v1/user/[\w-]{2,16}/anime-list$
     - /api/v1/anime/\d+/episode/\d+$

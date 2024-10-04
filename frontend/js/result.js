@@ -8,7 +8,7 @@ const GENERIC_ERROR_MESSAGE = 'Sorry, something went wrong. Please try again lat
 async function getAnimeList(username) {
 	let result;
 	try {
-		result = await (await fetch(`https://api.anibozu.moe/api/v1/user/${username}/anime-list`)).json();
+		result = await (await fetch(`https://api.anibozu.fun/api/v1/user/${username}/anime-list`)).json();
 	} catch (e) {
 		console.error(e, e.stack);
 	}
