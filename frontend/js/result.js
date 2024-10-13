@@ -106,9 +106,7 @@ function buildSliderArrow(direction) {
 					if (e.type === clickType || (e.type === keypressEventType && e.key === 'Enter')) {
 						const item = this.parentNode.parentNode;
 						const currentDataId = item.getAttribute('data-id');
-						const firstId = 1;
-						const lastId = item.querySelectorAll('div[id]').length;
-						const nextDataId = getNextDataId(direction, currentDataId, firstId, lastId);
+						const nextDataId = getNextDataId(direction, currentDataId, item);
 						toggleAnimeSiteBadgesActive(item, currentDataId);
 						item.setAttribute('data-id', nextDataId);
 						toggleAnimeSiteBadgesActive(item, nextDataId);
@@ -147,18 +145,20 @@ function buildPlayIconSvg() {
 	return buildSvg('play_icon', '0 0 384 512', dValue);
 }
 
-function getNextDataId(direction, currentId, firstId, lastId) {
+function getNextDataId(direction, currentId, item) {
+	const firstId = 1;
+	const lastId = item.querySelectorAll('div[id]').length;
 	let result;
 	currentId = Number.parseInt(currentId);
 	if (DIRECTION.LEFT === direction) {
 		result = currentId - 1;
 		if (result < firstId) {
-			result = firstId;
+			result = lastId;
 		}
 	} else {
 		result = currentId + 1;
 		if (result > lastId) {
-			result = lastId;
+			result = firstId;
 		}
 	}
 	return result;
