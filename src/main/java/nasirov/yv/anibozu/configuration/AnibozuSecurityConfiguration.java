@@ -7,6 +7,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.reactive.EnableWebFluxSecurity;
 import org.springframework.security.config.web.server.ServerHttpSecurity;
+import org.springframework.security.config.web.server.ServerHttpSecurity.CsrfSpec;
 import org.springframework.security.core.userdetails.MapReactiveUserDetailsService;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -38,15 +39,10 @@ public class AnibozuSecurityConfiguration {
 
 	@Bean
 	public SecurityWebFilterChain springSecurityFilterChain(ServerHttpSecurity http) {
-		return http.csrf()
-				.disable()
+		return http.csrf(CsrfSpec::disable)
 				.httpBasic(Customizer.withDefaults())
-				.authorizeExchange()
-				.pathMatchers("/actuator/**", "/api/v1/user/**")
-				.permitAll()
-				.pathMatchers("/api/v1/anime/**")
-				.hasRole("ADMIN")
-				.and()
+				.authorizeExchange(
+						exchanges -> exchanges.pathMatchers("/actuator/**", "/api/v1/user/**").permitAll().pathMatchers("/api/v1/anime/**").hasRole("ADMIN"))
 				.build();
 	}
 }
