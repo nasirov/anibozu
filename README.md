@@ -1,7 +1,7 @@
 <p align="center">
   <img width="325" height="215" alt="anibozu-logo" src="https://raw.githubusercontent.com/nasirov/anibozu/main/frontend/img/logo.png"> <br>
   <a href="https://anibozu.fun/">Anibozu</a> is a free service that provides links to the next episodes on 
-  <a href="https://github.com/nasirov/anibozu#supported-anime-sites">anime sites</a> <br>
+  <a href="https://github.com/nasirov/anibozu#supported-anime-sites">the anime sites</a> <br>
   for your watching anime from <a href="https://myanimelist.net/">MyAnimeList</a>. <br>
 </p>
 
@@ -13,7 +13,7 @@
 [![Coverage](https://sonarcloud.io/api/project_badges/measure?project=nasirov_anibozu&metric=coverage)](https://sonarcloud.io/dashboard?id=nasirov_anibozu)
 [![Apache License 2](https://img.shields.io/badge/license-ASF2-blue.svg)](https://www.apache.org/licenses/LICENSE-2.0.txt)
 
-### Supported Anime sites
+### Supported anime sites
 
 | Site            | Language | Type       |                                          Link                                           | Direct links to episodes |        Dub        |        Sub         |
 |:----------------|:--------:|:-----------|:---------------------------------------------------------------------------------------:|:------------------------:|:-----------------:|:------------------:|
@@ -25,7 +25,7 @@
 
 ### Who would use it?
 
-Folks that don't stick to one anime site and are lazy enough to check their anime for new episodes on the anime sites manually.
+Folks that don't stick to one anime site and are lazy enough to check their watching anime for new episodes on the anime sites manually.
 
 <img alt="sw_obi_wan" src="https://raw.githubusercontent.com/nasirov/anibozu/main/images/extra/sw_obi_wan.gif">
 
