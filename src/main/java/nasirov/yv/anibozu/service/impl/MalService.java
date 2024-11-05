@@ -5,7 +5,6 @@ import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import nasirov.yv.anibozu.exception.MalException;
-import nasirov.yv.anibozu.exception.UnexpectedCallingException;
 import nasirov.yv.anibozu.properties.AppProps;
 import nasirov.yv.anibozu.service.MalAnimeFilterI;
 import nasirov.yv.anibozu.service.MalAnimeFormatterI;
@@ -90,7 +89,7 @@ public class MalService implements MalServiceI {
 			throw new MalException(ERROR_MESSAGE_PREFIX + username + ", but MAL is being unavailable now." + ERROR_MESSAGE_SUFFIX);
 		} else {
 			if (!HttpStatus.OK.equals(responseStatus)) {
-				throw new UnexpectedCallingException();
+				throw new MalException(ERROR_MESSAGE_PREFIX + "cannot get " + username + "'s anime list." + ERROR_MESSAGE_SUFFIX);
 			}
 		}
 	}

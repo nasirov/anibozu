@@ -4,6 +4,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doThrow;
 
 import com.fasterxml.jackson.core.type.TypeReference;
+import java.time.Duration;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -99,13 +100,23 @@ class UserApiTest extends AbstractTest {
 	}
 
 	@Test
-	void shouldReturnErrorUnexpectedCallingException() {
+	void shouldReturnErrorCannotGetAnimeList() {
 		//given
 		stubAnimeListError(HttpStatus.INTERNAL_SERVER_ERROR);
 		//when
 		ResponseSpec result = getAnimeList();
 		//then
-		checkGenericErrorResponse(result);
+		checkFailedAnimeListRequestErrorResponse(result);
+	}
+
+	@Test
+	void shouldReturnErrorCannotGetAnimeListReadTimeout() {
+		//given
+		stubHttpRequest(ANIME_LIST_URL, "mal/watching_anime_offset_0.json", HttpStatus.OK, Duration.ofSeconds(4));
+		//when
+		ResponseSpec result = getAnimeList();
+		//then
+		checkFailedAnimeListRequestErrorResponse(result);
 	}
 
 	@Test
@@ -200,5 +211,9 @@ class UserApiTest extends AbstractTest {
 				.stream()
 				.map(x -> new Anime(x.name(), x.nextEpisode(), x.maxEpisodes(), x.posterUrl(), appProps.getMal().getUrl() + x.malUrl(), x.episodes()))
 				.toList());
+	}
+
+	private void checkFailedAnimeListRequestErrorResponse(ResponseSpec result) {
+		checkErrorResponse(result, HttpStatus.INTERNAL_SERVER_ERROR, "Sorry, cannot get " + MAL_USERNAME + "'s anime list. Please, try again later.");
 	}
 }

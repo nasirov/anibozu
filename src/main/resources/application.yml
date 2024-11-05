@@ -7,7 +7,7 @@ spring:
 
 starter-reactive-services:
   web-client:
-    read-timeout: 10s
+    read-timeout: 30s
     max-attempts: 0
 
 application:

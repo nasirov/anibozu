@@ -3,6 +3,7 @@ package nasirov.yv.anibozu;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.github.tomakehurst.wiremock.WireMockServer;
 import com.github.tomakehurst.wiremock.client.WireMock;
+import java.time.Duration;
 import java.util.List;
 import java.util.Map;
 import nasirov.yv.anibozu.configuration.TestRedisConfiguration;
@@ -77,8 +78,13 @@ public abstract class AbstractTest {
 	}
 
 	protected void stubHttpRequest(String url, String bodyFilePath, HttpStatus httpStatus) {
-		wireMockServer.addStubMapping(
-				WireMock.get(url).willReturn(WireMock.aResponse().withBodyFile(bodyFilePath).withStatus(httpStatus.value())).build());
+		stubHttpRequest(url, bodyFilePath, httpStatus, Duration.ZERO);
+	}
+
+	protected void stubHttpRequest(String url, String bodyFilePath, HttpStatus httpStatus, Duration delay) {
+		wireMockServer.addStubMapping(WireMock.get(url)
+				.willReturn(WireMock.aResponse().withBodyFile(bodyFilePath).withStatus(httpStatus.value()).withFixedDelay((int) delay.toMillis()))
+				.build());
 	}
 
 	protected Map<Integer, Map<Integer, List<EpisodeData>>> getTestAnimeData() {

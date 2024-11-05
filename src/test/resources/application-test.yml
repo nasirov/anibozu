@@ -5,6 +5,7 @@ spring:
 
 starter-reactive-services:
   web-client:
+    read-timeout: 3s
     max-attempts: 0
 
 application:
