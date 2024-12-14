@@ -21,9 +21,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 import reactor.core.publisher.Mono;
 
-/**
- * @author Nasirov Yuriy
- */
 @Slf4j
 @Service
 @RequiredArgsConstructor

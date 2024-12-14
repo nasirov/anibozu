@@ -22,9 +22,6 @@ import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpStatus;
 import org.springframework.test.web.reactive.server.WebTestClient.ResponseSpec;
 
-/**
- * @author Nasirov Yuriy
- */
 class UserApiTest extends AbstractTest {
 
 	private static final String MAL_USERNAME = "foobarbaz";

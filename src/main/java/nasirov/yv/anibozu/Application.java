@@ -3,9 +3,6 @@ package nasirov.yv.anibozu;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-/**
- * @author Nasirov Yuriy
- */
 @SpringBootApplication
 public class Application {
 

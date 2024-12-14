@@ -10,9 +10,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.web.util.HtmlUtils;
 
-/**
- * @author Nasirov Yuriy
- */
 @Service
 @RequiredArgsConstructor
 public class MalAnimeFormatter implements MalAnimeFormatterI {

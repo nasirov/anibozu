@@ -1,7 +1,3 @@
-/*
-   Author: Nasirov Yuriy
-*/
-
 document.addEventListener('DOMContentLoaded', () => {
 	document.querySelector('#username-form').addEventListener('submit',
 			async e => {

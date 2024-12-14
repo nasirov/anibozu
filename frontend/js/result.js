@@ -1,7 +1,3 @@
-/*
-   Author: Nasirov Yuriy
-*/
-
 const DIRECTION = {LEFT: 'left', RIGHT: 'right'};
 const GENERIC_ERROR_MESSAGE = 'Sorry, something went wrong. Please try again later.';
 

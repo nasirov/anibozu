@@ -4,9 +4,6 @@ import nasirov.yv.anibozu.service.MalAnimeFilterI;
 import nasirov.yv.starter_common.dto.mal.MalAnime;
 import org.springframework.stereotype.Service;
 
-/**
- * @author Nasirov Yuriy
- */
 @Service
 public class WatchingAnimeFilter implements MalAnimeFilterI {
 

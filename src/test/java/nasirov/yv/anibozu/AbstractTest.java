@@ -33,9 +33,6 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.reactive.server.WebTestClient;
 import org.springframework.test.web.reactive.server.WebTestClient.ResponseSpec;
 
-/**
- * @author Nasirov Yuriy
- */
 @ActiveProfiles("test")
 @AutoConfigureWireMock(port = 0)
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT, classes = {Application.class, TestRedisConfiguration.class})

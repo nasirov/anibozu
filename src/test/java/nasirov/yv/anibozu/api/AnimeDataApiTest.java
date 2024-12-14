@@ -25,9 +25,6 @@ import org.springframework.test.web.reactive.server.WebTestClient.RequestBodySpe
 import org.springframework.test.web.reactive.server.WebTestClient.ResponseSpec;
 import reactor.core.publisher.Mono;
 
-/**
- * @author Nasirov Yuriy
- */
 class AnimeDataApiTest extends AbstractTest {
 
 	private static final int MAL_ID = 42;

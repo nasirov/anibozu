@@ -9,9 +9,6 @@ import nasirov.yv.starter_common.dto.anibozu.AnimeData;
 import nasirov.yv.starter_common.dto.anibozu.EpisodeData;
 import org.mapstruct.Mapper;
 
-/**
- * @author Nasirov Yuriy
- */
 @Mapper(componentModel = "spring")
 public interface AnimeDataMapper {
 

@@ -1,7 +1,3 @@
-/*
-   Author: Nasirov Yuriy
-*/
-
 const Themes = {DARK: 'dark', LIGHT: 'light'};
 const THEME_ATTR = 'theme';
 const THEME_COOKIE = 'theme';

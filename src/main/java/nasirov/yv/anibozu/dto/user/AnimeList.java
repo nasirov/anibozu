@@ -4,9 +4,6 @@ import jakarta.validation.constraints.NotEmpty;
 import java.util.List;
 import lombok.Builder;
 
-/**
- * @author Nasirov Yuriy
- */
 public record AnimeList(@NotEmpty List<Anime> animeList) {
 
 	@Builder

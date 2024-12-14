@@ -13,9 +13,6 @@ import org.springframework.web.bind.support.WebExchangeBindException;
 import org.springframework.web.server.ServerWebInputException;
 import reactor.core.publisher.Mono;
 
-/**
- * @author Nasirov Yuriy
- */
 @Slf4j
 @RestControllerAdvice
 @RequiredArgsConstructor
