@@ -31,7 +31,8 @@
             "sub"
           ]
         }
-      ]
+      ],
+      "airing": true
     },
     {
       "name": "ANIME NAME 222 '",
@@ -57,7 +58,8 @@
             "sub"
           ]
         }
-      ]
+      ],
+      "airing": true
     },
     {
       "name": "ANIME NAME 333",
@@ -83,7 +85,8 @@
             "sub"
           ]
         }
-      ]
+      ],
+      "airing": false
     },
     {
       "name": "ANIME NAME 444",
@@ -91,7 +94,8 @@
       "maxEpisodes": "12",
       "posterUrl": "https://cdn.myanimelist.net/images/anime/444/4444.jpg",
       "malUrl": "/anime/444/Anime_Name_444",
-      "episodes": []
+      "episodes": [],
+      "airing": false
     }
   ]
 }

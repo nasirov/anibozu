@@ -5,7 +5,8 @@
     "anime_num_episodes": 12,
     "anime_title": "ANIME NAME 111",
     "anime_image_path": "https://cdn.myanimelist.net/r/96x136/images/anime/111/1111.jpg?s=1c645b8c2a73c6f3efdf3840d97cac41",
-    "anime_url": "/anime/111/Anime_Name_111"
+    "anime_url": "/anime/111/Anime_Name_111",
+    "anime_airing_status": 1
   },
   {
     "anime_id": 222,
@@ -13,7 +14,8 @@
     "anime_num_episodes": 0,
     "anime_title": "ANIME NAME 222 &#39;",
     "anime_image_path": "https://cdn.myanimelist.net/images/anime/222/2222.jpg",
-    "anime_url": "/anime/222/Anime_Name_222"
+    "anime_url": "/anime/222/Anime_Name_222",
+    "anime_airing_status": 1
   },
   {
     "anime_id": 333,
@@ -21,7 +23,8 @@
     "anime_num_episodes": 12,
     "anime_title": "ANIME NAME 333",
     "anime_image_path": "https://cdn.myanimelist.net/r/96x136/images/anime/333/3333.jpg?s=0c645b8c2a73c6f3efdf3840d97cac41",
-    "anime_url": "/anime/333/Anime_Name_333"
+    "anime_url": "/anime/333/Anime_Name_333",
+    "anime_airing_status": 0
   },
   {
     "anime_id": 444,
@@ -29,7 +32,8 @@
     "anime_num_episodes": 12,
     "anime_title": "ANIME NAME 444",
     "anime_image_path": "https://cdn.myanimelist.net/r/96x136/images/anime/444/4444.jpg?s=2c645b8c2a73c6f3efdf3840d97cac41",
-    "anime_url": "/anime/444/Anime_Name_444"
+    "anime_url": "/anime/444/Anime_Name_444",
+    "anime_airing_status": 2
   },
   {
     "anime_id": 555,
@@ -37,7 +41,8 @@
     "anime_num_episodes": 12,
     "anime_title": "ANIME NAME 555",
     "anime_image_path": "https://cdn.myanimelist.net/r/96x136/images/anime/555/5555.jpg?s=3c645b8c2a73c6f3efdf3840d97cac41",
-    "anime_url": "/anime/555/Anime_Name_555"
+    "anime_url": "/anime/555/Anime_Name_555",
+    "anime_airing_status": 10
   },
   {
     "anime_id": 666,
@@ -45,6 +50,7 @@
     "anime_num_episodes": 12,
     "anime_title": "ANIME NAME 666",
     "anime_image_path": "https://cdn.myanimelist.net/r/96x136/images/anime/666/6666.jpg?s=0c645b8c2a73c6f3efdf3840d97cac41",
-    "anime_url": "/anime/666/Anime_Name_666"
+    "anime_url": "/anime/666/Anime_Name_666",
+    "anime_airing_status": -1
   }
 ]

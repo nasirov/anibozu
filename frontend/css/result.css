@@ -96,8 +96,20 @@
   display: none;
 }
 
-.item__badges > .badge:is(:hover, :focus , :focus-visible) {
+.mal_badges > .badge.navigable:is(:hover, :focus , :focus-visible) {
   background-color: var(--accent);
+}
+
+.mal_badges {
+  display: flex;
+  justify-content: space-between;
+  gap: 5px;
+  width: 100%;
+  max-width: inherit;
+}
+
+.mal_badges > :first-child:has(+ .badge) {
+  max-width: 65%;
 }
 
 .anime_site_badges {

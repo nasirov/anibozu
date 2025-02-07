@@ -7,5 +7,5 @@ import lombok.Builder;
 public record AnimeList(@NotEmpty List<Anime> animeList) {
 
 	@Builder
-	public record Anime(String name, int nextEpisode, int maxEpisodes, String posterUrl, String malUrl, List<EpisodeInfo> episodes) {}
+	public record Anime(String name, int nextEpisode, int maxEpisodes, String posterUrl, String malUrl, List<EpisodeInfo> episodes, boolean airing) {}
 }

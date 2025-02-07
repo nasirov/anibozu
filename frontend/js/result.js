@@ -29,7 +29,7 @@ function renderResult(username, animeListResponse) {
 			const item = buildItem();
 			item.appendChild(buildPoster(anime));
 			const itemBadges = buildItemBadges();
-			itemBadges.appendChild(buildMalEpisodeBadge(anime));
+			itemBadges.appendChild(buildMalBadges(anime));
 			item.appendChild(itemBadges);
 			const episodes = anime.episodes;
 			if (episodes.length > 0) {
@@ -79,10 +79,22 @@ function buildItemBadges() {
 	return result;
 }
 
+function buildMalBadges(anime) {
+	const result = document.createElement('div');
+	result.setAttribute('class', 'mal_badges');
+	result.appendChild(buildMalEpisodeBadge(anime));
+	if (anime.airing) {
+		result.appendChild(buildBadge('Airing'));
+	}
+	return result;
+}
+
 function buildMalEpisodeBadge(anime) {
 	const result = buildLink('badge navigable', anime.malUrl);
 	const maxEpisodes = anime.maxEpisodes;
-	result.textContent = 'Ep. ' + anime.nextEpisode + ' / ' + (maxEpisodes === 0 ? '?' : maxEpisodes);
+	const title = 'Ep. ' + anime.nextEpisode + ' / ' + (maxEpisodes === 0 ? '?' : maxEpisodes);
+	result.setAttribute('title', title);
+	result.textContent = title;
 	return result;
 }
 

@@ -206,7 +206,8 @@ class UserApiTest extends AbstractTest {
 	private AnimeList getExpectedAnimeList(String file) {
 		return new AnimeList(unmarshal("result", file, new TypeReference<AnimeList>() {}).animeList()
 				.stream()
-				.map(x -> new Anime(x.name(), x.nextEpisode(), x.maxEpisodes(), x.posterUrl(), appProps.getMal().getUrl() + x.malUrl(), x.episodes()))
+				.map(x -> new Anime(x.name(), x.nextEpisode(), x.maxEpisodes(), x.posterUrl(), appProps.getMal().getUrl() + x.malUrl(), x.episodes(),
+						x.airing()))
 				.toList());
 	}
 

@@ -23,6 +23,8 @@ import reactor.core.publisher.Mono;
 @RequiredArgsConstructor
 public class UserService implements UserServiceI {
 
+	private static final int MAL_ANIME_AIRING_STATUS = 1;
+
 	private final MalServiceI malService;
 
 	private final AnimeDataServiceI animeDataService;
@@ -46,7 +48,8 @@ public class UserService implements UserServiceI {
 				.nextEpisode(nextEpisode)
 				.maxEpisodes(malAnime.getMaxEpisodes())
 				.posterUrl(malAnime.getPosterUrl())
-				.malUrl(malAnime.getUrl());
+				.malUrl(malAnime.getUrl())
+				.airing(malAnime.getAnimeAiringStatus() == MAL_ANIME_AIRING_STATUS);
 		return animeDataService.getAnimeData(AnimeDataId.builder().malId(malAnime.getId()).episodeId(nextEpisode).build())
 				.map(x -> result.episodes(buildEpisodes(x)).build());
 	}
