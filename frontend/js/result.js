@@ -17,10 +17,12 @@ function renderResult(username, animeListResponse) {
 		emptyMainContainer();
 		if (!animeListResponse) {
 			renderErrorMessage(GENERIC_ERROR_MESSAGE);
+			return;
 		}
 		const animeList = animeListResponse.animeList;
 		if (!animeList || animeList.length === 0) {
 			renderErrorMessage(animeListResponse.errorMessage);
+			return;
 		}
 		const mainContainer = getMainContainer();
 		mainContainer.classList.toggle('items-container');
