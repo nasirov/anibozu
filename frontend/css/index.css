@@ -1,7 +1,6 @@
 .username-form {
-  width: min(550px, 90%);
+  width: min(450px, 90%);
   display: flex;
-  flex-wrap: wrap;
   justify-content: center;
   gap: 1rem;
   padding: 1rem;
@@ -10,23 +9,31 @@
 }
 
 .username-form > * {
-  flex-grow: 1;
   font-size: x-large;
   border-radius: inherit;
-  padding: 0.5rem 1rem;
   text-align: center;
 }
 
 .username-form__input {
   width: min(350px, 100%);
+  padding: 0.5rem 1rem;
   border: var(--main-border);
   color: var(--primary);
 }
 
 .username-form__button {
-  width: min(100px, 100%);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-shrink: 0;
   background-color: var(--primary);
   border: none;
+}
+
+.username-form__button > svg {
+  width: 50%;
+  height: 50%;
+  fill: var(--text);
 }
 
 .username-form__button:active {
