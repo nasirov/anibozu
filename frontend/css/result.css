@@ -112,6 +112,11 @@
   max-width: 65%;
 }
 
+.mal_badges > .badge {
+  background-color: rgb(46, 81, 162);
+  color: rgb(245, 247, 253);
+}
+
 .anime_site_badges {
   display: none;
   flex-direction: column;
