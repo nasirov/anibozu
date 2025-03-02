@@ -43,7 +43,6 @@ function renderResult(username, animeListResponse) {
 			}
 			items.appendChild(item);
 		}
-		emptyMainContainer();
 		renderMessage(`${username}'s watching anime list`);
 		getMainContainer().appendChild(items);
 	} catch (e) {
@@ -238,12 +237,7 @@ function getMainContainer() {
 	return document.querySelector('main');
 }
 
-function emptyMainContainer() {
-	getMainContainer().innerHTML = '';
-}
-
 function renderErrorMessage(errorMessage) {
-	emptyMainContainer();
 	renderMessage(!errorMessage || errorMessage === '' ? GENERIC_ERROR_MESSAGE : errorMessage);
 }
 
@@ -251,5 +245,21 @@ function renderMessage(message) {
 	const result = document.createElement('h1');
 	result.setAttribute('class', 'message');
 	result.textContent = message;
+	removeMessage();
+	removeItems();
 	getMainContainer().appendChild(result);
+}
+
+function removeMessage() {
+	const message = document.querySelector('main > h1');
+	if (message) {
+		message.remove();
+	}
+}
+
+function removeItems() {
+	const items = document.querySelector('main > .items');
+	if (items) {
+		items.remove();
+	}
 }
