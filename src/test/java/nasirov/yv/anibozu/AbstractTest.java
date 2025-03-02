@@ -110,7 +110,7 @@ public abstract class AbstractTest {
 	}
 
 	protected void checkGenericErrorResponse(ResponseSpec result) {
-		checkErrorResponse(result, HttpStatus.INTERNAL_SERVER_ERROR, "Sorry, something went wrong. Please, try again later.");
+		checkErrorResponse(result, HttpStatus.INTERNAL_SERVER_ERROR, "Sorry, something went wrong. Please try again later.");
 	}
 
 	protected void checkValidationErrorResponse(ResponseSpec result) {

@@ -19,11 +19,11 @@ import reactor.core.publisher.Mono;
 public class RestExceptionHandler {
 
 	private static final Mono<ApiErrorResponse> GENERIC_FALLBACK = Mono.just(
-			new ApiErrorResponse("Sorry, something went wrong. Please, try again later."));
+			new ApiErrorResponse("Sorry, something went wrong. Please try again later."));
 
 	private static final Mono<ApiErrorResponse> VALIDATION_FALLBACK = Mono.just(new ApiErrorResponse("Invalid request."));
 
-	@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+	@ResponseStatus(HttpStatus.UNPROCESSABLE_ENTITY)
 	@ExceptionHandler(MalException.class)
 	public Mono<ApiErrorResponse> handleMalException(MalException e) {
 		String errorMessage = e.getMessage();

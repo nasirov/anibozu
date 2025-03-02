@@ -95,12 +95,12 @@ async function renderAnimeList(username) {
 			return;
 		}
 
-		const animeListDto = await response.json();
-		if (!animeListDto) {
+		if (response.status >= 500) {
 			renderErrorMessage(GENERIC_ERROR_MESSAGE);
 			return;
 		}
 
+		const animeListDto = await response.json();
 		const animeList = animeListDto.animeList;
 		if (!animeList || animeList.length === 0) {
 			renderErrorMessage(animeListDto.errorMessage);

@@ -67,7 +67,7 @@ class UserApiTest extends AbstractTest {
 		//when
 		ResponseSpec result = getAnimeList();
 		//then
-		checkErrorResponse(result, HttpStatus.INTERNAL_SERVER_ERROR, MAL_USERNAME + "'s anime list is private or does not exist.");
+		checkErrorResponse(result, HttpStatus.UNPROCESSABLE_ENTITY, MAL_USERNAME + "'s anime list is private or does not exist.");
 	}
 
 	@Test
@@ -92,8 +92,8 @@ class UserApiTest extends AbstractTest {
 		//when
 		ResponseSpec result = getAnimeList();
 		//then
-		checkErrorResponse(result, HttpStatus.INTERNAL_SERVER_ERROR,
-				"Sorry, " + MAL_USERNAME + ", but MAL is being unavailable now. Please, try again later.");
+		checkErrorResponse(result, HttpStatus.UNPROCESSABLE_ENTITY,
+				"Sorry, " + MAL_USERNAME + ", but MAL is being unavailable now. Please try again later.");
 	}
 
 	@Test
@@ -123,7 +123,7 @@ class UserApiTest extends AbstractTest {
 		//when
 		ResponseSpec result = getAnimeList();
 		//then
-		checkErrorResponse(result, HttpStatus.INTERNAL_SERVER_ERROR, MAL_USERNAME + "'s anime list is empty or does not contain actual watching anime.");
+		checkErrorResponse(result, HttpStatus.UNPROCESSABLE_ENTITY, MAL_USERNAME + "'s anime list is empty or does not contain actual watching anime.");
 	}
 
 	@Test
@@ -171,8 +171,8 @@ class UserApiTest extends AbstractTest {
 		//when
 		ResponseSpec result = getAnimeList();
 		//then
-		checkErrorResponse(result, HttpStatus.INTERNAL_SERVER_ERROR,
-				"Sorry, " + MAL_USERNAME + ", but MAL has restricted our access to it. Please, try again later.");
+		checkErrorResponse(result, HttpStatus.UNPROCESSABLE_ENTITY,
+				"Sorry, " + MAL_USERNAME + ", but MAL has restricted our access to it. Please try again later.");
 	}
 
 	private ResponseSpec getAnimeList() {
@@ -212,6 +212,6 @@ class UserApiTest extends AbstractTest {
 	}
 
 	private void checkFailedAnimeListRequestErrorResponse(ResponseSpec result) {
-		checkErrorResponse(result, HttpStatus.INTERNAL_SERVER_ERROR, "Sorry, cannot get " + MAL_USERNAME + "'s anime list. Please, try again later.");
+		checkErrorResponse(result, HttpStatus.UNPROCESSABLE_ENTITY, "Sorry, cannot get " + MAL_USERNAME + "'s anime list. Please try again later.");
 	}
 }

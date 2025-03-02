@@ -30,7 +30,7 @@ public class MalService implements MalServiceI {
 
 	private static final String ERROR_MESSAGE_PREFIX = "Sorry, ";
 
-	private static final String ERROR_MESSAGE_SUFFIX = " Please, try again later.";
+	private static final String ERROR_MESSAGE_SUFFIX = " Please try again later.";
 
 	private final HttpRequestServiceI httpRequestService;
 
