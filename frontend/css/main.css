@@ -176,6 +176,10 @@ footer {
   text-align: center;
 }
 
+main:has(noscript > h1) > :is(form, h1) {
+  display: none;
+}
+
 /*
    =====
    INDEX
