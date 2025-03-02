@@ -347,12 +347,27 @@ input:not(:placeholder-shown):invalid {
   display: flex;
 }
 
-.anime_site_badges > .badge:not(:last-child) {
+.anime_site_badges *:not(:last-child) {
   animation: fade-in 500ms forwards;
 }
 
 .anime_site_badges > .badge:last-child {
   align-self: center;
+}
+
+.anime_site_badges > .translations {
+  display: flex;
+  gap: inherit;
+}
+
+.anime_site_badges .badge:has(svg) {
+  display: flex;
+}
+
+.anime_site_badges .badge > svg {
+  width: 20px;
+  height: 20px;
+  border-radius: unset !important;
 }
 
 .slider {
