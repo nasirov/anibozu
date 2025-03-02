@@ -3,6 +3,7 @@ const THEME_ATTR = 'theme';
 const THEME_COOKIE = 'theme';
 const DIRECTION = {LEFT: 'left', RIGHT: 'right'};
 const GENERIC_ERROR_MESSAGE = 'Sorry, something went wrong. Please try again later.';
+const TOO_MANY_REQUESTS_ERROR_MESSAGE = 'You\'ve performed too many requests. Please try again later.';
 const SVG_NS = 'http://www.w3.org/2000/svg';
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -88,16 +89,24 @@ function setText(element, value) {
 
 async function renderAnimeList(username) {
 	try {
-		const animeListResponse = await (await fetch(`https://api.anibozu.moe/api/v1/user/${username}/anime-list`)).json();
-		if (!animeListResponse) {
+		const response = await fetch(`https://api.anibozu.moe/api/v1/user/${username}/anime-list`);
+		if (response.status === 429) {
+			renderErrorMessage(TOO_MANY_REQUESTS_ERROR_MESSAGE);
+			return;
+		}
+
+		const animeListDto = await response.json();
+		if (!animeListDto) {
 			renderErrorMessage(GENERIC_ERROR_MESSAGE);
 			return;
 		}
-		const animeList = animeListResponse.animeList;
+
+		const animeList = animeListDto.animeList;
 		if (!animeList || animeList.length === 0) {
-			renderErrorMessage(animeListResponse.errorMessage);
+			renderErrorMessage(animeListDto.errorMessage);
 			return;
 		}
+
 		const items = buildDiv('items');
 		for (const i in animeList) {
 			const anime = animeList[i];
@@ -119,6 +128,7 @@ async function renderAnimeList(username) {
 			}
 			items.appendChild(item);
 		}
+
 		renderMessage(`${username}'s watching anime list`);
 		getMainContainer().appendChild(items);
 	} catch (e) {
