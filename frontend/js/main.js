@@ -63,8 +63,7 @@ function setFormEvents() {
 					const button = document.querySelector('button');
 					const icon = button.querySelector('svg');
 					const intervalId = setLoadingProgress(button);
-					const animeListResponse = await getAnimeList(username);
-					renderResult(username, animeListResponse);
+					await renderAnimeList(username);
 					input.removeAttribute('readonly');
 					clearInterval(intervalId);
 					setText(button, '');
@@ -87,18 +86,9 @@ function setText(element, value) {
 	element.textContent = value;
 }
 
-async function getAnimeList(username) {
-	let result;
+async function renderAnimeList(username) {
 	try {
-		result = await (await fetch(`https://api.anibozu.moe/api/v1/user/${username}/anime-list`)).json();
-	} catch (e) {
-		console.error(e, e.stack);
-	}
-	return result;
-}
-
-function renderResult(username, animeListResponse) {
-	try {
+		const animeListResponse = await (await fetch(`https://api.anibozu.moe/api/v1/user/${username}/anime-list`)).json();
 		if (!animeListResponse) {
 			renderErrorMessage(GENERIC_ERROR_MESSAGE);
 			return;
