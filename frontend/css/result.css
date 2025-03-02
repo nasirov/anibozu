@@ -28,7 +28,7 @@
    =======
 */
 
-.items-container {
+main {
   align-content: center;
   flex-wrap: wrap;
   gap: var(--items-gap);
@@ -96,7 +96,7 @@
   display: none;
 }
 
-.mal_badges > .badge.navigable:is(:hover, :focus , :focus-visible) {
+.mal_badges > .badge.navigable:is(:hover, :focus, :focus-visible) {
   background-color: var(--accent);
 }
 
@@ -193,7 +193,7 @@
   grid-area: anime-link;
 }
 
-:where(.slider__arrow, .anime_link):is(:hover, :focus , :focus-visible) > :first-child {
+:where(.slider__arrow, .anime_link):is(:hover, :focus, :focus-visible) > :first-child {
   fill: var(--accent);
 }
 

@@ -25,7 +25,6 @@ function renderResult(username, animeListResponse) {
 			return;
 		}
 		const mainContainer = getMainContainer();
-		mainContainer.classList.toggle('items-container');
 		for (const i in animeList) {
 			const anime = animeList[i];
 			const item = buildItem();
@@ -234,7 +233,7 @@ function buildLink(targetClass, href) {
 }
 
 function getMainContainer() {
-	return document.querySelector('.main-container');
+	return document.querySelector('main');
 }
 
 function emptyMainContainer() {

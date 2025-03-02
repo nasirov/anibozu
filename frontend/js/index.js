@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
-	document.querySelector('#username-form').addEventListener('submit',
+	document.querySelector('form').addEventListener('submit',
 			async e => {
 				e.preventDefault();
 				await submitUsernameForm();
@@ -7,7 +7,7 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 async function submitUsernameForm() {
-	const usernameInput = document.querySelector('#username-form-input:valid');
+	const usernameInput = document.querySelector('input:valid');
 	if (usernameInput) {
 		const username = usernameInput.value;
 		usernameInput.setAttribute('readonly', '');
@@ -18,7 +18,7 @@ async function submitUsernameForm() {
 }
 
 function getUsernameFormButton() {
-	return document.querySelector('#username-form-button');
+	return document.querySelector('button');
 }
 
 function setLoadingProgress() {

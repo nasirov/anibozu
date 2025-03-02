@@ -1,4 +1,4 @@
-.username-form {
+form {
   width: min(450px, 90%);
   display: flex;
   justify-content: center;
@@ -8,20 +8,20 @@
   border-radius: var(--main-border-radius);
 }
 
-.username-form > * {
+form > * {
   font-size: x-large;
   border-radius: inherit;
   text-align: center;
 }
 
-.username-form__input {
+input {
   width: min(350px, 100%);
   padding: 0.5rem 1rem;
   border: var(--main-border);
   color: var(--primary);
 }
 
-.username-form__button {
+button {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -30,24 +30,24 @@
   border: none;
 }
 
-.username-form__button > svg {
+button > svg {
   width: 50%;
   height: 50%;
   fill: var(--text);
 }
 
-.username-form__button:active {
+button:active {
   transform: scale(0.98);
 }
 
-.username-form__button:is(:hover, :focus, :focus-visible) {
+button:is(:hover, :focus, :focus-visible) {
   background-color: var(--accent);
 }
 
-input.username-form__input:not(:placeholder-shown):valid {
+input:not(:placeholder-shown):valid {
   border-color: green;
 }
 
-input.username-form__input:not(:placeholder-shown):invalid {
+input:not(:placeholder-shown):invalid {
   border-color: red;
 }

@@ -4,7 +4,7 @@ const THEME_COOKIE = 'theme';
 
 document.addEventListener('DOMContentLoaded', () => {
 	switchTheme();
-	configureSwitchContainerEvents();
+	setThemeSwitcherEvents();
 });
 
 /**
@@ -25,12 +25,12 @@ function switchTheme() {
 	}
 }
 
-function configureSwitchContainerEvents() {
-	const switchContainer = document.querySelector('.switch-container');
+function setThemeSwitcherEvents() {
+	const themeSwitcher = document.querySelector('.theme-switcher');
 	const clickType = 'click';
 	const keypressEventType = 'keypress';
 	[clickType, keypressEventType].forEach(type => {
-				switchContainer.addEventListener(type, function (e) {
+				themeSwitcher.addEventListener(type, function (e) {
 					if (e.type === clickType || (e.type === keypressEventType && e.key === 'Enter')) {
 						const currentTheme = document.documentElement.getAttribute(THEME_ATTR);
 						const nextTheme = currentTheme === Themes.LIGHT ? Themes.DARK : Themes.LIGHT;

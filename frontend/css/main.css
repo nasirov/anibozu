@@ -42,7 +42,7 @@ body {
 
 a,
 button,
-.switch-container {
+.theme-switcher {
   cursor: pointer;
 }
 
@@ -83,13 +83,19 @@ body {
   display: none;
 }
 
+.theme-switcher {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 /*
    =======
    LAYOUTS
    =======
 */
 
-.main-grid {
+body {
   min-height: 100vh;
   min-height: 100svh;
   display: grid;
@@ -101,47 +107,30 @@ body {
     ". footer .";
 }
 
-.nav-bar__container,
-.footer__container,
-.main-container {
-  width: min(var(--max-width), 100%);
-}
-
-.nav-bar,
-.nav-bar__container,
-.footer,
-.footer__container,
-.main-container {
+nav,
+main,
+footer {
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
-.nav-bar {
+nav {
   grid-area: nav;
-  flex-wrap: wrap;
+  justify-content: space-between;
   border-bottom: var(--main-border);
   padding: 5px;
 }
 
-.nav-bar__container {
-  justify-content: space-between;
-  flex-wrap: wrap;
-  row-gap: 1rem;
-}
-
-.footer {
-  grid-area: footer;
-  border-top: var(--main-border);
-}
-
-.footer__container {
-  gap: 1rem;
-}
-
-.main-container {
+main {
   grid-area: main;
   margin: 1.5rem 0 1.5rem 0;
+}
+
+footer {
+  grid-area: footer;
+  border-top: var(--main-border);
+  gap: 1rem;
 }
 
 /*
@@ -163,18 +152,6 @@ body {
 
 /*
    ==============
-   THEME SWITCHER
-   ==============
-*/
-
-.switch-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-/*
-   ==============
    ACCESSIBILITY
    ==============
 */
@@ -184,7 +161,7 @@ body {
   outline-offset: 2px;
 }
 
-.navigable:is(:hover, :focus , :focus-visible) svg.icon {
+.navigable:is(:hover, :focus, :focus-visible) svg.icon {
   fill: var(--accent);
 }
 
