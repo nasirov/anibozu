@@ -28,6 +28,13 @@
   --main-border: var(--main-border-width) solid var(--secondary);
   --main-box-shadow-width: var(--main-border-width);
   --main-box-shadow: 0 0 0 var(--main-box-shadow-width) var(--primary);
+  --item-width: 225px;
+  --item-height: 320px;
+  --items-gap: 3rem;
+  --slider-height: 50px;
+  --item-badge-indent: 10px;
+  --item-badge-max-width: calc(var(--item-width) - var(--item-badge-indent) * 2);
+  --item-padding: 5px 10px;
 }
 
 html {
@@ -64,6 +71,7 @@ body {
   --primary: rgb(var(--primary-rgb));
   --secondary: rgb(208, 153, 191);
   --accent: rgb(20, 204, 247);
+  --item-box-shadow: 0px 0px 10px 1px var(--accent);
 }
 
 :root[theme="light"] {
@@ -73,6 +81,7 @@ body {
   --primary: rgb(var(--primary-rgb));
   --secondary: rgb(208, 153, 191);
   --accent: rgb(69, 193, 184);
+  --item-box-shadow: 0 10px 20px rgb(98, 102, 100);
 }
 
 :root[theme="dark"] *[theme="light"] {
@@ -124,6 +133,9 @@ nav {
 
 main {
   grid-area: main;
+  align-content: center;
+  flex-wrap: wrap;
+  gap: var(--items-gap);
   margin: 1.5rem 0 1.5rem 0;
 }
 
@@ -134,9 +146,9 @@ footer {
 }
 
 /*
-   =====
-   ICONS
-   =====
+   ======
+   COMMON
+   ======
 */
 
 .icon {
@@ -150,12 +162,6 @@ footer {
   height: 50px;
 }
 
-/*
-   ==============
-   ACCESSIBILITY
-   ==============
-*/
-
 .navigable:focus-visible {
   outline: 2px solid var(--accent);
   outline-offset: 2px;
@@ -168,4 +174,251 @@ footer {
 .error-message {
   color: var(--secondary);
   text-align: center;
+}
+
+/*
+   =====
+   INDEX
+   =====
+*/
+
+form {
+  width: min(450px, 90%);
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  padding: 1rem;
+  border: var(--main-border);
+  border-radius: var(--main-border-radius);
+}
+
+form > * {
+  font-size: x-large;
+  border-radius: inherit;
+  text-align: center;
+}
+
+input {
+  width: min(350px, 100%);
+  padding: 0.5rem 1rem;
+  border: var(--main-border);
+  color: var(--primary);
+}
+
+button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-shrink: 0;
+  background-color: var(--primary);
+  border: none;
+}
+
+button > svg {
+  width: 50%;
+  height: 50%;
+  fill: var(--text);
+}
+
+button:active {
+  transform: scale(0.98);
+}
+
+button:is(:hover, :focus, :focus-visible) {
+  background-color: var(--accent);
+}
+
+input:not(:placeholder-shown):valid {
+  border-color: green;
+}
+
+input:not(:placeholder-shown):invalid {
+  border-color: red;
+}
+
+/*
+   ==========
+   ANIME LIST
+   ==========
+*/
+
+.item {
+  width: var(--item-width);
+  height: var(--item-height);
+  position: relative;
+  border-radius: var(--main-border-radius);
+  transition: box-shadow 0.1s linear;
+}
+
+.item * {
+  background-color: unset;
+  border-radius: inherit;
+}
+
+.item:has(:hover, :focus, :focus-visible) {
+  -webkit-box-shadow: var(--item-box-shadow);
+  -moz-box-shadow: var(--item-box-shadow);
+  box-shadow: var(--item-box-shadow);
+}
+
+.item:not(:has(.slider)) > .item__poster {
+  filter: grayscale(1);
+}
+
+.item__poster {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  z-index: 0;
+  text-align: center;
+  overflow: hidden;
+  object-fit: cover;
+}
+
+.item__badges {
+  width: 100%;
+  height: 100%;
+  max-width: var(--item-badge-max-width);
+  max-height: calc(var(--item-height) - var(--slider-height) - var(--item-badge-indent) * 3);
+  position: absolute;
+  top: var(--item-badge-indent);
+  left: var(--item-badge-indent);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.badge {
+  width: fit-content;
+  max-width: inherit;
+  padding: var(--item-padding);
+  background-color: var(--secondary);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: large;
+  box-shadow: 0 0 5px 2px rgba(0, 0, 0, 0.7);
+}
+
+.badge:empty {
+  display: none;
+}
+
+.mal_badges > .badge.navigable:is(:hover, :focus, :focus-visible) {
+  background-color: var(--accent);
+}
+
+.mal_badges {
+  display: flex;
+  justify-content: space-between;
+  gap: 5px;
+  width: 100%;
+  max-width: inherit;
+}
+
+.mal_badges > :first-child:has(+ .badge) {
+  max-width: 65%;
+}
+
+.mal_badges > .badge {
+  background-color: rgb(46, 81, 162);
+  color: rgb(245, 247, 253);
+}
+
+.anime_site_badges {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  width: 100%;
+  max-width: inherit;
+}
+
+.anime_site_badges--active {
+  display: flex;
+}
+
+.anime_site_badges > .badge:not(:last-child) {
+  animation: fade-in 500ms forwards;
+}
+
+.anime_site_badges > .badge:last-child {
+  align-self: center;
+}
+
+.slider {
+  display: grid;
+  grid-template-columns: 1fr 1.5fr 1fr;
+  grid-template-rows: var(--slider-height);
+  grid-template-areas: "arrow-left anime-link arrow-right";
+  align-items: center;
+  justify-items: center;
+  width: var(--item-badge-max-width);
+  position: absolute;
+  bottom: var(--item-badge-indent);
+  left: var(--item-badge-indent);
+  isolation: isolate;
+}
+
+.slider::before {
+  content: "";
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  z-index: -1;
+  background-color: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 0 10px 2px rgba(var(--primary-rgb), 0.5);
+}
+
+.slider * {
+  width: 100%;
+  height: 100%;
+}
+
+.slider__arrow {
+  cursor: pointer;
+}
+
+.slider__arrow--left {
+  grid-area: arrow-left;
+}
+
+.slider__arrow--left:active {
+  transform: scale(1.1) translateX(-5px);
+}
+
+.slider__arrow--right {
+  grid-area: arrow-right;
+}
+
+.slider__arrow--right:active {
+  transform: scale(1.1) translateX(5px);
+}
+
+.anime_link {
+  grid-area: anime-link;
+}
+
+:where(.slider__arrow, .anime_link):is(:hover, :focus, :focus-visible) > :first-child {
+  fill: var(--accent);
+}
+
+.anime_link:active > .play_icon {
+  transform: scale(0.90);
+}
+
+.slider__arrow,
+.play_icon {
+  fill: var(--primary);
+}
+
+@keyframes fade-in {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
 }
