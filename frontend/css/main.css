@@ -133,9 +133,8 @@ nav {
 
 main {
   grid-area: main;
-  align-content: center;
-  flex-wrap: wrap;
-  gap: var(--items-gap);
+  flex-direction: column;
+  gap: 1rem;
   margin: 1.5rem 0 1.5rem 0;
 }
 
@@ -171,9 +170,10 @@ footer {
   fill: var(--accent);
 }
 
-.error-message {
+.message {
   color: var(--secondary);
   text-align: center;
+  text-decoration: underline solid var(--accent) 5px;
 }
 
 main:has(noscript > h1) > :is(form, h1) {
@@ -245,6 +245,13 @@ input:not(:placeholder-shown):invalid {
    ANIME LIST
    ==========
 */
+
+.items {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: var(--items-gap);
+}
 
 .item {
   width: var(--item-width);

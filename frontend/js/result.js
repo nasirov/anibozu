@@ -13,8 +13,6 @@ async function getAnimeList(username) {
 
 function renderResult(username, animeListResponse) {
 	try {
-		setTitle(username);
-		emptyMainContainer();
 		if (!animeListResponse) {
 			renderErrorMessage(GENERIC_ERROR_MESSAGE);
 			return;
@@ -24,7 +22,7 @@ function renderResult(username, animeListResponse) {
 			renderErrorMessage(animeListResponse.errorMessage);
 			return;
 		}
-		const mainContainer = getMainContainer();
+		const items = buildItems();
 		for (const i in animeList) {
 			const anime = animeList[i];
 			const item = buildItem();
@@ -43,17 +41,21 @@ function renderResult(username, animeListResponse) {
 				}
 				item.appendChild(slider);
 			}
-			mainContainer.appendChild(item);
+			items.appendChild(item);
 		}
-	} catch (e) {
 		emptyMainContainer();
+		renderMessage(`${username}'s watching anime list`);
+		getMainContainer().appendChild(items);
+	} catch (e) {
 		renderErrorMessage(GENERIC_ERROR_MESSAGE);
 		console.error(e, e.stack);
 	}
 }
 
-function setTitle(username) {
-	document.querySelector('title').textContent = `${username}'s watching anime list`;
+function buildItems() {
+	const result = document.createElement('div');
+	result.setAttribute('class', 'items');
+	return result;
 }
 
 function buildItem() {
@@ -241,8 +243,13 @@ function emptyMainContainer() {
 }
 
 function renderErrorMessage(errorMessage) {
+	emptyMainContainer();
+	renderMessage(!errorMessage || errorMessage === '' ? GENERIC_ERROR_MESSAGE : errorMessage);
+}
+
+function renderMessage(message) {
 	const result = document.createElement('h1');
-	result.setAttribute('class', 'error-message');
-	result.textContent = !errorMessage || errorMessage === '' ? GENERIC_ERROR_MESSAGE : errorMessage;
+	result.setAttribute('class', 'message');
+	result.textContent = message;
 	getMainContainer().appendChild(result);
 }
