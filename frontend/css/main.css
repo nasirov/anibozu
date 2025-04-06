@@ -31,6 +31,8 @@
   --item-width: 225px;
   --item-height: 320px;
   --slider-height: 50px;
+  --anime_link-width: 85px;
+  --slider__arrow-width: calc((var(--item-badge-max-width) - var(--anime_link-width)) / 2);
   --item-badge-indent: 10px;
   --item-badge-max-width: calc(var(--item-width) - var(--item-badge-indent) * 2);
   --item-padding: 5px 10px;
@@ -371,12 +373,9 @@ input:not(:placeholder-shown):invalid {
 }
 
 .slider {
-  display: grid;
-  grid-template-columns: 1fr 1.5fr 1fr;
-  grid-template-rows: var(--slider-height);
-  grid-template-areas: "arrow-left anime-link arrow-right";
-  align-items: center;
-  justify-items: center;
+  display: flex;
+  height: var(--slider-height);
+  justify-content: center;
   width: var(--item-badge-max-width);
   position: absolute;
   bottom: var(--item-badge-indent);
@@ -397,25 +396,23 @@ input:not(:placeholder-shown):invalid {
   box-shadow: 0 0 10px 2px rgba(var(--primary-rgb), 0.5);
 }
 
+.slider:not(:has(.slider__arrow))::before {
+  width: var(--anime_link-width);
+  left: var(--slider__arrow-width);
+}
+
 .slider * {
   width: 100%;
   height: 100%;
 }
 
 .slider__arrow {
+  width: var(--slider__arrow-width);
   cursor: pointer;
-}
-
-.slider__arrow--left {
-  grid-area: arrow-left;
 }
 
 .slider__arrow--left:active {
   transform: scale(1.1) translateX(-5px);
-}
-
-.slider__arrow--right {
-  grid-area: arrow-right;
 }
 
 .slider__arrow--right:active {
@@ -423,7 +420,7 @@ input:not(:placeholder-shown):invalid {
 }
 
 .anime_link {
-  grid-area: anime-link;
+  width: var(--anime_link-width);
 }
 
 :where(.slider__arrow, .anime_link):is(:hover, :focus, :focus-visible) > :first-child {
