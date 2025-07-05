@@ -346,12 +346,13 @@ function getMainContainer() {
 }
 
 function renderErrorMessage(errorMessage) {
-	renderMessage(!errorMessage || errorMessage === '' ? GENERIC_ERROR_MESSAGE : errorMessage);
+	const message = !errorMessage || errorMessage === '' ? GENERIC_ERROR_MESSAGE : errorMessage;
+	renderMessage(message, 'error-message');
 }
 
-function renderMessage(message) {
+function renderMessage(message, extraClass = '') {
 	const result = document.createElement('h1');
-	result.setAttribute('class', 'message');
+	result.setAttribute('class', 'message ' + extraClass);
 	setText(result, message);
 	removeMessage();
 	removeItems();
