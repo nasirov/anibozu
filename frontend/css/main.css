@@ -267,6 +267,7 @@ input:not(:placeholder-shown):invalid {
   position: relative;
   border-radius: var(--main-border-radius);
   transition: box-shadow 0.1s linear;
+  overflow: hidden;
 }
 
 .item * {
@@ -356,8 +357,8 @@ input:not(:placeholder-shown):invalid {
   display: flex;
 }
 
-.anime_site_badges *:not(:last-child) {
-  animation: fade-in 500ms forwards;
+.anime_site_badges--active *:not(:last-child) {
+  animation: fade-in 0.5s forwards;
 }
 
 .anime_site_badges > .badge:last-child {
@@ -367,6 +368,7 @@ input:not(:placeholder-shown):invalid {
 .anime_site_badges > .translations {
   display: flex;
   gap: inherit;
+  width: fit-content;
 }
 
 .anime_site_badges .badge:has(svg) {
@@ -419,11 +421,11 @@ input:not(:placeholder-shown):invalid {
 }
 
 .slider__arrow--left:active {
-  transform: scale(1.1) translateX(-5px);
+  animation: blur-trail-left 0.3s ease;
 }
 
 .slider__arrow--right:active {
-  transform: scale(1.1) translateX(5px);
+  animation: blur-trail-right 0.3s ease;
 }
 
 .anime_link {
@@ -443,11 +445,47 @@ input:not(:placeholder-shown):invalid {
   fill: var(--primary);
 }
 
+/*
+   ==========
+   ANIMATIONS
+   ==========
+*/
+
 @keyframes fade-in {
   0% {
     opacity: 0;
   }
   100% {
     opacity: 1;
+  }
+}
+
+@keyframes blur-trail-right {
+  0% {
+    transform: translateX(0);
+    filter: blur(0);
+  }
+  50% {
+    transform: translateX(-8px);
+    filter: blur(2px);
+  }
+  100% {
+    transform: translateX(0);
+    filter: blur(0);
+  }
+}
+
+@keyframes blur-trail-left {
+  0% {
+    transform: translateX(0);
+    filter: blur(0);
+  }
+  50% {
+    transform: translateX(8px);
+    filter: blur(2px);
+  }
+  100% {
+    transform: translateX(0);
+    filter: blur(0);
   }
 }
