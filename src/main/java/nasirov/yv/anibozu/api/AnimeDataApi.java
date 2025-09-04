@@ -51,6 +51,6 @@ public class AnimeDataApi {
 	}
 
 	private ResponseEntity<AnimeData> buildResponse(AnimeData animeData) {
-		return CollectionUtils.isNotEmpty(animeData.episodes()) ? ResponseEntity.ok(animeData) : ANIME_DATA_NOT_FOUND_FALLBACK;
+		return CollectionUtils.isNotEmpty(animeData.episodes().list()) ? ResponseEntity.ok(animeData) : ANIME_DATA_NOT_FOUND_FALLBACK;
 	}
 }

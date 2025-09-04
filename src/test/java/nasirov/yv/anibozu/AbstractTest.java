@@ -4,7 +4,6 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.github.tomakehurst.wiremock.WireMockServer;
 import com.github.tomakehurst.wiremock.client.WireMock;
 import java.time.Duration;
-import java.util.List;
 import java.util.Map;
 import nasirov.yv.anibozu.configuration.TestRedisConfiguration;
 import nasirov.yv.anibozu.dto.anime_data.AnimeDataId;
@@ -16,7 +15,7 @@ import nasirov.yv.anibozu.service.AnimeDataServiceI;
 import nasirov.yv.anibozu.service.MalServiceI;
 import nasirov.yv.anibozu.service.UserServiceI;
 import nasirov.yv.starter_common.dto.anibozu.AnimeData;
-import nasirov.yv.starter_common.dto.anibozu.EpisodeData;
+import nasirov.yv.starter_common.dto.anibozu.EpisodesData;
 import nasirov.yv.starter_common.service.WrappedObjectMapperI;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -84,7 +83,7 @@ public abstract class AbstractTest {
 				.build());
 	}
 
-	protected Map<Integer, Map<Integer, List<EpisodeData>>> getTestAnimeData() {
+	protected Map<Integer, Map<Integer, EpisodesData>> getTestAnimeData() {
 		return unmarshal("anime_data", "anime_data.json", new TypeReference<>() {});
 	}
 

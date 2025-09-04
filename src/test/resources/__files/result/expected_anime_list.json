@@ -1,38 +1,40 @@
 {
-  "animeList": [
+  "list": [
     {
       "name": "ANIME NAME 111",
       "nextEpisode": "1",
       "maxEpisodes": "12",
       "posterUrl": "https://cdn.myanimelist.net/images/anime/111/1111.jpg",
       "malUrl": "/anime/111/Anime_Name_111",
+      "airing": true,
+      "dub": 2,
+      "sub": 1,
       "episodes": [
         {
-          "animeSite": "DREAM_CAST",
+          "site": "DREAM_CAST",
+          "siteName": "Dream Cast",
+          "type": "dub",
+          "source": "",
           "link": "https://dreamerscast.com/dreamcast-url-100/1",
-          "name": "1 Серия для 111",
-          "extra": [
-            "dub"
-          ]
+          "name": "1 Серия для 111"
         },
         {
-          "animeSite": "KODIK",
+          "site": "KODIK",
+          "siteName": "Kodik",
+          "type": "dub",
+          "source": "Source 1 dub",
           "link": "https://mal-to-kodik.github.io/kodik-url-100/1",
-          "name": "1 for 111",
-          "extra": [
-            "dub"
-          ]
+          "name": "1 for 111"
         },
         {
-          "animeSite": "KODIK",
+          "site": "KODIK",
+          "siteName": "Kodik",
+          "type": "sub",
+          "source": "Source 1 sub",
           "link": "https://mal-to-kodik.github.io/kodik-url-100/1",
-          "name": "1 for 111",
-          "extra": [
-            "sub"
-          ]
+          "name": "1 for 111"
         }
-      ],
-      "airing": true
+      ]
     },
     {
       "name": "ANIME NAME 222 '",
@@ -40,26 +42,27 @@
       "maxEpisodes": "0",
       "posterUrl": "https://cdn.myanimelist.net/images/anime/222/2222.jpg",
       "malUrl": "/anime/222/Anime_Name_222",
+      "airing": true,
+      "dub": 2,
+      "sub": 1,
       "episodes": [
         {
-          "animeSite": "DREAM_CAST",
+          "site": "DREAM_CAST",
+          "siteName": "Dream Cast",
+          "type": "dub",
+          "source": "",
           "link": "https://dreamerscast.com/dreamcast-url-200/1",
-          "name": "1 Серия для 222",
-          "extra": [
-            "dub"
-          ]
+          "name": "1 Серия для 222"
         },
         {
-          "animeSite": "KODIK",
+          "site": "KODIK",
+          "siteName": "Kodik",
+          "type": "dub_sub",
+          "source": "Source 2 dub_sub",
           "link": "https://mal-to-kodik.github.io/kodik-url-200/1",
-          "name": "1 for 222",
-          "extra": [
-            "dub",
-            "sub"
-          ]
+          "name": "1 for 222"
         }
-      ],
-      "airing": true
+      ]
     },
     {
       "name": "ANIME NAME 333",
@@ -67,26 +70,27 @@
       "maxEpisodes": "12",
       "posterUrl": "https://cdn.myanimelist.net/images/anime/333/3333.jpg",
       "malUrl": "/anime/333/Anime_Name_333",
+      "airing": false,
+      "dub": 1,
+      "sub": 2,
       "episodes": [
         {
-          "animeSite": "DREAM_CAST",
+          "site": "DREAM_CAST",
+          "siteName": "Dream Cast",
+          "type": "sub",
+          "source": "",
           "link": "https://dreamerscast.com/dreamcast-url-300/1",
-          "name": "1 Серия для 333",
-          "extra": [
-            "sub"
-          ]
+          "name": "1 Серия для 333"
         },
         {
-          "animeSite": "KODIK",
+          "site": "KODIK",
+          "siteName": "Kodik",
+          "type": "dub_sub",
+          "source": "Source 3 dub_sub",
           "link": "https://mal-to-kodik.github.io/kodik-url-300/1",
-          "name": "1 for 333",
-          "extra": [
-            "dub",
-            "sub"
-          ]
+          "name": "1 for 333"
         }
-      ],
-      "airing": false
+      ]
     },
     {
       "name": "ANIME NAME 444",
@@ -94,8 +98,10 @@
       "maxEpisodes": "12",
       "posterUrl": "https://cdn.myanimelist.net/images/anime/444/4444.jpg",
       "malUrl": "/anime/444/Anime_Name_444",
-      "episodes": [],
-      "airing": false
+      "airing": false,
+      "dub": 0,
+      "sub": 0,
+      "episodes": []
     }
   ]
 }

@@ -190,8 +190,8 @@ class UserApiTest extends AbstractTest {
 				.value(new CustomTypeSafeMatcher<>("unordered fields should be equal") {
 					@Override
 					protected boolean matchesSafely(AnimeList result) {
-						List<Anime> expectedAnimeList = getExpectedAnimeList(expectedAnimeListFile).animeList();
-						List<Anime> actualAnimeList = result.animeList();
+						List<Anime> expectedAnimeList = getExpectedAnimeList(expectedAnimeListFile).list();
+						List<Anime> actualAnimeList = result.list();
 						Map<String, Anime> animeMappedByName = actualAnimeList.stream().collect(Collectors.toMap(Anime::name, Function.identity()));
 						return Objects.equals(expectedAnimeList.size(), actualAnimeList.size()) && expectedAnimeList.stream().allMatch(x -> {
 							Anime actualAnime = animeMappedByName.get(x.name());
@@ -204,10 +204,10 @@ class UserApiTest extends AbstractTest {
 	}
 
 	private AnimeList getExpectedAnimeList(String file) {
-		return new AnimeList(unmarshal("result", file, new TypeReference<AnimeList>() {}).animeList()
+		return new AnimeList(unmarshal("result", file, new TypeReference<AnimeList>() {}).list()
 				.stream()
-				.map(x -> new Anime(x.name(), x.nextEpisode(), x.maxEpisodes(), x.posterUrl(), appProps.getMal().getUrl() + x.malUrl(), x.episodes(),
-						x.airing()))
+				.map(x -> new Anime(x.name(), x.nextEpisode(), x.maxEpisodes(), x.posterUrl(), appProps.getMal().getUrl() + x.malUrl(), x.airing(), x.dub(),
+						x.sub(), x.episodes()))
 				.toList());
 	}
 
