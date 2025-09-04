@@ -1,98 +1,114 @@
 {
   "111": {
-    "1": [
-      {
-        "animeSite": "KODIK",
-        "name": "1 for 111",
-        "extra": [
-          "dub"
-        ],
-        "link": "https://mal-to-kodik.github.io/kodik-url-100/1"
-      },
-      {
-        "animeSite": "KODIK",
-        "name": "1 for 111",
-        "extra": [
-          "sub"
-        ],
-        "link": "https://mal-to-kodik.github.io/kodik-url-100/1"
-      },
-      {
-        "animeSite": "DREAM_CAST",
-        "name": "1 Серия для 111",
-        "extra": [
-          "dub"
-        ],
-        "link": "https://dreamerscast.com/dreamcast-url-100/1"
-      }
-    ]
+    "1": {
+      "dub": 2,
+      "sub": 1,
+      "list": [
+        {
+          "site": "KODIK",
+          "siteName": "Kodik",
+          "type": "dub",
+          "source": "Source 1 dub",
+          "link": "https://mal-to-kodik.github.io/kodik-url-100/1",
+          "name": "1 for 111"
+        },
+        {
+          "site": "KODIK",
+          "siteName": "Kodik",
+          "type": "sub",
+          "source": "Source 1 sub",
+          "link": "https://mal-to-kodik.github.io/kodik-url-100/1",
+          "name": "1 for 111"
+        },
+        {
+          "site": "DREAM_CAST",
+          "siteName": "Dream Cast",
+          "type": "dub",
+          "source": "",
+          "link": "https://dreamerscast.com/dreamcast-url-100/1",
+          "name": "1 Серия для 111"
+        }
+      ]
+    }
   },
   "222": {
-    "1": [
-      {
-        "animeSite": "KODIK",
-        "name": "1 for 222",
-        "extra": [
-          "dub",
-          "sub"
-        ],
-        "link": "https://mal-to-kodik.github.io/kodik-url-200/1"
-      },
-      {
-        "animeSite": "DREAM_CAST",
-        "name": "1 Серия для 222",
-        "extra": [
-          "dub"
-        ],
-        "link": "https://dreamerscast.com/dreamcast-url-200/1"
-      }
-    ]
+    "1": {
+      "dub": 2,
+      "sub": 1,
+      "list": [
+        {
+          "site": "KODIK",
+          "siteName": "Kodik",
+          "type": "dub_sub",
+          "source": "Source 2 dub_sub",
+          "link": "https://mal-to-kodik.github.io/kodik-url-200/1",
+          "name": "1 for 222"
+        },
+        {
+          "site": "DREAM_CAST",
+          "siteName": "Dream Cast",
+          "type": "dub",
+          "source": "",
+          "link": "https://dreamerscast.com/dreamcast-url-200/1",
+          "name": "1 Серия для 222"
+        }
+      ]
+    }
   },
   "333": {
-    "1": [
-      {
-        "animeSite": "KODIK",
-        "name": "1 for 333",
-        "extra": [
-          "dub",
-          "sub"
-        ],
-        "link": "https://mal-to-kodik.github.io/kodik-url-300/1"
-      },
-      {
-        "animeSite": "DREAM_CAST",
-        "name": "1 Серия для 333",
-        "extra": [
-          "sub"
-        ],
-        "link": "https://dreamerscast.com/dreamcast-url-300/1"
-      }
-    ]
+    "1": {
+      "dub": 1,
+      "sub": 2,
+      "list": [
+        {
+          "site": "KODIK",
+          "siteName": "Kodik",
+          "type": "dub_sub",
+          "source": "Source 3 dub_sub",
+          "link": "https://mal-to-kodik.github.io/kodik-url-300/1",
+          "name": "1 for 333"
+        },
+        {
+          "site": "DREAM_CAST",
+          "siteName": "Dream Cast",
+          "type": "sub",
+          "source": "",
+          "link": "https://dreamerscast.com/dreamcast-url-300/1",
+          "name": "1 Серия для 333"
+        }
+      ]
+    }
   },
   "444": {
-    "1": [
-      {
-        "animeSite": "KODIK",
-        "name": "1 for 444",
-        "extra": [
-          "dub",
-          "sub"
-        ],
-        "link": "https://mal-to-kodik.github.io/kodik-url-400/1"
-      }
-    ]
+    "1": {
+    "dub": 1,
+    "sub": 1,
+      "list": [
+        {
+          "site": "KODIK",
+          "siteName": "Kodik",
+          "type": "dub_sub",
+          "source": "Source 4 dub_sub",
+          "link": "https://mal-to-kodik.github.io/kodik-url-400/1",
+          "name": "1 for 444"
+        }
+      ]
+    }
   },
   "666": {
-    "1": [
-      {
-        "animeSite": "KODIK",
-        "name": "1 for 666",
-        "extra": [
-          "dub",
-          "sub"
-        ],
-        "link": "https://mal-to-kodik.github.io/kodik-url-600/1"
-      }
-    ]
+    "1": {
+      "dub": 1,
+      "sub": 1,
+      "list": [
+        {
+          "site": "KODIK",
+          "siteName": "Kodik",
+          "type": "dub_sub",
+          "source": "Source 6 dub_sub",
+          "link": "https://mal-to-kodik.github.io/kodik-url-600/1",
+          "name": "1 for 666"
+        }
+      ]
+    }
   }
 }

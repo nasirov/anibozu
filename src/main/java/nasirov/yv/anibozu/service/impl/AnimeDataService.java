@@ -9,6 +9,7 @@ import nasirov.yv.anibozu.model.AnimeDataKey;
 import nasirov.yv.anibozu.model.AnimeDataValue;
 import nasirov.yv.anibozu.service.AnimeDataServiceI;
 import nasirov.yv.starter_common.dto.anibozu.AnimeData;
+import nasirov.yv.starter_common.dto.anibozu.EpisodesData;
 import org.springframework.data.redis.core.ReactiveRedisTemplate;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
@@ -18,7 +19,8 @@ import reactor.core.publisher.Mono;
 @RequiredArgsConstructor
 public class AnimeDataService implements AnimeDataServiceI {
 
-	private static final Mono<AnimeData> ANIME_DATA_FALLBACK = Mono.just(new AnimeData(List.of()));
+	private static final Mono<AnimeData> ANIME_DATA_FALLBACK =
+			Mono.just(new AnimeData(EpisodesData.builder().dub(0).sub(0).list(List.of()).build()));
 
 	private final ReactiveRedisTemplate<AnimeDataKey, AnimeDataValue> redisTemplate;
 
@@ -38,7 +40,8 @@ public class AnimeDataService implements AnimeDataServiceI {
 				.map(mapper::toAnimeData)
 				.switchIfEmpty(ANIME_DATA_FALLBACK)
 				.doOnSubscribe(x -> log.debug("Getting [{}:{}]", animeDataId.malId(), animeDataId.episodeId()))
-				.doOnSuccess(x -> log.debug("Got [{}] episodes for [{}:{}]", x.episodes().size(), animeDataId.malId(), animeDataId.episodeId()));
+				.doOnSuccess(x -> log.debug("Got [{}] episodes for [{}:{}]", x.episodes().list().size(), animeDataId.malId(),
+						animeDataId.episodeId()));
 	}
 
 	@Override

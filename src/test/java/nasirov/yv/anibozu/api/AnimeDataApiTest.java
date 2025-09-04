@@ -10,10 +10,12 @@ import nasirov.yv.anibozu.AbstractTest;
 import nasirov.yv.anibozu.model.AnimeDataKey;
 import nasirov.yv.anibozu.model.AnimeDataValue;
 import nasirov.yv.anibozu.model.AnimeEpisodeData;
+import nasirov.yv.anibozu.model.AnimeEpisodesData;
 import nasirov.yv.anibozu.properties.AppProps.Security.Admin;
 import nasirov.yv.starter_common.constant.AnimeSite;
 import nasirov.yv.starter_common.dto.anibozu.AnimeData;
-import nasirov.yv.starter_common.dto.anibozu.EpisodeData;
+import nasirov.yv.starter_common.dto.anibozu.EpisodesData;
+import nasirov.yv.starter_common.dto.anibozu.EpisodesData.EpisodeData;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.core.ParameterizedTypeReference;
@@ -34,7 +36,7 @@ class AnimeDataApiTest extends AbstractTest {
 	@Test
 	void shouldSaveAnimeData200() {
 		//given
-		List<EpisodeData> episodes = buildEpisodeDataList();
+		EpisodesData episodes = buildEpisodesData();
 		//when
 		ResponseSpec result = save(episodes);
 		//then
@@ -44,10 +46,10 @@ class AnimeDataApiTest extends AbstractTest {
 	@Test
 	void shouldNotSaveAnimeData500() {
 		//given
-		List<EpisodeData> episodes = buildEpisodeDataList();
+		EpisodesData episodes = buildEpisodesData();
 		ReactiveValueOperations<AnimeDataKey, AnimeDataValue> opsForValue = Mockito.spy(redisTemplate.opsForValue());
 		doReturn(opsForValue).when(redisTemplate).opsForValue();
-		doReturn(Mono.just(false)).when(opsForValue).set(new AnimeDataKey(MAL_ID, EPISODE_ID), new AnimeDataValue(buildAnimeEpisodeDataList()));
+		doReturn(Mono.just(false)).when(opsForValue).set(new AnimeDataKey(MAL_ID, EPISODE_ID), new AnimeDataValue(buildAnimeEpisodeData()));
 		//when
 		ResponseSpec result = save(episodes);
 		//then
@@ -57,11 +59,11 @@ class AnimeDataApiTest extends AbstractTest {
 	@Test
 	void shouldNotSaveAnimeDataException500() {
 		//given
-		List<EpisodeData> episodes = buildEpisodeDataList();
+		EpisodesData episodes = buildEpisodesData();
 		ReactiveValueOperations<AnimeDataKey, AnimeDataValue> opsForValue = Mockito.spy(redisTemplate.opsForValue());
 		doReturn(opsForValue).when(redisTemplate).opsForValue();
 		doThrow(new RuntimeException("ReactiveValueOperations cause")).when(opsForValue)
-				.set(new AnimeDataKey(MAL_ID, EPISODE_ID), new AnimeDataValue(buildAnimeEpisodeDataList()));
+				.set(new AnimeDataKey(MAL_ID, EPISODE_ID), new AnimeDataValue(buildAnimeEpisodeData()));
 		//when
 		ResponseSpec result = save(episodes);
 		//then
@@ -80,7 +82,7 @@ class AnimeDataApiTest extends AbstractTest {
 	@Test
 	void shouldNotSaveAnimeData401() {
 		//given
-		List<EpisodeData> episodes = buildEpisodeDataList();
+		EpisodesData episodes = buildEpisodesData();
 		//when
 		ResponseSpec result = saveNoAuth(episodes);
 		//then
@@ -90,7 +92,7 @@ class AnimeDataApiTest extends AbstractTest {
 	@Test
 	void shouldGetAnimeData200() {
 		//given
-		List<EpisodeData> episodes = buildEpisodeDataList();
+		EpisodesData episodes = buildEpisodesData();
 		ResponseSpec createResult = save(episodes);
 		checkResponse(createResult, HttpStatus.OK);
 		//when
@@ -136,7 +138,7 @@ class AnimeDataApiTest extends AbstractTest {
 	@Test
 	void shouldDeleteAnimeData200() {
 		//given
-		List<EpisodeData> episodes = buildEpisodeDataList();
+		EpisodesData episodes = buildEpisodesData();
 		ResponseSpec createResult = save(episodes);
 		checkResponse(createResult, HttpStatus.OK);
 		//when
@@ -178,11 +180,11 @@ class AnimeDataApiTest extends AbstractTest {
 		checkResponse(result, HttpStatus.UNAUTHORIZED);
 	}
 
-	private ResponseSpec save(List<EpisodeData> episodes) {
+	private ResponseSpec save(EpisodesData episodes) {
 		return requestAnimeData(HttpMethod.PUT, true).bodyValue(new AnimeData(episodes)).exchange();
 	}
 
-	private ResponseSpec saveNoAuth(List<EpisodeData> episodes) {
+	private ResponseSpec saveNoAuth(EpisodesData episodes) {
 		return requestAnimeData(HttpMethod.PUT, false).bodyValue(new AnimeData(episodes)).exchange();
 	}
 
@@ -215,13 +217,38 @@ class AnimeDataApiTest extends AbstractTest {
 		return "Basic " + Base64.getEncoder().encodeToString((admin.getUsername() + ":" + admin.getPassword()).getBytes(StandardCharsets.UTF_8));
 	}
 
-	private List<EpisodeData> buildEpisodeDataList() {
-		return List.of(
-				EpisodeData.builder().animeSite(AnimeSite.KODIK.name()).link("https://foo.bar/42").name("1 foo").extra(List.of("dub", "sub")).build());
+	private EpisodesData buildEpisodesData() {
+		return EpisodesData.builder()
+				.dub(1)
+				.sub(2)
+				.list(List.of(EpisodeData.builder()
+						.site(AnimeSite.KODIK.name())
+						.siteName(AnimeSite.KODIK.getCanonicalName())
+						.type("dub_sub")
+						.source("Foobar")
+						.link("https://foo.bar/42")
+						.name("1 foo")
+						.build()))
+				.build();
 	}
 
-	private List<AnimeEpisodeData> buildAnimeEpisodeDataList() {
-		return buildEpisodeDataList().stream().map(x -> new AnimeEpisodeData(x.animeSite(), x.link(), x.name(), x.extra())).toList();
+	private AnimeEpisodesData buildAnimeEpisodeData() {
+		EpisodesData episodesData = buildEpisodesData();
+		return AnimeEpisodesData.builder()
+				.dub(episodesData.dub())
+				.sub(episodesData.sub())
+				.list(episodesData.list()
+						.stream()
+						.map(x -> AnimeEpisodeData.builder()
+								.site(x.site())
+								.siteName(x.siteName())
+								.type(x.type())
+								.source(x.source())
+								.link(x.link())
+								.name(x.name())
+								.build())
+						.toList())
+				.build();
 	}
 
 	private void checkResponse(ResponseSpec result, HttpStatus expectedStatus) {
