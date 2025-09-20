@@ -7,11 +7,15 @@ const SVG_NS = 'http://www.w3.org/2000/svg';
 const CLICK_TYPE = 'click';
 const KEYPRESS_EVENT_TYPE = 'keypress';
 const KEY_ENTER = 'Enter';
+const HIDE_CLASS = 'hidden';
 const TYPE_ATTR = 'type';
 const TYPE_DUB = 'dub';
 const TYPE_SUB = 'sub';
 const TYPE_DUB_SUB = 'dub_sub';
 const FILTER_TYPE_ALL = 'all';
+const STATUS_ATTR = 'status';
+const STATUS_AIRING = 'airing';
+const STATUS_COMPLETED = 'completed';
 
 document.addEventListener('DOMContentLoaded', () => {
     switchTheme();
@@ -115,6 +119,7 @@ async function renderAnimeList(username) {
         animeDtoList.forEach(animeDto => {
             const anime = div('anime');
             animeList.appendChild(anime);
+            anime.setAttribute(STATUS_ATTR, animeDto.airing ? STATUS_AIRING : STATUS_COMPLETED);
             anime.appendChild(buildPoster(animeDto));
 
             const overlay = div('overlay');
@@ -130,7 +135,14 @@ async function renderAnimeList(username) {
         });
 
         renderMessage(`${username}'s watching anime list`);
-        getMainContainer().appendChild(animeList);
+
+        const mainContainer = getMainContainer();
+
+        if (animeList.childNodes.length > 1) {
+            mainContainer.appendChild(buildStatusFilter());
+        }
+
+        mainContainer.appendChild(animeList);
     } catch (e) {
         renderErrorMessage(GENERIC_ERROR_MESSAGE);
         console.error(e, e.stack);
@@ -248,7 +260,10 @@ function buildDialog(animeDto) {
         }
     });
 
-    addTypeFilter(animeDto, result);
+    if (animeDto.episodes.length > 1) {
+        result.appendChild(buildTypeFilter());
+    }
+
     result.append(buildSites(animeDto.episodes));
     return result;
 }
@@ -297,41 +312,33 @@ function addTranslationTypeInfo(animeDto, translationType, sitesInfo) {
     }
 }
 
-function addTypeFilter(animeDto, dialog) {
-    const dubPresents = animeDto.dub > 0;
-    const subPresents = animeDto.sub > 0;
+function buildTypeFilter() {
+    const result = buildFilter((e) => {
+        e.target.parentElement.querySelectorAll('.site').forEach(site => {
+            if (result.value === FILTER_TYPE_ALL) {
+                site.classList.remove(HIDE_CLASS);
+                return;
+            }
 
-    if (animeDto.episodes.length > 1 && dubPresents && subPresents) {
-        const typeFilter = withClass(document.createElement('select'), 'filter');
+            if (site.getAttribute(TYPE_ATTR).includes(result.value)) {
+                site.classList.remove(HIDE_CLASS);
+                return;
+            }
 
-        typeFilter.addEventListener('change', () => {
-            const hideClass = 'hidden';
-            dialog.querySelectorAll('.site').forEach(site => {
-                if (typeFilter.value === FILTER_TYPE_ALL) {
-                    site.classList.remove(hideClass);
-                } else {
-                    const type = site.getAttribute(TYPE_ATTR);
-                    if (type && type.includes(typeFilter.value)) {
-                        site.classList.remove(hideClass);
-                    } else {
-                        site.classList.add(hideClass);
-                    }
-                }
-            });
+            site.classList.add(HIDE_CLASS);
         });
+    });
 
-        addOption(typeFilter, FILTER_TYPE_ALL, 'All Types');
+    addOption(result, FILTER_TYPE_ALL, 'All');
+    addOption(result, TYPE_DUB, 'Dub');
+    addOption(result, TYPE_SUB, 'Sub');
+    return result;
+}
 
-        if (dubPresents) {
-            addOption(typeFilter, TYPE_DUB, 'Dub');
-        }
-
-        if (subPresents) {
-            addOption(typeFilter, TYPE_SUB, 'Sub');
-        }
-
-        dialog.appendChild(typeFilter);
-    }
+function buildFilter(onChangeEventListener) {
+    const result = withClass(document.createElement('select'), 'filter');
+    result.addEventListener('change', onChangeEventListener);
+    return result;
 }
 
 function addOption(filter, value, text) {
@@ -346,6 +353,7 @@ function buildSites(episodes) {
     for (const i in episodes) {
         const episode = episodes[i];
         const site = div('site');
+        site.setAttribute(TYPE_ATTR, episode.type);
 
         const title = div('title');
         title.appendChild(withText(document.createElement('h2'), episode.siteName));
@@ -366,7 +374,6 @@ function buildSites(episodes) {
 
         if (types.childNodes.length > 0) {
             title.appendChild(types);
-            site.setAttribute(TYPE_ATTR, episode.type);
         }
 
         addInfo(episode.source, site, 'Source:');
@@ -388,6 +395,29 @@ function addInfo(data, site, descriptionText) {
         info.appendChild(value);
         site.appendChild(info);
     }
+}
+
+function buildStatusFilter() {
+    const result = buildFilter(() => {
+        document.querySelectorAll('.anime').forEach(anime => {
+            if (result.value === FILTER_TYPE_ALL) {
+                anime.classList.remove(HIDE_CLASS);
+                return;
+            }
+
+            if (anime.getAttribute(STATUS_ATTR) === result.value) {
+                anime.classList.remove(HIDE_CLASS);
+                return;
+            }
+
+            anime.classList.add(HIDE_CLASS);
+        });
+    });
+
+    addOption(result, FILTER_TYPE_ALL, 'All');
+    addOption(result, STATUS_AIRING, 'Airing');
+    addOption(result, STATUS_COMPLETED, 'Completed');
+    return result;
 }
 
 function buildBadge(title, text = '') {
@@ -439,6 +469,7 @@ function renderMessage(message, extraClass = '') {
     withClass(result, 'message ' + extraClass);
     withText(result, message);
     removeElement('main > h1');
+    removeElement('main > .filter');
     removeElement('main > .anime-list');
     getMainContainer().appendChild(result);
 }

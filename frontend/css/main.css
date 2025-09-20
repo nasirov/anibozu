@@ -386,12 +386,13 @@ html:has(dialog:modal) {
 }
 
 .filter {
-    align-self: start;
+    align-self: center;
     text-align: center;
     padding: .5rem;
     font-size: 1.2rem;
     font-weight: bold;
     background-color: var(--secondary);
+    border-radius: var(--main-border-radius);
     z-index: 10;
 }
 
