@@ -98,6 +98,7 @@ async function renderAnimeList(username) {
     try {
         const response = await fetch(`https://api.anibozu.moe/api/v1/user/${username}/anime-list`);
         if (response.status === 429) {
+            removeForm();
             renderErrorMessage(TOO_MANY_REQUESTS_ERROR_MESSAGE);
             return;
         }
@@ -134,14 +135,12 @@ async function renderAnimeList(username) {
             }
         });
 
+        removeForm();
         renderMessage(`${username}'s watching anime list`);
-
         const mainContainer = getMainContainer();
-
         if (animeList.childNodes.length > 1) {
             mainContainer.appendChild(buildStatusFilter());
         }
-
         mainContainer.appendChild(animeList);
     } catch (e) {
         renderErrorMessage(GENERIC_ERROR_MESSAGE);
@@ -472,6 +471,10 @@ function renderMessage(message, extraClass = '') {
     removeElement('main > .filter');
     removeElement('main > .anime-list');
     getMainContainer().appendChild(result);
+}
+
+function removeForm() {
+    removeElement("main > form");
 }
 
 function removeElement(selector) {
